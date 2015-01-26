@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>SiSystes.ClientApp.Web</id>
+    <id>SiSystems.ClientApp.Web</id>
     <title>S.i. Systems - Client App Website</title>
     <version></version>
     <authors>S.i. Systems</authors>
