@@ -1,0 +1,50 @@
+[CmdletBinding()]
+param (
+)
+
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$scriptName = Split-Path -Leaf $MyInvocation.MyCommand.Path
+
+pushd (Split-Path -Parent $scriptRoot)
+
+.\source\.nuget\NuGet.exe install NUnit.Runners -Version 2.6.3
+.\source\.nuget\NuGet.exe install OpenCover -Version 4.5.3427
+
+$testPath = ".\_build-testing"
+mkdir -f $testPath
+
+$opencoverCommand = "..\OpenCover.4.5.3427\OpenCover.Console.exe"
+$nunitCommand = "..\NUnit.Runners.2.6.3\tools\nunit-console-x86.exe"
+$nunitArgs = "/xml:..\nunitResults.xml /framework:net-4.0 /exclude:Integration"
+
+Get-ChildItem -Recurse -Include *.Tests.dll source\ |
+    Where { $_.FullName -notlike "*\obj\*" } |
+    ForEach-Object {
+        $nunitArgs += " $($_.Name)"
+        split-path $_.FullName
+    } |
+    Select-Object -unique |
+    ForEach-Object {
+        copy-item -force "$_\*" "$testPath"
+    }
+
+
+Write-Verbose "Running nunit: $nunitCommand"
+Write-Verbose "with arguments: $nunitArgs"
+
+$xmlReportName = "CodeCoverageResult.xml"
+
+pushd "$testPath"
+cmd /C "$opencoverCommand -target:`"$nunitCommand`" -targetargs:`"$nunitArgs`" -targetdir:`"$pwd`" -filter:`"+[DevFacto*]* -[*]Tests.*`" -register:user -output:`"..\$xmlReportName`""
+popd
+
+.\source\.nuget\NuGet.exe install ReportGenerator -Version 2.0.2
+.\source\.nuget\NuGet.exe install OpenCoverToCoberturaConverter -Version 0.2.0
+
+.\ReportGenerator.2.0.2.0\ReportGenerator.exe -reports:$xmlReportName -targetDir:CodeCoverageHTML
+.\OpenCoverToCoberturaConverter.0.2.0.0\OpenCoverToCoberturaConverter.exe -input:$xmlReportName -output:CodeCoverageCobertura.xml -sources:"$pwd"
+
+Write-Verbose "nunit complete"
+
+
+popd
