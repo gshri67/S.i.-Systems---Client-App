@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace SiSystems.ClientApp
+namespace SiSystems.ClientApp.Web
 {
     public class BundleConfig
     {

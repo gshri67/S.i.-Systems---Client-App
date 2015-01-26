@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Web.Http;
 
-namespace SiSystems.ClientApp.Controllers.Api
+namespace SiSystems.ClientApp.Web.Controllers.Api
 {
     public class SimpleController : ApiController
     {

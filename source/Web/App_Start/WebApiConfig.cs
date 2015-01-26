@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace SiSystems.ClientApp
+namespace SiSystems.ClientApp.Web
 {
     public static class WebApiConfig
     {

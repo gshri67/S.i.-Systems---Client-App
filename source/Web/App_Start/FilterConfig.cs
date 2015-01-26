@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace SiSystems.ClientApp
+namespace SiSystems.ClientApp.Web
 {
     public class FilterConfig
     {

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace SiSystems.ClientApp.Controllers
+namespace SiSystems.ClientApp.Web.Controllers
 {
     public class HomeController : Controller
     {
