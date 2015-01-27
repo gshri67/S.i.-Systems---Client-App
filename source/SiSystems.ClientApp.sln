@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 		..\buildScripts\devBuild.ps1 = ..\buildScripts\devBuild.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Domain.Tests\Tests.csproj", "{16EEDD6C-4FD7-4D64-B7B0-D07E9BB252C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Domain.Tests\Domain.Tests.csproj", "{16EEDD6C-4FD7-4D64-B7B0-D07E9BB252C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp.iOS", "ClientApp\ClientApp.iOS\ClientApp.iOS.csproj", "{646BDAE9-13C2-497A-A5AD-49D94E1119A2}"
 EndProject
