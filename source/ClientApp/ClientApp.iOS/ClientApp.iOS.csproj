@@ -53,7 +53,7 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <BuildIpa>True</BuildIpa>
+    <BuildIpa>False</BuildIpa>
     <IpaMetadata />
     <IpaPackageName />
   </PropertyGroup>
@@ -67,6 +67,9 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <BuildIpa>True</BuildIpa>
+    <IpaMetadata />
+    <IpaPackageName />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -92,6 +95,9 @@
     <CodesignProvision>Automatic:AppStore</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <BuildIpa>True</BuildIpa>
+    <IpaMetadata />
+    <IpaPackageName />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
