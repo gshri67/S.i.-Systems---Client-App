@@ -78,7 +78,14 @@ Write-Output "Restoring packages"
 
 Write-Output "Building Solution"
 
+#Build Web Project
 MSBuildNet40 'source\Web\Web.csproj' @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunCodeAnalysis=true')
+
+#Build All Included Test Projects (any *.Tests.csproj)
+$testProjectFiles = Get-ChildItem -r *.Tests.csproj
+forEach($projectFile in $testProjectFiles){
+	MSBuildNet40 '$projectFile.FullName' @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunCodeAnalysis=true')	
+}
 
 popd
 
