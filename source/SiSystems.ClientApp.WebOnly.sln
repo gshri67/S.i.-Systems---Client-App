@@ -5,9 +5,9 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{E002E567-13CA-4A22-93B3-0A4566613E0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{D9FCA4CD-8422-4E37-A55F-49E6A8170A7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Domain", "Web.Domain\Web.Domain.csproj", "{D9FCA4CD-8422-4E37-A55F-49E6A8170A7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "Domain.Tests\Domain.Tests.csproj", "{16EEDD6C-4FD7-4D64-B7B0-D07E9BB252C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Domain.Tests", "Web.Domain.Tests\Domain.Tests.csproj", "{16EEDD6C-4FD7-4D64-B7B0-D07E9BB252C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3A3A2EA4-474C-49E7-A908-3799DE669BCD}"
 	ProjectSection(SolutionItems) = preProject

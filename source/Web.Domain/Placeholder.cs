@@ -1,4 +1,4 @@
-﻿namespace SiSystems.ClientApp.Domain
+﻿namespace SiSystems.ClientApp.Web.Domain
 {
     public class Placeholder
     {

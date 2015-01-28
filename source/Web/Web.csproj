@@ -182,9 +182,9 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj">
+    <ProjectReference Include="..\Web.Domain\Web.Domain.csproj">
       <Project>{d9fca4cd-8422-4e37-a55f-49e6a8170a7e}</Project>
-      <Name>Domain</Name>
+      <Name>Web.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

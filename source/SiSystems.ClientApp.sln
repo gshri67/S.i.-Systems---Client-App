@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{E002E567-13CA-4A22-93B3-0A4566613E0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{D9FCA4CD-8422-4E37-A55F-49E6A8170A7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Domain", "Web.Domain\Web.Domain.csproj", "{D9FCA4CD-8422-4E37-A55F-49E6A8170A7E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScripts", "{9BADE512-36AC-45D0-A3FB-AA49B433DE3C}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,11 +17,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 		..\buildScripts\devBuild.ps1 = ..\buildScripts\devBuild.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Domain.Tests\Domain.Tests.csproj", "{16EEDD6C-4FD7-4D64-B7B0-D07E9BB252C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Domain.Tests", "Web.Domain.Tests\Web.Domain.Tests.csproj", "{16EEDD6C-4FD7-4D64-B7B0-D07E9BB252C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp.iOS", "ClientApp\ClientApp.iOS\ClientApp.iOS.csproj", "{646BDAE9-13C2-497A-A5AD-49D94E1119A2}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ClientApp", "ClientApp\ClientApp\ClientApp.shproj", "{802843B9-D2FF-460E-BD2A-073D8BC6DE91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{379BD5E3-7E34-43EB-BEA8-08DA9071112B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

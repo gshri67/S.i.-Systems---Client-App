@@ -7,8 +7,8 @@
     <ProjectGuid>{16EEDD6C-4FD7-4D64-B7B0-D07E9BB252C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SiSystems.ClientApp.Domain.Tests</RootNamespace>
-    <AssemblyName>SiSystems.ClientApp.Domain.Tests</AssemblyName>
+    <RootNamespace>SiSystems.ClientApp.Web.Domain.Tests</RootNamespace>
+    <AssemblyName>SiSystems.ClientApp.Web.Domain.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

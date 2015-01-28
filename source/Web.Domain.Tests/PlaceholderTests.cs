@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace SiSystems.ClientApp.Domain.Tests
+namespace SiSystems.ClientApp.Web.Domain.Tests
 {
     [TestFixture]
     public class PlaceholderTests
