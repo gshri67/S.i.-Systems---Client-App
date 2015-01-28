@@ -84,7 +84,7 @@ MSBuildNet40 'source\Web\Web.csproj' @('/m', '/t:Build', '/p:Configuration=Relea
 #Build All Included Test Projects (any *.Tests.csproj)
 $testProjectFiles = Get-ChildItem -r *.Tests.csproj
 forEach($projectFile in $testProjectFiles){
-	MSBuildNet40 '$projectFile.FullName' @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunCodeAnalysis=true')	
+	MSBuildNet40 "$projectFile" @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunCodeAnalysis=true')	
 }
 
 popd
