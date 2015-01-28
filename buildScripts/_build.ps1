@@ -74,11 +74,11 @@ $targetNugetExe = "$rootDir\nuget.exe"
 Invoke-WebRequest $sourceNugetExe -OutFile $targetNugetExe
 
 Write-Output "Restoring packages"
-& .\nuget.exe restore 'source\SiSystems.ClientApp.WebOnly.sln'
+& .\nuget.exe restore 'source\SiSystems.ClientApp.sln'
 
 Write-Output "Building Solution"
 
-MSBuildNet40 'source\SiSystems.ClientApp.WebOnly.sln' @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunCodeAnalysis=true')
+MSBuildNet40 'source\Web\Web.csproj' @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunCodeAnalysis=true')
 
 popd
 
