@@ -31,11 +31,10 @@ namespace SiSystems.ClientApp.Web
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
-                TokenEndpointPath = new PathString("/Token"),
+                TokenEndpointPath = new PathString("/api/Login"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
-                AuthorizeEndpointPath = new PathString("/api/Account/Authorize"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14)
-                //AllowInsecureHttp = true
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                AllowInsecureHttp = false
             };
 
             // Enable the application to use bearer tokens to authenticate users

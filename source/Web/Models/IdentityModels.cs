@@ -12,7 +12,10 @@ namespace SiSystems.ClientApp.Web.Models
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
+            
             // Add custom user claims here
+            //TODO: Custom Claims?
+
             return userIdentity;
         }
 
