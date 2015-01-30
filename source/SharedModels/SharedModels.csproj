@@ -43,6 +43,7 @@
     <Compile Include="ConsultantSummary.cs" />
     <Compile Include="Consultant.cs" />
     <Compile Include="Contact.cs" />
+    <Compile Include="ContractProposal.cs" />
     <Compile Include="Contract.cs" />
     <Compile Include="LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

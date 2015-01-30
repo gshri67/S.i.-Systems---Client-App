@@ -14,8 +14,9 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
             _service = service;
         }
 
-        public HttpResponseMessage Post(Contract contract)
+        public HttpResponseMessage Post(ContractProposal contract)
         {
+            _service.AddContractProposal(contract);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
