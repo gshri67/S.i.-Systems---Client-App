@@ -1,24 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SiSystems.ClientApp.SharedModels;
+﻿using SiSystems.ClientApp.SharedModels;
+using SiSystems.ClientApp.Web.Domain.Repositories;
 
 namespace SiSystems.ClientApp.Web.Domain
 {
     public class UserService
     {
-        private static readonly List<User> Users = new List<User>
+        private readonly UserRepository _repository;
+        public UserService(UserRepository repository)
         {
-            new User{Id=1, FirstName = "Bob", LastName = "Smith", EmailAddress = "bob.smith@email.com", PasswordHash = "password"}
-        };
+            _repository = repository;
+        }
 
         public User Find(int id)
         {
-            return Users.SingleOrDefault(u => u.Id == id);
+            return _repository.Find(id);
         }
 
         public User FindByName(string username)
         {
-            return Users.SingleOrDefault(u => u.EmailAddress == username);
+            return _repository.FindByName(username);
         }
     }
 }
