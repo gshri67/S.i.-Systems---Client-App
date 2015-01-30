@@ -39,8 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsultantSummary.cs" />
+    <Compile Include="Consultant.cs" />
+    <Compile Include="Contact.cs" />
+    <Compile Include="Contract.cs" />
     <Compile Include="LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ConsultantGroup.cs" />
+    <Compile Include="Resume.cs" />
+    <Compile Include="Skill.cs" />
+    <Compile Include="Specialization.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
