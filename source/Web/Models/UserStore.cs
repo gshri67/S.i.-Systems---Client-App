@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using SiSystems.ClientApp.Web.Domain;
 
 namespace SiSystems.ClientApp.Web.Models
 {
     public class UserStore : IUserStore<ApplicationUser>, IUserPasswordStore<ApplicationUser>
     {
+        private readonly UserService _userService;
+
+        public UserStore(UserService userService)
+        {
+            _userService = userService;
+        }
+
         public Task<ApplicationUser> FindByNameAsync(string userName)
         {
             return Task.Run(() =>
             {
-                var service = new Domain.UserService();
-                var user = service.FindByName(userName);
+                var user = _userService.FindByName(userName);
                 return user != null
                     ? new ApplicationUser(user)
                     : null;
@@ -22,8 +30,7 @@ namespace SiSystems.ClientApp.Web.Models
         {
             return Task.Run(() =>
             {
-                var service = new Domain.UserService();
-                var existingUser = service.FindByName(user.UserName);
+                var existingUser = _userService.FindByName(user.UserName);
                 return existingUser != null ? existingUser.PasswordHash : null;
             });
         }
@@ -32,8 +39,7 @@ namespace SiSystems.ClientApp.Web.Models
         {
             return Task.Run(() =>
             {
-                var service = new Domain.UserService();
-                var existingUser = service.FindByName(user.UserName);
+                var existingUser = _userService.FindByName(user.UserName);
                 return existingUser != null && !string.IsNullOrEmpty(existingUser.PasswordHash);
             });
         }

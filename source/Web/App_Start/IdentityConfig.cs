@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -20,25 +16,13 @@ namespace SiSystems.ClientApp.Web.App_Start
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore());
-            // Configure validation logic for usernames
-            //manager.UserValidator = new UserValidator<ApplicationUser>(manager)
-            //{
-            //    AllowOnlyAlphanumericUserNames = false,
-            //    RequireUniqueEmail = true
-            //};
-            //// Configure validation logic for passwords
-            //manager.PasswordValidator = new PasswordValidator
-            //{
-            //    RequiredLength = 6,
-            //    RequireNonLetterOrDigit = true,
-            //    RequireDigit = true,
-            //    RequireLowercase = true,
-            //    RequireUppercase = true,
-            //};
+            var userStore = GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(UserStore)) as UserStore;
 
-            //TODO: Replace this with a real password hasher.
-            manager.PasswordHasher = new PlainTextPasswordHasher();
+            var manager = new ApplicationUserManager(userStore)
+            {
+                //TODO: Replace this with a real password hasher that matches S.i. Systems' method.
+                PasswordHasher = new PlainTextPasswordHasher()
+            };
 
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
