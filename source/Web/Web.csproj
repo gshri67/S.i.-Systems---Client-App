@@ -177,6 +177,8 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Api\ConsultantMessagesController.cs" />
+    <Compile Include="Controllers\Api\ContractsController.cs" />
     <Compile Include="Controllers\Api\LogoutController.cs" />
     <Compile Include="Controllers\Api\ConsultantsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
