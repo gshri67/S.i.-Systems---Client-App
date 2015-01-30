@@ -20,12 +20,19 @@ namespace SiSystems.ClientApp.SharedModels
         public DateTime EndDate { get; set; }
 
         //How about these? contracts?
-        public int Rating { get; set; }
-        public Decimal Rate { get; set; }
+        public int MostRecentContractRating { get; set; }
+        public Decimal MostRecentContractRate { get; set; }
 
-        public Specialization Specialization { get; set; }
+        public IEnumerable<Specialization> Specializations { get; set; }
+
         public Resume Resume { get; set; }
         public IEnumerable<Contract> Contracts { get; set; }
-        
+
+        public Consultant()
+        {
+            Specializations = new List<Specialization>();
+            Contracts = new List<Contract>();
+        }
+
     }
 }

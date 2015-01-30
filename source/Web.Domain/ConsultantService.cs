@@ -34,17 +34,7 @@ namespace SiSystems.ClientApp.Web.Domain
 
         public IEnumerable<ConsultantGroup> FindAlumni(string query)
         {
-            var result = new List<ConsultantGroup>();
-            var groupedResults = _repository.FindAlumni(query, _sessionContext.CurrentUser.ClientId);
-            foreach (var group in groupedResults)
-            {
-                result.Add(new ConsultantGroup
-                {
-                    GroupTitle = group.Key,
-                    Contractors = group.ToList()
-                });
-            }
-            return result;
+            return _repository.FindAlumni(query, _sessionContext.CurrentUser.ClientId);
         }
     }
 }

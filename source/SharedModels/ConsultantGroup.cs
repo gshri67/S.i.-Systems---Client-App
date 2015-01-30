@@ -5,7 +5,12 @@ namespace SiSystems.ClientApp.SharedModels
 {
     public class ConsultantGroup
     {
-        public string GroupTitle { get; set; }
-        public IEnumerable<ConsultantSummary> Contractors { get; set; } 
+        public string Specialization { get; set; }
+        public IList<ConsultantSummary> Consultants { get; set; }
+
+        public ConsultantGroup()
+        {
+            Consultants = new List<ConsultantSummary>();
+        }
     }
 }

@@ -17,9 +17,7 @@ namespace SiSystems.ClientApp.SharedModels
 
         public int Rating { get; set; }
         public Decimal Rate { get; set; }
-
-        public string SpecializationName { get; set; }
-
+        
         public ConsultantSummary(Consultant contractor)
         {
             Id = contractor.Id;
@@ -27,9 +25,8 @@ namespace SiSystems.ClientApp.SharedModels
             LastName = contractor.LastName;
             StartDate = contractor.StartDate;
             EndDate = contractor.EndDate;
-            Rating = contractor.Rating;
-            Rate = contractor.Rate;
-            SpecializationName = contractor.Specialization.Name;
+            Rating = contractor.MostRecentContractRating;
+            Rate = contractor.MostRecentContractRate;
         }
     }
 }

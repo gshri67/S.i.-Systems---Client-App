@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain;
@@ -16,6 +17,7 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
         public HttpResponseMessage Post(ConsultantMessage message)
         {
             _service.SendConsultantMessage(message);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

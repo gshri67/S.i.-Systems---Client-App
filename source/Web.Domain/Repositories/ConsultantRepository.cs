@@ -47,46 +47,46 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             {
                 Id = 12345, ClientId = 1,
                 FirstName = "Giacomo", LastName = "Guilizzoni",
-                Rate = 99.45m, Specialization = PmSpecialization, 
+                MostRecentContractRate = 99.45m, Specializations = new List<Specialization>{PmSpecialization}, 
                 StartDate = new DateTime(2011, 11, 4), EndDate = new DateTime(2012, 11, 4),
                 Resume = AResume,
-                Rating = 4, Contracts = new List<Contract>{ AContract }
+                MostRecentContractRating = 4, Contracts = new List<Contract>{ AContract }
             },
             new Consultant
             {
                 Id = 23456, ClientId = 2, 
                 FirstName = "Bobby", LastName = "Ichnamius",
-                Rate = 150m, Specialization = PmSpecialization, 
+                MostRecentContractRate = 150m, Specializations = new List<Specialization>{PmSpecialization}, 
                 StartDate = new DateTime(2011, 11, 4), EndDate = new DateTime(2012, 11, 4),
                 Resume = AResume,
-                Rating = 3, Contracts = new List<Contract>{ AContract }
+                MostRecentContractRating = 3, Contracts = new List<Contract>{ AContract }
             },
             new Consultant
             {
                 Id = 34567, ClientId = 2, 
                 FirstName = "Rob", LastName = "Richardson",
-                Rate = 123.45m, Specialization = SwDevSpecialization, 
+                MostRecentContractRate = 123.45m, Specializations = new List<Specialization>{SwDevSpecialization}, 
                 StartDate = new DateTime(2011, 11, 4), EndDate = new DateTime(2012, 11, 4),
                 Resume = AResume,
-                Rating = 2, Contracts = new List<Contract>{ AContract }
+                MostRecentContractRating = 2, Contracts = new List<Contract>{ AContract }
             },
             new Consultant
             {
                 Id = 45678, ClientId = 1,
                 FirstName = "Ronald", LastName = "Herzl",
-                Rate = 123.45m, Specialization = SwDevSpecialization, 
+                MostRecentContractRate = 123.45m, Specializations = new List<Specialization>{SwDevSpecialization, PmSpecialization}, 
                 StartDate = new DateTime(2011, 11, 4), EndDate = new DateTime(2012, 11, 4),
                 Resume = AResume,
-                Rating = 3, Contracts = new List<Contract>{ AContract }
+                MostRecentContractRating = 3, Contracts = new List<Contract>{ AContract }
             },
             new Consultant
             {
                 Id = 34567, ClientId = 1, 
                 FirstName = "Tim", LastName = "Thompson",
-                Rate = 123.45m, Specialization = SwDevSpecialization, 
+                MostRecentContractRate = 123.45m, Specializations = new List<Specialization>{SwDevSpecialization}, 
                 StartDate = new DateTime(2011, 11, 4), EndDate = new DateTime(2012, 11, 4),
                 Resume = AResume,
-                Rating = 4, Contracts = new List<Contract>{ AContract }
+                MostRecentContractRating = 4, Contracts = new List<Contract>{ AContract }
             }
         }.AsQueryable();
 
@@ -95,12 +95,26 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             return Contractors.SingleOrDefault(c => c.Id == id);
         }
 
-        public IQueryable<IGrouping<string, ConsultantSummary>> FindAlumni(string query, int clientId)
+        public IEnumerable<ConsultantGroup> FindAlumni(string query, int clientId)
         {
-            return Contractors
-                .Where(FilterByNameAndSpecialization(query, clientId))
-                .Select(c => new ConsultantSummary(c))
-                .GroupBy(c => c.SpecializationName);
+            var matchingConsultants = Contractors
+                .Where(FilterByNameAndSpecialization(query, clientId));
+
+            var groups = new Dictionary<string, ConsultantGroup>();
+
+            foreach (var consultant in matchingConsultants)
+            {
+                foreach (var specialization in consultant.Specializations)
+                {
+                    if (!groups.ContainsKey(specialization.Name))
+                    {
+                        groups.Add(specialization.Name, new ConsultantGroup{Specialization=specialization.Name});       
+                    }
+                    var group = groups[specialization.Name];
+                    group.Consultants.Add(new ConsultantSummary(consultant));
+                }
+            }
+            return groups.Select(g=>g.Value).OrderBy(g=>g.Specialization);
         }
 
         private Expression<Func<Consultant, bool>> FilterByNameAndSpecialization(string query, int clientId)
@@ -113,7 +127,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 (x.FirstName.ToLowerInvariant().Contains(invariantQuery)
                 || x.LastName.ToLowerInvariant().Contains(invariantQuery)
                 || (x.FirstName.ToLowerInvariant() + " " + x.LastName.ToLowerInvariant()).Contains(invariantQuery)
-                || x.Specialization.Name.ToLowerInvariant().Contains(invariantQuery));
+                || x.Specializations.Any(s=>s.Name.ToLowerInvariant().Contains(invariantQuery)));
         }
 
     }
