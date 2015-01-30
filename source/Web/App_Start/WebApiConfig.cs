@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json.Serialization;
 
 namespace SiSystems.ClientApp.Web
 {
@@ -25,6 +26,7 @@ namespace SiSystems.ClientApp.Web
 
             // Enforce HTTPS
             config.Filters.Add(new Filters.RequireHttpsAttribute());
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }
