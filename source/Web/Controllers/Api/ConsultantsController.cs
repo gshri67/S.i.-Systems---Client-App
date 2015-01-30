@@ -6,7 +6,7 @@ using SiSystems.ClientApp.Web.Domain;
 
 namespace SiSystems.ClientApp.Web.Controllers.Api
 {
-    //[Authorize]
+    [Authorize]
     [RoutePrefix("api/Consultants")]
     public class ConsultantsController: ApiController
     {

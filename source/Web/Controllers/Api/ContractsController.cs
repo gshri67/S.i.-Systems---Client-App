@@ -6,6 +6,7 @@ using SiSystems.ClientApp.Web.Domain;
 
 namespace SiSystems.ClientApp.Web.Controllers.Api
 {
+    [Authorize]
     public class ContractsController: ApiController
     {
         private readonly ContractService _service;
