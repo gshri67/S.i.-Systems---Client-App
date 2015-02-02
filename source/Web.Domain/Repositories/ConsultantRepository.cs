@@ -38,7 +38,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             Text = "Some resume text."
         };
-    
+
+        private static string ToFormattedDate(DateTime date)
+        {
+            return date.ToString("M/dd/yyyy");
+        }
 
 
         private static readonly IQueryable<Consultant> Contractors = new List<Consultant>
@@ -48,7 +52,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 Id = 12345, ClientId = 1,
                 FirstName = "Giacomo", LastName = "Guilizzoni",
                 MostRecentContractRate = 99.45m, Specializations = new List<Specialization>{PmSpecialization}, 
-                StartDate = new DateTime(2011, 11, 4), EndDate = new DateTime(2012, 11, 4),
+                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
                 Resume = AResume,
                 MostRecentContractRating = 4, Contracts = new List<Contract>{ AContract }
             },
@@ -57,7 +61,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 Id = 23456, ClientId = 2, 
                 FirstName = "Bobby", LastName = "Ichnamius",
                 MostRecentContractRate = 150m, Specializations = new List<Specialization>{PmSpecialization}, 
-                StartDate = new DateTime(2011, 11, 4), EndDate = new DateTime(2012, 11, 4),
+                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
                 Resume = AResume,
                 MostRecentContractRating = 3, Contracts = new List<Contract>{ AContract }
             },
@@ -66,7 +70,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 Id = 34567, ClientId = 2, 
                 FirstName = "Rob", LastName = "Richardson",
                 MostRecentContractRate = 123.45m, Specializations = new List<Specialization>{SwDevSpecialization}, 
-                StartDate = new DateTime(2011, 11, 4), EndDate = new DateTime(2012, 11, 4),
+                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
                 Resume = AResume,
                 MostRecentContractRating = 2, Contracts = new List<Contract>{ AContract }
             },
@@ -75,7 +79,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 Id = 45678, ClientId = 1,
                 FirstName = "Ronald", LastName = "Herzl",
                 MostRecentContractRate = 123.45m, Specializations = new List<Specialization>{SwDevSpecialization, PmSpecialization}, 
-                StartDate = new DateTime(2011, 11, 4), EndDate = new DateTime(2012, 11, 4),
+                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
                 Resume = AResume,
                 MostRecentContractRating = 3, Contracts = new List<Contract>{ AContract }
             },
@@ -84,7 +88,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 Id = 34567, ClientId = 1, 
                 FirstName = "Tim", LastName = "Thompson",
                 MostRecentContractRate = 123.45m, Specializations = new List<Specialization>{SwDevSpecialization}, 
-                StartDate = new DateTime(2011, 11, 4), EndDate = new DateTime(2012, 11, 4),
+                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
                 Resume = AResume,
                 MostRecentContractRating = 4, Contracts = new List<Contract>{ AContract }
             }

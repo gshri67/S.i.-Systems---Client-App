@@ -12,8 +12,8 @@ namespace SiSystems.ClientApp.SharedModels
         public string FullName { get { return FirstName + " " + LastName; } }
         
         //Is this going to come from a contract??
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
 
         public int Rating { get; set; }
         public Decimal Rate { get; set; }
