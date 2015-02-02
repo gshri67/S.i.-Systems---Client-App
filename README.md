@@ -21,6 +21,10 @@ When developing on Windows using Xamarin, you will need access to a OS X machine
 3. When you launch Visual Studio with a Xamarin iOS Project, a pop-up will appear. Follow the onscreen instruction to set connect for building the iOS project. 
 
 
+##Set up Development Database
+Just run the PowerShell script at "developmentScripts/refresh_Dev_Environment.ps1". If all goes well, this will create a DEV database named SiSystemsClientApp in your local SQL Server instance.
+
+
 ##See Also
 Become familiar with:
  - iOS Human Interface Guidelines (https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/index.html)

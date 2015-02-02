@@ -71,8 +71,10 @@ pushd $rootDir
 #download nuget.exe for package restore
 $sourceNugetExe = "http://nuget.org/nuget.exe"
 $targetNugetExe = "$rootDir\nuget.exe"
-Invoke-WebRequest $sourceNugetExe -OutFile $targetNugetExe
 
+if(-Not (Test-Path $targetNugetExe)){
+	Invoke-WebRequest $sourceNugetExe -OutFile $targetNugetExe
+}
 Write-Output "Restoring packages"
 & .\nuget.exe restore 'source\SiSystems.ClientApp.sln'
 
@@ -80,6 +82,7 @@ Write-Output "Building Solution"
 
 #Build Web Project
 MSBuildNet40 'source\Web\Web.csproj' @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunCodeAnalysis=true')
+MSBuildNet40 'source\Database\Database.csproj' @('/m', '/t:Build', '/p:Configuration=Release')
 
 #Build All Included Test Projects (any *.Tests.csproj)
 $testProjectFiles = Get-ChildItem -r *.Tests.csproj
