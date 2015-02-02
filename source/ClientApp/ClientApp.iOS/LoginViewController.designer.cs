@@ -24,6 +24,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton resetPassword { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField username { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -35,6 +39,10 @@ namespace ClientApp.iOS
 			if (password != null) {
 				password.Dispose ();
 				password = null;
+			}
+			if (resetPassword != null) {
+				resetPassword.Dispose ();
+				resetPassword = null;
 			}
 			if (username != null) {
 				username.Dispose ();
