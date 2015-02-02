@@ -14,8 +14,7 @@ namespace SiSystems.ClientApp.SharedModels
 
         public string ContactEmailAddress { get; set; }
         
-        //included when submitting new contract
-        public string ApproverEmailAddress { get; set; }
+        public string TimesheetApproverEmailAddress { get; set; }
 
     }
 }
