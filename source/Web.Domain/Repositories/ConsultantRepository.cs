@@ -11,29 +11,32 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         private static readonly Specialization PmSpecialization = new Specialization
         {
             Name = "Project Manager",
-            Skills = new List<Skill> {new Skill {Name = "Skill One"}}
+            Skills = new List<Skill> {new Skill {Name = "7 Sigma"}}
         };
 
         private static readonly Specialization SwDevSpecialization = new Specialization
         {
             Name = "Software Developer",
-            Skills = new List<Skill> {new Skill {Name = "C++"}, new Skill {Name = "Java"}}
+            Skills = new List<Skill> {new Skill {Name = ".NET"}, new Skill {Name = "Java"}}
         };
 
-        private static readonly Contract AContract = new Contract
+        private static Contract CreateMockContract(int consultantId, int clientId)
         {
-            Title = "Lead Guy",
-            StartDate = new DateTime(2011, 11, 4),
-            EndDate = new DateTime(2012, 11, 4),
-            Rate = 120,
-            Contact = new Contact
+            return new Contract
             {
-                FirstName = "Chris",
-                LastName = "Henderson",
-                EmailAddress = "chris.henderson@email.com"
-            }
-        };
-
+                ConsultantId = consultantId, ClientId = clientId,
+                Title = "Lead Guy",
+                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
+                Rate = 120, Rating = 3,
+                Contact = new Contact
+                {
+                    FirstName = "Chris",
+                    LastName = "Henderson",
+                    EmailAddress = "chris.henderson@email.com"
+                }
+            };
+        }
+        
         private static readonly Resume AResume = new Resume
         {
             Text = "Some resume text."
@@ -49,48 +52,38 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             new Consultant
             {
-                Id = 12345, ClientId = 1,
+                Id = 12345, 
                 FirstName = "Giacomo", LastName = "Guilizzoni",
-                MostRecentContractRate = 99.45m, Specializations = new List<Specialization>{PmSpecialization}, 
-                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
-                Resume = AResume,
-                MostRecentContractRating = 4, Contracts = new List<Contract>{ AContract }
+                Specializations = new List<Specialization>{PmSpecialization}, 
+                Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(12345, 1) }
             },
             new Consultant
             {
-                Id = 23456, ClientId = 2, 
+                Id = 23456,
                 FirstName = "Bobby", LastName = "Ichnamius",
-                MostRecentContractRate = 150m, Specializations = new List<Specialization>{PmSpecialization}, 
-                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
-                Resume = AResume,
-                MostRecentContractRating = 3, Contracts = new List<Contract>{ AContract }
+                Specializations = new List<Specialization>{PmSpecialization}, 
+                Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(23456, 1) }
             },
             new Consultant
             {
-                Id = 34567, ClientId = 2, 
+                Id = 34567, 
                 FirstName = "Rob", LastName = "Richardson",
-                MostRecentContractRate = 123.45m, Specializations = new List<Specialization>{SwDevSpecialization}, 
-                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
-                Resume = AResume,
-                MostRecentContractRating = 2, Contracts = new List<Contract>{ AContract }
+                Specializations = new List<Specialization>{SwDevSpecialization}, 
+                Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(34567, 1) }
             },
             new Consultant
             {
-                Id = 45678, ClientId = 1,
+                Id = 45678, 
                 FirstName = "Ronald", LastName = "Herzl",
-                MostRecentContractRate = 123.45m, Specializations = new List<Specialization>{SwDevSpecialization, PmSpecialization}, 
-                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
-                Resume = AResume,
-                MostRecentContractRating = 3, Contracts = new List<Contract>{ AContract }
+                Specializations = new List<Specialization>{SwDevSpecialization, PmSpecialization}, 
+                Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(45678, 1) }
             },
             new Consultant
             {
-                Id = 34567, ClientId = 1, 
+                Id = 34567, 
                 FirstName = "Tim", LastName = "Thompson",
-                MostRecentContractRate = 123.45m, Specializations = new List<Specialization>{SwDevSpecialization}, 
-                StartDate = ToFormattedDate(new DateTime(2011, 11, 4)), EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
-                Resume = AResume,
-                MostRecentContractRating = 4, Contracts = new List<Contract>{ AContract }
+                Specializations = new List<Specialization>{SwDevSpecialization}, 
+                Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(34567, 1) }
             }
         }.AsQueryable();
 
@@ -126,7 +119,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             var invariantQuery = query.ToLowerInvariant();
 
             return x =>
-                x.ClientId == clientId
+                x.Contracts.Any(c=>c.ClientId==clientId)
                 &&
                 (x.FirstName.ToLowerInvariant().Contains(invariantQuery)
                 || x.LastName.ToLowerInvariant().Contains(invariantQuery)
