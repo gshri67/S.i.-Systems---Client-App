@@ -251,9 +251,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharedModels\SharedModels.csproj">
-      <Project>{84fd17f3-148e-4f7d-b0dd-c77153783cd8}</Project>
+      <Project>{a274548b-6cca-4841-b167-21625d1179b3}</Project>
       <Name>SharedModels</Name>
-      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Web.Domain\Web.Domain.csproj">
       <Project>{d9fca4cd-8422-4e37-a55f-49e6a8170a7e}</Project>
