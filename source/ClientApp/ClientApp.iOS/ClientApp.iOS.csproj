@@ -100,6 +100,10 @@
     <IpaPackageName />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="LoginViewController.cs" />
+    <Compile Include="LoginViewController.designer.cs">
+      <DependentUpon>LoginViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
@@ -107,6 +111,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork@2x" />
+    <InterfaceDefinition Include="LoginViewController.storyboard" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
