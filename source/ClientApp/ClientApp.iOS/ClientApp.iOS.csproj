@@ -111,7 +111,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork@2x" />
-    <InterfaceDefinition Include="LoginViewController.storyboard" />
+    <InterfaceDefinition Include="MainStoryboard.storyboard" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
