@@ -24,6 +24,7 @@
                                 </state>
                                 <connections>
                                     <segue id="144" destination="31" kind="push"/>
+                                    <action selector="login_TouchUpInside:" destination="vXZ-lx-hvc" id="208" eventType="touchUpInside"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="8" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
@@ -62,8 +63,11 @@
                                 <state key="normal" title="Reset Password">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="resetPassword_TouchUpInside:" destination="vXZ-lx-hvc" id="279" eventType="touchUpInside"/>
+                                </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22" hidesWhenStopped="YES" animating="YES">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22" hidesWhenStopped="YES" userInteractionEnabled="NO" hidden="YES">
                                 <rect key="frame" x="142" y="313" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>

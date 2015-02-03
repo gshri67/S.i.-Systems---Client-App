@@ -34,6 +34,14 @@ namespace ClientApp.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField username { get; set; }
 
+		[Action ("login_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void login_TouchUpInside (UIButton sender);
+
+		[Action ("resetPassword_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void resetPassword_TouchUpInside (UIButton sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (login != null) {

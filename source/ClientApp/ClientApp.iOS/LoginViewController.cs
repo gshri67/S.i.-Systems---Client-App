@@ -57,5 +57,31 @@ namespace ClientApp.iOS
         }
 
         #endregion
+
+        partial void login_TouchUpInside(UIButton sender)
+        {
+            //loginActivityIndicator.StopAnimating();
+            if (string.IsNullOrEmpty(username.Text))
+            {
+                var view = new UIAlertView("Oops", "Please enter a username.", null, "Ok");
+                //view.Dismissed += (sender, e) => username.BecomeFirstResponder();
+                view.Show();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(password.Text))
+            {
+                var view = new UIAlertView("Oops", "Please enter a password.", null, "Ok");
+                //view.Dismissed += (sender, e) => password.BecomeFirstResponder();
+                view.Show();
+                return;
+            }
+
+        }
+
+        partial void resetPassword_TouchUpInside(UIButton sender)
+        {
+            //UIApplication.SharedApplication.OpenUrl(new NSUrl("www.google.com"));
+        }
     }
 }
