@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Http.Filters;
+using System.Web.Mvc;
+using Elmah;
 
 namespace SiSystems.ClientApp.Web
 {
@@ -8,6 +10,21 @@ namespace SiSystems.ClientApp.Web
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new RequireHttpsAttribute());
+        }
+
+        public static void RegisterHttpFilters(HttpFilterCollection filters)
+        {
+            filters.Add(new ElmahHandledErrorLoggerFilter());
+        }
+    }
+
+    public class ElmahHandledErrorLoggerFilter : ExceptionFilterAttribute
+    {
+        public override void OnException(HttpActionExecutedContext actionExecutedContext)
+        {
+            base.OnException(actionExecutedContext);
+
+            ErrorSignal.FromCurrentContext().Raise(actionExecutedContext.Exception);
         }
     }
 }

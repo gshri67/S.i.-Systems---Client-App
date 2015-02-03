@@ -195,4 +195,8 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
+# Nuget
 /nuget.exe
+
+# Web generated content
+*/Web/App_Data/*

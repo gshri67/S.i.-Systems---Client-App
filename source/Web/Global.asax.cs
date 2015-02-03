@@ -13,6 +13,10 @@ namespace SiSystems.ClientApp.Web
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+
+            //Elmah Integration
+            FilterConfig.RegisterHttpFilters(GlobalConfiguration.Configuration.Filters);
+            
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
