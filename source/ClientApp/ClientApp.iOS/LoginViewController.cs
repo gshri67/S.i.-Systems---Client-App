@@ -1,14 +1,19 @@
 
 using System;
 using System.Drawing;
-
+using System.Threading.Tasks;
+using ClientApp.ViewModels;
 using Foundation;
+using Microsoft.Practices.Unity;
+using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS
 {
     public partial class LoginViewController : UIViewController
     {
+        private Lazy<DiContainer> _diContainer;
+        private LoginViewModel _loginModel;
         static bool UserInterfaceIdiomIsPhone
         {
             get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
@@ -17,6 +22,8 @@ namespace ClientApp.iOS
         public LoginViewController(IntPtr handle)
             : base(handle)
         {
+            _diContainer = new Lazy<DiContainer>();
+            _loginModel = _diContainer.Value.Instance.Resolve<LoginViewModel>();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -60,28 +67,52 @@ namespace ClientApp.iOS
 
         partial void login_TouchUpInside(UIButton sender)
         {
-            //loginActivityIndicator.StopAnimating();
-            if (string.IsNullOrEmpty(username.Text))
+            _loginModel.UserName = username.Text;
+            _loginModel.Password = password.Text;
+
+            var userError = _loginModel.GetUserNameError();
+            if (!string.IsNullOrEmpty(userError))
             {
-                var view = new UIAlertView("Oops", "Please enter a username.", null, "Ok");
-                //view.Dismissed += (sender, e) => username.BecomeFirstResponder();
+                var view = new UIAlertView("Oops", userError, null, "Ok");
                 view.Show();
                 return;
             }
 
-            if (string.IsNullOrEmpty(password.Text))
+            var passError = _loginModel.GetPasswordError();
+            if (!string.IsNullOrEmpty(passError))
             {
-                var view = new UIAlertView("Oops", "Please enter a password.", null, "Ok");
-                //view.Dismissed += (sender, e) => password.BecomeFirstResponder();
+                var view = new UIAlertView("Oops", passError, null, "Ok");
                 view.Show();
                 return;
             }
 
+            var loginTask = _loginModel.LoginAsync();
+            loginTask.ContinueWith(task => {
+                                               if (task.Result)
+                                               {
+                                                   CheckEulaService();
+                                               }
+                                               else
+                                               {
+                                                   DisplayInvalidCredentials();
+                                               }
+            });
+            //TODO pop up some kind of loading animation
         }
 
         partial void resetPassword_TouchUpInside(UIButton sender)
         {
             //UIApplication.SharedApplication.OpenUrl(new NSUrl("www.google.com"));
+        }
+
+        private void CheckEulaService()
+        {
+            //TODO Check EULA service, display if needed, otherwise jump to main screen
+        }
+
+        private void DisplayInvalidCredentials()
+        {
+            //TODO Kill loading animation, display error dialog
         }
     }
 }
