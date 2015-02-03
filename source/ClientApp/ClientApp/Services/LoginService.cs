@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using ClientApp.Services.Interfaces;
+using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.Services
 {
     public class LoginService : ILoginService
     {
-        public Task<bool> LoginAsync(string username, string password)
+        public Task<ValidationResult> LoginAsync(string username, string password)
         {
             //TODO connect to webservice and make call
-            return Task.FromResult(true);
+            return Task.FromResult(new ValidationResult(true));
         }
     }
 }

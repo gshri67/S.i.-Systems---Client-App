@@ -1,19 +1,13 @@
-
 using System;
-using System.Drawing;
-using System.Threading.Tasks;
 using ClientApp.ViewModels;
-using Foundation;
 using Microsoft.Practices.Unity;
-using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS
 {
     public partial class LoginViewController : UIViewController
     {
-        private Lazy<DiContainer> _diContainer;
-        private LoginViewModel _loginModel;
+        private readonly LoginViewModel _loginModel;
         static bool UserInterfaceIdiomIsPhone
         {
             get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
@@ -22,9 +16,9 @@ namespace ClientApp.iOS
         public LoginViewController(IntPtr handle)
             : base(handle)
         {
-            _diContainer = new Lazy<DiContainer>();
+            var diContainer = new Lazy<DiContainer>();
             //TODO this next line sucks, find better way of hosting container
-            _loginModel = _diContainer.Value.Instance.Resolve<LoginViewModel>();
+            _loginModel = diContainer.Value.Instance.Resolve<LoginViewModel>();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -68,34 +62,33 @@ namespace ClientApp.iOS
 
         partial void login_TouchUpInside(UIButton sender)
         {
-            _loginModel.UserName = username.Text;
-            _loginModel.Password = password.Text;
-
-            if (!_loginModel.IsValidUserName())
+            var result = _loginModel.IsValidUserName(username.Text);
+            if (!result.IsValid)
             {
-                var view = new UIAlertView("Oops", _loginModel.UserNameError, null, "Ok");
+                var view = new UIAlertView("Oops", result.Message, null, "Ok");
                 view.Show();
                 return;
             }
 
-            if (!_loginModel.IsValidPassword())
+            result = _loginModel.IsValidPassword(password.Text);
+            if (!result.IsValid)
             {
-                var view = new UIAlertView("Oops", _loginModel.PasswordError, null, "Ok");
+                var view = new UIAlertView("Oops", result.Message, null, "Ok");
                 view.Show();
                 return;
             }
 
             loginActivityIndicator.StartAnimating();
 
-            var loginTask = _loginModel.LoginAsync();
+            var loginTask = _loginModel.LoginAsync(username.Text, password.Text);
             loginTask.ContinueWith(task => {
-                                               if (task.Result)
+                                               if (task.Result.IsValid)
                                                {
                                                    CheckEulaService();
                                                }
                                                else
                                                {
-                                                   DisplayInvalidCredentials();
+                                                   DisplayInvalidCredentials(task.Result.Message);
                                                }
             });
         }
@@ -105,15 +98,27 @@ namespace ClientApp.iOS
             //UIApplication.SharedApplication.OpenUrl(new NSUrl("www.google.com"));
         }
 
-        private void CheckEulaService()
+        private async void CheckEulaService()
         {
-            //TODO Check EULA service, display if needed, otherwise jump to main screen
+            var eula = await _loginModel.GetCurrentEulaAsync();
+
+            //TODO check local storage for if this user has already read this version
+            var hasReadEula = false;
+
+            if (hasReadEula)
+            {
+                //GOTO main page
+            }
+            else
+            {
+                //GOTO EULA screen
+            }
         }
 
-        private void DisplayInvalidCredentials()
+        private void DisplayInvalidCredentials(string message)
         {
             loginActivityIndicator.StopAnimating();
-            var view = new UIAlertView("Oops", "Invalid Authentication Credentials", null, "Ok");
+            var view = new UIAlertView("Oops", message, null, "Ok");
             view.Show();
             return;
         }

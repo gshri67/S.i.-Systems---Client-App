@@ -4,54 +4,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClientApp.Services.Interfaces;
+using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.ViewModels
 {
 
     public class LoginViewModel : ViewModelBase
     {
-        public string UserName { get; set; }
-        public string UserNameError { get; set; }
-        public string Password { get; set; }
-        public string PasswordError { get; set; }
-        public string AuthenticationError { get; set; }
-
         private readonly ILoginService _loginService;
+        private readonly IEulaService _eulaService;
 
-        public LoginViewModel(ILoginService loginService)
+        public LoginViewModel(ILoginService loginService, IEulaService eulaService)
         {
             _loginService = loginService;
+            _eulaService = eulaService;
         }
 
-        public Boolean IsValidUserName()
+        public ValidationResult IsValidUserName(string username)
         {
-            if (string.IsNullOrEmpty(UserName))
+            if (string.IsNullOrEmpty(username))
             {
-                UserNameError = "Please enter a user name";
-                return false;
+                return new ValidationResult(false, "Please enter a user name");
             }
-            return true;
+            return new ValidationResult(true);
         }
 
-        public bool IsValidPassword()
+        public ValidationResult IsValidPassword(string password)
         {
-            if (string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(password))
             {
-                PasswordError = "Please enter a password";
-                return false;
+                return new ValidationResult(false, "Please enter a password");
             }
             //TODO find out any password rules we have to constrain them to
-            if (Password.Length < 3)
+            if (password.Length < 3)
             {
-                PasswordError = "Password must be at least 4 characters";
-                return false;
+                return new ValidationResult(false, "Password must be at least 4 characters");
             }
-            return true;
+            return new ValidationResult(true);
         }
 
-        public Task<bool> LoginAsync()
+        public Task<ValidationResult> LoginAsync(string username, string password)
         {
-            return _loginService.LoginAsync(UserName, Password);
+            return _loginService.LoginAsync(username, password);
+        }
+
+        public Task<Eula> GetCurrentEulaAsync()
+        {
+            return _eulaService.GetMostRecentEula();
         }
     }
 }

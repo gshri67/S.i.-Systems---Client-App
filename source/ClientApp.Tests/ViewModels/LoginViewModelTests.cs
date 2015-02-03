@@ -9,60 +9,70 @@ namespace SiSystems.ClientApp.Tests.ViewModels
     [TestFixture]
     public class LoginViewModelTests
     {
+        private Mock<ILoginService> _loginMock;
+        private Mock<IEulaService> _eulaMock;
+        private LoginViewModel _vm;
+
+        [SetUp]
+        public void Setup()
+        {
+            _loginMock = new Mock<ILoginService>();
+            _eulaMock = new Mock<IEulaService>();
+            _vm = new LoginViewModel(_loginMock.Object, _eulaMock.Object);
+        }
+
         [Test]
         public void IsValidUserName_FailsNull()
         {
-            var mock = new Mock<ILoginService>();
-            var vm = new LoginViewModel(mock.Object) {UserName = null, Password = "pass@word1"};
-            Assert.IsFalse(vm.IsValidUserName());
+            Assert.IsFalse(_vm.IsValidUserName(null).IsValid);
         }
 
         [Test]
         public void IsValidUserName_FailsBlank()
         {
-            var mock = new Mock<ILoginService>();
-            var vm = new LoginViewModel(mock.Object) { UserName = "", Password = "pass@word1" };
-            Assert.IsFalse(vm.IsValidUserName());
+            Assert.IsFalse(_vm.IsValidUserName("").IsValid);
         }
 
         [Test]
         public void IsValidUserName_AcceptsFilled()
         {
-            var mock = new Mock<ILoginService>();
-            var vm = new LoginViewModel(mock.Object) { UserName = "TestName", Password = "pass@word1" };
-            Assert.IsTrue(vm.IsValidUserName());
+            Assert.IsTrue(_vm.IsValidUserName("Test Name").IsValid);
+        }
+
+        [Test]
+        public void IsValidUserName_ReturnsMessageOnFail()
+        {
+            Assert.IsFalse(string.IsNullOrEmpty(_vm.IsValidUserName("").Message));
         }
 
         [Test]
         public void IsValidPassword_FailsNull()
         {
-            var mock = new Mock<ILoginService>();
-            var vm = new LoginViewModel(mock.Object) { UserName = "TestName", Password = null };
-            Assert.IsFalse(vm.IsValidPassword());
+            Assert.IsFalse(_vm.IsValidPassword(null).IsValid);
         }
 
         [Test]
         public void IsValidPassword_FailsBlank()
         {
-            var mock = new Mock<ILoginService>();
-            var vm = new LoginViewModel(mock.Object) { UserName = "TestName", Password = "" };
-            Assert.IsFalse(vm.IsValidPassword());
+            Assert.IsFalse(_vm.IsValidPassword("").IsValid);
         }
 
         [Test]
         public void IsValidPassword_FailsTooShort()
         {
-            var mock = new Mock<ILoginService>();
-            var vm = new LoginViewModel(mock.Object) { UserName = "TestName", Password = "aa" };
-            Assert.IsFalse(vm.IsValidPassword());
+            Assert.IsFalse(_vm.IsValidPassword("aa").IsValid);
         }
 
         [Test]
         public void IsValidPassword_AcceptsGoodPass()
         {
-            var mock = new Mock<ILoginService>();
-            var vm = new LoginViewModel(mock.Object) { UserName = "TestName", Password = "pass@word1" };
-            Assert.IsTrue(vm.IsValidPassword());
+            Assert.IsTrue(_vm.IsValidPassword("pass@word1").IsValid);
+        }
+
+        [Test]
+        public void IsValidPassword_ReturnsMessageOnFail()
+        {
+            Assert.IsFalse(string.IsNullOrEmpty(_vm.IsValidPassword("").Message));
         }
     }
 }
