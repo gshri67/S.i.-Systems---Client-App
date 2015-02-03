@@ -14,6 +14,7 @@ namespace ClientApp.ViewModels
         public string UserNameError { get; set; }
         public string Password { get; set; }
         public string PasswordError { get; set; }
+        public string AuthenticationError { get; set; }
 
         private readonly ILoginService _loginService;
 

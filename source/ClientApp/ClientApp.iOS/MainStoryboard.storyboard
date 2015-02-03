@@ -23,7 +23,6 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue id="144" destination="31" kind="push"/>
                                     <action selector="login_TouchUpInside:" destination="vXZ-lx-hvc" id="208" eventType="touchUpInside"/>
                                 </connections>
                             </button>
@@ -78,6 +77,8 @@
                         <outlet property="password" destination="9" id="name-outlet-9"/>
                         <outlet property="resetPassword" destination="18" id="name-outlet-18"/>
                         <outlet property="loginActivityIndicator" destination="22" id="name-outlet-22"/>
+                        <segue id="369" destination="31" kind="push" identifier="eulaPushSegue"/>
+                        <segue id="560" destination="286" kind="push" identifier="alumniPushSegue"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -128,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="33" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="421" y="-8"/>
+            <point key="canvasLocation" x="485" y="704"/>
         </scene>
         <scene sceneID="150">
             <objects>
@@ -143,6 +144,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="155" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-465" y="6"/>
+        </scene>
+        <scene sceneID="285">
+            <objects>
+                <tableViewController id="286" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="287">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="290">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="290" id="291">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="286" id="288"/>
+                            <outlet property="delegate" destination="286" id="289"/>
+                        </connections>
+                    </tableView>
+                    <connections/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="292" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="521" y="-3"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -85,6 +85,8 @@ namespace ClientApp.iOS
                 return;
             }
 
+            loginActivityIndicator.StartAnimating();
+
             var loginTask = _loginModel.LoginAsync();
             loginTask.ContinueWith(task => {
                                                if (task.Result)
@@ -96,7 +98,6 @@ namespace ClientApp.iOS
                                                    DisplayInvalidCredentials();
                                                }
             });
-            //TODO pop up some kind of loading animation
         }
 
         partial void resetPassword_TouchUpInside(UIButton sender)
@@ -111,7 +112,10 @@ namespace ClientApp.iOS
 
         private void DisplayInvalidCredentials()
         {
-            //TODO Kill loading animation, display error dialog
+            loginActivityIndicator.StopAnimating();
+            var view = new UIAlertView("Oops", "Invalid Authentication Credentials", null, "Ok");
+            view.Show();
+            return;
         }
     }
 }
