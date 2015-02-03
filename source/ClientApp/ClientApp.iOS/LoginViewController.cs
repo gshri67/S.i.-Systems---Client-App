@@ -23,6 +23,7 @@ namespace ClientApp.iOS
             : base(handle)
         {
             _diContainer = new Lazy<DiContainer>();
+            //TODO this next line sucks, find better way of hosting container
             _loginModel = _diContainer.Value.Instance.Resolve<LoginViewModel>();
         }
 
@@ -70,18 +71,16 @@ namespace ClientApp.iOS
             _loginModel.UserName = username.Text;
             _loginModel.Password = password.Text;
 
-            var userError = _loginModel.GetUserNameError();
-            if (!string.IsNullOrEmpty(userError))
+            if (!_loginModel.IsValidUserName())
             {
-                var view = new UIAlertView("Oops", userError, null, "Ok");
+                var view = new UIAlertView("Oops", _loginModel.UserNameError, null, "Ok");
                 view.Show();
                 return;
             }
 
-            var passError = _loginModel.GetPasswordError();
-            if (!string.IsNullOrEmpty(passError))
+            if (!_loginModel.IsValidPassword())
             {
-                var view = new UIAlertView("Oops", passError, null, "Ok");
+                var view = new UIAlertView("Oops", _loginModel.PasswordError, null, "Ok");
                 view.Show();
                 return;
             }

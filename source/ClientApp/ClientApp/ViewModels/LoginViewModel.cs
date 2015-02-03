@@ -11,7 +11,9 @@ namespace ClientApp.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         public string UserName { get; set; }
+        public string UserNameError { get; set; }
         public string Password { get; set; }
+        public string PasswordError { get; set; }
 
         private readonly ILoginService _loginService;
 
@@ -20,28 +22,30 @@ namespace ClientApp.ViewModels
             _loginService = loginService;
         }
 
-        //TODO Terrible way of doing this, find something better
-        public string GetUserNameError()
+        public Boolean IsValidUserName()
         {
             if (string.IsNullOrEmpty(UserName))
             {
-                return "Please enter a user name";
+                UserNameError = "Please enter a user name";
+                return false;
             }
-            return null;
+            return true;
         }
 
-        public string GetPasswordError()
+        public bool IsValidPassword()
         {
             if (string.IsNullOrEmpty(Password))
             {
-                return "Please enter a password";
+                PasswordError = "Please enter a password";
+                return false;
             }
             //TODO find out any password rules we have to constrain them to
             if (Password.Length < 3)
             {
-                return "Password must be at least 4 characters";
+                PasswordError = "Password must be at least 4 characters";
+                return false;
             }
-            return null;
+            return true;
         }
 
         public Task<bool> LoginAsync()
