@@ -1,4 +1,6 @@
-﻿using SiSystems.ClientApp.SharedModels;
+﻿using System.Web;
+using Microsoft.AspNet.Identity;
+using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain;
 
 namespace SiSystems.ClientApp.Web.Models
@@ -10,8 +12,7 @@ namespace SiSystems.ClientApp.Web.Models
         {
             get { return _currentUser ?? (_currentUser = GetCurrentAuthenticatedUser()); }
         }
-
-
+        
         private readonly UserService _userService;
         public SessionContext(UserService service)
         {
@@ -20,8 +21,8 @@ namespace SiSystems.ClientApp.Web.Models
 
         private User GetCurrentAuthenticatedUser()
         {
-            //TODO: GET THE ACTUAL USER ONCE AUTHENTICATED..
-            return _userService.FindByName("bob.smith@email.com");
+            var userId = int.Parse(HttpContext.Current.User.Identity.GetUserId());
+            return _userService.Find(userId);
         }
     }
 }
