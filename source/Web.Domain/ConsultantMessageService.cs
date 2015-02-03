@@ -11,7 +11,7 @@ namespace SiSystems.ClientApp.Web.Domain
     {
         public void SendConsultantMessage(ConsultantMessage message)
         {
-            //...
+            
         }
     }
 }

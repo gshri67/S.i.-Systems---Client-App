@@ -48,9 +48,11 @@
     <Compile Include="ConsultantMessageService.cs" />
     <Compile Include="ConsultantService.cs" />
     <Compile Include="ContractService.cs" />
+    <Compile Include="EulaService.cs" />
     <Compile Include="ISessionContext.cs" />
     <Compile Include="Repositories\ConsultantRepository.cs" />
     <Compile Include="DatabaseContext.cs" />
+    <Compile Include="Repositories\EulaRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
