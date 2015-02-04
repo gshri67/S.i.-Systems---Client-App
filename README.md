@@ -29,6 +29,19 @@ Also, during development, ELMAH logging is configured to send emails on error, s
 3. When you launch Visual Studio with a Xamarin iOS Project, a pop-up will appear. Follow the onscreen instruction to set connect for building the iOS project. 
 
 
+##Ensure that the iOS simulator can connect to the Web API running in Visual Studio + IIS Express
+1. Navigate to C:\Users\[your username]\Documents\IISExpress\config
+2. Edit the applicationhost.config file.
+	a. Find the <site> element that exists for the project (you'll need to have run it in VS at least once for the entry to be created).
+	b. Change the bindingInformation attributes by removing localhost. This will allow IIS Express to handle incoming connections from external machines.
+	   For example, change bindingInformation="*:50021:localhost" to bindingInformation="*:50021:"
+	   and bindingInformation="*:44300:localhost" to bindingInformation="*:44300:"
+3. On your mac, edit the file @ /private/etc/hosts
+	a. sudo nano /private/etc/hosts
+	b. add an entry with your windows machine IP Address and set the hostname to clientapi.local
+	c. you should be able to access your running IIS Express instance at https://clientapi.local:44300/ or http://clientapi.local:50021
+
+
 
 ##See Also
 Become familiar with:
