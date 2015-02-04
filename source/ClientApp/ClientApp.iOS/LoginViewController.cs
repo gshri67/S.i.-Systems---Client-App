@@ -1,6 +1,8 @@
 using System;
 using ClientApp.ViewModels;
+using Foundation;
 using Microsoft.Practices.Unity;
+using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS
@@ -8,6 +10,7 @@ namespace ClientApp.iOS
     public partial class LoginViewController : UIViewController
     {
         private readonly LoginViewModel _loginModel;
+        private Eula _eula;
         static bool UserInterfaceIdiomIsPhone
         {
             get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
@@ -79,15 +82,16 @@ namespace ClientApp.iOS
             loginActivityIndicator.StartAnimating();
 
             var loginTask = _loginModel.LoginAsync(username.Text, password.Text);
-            loginTask.ContinueWith(task => {
-                                               if (task.Result.IsValid)
-                                               {
-                                                   CheckEulaService();
-                                               }
-                                               else
-                                               {
-                                                   DisplayInvalidCredentials(task.Result.Message);
-                                               }
+            loginTask.ContinueWith(task =>
+            {
+                if (task.Result.IsValid)
+                {
+                    CheckEulaService();
+                }
+                else
+                {
+                    DisplayInvalidCredentials(task.Result.Message);
+                }
             });
         }
 
@@ -98,18 +102,24 @@ namespace ClientApp.iOS
 
         private async void CheckEulaService()
         {
-            var eula = await _loginModel.GetCurrentEulaAsync();
+            _eula = await _loginModel.GetCurrentEulaAsync();
 
             //TODO check local storage for if this user has already read this version
             var hasReadEula = false;
 
-            if (hasReadEula)
+            NSOperationQueue.MainQueue.AddOperation(
+                () => { PerformSegue(hasReadEula ? "alumniPushSegue" : "eulaPushSegue", this); });
+
+        }
+
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        {
+            base.PrepareForSegue(segue, sender);
+
+            if (segue.Identifier == "eulaPushSegue")
             {
-                //GOTO main page
-            }
-            else
-            {
-                //GOTO EULA screen
+                var view = (EulaViewController)segue.DestinationViewController;
+                view.CurrentEula = _eula;
             }
         }
 

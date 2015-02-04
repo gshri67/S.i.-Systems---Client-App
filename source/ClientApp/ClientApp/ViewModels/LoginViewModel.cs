@@ -36,7 +36,7 @@ namespace ClientApp.ViewModels
                 return new ValidationResult(false, "Please enter a password");
             }
             //TODO find out any password rules we have to constrain them to
-            if (password.Length < 3)
+            if (password.Length < 4)
             {
                 return new ValidationResult(false, "Password must be at least 4 characters");
             }
