@@ -16,9 +16,7 @@ namespace ClientApp.iOS
         public LoginViewController(IntPtr handle)
             : base(handle)
         {
-            var diContainer = new Lazy<DiContainer>();
-            //TODO this next line sucks, find better way of hosting container
-            _loginModel = diContainer.Value.Instance.Resolve<LoginViewModel>();
+            _loginModel = DependencyResolver.Current.Resolve<LoginViewModel>();
         }
 
         public override void DidReceiveMemoryWarning()
