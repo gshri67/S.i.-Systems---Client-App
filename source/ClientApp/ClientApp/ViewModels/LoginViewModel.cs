@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClientApp.Services.Interfaces;
+using Newtonsoft.Json;
 using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.ViewModels
@@ -13,6 +14,7 @@ namespace ClientApp.ViewModels
     {
         private readonly ILoginService _loginService;
         private readonly IEulaService _eulaService;
+        public Dictionary<string, int> EulaVersions { get; private set; }
 
         public LoginViewModel(ILoginService loginService, IEulaService eulaService)
         {
@@ -51,6 +53,29 @@ namespace ClientApp.ViewModels
         public Task<Eula> GetCurrentEulaAsync()
         {
             return _eulaService.GetMostRecentEula();
+        }
+
+        public bool UserHasReadLatestEula(string username, int version, string storageString)
+        {
+            try
+            {
+                EulaVersions = JsonConvert.DeserializeObject<Dictionary<string, int>>(storageString);
+            }
+            catch (Exception ex)
+            {
+                //TODO log error
+                EulaVersions = new Dictionary<string, int>();
+                return false;
+            }
+
+            if (EulaVersions.ContainsKey(username))
+            {
+                if (EulaVersions[username] == version)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

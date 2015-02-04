@@ -63,7 +63,8 @@ namespace ClientApp.iOS
 
         partial void login_TouchUpInside(UIButton sender)
         {
-            var result = _loginModel.IsValidUserName(username.Text);
+            var userName = username.Text;
+            var result = _loginModel.IsValidUserName(userName);
             if (!result.IsValid)
             {
                 var view = new UIAlertView("Oops", result.Message, null, "Ok");
@@ -81,12 +82,12 @@ namespace ClientApp.iOS
 
             loginActivityIndicator.StartAnimating();
 
-            var loginTask = _loginModel.LoginAsync(username.Text, password.Text);
+            var loginTask = _loginModel.LoginAsync(userName, password.Text);
             loginTask.ContinueWith(task =>
             {
                 if (task.Result.IsValid)
                 {
-                    CheckEulaService();
+                    CheckEulaService(userName);
                 }
                 else
                 {
@@ -100,12 +101,12 @@ namespace ClientApp.iOS
             //UIApplication.SharedApplication.OpenUrl(new NSUrl("www.google.com"));
         }
 
-        private async void CheckEulaService()
+        private async void CheckEulaService(string userName)
         {
             _eula = await _loginModel.GetCurrentEulaAsync();
 
-            //TODO check local storage for if this user has already read this version
-            var hasReadEula = false;
+            var storageString = NSUserDefaults.StandardUserDefaults.StringForKey("eulaVersions");
+            var hasReadEula = _loginModel.UserHasReadLatestEula(userName, _eula.Version, storageString);
 
             NSOperationQueue.MainQueue.AddOperation(
                 () => { PerformSegue(hasReadEula ? "alumniPushSegue" : "eulaPushSegue", this); });
@@ -120,6 +121,8 @@ namespace ClientApp.iOS
             {
                 var view = (EulaViewController)segue.DestinationViewController;
                 view.CurrentEula = _eula;
+                view.UserName = username.Text;
+                view.EulaModel = new EulaViewModel(_loginModel.EulaVersions);
             }
         }
 

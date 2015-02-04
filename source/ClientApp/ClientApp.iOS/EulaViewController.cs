@@ -1,6 +1,8 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using ClientApp.ViewModels;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
@@ -8,7 +10,10 @@ namespace ClientApp.iOS
 {
 	partial class EulaViewController : UIViewController
 	{
-	    private Eula _eula;
+        public EulaViewModel EulaModel { private get; set; }
+        public string UserName { private get; set; }
+
+        private Eula _eula;
         public Eula CurrentEula
 	    {
             private get { return _eula; }
@@ -24,12 +29,13 @@ namespace ClientApp.iOS
 
 	    public EulaViewController (IntPtr handle) : base(handle)
         {
-            
         }
 
         partial void agree_TouchUpInside(UIButton sender)
         {
-            //TODO Save to local storage the current user and which version of the EULA they agreed to
+            EulaModel.AcceptEula( UserName, _eula.Version);
+            var storageString = EulaModel.GetUpdatedStorageString();
+            NSUserDefaults.StandardUserDefaults.SetString(storageString, "eulaVersions");
 
             PerformSegue("alumniPushSegue", sender);
         }

@@ -74,5 +74,36 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         {
             Assert.IsFalse(string.IsNullOrEmpty(_vm.IsValidPassword("").Message));
         }
+
+        [Test]
+        public void UserHasReadLatestEula_PopulatesEulaVersions()
+        {
+            _vm.UserHasReadLatestEula("testuser", 1, null);
+            Assert.IsNotNull(_vm.EulaVersions);
+        }
+
+        [Test]
+        public void UserHasReadLatestEula_FalseIfNoRecord()
+        {
+            Assert.IsFalse(_vm.UserHasReadLatestEula("testuser", 1, null));
+        }
+        
+        [Test]
+        public void UserHasReadLatestEula_FalseIfNoUser()
+        {
+            Assert.IsFalse(_vm.UserHasReadLatestEula("testuser", 1, "{\"anotheruser\":1}"));
+        }
+
+        [Test]
+        public void UserHasReadLatestEula_FalseIfNewVersion()
+        {
+            Assert.IsFalse(_vm.UserHasReadLatestEula("testuser", 2, "{\"testuser\":1}"));
+        }
+
+        [Test]
+        public void UserHasReadLatestEula_TrueIfMatch()
+        {
+            Assert.IsTrue(_vm.UserHasReadLatestEula("testuser", 1, "{\"testuser\":1}"));
+        }
     }
 }
