@@ -198,7 +198,7 @@
     <Compile Include="Models\UserStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
-    <Compile Include="Providers\PlainTextPasswordHasher.cs" />
+    <Compile Include="Providers\Md5PasswordHasher.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
