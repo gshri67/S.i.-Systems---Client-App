@@ -21,7 +21,7 @@ namespace SiSystems.ClientApp.Web.App_Start
             var manager = new ApplicationUserManager(userStore)
             {
                 //TODO: Replace this with a real password hasher that matches S.i. Systems' method.
-                PasswordHasher = new PlainTextPasswordHasher()
+                PasswordHasher = new Md5PasswordHasher()
             };
 
             var dataProtectionProvider = options.DataProtectionProvider;

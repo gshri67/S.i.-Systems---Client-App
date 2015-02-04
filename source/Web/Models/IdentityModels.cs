@@ -28,8 +28,8 @@ namespace SiSystems.ClientApp.Web.Models
 
         public string UserName
         {
-            get { return _user.EmailAddress; }
-            set { _user.EmailAddress = value; }
+            get { return _user.Login; }
+            set { _user.Login = value; }
         }
 
         public ApplicationUser(User user)
