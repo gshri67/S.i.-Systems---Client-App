@@ -132,10 +132,13 @@ namespace ClientApp.iOS
 
         private void DisplayInvalidCredentials(string message)
         {
-            loginActivityIndicator.StopAnimating();
-            var view = new UIAlertView("Oops", message, null, "Ok");
-            view.Show();
-            return;
+            NSOperationQueue.MainQueue.AddOperation(
+                () =>
+                {
+                    loginActivityIndicator.StopAnimating();
+                    var view = new UIAlertView("Oops", message, null, "Ok");
+                    view.Show();
+                });
         }
     }
 }

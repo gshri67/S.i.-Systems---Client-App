@@ -10,7 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ConnectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\EulaService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IConnectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoginService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IEulaService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ILoginService.cs" />

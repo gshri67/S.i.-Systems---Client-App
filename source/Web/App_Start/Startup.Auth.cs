@@ -34,7 +34,7 @@ namespace SiSystems.ClientApp.Web
                 TokenEndpointPath = new PathString("/api/Login"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-                AllowInsecureHttp = false
+                AllowInsecureHttp = true
             };
 
             // Enable the application to use bearer tokens to authenticate users
