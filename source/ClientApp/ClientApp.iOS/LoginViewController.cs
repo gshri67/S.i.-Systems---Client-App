@@ -41,6 +41,7 @@ namespace ClientApp.iOS
 
         public override void ViewWillAppear(bool animated)
         {
+            NavigationController.SetNavigationBarHidden(true, true);
             base.ViewWillAppear(animated);
         }
 
@@ -51,11 +52,13 @@ namespace ClientApp.iOS
 
         public override void ViewWillDisappear(bool animated)
         {
+            NavigationController.SetNavigationBarHidden(false, true);
             base.ViewWillDisappear(animated);
         }
 
         public override void ViewDidDisappear(bool animated)
         {
+            loginActivityIndicator.StopAnimating();
             base.ViewDidDisappear(animated);
         }
 

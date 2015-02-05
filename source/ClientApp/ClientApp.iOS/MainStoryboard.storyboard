@@ -13,11 +13,11 @@
                         <viewControllerLayoutGuide type="bottom" id="4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                 <rect key="frame" x="210" y="313" width="78" height="30"/>
                                 <state key="normal" title="Sign In">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -26,39 +26,39 @@
                                     <action selector="login_TouchUpInside:" destination="vXZ-lx-hvc" id="208" eventType="touchUpInside"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="8" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="8" translatesAutoresizingMaskIntoConstraints="NO" adjustsFontSizeToFitWidth="NO" misplaced="YES">
                                 <rect key="frame" x="34" y="175" width="255" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="9" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="9" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                 <rect key="frame" x="34" y="275" width="255" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Username" lineBreakMode="tailTruncation" minimumFontSize="10" id="10" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Username" lineBreakMode="tailTruncation" minimumFontSize="10" id="10" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                 <rect key="frame" x="33" y="131" width="169" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Password" lineBreakMode="tailTruncation" minimumFontSize="10" id="11" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Password" lineBreakMode="tailTruncation" minimumFontSize="10" id="11" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                 <rect key="frame" x="33" y="236" width="169" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Welcome to S.i." lineBreakMode="tailTruncation" minimumFontSize="10" id="17" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Welcome to S.i." lineBreakMode="tailTruncation" minimumFontSize="10" id="17" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                 <rect key="frame" x="33" y="56" width="255" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="18" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="146" y="530" width="142" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="18" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                <rect key="frame" x="146" y="530" width="143" height="30"/>
                                 <state key="normal" title="Reset Password">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -70,6 +70,23 @@
                                 <rect key="frame" x="142" y="313" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="8" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="32" id="937"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="29" id="938"/>
+                            <constraint firstItem="8" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" constant="1" id="941"/>
+                            <constraint firstItem="8" firstAttribute="top" secondItem="10" secondAttribute="bottom" constant="21" id="942"/>
+                            <constraint firstItem="11" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="29" id="943"/>
+                            <constraint firstItem="10" firstAttribute="top" secondItem="17" secondAttribute="centerY" constant="61" id="946"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="10" secondAttribute="trailing" constant="112" id="947"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" constant="112" id="948"/>
+                            <constraint firstItem="9" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="17" id="950"/>
+                            <constraint firstItem="5" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="7" id="951"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="18" secondAttribute="trailing" constant="29" id="954"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="bottom" secondItem="18" secondAttribute="bottom" constant="7" id="956"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="29" id="957"/>
+                            <constraint firstItem="9" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="32" id="958"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="5" secondAttribute="trailing" constant="28" id="961"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="login" destination="5" id="name-outlet-5"/>
@@ -92,12 +109,12 @@
                         <viewControllerLayoutGuide type="bottom" id="29"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="32">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Welcome to S.i." lineBreakMode="tailTruncation" minimumFontSize="10" id="38" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="43" y="50" width="255" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Welcome to S.i." lineBreakMode="tailTruncation" minimumFontSize="10" id="38" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                <rect key="frame" x="23" y="50" width="275" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
@@ -121,12 +138,17 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="38" firstAttribute="top" secondItem="32" secondAttribute="top" constant="44" id="973"/>
+                            <constraint firstItem="38" firstAttribute="leading" secondItem="32" secondAttribute="leading" constant="20" id="974"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="eulaText" destination="40" id="name-outlet-40"/>
                         <segue id="901" destination="286" kind="push" identifier="alumniPushSegue"/>
                         <outlet property="agree" destination="41" id="name-outlet-41"/>
                     </connections>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="33" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -134,7 +156,7 @@
         </scene>
         <scene sceneID="150">
             <objects>
-                <navigationController definesPresentationContext="YES" id="151" sceneMemberID="viewController" navigationBarHidden="YES" toolbarHidden="YES" hidesBarsOnTap="NO">
+                <navigationController definesPresentationContext="YES" id="151" sceneMemberID="viewController" navigationBarHidden="NO" toolbarHidden="YES" hidesBarsOnTap="NO">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="154">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
@@ -150,7 +172,7 @@
             <objects>
                 <tableViewController id="286" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="287">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -178,7 +200,7 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <resources>
         <image name="Default-568h.png" width="640" height="1136"/>
