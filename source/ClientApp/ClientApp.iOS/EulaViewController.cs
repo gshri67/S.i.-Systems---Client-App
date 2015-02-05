@@ -37,7 +37,7 @@ namespace ClientApp.iOS
             var storageString = EulaModel.GetUpdatedStorageString();
             NSUserDefaults.StandardUserDefaults.SetString(storageString, "eulaVersions");
 
-            PerformSegue("alumniPushSegue", sender);
+            PerformSegue("alumniSegue", sender);
         }
 
 	    public override void LoadView()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4451" systemVersion="13A461" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="151">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4451" systemVersion="13A461" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733.0"/>
     </dependencies>
@@ -106,8 +106,8 @@
                         <outlet property="password" destination="9" id="name-outlet-9"/>
                         <outlet property="resetPassword" destination="18" id="name-outlet-18"/>
                         <outlet property="loginActivityIndicator" destination="22" id="name-outlet-22"/>
-                        <segue id="369" destination="31" kind="push" identifier="eulaPushSegue"/>
-                        <segue id="1290" destination="1163" kind="push" identifier="alumniPushSegue"/>
+                        <segue id="369" destination="31" kind="modal" identifier="eulaSegue"/>
+                        <segue id="1539" destination="151" kind="modal" identifier="alumniSegue"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -121,7 +121,7 @@
                         <viewControllerLayoutGuide type="bottom" id="29"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="32">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                         <subviews>
@@ -163,7 +163,7 @@
                     <connections>
                         <outlet property="eulaText" destination="40" id="name-outlet-40"/>
                         <outlet property="agree" destination="41" id="name-outlet-41"/>
-                        <segue id="1346" destination="1163" kind="push" identifier="alumniPushSegue"/>
+                        <segue id="1661" destination="151" kind="modal" identifier="alumniSegue"/>
                     </connections>
                     <extendedEdge key="edgesForExtendedLayout"/>
                 </viewController>
@@ -178,16 +178,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
                     <connections>
-                        <segue id="200" destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController"/>
+                        <segue id="1720" destination="1163" kind="relationship" relationship="rootViewController"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="155" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-465" y="6"/>
+            <point key="canvasLocation" x="989" y="14"/>
         </scene>
         <scene sceneID="1162">
             <objects>
-                <viewController id="1163" sceneMemberID="viewController" customClass="ContractorViewController">
+                <viewController id="1163" sceneMemberID="viewController" customClass="ContractorViewController" title="Contractors">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1160"/>
                         <viewControllerLayoutGuide type="bottom" id="1161"/>
@@ -197,10 +197,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem title="Title" id="1719" key="navigationItem"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1186" y="16"/>
+            <point key="canvasLocation" x="1462" y="16"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

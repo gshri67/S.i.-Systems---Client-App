@@ -41,7 +41,6 @@ namespace ClientApp.iOS
 
         public override void ViewWillAppear(bool animated)
         {
-            NavigationController.SetNavigationBarHidden(true, true);
             base.ViewWillAppear(animated);
         }
 
@@ -52,7 +51,6 @@ namespace ClientApp.iOS
 
         public override void ViewWillDisappear(bool animated)
         {
-            NavigationController.SetNavigationBarHidden(false, true);
             base.ViewWillDisappear(animated);
         }
 
@@ -113,7 +111,7 @@ namespace ClientApp.iOS
             var hasReadEula = _loginModel.UserHasReadLatestEula(userName, _eula.Version, storageString);
 
             NSOperationQueue.MainQueue.AddOperation(
-                () => { PerformSegue(hasReadEula ? "alumniPushSegue" : "eulaPushSegue", this); });
+                () => { PerformSegue(hasReadEula ? "alumniSegue" : "eulaSegue", this); });
 
         }
 
@@ -121,7 +119,7 @@ namespace ClientApp.iOS
         {
             base.PrepareForSegue(segue, sender);
 
-            if (segue.Identifier == "eulaPushSegue")
+            if (segue.Identifier == "eulaSegue")
             {
                 var view = (EulaViewController)segue.DestinationViewController;
                 view.CurrentEula = _eula;
