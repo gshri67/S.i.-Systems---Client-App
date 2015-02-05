@@ -17,11 +17,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             using (var db = new DatabaseContext())
             {
                 const string query = UserQueryBase
-                                 + "AND [Users].[UserId] = @Id";
+                                    + "AND [Users].[UserId] = @Id";
 
-                var user = db.Connection.Query<User>(query, new { Id = id }).FirstOrDefault();
-
-                return user;
+                return db.Connection.Query<User>(query, new { Id = id }).FirstOrDefault();
             }
         }
 
@@ -30,10 +28,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             using (var db = new DatabaseContext())
             {
                 const string query = UserQueryBase
-                                     + "AND [User_Login].[Login] = @Username";
+                                    + "AND [User_Login].[Login] = @Username";
 
-                var user = db.Connection.Query<User>(query, new {Username = username}).FirstOrDefault();
-                return user;
+                return db.Connection.Query<User>(query, new {Username = username}).FirstOrDefault();
             }
         }
     }
