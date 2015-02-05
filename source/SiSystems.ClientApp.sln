@@ -35,6 +35,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{45A8B130-57BC-41C6-8A99-8070CEEB5007}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dev.Environment", "Dev.Environment", "{4CB39707-4DEF-4F69-969B-E8D5312FA464}"
+	ProjectSection(SolutionItems) = preProject
+		README.txt = README.txt
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp.Tests", "ClientApp.Tests\ClientApp.Tests.csproj", "{5E6D009C-EF7A-4CC1-BA4B-374962FBF79F}"
 EndProject
