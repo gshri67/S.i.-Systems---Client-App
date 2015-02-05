@@ -14,8 +14,16 @@ namespace ClientApp.iOS
 	[Register ("ContractorViewController")]
 	partial class ContractorViewController
 	{
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel summaryLabel { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
+			if (summaryLabel != null) {
+				summaryLabel.Dispose ();
+				summaryLabel = null;
+			}
 		}
 	}
 }

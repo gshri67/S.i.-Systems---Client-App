@@ -135,7 +135,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="40" translatesAutoresizingMaskIntoConstraints="NO" editable="NO" selectable="NO" showsHorizontalScrollIndicator="NO" autoresizesSubviews="YES" misplaced="YES">
                                 <rect key="frame" x="29" y="70" width="262" height="230"/>
                                 <color key="backgroundColor" colorSpace="calibratedRGB" red="0" green="0" blue="0" alpha="0"/>
-                                <fontDescription key="fontDescription" name="TimesNewRomanPS-BoldItalicMT" family="Times New Roman" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -197,13 +197,39 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <searchBar contentMode="redraw" fixedFrame="YES" id="3377" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Search">
+                            <searchBar contentMode="redraw" id="3377" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Search">
                                 <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="You have 77 alumni in 3 specializations" lineBreakMode="tailTruncation" minimumFontSize="10" id="3384" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" textAlignment="center">
+                                <rect key="frame" x="0.0" y="110" width="235" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="14"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Project Management" lineBreakMode="tailTruncation" minimumFontSize="10" id="3402" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                <rect key="frame" x="0.0" y="134" width="319" height="21"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="3377" firstAttribute="trailing" secondItem="1164" secondAttribute="trailing" constant="0.0" id="3385"/>
+                            <constraint firstItem="3377" firstAttribute="leading" secondItem="1164" secondAttribute="leading" constant="0.0" id="3386"/>
+                            <constraint firstItem="3377" firstAttribute="top" secondItem="1160" secondAttribute="bottom" constant="0.0" id="3388"/>
+                            <constraint firstItem="3384" firstAttribute="top" secondItem="3377" secondAttribute="bottom" constant="0.0" id="3389"/>
+                            <constraint firstItem="3384" firstAttribute="width" secondItem="3377" secondAttribute="width" id="3391"/>
+                            <constraint firstItem="3384" firstAttribute="bottom" secondItem="3402" secondAttribute="top" constant="1" id="3403"/>
+                            <constraint firstItem="3402" firstAttribute="width" secondItem="3377" secondAttribute="width" id="3404"/>
+                        </constraints>
                     </view>
                     <navigationItem title="Contractors" id="1719" key="navigationItem"/>
+                    <connections>
+                        <outlet property="summaryLabel" destination="3384" id="name-outlet-3384"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
