@@ -106,7 +106,7 @@
                         <outlet property="password" destination="9" id="name-outlet-9"/>
                         <outlet property="resetPassword" destination="18" id="name-outlet-18"/>
                         <outlet property="loginActivityIndicator" destination="22" id="name-outlet-22"/>
-                        <segue id="369" destination="31" kind="modal" identifier="eulaSegue"/>
+                        <segue id="369" destination="31" kind="modal" identifier="eulaSegue" modalTransitionStyle="flipHorizontal"/>
                         <segue id="1539" destination="151" kind="modal" identifier="alumniSegue"/>
                     </connections>
                 </viewController>
@@ -163,7 +163,7 @@
                     <connections>
                         <outlet property="eulaText" destination="40" id="name-outlet-40"/>
                         <outlet property="agree" destination="41" id="name-outlet-41"/>
-                        <segue id="1661" destination="151" kind="modal" identifier="alumniSegue"/>
+                        <segue id="1661" destination="151" kind="modal" identifier="alumniSegue" modalTransitionStyle="coverVertical"/>
                     </connections>
                     <extendedEdge key="edgesForExtendedLayout"/>
                 </viewController>
@@ -196,8 +196,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" fixedFrame="YES" id="3377" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Search">
+                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                        </subviews>
                     </view>
-                    <navigationItem title="Title" id="1719" key="navigationItem"/>
+                    <navigationItem title="Contractors" id="1719" key="navigationItem"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
