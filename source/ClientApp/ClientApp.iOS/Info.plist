@@ -43,7 +43,7 @@
 		<string>Icon-Small.png</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>MainStoryboard.storyboard</string>
+	<string>LaunchScreen.storyboard</string>
 	<key>CFBundleShortVersionString</key>
 	<string></string>
 	<key>UIMainStoryboardFile</key>

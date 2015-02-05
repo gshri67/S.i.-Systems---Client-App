@@ -18,9 +18,12 @@
                         <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
-                                <rect key="frame" x="210" y="313" width="78" height="30"/>
+                                <rect key="frame" x="215" y="321" width="78" height="30"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <size key="titleShadowOffset" width="0" height="0"/>
                                 <state key="normal" title="Sign In">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 </state>
                                 <connections>
                                     <action selector="login_TouchUpInside:" destination="vXZ-lx-hvc" id="208" eventType="touchUpInside"/>
@@ -39,26 +42,27 @@
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Username" lineBreakMode="tailTruncation" minimumFontSize="10" id="10" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                 <rect key="frame" x="33" y="131" width="169" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Password" lineBreakMode="tailTruncation" minimumFontSize="10" id="11" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" minimumFontSize="10" id="11" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" text="Password">
                                 <rect key="frame" x="33" y="236" width="169" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Welcome to S.i." lineBreakMode="tailTruncation" minimumFontSize="10" id="17" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                 <rect key="frame" x="33" y="56" width="255" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="18" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                 <rect key="frame" x="146" y="530" width="143" height="30"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                 <state key="normal" title="Reset Password">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -66,26 +70,34 @@
                                     <action selector="resetPassword_TouchUpInside:" destination="vXZ-lx-hvc" id="279" eventType="touchUpInside"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22" hidesWhenStopped="YES" userInteractionEnabled="NO" hidden="YES">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="22" hidesWhenStopped="YES" userInteractionEnabled="NO" hidden="YES" misplaced="YES">
                                 <rect key="frame" x="142" y="313" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="8" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="32" id="937"/>
-                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="29" id="938"/>
-                            <constraint firstItem="8" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" constant="1" id="941"/>
-                            <constraint firstItem="8" firstAttribute="top" secondItem="10" secondAttribute="bottom" constant="21" id="942"/>
-                            <constraint firstItem="11" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="29" id="943"/>
-                            <constraint firstItem="10" firstAttribute="top" secondItem="17" secondAttribute="centerY" constant="61" id="946"/>
                             <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="10" secondAttribute="trailing" constant="112" id="947"/>
-                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" constant="112" id="948"/>
-                            <constraint firstItem="9" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="17" id="950"/>
-                            <constraint firstItem="5" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="7" id="951"/>
-                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="18" secondAttribute="trailing" constant="29" id="954"/>
-                            <constraint firstItem="kh9-bI-dsS" firstAttribute="bottom" secondItem="18" secondAttribute="bottom" constant="7" id="956"/>
-                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="29" id="957"/>
-                            <constraint firstItem="9" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="32" id="958"/>
-                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="5" secondAttribute="trailing" constant="28" id="961"/>
+                            <constraint firstItem="10" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="23" id="981"/>
+                            <constraint firstItem="17" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="40" id="984"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="17" secondAttribute="trailing" constant="22" id="985"/>
+                            <constraint firstItem="17" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="23" id="986"/>
+                            <constraint firstItem="10" firstAttribute="top" secondItem="17" secondAttribute="bottom" constant="37" id="987"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="21" id="988"/>
+                            <constraint firstItem="8" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="23" id="989"/>
+                            <constraint firstItem="8" firstAttribute="top" secondItem="10" secondAttribute="bottom" constant="16" id="990"/>
+                            <constraint firstItem="11" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="23" id="991"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" constant="82" id="992"/>
+                            <constraint firstItem="11" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="21" id="993"/>
+                            <constraint firstItem="9" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="23" id="994"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="21" id="995"/>
+                            <constraint firstItem="9" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="12" id="996"/>
+                            <constraint firstItem="5" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="11" id="997"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="5" secondAttribute="trailing" constant="18" id="998"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="bottom" secondItem="18" secondAttribute="bottom" constant="5" id="1000"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="18" secondAttribute="trailing" constant="21" id="1001"/>
+                            <constraint firstItem="22" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="98" id="1144"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="bottom" secondItem="22" secondAttribute="bottom" constant="151" id="1145"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="22" secondAttribute="trailing" constant="98" id="1146"/>
+                            <constraint firstItem="22" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="218" id="1148"/>
                         </constraints>
                     </view>
                     <connections>
@@ -95,7 +107,7 @@
                         <outlet property="resetPassword" destination="18" id="name-outlet-18"/>
                         <outlet property="loginActivityIndicator" destination="22" id="name-outlet-22"/>
                         <segue id="369" destination="31" kind="push" identifier="eulaPushSegue"/>
-                        <segue id="560" destination="286" kind="push" identifier="alumniPushSegue"/>
+                        <segue id="1290" destination="1163" kind="push" identifier="alumniPushSegue"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -111,25 +123,25 @@
                     <view key="view" contentMode="scaleToFill" id="32">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
+                        <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Welcome to S.i." lineBreakMode="tailTruncation" minimumFontSize="10" id="38" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
-                                <rect key="frame" x="23" y="50" width="275" height="21"/>
+                                <rect key="frame" x="29" y="19" width="275" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="40" translatesAutoresizingMaskIntoConstraints="NO" editable="NO" selectable="NO" fixedFrame="YES" showsHorizontalScrollIndicator="NO" autoresizesSubviews="YES">
-                                <rect key="frame" x="20" y="125" width="280" height="238"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="40" translatesAutoresizingMaskIntoConstraints="NO" editable="NO" selectable="NO" showsHorizontalScrollIndicator="NO" autoresizesSubviews="YES" misplaced="YES">
+                                <rect key="frame" x="29" y="70" width="262" height="230"/>
                                 <color key="backgroundColor" colorSpace="calibratedRGB" red="0" green="0" blue="0" alpha="0"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="TimesNewRomanPS-BoldItalicMT" family="Times New Roman" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
+                                <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="41" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="212" y="371" width="74" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="41" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                <rect key="frame" x="239" y="334" width="74" height="30"/>
                                 <state key="normal" title="I Agree">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -139,25 +151,30 @@
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="38" firstAttribute="top" secondItem="32" secondAttribute="top" constant="44" id="973"/>
-                            <constraint firstItem="38" firstAttribute="leading" secondItem="32" secondAttribute="leading" constant="20" id="974"/>
+                            <constraint firstItem="38" firstAttribute="top" secondItem="32" secondAttribute="top" constant="13" id="1006"/>
+                            <constraint firstItem="38" firstAttribute="leading" secondItem="32" secondAttribute="leading" constant="20" id="1007"/>
+                            <constraint firstItem="40" firstAttribute="top" secondItem="38" secondAttribute="bottom" constant="20" id="1009"/>
+                            <constraint firstItem="40" firstAttribute="leading" secondItem="32" secondAttribute="leading" constant="20" id="1010"/>
+                            <constraint firstItem="32" firstAttribute="trailing" secondItem="40" secondAttribute="trailing" constant="20" id="1011"/>
+                            <constraint firstItem="41" firstAttribute="top" secondItem="40" secondAttribute="bottom" constant="20" id="1017" placeholder="YES"/>
+                            <constraint firstItem="32" firstAttribute="trailing" secondItem="41" secondAttribute="trailing" constant="20" id="1018"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="eulaText" destination="40" id="name-outlet-40"/>
-                        <segue id="901" destination="286" kind="push" identifier="alumniPushSegue"/>
                         <outlet property="agree" destination="41" id="name-outlet-41"/>
+                        <segue id="1346" destination="1163" kind="push" identifier="alumniPushSegue"/>
                     </connections>
                     <extendedEdge key="edgesForExtendedLayout"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="33" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="510" y="675"/>
+            <point key="canvasLocation" x="509" y="335"/>
         </scene>
         <scene sceneID="150">
             <objects>
                 <navigationController definesPresentationContext="YES" id="151" sceneMemberID="viewController" navigationBarHidden="NO" toolbarHidden="YES" hidesBarsOnTap="NO">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="154">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="154" translucent="YES">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
                     <connections>
@@ -168,33 +185,22 @@
             </objects>
             <point key="canvasLocation" x="-465" y="6"/>
         </scene>
-        <scene sceneID="285">
+        <scene sceneID="1162">
             <objects>
-                <tableViewController id="286" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="287">
+                <viewController id="1163" sceneMemberID="viewController" customClass="ContractorViewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1160"/>
+                        <viewControllerLayoutGuide type="bottom" id="1161"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1164">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="290">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="290" id="291">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="286" id="288"/>
-                            <outlet property="delegate" destination="286" id="289"/>
-                        </connections>
-                    </tableView>
-                    <connections/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="292" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="659" y="7"/>
+            <point key="canvasLocation" x="1186" y="16"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
