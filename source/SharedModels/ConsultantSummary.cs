@@ -13,19 +13,21 @@ namespace SiSystems.ClientApp.SharedModels
         public string FullName { get { return FirstName + " " + LastName; } }
         
         //Is this going to come from a contract??
-        public string MostRecentContractStartDate { get; set; }
-        public string MostRecentContractEndDate { get; set; }
+        public DateTime MostRecentContractStartDate { get; set; }
+        public DateTime MostRecentContractEndDate { get; set; }
 
         public int MostRecentContractRating { get; set; }
         public Decimal MostRecentContractRate { get; set; }
         
-        public ConsultantSummary(Consultant contractor)
+        public ConsultantSummary(Consultant contractor, string specializationName)
         {
             Id = contractor.Id;
             FirstName = contractor.FirstName;
             LastName = contractor.LastName;
 
-            var mostRecentContract = contractor.Contracts.OrderByDescending(c => c.EndDate).FirstOrDefault();
+            var mostRecentContract = contractor.Contracts
+                .Where(c=>c.SpecializationName==specializationName)
+                .OrderByDescending(c => c.EndDate).FirstOrDefault();
 
             if (mostRecentContract != null)
             {

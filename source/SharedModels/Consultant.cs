@@ -12,10 +12,10 @@ namespace SiSystems.ClientApp.SharedModels
 
         public string FullName { get { return FirstName + " " + LastName; } }
         
-        public IEnumerable<Specialization> Specializations { get; set; }
+        public IList<Specialization> Specializations { get; set; }
 
         public Resume Resume { get; set; }
-        public IEnumerable<Contract> Contracts { get; set; }
+        public IList<Contract> Contracts { get; set; }
 
         public Consultant()
         {
