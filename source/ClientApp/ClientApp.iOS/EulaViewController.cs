@@ -47,7 +47,6 @@ namespace ClientApp.iOS
 	        if (CurrentEula != null)
 	        {
                 eulaText.Text = _eula.Text;
-                eulaText.TextColor = UIColor.White;
 	        }
 	    }
 	}

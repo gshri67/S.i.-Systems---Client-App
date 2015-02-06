@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using ClientApp.Services.Interfaces;
+using Newtonsoft.Json;
 using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.Services
 {
     public class EulaService : IEulaService
     {
-        public Task<Eula> GetMostRecentEula()
+        private readonly IConnectionService _connection;
+
+        public EulaService(IConnectionService connection)
         {
-            //TODO connect to webservice and make call
-            return Task.FromResult(new Eula {PublishedDate = DateTime.Now, Text = "This is a test Eula", Version = 1});
+            _connection = connection;
+        }
+
+        public async Task<Eula> GetMostRecentEula()
+        {
+            var json = await _connection.Get("Eula");
+            var eula = JsonConvert.DeserializeObject<Eula>(json);
+            return eula;
         }
     }
 }

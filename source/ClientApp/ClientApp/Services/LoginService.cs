@@ -16,12 +16,9 @@ namespace ClientApp.Services
             _connection = connection;
         }
 
-        public async Task<ValidationResult> LoginAsync(string username, string password)
+        public Task<ValidationResult> LoginAsync(string username, string password)
         {
-            var result = await _connection.Login(username, password);
-            return result
-                ? new ValidationResult(true)
-                : new ValidationResult(false, "The username or password is incorrect");
+            return _connection.Login(username, password);
         }
     }
 }
