@@ -82,7 +82,10 @@ Write-Output "Building Solution"
 
 #Build Web Project
 MSBuildNet40 'source\Web\Web.csproj' @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunCodeAnalysis=true')
+
+#Build Databases
 MSBuildNet40 'source\Database\Database.csproj' @('/m', '/t:Build', '/p:Configuration=Release')
+MSBuildNet40 'source\ClientAppDb\ClientAppDb.csproj' @('/m', '/t:Build', '/p:Configuration=Release')
 
 #Build All Included Test Projects (any *.Tests.csproj)
 $testProjectFiles = Get-ChildItem -r *.Tests.csproj
