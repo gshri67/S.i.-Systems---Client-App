@@ -104,6 +104,7 @@
     <Compile Include="ContractorViewController.designer.cs">
       <DependentUpon>ContractorViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ContractsTableViewSource.cs" />
     <Compile Include="EulaViewController.cs" />
     <Compile Include="EulaViewController.designer.cs">
       <DependentUpon>EulaViewController.cs</DependentUpon>

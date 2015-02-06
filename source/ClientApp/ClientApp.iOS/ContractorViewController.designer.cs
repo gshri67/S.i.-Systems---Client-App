@@ -16,10 +16,18 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITableView SpecializationTable { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel summaryLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (SpecializationTable != null) {
+				SpecializationTable.Dispose ();
+				SpecializationTable = null;
+			}
 			if (summaryLabel != null) {
 				summaryLabel.Dispose ();
 				summaryLabel = null;
