@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Dapper;
 using SiSystems.ClientApp.SharedModels;
 
@@ -56,9 +55,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                     },
                     new
                     {
-                        AgreementType = ContractAgreementType, AgreementSubType = ContractAgreementSubType_FloThru,
-                        CompanyId=clientId, Query="%"+query+"%"
-                    },splitOn:"ConsultantId");
+                        AgreementType = ContractAgreementType, 
+                        AgreementSubType = ContractAgreementSubType_FloThru,
+                        CompanyId=clientId, 
+                        Query="%"+query+"%"
+                    },
+                    splitOn:"ConsultantId");
 
                 //filter out people that have current contracts
                 //ie. not alumni
@@ -66,59 +68,27 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                     .Where(c=> !c.Contracts.Any(contract=>contract.EndDate>DateTime.UtcNow));
 
 
-                //group results by contract specialization
-                var groups = new Dictionary<string, ConsultantGroup>();
-
-                foreach (var consultant in matchingConsultants)
-                {
-                    foreach (var specializationName in consultant.Contracts.Select(c=>c.SpecializationName).Distinct())
-                    {
-                        if (!groups.ContainsKey(specializationName))
-                        {
-                            groups.Add(specializationName, new ConsultantGroup { Specialization = specializationName });
-                        }
-                        var group = groups[specializationName];
-                        group.Consultants.Add(new ConsultantSummary(consultant, specializationName));
-                    }
-                }
-                return groups.Select(g => g.Value).OrderBy(g => g.Specialization);
+                return GroupConsultantsByContractSpecialization(matchingConsultants);
             }
         }
 
-        public IEnumerable<ConsultantGroup> FindAlumniMock(string query, int clientId)
+        private static IEnumerable<ConsultantGroup> GroupConsultantsByContractSpecialization(IEnumerable<Consultant> matchingConsultants)
         {
-            var matchingConsultants = ConsultantMockData.Contractors
-                .Where(FilterByNameAndSpecialization(query, clientId));
-
             var groups = new Dictionary<string, ConsultantGroup>();
 
             foreach (var consultant in matchingConsultants)
             {
-                foreach (var specialization in consultant.Specializations)
+                foreach (var specializationName in consultant.Contracts.Select(c => c.SpecializationName).Distinct())
                 {
-                    if (!groups.ContainsKey(specialization.Name))
+                    if (!groups.ContainsKey(specializationName))
                     {
-                        groups.Add(specialization.Name, new ConsultantGroup{Specialization=specialization.Name});       
+                        groups.Add(specializationName, new ConsultantGroup {Specialization = specializationName});
                     }
-                    var group = groups[specialization.Name];
-                    group.Consultants.Add(new ConsultantSummary(consultant, specialization.Name));
+                    var group = groups[specializationName];
+                    @group.Consultants.Add(new ConsultantSummary(consultant, specializationName));
                 }
             }
-            return groups.Select(g=>g.Value).OrderBy(g=>g.Specialization);
+            return groups.Select(g => g.Value).OrderBy(g => g.Specialization);
         }
-
-        private Expression<Func<Consultant, bool>> FilterByNameAndSpecialization(string query, int clientId)
-        {
-            var invariantQuery = query.ToLowerInvariant();
-
-            return x =>
-                x.Contracts.Any(c=>c.ClientId==clientId)
-                &&
-                (x.FirstName.ToLowerInvariant().Contains(invariantQuery)
-                || x.LastName.ToLowerInvariant().Contains(invariantQuery)
-                || (x.FirstName.ToLowerInvariant() + " " + x.LastName.ToLowerInvariant()).Contains(invariantQuery)
-                || x.Specializations.Any(s=>s.Name.ToLowerInvariant().Contains(invariantQuery)));
-        }
-
     }
 }
