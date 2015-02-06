@@ -18,16 +18,18 @@ namespace SiSystems.ClientApp.SharedModels
 
         public int MostRecentContractRating { get; set; }
         public Decimal MostRecentContractRate { get; set; }
-        
-        public ConsultantSummary(Consultant contractor, string specializationName)
+
+        public ConsultantSummary(Consultant contractor, string specializationName=null)
         {
             Id = contractor.Id;
             FirstName = contractor.FirstName;
             LastName = contractor.LastName;
 
-            var mostRecentContract = contractor.Contracts
-                .Where(c=>c.SpecializationName==specializationName)
-                .OrderByDescending(c => c.EndDate).FirstOrDefault();
+            var contracts = contractor.Contracts.AsEnumerable();
+            if (specializationName != null)
+                contracts = contracts.Where(c => c.SpecializationName == specializationName);
+                
+            var mostRecentContract=contracts.OrderByDescending(c => c.EndDate).FirstOrDefault();
 
             if (mostRecentContract != null)
             {
