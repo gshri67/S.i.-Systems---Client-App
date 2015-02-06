@@ -19,7 +19,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 
         public IEnumerable<ConsultantGroup> FindAlumni(string query, int clientId)
         {
-            using (var db = new DatabaseContext())
+            using (var db = new DatabaseContext(DatabaseSelect.ClientApp))
             {
                 //TODO: Verify Assumptions
                 // Date & Inactive Column Usage
