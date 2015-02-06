@@ -15,7 +15,7 @@ namespace ClientApp.Services
         private const string _baseAddr = "http://clientapi.local:50021/";
 
         //TODO store this somewhere else, save to device
-        private static string _token;
+        private static OAuthToken _token;
 
         public async Task<ValidationResult> Login(string username, string password)
         {
@@ -50,8 +50,8 @@ namespace ClientApp.Services
                     json = new StreamReader(responseStream).ReadToEnd();
                 }
                 
-                var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(json);
-                _token = tokenResponse.AccessToken;
+                var token = JsonConvert.DeserializeObject<OAuthToken>(json);
+                _token = token;
                 return new ValidationResult(true);
             }
             catch (Exception)
@@ -62,17 +62,16 @@ namespace ClientApp.Services
 
         public async Task<string> Get(string service)
         {
-            //TODO make more better
             var request = WebRequest.Create(String.Format("{0}api/{1}", _baseAddr, service));
             request.Method = "GET";
             request.ContentType = "application/json";
 
-            if (string.IsNullOrEmpty(_token))
+            if (_token == null)
             {
                 //TODO make better
                 throw new Exception("No Token");
             }
-            request.Headers.Add("Authorization", String.Format("Bearer {0}", _token));
+            request.Headers.Add("Authorization", String.Format("Bearer {0}", _token.AccessToken));
 
 
             try
@@ -93,13 +92,45 @@ namespace ClientApp.Services
             }
         }
 
-        public Task<string> Post(string service, object data)
+        public async Task<string> Post(string service, object data)
         {
-           //TODO Make Post with data and return result
-            throw new NotImplementedException();
+            var request = WebRequest.Create(String.Format("{0}api/{1}", _baseAddr, service));
+            request.Method = "POST";
+            request.ContentType = "application/json";
+
+            if (_token == null)
+            {
+                //TODO make better
+                throw new Exception("No Token");
+            }
+            request.Headers.Add("Authorization", String.Format("Bearer {0}", _token.AccessToken));
+
+            var dataString = JsonConvert.SerializeObject(data);
+            var bytes = Encoding.UTF8.GetBytes(dataString);
+            try
+            {
+                using (var requestStream = await request.GetRequestStreamAsync())
+                {
+                    requestStream.Write(bytes, 0, bytes.Length);
+                }
+            
+                var httpResponse = (HttpWebResponse)(await request.GetResponseAsync());
+                string json;
+                using (var responseStream = httpResponse.GetResponseStream())
+                {
+                    json = new StreamReader(responseStream).ReadToEnd();
+                }
+                return json;
+            }
+            catch (Exception ex)
+            {
+                //TODO handle difference between connection interupted and token expired
+                //Log that credentials are bad.  Maybe throw exception that forces client back to login screen?
+                throw;
+            }
         }
 
-        private class TokenResponse
+        private class OAuthToken
         {
             [JsonProperty("access_token")]
             public string AccessToken { get; set; }
