@@ -14,7 +14,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 
         public User Find(int id)
         {
-            using (var db = new DatabaseContext())
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query = UserQueryBase
                                     + "AND [Users].[UserId] = @Id";
@@ -25,7 +25,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 
         public User FindByName(string username)
         {
-            using (var db = new DatabaseContext())
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query = UserQueryBase
                                     + "AND [User_Login].[Login] = @Username";
