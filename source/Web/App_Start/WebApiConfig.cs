@@ -22,10 +22,10 @@ namespace SiSystems.ClientApp.Web
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-
-            // Enforce HTTPS
-            //config.Filters.Add(new Filters.RequireHttpsAttribute());
+            
+            if(!Settings.AllowInsecureConnections)
+                config.Filters.Add(new Filters.RequireHttpsAttribute());
+            
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
