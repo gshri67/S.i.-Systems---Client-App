@@ -28,7 +28,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 //TODO: Verify Assumptions
                 // Date & Inactive Column Usage
                 // StatusType column --- should we be filtering based on some value?
-                // Are there cases where Rate is NULL? Should we include those? Test DB Has some.
                 string contractQuery = @"SELECT DISTINCT U.UserID Id, U.FirstName, U.LastName, "
                                              + "A.CandidateID ConsultantId, A.CompanyID ClientId, "
                                              + "A.StartDate, A.EndDate, CRD.BillRate Rate, S.Name SpecializationName "

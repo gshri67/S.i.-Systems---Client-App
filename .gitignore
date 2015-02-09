@@ -200,3 +200,4 @@ FakesAssemblies/
 
 # Web generated content
 */Web/App_Data/*
+source/**/*.ncrunch*
