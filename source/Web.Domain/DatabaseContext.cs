@@ -15,7 +15,7 @@ namespace SiSystems.ClientApp.Web.Domain
     {
         private const string MatchGuideConnectionStringConfigPropertyName = "MatchGuideDb";
         private const string ClientAppConnectionStringConfigPropertyName = "ClientAppDb";
-        private DatabaseSelect _type;
+        private readonly DatabaseSelect _type;
 
         public DatabaseContext(DatabaseSelect type)
         {
@@ -30,6 +30,7 @@ namespace SiSystems.ClientApp.Web.Domain
             var propName = type == DatabaseSelect.MatchGuide
                 ? MatchGuideConnectionStringConfigPropertyName
                 : ClientAppConnectionStringConfigPropertyName;
+
             return new SqlConnection(ConfigurationManager.ConnectionStrings[propName].ConnectionString);
         }
 
