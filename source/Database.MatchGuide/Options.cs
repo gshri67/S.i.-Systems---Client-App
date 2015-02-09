@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommandLine;
+﻿using CommandLine;
 using CommandLine.Text;
 
-namespace SiSystems.ClientApp.Database
+namespace SiSystems.ClientApp.Database.MatchGuide
 {
     class Options
     {

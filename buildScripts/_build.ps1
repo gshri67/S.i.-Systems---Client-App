@@ -84,7 +84,7 @@ Write-Output "Building Solution"
 MSBuildNet40 'source\Web\Web.csproj' @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunCodeAnalysis=true')
 
 #Build Databases
-MSBuildNet40 'source\Database\Database.csproj' @('/m', '/t:Build', '/p:Configuration=Release')
+MSBuildNet40 'source\Database.MatchGuide\Database.MatchGuide.csproj' @('/m', '/t:Build', '/p:Configuration=Release')
 MSBuildNet40 'source\ClientAppDb\ClientAppDb.csproj' @('/m', '/t:Build', '/p:Configuration=Release')
 
 #Build All Included Test Projects (any *.Tests.csproj)

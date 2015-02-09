@@ -4,9 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using DbUp;
-using DbUp.Helpers;
 
-namespace SiSystems.ClientApp.Database
+namespace SiSystems.ClientApp.Database.MatchGuide
 {
     class Program
     {
