@@ -8,23 +8,28 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
     public class ConsultantRepository
     {
-        private const int ContractAgreementType = 459;//TODO: Verify
-        private const int ContractAgreementSubType_FloThru = 172;//TODO: Verify
 
         public Consultant Find(int id)
         {
             return ConsultantMockData.Contractors.SingleOrDefault(c => c.Id == id);
         }
 
+        /// <summary>
+        /// Find alumni consultant candidates for a specific client.
+        /// Does not include candidates that have current active or pending contracts with the specifed client.
+        /// </summary>
+        /// <param name="query">Text to search for in candidate name or contract specialization.</param>
+        /// <param name="clientId">Client company ID that alumni must have worked for in the past.</param>
+        /// <returns>A list of consultants, grouped by specialization.</returns>
         public IEnumerable<ConsultantGroup> FindAlumni(string query, int clientId)
         {
-            using (var db = new DatabaseContext(DatabaseSelect.ClientApp))
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 //TODO: Verify Assumptions
                 // Date & Inactive Column Usage
                 // StatusType column --- should we be filtering based on some value?
                 // Are there cases where Rate is NULL? Should we include those? Test DB Has some.
-                const string contractQuery = @"SELECT DISTINCT U.UserID Id, U.FirstName, U.LastName, "
+                string contractQuery = @"SELECT DISTINCT U.UserID Id, U.FirstName, U.LastName, "
                                              + "A.CandidateID ConsultantId, A.CompanyID ClientId, "
                                              + "A.StartDate, A.EndDate, CRD.BillRate Rate, S.Name SpecializationName "
                                              + "FROM [Users] AS U, [Agreement] AS A, "
@@ -38,37 +43,42 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              + "AND A.CompanyID=@CompanyId "
                                              + "AND A.Inactive = 0 "
                                              + "AND ( (U.FirstName+' '+U.LastName) LIKE @Query "
-                                             + "OR S.Name LIKE @Query) ";
+                                             + "OR S.Name LIKE @Query) "
+                                            //Filter CandidateIDs with active or pending contracts with client
+                                             + "AND U.UserID NOT IN ("
+                                             + "SELECT A.CandidateID FROM [Agreement] AS A "
+                                             + "WHERE A.CompanyID=@CompanyID "
+                                             + "AND A.AgreementType=@AgreementType AND A.AgreementSubType=@AgreementSubType "
+                                             + "AND (A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Active + " "
+                                             + "OR A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Pending + ") "
+                                             + "AND A.EndDate > @Today "
+                                             + "AND A.Inactive = 0 "
+                                             + ")";
 
                 //query and map contracts to consultants
-                var lookup = new Dictionary<int, Consultant>();
+                var consultantLookup = new Dictionary<int, Consultant>();
                 db.Connection.Query<Consultant, Contract, Consultant>(contractQuery,
                     (c, contract) =>
                     {
                         Consultant consultant;
-                        if (!lookup.TryGetValue(c.Id, out consultant))
+                        if (!consultantLookup.TryGetValue(c.Id, out consultant))
                         {
-                            lookup.Add(c.Id, consultant = c);
+                            consultantLookup.Add(c.Id, consultant = c);
                         }
                         consultant.Contracts.Add(contract);
                         return consultant;
                     },
                     new
                     {
-                        AgreementType = ContractAgreementType, 
-                        AgreementSubType = ContractAgreementSubType_FloThru,
-                        CompanyId=clientId, 
-                        Query="%"+query+"%"
+                        AgreementType = MatchGuideConstants.AgreementTypes.Contract,
+                        AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
+                        CompanyId = clientId,
+                        Today = DateTime.UtcNow, //TODO: Verify date/timezone
+                        Query = "%" + query + "%"
                     },
-                    splitOn:"ConsultantId");
+                    splitOn: "ConsultantId");
 
-                //filter out people that have current contracts
-                //ie. not alumni
-                var matchingConsultants = lookup.Values
-                    .Where(c=> !c.Contracts.Any(contract=>contract.EndDate>DateTime.UtcNow));
-
-
-                return GroupConsultantsByContractSpecialization(matchingConsultants);
+                return GroupConsultantsByContractSpecialization(consultantLookup.Values);
             }
         }
 
@@ -82,7 +92,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 {
                     if (!groups.ContainsKey(specializationName))
                     {
-                        groups.Add(specializationName, new ConsultantGroup {Specialization = specializationName});
+                        groups.Add(specializationName, new ConsultantGroup { Specialization = specializationName });
                     }
                     var group = groups[specializationName];
                     @group.Consultants.Add(new ConsultantSummary(consultant, specializationName));
