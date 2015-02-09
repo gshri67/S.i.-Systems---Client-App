@@ -25,9 +25,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                //TODO: Verify Assumptions
-                // Date & Inactive Column Usage
-                // StatusType column --- should we be filtering based on some value?
                 string contractQuery = @"SELECT DISTINCT U.UserID Id, U.FirstName, U.LastName, "
                                              + "A.CandidateID ConsultantId, A.CompanyID ClientId, "
                                              + "A.StartDate, A.EndDate, CRD.BillRate Rate, S.Name SpecializationName "
@@ -39,7 +36,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              + "AND A.AgreementID=CRD.AgreementID "
                                              + "AND CD.SpecializationID=S.SpecializationID "
                                              //Only FloThru contracts
-                                             + "AND A.AgreementType=@AgreementType AND A.AgreementSubType=@AgreementSubType "
+                                             + "AND A.AgreementType=" + MatchGuideConstants.AgreementTypes.Contract + " "
+                                             + "AND A.AgreementSubType=" + MatchGuideConstants.AgreementSubTypes.FloThru + " "
                                              //That are between the candidate and the client
                                              + "AND A.CompanyID=@CompanyId "
                                              + "AND A.Inactive = 0 "
@@ -48,13 +46,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              + "OR S.Name LIKE @Query) "
                                             //Filter CandidateIDs with active or pending contracts with client
                                              + "AND U.UserID NOT IN ("
-                                             + "SELECT A.CandidateID FROM [Agreement] AS A "
-                                             + "WHERE A.CompanyID=@CompanyID "
-                                             + "AND A.AgreementType=@AgreementType AND A.AgreementSubType=@AgreementSubType "
-                                             + "AND (A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Active + " "
-                                             + "OR A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Pending + ") "
-                                             + "AND A.EndDate > @Today "
-                                             + "AND A.Inactive = 0 "
+                                                 + "SELECT A.CandidateID FROM [Agreement] AS A "
+                                                 + "WHERE A.CompanyID=@CompanyID "
+                                                 + "AND A.AgreementType=" + MatchGuideConstants.AgreementTypes.Contract+" "
+                                                 + "AND A.AgreementSubType=" + MatchGuideConstants.AgreementSubTypes.FloThru + " "
+                                                 + "AND (A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Active + " "
+                                                 + "OR A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Pending + ") "
+                                                 + "AND A.EndDate > @Today "
+                                                 + "AND A.Inactive = 0 "
                                              + ")";
 
                 //query and map contracts to consultants
@@ -72,10 +71,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                     },
                     new
                     {
-                        AgreementType = MatchGuideConstants.AgreementTypes.Contract,
-                        AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
                         CompanyId = clientId,
-                        Today = DateTime.UtcNow, //TODO: Verify date/timezone
+                        Today = DateTime.UtcNow,
                         Query = "%" + query + "%"
                     },
                     splitOn: "ConsultantId");
