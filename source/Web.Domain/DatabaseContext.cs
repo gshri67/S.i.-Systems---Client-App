@@ -13,7 +13,7 @@ namespace SiSystems.ClientApp.Web.Domain
 
     public class DatabaseContext: IDisposable
     {
-        private const string MatchGuideConnectionStringConfigPropertyName = "ApplicationDb";
+        private const string MatchGuideConnectionStringConfigPropertyName = "MatchGuideDb";
         private const string ClientAppConnectionStringConfigPropertyName = "ClientAppDb";
         private DatabaseSelect _type;
 
