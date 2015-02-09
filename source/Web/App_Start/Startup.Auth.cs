@@ -4,7 +4,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using SiSystems.ClientApp.Web.App_Start;
 using SiSystems.ClientApp.Web.Providers;
 
 namespace SiSystems.ClientApp.Web
@@ -34,7 +33,7 @@ namespace SiSystems.ClientApp.Web
                 TokenEndpointPath = new PathString("/api/Login"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-                AllowInsecureHttp = true
+                AllowInsecureHttp = Settings.AllowInsecureConnections
             };
 
             // Enable the application to use bearer tokens to authenticate users

@@ -9,7 +9,9 @@ namespace SiSystems.ClientApp.Web
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            //filters.Add(new RequireHttpsAttribute());
+
+            if(!Settings.AllowInsecureConnections)
+                filters.Add(new RequireHttpsAttribute());
         }
 
         public static void RegisterHttpFilters(HttpFilterCollection filters)
