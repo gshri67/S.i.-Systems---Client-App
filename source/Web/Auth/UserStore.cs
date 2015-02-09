@@ -43,6 +43,20 @@ namespace SiSystems.ClientApp.Web.Auth
             });
         }
 
+        public Task<ApplicationUser> FindByIdAsync(string userId)
+        {
+            return Task.Run(() =>
+            {
+                int id;
+                int.TryParse(userId, out id);
+
+                var user = _userService.Find(id);
+                return user != null 
+                    ? new ApplicationUser(user)
+                    : null;
+            });
+        }
+
         public void Dispose()
         {
 
@@ -59,10 +73,6 @@ namespace SiSystems.ClientApp.Web.Auth
             throw new NotImplementedException();
         }
 
-        public Task<ApplicationUser> FindByIdAsync(string userId)
-        {
-            throw new NotImplementedException();
-        }
         public Task UpdateAsync(ApplicationUser user)
         {
             throw new NotImplementedException();
