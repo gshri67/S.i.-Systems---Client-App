@@ -50,8 +50,8 @@ write-host "Building solution (../buildScripts/_build.ps1)" -foreground "cyan"
 & ../buildScripts/_build.ps1
 write-host
 
-write-host "Running database upgrade tool (../source/Database/bin/Release/SiSystems.ClientApp.Database.exe --create --upgrade)" -foreground "cyan"
-& ../source/Database/bin/Release/SiSystems.ClientApp.Database.exe --create --upgrade
+write-host "Running database upgrade tool (../source/Database/bin/Release/SiSystems.ClientApp.Database.MatchGuide.exe --create --upgrade)" -foreground "cyan"
+& ../source/Database.MatchGuide/bin/Release/SiSystems.ClientApp.Database.MatchGuide.exe --create --upgrade
 
 write-host "Running ClientApp database upgrade tool (../source/Database/bin/Release/SiSystems.ClientApp.ClientAppDb.exe --create --upgrade)" -foreground "cyan"
 & ../source/ClientAppDb/bin/Release/SiSystems.ClientApp.ClientAppDb.exe --create --upgrade

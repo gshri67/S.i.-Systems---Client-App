@@ -32,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{379BD5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedModels", "SharedModels\SharedModels.csproj", "{A274548B-6CCA-4841-B167-21625D1179B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{45A8B130-57BC-41C6-8A99-8070CEEB5007}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.MatchGuide", "Database.MatchGuide\Database.MatchGuide.csproj", "{45A8B130-57BC-41C6-8A99-8070CEEB5007}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dev.Environment", "Dev.Environment", "{4CB39707-4DEF-4F69-969B-E8D5312FA464}"
 	ProjectSection(SolutionItems) = preProject
