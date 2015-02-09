@@ -85,7 +85,7 @@ MSBuildNet40 'source\Web\Web.csproj' @('/m', '/t:Build', '/p:Configuration=Relea
 
 #Build Databases
 MSBuildNet40 'source\Database.MatchGuide\Database.MatchGuide.csproj' @('/m', '/t:Build', '/p:Configuration=Release')
-MSBuildNet40 'source\ClientAppDb\ClientAppDb.csproj' @('/m', '/t:Build', '/p:Configuration=Release')
+MSBuildNet40 'source\Database.ClientApp\Database.ClientApp.csproj' @('/m', '/t:Build', '/p:Configuration=Release')
 
 #Build All Included Test Projects (any *.Tests.csproj)
 $testProjectFiles = Get-ChildItem -r *.Tests.csproj

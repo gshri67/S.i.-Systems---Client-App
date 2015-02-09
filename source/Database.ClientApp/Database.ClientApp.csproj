@@ -7,8 +7,8 @@
     <ProjectGuid>{09C5A0D6-F5B0-4AB1-99B0-87DC3839A62B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SiSystems.ClientApp.ClientAppDb</RootNamespace>
-    <AssemblyName>SiSystems.ClientApp.ClientAppDb</AssemblyName>
+    <RootNamespace>SiSystems.ClientApp.Database.ClientApp</RootNamespace>
+    <AssemblyName>SiSystems.ClientApp.Database.ClientApp</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
