@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using SiSystems.ClientApp.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Controllers
 {
@@ -11,9 +10,12 @@ namespace SiSystems.ClientApp.Web.Controllers
         }
 
 
-        public ActionResult Login()
+        public ActionResult AuthTest()
         {
-            return View();
+            if(HttpContext.IsDebuggingEnabled)
+                return View();
+    
+            return RedirectToAction("Index");
         }
     }
 }
