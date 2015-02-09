@@ -51,10 +51,10 @@ write-host "Building solution (../buildScripts/_build.ps1)" -foreground "cyan"
 write-host
 
 write-host "Running database upgrade tool (../source/Database/bin/Release/SiSystems.ClientApp.Database.MatchGuide.exe --create --upgrade)" -foreground "cyan"
-& ../source/Database.MatchGuide/bin/Release/SiSystems.ClientApp.Database.MatchGuide.exe --create --upgrade
+& ../source/Database.MatchGuide/bin/Release/SiSystems.ClientApp.Database.MatchGuide.exe --destroy --create --upgrade
 
 write-host "Running ClientApp database upgrade tool (../source/Database/bin/Release/SiSystems.ClientApp.Database.ClientApp.exe --create --upgrade)" -foreground "cyan"
-& ../source/Database.ClientApp/bin/Release/SiSystems.ClientApp.Database.ClientApp.exe --create --upgrade
+& ../source/Database.ClientApp/bin/Release/SiSystems.ClientApp.Database.ClientApp.exe --destroy --create --upgrade
 
 popd
 
