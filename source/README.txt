@@ -1,5 +1,13 @@
+Databases.ClientApp
+---------------------
+This database will be hosted in Azure and stores information needed solely by the Client App.
+- EULA
+- Email communication mapping
 
-The Database project here is a simplification of the actual MatchGuide database.
+
+Database.MatchGuide (DEV Environment + repository unit tests)
+---------------------
+The MatchGuide Database project here is a simplification of the actual MatchGuide database.
 
 Scripts included create only the tables and columns that are used by our application up to this point.
 
