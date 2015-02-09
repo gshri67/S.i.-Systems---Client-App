@@ -8,10 +8,10 @@ using NUnit.Framework;
 namespace SiSystems.ClientApp.Web.Domain.Tests
 {
     [TestFixture]
-    public class PlaceholderTests
+    public class ConsultantRepositoryTests
     {
         [Test]
-        public void PointlessTest()
+        public void FindAlumni_Query_ResultNamesOrSpecializationShouldContainQueryText()
         {
             Assert.IsTrue(true);
         }
