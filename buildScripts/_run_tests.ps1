@@ -16,7 +16,7 @@ mkdir -f $testPath
 
 $opencoverCommand = "..\OpenCover.4.5.3427\OpenCover.Console.exe"
 $nunitCommand = "..\NUnit.Runners.2.6.3\tools\nunit-console-x86.exe"
-$nunitArgs = "/xml:..\nunitResults.xml /framework:net-4.0 /exclude:Integration"
+$nunitArgs = "/xml:..\nunitResults.xml /framework:net-4.0 /exclude:Database"
 
 Get-ChildItem -Recurse -Include *.Tests.dll source\ |
     Where { $_.FullName -notlike "*\obj\*" } |
