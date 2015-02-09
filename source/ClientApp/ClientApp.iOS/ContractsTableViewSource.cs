@@ -24,17 +24,29 @@ namespace ClientApp.iOS
             _consultantGroups = consultantGroups.ToList();
         }
 
+        private string BuildDetailText(ConsultantGroup consultantGroup)
+        {
+            var description = string.Format("{0} Alumni", consultantGroup.Consultants.Count);
+
+            return description;
+        }
+
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             // if there are no cells to reuse, create a new one
             var cell = tableView.DequeueReusableCell(CellIdentifier) ??
                        new UITableViewCell(UITableViewCellStyle.Default, CellIdentifier);
 
+            SetCellLabels(indexPath, cell);
+
+            return cell;
+        }
+
+        private void SetCellLabels(NSIndexPath indexPath, UITableViewCell cell)
+        {
             //assign the visual aspects of the cell
             cell.TextLabel.Text = _consultantGroups[indexPath.Row].Specialization;
-
-            //return the new or reused cell
-            return cell;
+            cell.DetailTextLabel.Text = BuildDetailText(_consultantGroups[indexPath.Row]);
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
