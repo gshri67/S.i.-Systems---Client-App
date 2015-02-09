@@ -25,9 +25,11 @@ namespace SiSystems.ClientApp.Web.Filters
 
                 if (request.Method == HttpMethod.Get || request.Method == HttpMethod.Head)
                 {
-                    var uri = new UriBuilder(request.RequestUri);
-                    uri.Scheme = Uri.UriSchemeHttps;
-                    uri.Port = this.Port;
+                    var uri = new UriBuilder(request.RequestUri)
+                    {
+                        Scheme = Uri.UriSchemeHttps, 
+                        Port = Port
+                    };
 
                     response.StatusCode = HttpStatusCode.Found;
                     response.Headers.Location = uri.Uri;

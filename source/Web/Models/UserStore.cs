@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using SiSystems.ClientApp.Web.Domain;
 

@@ -1,11 +1,12 @@
 using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity.Mvc;
+using SiSystems.ClientApp.Web;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(SiSystems.ClientApp.Web.App_Start.UnityWebActivator), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(SiSystems.ClientApp.Web.App_Start.UnityWebActivator), "Shutdown")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UnityWebActivator), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(UnityWebActivator), "Shutdown")]
 
-namespace SiSystems.ClientApp.Web.App_Start
+namespace SiSystems.ClientApp.Web
 {
     /// <summary>Provides the bootstrapping for integrating Unity with ASP.NET MVC.</summary>
     public static class UnityWebActivator
@@ -20,7 +21,6 @@ namespace SiSystems.ClientApp.Web.App_Start
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
 
-            // TODO: Uncomment if you want to use PerRequestLifetimeManager
             Microsoft.Web.Infrastructure.DynamicModuleHelper.DynamicModuleUtility.RegisterModule(typeof(UnityPerRequestHttpModule));
         }
 

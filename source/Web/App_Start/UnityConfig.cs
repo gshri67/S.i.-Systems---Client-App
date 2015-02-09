@@ -3,7 +3,7 @@ using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.Web.Domain;
 using SiSystems.ClientApp.Web.Models;
 
-namespace SiSystems.ClientApp.Web.App_Start
+namespace SiSystems.ClientApp.Web
 {
     /// <summary>
     /// Specifies the Unity configuration for the main container.
