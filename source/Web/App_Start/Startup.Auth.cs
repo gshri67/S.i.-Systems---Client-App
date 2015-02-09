@@ -4,7 +4,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using SiSystems.ClientApp.Web.Providers;
+using SiSystems.ClientApp.Web.Auth;
 
 namespace SiSystems.ClientApp.Web
 {

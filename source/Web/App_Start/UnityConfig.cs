@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Practices.Unity;
+using SiSystems.ClientApp.Web.Auth;
 using SiSystems.ClientApp.Web.Domain;
-using SiSystems.ClientApp.Web.Models;
 
 namespace SiSystems.ClientApp.Web
 {

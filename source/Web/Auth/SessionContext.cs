@@ -3,7 +3,7 @@ using Microsoft.AspNet.Identity;
 using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain;
 
-namespace SiSystems.ClientApp.Web.Models
+namespace SiSystems.ClientApp.Web.Auth
 {
     public class SessionContext: ISessionContext
     {

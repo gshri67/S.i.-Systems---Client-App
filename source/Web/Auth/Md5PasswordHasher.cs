@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNet.Identity;
 
-namespace SiSystems.ClientApp.Web.Providers
+namespace SiSystems.ClientApp.Web.Auth
 {
     public class Md5PasswordHasher: PasswordHasher
     {

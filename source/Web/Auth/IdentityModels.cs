@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using SiSystems.ClientApp.SharedModels;
 
-namespace SiSystems.ClientApp.Web.Models
+namespace SiSystems.ClientApp.Web.Auth
 {
     public class ApplicationUser : IUser
     {

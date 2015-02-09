@@ -2,8 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using SiSystems.ClientApp.Web.Models;
-using SiSystems.ClientApp.Web.Providers;
+using SiSystems.ClientApp.Web.Auth;
 
 namespace SiSystems.ClientApp.Web
 {
