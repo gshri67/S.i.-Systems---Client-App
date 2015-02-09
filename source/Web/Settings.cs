@@ -8,5 +8,12 @@ namespace SiSystems.ClientApp.Web
         {
             get { return bool.Parse(ConfigurationManager.AppSettings["AllowInsecureHttp"]); }
         }
+
+        public static int TokenExpiryInDays
+        {
+            get { return int.Parse(ConfigurationManager.AppSettings["Auth.TokenExpiryInDays"]); }
+        }
+
+        public static string LoginTokenEndpoint = "/api/Login";
     }
 }

@@ -30,9 +30,9 @@ namespace SiSystems.ClientApp.Web
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
-                TokenEndpointPath = new PathString("/api/Login"),
+                TokenEndpointPath = new PathString(Settings.LoginTokenEndpoint),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(Settings.TokenExpiryInDays),
                 AllowInsecureHttp = Settings.AllowInsecureConnections
             };
 
