@@ -5,7 +5,7 @@ using Microsoft.Owin;
 using SiSystems.ClientApp.Web.Models;
 using SiSystems.ClientApp.Web.Providers;
 
-namespace SiSystems.ClientApp.Web.App_Start
+namespace SiSystems.ClientApp.Web
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
@@ -20,7 +20,6 @@ namespace SiSystems.ClientApp.Web.App_Start
 
             var manager = new ApplicationUserManager(userStore)
             {
-                //TODO: Replace this with a real password hasher that matches S.i. Systems' method.
                 PasswordHasher = new Md5PasswordHasher()
             };
 
