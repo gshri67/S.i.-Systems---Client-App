@@ -15,8 +15,12 @@ namespace ClientApp.iOS
 
         private const string CellIdentifier = "ConsultantGroupCell";
 
-        public ContractsTableViewSource(IEnumerable<ConsultantGroup> consultantGroups)
+        private readonly ContractorViewController _parentController;
+
+        public ContractsTableViewSource(ContractorViewController parentController, IEnumerable<ConsultantGroup> consultantGroups)
         {
+            _parentController = parentController;
+
             _consultantGroups = consultantGroups.ToList();
         }
 
@@ -36,6 +40,14 @@ namespace ClientApp.iOS
         public override nint RowsInSection(UITableView tableview, nint section)
         {
             return _consultantGroups.Count;
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            //normal iOS behaviour is to remove the selection
+            tableView.DeselectRow(indexPath, true);
+
+            _parentController.PerformSegue("ConsultantGroupSelected", indexPath);
         }
     }
 }

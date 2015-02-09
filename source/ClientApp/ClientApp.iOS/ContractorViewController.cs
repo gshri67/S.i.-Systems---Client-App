@@ -30,7 +30,7 @@ namespace ClientApp.iOS
             var consultantGroups = GetConsultantGroups();
 
             //set the source for our table's data
-            SpecializationTable.Source = new ContractsTableViewSource(consultantGroups);
+            SpecializationTable.Source = new ContractsTableViewSource(this, consultantGroups);
         }
 
         public override void ViewDidAppear(bool animated)
@@ -38,9 +38,23 @@ namespace ClientApp.iOS
             base.ViewDidAppear(animated);
         }
 
-	    private IEnumerable<ConsultantGroup> GetConsultantGroups()
-	    {
-	        return new List<ConsultantGroup>
+	    public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+        }
+
+        public override void ViewDidDisappear(bool animated)
+        {
+            base.ViewDidDisappear(animated);
+        }
+
+        #endregion
+
+
+
+        private IEnumerable<ConsultantGroup> GetConsultantGroups()
+        {
+            return new List<ConsultantGroup>
 	        {
 	            new ConsultantGroup()
 	            {
@@ -109,18 +123,6 @@ namespace ClientApp.iOS
                     }
 	            }
 	        };
-	    }
-
-	    public override void ViewWillDisappear(bool animated)
-        {
-            base.ViewWillDisappear(animated);
         }
-
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
-        }
-
-        #endregion
 	}
 }
