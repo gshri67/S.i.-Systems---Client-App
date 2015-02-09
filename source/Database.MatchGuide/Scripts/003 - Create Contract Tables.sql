@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[Agreement](
 	--[CreateDate] [datetime] NOT NULL CONSTRAINT [DF_Agreements_CreateDate]  DEFAULT (getdate()),
 	--[UpdateUserID] [int] NULL,
 	--[UpdateDate] [datetime] NULL,
-	--[StatusType] [int] NOT NULL,
+	[StatusType] [int] NOT NULL,
 	[StartDate] [datetime] NULL,
 	[EndDate] [datetime] NULL,
 	--[LockAccount] [bit] NULL CONSTRAINT [DF_Agreement_LockAccount]  DEFAULT (0),

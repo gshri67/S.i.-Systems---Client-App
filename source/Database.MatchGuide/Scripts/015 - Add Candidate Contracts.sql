@@ -9,12 +9,13 @@ INSERT INTO [dbo].[Agreement](
 	[CandidateID],
 	[CompanyID],
 	[ContactID],
+	[StatusType],
 	[StartDate],
 	[EndDate]
 )
 VALUES
 (
-	1, 459, 172, 10, 1,  1, '2013-12-11', '2014-1-1'
+	1, 459, 172, 10, 1,  1, 575, '2013-12-11', '2014-1-1'
 );
 INSERT INTO [dbo].[Agreement](
 	[AgreementID],
@@ -23,12 +24,13 @@ INSERT INTO [dbo].[Agreement](
 	[CandidateID],
 	[CompanyID],
 	[ContactID],
+	[StatusType],
 	[StartDate],
 	[EndDate]
 )
 VALUES
 (
-	2, 459, 172, 10, 1,  1, '2012-12-11', '2013-12-10'
+	2, 459, 172, 10, 1,  1, 575, '2012-12-11', '2013-12-10'
 );
 
 SET IDENTITY_INSERT [dbo].[Agreement] OFF;
