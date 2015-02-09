@@ -13,6 +13,9 @@ namespace ClientApp.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
+        //5b5b5c in styleguide
+        private static readonly UIColor NavBarTextColor = UIColor.FromRGB(91, 91, 92);
+
         //override to allow us to use the storyboard
         public override UIWindow Window
         {
@@ -31,7 +34,20 @@ namespace ClientApp.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new ClientApp.App());
 
+            SetNavbarStyle();
+
             return base.FinishedLaunching(app, options);
+        }
+
+        private static void SetNavbarStyle()
+        {
+            UINavigationBar.Appearance.TintColor = NavBarTextColor;
+
+            UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes
+            {
+                Font = UIFont.FromName("TimesNewRomanPSMT", 20),
+                TextColor = NavBarTextColor
+            });
         }
     }
 }

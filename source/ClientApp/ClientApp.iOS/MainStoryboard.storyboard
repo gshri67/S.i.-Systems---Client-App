@@ -174,7 +174,7 @@
         </scene>
         <scene sceneID="150">
             <objects>
-                <navigationController definesPresentationContext="YES" id="151" sceneMemberID="viewController" navigationBarHidden="NO" toolbarHidden="YES" hidesBarsOnTap="NO" customClass="CustomNavigationController">
+                <navigationController definesPresentationContext="YES" id="151" sceneMemberID="viewController" navigationBarHidden="NO" toolbarHidden="YES" hidesBarsOnTap="NO">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="154" translucent="YES">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
