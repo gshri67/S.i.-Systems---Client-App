@@ -42,9 +42,13 @@ namespace ClientApp.iOS
             var token = GetDeviceToken();
             if (token == null) return;
 
-            //TODO Hide everything or display overlay that says something like "Attempting to log in using existing credentials"
             username.Enabled = false;
+            username.Text = token.Username;
+            username.BackgroundColor = UIColor.LightGray;
             password.Enabled = false;
+            password.Text = "aaaaaaaa";
+            password.BackgroundColor = UIColor.LightGray;
+            login.Enabled = false;
             loginActivityIndicator.StartAnimating();
 
             _loginModel.SetAuthToken(token);
@@ -126,8 +130,13 @@ namespace ClientApp.iOS
             {
                 //Authentication failed
                 username.Enabled = true;
+                username.BackgroundColor = UIColor.White;
                 password.Enabled = true;
+                password.Text = "";
+                password.BackgroundColor = UIColor.White;
+                login.Enabled = true;
                 loginActivityIndicator.StopAnimating();
+                return;
             }
 
             var storageString = NSUserDefaults.StandardUserDefaults.StringForKey("eulaVersions");
