@@ -105,6 +105,14 @@
       <DependentUpon>ContractorViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ContractsTableViewSource.cs" />
+    <Compile Include="CustomNavigationController.cs" />
+    <Compile Include="CustomNavigationController.designer.cs">
+      <DependentUpon>CustomNavigationController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisciplineViewController.cs" />
+    <Compile Include="DisciplineViewController.designer.cs">
+      <DependentUpon>DisciplineViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="EulaViewController.cs" />
     <Compile Include="EulaViewController.designer.cs">
       <DependentUpon>EulaViewController.cs</DependentUpon>
