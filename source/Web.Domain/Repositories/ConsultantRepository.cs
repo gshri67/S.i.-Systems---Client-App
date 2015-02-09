@@ -38,9 +38,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              + "AND A.AgreementID=CD.AgreementID "
                                              + "AND A.AgreementID=CRD.AgreementID "
                                              + "AND CD.SpecializationID=S.SpecializationID "
+                                             //Only FloThru contracts
                                              + "AND A.AgreementType=@AgreementType AND A.AgreementSubType=@AgreementSubType "
+                                             //That are between the candidate and the client
                                              + "AND A.CompanyID=@CompanyId "
                                              + "AND A.Inactive = 0 "
+                                             //Text query used to match on full name or contract specialization name
                                              + "AND ( (U.FirstName+' '+U.LastName) LIKE @Query "
                                              + "OR S.Name LIKE @Query) "
                                             //Filter CandidateIDs with active or pending contracts with client
