@@ -15,6 +15,7 @@ namespace ClientApp.ViewModels
         private readonly ILoginService _loginService;
         private readonly IEulaService _eulaService;
         public Dictionary<string, int> EulaVersions { get; private set; }
+        public string UserName { get; set; }
 
         public LoginViewModel(ILoginService loginService, IEulaService eulaService)
         {
@@ -45,9 +46,14 @@ namespace ClientApp.ViewModels
             return new ValidationResult(true);
         }
 
-        public Task<ValidationResult> LoginAsync(string username, string password)
+        public async Task<ValidationResult> LoginAsync(string username, string password)
         {
-            return _loginService.LoginAsync(username, password);
+            var result = await _loginService.LoginAsync(username, password);
+            if (result.IsValid)
+            {
+                UserName = username;
+            }
+            return result;
         }
 
         public Task<Eula> GetCurrentEulaAsync()
@@ -76,6 +82,16 @@ namespace ClientApp.ViewModels
                 }
             }
             return false;
+        }
+
+        public void SetAuthToken(OAuthToken token)
+        {
+            _loginService.SetAuthToken(token);
+        }
+
+        public OAuthToken GetAuthToken()
+        {
+            return _loginService.GetAuthToken();
         }
     }
 }

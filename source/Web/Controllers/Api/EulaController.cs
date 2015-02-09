@@ -13,6 +13,7 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
             _service = service;
         }
 
+        [Authorize]
         public HttpResponseMessage Get()
         {
             return Request.CreateResponse(HttpStatusCode.OK, _service.GetMostRecentEula());

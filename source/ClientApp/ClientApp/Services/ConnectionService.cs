@@ -49,9 +49,17 @@ namespace ClientApp.Services
                 {
                     json = new StreamReader(responseStream).ReadToEnd();
                 }
-                
-                var token = JsonConvert.DeserializeObject<OAuthToken>(json);
-                _token = token;
+
+                var token = JsonConvert.DeserializeObject<OAuthJsonToken>(json);
+                _token = new OAuthToken
+                         {
+                             AccessToken = token.AccessToken,
+                             ExpiresAt = token.ExpiresAt,
+                             ExpiresIn = token.ExpiresIn,
+                             IssuedAt = token.IssuedAt,
+                             TokenType = token.TokenType,
+                             Username =  token.Username
+                         };
                 return new ValidationResult(true);
             }
             catch (Exception)
@@ -130,7 +138,13 @@ namespace ClientApp.Services
             }
         }
 
-        private class OAuthToken
+        public OAuthToken Token
+        {
+            get { return _token; }
+            set { _token = value; }
+        }
+
+        private class OAuthJsonToken
         {
             [JsonProperty("access_token")]
             public string AccessToken { get; set; }

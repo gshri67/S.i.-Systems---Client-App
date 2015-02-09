@@ -20,5 +20,15 @@ namespace ClientApp.Services
         {
             return _connection.Login(username, password);
         }
+
+        public OAuthToken GetAuthToken()
+        {
+            return _connection.Token;
+        }
+
+        public void SetAuthToken(OAuthToken token)
+        {
+            _connection.Token = token;
+        }
     }
 }

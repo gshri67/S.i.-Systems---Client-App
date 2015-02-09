@@ -9,5 +9,7 @@ namespace ClientApp.Services.Interfaces
     public interface ILoginService
     {
         Task<ValidationResult> LoginAsync(string username, string password);
+        OAuthToken GetAuthToken();
+        void SetAuthToken(OAuthToken token);
     }
 }

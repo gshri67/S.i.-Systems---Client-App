@@ -1,7 +1,10 @@
 using System;
+using System.Net;
 using ClientApp.ViewModels;
 using Foundation;
 using Microsoft.Practices.Unity;
+using Newtonsoft.Json;
+using Security;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
@@ -36,7 +39,16 @@ namespace ClientApp.iOS
         {
             base.ViewDidLoad();
 
-            // Perform any additional setup after loading the view, typically from a nib.
+            var token = GetDeviceToken();
+            if (token == null) return;
+
+            //TODO Hide everything or display overlay that says something like "Attempting to log in using existing credentials"
+            username.Enabled = false;
+            password.Enabled = false;
+            loginActivityIndicator.StartAnimating();
+
+            _loginModel.SetAuthToken(token);
+            CheckEulaService(token.Username);
         }
 
         public override void ViewWillAppear(bool animated)
@@ -88,6 +100,7 @@ namespace ClientApp.iOS
             {
                 if (task.Result.IsValid)
                 {
+                    SaveToken(_loginModel.GetAuthToken());
                     CheckEulaService(userName);
                 }
                 else
@@ -105,7 +118,17 @@ namespace ClientApp.iOS
 
         private async void CheckEulaService(string userName)
         {
-            _eula = await _loginModel.GetCurrentEulaAsync();
+            try
+            {
+                _eula = await _loginModel.GetCurrentEulaAsync();
+            }
+            catch (WebException)
+            {
+                //Authentication failed
+                username.Enabled = true;
+                password.Enabled = true;
+                loginActivityIndicator.StopAnimating();
+            }
 
             var storageString = NSUserDefaults.StandardUserDefaults.StringForKey("eulaVersions");
             var hasReadEula = _loginModel.UserHasReadLatestEula(userName, _eula.Version, storageString);
@@ -137,6 +160,55 @@ namespace ClientApp.iOS
                     var view = new UIAlertView("Oops", message, null, "Ok");
                     view.Show();
                 });
+        }
+
+        private void SaveToken(OAuthToken token)
+        {
+            var json = JsonConvert.SerializeObject(token);
+            var existingRecord = new SecRecord(SecKind.GenericPassword)
+            {
+                Service = "SiSystemsClientApp",
+                Label = "Certificate",
+            };
+            var newRecord = new SecRecord(SecKind.GenericPassword)
+            {
+                Service = "SiSystemsClientApp",
+                Label = "Certificate",
+                Account = _loginModel.UserName,
+                ValueData = NSData.FromString(json),
+                Accessible = SecAccessible.AlwaysThisDeviceOnly
+            };
+            
+            var addCode = SecKeyChain.Add(newRecord);
+            if (addCode == SecStatusCode.DuplicateItem)
+            {
+                var remCode = SecKeyChain.Remove(existingRecord);
+                if (remCode == SecStatusCode.Success)
+                {
+                    var addCode2 = SecKeyChain.Add(newRecord);
+                }
+            }
+        }
+
+        private OAuthToken GetDeviceToken()
+        {
+            var existingRecord = new SecRecord(SecKind.GenericPassword)
+            {
+                Label = "Certificate",
+                Service = "SiSystemsClientApp"
+            };
+
+            SecStatusCode resultCode;
+            var data = SecKeyChain.QueryAsRecord(existingRecord, out resultCode);
+
+            if (resultCode == SecStatusCode.Success)
+            {
+                var json = NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
+                var token = JsonConvert.DeserializeObject<OAuthToken>(json);
+                _loginModel.UserName = token.Username;
+                return token;
+            }
+            return null;
         }
     }
 }
