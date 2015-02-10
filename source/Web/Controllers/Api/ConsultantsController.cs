@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -23,10 +24,18 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, alumniContractorGroups);
         }
 
+        [Route("Alumni/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var consultant = _service.Find(id);
-            return Request.CreateResponse(HttpStatusCode.OK, consultant);
+            try
+            {
+                var consultant = _service.Find(id);
+                return Request.CreateResponse(HttpStatusCode.OK, consultant);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, ex);
+            }
         }
     }
 }

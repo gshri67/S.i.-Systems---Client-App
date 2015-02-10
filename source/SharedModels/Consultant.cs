@@ -13,9 +13,10 @@ namespace SiSystems.ClientApp.SharedModels
 
         public int? Rating { get; set; }
         
+        public string ResumeText { get; set; }
+
         public IList<Specialization> Specializations { get; set; }
 
-        public Resume Resume { get; set; }
         public IList<Contract> Contracts { get; set; }
 
         public Consultant()

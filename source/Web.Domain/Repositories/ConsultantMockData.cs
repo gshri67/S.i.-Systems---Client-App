@@ -57,7 +57,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 FirstName = "Giacomo", LastName = "Guilizzoni",
                 Rating = MatchGuideConstants.ResumeRating.AboveStandard,
                 Specializations = new List<Specialization>{PmSpecialization}, 
-                Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(12345, 1) }
+                ResumeText = AResume.Text, Contracts = new List<Contract>{ CreateMockContract(12345, 1) }
             },
             new Consultant
             {
@@ -65,7 +65,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 FirstName = "Bobby", LastName = "Ichnamius",
                 Rating = MatchGuideConstants.ResumeRating.Standard,
                 Specializations = new List<Specialization>{PmSpecialization}, 
-                Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(23456, 1) }
+                ResumeText = AResume.Text, Contracts = new List<Contract>{ CreateMockContract(23456, 1) }
             },
             new Consultant
             {
@@ -73,7 +73,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 FirstName = "Rob", LastName = "Richardson",
                 Rating = MatchGuideConstants.ResumeRating.NotChecked,
                 Specializations = new List<Specialization>{SwDevSpecialization}, 
-                Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(34567, 1) }
+                ResumeText = AResume.Text, Contracts = new List<Contract>{ CreateMockContract(34567, 1) }
             },
             new Consultant
             {
@@ -81,7 +81,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 FirstName = "Ronald", LastName = "Herzl",
                 Rating = MatchGuideConstants.ResumeRating.AlsoNotChecked,
                 Specializations = new List<Specialization>{SwDevSpecialization, PmSpecialization}, 
-                Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(45678, 1) }
+                ResumeText = AResume.Text, Contracts = new List<Contract>{ CreateMockContract(45678, 1) }
             },
             new Consultant
             {
@@ -89,7 +89,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 FirstName = "Tim", LastName = "Thompson",
                 Rating = MatchGuideConstants.ResumeRating.BelowStandard,
                 Specializations = new List<Specialization>{SwDevSpecialization}, 
-                Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(34567, 1) }
+                ResumeText = AResume.Text, Contracts = new List<Contract>{ CreateMockContract(34567, 1) }
             }
         }.AsQueryable();
     }

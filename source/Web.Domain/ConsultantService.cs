@@ -26,7 +26,15 @@ namespace SiSystems.ClientApp.Web.Domain
         public Consultant Find(int id)
         {
             var consultant = _repository.Find(id);
-            if (consultant!=null && !consultant.Contracts.Any(c=>c.ClientId == _sessionContext.CurrentUser.ClientId))
+
+            //filter out any contracts that the current user shouldn't see
+            if (consultant != null)
+            {
+                consultant.Contracts =
+                    consultant.Contracts.Where(c => c.ClientId == _sessionContext.CurrentUser.ClientId).ToList();
+            }
+            
+            if (consultant!=null && !consultant.Contracts.Any())
                 throw new UnauthorizedAccessException();
             
             return consultant;
