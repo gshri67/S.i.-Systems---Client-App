@@ -10,7 +10,7 @@ namespace SiSystems.ClientApp.Web.Controllers
         }
 
 
-        public ActionResult AuthTest()
+        public ActionResult ApiTest()
         {
             if(HttpContext.IsDebuggingEnabled)
                 return View();

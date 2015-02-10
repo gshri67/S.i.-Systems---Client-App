@@ -1,0 +1,186 @@
+﻿@using SiSystems.ClientApp.Web
+@{
+    ViewBag.Title = "API Test Page";
+}
+<style type="text/css">
+    pre {
+        margin-top: 15px;
+    }
+
+    .needs-auth {
+        opacity: 0.2;
+    }
+    #error {
+        position: fixed;
+        top: 50px;
+    }
+</style>
+<div id="error" style="background: #b90707; color: white; padding: 10px; display: none;"></div>
+<div class="row">
+    <h3>Authenticate</h3>
+    <form id="loginForm" class="col-sm-12">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label for="username" class="control-label col-md-2">Email Address:</label>
+                <div class="col-md-10">
+                    <input id="username" type="text" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="username" class="control-label col-md-2">Password:</label>
+                <div class="col-md-10">
+                    <input id="password" type="password" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <input type="submit" value="Authenticate" class="btn btn-success pull-right" />
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <pre id="token">
+        </pre>
+    </form>
+</div>
+<div class="row needs-auth">
+    <h3>Alumni Search</h3>
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input id="searchText" type="text" class="form-control" placeholder="Enter an alumni name or specialization (ex. 'Bill' or 'Project Management')" />
+            <div class="input-group-btn">
+                <button id="searchButton" type="button" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+        <pre id="searchResults">
+        </pre>
+    </div>
+</div>
+
+<div class="row needs-auth">
+    <h3>Consultant Details</h3>
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input id="consultantId" type="text" class="form-control" placeholder="Enter a consultant ID (hint: find one in the search first)" />
+            <div class="input-group-btn">
+                <button id="getDetailsButton" type="button" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+        <pre id="detailResults">
+        </pre>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        (function () {
+
+            $('#username').val('bob.smith@email.com');
+            $('#password').val('password');
+
+            function showError(jqXHR) {
+                $('#error').text(jqXHR.status + ': ' + jqXHR.statusText).show();
+            }
+
+            function clearError() {
+                $('#error').text('').hide();
+            }
+
+            function formatObject(obj) {
+                return JSON.stringify(obj, null, 4);
+                //.replace(/,"/g, ',<br/>    ')
+                //.replace(/\{/g, '{<br/>    ')
+                //.replace(/\}/g, '<br/>}');
+            }
+
+            var page = {
+                token: null,
+                login: function () {
+                    clearError();
+
+                    var loginData = {
+                        grant_type: 'password',
+                        username: $('#username').val(),
+                        password: $('#password').val()
+                    };
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@(Settings.LoginTokenEndpoint)',
+                        data: loginData
+                    }).done(function (data) {
+                        page.token = data.access_token;
+
+                        $('#token').html(formatObject(data));
+                        $('.needs-auth').removeClass('needs-auth');
+                        //self.user(data.userName);
+                        // Cache the access token in session storage.
+                        //sessionStorage.setItem(tokenKey, data.access_token);
+                    }).fail(showError);
+                },
+                search: function () {
+                    clearError();
+                    $('#searchResults').html('Searching..');
+                    var query = $('#searchText').val();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/consultants/alumni/?query=' + query,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        $('#searchResults').html(formatObject(data));
+                    }).fail(showError);
+                },
+                getDetails: function () {
+                    clearError();
+
+                    $('#detailResults').html('Fetching..');
+                    var id = $('#consultantId').val();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/consultants/alumni/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        $('#detailResults').html(formatObject(data));
+                    }).fail(showError);
+                }
+            };
+
+            $('#loginForm').submit(function (e) {
+                page.login();
+                e.preventDefault();
+            });
+
+            $('#searchButton').click(page.search);
+            $('#getDetailsButton').click(page.getDetails);
+
+            $('#username, #password').on('keydown', function (e) {
+                if (e.keyCode == 13) {
+                    page.login();
+                }
+            });
+
+            $('#searchText').on('keydown', function (e) {
+                if (e.keyCode == 13) {
+                    page.search();
+                }
+            });
+            $('#consultantId').on('keydown', function (e) {
+                if (e.keyCode == 13) {
+                    page.getDetails();
+                }
+            });
+        }());
+    </script>
+}
