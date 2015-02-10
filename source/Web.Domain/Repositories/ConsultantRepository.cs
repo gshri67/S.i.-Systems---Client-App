@@ -6,7 +6,21 @@ using SiSystems.ClientApp.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
-    public class ConsultantRepository
+    public interface IConsultantRepository
+    {
+        Consultant Find(int id);
+
+        /// <summary>
+        /// Find alumni consultant candidates for a specific client.
+        /// Does not include candidates that have current active or pending contracts with the specifed client.
+        /// </summary>
+        /// <param name="query">Text to search for in candidate name or contract specialization.</param>
+        /// <param name="clientId">Client company ID that alumni must have worked for in the past.</param>
+        /// <returns>A list of consultants, grouped by specialization.</returns>
+        IEnumerable<ConsultantGroup> FindAlumni(string query, int clientId);
+    }
+
+    public class ConsultantRepository : IConsultantRepository
     {
         public Consultant Find(int id)
         {
