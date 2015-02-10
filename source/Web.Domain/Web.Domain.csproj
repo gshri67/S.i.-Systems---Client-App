@@ -54,7 +54,6 @@
     <Compile Include="Repositories\ConsultantRepository.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="Repositories\EulaRepository.cs" />
-    <Compile Include="Repositories\MatchGuideConstants.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

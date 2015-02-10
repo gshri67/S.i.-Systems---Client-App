@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SiSystems.ClientApp.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Repositories
@@ -31,7 +29,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 StartDate = ToFormattedDate(new DateTime(2011, 11, 4)),
                 EndDate = ToFormattedDate(new DateTime(2012, 11, 4)),
                 Rate = 120,
-                Rating = 3,
                 Contact = new Contact
                 {
                     FirstName = "Chris",
@@ -58,6 +55,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             {
                 Id = 12345, 
                 FirstName = "Giacomo", LastName = "Guilizzoni",
+                Rating = MatchGuideConstants.ResumeRating.AboveStandard,
                 Specializations = new List<Specialization>{PmSpecialization}, 
                 Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(12345, 1) }
             },
@@ -65,6 +63,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             {
                 Id = 23456,
                 FirstName = "Bobby", LastName = "Ichnamius",
+                Rating = MatchGuideConstants.ResumeRating.Standard,
                 Specializations = new List<Specialization>{PmSpecialization}, 
                 Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(23456, 1) }
             },
@@ -72,6 +71,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             {
                 Id = 34567, 
                 FirstName = "Rob", LastName = "Richardson",
+                Rating = MatchGuideConstants.ResumeRating.NotChecked,
                 Specializations = new List<Specialization>{SwDevSpecialization}, 
                 Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(34567, 1) }
             },
@@ -79,6 +79,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             {
                 Id = 45678, 
                 FirstName = "Ronald", LastName = "Herzl",
+                Rating = MatchGuideConstants.ResumeRating.AlsoNotChecked,
                 Specializations = new List<Specialization>{SwDevSpecialization, PmSpecialization}, 
                 Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(45678, 1) }
             },
@@ -86,6 +87,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             {
                 Id = 34567, 
                 FirstName = "Tim", LastName = "Thompson",
+                Rating = MatchGuideConstants.ResumeRating.BelowStandard,
                 Specializations = new List<Specialization>{SwDevSpecialization}, 
                 Resume = AResume, Contracts = new List<Contract>{ CreateMockContract(34567, 1) }
             }

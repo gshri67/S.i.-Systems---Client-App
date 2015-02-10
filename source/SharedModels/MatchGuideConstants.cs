@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SiSystems.ClientApp.Web.Domain.Repositories
+﻿namespace SiSystems.ClientApp.SharedModels
 {
     public class MatchGuideConstants
     {
@@ -30,6 +24,20 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             public const int Cancelled = 574;
             public const int Expired = 575;
             public const int Pending = 576;
+        }
+
+        public class ResumeRating
+        {
+            public const int AboveStandard = 314;
+            public const int Standard = 315;
+            public const int BelowStandard = 316;
+
+            public const int NotChecked = 317;
+            
+            ///this value appears as a default in the database
+            ///but normally is used as a lookup for User Type = 'Contact'
+            ///consider this equivalent to NotChecked
+            public const int AlsoNotChecked = 5;
         }
     }
 }
