@@ -132,8 +132,11 @@ namespace ClientApp.iOS
             var storageString = NSUserDefaults.StandardUserDefaults.StringForKey("eulaVersions");
             var hasReadEula = _loginModel.UserHasReadLatestEula(userName, _eula.Version, storageString);
 
-            NSOperationQueue.MainQueue.AddOperation(
-                () => { PerformSegue(hasReadEula ? "alumniSegue" : "eulaSegue", this); });
+
+            InvokeOnMainThread(delegate
+            {
+                PerformSegue(hasReadEula ? "alumniSegue" : "eulaSegue", this);
+            });
 
         }
 
