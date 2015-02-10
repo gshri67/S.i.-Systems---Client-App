@@ -53,11 +53,12 @@ SET IDENTITY_INSERT [dbo].[Agreement_ContractRateDetail] OFF;
 
 INSERT INTO [dbo].[Agreement_ContractDetail](
 	[AgreementID],
+	[JobTitle],
 	[SpecializationID]
 )
 VALUES
-(1, 4),
-(2, 5),
-(3, 4),
-(4, 4),
-(5, 4);
+(1, 'Senior Project Manager',  4),
+(2, 'Junior Java Jiver', 5),
+(3, 'Project Management Consultant', 4),
+(4, 'C# Afficionado', 4),
+(5, 'Humble Developer', 4);

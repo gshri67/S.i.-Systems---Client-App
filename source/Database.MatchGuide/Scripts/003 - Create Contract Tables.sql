@@ -32,7 +32,7 @@ GO
 
 CREATE TABLE [dbo].[Agreement_ContractDetail](
 	[AgreementID] [int] NOT NULL,
-	--[JobTitle] [varchar](4000) NULL,
+	[JobTitle] [varchar](4000) NULL,
 	--[RevenueAccountExecID] [int] NULL,
 	--[GP_ProjectID] [nvarchar](20) NULL,
 	--[CancellationNotice] [smallint] NULL,
