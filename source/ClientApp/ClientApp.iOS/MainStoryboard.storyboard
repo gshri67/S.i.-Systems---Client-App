@@ -151,10 +151,10 @@
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="38" firstAttribute="top" secondItem="32" secondAttribute="top" constant="13" id="1006"/>
+                            <constraint firstItem="38" firstAttribute="top" secondItem="32" secondAttribute="top" constant="20" id="1006"/>
                             <constraint firstItem="38" firstAttribute="leading" secondItem="32" secondAttribute="leading" constant="20" id="1007"/>
                             <constraint firstItem="32" firstAttribute="bottom" secondItem="41" secondAttribute="bottom" constant="5" id="3488"/>
-                            <constraint firstItem="32" firstAttribute="trailing" secondItem="41" secondAttribute="trailing" constant="4" id="3489"/>
+                            <constraint firstItem="32" firstAttribute="trailing" secondItem="41" secondAttribute="trailing" constant="18" id="3489"/>
                             <constraint firstItem="41" firstAttribute="top" secondItem="40" secondAttribute="bottom" constant="0.0" id="3492"/>
                             <constraint firstItem="40" firstAttribute="top" secondItem="38" secondAttribute="bottom" constant="20" id="3493"/>
                             <constraint firstItem="40" firstAttribute="leading" secondItem="32" secondAttribute="leading" constant="19" id="3494"/>
