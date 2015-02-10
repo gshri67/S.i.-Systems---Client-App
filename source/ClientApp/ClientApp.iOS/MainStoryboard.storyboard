@@ -70,8 +70,8 @@
                                     <action selector="resetPassword_TouchUpInside:" destination="vXZ-lx-hvc" id="279" eventType="touchUpInside"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="22" hidesWhenStopped="YES" userInteractionEnabled="NO" hidden="YES" misplaced="YES">
-                                <rect key="frame" x="142" y="313" width="37" height="37"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="22" userInteractionEnabled="NO" misplaced="YES" hidden="YES" hidesWhenStopped="YES">
+                                <rect key="frame" x="145" y="232" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
@@ -94,10 +94,10 @@
                             <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="5" secondAttribute="trailing" constant="18" id="998"/>
                             <constraint firstItem="kh9-bI-dsS" firstAttribute="bottom" secondItem="18" secondAttribute="bottom" constant="5" id="1000"/>
                             <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="18" secondAttribute="trailing" constant="21" id="1001"/>
-                            <constraint firstItem="22" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="98" id="1144"/>
-                            <constraint firstItem="kh9-bI-dsS" firstAttribute="bottom" secondItem="22" secondAttribute="bottom" constant="151" id="1145"/>
-                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="22" secondAttribute="trailing" constant="98" id="1146"/>
-                            <constraint firstItem="22" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="218" id="1148"/>
+                            <constraint firstItem="8" firstAttribute="centerX" secondItem="22" secondAttribute="leading" constant="13" id="3717"/>
+                            <constraint firstItem="22" firstAttribute="trailing" secondItem="8" secondAttribute="centerX" constant="16" id="3718"/>
+                            <constraint firstItem="11" firstAttribute="top" secondItem="22" secondAttribute="top" constant="3" id="3719"/>
+                            <constraint firstItem="22" firstAttribute="bottom" secondItem="11" secondAttribute="bottom" constant="9" id="3720"/>
                         </constraints>
                     </view>
                     <connections>
@@ -209,19 +209,19 @@
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3439" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" separatorStyle="none">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3439" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                 <rect key="frame" x="0.0" y="200" width="322" height="211"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3442" imageView="3476" style="IBUITableViewCellStyleDefault" textLabel="3695" detailTextLabel="3692" reuseIdentifier="ConsultantGroupCell" accessoryType="disclosureIndicator">
                                         <rect key="frame" x="0.0" y="22" width="322" height="44"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="3443" tableViewCell="3442">
-                                            <rect key="frame" x="0.0" y="0.0" width="289" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="289" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3695">
-                                                    <rect key="frame" x="15" y="0.0" width="272" height="44"/>
+                                                    <rect key="frame" x="15" y="0.0" width="272" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
