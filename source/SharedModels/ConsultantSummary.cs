@@ -11,12 +11,11 @@ namespace SiSystems.ClientApp.SharedModels
         public string LastName { get; set; }
 
         public string FullName { get { return FirstName + " " + LastName; } }
-        
-        //Is this going to come from a contract??
+        public int? Rating { get; set; }
+
         public DateTime MostRecentContractStartDate { get; set; }
         public DateTime MostRecentContractEndDate { get; set; }
 
-        public int MostRecentContractRating { get; set; }
         public Decimal MostRecentContractRate { get; set; }
 
         public ConsultantSummary()
@@ -29,6 +28,8 @@ namespace SiSystems.ClientApp.SharedModels
             Id = contractor.Id;
             FirstName = contractor.FirstName;
             LastName = contractor.LastName;
+            Rating = contractor.Rating;
+
 
             var contracts = contractor.Contracts.AsEnumerable();
             if (specializationName != null)
@@ -41,7 +42,6 @@ namespace SiSystems.ClientApp.SharedModels
                 MostRecentContractStartDate = mostRecentContract.StartDate;
                 MostRecentContractEndDate = mostRecentContract.EndDate;
                 MostRecentContractRate = mostRecentContract.Rate;
-                MostRecentContractRating = mostRecentContract.Rating;
             }
 
         }

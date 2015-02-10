@@ -95,6 +95,16 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
             Assert.IsFalse(groups.Any());
         }
+
+        [Test]
+        public void FindAlumni_WhenNoResumeInfo_RatingShouldBeNotChecked()
+        {
+            const string searchText = "Bill"; 
+
+            var groups = _repo.FindAlumni(searchText, _companyTwoId);
+
+            Assert.AreEqual(MatchGuideConstants.ResumeRating.NotChecked, groups.First().Consultants.First().Rating);
+        }
         
 
 

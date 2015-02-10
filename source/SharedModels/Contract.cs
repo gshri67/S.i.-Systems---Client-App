@@ -17,7 +17,5 @@ namespace SiSystems.ClientApp.SharedModels
         public Decimal Rate { get; set; }
 
         public Contact Contact { get; set; }
-
-        public int Rating { get; set; }
     }
 }

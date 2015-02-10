@@ -26,9 +26,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 string contractQuery = @"SELECT DISTINCT U.UserID Id, U.FirstName, U.LastName, "
+                                             +"ISNULL(CRI.ReferenceValue, "+MatchGuideConstants.ResumeRating.NotChecked+") Rating, "
                                              + "A.CandidateID ConsultantId, A.CompanyID ClientId, "
                                              + "A.StartDate, A.EndDate, CRD.BillRate Rate, S.Name SpecializationName "
-                                             + "FROM [Users] AS U, [Agreement] AS A, "
+                                             + "FROM [Users] AS U "
+                                             //ResumeInfo gives us rating, if present
+                                             + "LEFT JOIN [Candidate_ResumeInfo] as CRI on CRI.UserID=U.UserID, "  
+                                             //Contracts
+                                             + "[Agreement] AS A, "
                                              + "[Agreement_ContractDetail] AS CD, "
                                              + "[Agreement_ContractRateDetail] AS CRD, [Specialization] as S "
                                              + "WHERE U.UserID=A.CandidateID "
@@ -56,7 +61,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                                  + "AND A.Inactive = 0 "
                                              + ")";
 
-                //query and map contracts to consultants
+
+                //Query will return row per contract, with consultant info repeated
+                //Map contracts to consultants to get our desired data model.
                 var consultantLookup = new Dictionary<int, Consultant>();
                 db.Connection.Query<Consultant, Contract, Consultant>(contractQuery,
                     (c, contract) =>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SiSystems.ClientApp.SharedModels
 {
@@ -11,6 +10,8 @@ namespace SiSystems.ClientApp.SharedModels
         public string LastName { get; set; }
 
         public string FullName { get { return FirstName + " " + LastName; } }
+
+        public int? Rating { get; set; }
         
         public IList<Specialization> Specializations { get; set; }
 
