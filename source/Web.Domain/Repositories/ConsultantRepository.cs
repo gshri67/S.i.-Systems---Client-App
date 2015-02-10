@@ -64,28 +64,37 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 
                 //Query will return row per contract, with consultant info repeated
                 //Map contracts to consultants to get our desired data model.
-                var consultantLookup = new Dictionary<int, Consultant>();
-                db.Connection.Query<Consultant, Contract, Consultant>(contractQuery,
-                    (c, contract) =>
-                    {
-                        Consultant consultant;
-                        if (!consultantLookup.TryGetValue(c.Id, out consultant))
-                        {
-                            consultantLookup.Add(c.Id, consultant = c);
-                        }
-                        consultant.Contracts.Add(contract);
-                        return consultant;
-                    },
+                var consultants = new Dictionary<int, Consultant>();
+                db.Connection.Query(contractQuery,
+                    CreateContractConsultantMappingFunction(consultants),
                     new
                     {
                         CompanyId = clientId,
                         Today = DateTime.UtcNow,
                         Query = "%" + query + "%"
                     },
+                    //Each row contains a Consultant and a Contract
+                    //Tell Dapper where the object boundaries are by specifying column
                     splitOn: "ConsultantId");
 
-                return GroupConsultantsByContractSpecialization(consultantLookup.Values);
+                return GroupConsultantsByContractSpecialization(consultants.Values);
             }
+        }
+
+        private Func<Consultant, Contract, Consultant> CreateContractConsultantMappingFunction(Dictionary<int, Consultant> consultantLookup)
+        {
+            //map contract to consultant
+            //reuse consultant instance if it is already present in dictionary to avoid duplicates
+            return (c, contract) =>
+            {
+                Consultant consultant;
+                if (!consultantLookup.TryGetValue(c.Id, out consultant))
+                {
+                    consultantLookup.Add(c.Id, consultant = c);
+                }
+                consultant.Contracts.Add(contract);
+                return consultant;
+            };
         }
 
         private static IEnumerable<ConsultantGroup> GroupConsultantsByContractSpecialization(IEnumerable<Consultant> matchingConsultants)
