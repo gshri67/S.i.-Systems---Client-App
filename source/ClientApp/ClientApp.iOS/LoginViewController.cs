@@ -42,14 +42,9 @@ namespace ClientApp.iOS
             var token = GetDeviceToken();
             if (token == null) return;
 
-            username.Enabled = false;
             username.Text = token.Username;
-            username.BackgroundColor = UIColor.LightGray;
-            password.Enabled = false;
             password.Text = "aaaaaaaa";
-            password.BackgroundColor = UIColor.LightGray;
-            login.Enabled = false;
-            loginActivityIndicator.StartAnimating();
+            DisableControls();
 
             _loginModel.SetAuthToken(token);
             CheckEulaService(token.Username);
@@ -97,7 +92,7 @@ namespace ClientApp.iOS
                 return;
             }
 
-            loginActivityIndicator.StartAnimating();
+            DisableControls();
 
             var loginTask = _loginModel.LoginAsync(userName, password.Text);
             loginTask.ContinueWith(task =>
@@ -129,13 +124,8 @@ namespace ClientApp.iOS
             catch (WebException)
             {
                 //Authentication failed
-                username.Enabled = true;
-                username.BackgroundColor = UIColor.White;
-                password.Enabled = true;
                 password.Text = "";
-                password.BackgroundColor = UIColor.White;
-                login.Enabled = true;
-                loginActivityIndicator.StopAnimating();
+                EnableControls();
                 return;
             }
 
@@ -168,6 +158,7 @@ namespace ClientApp.iOS
                     loginActivityIndicator.StopAnimating();
                     var view = new UIAlertView("Oops", message, null, "Ok");
                     view.Show();
+                    EnableControls();
                 });
         }
 
@@ -218,6 +209,26 @@ namespace ClientApp.iOS
                 return token;
             }
             return null;
+        }
+
+        private void DisableControls()
+        {
+            username.Enabled = false;
+            username.BackgroundColor = UIColor.LightGray;
+            password.Enabled = false;
+            password.BackgroundColor = UIColor.LightGray;
+            login.Enabled = false;
+            loginActivityIndicator.StartAnimating();
+        }
+
+        private void EnableControls()
+        {
+            username.Enabled = true;
+            username.BackgroundColor = UIColor.White;
+            password.Enabled = true;
+            password.BackgroundColor = UIColor.White;
+            login.Enabled = true;
+            loginActivityIndicator.StopAnimating();
         }
     }
 }
