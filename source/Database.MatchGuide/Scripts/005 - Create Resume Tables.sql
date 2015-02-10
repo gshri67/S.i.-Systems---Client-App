@@ -3,7 +3,10 @@ CREATE TABLE [dbo].[Candidate_ResumeInfo](
 	[UserID] [int] NOT NULL,
 	[ResumeText] [text] NULL,
 	--[HourlyRate] [money] NULL,
-	--[ReferenceValue] [int] NULL CONSTRAINT [DF_CandidateResumeInfo_ReferenceValue]  DEFAULT (5),
+
+	-- I THINK THAT THIS DEFAULT(5) MIGHT BE A BUG IN MATCHGUIDE.. dbo.picklist item with id=5 is 'Contact', which is used for user type...
+	[ReferenceValue] [int] NULL CONSTRAINT [DF_CandidateResumeInfo_ReferenceValue]  DEFAULT (5), 
+	
 	--[ResumeVerified] [bit] NULL,
 	--[InterviewedByUserID] [int] NULL,
 	--[SkillsVerified] [bit] NULL,
