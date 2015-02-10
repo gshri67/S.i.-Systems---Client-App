@@ -51,7 +51,7 @@ namespace ClientApp.iOS
         private void SetCellLabels(NSIndexPath indexPath, UITableViewCell cell)
         {
             //assign the visual aspects of the cell
-            cell.TextLabel.Text = BuildDetailText(_consultantGroups[indexPath.Row]);
+            cell.TextLabel.Text = BuildDetailText(_consultantGroups[indexPath.Section]);
         }
 
         public override string TitleForHeader(UITableView tableView, nint section)

@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using ClientApp.ViewModels;
 using Microsoft.Practices.Unity;
 using System.Linq;
 using Microsoft.Practices.ObjectBuilder2;
+using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS
@@ -15,23 +17,23 @@ namespace ClientApp.iOS
             _contractorModel = DependencyResolver.Current.Resolve<ContractorViewModel>();
         }
 
-	    private void SetSummaryLabel(IEnumerable<ConsultantGroup> consultantGroup)
-	    {
-	        var alumniCount = CountAlumni(consultantGroup);
-	        var specializationsCount = CountSpecializations(consultantGroup);
+        private void SetSummaryLabel(IEnumerable<ConsultantGroup> consultantGroup)
+        {
+            var alumniCount = CountAlumni(consultantGroup);
+            var specializationsCount = CountSpecializations(consultantGroup);
 
-	        summaryLabel.Text = string.Format("You have {0} alumni in {1} specializations.", alumniCount, specializationsCount);
-	    }
+            summaryLabel.Text = string.Format("You have {0} alumni in {1} specializations.", alumniCount, specializationsCount);
+        }
 
-	    private static int CountSpecializations(IEnumerable<ConsultantGroup> consultantGroup)
-	    {
-	        return consultantGroup.ToList().Count;
-	    }
+        private static int CountSpecializations(IEnumerable<ConsultantGroup> consultantGroup)
+        {
+            return consultantGroup.Count();
+        }
 
-	    private static int CountAlumni(IEnumerable<ConsultantGroup> consultantGroup)
-	    {
+        private static int CountAlumni(IEnumerable<ConsultantGroup> consultantGroup)
+        {
             return consultantGroup.Sum(x => x.Consultants.Count);
-	    }
+        }
 
 	    #region View lifecycle
 
@@ -48,8 +50,6 @@ namespace ClientApp.iOS
 
             //set the source for our table's data
             LoadConsultantGroups();
-
-            SetSummaryLabel(consultantGroups);
         }
 
         public override void ViewDidAppear(bool animated)
@@ -77,6 +77,7 @@ namespace ClientApp.iOS
                                {
                                    SpecializationTable.Source = new ContractsTableViewSource(this, consultantGroups);
                                    SpecializationTable.ReloadData();
+                                   SetSummaryLabel(consultantGroups);
                                });
 	    }
 
