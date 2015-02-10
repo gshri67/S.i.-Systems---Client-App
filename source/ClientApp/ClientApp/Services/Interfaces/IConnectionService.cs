@@ -10,6 +10,7 @@ namespace ClientApp.Services.Interfaces
     {
         Task<ValidationResult> Login(string username, string password);
         Task<string> Get(string service);
+        Task<string> Get(string service, string query);
         Task<string> Post(string service, object data);
         OAuthToken Token { get; set; }
     }

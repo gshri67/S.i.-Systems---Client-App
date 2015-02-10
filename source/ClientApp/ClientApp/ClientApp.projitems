@@ -10,12 +10,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AlumniService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ConnectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\EulaService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IAlumniService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IConnectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoginService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IEulaService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ILoginService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ContractorViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\EulaViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelBase.cs" />

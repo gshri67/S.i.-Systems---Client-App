@@ -14,7 +14,6 @@ namespace ClientApp.Services
         //TODO store and retrieve this from somewhere
         private const string _baseAddr = "http://clientapi.local:50021/";
 
-        //TODO store this somewhere else, save to device
         private static OAuthToken _token;
 
         public async Task<ValidationResult> Login(string username, string password)
@@ -68,9 +67,22 @@ namespace ClientApp.Services
             }
         }
 
-        public async Task<string> Get(string service)
+        public Task<string> Get(string service)
         {
             var request = WebRequest.Create(String.Format("{0}api/{1}", _baseAddr, service));
+            
+            return Get(request);
+        }
+
+        public Task<string> Get(string service, string query)
+        {
+            var request = WebRequest.Create(String.Format("{0}api/{1}/?query={2}", _baseAddr, service, query));
+
+            return Get(request);
+        }
+
+        private async Task<string> Get(WebRequest request)
+        {
             request.Method = "GET";
             request.ContentType = "application/json";
 
@@ -80,7 +92,6 @@ namespace ClientApp.Services
                 throw new Exception("No Token");
             }
             request.Headers.Add("Authorization", String.Format("Bearer {0}", _token.AccessToken));
-
 
             try
             {

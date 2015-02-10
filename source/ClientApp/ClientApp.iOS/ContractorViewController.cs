@@ -1,17 +1,17 @@
-using Foundation;
 using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using SiSystems.ClientApp.SharedModels;
+using ClientApp.ViewModels;
+using Microsoft.Practices.Unity;
 using UIKit;
 
 namespace ClientApp.iOS
 {
-	partial class ContractorViewController : UIViewController
+	public partial class ContractorViewController : UIViewController
 	{
-		public ContractorViewController (IntPtr handle) : base (handle)
-		{
-		}
+	    private readonly ContractorViewModel _contractorModel;
+        public ContractorViewController (IntPtr handle) : base (handle)
+        {
+            _contractorModel = DependencyResolver.Current.Resolve<ContractorViewModel>();
+        }
 
         #region View lifecycle
 
@@ -25,12 +25,9 @@ namespace ClientApp.iOS
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
-            
-            //get our list of specializations to display
-            var consultantGroups = GetConsultantGroups();
 
             //set the source for our table's data
-            SpecializationTable.Source = new ContractsTableViewSource(this, consultantGroups);
+            LoadConsultantGroups();
         }
 
         public override void ViewDidAppear(bool animated)
@@ -50,79 +47,17 @@ namespace ClientApp.iOS
 
         #endregion
 
+	    private async void LoadConsultantGroups()
+	    {
+            //get our list of specializations to display
+            var consultantGroups = await  _contractorModel.GetConsultantGroups(""); //TODO Stick search box's text here
+            InvokeOnMainThread(delegate
+                               {
+                                   SpecializationTable.Source = new ContractsTableViewSource(this, consultantGroups);
+                                   SpecializationTable.ReloadData();
+                               });
+	    }
 
-
-        private IEnumerable<ConsultantGroup> GetConsultantGroups()
-        {
-            return new List<ConsultantGroup>
-	        {
-	            new ConsultantGroup()
-	            {
-	                Specialization = "Project Management",
-                    Consultants = new List<ConsultantSummary>
-                    {
-                        new ConsultantSummary(new Consultant
-                        {
-                            FirstName = "Fred",
-                            LastName = "Flintstone"
-                        }),
-                        new ConsultantSummary(new Consultant
-                        {
-                            FirstName = "Barney",
-                            LastName = "Rubble"
-                        }),
-                        new ConsultantSummary(new Consultant
-                        {
-                            FirstName = "Wilma",
-                            LastName = "Flintstone"
-                        })
-                    }
-	            },
-                new ConsultantGroup()
-                {
-	                Specialization = "SW Development",
-                    Consultants = new List<ConsultantSummary>
-                    {
-                        new ConsultantSummary(new Consultant
-                        {
-                            FirstName = "Fred",
-                            LastName = "Flintstone"
-                        }),
-                        new ConsultantSummary(new Consultant
-                        {
-                            FirstName = "Barney",
-                            LastName = "Rubble"
-                        }),
-                        new ConsultantSummary(new Consultant
-                        {
-                            FirstName = "Wilma",
-                            LastName = "Flintstone"
-                        })
-                    }
-	            },
-                new ConsultantGroup()
-                {
-	                Specialization = "Business Analyst",
-                    Consultants = new List<ConsultantSummary>
-                    {
-                        new ConsultantSummary(new Consultant
-                        {
-                            FirstName = "Fred",
-                            LastName = "Flintstone"
-                        }),
-                        new ConsultantSummary(new Consultant
-                        {
-                            FirstName = "Barney",
-                            LastName = "Rubble"
-                        }),
-                        new ConsultantSummary(new Consultant
-                        {
-                            FirstName = "Wilma",
-                            LastName = "Flintstone"
-                        })
-                    }
-	            }
-	        };
-        }
+        
 	}
 }

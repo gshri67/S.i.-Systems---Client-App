@@ -19,6 +19,11 @@ namespace SiSystems.ClientApp.SharedModels
         public int MostRecentContractRating { get; set; }
         public Decimal MostRecentContractRate { get; set; }
 
+        public ConsultantSummary()
+        {
+            //Required for JSON deserializer
+        }
+
         public ConsultantSummary(Consultant contractor, string specializationName=null)
         {
             Id = contractor.Id;
