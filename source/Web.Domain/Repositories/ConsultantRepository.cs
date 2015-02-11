@@ -145,7 +145,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                                  + "AND A.AgreementSubType=" + MatchGuideConstants.AgreementSubTypes.FloThru + " "
                                                  + "AND (A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Active + " "
                                                  + "OR A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Pending + ") "
-                                                 + "AND A.EndDate > @Today "
+                                                 + "AND A.EndDate > GETUTCDATE() "
                                                  + "AND A.Inactive = 0 "
                                              + ")";
 
@@ -158,7 +158,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                     new
                     {
                         CompanyId = clientId,
-                        Today = DateTime.UtcNow,
                         Query = "%" + query + "%"
                     },
                     //Each row contains a Consultant and a Contract

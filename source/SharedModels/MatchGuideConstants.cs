@@ -1,5 +1,14 @@
 ﻿namespace SiSystems.ClientApp.SharedModels
 {
+    /// <summary>
+    /// Constants are currently const ints over enums 
+    /// as values returned from database may not be entirely predictable.
+    /// There is a risk that unanticipated values may be encountered.
+    /// 
+    /// For example, ResumeRating has invalid values (5) in the database currently.
+    /// Enums could be used if the domain layer maintains its own 'database models'
+    /// and insulates callers from these details, but by adding additional complexity.
+    /// </summary>
     public class MatchGuideConstants
     {
         public class UserTypes
@@ -26,6 +35,7 @@
             public const int Pending = 576;
         }
 
+        /// Consider any unanticipated values as the default, NotChecked
         public class ResumeRating
         {
             public const int AboveStandard = 314;
@@ -34,8 +44,8 @@
 
             public const int NotChecked = 317;
             
-            ///this value appears as a default in the database
-            ///but normally is used as a lookup for User Type = 'Contact'
+            ///this value appears as an incorrect default in the database
+            ///which normally is used as a lookup for UserType = 'Contact'
             ///consider this equivalent to NotChecked
             public const int AlsoNotChecked = 5;
         }

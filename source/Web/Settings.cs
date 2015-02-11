@@ -14,6 +14,11 @@ namespace SiSystems.ClientApp.Web
             get { return int.Parse(ConfigurationManager.AppSettings["Auth.TokenExpiryInDays"]); }
         }
 
+        public static bool IsApiTestPageEnabled
+        {
+            get { return bool.Parse(ConfigurationManager.AppSettings["EnableApiTestPage"]); }
+        }
+
         public static string LoginTokenEndpoint = "/api/Login";
     }
 }
