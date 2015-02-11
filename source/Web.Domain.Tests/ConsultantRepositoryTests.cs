@@ -95,7 +95,41 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
             Assert.AreEqual(MatchGuideConstants.ResumeRating.NotChecked, groups.First().Consultants.First().Rating);
         }
-        
+
+        [Test]
+        public void Find_ShouldIncludeSpecializationsAndSkills()
+        {
+            //Tommy Consultant
+            //Database.MatchGuide\Scripts\013 - Add Candidate Specializations.sql
+            var consultant = _repo.Find(10);
+
+            var specializationNames = consultant.Specializations.Select(s => s.Name).ToList();
+
+            Assert.Contains("Project Management", specializationNames);
+            Assert.Contains("Software Development", specializationNames);
+
+            var skillNames = consultant.Specializations.Select(s => s.Skills.Select(sk=>sk.Name)).SelectMany(s=>s).ToList();
+            Assert.AreEqual(4, skillNames.Count);
+            Assert.Contains("Java", skillNames);
+            Assert.Contains("C#", skillNames);
+            Assert.Contains("7 Sigma", skillNames);
+            Assert.Contains("ColdFusion", skillNames);
+        }
+
+        [Test]
+        public void Find_ShouldIncludeResumeText()
+        {
+            var consultant = _repo.Find(12);
+            var expectedResumeText = "Candice Consulty Resume text lorem ipsum and such..";
+            Assert.AreEqual(expectedResumeText, consultant.ResumeText);
+        }
+
+        [Test]
+        public void Find_WhenNoResume_ResumeTextShouldBeNull()
+        {
+            var consultant = _repo.Find(11);
+            Assert.IsNull(consultant.ResumeText);
+        }
 
 
         private bool GroupSpecializationMatchesText(ConsultantGroup group, string text)
