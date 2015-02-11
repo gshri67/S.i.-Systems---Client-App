@@ -12,7 +12,7 @@ namespace SiSystems.ClientApp.Web.Controllers
 
         public ActionResult ApiTest()
         {
-            if(HttpContext.IsDebuggingEnabled)
+            if(Settings.IsApiTestPageEnabled)
                 return View();
     
             return RedirectToAction("Index");
