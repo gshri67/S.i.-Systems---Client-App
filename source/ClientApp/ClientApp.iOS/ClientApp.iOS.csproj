@@ -105,10 +105,7 @@
       <DependentUpon>ContractorViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ContractsTableViewSource.cs" />
-    <Compile Include="DisciplineViewController.cs" />
-    <Compile Include="DisciplineViewController.designer.cs">
-      <DependentUpon>DisciplineViewController.cs</DependentUpon>
-    </Compile>
+    <Compile Include="DisciplineTableViewSource.cs" />
     <Compile Include="EulaViewController.cs" />
     <Compile Include="EulaViewController.designer.cs">
       <DependentUpon>EulaViewController.cs</DependentUpon>
@@ -120,6 +117,10 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="DependencyResolver.cs" />
+    <Compile Include="DisciplineViewController.cs" />
+    <Compile Include="DisciplineViewController.designer.cs">
+      <DependentUpon>DisciplineViewController.cs</DependentUpon>
+    </Compile>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />

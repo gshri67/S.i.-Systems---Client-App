@@ -9,7 +9,7 @@ using UIKit;
 
 namespace ClientApp.iOS
 {
-    class ContractsTableViewSource : UITableViewSource
+    internal class ContractsTableViewSource : UITableViewSource
     {
         private readonly List<ConsultantGroup> _consultantGroups;
 
@@ -17,7 +17,8 @@ namespace ClientApp.iOS
 
         private readonly ContractorViewController _parentController;
 
-        public ContractsTableViewSource(ContractorViewController parentController, IEnumerable<ConsultantGroup> consultantGroups)
+        public ContractsTableViewSource(ContractorViewController parentController,
+            IEnumerable<ConsultantGroup> consultantGroups)
         {
             _parentController = parentController;
 
@@ -68,9 +69,14 @@ namespace ClientApp.iOS
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             //normal iOS behaviour is to remove the selection
-            tableView.DeselectRow(indexPath, true);
+            //tableView.DeselectRow(indexPath, true);
 
-            _parentController.PerformSegue("ConsultantGroupSelected", indexPath);
+            _parentController.PerformSegue("DisciplineSelected", indexPath);
+        }
+
+        public ConsultantGroup GetItem(int section)
+        {
+            return _consultantGroups[(int)section];
         }
     }
 }

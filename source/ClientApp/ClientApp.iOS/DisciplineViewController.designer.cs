@@ -14,8 +14,16 @@ namespace ClientApp.iOS
 	[Register ("DisciplineViewController")]
 	partial class DisciplineViewController
 	{
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITableView DisciplineTable { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
+			if (DisciplineTable != null) {
+				DisciplineTable.Dispose ();
+				DisciplineTable = null;
+			}
 		}
 	}
 }

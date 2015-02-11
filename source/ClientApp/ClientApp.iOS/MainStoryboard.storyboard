@@ -253,29 +253,42 @@
                     <connections>
                         <outlet property="summaryLabel" destination="3384" id="name-outlet-3384"/>
                         <outlet property="SpecializationTable" destination="3439" id="name-outlet-3439"/>
-                        <segue id="3666" destination="3518" kind="push" identifier="ConsultantGroupSelected"/>
+                        <segue id="3805" destination="3749" kind="push" identifier="DisciplineSelected"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1462" y="16"/>
         </scene>
-        <scene sceneID="3517">
+        <scene sceneID="3748">
             <objects>
-                <viewController id="3518" sceneMemberID="viewController" customClass="DisciplineViewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="3515"/>
-                        <viewControllerLayoutGuide type="bottom" id="3516"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="3519">
+                <tableViewController id="3749" sceneMemberID="viewController" customClass="DisciplineViewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3750">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3520" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3753" reuseIdentifier="DisciplineCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3753" id="3754">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="3749" id="3751"/>
+                            <outlet property="delegate" destination="3749" id="3752"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="DisciplineTable" destination="3750" id="name-outlet-3750"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3755" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1884" y="14"/>
+            <point key="canvasLocation" x="1883" y="14"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

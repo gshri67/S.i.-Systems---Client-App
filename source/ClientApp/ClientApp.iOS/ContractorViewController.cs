@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ClientApp.ViewModels;
 using Microsoft.Practices.Unity;
 using System.Linq;
+using Foundation;
 using Microsoft.Practices.ObjectBuilder2;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
@@ -12,12 +13,14 @@ namespace ClientApp.iOS
 	public partial class ContractorViewController : UIViewController
 	{
 	    private readonly ContractorViewModel _contractorModel;
-        public ContractorViewController (IntPtr handle) : base (handle)
+
+        public ContractorViewController(IntPtr handle)
+            : base(handle)
         {
             _contractorModel = DependencyResolver.Current.Resolve<ContractorViewModel>();
         }
 
-        private void SetSummaryLabel(IEnumerable<ConsultantGroup> consultantGroup)
+	    private void SetSummaryLabel(IEnumerable<ConsultantGroup> consultantGroup)
         {
             var alumniCount = CountAlumni(consultantGroup);
             var specializationsCount = CountSpecializations(consultantGroup);
@@ -81,6 +84,22 @@ namespace ClientApp.iOS
                                });
 	    }
 
-        
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        {
+            base.PrepareForSegue(segue, sender);
+            
+            if (segue.Identifier == "DisciplineSelected")
+            {
+                var navCtrl = segue.DestinationViewController as DisciplineViewController;
+
+                if (navCtrl != null)
+                {
+                    var source = SpecializationTable.Source as ContractsTableViewSource;
+                    var rowpath = SpecializationTable.IndexPathForSelectedRow;
+                    var consultantGroup = source.GetItem(rowpath.Section);
+                    navCtrl.SetSpecialization(this, consultantGroup);
+                }
+            }
+        }
 	}
 }

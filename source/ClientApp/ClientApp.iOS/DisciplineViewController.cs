@@ -1,15 +1,33 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS
 {
-	partial class DisciplineViewController : UIViewController
+	public partial class DisciplineViewController : UITableViewController
 	{
+	    private ContractorViewController _parentController;
+	    private ConsultantGroup _consultantGroup;
+	    private string _previousScreenTitle;
+
 		public DisciplineViewController (IntPtr handle) : base (handle)
 		{
+
 		}
+
+	    private void ClearParentControllerTitle()
+	    {
+            _previousScreenTitle = _parentController.Title;
+            _parentController.Title = "";
+	    }
+
+	    private void SetParentControllerTitle()
+	    {
+	        _parentController.Title = _previousScreenTitle;
+	    }
+        
         #region View lifecycle
 
         public override void ViewDidLoad()
@@ -23,9 +41,14 @@ namespace ClientApp.iOS
         {
             base.ViewWillAppear(animated);
 
-            //get our list of specializations to display
-            //var consultantGroups = GetConsultantGroups();
+            Title = _consultantGroup.Specialization;
 
+            InvokeOnMainThread(delegate
+            {
+                DisciplineTable.Source = new DisciplineTableViewSource(this, _consultantGroup);
+                DisciplineTable.ReloadData();
+            });
+            
             //set the source for our table's data
             //SpecializationTable.Source = new ContractsTableViewSource(this, consultantGroups);
         }
@@ -46,5 +69,11 @@ namespace ClientApp.iOS
         }
 
         #endregion
+
+	    public void SetSpecialization(ContractorViewController parentController, ConsultantGroup consultantGroup)
+	    {
+	        _parentController = parentController;
+	        _consultantGroup = consultantGroup;
+	    }
 	}
 }
