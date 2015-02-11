@@ -41,16 +41,6 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         }
 
         [Test]
-        public void FindAlumni_BySpecializationName_ShouldNotIncludeOtherGroups()
-        {
-            const string searchText = "project management";
-            var groups = _repo.FindAlumni(searchText, _companyOneId);
-
-            Assert.AreEqual(1, groups.Count());
-            Assert.IsTrue(GroupSpecializationMatchesText(groups.First(), searchText));
-        }
-
-        [Test]
         public void FindAlumni_ShouldMatch_WhenTargetHasContractWithClient()
         {
             const string searchText = "Bill";

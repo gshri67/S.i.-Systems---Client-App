@@ -61,14 +61,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 if (consultant != null)
                 {
                     //get specializations..
-                    string specializationQuery = @"SELECT SP.SpecializationID Id, SP.Name, "
-                                                 + "SK.SkillID Id, SK.SkillName Name "
-                                                 + "FROM [Candidate_SkillsMatrix] AS CSM, "
-                                                 + "[Specialization] AS SP, "
-                                                 + "[Skill] AS SK "
-                                                 + "WHERE CSM.UserID=@UserId "
-                                                 + "AND CSM.SpecID=SP.SpecializationID "
-                                                 + "AND CSM.SkillID=SK.SkillID ";
+                    const string specializationQuery = @"SELECT SP.SpecializationID Id, SP.Name, "
+                                                       + "SK.SkillID Id, SK.SkillName Name "
+                                                       + "FROM [Candidate_SkillsMatrix] AS CSM, "
+                                                       + "[Specialization] AS SP, "
+                                                       + "[Skill] AS SK "
+                                                       + "WHERE CSM.UserID=@UserId "
+                                                       + "AND CSM.SpecID=SP.SpecializationID "
+                                                       + "AND CSM.SkillID=SK.SkillID ";
 
                     var specializations = new Dictionary<int, Specialization>();
                     db.Connection.Query(specializationQuery,
@@ -106,7 +106,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         /// Find alumni consultant candidates for a specific client.
         /// Does not include candidates that have current active or pending contracts with the specifed client.
         /// </summary>
-        /// <param name="query">Text to search for in candidate name or contract specialization.</param>
+        /// <param name="query">Text to search for in candidate name</param>
         /// <param name="clientId">Client company ID that alumni must have worked for in the past.</param>
         /// <returns>A list of consultants, grouped by specialization.</returns>
         public IEnumerable<ConsultantGroup> FindAlumni(string query, int clientId)
@@ -134,9 +134,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              //That are between the candidate and the client
                                              + "AND A.CompanyID=@CompanyId "
                                              + "AND A.Inactive = 0 "
-                                             //Text query used to match on full name or contract specialization name
-                                             + "AND ( (U.FirstName+' '+U.LastName) LIKE @Query "
-                                             + "OR S.Name LIKE @Query) "
+                                             //Text query used to match on full name
+                                             + "AND (U.FirstName+' '+U.LastName) LIKE @Query "
                                             //Filter CandidateIDs with active or pending contracts with client
                                              + "AND U.UserID NOT IN ("
                                                  + "SELECT A.CandidateID FROM [Agreement] AS A "
@@ -147,7 +146,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                                  + "OR A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Pending + ") "
                                                  + "AND A.EndDate > GETUTCDATE() "
                                                  + "AND A.Inactive = 0 "
-                                             + ")";
+                                             + ") "
+                                             + "ORDER BY U.FirstName, U.LastName, U.UserID";
 
 
                 //Query will return row per contract, with consultant info repeated
