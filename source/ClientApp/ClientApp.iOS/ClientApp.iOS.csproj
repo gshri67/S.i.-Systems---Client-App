@@ -105,6 +105,10 @@
       <DependentUpon>ContractorViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ContractsTableViewSource.cs" />
+    <Compile Include="CustomDisciplineCell.cs" />
+    <Compile Include="CustomDisciplineCell.designer.cs">
+      <DependentUpon>CustomDisciplineCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="DisciplineTableViewSource.cs" />
     <Compile Include="EulaViewController.cs" />
     <Compile Include="EulaViewController.designer.cs">

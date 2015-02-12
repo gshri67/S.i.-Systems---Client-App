@@ -25,18 +25,18 @@ namespace ClientApp.iOS
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             // if there are no cells to reuse, create a new one
-            var cell = tableView.DequeueReusableCell(CellIdentifier) ??
-                       new UITableViewCell(UITableViewCellStyle.Default, CellIdentifier);
+            var cell = tableView.DequeueReusableCell(CellIdentifier) as CustomDisciplineCell ??
+                       new CustomDisciplineCell(CellIdentifier);
 
-            SetCellLabels(indexPath, cell);
+            var consultant = _consultantGroup.Consultants[indexPath.Row];
+            var contractDate = string.Format("{0} - {1}", consultant.MostRecentContractStartDate,
+                consultant.MostRecentContractEndDate);
+
+
+
+            cell.UpdateCell(consultant.FullName, contractDate, consultant.MostRecentContractRate.ToString(), consultant.Rating);
 
             return cell;
-        }
-
-        private void SetCellLabels(NSIndexPath indexPath, UITableViewCell cell)
-        {
-            //assign the visual aspects of the cell
-            cell.TextLabel.Text = _consultantGroup.Consultants[indexPath.Row].FullName;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)

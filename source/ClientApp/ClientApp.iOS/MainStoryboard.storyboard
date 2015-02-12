@@ -254,6 +254,7 @@
                         <outlet property="summaryLabel" destination="3384" id="name-outlet-3384"/>
                         <outlet property="SpecializationTable" destination="3439" id="name-outlet-3439"/>
                         <segue id="3805" destination="3749" kind="push" identifier="DisciplineSelected"/>
+                        <outlet property="contractorSearch" destination="3377" id="name-outlet-3377"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -263,18 +264,63 @@
         <scene sceneID="3748">
             <objects>
                 <tableViewController id="3749" sceneMemberID="viewController" customClass="DisciplineViewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3750">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3750">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3753" reuseIdentifier="DisciplineCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3753" reuseIdentifier="DisciplineCell" customClass="CustomDisciplineCell" rowHeight="59" accessoryType="disclosureIndicator">
+                                <rect key="frame" x="0.0" y="22" width="320" height="59"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3753" id="3754">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="286" height="58.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="3815" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                            <rect key="frame" x="50" y="10" width="42" height="21"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="3816" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                            <rect key="frame" x="50" y="175" width="42" height="21"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="3820" translatesAutoresizingMaskIntoConstraints="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <constraints>
+                                                <constraint id="3951" firstAttribute="width" constant="50"/>
+                                                <constraint id="3952" firstAttribute="height" constant="50"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="3825" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                            <rect key="frame" x="253" y="19" width="42" height="21"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="3815" firstAttribute="leading" secondItem="3754" secondAttribute="leading" constant="60" id="3817"/>
+                                        <constraint firstItem="3815" firstAttribute="top" secondItem="3754" secondAttribute="top" constant="12" id="3818"/>
+                                        <constraint firstItem="3825" firstAttribute="trailing" secondItem="3754" secondAttribute="trailing" constant="10" id="3826"/>
+                                        <constraint firstItem="3825" firstAttribute="top" secondItem="3754" secondAttribute="top" constant="22" id="3827"/>
+                                        <constraint firstItem="3754" firstAttribute="bottom" secondItem="3825" secondAttribute="bottom" constant="22" id="3828"/>
+                                        <constraint id="3949" firstItem="3820" firstAttribute="leading" secondItem="3754" secondAttribute="leading" constant="0.0"/>
+                                        <constraint id="3950" constant="0.0" firstItem="3820" firstAttribute="top" secondItem="3754" secondAttribute="top"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="fullName" destination="3815" id="name-outlet-3815"/>
+                                    <outlet property="contractDates" destination="3816" id="name-outlet-3816"/>
+                                    <outlet property="ratingImage" destination="3820" id="name-outlet-3820"/>
+                                    <outlet property="lastContractRate" destination="3825" id="name-outlet-3825"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -288,7 +334,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3755" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1883" y="14"/>
+            <point key="canvasLocation" x="1894" y="19"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

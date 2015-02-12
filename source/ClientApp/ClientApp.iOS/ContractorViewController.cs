@@ -58,6 +58,12 @@ namespace ClientApp.iOS
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
+            //todo: find the right event handler for this to make in not fire a million times
+            contractorSearch.TextChanged += delegate
+            {
+                LoadConsultantGroups();
+            };
+
         }
 
 	    public override void ViewWillDisappear(bool animated)
@@ -75,7 +81,7 @@ namespace ClientApp.iOS
 	    private async void LoadConsultantGroups()
 	    {
             //get our list of specializations to display
-            var consultantGroups = await  _contractorModel.GetConsultantGroups(""); //TODO Stick search box's text here
+            var consultantGroups = await  _contractorModel.GetConsultantGroups(contractorSearch.Text); //TODO Stick search box's text here
             InvokeOnMainThread(delegate
                                {
                                    SpecializationTable.Source = new ContractsTableViewSource(this, consultantGroups);

@@ -16,6 +16,10 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UISearchBar contractorSearch { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableView SpecializationTable { get; set; }
 
 		[Outlet]
@@ -24,6 +28,10 @@ namespace ClientApp.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (contractorSearch != null) {
+				contractorSearch.Dispose ();
+				contractorSearch = null;
+			}
 			if (SpecializationTable != null) {
 				SpecializationTable.Dispose ();
 				SpecializationTable = null;
