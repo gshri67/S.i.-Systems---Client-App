@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>ClientApp</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.DevFacto.ClientApp</string>
+	<string>com.sisystems.ClientApp</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>CFBundleIconFiles</key>
