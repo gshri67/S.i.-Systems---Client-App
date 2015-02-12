@@ -29,10 +29,6 @@ namespace ClientApp.iOS
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
-            fullName.Frame = new CGRect(50,0,100,33);
-            contractDates.Frame = new CGRect(50, 33, 100, 33);
-            lastContractRate.Frame = new CGRect(ContentView.Bounds.Right, 0, 100, 33);
-            ratingImage.Frame = new CGRect(0, 0, 50, 50);
         }
 	}
 }

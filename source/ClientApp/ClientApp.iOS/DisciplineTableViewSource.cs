@@ -29,12 +29,12 @@ namespace ClientApp.iOS
                        new CustomDisciplineCell(CellIdentifier);
 
             var consultant = _consultantGroup.Consultants[indexPath.Row];
-            var contractDate = string.Format("{0} - {1}", consultant.MostRecentContractStartDate,
+            var contractDate = string.Format("{0:d} - {1:d}", consultant.MostRecentContractStartDate,
                 consultant.MostRecentContractEndDate);
 
+            var rate = string.Format("{0:C}/h", consultant.MostRecentContractRate); 
 
-
-            cell.UpdateCell(consultant.FullName, contractDate, consultant.MostRecentContractRate.ToString(), consultant.Rating);
+            cell.UpdateCell(consultant.FullName, contractDate, rate, consultant.Rating);
 
             return cell;
         }
