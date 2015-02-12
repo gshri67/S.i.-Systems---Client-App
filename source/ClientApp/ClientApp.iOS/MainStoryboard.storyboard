@@ -534,9 +534,16 @@
         <image name="Default-568h.png" width="640" height="1136"/>
         <image name="Default-Portrait.png" width="768" height="1004"/>
         <image name="Default.png" width="320" height="480"/>
-        <image name="Icon-60.png" width="180" height="180"/>
+        <image name="Icon-60.png" width="120" height="120"/>
         <image name="Icon-76.png" width="76" height="76"/>
         <image name="Icon-Small-40.png" width="40" height="40"/>
         <image name="Icon-Small.png" width="29" height="29"/>
+        <image name="Si-app-icon-40.png" width="40" height="40"/>
+        <image name="Si-app-icon-76.png" width="76" height="76"/>
+        <image name="Si-app-icon-80.png" width="80" height="80"/>
+        <image name="Si-app-icon-120.png" width="120" height="120"/>
+        <image name="Si-app-icon-152.png" width="152" height="152"/>
+        <image name="Si-app-icon-180.png" width="180" height="180"/>
+        <image name="Si-app-store-icon.png" width="1024" height="1024"/>
     </resources>
 </document>
