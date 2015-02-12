@@ -2,6 +2,7 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 using CoreGraphics;
+using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS
@@ -18,17 +19,24 @@ namespace ClientApp.iOS
 
         }
 
+	    private void SetRatingImage(int? rating)
+	    {
+	        if (rating == null)
+	            return;
+
+	            if (rating.Equals(MatchGuideConstants.ResumeRating.AboveStandard))
+	        {
+                ratingImage.Image = UIImage.FromBundle("thumb-up-8x.png");
+	        }
+	    }
+
         public void UpdateCell(string name, string dates, string rate, int? rating)
         {
-            //ratingImage.Image = rating;
-            //todo: make the rating magic happen. 
             fullName.Text = name;
             contractDates.Text = dates;
             lastContractRate.Text = rate;
-        }
-        public override void LayoutSubviews()
-        {
-            base.LayoutSubviews();
+            
+            SetRatingImage(rating);
         }
 	}
 }

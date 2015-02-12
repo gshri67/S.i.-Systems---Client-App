@@ -283,11 +283,12 @@
                                             <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="3820" translatesAutoresizingMaskIntoConstraints="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="3820" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000">
+                                            <rect key="frame" x="10" y="10" width="30" height="30"/>
+                                            <rect key="contentStretch" x="0.0" y="0.0" width="1" height="1"/>
                                             <constraints>
-                                                <constraint id="3951" firstAttribute="width" constant="50"/>
-                                                <constraint id="3952" firstAttribute="height" constant="50"/>
+                                                <constraint id="4040" firstAttribute="width" constant="30"/>
+                                                <constraint id="4041" firstAttribute="height" constant="30"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3825" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO">
@@ -306,15 +307,16 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint id="3949" firstItem="3820" firstAttribute="leading" secondItem="3754" secondAttribute="leading" constant="0.0"/>
-                                        <constraint id="3950" constant="0.0" firstItem="3820" firstAttribute="top" secondItem="3754" secondAttribute="top"/>
                                         <constraint firstItem="3754" firstAttribute="trailing" secondItem="3825" secondAttribute="trailing" constant="6" id="3978"/>
                                         <constraint firstItem="3825" firstAttribute="top" secondItem="3754" secondAttribute="top" constant="14" id="3979"/>
                                         <constraint firstItem="3754" firstAttribute="bottom" secondItem="3825" secondAttribute="bottom" constant="15" id="3980"/>
                                         <constraint firstItem="3988" firstAttribute="bottom" secondItem="3754" secondAttribute="bottom" constant="0.0" id="4005"/>
-                                        <constraint firstItem="3988" firstAttribute="top" secondItem="3815" secondAttribute="bottom" constant="1" id="4011"/>
-                                        <constraint firstItem="3988" firstAttribute="leading" secondItem="3815" secondAttribute="leading" constant="0.0" id="4014"/>
-                                        <constraint firstItem="3815" firstAttribute="leading" secondItem="3820" secondAttribute="trailing" constant="7" id="4015"/>
+                                        <constraint firstItem="3988" firstAttribute="leading" secondItem="3815" secondAttribute="leading" constant="1" id="4031"/>
+                                        <constraint id="4038" constant="10" firstItem="3820" firstAttribute="leading" secondItem="3754" secondAttribute="leading"/>
+                                        <constraint id="4039" constant="9" firstItem="3754" firstAttribute="bottom" secondItem="3820" secondAttribute="bottom"/>
+                                        <constraint firstItem="3988" firstAttribute="leading" secondItem="3815" secondAttribute="leading" constant="1" id="4046"/>
+                                        <constraint firstItem="3815" firstAttribute="leading" secondItem="3820" secondAttribute="trailing" constant="17" id="4047"/>
+                                        <constraint firstItem="3988" firstAttribute="top" secondItem="3815" secondAttribute="bottom" constant="7" id="4048"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -547,5 +549,17 @@
         <image name="Si-app-icon-152.png" width="152" height="152"/>
         <image name="Si-app-icon-180.png" width="180" height="180"/>
         <image name="Si-app-store-icon.png" width="1024" height="1024"/>
+        <image name="thumb-down.png" width="8" height="8"/>
+        <image name="thumb-down-2x.png" width="16" height="16"/>
+        <image name="thumb-down-3x.png" width="24" height="24"/>
+        <image name="thumb-down-4x.png" width="32" height="32"/>
+        <image name="thumb-down-6x.png" width="48" height="48"/>
+        <image name="thumb-down-8x.png" width="64" height="64"/>
+        <image name="thumb-up.png" width="8" height="8"/>
+        <image name="thumb-up-2x.png" width="16" height="16"/>
+        <image name="thumb-up-3x.png" width="24" height="24"/>
+        <image name="thumb-up-4x.png" width="32" height="32"/>
+        <image name="thumb-up-6x.png" width="48" height="48"/>
+        <image name="thumb-up-8x.png" width="64" height="64"/>
     </resources>
 </document>

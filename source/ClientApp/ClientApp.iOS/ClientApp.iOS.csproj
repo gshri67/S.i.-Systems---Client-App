@@ -209,6 +209,24 @@
   <ItemGroup>
     <BundleResource Include="Resources\Icon-Small-40%402x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\thumb-up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\thumb-up-2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\thumb-up-3x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\thumb-up-4x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\thumb-up-6x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\thumb-up-8x.png" />
+  </ItemGroup>
   <Import Project="..\ClientApp\ClientApp.projitems" Label="Shared" Condition="Exists('..\ClientApp\ClientApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.1.3.1.6296\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.1.3.1.6296\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
