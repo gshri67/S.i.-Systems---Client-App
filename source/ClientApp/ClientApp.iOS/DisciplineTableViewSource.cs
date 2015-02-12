@@ -43,5 +43,15 @@ namespace ClientApp.iOS
         {
             return _consultantGroup.Consultants.Count;
         }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            _parentController.PerformSegue("ContractorSelected", this);
+        }
+
+        public ConsultantSummary GetItem(int row)
+        {
+            return _consultantGroup.Consultants[row];
+        }
     }
 }

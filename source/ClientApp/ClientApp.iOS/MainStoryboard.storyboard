@@ -390,7 +390,7 @@
                                                 <constraint firstItem="4078" firstAttribute="bottom" secondItem="4113" secondAttribute="bottom" constant="11" id="4409"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" colorSpace="calibratedRGB" red="0.86274509803921573" green="0.86274509803921573" blue="0.86274509803921573" alpha="1"/>
+                                        <color key="backgroundColor" colorSpace="calibratedRGB" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4079">
                                         <rect key="frame" x="0.0" y="59" width="320" height="44"/>
@@ -399,7 +399,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" colorSpace="calibratedRGB" red="0.86274509803921573" green="0.86274509803921573" blue="0.86274509803921573" alpha="1"/>
+                                        <color key="backgroundColor" colorSpace="calibratedRGB" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4081">
                                         <rect key="frame" x="0.0" y="103" width="320" height="44"/>
@@ -516,6 +516,7 @@
                         <outlet property="SpecializationCell" destination="4079" id="name-outlet-4079"/>
                         <outlet property="RatingLabel" destination="4301" id="name-outlet-4301"/>
                         <outlet property="ContractsLabel" destination="4315" id="name-outlet-4315"/>
+                        <outlet property="DetailsTable" destination="3942" id="name-outlet-3942"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3947" userLabel="First Responder" sceneMemberID="firstResponder"/>

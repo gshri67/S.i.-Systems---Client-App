@@ -24,6 +24,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITableView DetailsTable { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel RatingLabel { get; set; }
 
 		[Outlet]
@@ -43,6 +47,10 @@ namespace ClientApp.iOS
 			if (ContractsLabel != null) {
 				ContractsLabel.Dispose ();
 				ContractsLabel = null;
+			}
+			if (DetailsTable != null) {
+				DetailsTable.Dispose ();
+				DetailsTable = null;
 			}
 			if (RatingLabel != null) {
 				RatingLabel.Dispose ();

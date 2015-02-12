@@ -80,11 +80,13 @@ namespace ClientApp.iOS
         {
             base.PrepareForSegue(segue, sender);
 
-            if (segue.Identifier == "ConsultantSelected")
+            if (segue.Identifier == "ContractorSelected")
             {
                 var view = (ContractorDetailViewController)segue.DestinationViewController;
-                //TODO Get ID from clicked contractor
-                view.LoadConsultant(10);
+                var source = DisciplineTable.Source as DisciplineTableViewSource;
+                var rowpath = DisciplineTable.IndexPathForSelectedRow;
+                var consultant = source.GetItem(rowpath.Row);
+                view.LoadConsultant(consultant.Id);
             }
         }
 	}
