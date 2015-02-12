@@ -16,6 +16,10 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIBarButtonItem AdditionalActions { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UISearchBar contractorSearch { get; set; }
 
 		[Outlet]
@@ -28,6 +32,10 @@ namespace ClientApp.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (AdditionalActions != null) {
+				AdditionalActions.Dispose ();
+				AdditionalActions = null;
+			}
 			if (contractorSearch != null) {
 				contractorSearch.Dispose ();
 				contractorSearch = null;

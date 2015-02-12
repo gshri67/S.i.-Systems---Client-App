@@ -51,7 +51,6 @@ namespace ClientApp.iOS
 
         private void SetCellLabels(NSIndexPath indexPath, UITableViewCell cell)
         {
-            //assign the visual aspects of the cell
             cell.TextLabel.Text = BuildDetailText(_consultantGroups[indexPath.Section]);
         }
 

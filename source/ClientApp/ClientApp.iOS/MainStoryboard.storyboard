@@ -249,12 +249,19 @@
                             <constraint firstItem="3384" firstAttribute="leading" secondItem="1164" secondAttribute="leading" constant="0.0" id="3728"/>
                         </constraints>
                     </view>
-                    <navigationItem title="Contractors" id="1719" key="navigationItem"/>
+                    <navigationItem title="Consultant" id="1719" key="navigationItem">
+                        <barButtonItem title=" " id="4058" translatesAutoresizingMaskIntoConstraints="NO" key="rightBarButtonItem" style="plain" image="">
+                            <connections>
+                                <segue id="4304" destination="4255" kind="modal" modalPresentationStyle="overCurrentContext"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="summaryLabel" destination="3384" id="name-outlet-3384"/>
                         <outlet property="SpecializationTable" destination="3439" id="name-outlet-3439"/>
                         <segue id="3805" destination="3749" kind="push" identifier="DisciplineSelected"/>
                         <outlet property="contractorSearch" destination="3377" id="name-outlet-3377"/>
+                        <outlet property="AdditionalActions" destination="4058" id="name-outlet-4058"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -339,7 +346,40 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3755" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1894" y="19"/>
+            <point key="canvasLocation" x="1965" y="10"/>
+        </scene>
+        <scene sceneID="4254">
+            <objects>
+                <viewController id="4255" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4252"/>
+                        <viewControllerLayoutGuide type="bottom" id="4253"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4256">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4306" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="106" y="269" width="88" height="30"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="4306" firstAttribute="top" secondItem="4252" secondAttribute="bottom" constant="205" id="4308"/>
+                            <constraint firstItem="4256" firstAttribute="bottom" secondItem="4306" secondAttribute="bottom" constant="269" id="4327"/>
+                            <constraint firstItem="4306" firstAttribute="leading" secondItem="4256" secondAttribute="leading" constant="106" id="4328"/>
+                            <constraint firstItem="4256" firstAttribute="trailing" secondItem="4306" secondAttribute="trailing" constant="126" id="4329"/>
+                        </constraints>
+                    </view>
+                    <connections/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4257" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1941" y="661"/>
         </scene>
         <scene sceneID="3940">
             <objects>

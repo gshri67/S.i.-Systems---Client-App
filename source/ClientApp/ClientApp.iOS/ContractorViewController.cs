@@ -45,25 +45,34 @@ namespace ClientApp.iOS
             base.ViewDidLoad();
 
             // Perform any additional setup after loading the view, typically from a nib.
+
+            //set the source for our table's data
+            LoadConsultantGroups();
+
+
+            contractorSearch.TextChanged += delegate
+            {
+                //todo: set a timer/interval to fire this off after ~1 sec
+                LoadConsultantGroups();
+            };
+
+
+            var rightButton = NavigationItem.RightBarButtonItem;
+
+            UIImage image = new UIImage("Si-app-icon-40.png");
+            image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+            rightButton.SetBackgroundImage(image, UIControlState.Normal, UIBarButtonItemStyle.Plain, UIBarMetrics.Default);
         }
 
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
 
-            //set the source for our table's data
-            LoadConsultantGroups();
         }
 
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
-            //todo: find the right event handler for this to make in not fire a million times
-            contractorSearch.TextChanged += delegate
-            {
-                LoadConsultantGroups();
-            };
-
         }
 
 	    public override void ViewWillDisappear(bool animated)
@@ -81,7 +90,7 @@ namespace ClientApp.iOS
 	    private async void LoadConsultantGroups()
 	    {
             //get our list of specializations to display
-            var consultantGroups = await  _contractorModel.GetConsultantGroups(contractorSearch.Text); //TODO Stick search box's text here
+            var consultantGroups = await  _contractorModel.GetConsultantGroups(contractorSearch.Text);
             InvokeOnMainThread(delegate
                                {
                                    SpecializationTable.Source = new ContractsTableViewSource(this, consultantGroups);
