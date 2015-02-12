@@ -9,5 +9,6 @@ namespace ClientApp.Services.Interfaces
     public interface IAlumniService
     {
         Task<IEnumerable<ConsultantGroup>> GetConsultantGroups(string query);
+        Task<Consultant> GetConsultant(int id);
     }
 }

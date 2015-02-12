@@ -75,5 +75,17 @@ namespace ClientApp.iOS
 	        _parentController = parentController;
 	        _consultantGroup = consultantGroup;
 	    }
+
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        {
+            base.PrepareForSegue(segue, sender);
+
+            if (segue.Identifier == "ConsultantSelected")
+            {
+                var view = (ContractorDetailViewController)segue.DestinationViewController;
+                //TODO Get ID from clicked contractor
+                view.LoadConsultant(10);
+            }
+        }
 	}
 }

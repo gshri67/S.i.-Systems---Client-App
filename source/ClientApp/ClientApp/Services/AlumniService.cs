@@ -23,5 +23,12 @@ namespace ClientApp.Services
             var groups = JsonConvert.DeserializeObject<List<ConsultantGroup>>(json);
             return groups;
         }
+
+        public async Task<Consultant> GetConsultant(int id)
+        {
+            var json = await _connection.Get(string.Format("consultants/alumni/{0}", id));
+            var consultant = JsonConvert.DeserializeObject<Consultant>(json);
+            return consultant;
+        }
     }
 }

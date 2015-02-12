@@ -330,11 +330,197 @@
                     </tableView>
                     <connections>
                         <outlet property="DisciplineTable" destination="3750" id="name-outlet-3750"/>
+                        <segue id="4588" destination="3941" kind="push" identifier="ContractorSelected"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3755" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1894" y="19"/>
+        </scene>
+        <scene sceneID="3940">
+            <objects>
+                <tableViewController id="3941" sceneMemberID="viewController" title="FirstName LastName" customClass="ContractorDetailViewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="center" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3942" allowsSelection="NO" bounces="NO" bouncesZoom="NO" delaysContentTouches="NO" keyboardDismissMode="2" canCancelContentTouches="NO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="3941" id="3943"/>
+                            <outlet property="delegate" destination="3941" id="3944"/>
+                        </connections>
+                        <sections>
+                            <tableViewSection id="4076">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4077" rowHeight="59">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="4077" id="4078">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="58.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Previous Contract Title" lineBreakMode="wordWrap" minimumFontSize="8" id="4113" translatesAutoresizingMaskIntoConstraints="NO" numberOfLines="2" adjustsLetterSpacingToFitWidth="YES">
+                                                    <rect key="frame" x="20" y="11" width="201" height="34"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="4394" firstAttribute="height" constant="34"/>
+                                                    </constraints>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4114" translatesAutoresizingMaskIntoConstraints="NO" horizontalCompressionResistancePriority="1000">
+                                                    <rect key="frame" x="229" y="11" width="71" height="34"/>
+                                                    <state key="normal" title="Contact">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections/>
+                                                    <constraints>
+                                                        <constraint id="4401" firstAttribute="width" constant="71"/>
+                                                        <constraint id="4402" firstAttribute="height" constant="34"/>
+                                                    </constraints>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint id="4399" constant="20" firstItem="4078" firstAttribute="trailing" secondItem="4114" secondAttribute="trailing"/>
+                                                <constraint id="4400" constant="11" firstItem="4078" firstAttribute="bottom" secondItem="4114" secondAttribute="bottom"/>
+                                                <constraint id="4404" constant="20" firstItem="4113" firstAttribute="leading" secondItem="4078" secondAttribute="leading"/>
+                                                <constraint id="4405" constant="11" firstItem="4113" firstAttribute="top" secondItem="4078" secondAttribute="top"/>
+                                                <constraint firstItem="4114" firstAttribute="top" secondItem="4078" secondAttribute="top" constant="11" id="4407"/>
+                                                <constraint firstItem="4114" firstAttribute="leading" secondItem="4113" secondAttribute="trailing" constant="8" id="4408"/>
+                                                <constraint firstItem="4078" firstAttribute="bottom" secondItem="4113" secondAttribute="bottom" constant="11" id="4409"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" colorSpace="calibratedRGB" red="0.86274509803921573" green="0.86274509803921573" blue="0.86274509803921573" alpha="1"/>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4079">
+                                        <rect key="frame" x="0.0" y="59" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4079" id="4080">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" colorSpace="calibratedRGB" red="0.86274509803921573" green="0.86274509803921573" blue="0.86274509803921573" alpha="1"/>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4081">
+                                        <rect key="frame" x="0.0" y="103" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4081" id="4082">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Reference Rating" lineBreakMode="tailTruncation" minimumFontSize="10" id="4300" translatesAutoresizingMaskIntoConstraints="NO" horizontalCompressionResistancePriority="1000">
+                                                    <rect key="frame" x="20" y="11" width="140" height="21"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="4358" firstAttribute="width" constant="140"/>
+                                                        <constraint id="4359" firstAttribute="height" constant="21"/>
+                                                    </constraints>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Standard" lineBreakMode="tailTruncation" minimumFontSize="10" id="4301" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                                                    <rect key="frame" x="200" y="11" width="100" height="21"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="4364" firstAttribute="height" constant="21"/>
+                                                    </constraints>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint id="4356" constant="20" firstItem="4300" firstAttribute="leading" secondItem="4082" secondAttribute="leading"/>
+                                                <constraint id="4357" constant="11" firstItem="4300" firstAttribute="top" secondItem="4082" secondAttribute="top"/>
+                                                <constraint id="4365" firstItem="4301" firstAttribute="top" secondItem="4082" secondAttribute="top" constant="11"/>
+                                                <constraint id="4366" firstItem="4082" firstAttribute="trailing" secondItem="4301" secondAttribute="trailing" constant="20"/>
+                                                <constraint firstItem="4301" firstAttribute="leading" secondItem="4300" secondAttribute="trailing" constant="8" id="4381"/>
+                                                <constraint firstItem="4082" firstAttribute="bottom" secondItem="4301" secondAttribute="bottom" constant="11" id="4412"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4265" accessoryType="disclosureIndicator">
+                                        <rect key="frame" x="0.0" y="147" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4265" id="4266">
+                                            <rect key="frame" x="0.0" y="0.0" width="286" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Resume" lineBreakMode="tailTruncation" minimumFontSize="10" id="4309" translatesAutoresizingMaskIntoConstraints="NO">
+                                                    <rect key="frame" x="20" y="9" width="126" height="21"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="4309" firstAttribute="leading" secondItem="4266" secondAttribute="leading" constant="20" id="4310"/>
+                                                <constraint firstItem="4266" firstAttribute="bottom" secondItem="4309" secondAttribute="bottom" constant="11" id="4312"/>
+                                                <constraint firstItem="4266" firstAttribute="trailing" secondItem="4309" secondAttribute="trailing" constant="8" id="4313"/>
+                                                <constraint firstItem="4309" firstAttribute="top" secondItem="4266" secondAttribute="top" constant="11" id="4360"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4267" accessoryType="disclosureIndicator">
+                                        <rect key="frame" x="0.0" y="191" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4267" id="4268">
+                                            <rect key="frame" x="0.0" y="0.0" width="286" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Contract History" lineBreakMode="tailTruncation" minimumFontSize="10" id="4314" translatesAutoresizingMaskIntoConstraints="NO" horizontalCompressionResistancePriority="1000">
+                                                    <rect key="frame" x="20" y="11" width="132" height="21"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="4379" firstAttribute="width" constant="132"/>
+                                                        <constraint id="4380" firstAttribute="height" constant="21"/>
+                                                    </constraints>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="X contracts" lineBreakMode="tailTruncation" id="4315" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right" adjustsFontSizeToFit="NO">
+                                                    <rect key="frame" x="162" y="11" width="103" height="21"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="4398" firstAttribute="height" constant="21"/>
+                                                    </constraints>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint id="4377" constant="20" firstItem="4314" firstAttribute="leading" secondItem="4268" secondAttribute="leading"/>
+                                                <constraint id="4378" constant="11" firstItem="4314" firstAttribute="top" secondItem="4268" secondAttribute="top"/>
+                                                <constraint id="4395" constant="8" firstItem="4268" firstAttribute="trailing" secondItem="4315" secondAttribute="trailing"/>
+                                                <constraint id="4396" constant="11" firstItem="4315" firstAttribute="top" secondItem="4268" secondAttribute="top"/>
+                                                <constraint firstItem="4315" firstAttribute="leading" secondItem="4314" secondAttribute="trailing" constant="8" id="4413"/>
+                                                <constraint firstItem="4268" firstAttribute="bottom" secondItem="4315" secondAttribute="bottom" constant="11" id="4414"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <view contentMode="scaleToFill" id="4330" key="tableFooterView">
+                            <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                    </tableView>
+                    <connections>
+                        <outlet property="ContactButton" destination="4114" id="name-outlet-4114"/>
+                        <outlet property="TitleLabel" destination="4113" id="name-outlet-4113"/>
+                        <outlet property="SpecializationCell" destination="4079" id="name-outlet-4079"/>
+                        <outlet property="RatingLabel" destination="4301" id="name-outlet-4301"/>
+                        <outlet property="ContractsLabel" destination="4315" id="name-outlet-4315"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3947" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2328" y="15"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
