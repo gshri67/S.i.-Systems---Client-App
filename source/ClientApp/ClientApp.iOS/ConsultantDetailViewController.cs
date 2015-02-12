@@ -11,29 +11,28 @@ using UIKit;
 
 namespace ClientApp.iOS
 {
-	partial class ContractorDetailViewController : UITableViewController, IUITableViewDelegate
+	partial class ConsultantDetailViewController : UITableViewController, IUITableViewDelegate
 	{
-		private readonly ContractorDetailViewModel _detailViewModel;
+		private enum DetailsTableCells
+		{
+		    TitleAndContact = 0,
+            SpecializationAndSkills = 1,
+            ReferenceRating = 2,
+            Resume = 3,
+            ContractHistory = 4
+		}
 
-        public ContractorDetailViewController (IntPtr handle) : base (handle)
+        private readonly ConsultantDetailViewModel _detailViewModel;
+
+        public ConsultantDetailViewController (IntPtr handle) : base (handle)
         {
-            _detailViewModel = DependencyResolver.Current.Resolve<ContractorDetailViewModel>();
+            _detailViewModel = DependencyResolver.Current.Resolve<ConsultantDetailViewModel>();
         }
 
 	    public override void LoadView()
 	    {
 	        base.LoadView();
 	        DetailsTable.Delegate = this;
-	    }
-
-        //Resize the skills cell to fit it's contents
-	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-	    {
-	        if (indexPath.Row == 1)
-	        {
-	            return SpecializationCell.Frame.Height;
-	        }
-	         return base.GetHeightForRow(tableView, indexPath);
 	    }
 
 	    public async void LoadConsultant(int id)
@@ -51,13 +50,40 @@ namespace ClientApp.iOS
 	                           });
             
 	    }
+        #region Table Delegates
 
+	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+	    {
+	        if (indexPath.Row == (int)DetailsTableCells.SpecializationAndSkills)
+	        {
+	            return SpecializationCell.Frame.Height;
+	        }
+	        return base.GetHeightForRow(tableView, indexPath);
+	    }
+
+	    public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+	    {
+	        switch (indexPath.Row)
+	        {
+                case (int)DetailsTableCells.Resume:
+                    //TODO Open Resume screen
+	                break;
+                case (int)DetailsTableCells.ContractHistory:
+                    //TODO Open Contract History
+	                break;
+	        }
+            tableView.DeselectRow(indexPath, true);
+	    }
+
+	    #endregion
+
+        #region Specialization And Skills cell
         private void AddSpecializationAndSkills(IEnumerable<Specialization> specs, UITableViewCell cell)
         {
             var specFont = UIFont.SystemFontOfSize(17f);
             var skillFont = UIFont.SystemFontOfSize(14f);
             var frame = cell.Frame;
-            var y = 8;
+            var y = (int)specFont.LineHeight;
             foreach (var spec in specs)
 	        {
 	            var specLabel = new UILabel {Text = spec.Name, Frame = new CGRect(20, y, frame.Width - 40, specFont.LineHeight), Font = specFont};
@@ -66,7 +92,7 @@ namespace ClientApp.iOS
                 var skillLabel = new UILabel
                 {
                     Text = GetSkillsString(spec.Skills),
-                    Frame = new CGRect(20, y, frame.Width- 40, skillFont.LineHeight),
+                    Frame = new CGRect(20, y, frame.Width - 40, skillFont.LineHeight),
                     Font = skillFont,
                     TextColor = new UIColor(0.1215686274509804f, 0.1215686274509804f, 0.1215686274509804f, 255),
                     Lines = 0,
@@ -104,6 +130,7 @@ namespace ClientApp.iOS
                 default:
 	                return "Not Checked";
 	        }
-	    }
-	}
+        }
+        #endregion
+    }
 }

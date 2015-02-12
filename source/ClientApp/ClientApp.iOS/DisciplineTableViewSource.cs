@@ -46,7 +46,7 @@ namespace ClientApp.iOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            _parentController.PerformSegue("ContractorSelected", this);
+            _parentController.PerformSegue("ConsultantSelected", this);
         }
 
         public ConsultantSummary GetItem(int row)

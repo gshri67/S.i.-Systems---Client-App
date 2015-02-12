@@ -7,12 +7,12 @@ using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.ViewModels
 {
-    public class ContractorDetailViewModel : ViewModelBase
+    public class ConsultantDetailViewModel : ViewModelBase
     {
         private readonly IAlumniService _alumniService;
         private Consultant _consultant;
 
-        public ContractorDetailViewModel(IAlumniService alumniService)
+        public ConsultantDetailViewModel(IAlumniService alumniService)
         {
             _alumniService = alumniService;
         }

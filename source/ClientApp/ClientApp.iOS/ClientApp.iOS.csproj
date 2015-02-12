@@ -100,9 +100,9 @@
     <IpaPackageName />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ContractorDetailViewController.cs" />
-    <Compile Include="ContractorDetailViewController.designer.cs">
-      <DependentUpon>ContractorDetailViewController.cs</DependentUpon>
+    <Compile Include="ConsultantDetailViewController.cs" />
+    <Compile Include="ConsultantDetailViewController.designer.cs">
+      <DependentUpon>ConsultantDetailViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ContractorViewController.cs" />
     <Compile Include="ContractorViewController.designer.cs">

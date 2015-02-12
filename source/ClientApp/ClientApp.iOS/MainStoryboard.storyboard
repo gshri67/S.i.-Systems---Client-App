@@ -330,7 +330,7 @@
                     </tableView>
                     <connections>
                         <outlet property="DisciplineTable" destination="3750" id="name-outlet-3750"/>
-                        <segue id="4588" destination="3941" kind="push" identifier="ContractorSelected"/>
+                        <segue id="4588" destination="3941" kind="push" identifier="ConsultantSelected"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3755" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -339,8 +339,8 @@
         </scene>
         <scene sceneID="3940">
             <objects>
-                <tableViewController id="3941" sceneMemberID="viewController" title="FirstName LastName" customClass="ContractorDetailViewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="center" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3942" allowsSelection="NO" bounces="NO" bouncesZoom="NO" delaysContentTouches="NO" keyboardDismissMode="2" canCancelContentTouches="NO">
+                <tableViewController id="3941" sceneMemberID="viewController" title="FirstName LastName" customClass="ConsultantDetailViewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="center" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3942" bounces="NO" bouncesZoom="NO" delaysContentTouches="NO" keyboardDismissMode="2" canCancelContentTouches="NO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -372,6 +372,7 @@
                                                     <rect key="frame" x="229" y="11" width="71" height="34"/>
                                                     <state key="normal" title="Contact">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleColor" colorSpace="calibratedRGB" red="0.97254901960784312" green="0.22745098039215686" blue="0.24705882352941178" alpha="1"/>
                                                     </state>
                                                     <connections/>
                                                     <constraints>
@@ -440,7 +441,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4265" accessoryType="disclosureIndicator">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4265" accessoryType="disclosureIndicator">
                                         <rect key="frame" x="0.0" y="147" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4265" id="4266">
@@ -463,7 +464,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4267" accessoryType="disclosureIndicator">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4267" accessoryType="disclosureIndicator">
                                         <rect key="frame" x="0.0" y="191" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4267" id="4268">

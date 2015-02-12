@@ -40,9 +40,9 @@ namespace ClientApp.iOS
             PerformSegue("alumniSegue", sender);
         }
 
-	    public override void LoadView()
+	    public override void ViewDidLoad()
 	    {
-	        base.LoadView();
+	        base.ViewDidLoad();
 
 	        if (CurrentEula != null)
 	        {
