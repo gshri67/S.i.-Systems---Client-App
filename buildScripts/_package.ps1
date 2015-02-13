@@ -59,6 +59,7 @@ $packageDir = "$rootDir/buildResult/"
 
 pushd $rootDir
 MSBuildNet40 'source\Web\Web.csproj' @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunOctoPack=true', '/p:WebConfigTransform=true')
+MSBuildNet40 'source\Database.ClientApp\Database.ClientApp.csproj' @('/m', '/t:Build', '/p:Configuration=Release', '/p:RunOctoPack=true')
 
 mkdir -Force $packageDir
 
