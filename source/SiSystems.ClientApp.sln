@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 		..\buildScripts\_prep_build.ps1 = ..\buildScripts\_prep_build.ps1
 		..\buildScripts\_run_tests.ps1 = ..\buildScripts\_run_tests.ps1
 		..\buildScripts\devBuild.ps1 = ..\buildScripts\devBuild.ps1
+		..\buildScripts\_ios_build.sh = ..\buildScripts\_ios_build.sh
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Domain.Tests", "Web.Domain.Tests\Web.Domain.Tests.csproj", "{16EEDD6C-4FD7-4D64-B7B0-D07E9BB252C3}"
