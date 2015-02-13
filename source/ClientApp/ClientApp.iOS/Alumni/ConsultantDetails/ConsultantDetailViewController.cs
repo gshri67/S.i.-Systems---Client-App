@@ -90,12 +90,12 @@ namespace ClientApp.iOS
 	    #endregion
 
         #region Specialization And Skills cell
-        private void AddSpecializationAndSkills(IEnumerable<Specialization> specs, UITableViewCell cell)
+        private void AddSpecializationAndSkills(IList<Specialization> specs, UITableViewCell cell)
         {
             var specFont = UIFont.SystemFontOfSize(17f);
             var skillFont = UIFont.SystemFontOfSize(14f);
             var frame = cell.Frame;
-            var y = (int)specFont.LineHeight;
+            var y = specs.Count == 0 ? 0 : (int)specFont.LineHeight;
             foreach (var spec in specs)
 	        {
 	            var specLabel = new UILabel {Text = spec.Name, Frame = new CGRect(20, y, frame.Width - 40, specFont.LineHeight), Font = specFont};
