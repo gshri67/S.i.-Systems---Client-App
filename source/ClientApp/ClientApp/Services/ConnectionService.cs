@@ -15,11 +15,11 @@ namespace ClientApp.Services
         #if LOCAL
         private const string _baseAddr = "http://clientapi.local:50021/";
         #elif DEV
-        private const string _baseAddr = "https://clientapidev.azurewebsites.net";
+        private const string _baseAddr = "https://clientapidev.azurewebsites.net/";
         #elif TEST
-        private const string _baseAddr = "https://clientapitest.azurewebsites.net";
+        private const string _baseAddr = "https://clientapitest.azurewebsites.net/";
         #elif PROD
-        private const string _baseAddr = "https://clientapi.azurewebsites.net";
+        private const string _baseAddr = "https://clientapi.azurewebsites.net/";
         #endif
 
         private static OAuthToken _token;
@@ -41,7 +41,7 @@ namespace ClientApp.Services
                     requestStream.Write(bytes, 0, bytes.Length);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new ValidationResult(false,
                     "Unable to connect to server.  Please verify your network connection and try again.");

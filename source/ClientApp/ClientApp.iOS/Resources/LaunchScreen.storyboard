@@ -44,5 +44,12 @@
         <image name="Si-app-store-icon.png" width="1024" height="1024"/>
         <image name="Icon-76.png" width="76" height="76"/>
         <image name="Icon-Small-40.png" width="40" height="40"/>
+        <image name="thumb-up-2x.png" width="16" height="16"/>
+        <image name="thumb-up-3x.png" width="24" height="24"/>
+        <image name="thumb-up-4x.png" width="32" height="32"/>
+        <image name="thumb-up-6x.png" width="48" height="48"/>
+        <image name="thumb-up-8x.png" width="64" height="64"/>
+        <image name="thumb-up.png" width="8" height="8"/>
+        <image name="sisystems_logo.jpg" width="730" height="253"/>
     </resources>
 </document>
