@@ -17,7 +17,7 @@ namespace ClientApp.Services
         #elif DEV
         private const string _baseAddr = "https://clientapidev.azurewebsites.net";
         #elif TEST
-        private const string _baseAddr = "https://clientapitest.azurewebsites.net";
+        private const string _baseAddr = "https://clientapidev.azurewebsites.net";
         #elif PROD
         private const string _baseAddr = "https://clientapi.azurewebsites.net";
         #endif
