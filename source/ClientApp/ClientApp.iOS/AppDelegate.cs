@@ -45,7 +45,7 @@ namespace ClientApp.iOS
 
             UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes
             {
-                Font = UIFont.FromName("TimesNewRomanPSMT", 20),
+                Font = UIFont.SystemFontOfSize(20f),
                 TextColor = NavBarTextColor
             });
         }
