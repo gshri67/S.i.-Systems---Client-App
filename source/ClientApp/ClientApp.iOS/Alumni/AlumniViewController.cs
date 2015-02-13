@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using ClientApp.ViewModels;
-using Microsoft.Practices.Unity;
 using System.Linq;
+using ClientApp.iOS.Startup;
+using ClientApp.ViewModels;
 using Foundation;
-using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
@@ -12,12 +12,12 @@ namespace ClientApp.iOS
 {
 	public partial class AlumniViewController : UIViewController
 	{
-	    private readonly ContractorViewModel _contractorModel;
+	    private readonly AlumniViewModel _alumniModel;
 
         public AlumniViewController(IntPtr handle)
             : base(handle)
         {
-            _contractorModel = DependencyResolver.Current.Resolve<ContractorViewModel>();
+            _alumniModel = DependencyResolver.Current.Resolve<AlumniViewModel>();
         }
 
 	    private void SetSummaryLabel(IEnumerable<ConsultantGroup> consultantGroup)
@@ -38,6 +38,13 @@ namespace ClientApp.iOS
             return consultantGroup.Sum(x => x.Consultants.Count);
         }
 
+	    public override void TouchesBegan(NSSet touches, UIEvent evt)
+	    {
+	        base.TouchesBegan(touches, evt);
+
+	        contractorSearch.ResignFirstResponder();
+	    }
+
 	    #region View lifecycle
 
         public override void ViewDidLoad()
@@ -55,13 +62,17 @@ namespace ClientApp.iOS
                 //todo: set a timer/interval to fire this off after ~1 sec
                 LoadConsultantGroups();
             };
+            contractorSearch.SearchButtonClicked += delegate
+            {
+                contractorSearch.ResignFirstResponder();
+            };
 
+            //TODO Make button image work properly
+            //var rightButton = NavigationItem.RightBarButtonItem;
 
-            var rightButton = NavigationItem.RightBarButtonItem;
-
-            UIImage image = new UIImage("Si-app-icon-40.png");
-            image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
-            rightButton.SetBackgroundImage(image, UIControlState.Normal, UIBarButtonItemStyle.Plain, UIBarMetrics.Default);
+            //UIImage image = new UIImage("testbutton.png");
+            //image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+            //rightButton.SetBackgroundImage(image, UIControlState.Normal, UIBarButtonItemStyle.Plain, UIBarMetrics.Default);
         }
 
         public override void ViewWillAppear(bool animated)
@@ -90,7 +101,7 @@ namespace ClientApp.iOS
 	    private async void LoadConsultantGroups()
 	    {
             //get our list of specializations to display
-            var consultantGroups = await  _contractorModel.GetConsultantGroups(contractorSearch.Text);
+            var consultantGroups = await  _alumniModel.GetConsultantGroups(contractorSearch.Text);
             InvokeOnMainThread(delegate
                                {
                                    SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
@@ -115,6 +126,22 @@ namespace ClientApp.iOS
                     navCtrl.SetSpecialization(this, consultantGroup);
                 }
             }
+        }
+
+        partial void AdditionalActions_Activated(UIBarButtonItem sender)
+        {
+            var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
+            var logoutAction = UIAlertAction.Create("Logout", UIAlertActionStyle.Destructive,
+                delegate
+                {
+                    _alumniModel.Logout();
+                    TokenStore.DeleteDeviceToken();
+                    InvokeOnMainThread(delegate{PerformSegue("logoutSegue", this);});
+                });
+            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+            controller.AddAction(logoutAction);
+            controller.AddAction(cancelAction);
+            PresentViewController(controller, true, null);
         }
 	}
 }

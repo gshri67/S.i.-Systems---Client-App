@@ -30,6 +30,10 @@ namespace ClientApp.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel summaryLabel { get; set; }
 
+		[Action ("AdditionalActions_Activated:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void AdditionalActions_Activated (UIBarButtonItem sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (AdditionalActions != null) {

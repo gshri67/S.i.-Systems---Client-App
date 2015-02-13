@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using ClientApp.iOS.Startup;
 using ClientApp.ViewModels;
 using Foundation;
 using Microsoft.Practices.Unity;
@@ -33,13 +34,22 @@ namespace ClientApp.iOS
             // Release any cached data, images, etc that aren't in use.
         }
 
+        //dismiss keyboard when tapping outside of text fields
+        public override void TouchesBegan(NSSet touches, UIEvent evt)
+        {
+            base.TouchesBegan(touches, evt);
+
+            username.ResignFirstResponder();
+            password.ResignFirstResponder();
+        }
+
         #region View lifecycle
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            var token = GetDeviceToken();
+            var token = TokenStore.GetDeviceToken();
             if (token == null) return;
 
             username.Text = token.Username;
@@ -99,7 +109,7 @@ namespace ClientApp.iOS
             {
                 if (task.Result.IsValid)
                 {
-                    SaveToken(_loginModel.GetAuthToken());
+                    TokenStore.SaveToken(_loginModel.GetAuthToken());
                     CheckEulaService(userName);
                 }
                 else
@@ -155,63 +165,13 @@ namespace ClientApp.iOS
 
         private void DisplayInvalidCredentials(string message)
         {
-            NSOperationQueue.MainQueue.AddOperation(
-                () =>
-                {
-                    loginActivityIndicator.StopAnimating();
-                    var view = new UIAlertView("Oops", message, null, "Ok");
-                    view.Show();
-                    EnableControls();
-                });
-        }
-
-        private void SaveToken(OAuthToken token)
-        {
-            var json = JsonConvert.SerializeObject(token);
-            var existingRecord = new SecRecord(SecKind.GenericPassword)
-            {
-                Service = "SiSystemsClientApp",
-                Label = "Certificate",
-            };
-            var newRecord = new SecRecord(SecKind.GenericPassword)
-            {
-                Service = "SiSystemsClientApp",
-                Label = "Certificate",
-                Account = _loginModel.UserName,
-                ValueData = NSData.FromString(json),
-                Accessible = SecAccessible.AlwaysThisDeviceOnly
-            };
-            
-            var addCode = SecKeyChain.Add(newRecord);
-            if (addCode == SecStatusCode.DuplicateItem)
-            {
-                var remCode = SecKeyChain.Remove(existingRecord);
-                if (remCode == SecStatusCode.Success)
-                {
-                    var addCode2 = SecKeyChain.Add(newRecord);
-                }
-            }
-        }
-
-        private OAuthToken GetDeviceToken()
-        {
-            var existingRecord = new SecRecord(SecKind.GenericPassword)
-            {
-                Label = "Certificate",
-                Service = "SiSystemsClientApp"
-            };
-
-            SecStatusCode resultCode;
-            var data = SecKeyChain.QueryAsRecord(existingRecord, out resultCode);
-
-            if (resultCode == SecStatusCode.Success)
-            {
-                var json = NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
-                var token = JsonConvert.DeserializeObject<OAuthToken>(json);
-                _loginModel.UserName = token.Username;
-                return token;
-            }
-            return null;
+            InvokeOnMainThread(delegate
+                               {
+                                   loginActivityIndicator.StopAnimating();
+                                   var view = new UIAlertView("Oops", message, null, "Ok");
+                                   view.Show();
+                                   EnableControls();
+                               });
         }
 
         private void DisableControls()

@@ -86,6 +86,7 @@ namespace ClientApp.ViewModels
 
         public void SetAuthToken(OAuthToken token)
         {
+            UserName = token.Username;
             _loginService.SetAuthToken(token);
         }
 

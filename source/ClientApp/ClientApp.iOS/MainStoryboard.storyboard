@@ -250,10 +250,11 @@
                         </constraints>
                     </view>
                     <navigationItem title="Consultant" id="1719" key="navigationItem">
-                        <barButtonItem title=" " id="4058" translatesAutoresizingMaskIntoConstraints="NO" key="rightBarButtonItem" style="plain" image="">
+                        <barButtonItem title="  S.i.  " id="4058" translatesAutoresizingMaskIntoConstraints="NO" key="rightBarButtonItem" style="plain" image="">
                             <connections>
-                                <segue id="4304" destination="4255" kind="modal" modalPresentationStyle="overCurrentContext"/>
+                                <action selector="AdditionalActions_Activated:" destination="1163" id="4945"/>
                             </connections>
+                            <color key="tintColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -347,39 +348,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3755" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1965" y="10"/>
-        </scene>
-        <scene sceneID="4254">
-            <objects>
-                <viewController id="4255" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="4252"/>
-                        <viewControllerLayoutGuide type="bottom" id="4253"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="4256">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4306" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="106" y="269" width="88" height="30"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Logout">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="4306" firstAttribute="top" secondItem="4252" secondAttribute="bottom" constant="205" id="4308"/>
-                            <constraint firstItem="4256" firstAttribute="bottom" secondItem="4306" secondAttribute="bottom" constant="269" id="4327"/>
-                            <constraint firstItem="4306" firstAttribute="leading" secondItem="4256" secondAttribute="leading" constant="106" id="4328"/>
-                            <constraint firstItem="4256" firstAttribute="trailing" secondItem="4306" secondAttribute="trailing" constant="126" id="4329"/>
-                        </constraints>
-                    </view>
-                    <connections/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4257" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1941" y="661"/>
         </scene>
         <scene sceneID="3940">
             <objects>
@@ -721,5 +689,7 @@
         <image name="thumb-up-4x.png" width="32" height="32"/>
         <image name="thumb-up-6x.png" width="48" height="48"/>
         <image name="thumb-up-8x.png" width="64" height="64"/>
+        <image name="Si-app-button.png" width="120" height="65"/>
+        <image name="testbutton.png" width="40" height="22"/>
     </resources>
 </document>

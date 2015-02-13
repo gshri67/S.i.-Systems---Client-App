@@ -21,7 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ILoginService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LogoutService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ConsultantDetailViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ContractorViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AlumniViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\EulaViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelBase.cs" />

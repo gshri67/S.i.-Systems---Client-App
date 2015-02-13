@@ -178,6 +178,7 @@
     <Compile Include="Alumni\ConsultantDetails\ResumeViewController.designer.cs">
       <DependentUpon>ResumeViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Startup\TokenStore.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />

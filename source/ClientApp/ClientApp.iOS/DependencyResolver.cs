@@ -25,6 +25,7 @@ namespace ClientApp.iOS
         private static void RegisterTypes(UnityContainer container)
         {
             container.RegisterType<ILoginService, LoginService>();
+            container.RegisterType<ILogoutService, LogoutService>();
             container.RegisterType<IEulaService, EulaService>();
             container.RegisterType<IConnectionService, ConnectionService>();
             container.RegisterType<IAlumniService, AlumniService>();
