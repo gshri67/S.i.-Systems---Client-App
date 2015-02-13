@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>SiSystems.ClientApp.Database</id>
+    <title>S.i. Systems - Client App Database</title>
+    <version></version>
+    <authors>S.i. Systems</authors>
+    <owners>S.i. Systems</owners>
+    <licenseUrl>http://www.sisystems.com/</licenseUrl>
+    <projectUrl>http://www.sisystems.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>S.i. Systems Client App Database</description>
+    <releaseNotes></releaseNotes>
+  </metadata>
+</package>
