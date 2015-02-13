@@ -100,37 +100,45 @@
     <IpaPackageName />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ConsultantDetailViewController.cs" />
-    <Compile Include="ConsultantDetailViewController.designer.cs">
+    <Compile Include="Alumni\ConsultantDetails\ConsultantDetailViewController.cs" />
+    <Compile Include="Alumni\ConsultantDetails\ConsultantDetailViewController.designer.cs">
       <DependentUpon>ConsultantDetailViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ContractorViewController.cs" />
-    <Compile Include="ContractorViewController.designer.cs">
+    <Compile Include="Alumni\ContractorViewController.cs" />
+    <Compile Include="Alumni\ContractorViewController.designer.cs">
       <DependentUpon>ContractorViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ContractsTableViewSource.cs" />
-    <Compile Include="CustomDisciplineCell.cs" />
-    <Compile Include="CustomDisciplineCell.designer.cs">
+    <Compile Include="Alumni\ContractsTableViewSource.cs" />
+    <Compile Include="Alumni\ConsultantDetails\ContractsViewController.cs" />
+    <Compile Include="Alumni\ConsultantDetails\ContractsViewController.designer.cs">
+      <DependentUpon>ContractsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Alumni\ConsultantDetails\CustomContractCell.cs" />
+    <Compile Include="Alumni\ConsultantDetails\CustomContractCell.designer.cs">
+      <DependentUpon>CustomContractCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Alumni\CustomDisciplineCell.cs" />
+    <Compile Include="Alumni\CustomDisciplineCell.designer.cs">
       <DependentUpon>CustomDisciplineCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="DisciplineTableViewSource.cs" />
-    <Compile Include="EulaViewController.cs" />
-    <Compile Include="EulaViewController.designer.cs">
+    <Compile Include="Alumni\DisciplineTableViewSource.cs" />
+    <Compile Include="Startup\EulaViewController.cs" />
+    <Compile Include="Startup\EulaViewController.designer.cs">
       <DependentUpon>EulaViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginViewController.cs" />
-    <Compile Include="LoginViewController.designer.cs">
+    <Compile Include="Startup\LoginViewController.cs" />
+    <Compile Include="Startup\LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="DependencyResolver.cs" />
-    <Compile Include="DisciplineViewController.cs" />
-    <Compile Include="DisciplineViewController.designer.cs">
+    <Compile Include="Alumni\DisciplineViewController.cs" />
+    <Compile Include="Alumni\DisciplineViewController.designer.cs">
       <DependentUpon>DisciplineViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ResumeViewController.cs" />
-    <Compile Include="ResumeViewController.designer.cs">
+    <Compile Include="Alumni\ConsultantDetails\ResumeViewController.cs" />
+    <Compile Include="Alumni\ConsultantDetails\ResumeViewController.designer.cs">
       <DependentUpon>ResumeViewController.cs</DependentUpon>
     </Compile>
     <None Include="Entitlements.plist" />

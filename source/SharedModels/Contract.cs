@@ -8,6 +8,7 @@ namespace SiSystems.ClientApp.SharedModels
         public int ClientId { get; set; }
 
         public string SpecializationName { get; set; }
+        public string SpecializationNameShort { get; set; }
 
         public string Title { get; set; }
 
