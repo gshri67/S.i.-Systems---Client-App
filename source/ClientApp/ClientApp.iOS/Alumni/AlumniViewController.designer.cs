@@ -11,8 +11,8 @@ using UIKit;
 
 namespace ClientApp.iOS
 {
-	[Register ("ContractorViewController")]
-	partial class ContractorViewController
+	[Register ("AlumniViewController")]
+	partial class AlumniViewController
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]

@@ -8,7 +8,7 @@ namespace ClientApp.iOS
 {
 	public partial class DisciplineViewController : UITableViewController
 	{
-	    private ContractorViewController _parentController;
+	    private AlumniViewController _parentController;
 	    private ConsultantGroup _consultantGroup;
 	    private string _previousScreenTitle;
 
@@ -50,7 +50,7 @@ namespace ClientApp.iOS
             });
             
             //set the source for our table's data
-            //SpecializationTable.Source = new ContractsTableViewSource(this, consultantGroups);
+            //SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
         }
 
         public override void ViewDidAppear(bool animated)
@@ -70,7 +70,7 @@ namespace ClientApp.iOS
 
         #endregion
 
-	    public void SetSpecialization(ContractorViewController parentController, ConsultantGroup consultantGroup)
+	    public void SetSpecialization(AlumniViewController parentController, ConsultantGroup consultantGroup)
 	    {
 	        _parentController = parentController;
 	        _consultantGroup = consultantGroup;

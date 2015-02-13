@@ -9,15 +9,15 @@ using UIKit;
 
 namespace ClientApp.iOS
 {
-    internal class ContractsTableViewSource : UITableViewSource
+    internal class AlumniTableViewSource : UITableViewSource
     {
         private readonly List<ConsultantGroup> _consultantGroups;
 
         private const string CellIdentifier = "ConsultantGroupCell";
 
-        private readonly ContractorViewController _parentController;
+        private readonly AlumniViewController _parentController;
 
-        public ContractsTableViewSource(ContractorViewController parentController,
+        public AlumniTableViewSource(AlumniViewController parentController,
             IEnumerable<ConsultantGroup> consultantGroups)
         {
             _parentController = parentController;

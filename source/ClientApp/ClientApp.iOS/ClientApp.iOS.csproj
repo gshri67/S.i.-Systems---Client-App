@@ -104,11 +104,11 @@
     <Compile Include="Alumni\ConsultantDetails\ConsultantDetailViewController.designer.cs">
       <DependentUpon>ConsultantDetailViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Alumni\ContractorViewController.cs" />
-    <Compile Include="Alumni\ContractorViewController.designer.cs">
-      <DependentUpon>ContractorViewController.cs</DependentUpon>
+    <Compile Include="Alumni\AlumniViewController.cs" />
+    <Compile Include="Alumni\AlumniViewController.designer.cs">
+      <DependentUpon>AlumniViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Alumni\ContractsTableViewSource.cs" />
+    <Compile Include="Alumni\AlumniTableViewSource.cs" />
     <Compile Include="Alumni\ConsultantDetails\ContractsViewController.cs" />
     <Compile Include="Alumni\ConsultantDetails\ContractsViewController.designer.cs">
       <DependentUpon>ContractsViewController.cs</DependentUpon>

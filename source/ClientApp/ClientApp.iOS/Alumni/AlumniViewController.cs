@@ -10,11 +10,11 @@ using UIKit;
 
 namespace ClientApp.iOS
 {
-	public partial class ContractorViewController : UIViewController
+	public partial class AlumniViewController : UIViewController
 	{
 	    private readonly ContractorViewModel _contractorModel;
 
-        public ContractorViewController(IntPtr handle)
+        public AlumniViewController(IntPtr handle)
             : base(handle)
         {
             _contractorModel = DependencyResolver.Current.Resolve<ContractorViewModel>();
@@ -93,7 +93,7 @@ namespace ClientApp.iOS
             var consultantGroups = await  _contractorModel.GetConsultantGroups(contractorSearch.Text);
             InvokeOnMainThread(delegate
                                {
-                                   SpecializationTable.Source = new ContractsTableViewSource(this, consultantGroups);
+                                   SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
                                    SpecializationTable.ReloadData();
                                    SetSummaryLabel(consultantGroups);
                                });
@@ -109,7 +109,7 @@ namespace ClientApp.iOS
 
                 if (navCtrl != null)
                 {
-                    var source = SpecializationTable.Source as ContractsTableViewSource;
+                    var source = SpecializationTable.Source as AlumniTableViewSource;
                     var rowpath = SpecializationTable.IndexPathForSelectedRow;
                     var consultantGroup = source.GetItem(rowpath.Section);
                     navCtrl.SetSpecialization(this, consultantGroup);
