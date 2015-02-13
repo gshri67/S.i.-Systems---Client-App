@@ -129,6 +129,10 @@
     <Compile Include="DisciplineViewController.designer.cs">
       <DependentUpon>DisciplineViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ResumeViewController.cs" />
+    <Compile Include="ResumeViewController.designer.cs">
+      <DependentUpon>ResumeViewController.cs</DependentUpon>
+    </Compile>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />

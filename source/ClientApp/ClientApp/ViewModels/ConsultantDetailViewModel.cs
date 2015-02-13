@@ -10,6 +10,7 @@ namespace ClientApp.ViewModels
     public class ConsultantDetailViewModel : ViewModelBase
     {
         private readonly IAlumniService _alumniService;
+
         private Consultant _consultant;
 
         public ConsultantDetailViewModel(IAlumniService alumniService)
@@ -17,9 +18,20 @@ namespace ClientApp.ViewModels
             _alumniService = alumniService;
         }
 
-        public Task<Consultant> GetConsultant(int id)
+        public async Task<Consultant> GetConsultant(int id)
         {
-            return _alumniService.GetConsultant(id);
+            if (_consultant != null && _consultant.Id == id)
+            {
+                return _consultant;
+            }
+
+            _consultant = await _alumniService.GetConsultant(id);
+            return _consultant;
+        }
+
+        public Consultant GetConsultant()
+        {
+            return _consultant ?? new Consultant();
         }
 
     }

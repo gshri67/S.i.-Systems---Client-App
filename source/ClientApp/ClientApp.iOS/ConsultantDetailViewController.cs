@@ -50,7 +50,19 @@ namespace ClientApp.iOS
 	                           });
             
 	    }
-        #region Table Delegates
+
+	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+	    {
+	        base.PrepareForSegue(segue, sender);
+
+	        if (segue.Identifier == "ResumeSelected")
+	        {
+                var view = (ResumeViewController)segue.DestinationViewController;
+	            view.Resume = _detailViewModel.GetConsultant().ResumeText;
+	        }
+	    }
+
+	    #region Table Delegates
 
 	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 	    {
@@ -66,7 +78,7 @@ namespace ClientApp.iOS
 	        switch (indexPath.Row)
 	        {
                 case (int)DetailsTableCells.Resume:
-                    //TODO Open Resume screen
+                    PerformSegue("ResumeSelected", this);
 	                break;
                 case (int)DetailsTableCells.ContractHistory:
                     //TODO Open Contract History
