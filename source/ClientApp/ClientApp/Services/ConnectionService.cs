@@ -12,7 +12,15 @@ namespace ClientApp.Services
     public class ConnectionService : IConnectionService
     {
         //TODO store and retrieve this from somewhere
+        #if LOCAL
         private const string _baseAddr = "http://clientapi.local:50021/";
+        #elif DEV
+        private const string _baseAddr = "https://clientapidev.azurewebsites.net";
+        #elif TEST
+        private const string _baseAddr = "https://clientapitest.azurewebsites.net";
+        #elif PROD
+        private const string _baseAddr = "https://clientapi.azurewebsites.net";
+        #endif
 
         private static OAuthToken _token;
 
