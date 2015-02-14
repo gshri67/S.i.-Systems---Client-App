@@ -42,7 +42,7 @@ namespace ClientApp.iOS
 	                           {
                                    Title = consultant.FullName;
 	                               TitleLabel.Text =
-	                                   consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
+	                                   consultant.Contracts.Where(c => !string.IsNullOrEmpty(c.Title)).OrderByDescending(c => c.EndDate).First().Title;
 	                               RatingLabel.Text = GetRatingString(consultant.Rating);
 	                               ContractsLabel.Text = string.Format("{0} contracts", consultant.Contracts.Count);
                                    AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
