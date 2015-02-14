@@ -279,7 +279,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3815" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO">
-                                            <rect key="frame" x="57" y="0.0" width="173" height="21"/>
+                                            <rect key="frame" x="57" y="0.0" width="145" height="21"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
@@ -293,7 +293,7 @@
                                                 <constraint id="4041" firstAttribute="height" constant="30"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3825" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3825" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO" horizontalCompressionResistancePriority="1000">
                                             <rect key="frame" x="238" y="13" width="42" height="21"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -301,7 +301,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3988" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO">
-                                            <rect key="frame" x="58" y="28" width="172" height="21"/>
+                                            <rect key="frame" x="58" y="28" width="144" height="21"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
@@ -319,6 +319,10 @@
                                         <constraint firstItem="3988" firstAttribute="leading" secondItem="3815" secondAttribute="leading" constant="1" id="4046"/>
                                         <constraint firstItem="3815" firstAttribute="leading" secondItem="3820" secondAttribute="trailing" constant="17" id="4047"/>
                                         <constraint firstItem="3988" firstAttribute="top" secondItem="3815" secondAttribute="bottom" constant="7" id="4048"/>
+                                        <constraint firstItem="3815" firstAttribute="trailing" secondItem="3988" secondAttribute="trailing" constant="0.0" id="5165"/>
+                                        <constraint firstItem="3988" firstAttribute="trailing" secondItem="3815" secondAttribute="trailing" constant="0.0" id="5166"/>
+                                        <constraint firstItem="3825" firstAttribute="leading" secondItem="3815" secondAttribute="trailing" constant="8" id="5167"/>
+                                        <constraint firstItem="3825" firstAttribute="leading" secondItem="3988" secondAttribute="trailing" constant="8" id="5168"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
