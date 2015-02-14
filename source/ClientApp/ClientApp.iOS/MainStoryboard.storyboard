@@ -293,14 +293,14 @@
                                                 <constraint id="4041" firstAttribute="height" constant="30"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3825" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO" horizontalCompressionResistancePriority="1000">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3825" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO" horizontalCompressionResistancePriority="1000" textAlignment="right">
                                             <rect key="frame" x="238" y="13" width="42" height="21"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3988" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3988" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" minimumFontSize="10" enabled="NO">
                                             <rect key="frame" x="58" y="28" width="144" height="21"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
