@@ -63,7 +63,7 @@ MSBuildNet40 'source\Database.ClientApp\Database.ClientApp.csproj' @('/m', '/t:B
 
 mkdir -Force $packageDir
 
-Get-ChildItem -recurse -filter *$version.nupkg | ? { -not $_.Directory.ToString().ToLower().Contains("\packages\")} | % { copy $_.FullName $packageDir }
+Get-ChildItem -recurse -path source\ -filter *$version.nupkg | ? { -not $_.Directory.ToString().ToLower().Contains("\packages\")} | % { copy -Force $_.FullName $packageDir }
 
 popd
 

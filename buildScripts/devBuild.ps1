@@ -12,4 +12,10 @@ pushd $scriptRoot
 .\_post_build.ps1 -Verbose
 .\_package.ps1 -Verbose
 
+pushd ..
+git checkout -- **/AssemblyInfo.cs
+git checkout -- **/*.nuspec
+git checkout -- version.txt
+popd
+
 popd
