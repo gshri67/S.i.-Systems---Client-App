@@ -160,6 +160,10 @@
       <DependentUpon>CustomDisciplineCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Alumni\DisciplineTableViewSource.cs" />
+    <Compile Include="Alumni\NewContractViewController.cs" />
+    <Compile Include="Alumni\NewContractViewController.designer.cs">
+      <DependentUpon>NewContractViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Startup\EulaViewController.cs" />
     <Compile Include="Startup\EulaViewController.designer.cs">
       <DependentUpon>EulaViewController.cs</DependentUpon>

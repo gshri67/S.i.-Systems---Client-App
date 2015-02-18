@@ -51,6 +51,11 @@ namespace ClientApp.iOS
             
 	    }
 
+	    partial void NewContractButton_TouchUpInside(UIButton sender)
+	    {
+            PerformSegue("NewContractSelected", sender);
+	    }
+
 	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
 	    {
 	        base.PrepareForSegue(segue, sender);
@@ -63,6 +68,10 @@ namespace ClientApp.iOS
 	        {
                 var view = (ContractsViewController)segue.DestinationViewController;
                 view.Contracts = _detailViewModel.GetConsultant().Contracts;
+	        } else if (segue.Identifier == "NewContractSelected")
+	        {
+	            var view = (NewContractViewController) segue.DestinationViewController;
+	            view.Consultant = _detailViewModel.GetConsultant();
 	        }
 	    }
 

@@ -28,6 +28,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton NewContractButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel RatingLabel { get; set; }
 
 		[Outlet]
@@ -37,6 +41,10 @@ namespace ClientApp.iOS
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel TitleLabel { get; set; }
+
+		[Action ("NewContractButton_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void NewContractButton_TouchUpInside (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -51,6 +59,10 @@ namespace ClientApp.iOS
 			if (DetailsTable != null) {
 				DetailsTable.Dispose ();
 				DetailsTable = null;
+			}
+			if (NewContractButton != null) {
+				NewContractButton.Dispose ();
+				NewContractButton = null;
 			}
 			if (RatingLabel != null) {
 				RatingLabel.Dispose ();
