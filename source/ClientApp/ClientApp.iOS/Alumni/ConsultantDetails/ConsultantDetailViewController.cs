@@ -59,6 +59,10 @@ namespace ClientApp.iOS
 	        {
                 var view = (ResumeViewController)segue.DestinationViewController;
 	            view.Resume = _detailViewModel.GetConsultant().ResumeText;
+	        } else if (segue.Identifier == "ContractsSelected")
+	        {
+                var view = (ContractsViewController)segue.DestinationViewController;
+                view.Contracts = _detailViewModel.GetConsultant().Contracts;
 	        }
 	    }
 
@@ -81,7 +85,7 @@ namespace ClientApp.iOS
                     PerformSegue("ResumeSelected", this);
 	                break;
                 case (int)DetailsTableCells.ContractHistory:
-                    //TODO Open Contract History
+                    PerformSegue("ContractsSelected", this);
 	                break;
 	        }
             tableView.DeselectRow(indexPath, true);

@@ -146,6 +146,7 @@
       <DependentUpon>AlumniViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Alumni\AlumniTableViewSource.cs" />
+    <Compile Include="Alumni\ConsultantDetails\ContractsTableViewSource.cs" />
     <Compile Include="Alumni\ConsultantDetails\ContractsViewController.cs" />
     <Compile Include="Alumni\ConsultantDetails\ContractsViewController.designer.cs">
       <DependentUpon>ContractsViewController.cs</DependentUpon>
