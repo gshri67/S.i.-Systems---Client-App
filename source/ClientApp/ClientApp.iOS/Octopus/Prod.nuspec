@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>SiSystems.ClientApp.iOS.Prod</id>
+    <title>S.i. Systems - Client App iOS - Prod</title>
+    <version>1.0</version>
+    <authors>S.i. Systems</authors>
+    <owners>S.i. Systems</owners>
+    <licenseUrl>http://www.sisystems.com/</licenseUrl>
+    <projectUrl>http://www.sisystems.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>S.i. Systems iOS Client App - Targeting Prod Environment</description>
+    <releaseNotes></releaseNotes>
+  </metadata>
+</package>

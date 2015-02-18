@@ -184,6 +184,9 @@
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
+    <None Include="Octopus\Deploy.ps1" />
+    <None Include="Octopus\Prod.nuspec" />
+    <None Include="Octopus\Test.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
