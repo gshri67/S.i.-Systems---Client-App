@@ -150,5 +150,33 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
             Assert.AreEqual(MatchGuideConstants.ResumeRating.AboveStandard, results.First().Consultants.First().Rating);
         }
+
+        [Test]
+        public void FindAlumni_ConsultantsWithLowRatingsShouldNotBeFiltered()
+        {
+            var repo = new Mock<IConsultantRepository>();
+            repo.Setup(m => m.FindAlumni(It.IsAny<string>(), It.IsAny<IEnumerable<int>>()))
+                .Returns(new List<ConsultantGroup>
+                {
+                    new ConsultantGroup
+                    {
+                        Specialization = "Javaers",
+                        Consultants = new List<ConsultantSummary>
+                        {
+                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.NotChecked},
+                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.AboveStandard},
+                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.BelowStandard},
+                        }
+                    }
+                });
+
+            var service = new ConsultantService(repo.Object, _companyRepositoryMock.Object, _sessionContextMock.Object);
+
+            var results = service.FindAlumni("");
+
+            var ratings = results.SelectMany(g => g.Consultants).Select(c => c.Rating).ToList();
+
+            Assert.Contains(MatchGuideConstants.ResumeRating.BelowStandard, ratings);
+        }
     }
 }
