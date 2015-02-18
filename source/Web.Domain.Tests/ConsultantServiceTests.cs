@@ -12,6 +12,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
     public class ConsultantServiceTests
     {
         private Mock<ISessionContext> _sessionContextMock;
+        private CompanyRepository _companyRepository;
 
         private const int CurrentUserClientId = 1;
         private const int AnotherClientId = 2;
@@ -28,6 +29,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 Login = "Test.User",
                 PasswordHash = "#"
             });
+            _companyRepository = new CompanyRepository(new MockCache());
         }
 
         [Test]
@@ -40,7 +42,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                     Contracts = new List<Contract>()
                 });
 
-            var service = new ConsultantService(repo.Object, _sessionContextMock.Object);
+            var service = new ConsultantService(repo.Object, _companyRepository, _sessionContextMock.Object);
             Assert.Throws<UnauthorizedAccessException>(()=> service.Find(10));
         }
 
@@ -57,7 +59,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                     }
                 });
 
-            var service = new ConsultantService(repo.Object, _sessionContextMock.Object);
+            var service = new ConsultantService(repo.Object, _companyRepository, _sessionContextMock.Object);
             Assert.DoesNotThrow(() => service.Find(10));
         }
 
@@ -76,12 +78,74 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                     }
                 });
 
-            var service = new ConsultantService(repo.Object, _sessionContextMock.Object);
+            var service = new ConsultantService(repo.Object, _companyRepository, _sessionContextMock.Object);
 
             var consultant = service.Find(10);
 
             Assert.AreEqual(2, consultant.Contracts.Count());
             Assert.IsTrue(consultant.Contracts.All(c=>c.ClientId==CurrentUserClientId));
+        }
+
+        [Test]
+        public void FindAlumni_ResultsShouldBeOrderedBySpecializationGroupSize()
+        {
+            var repo = new Mock<IConsultantRepository>();
+            repo.Setup(m => m.FindAlumni(It.IsAny<string>(), It.IsAny<IEnumerable<int>>()))
+                .Returns(new List<ConsultantGroup>
+                {
+                    new ConsultantGroup
+                    {
+                        Specialization = "Specialization with One Consultant",
+                        Consultants = new List<ConsultantSummary>
+                        {
+                            new ConsultantSummary{}
+                        }
+                    },
+                    new ConsultantGroup
+                    {
+                        Specialization = "Specialization with Two Consultants",
+                        Consultants = new List<ConsultantSummary>
+                        {
+                            new ConsultantSummary(),
+                            new ConsultantSummary(),
+                        }
+                    }
+                });
+
+            var service = new ConsultantService(repo.Object, _companyRepository, _sessionContextMock.Object);
+
+            var results = service.FindAlumni("Java");
+
+            //Expect order to be reversed from repository result..
+            Assert.AreEqual("Specialization with Two Consultants", results.First().Specialization);
+        }
+
+        [Test]
+        public void FindAlumni_ConsultantsShouldBeOrderedByRating()
+        {
+            var repo = new Mock<IConsultantRepository>();
+            repo.Setup(m => m.FindAlumni(It.IsAny<string>(), It.IsAny<IEnumerable<int>>()))
+                .Returns(new List<ConsultantGroup>
+                {
+                    new ConsultantGroup
+                    {
+                        Specialization = "Javaers",
+                        Consultants = new List<ConsultantSummary>
+                        {
+                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.NotChecked},
+                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.AboveStandard},
+                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.BelowStandard},
+                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.Standard},
+                            new ConsultantSummary{Rating = 1234}
+                        }
+                    }
+                });
+
+            var service = new ConsultantService(repo.Object, _companyRepository, _sessionContextMock.Object);
+
+            var results = service.FindAlumni("Java");
+
+            Assert.AreEqual(MatchGuideConstants.ResumeRating.AboveStandard, results.First().Consultants.First().Rating);
         }
     }
 }
