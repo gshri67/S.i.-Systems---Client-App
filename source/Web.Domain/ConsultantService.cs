@@ -63,7 +63,7 @@ namespace SiSystems.ClientApp.Web.Domain
 
             foreach (var group in orderedResults)
             {
-                @group.Consultants = @group.Consultants
+                group.Consultants = group.Consultants
                     .OrderByDescending(c => ConvertResumeRatingToSortableInt(c.Rating))
                     .ThenBy(c => c.FirstName)
                     .ThenBy(c => c.LastName).ToList();
