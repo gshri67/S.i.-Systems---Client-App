@@ -8,58 +8,55 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
     {
         public IEnumerable<int> GetAllAssociatedCompanyIds(int companyId)
         {
+            EnsureIndexExists();
+            var companyNode = EnsureNode(companyId, _companyIndex);
+
+            var nodes = new TreeTraverser().GetAllConnectedNodes(companyNode);
+
+            return nodes.Select(n => n.Id);
+        }
+
+        private static Dictionary<int, TreeNode> _companyIndex;
+
+        private void EnsureIndexExists()
+        {
+            if (_companyIndex == null)
+            {
+                BuildCompanyRelationshipIndex();
+            }
+        }
+
+        private void BuildCompanyRelationshipIndex()
+        {
+            var hash = new Dictionary<int, TreeNode>();
+
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                string allCompanyRelationshipsQuery = "SELECT ParentID as ParentId, ChildID as ChildId "
-                                                      + "FROM [Company_ParentChildRelationship]";
-
-                var relationships = db.Connection.Query<CompanyRelationship>(allCompanyRelationshipsQuery);
-
-                var companyNode = new TreeNode(companyId);
-
-                var hash = new Dictionary<int, TreeNode>();
-                hash.Add(companyId, companyNode);
+                const string allCompanyRelationshipsQuery = "SELECT ParentID as ParentId, ChildID as ChildId "
+                                                            + "FROM [Company_ParentChildRelationship]";
+                
+                var relationships = db.Connection.Query<dynamic>(allCompanyRelationshipsQuery);
 
                 foreach (var relationship in relationships)
                 {
-                    TreeNode child;
-                    if (!hash.ContainsKey(relationship.ChildId))
-                    {
-                        child = new TreeNode(relationship.ChildId);
-                        hash.Add(relationship.ChildId, child);
-                    }
-                    else
-                    {
-                        child = hash[relationship.ChildId];
-                    }
-
-                    TreeNode parent;
-                    if (!hash.ContainsKey(relationship.ParentId))
-                    {
-                        parent = new TreeNode(relationship.ParentId);
-                        hash.Add(relationship.ParentId, parent);
-                    }
-                    else
-                    {
-                        parent = hash[relationship.ParentId];
-                    }
+                    var parent = EnsureNode(relationship.ParentId, hash);
+                    var child = EnsureNode(relationship.ChildId, hash);
 
                     parent.Children.Add(child);
                     child.Parent = parent;
                 }
-
-                var nodes = new TreeTraverser().GetAllConnectedNodes(companyNode);
-
-                return nodes.Select(n => n.Id);
             }
+
+            _companyIndex = hash;
         }
 
-        private struct CompanyRelationship
+        private TreeNode EnsureNode(int id, Dictionary<int, TreeNode> dictionary)
         {
-            public int ParentId { get; set; }
-            public int ChildId { get; set; }
+            if (!dictionary.ContainsKey(id))
+            {
+                dictionary.Add(id, new TreeNode(id));
+            }
+            return dictionary[id];
         }
-
-        
     }
 }
