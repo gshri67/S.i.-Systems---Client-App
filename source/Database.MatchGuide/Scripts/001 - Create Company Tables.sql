@@ -35,3 +35,25 @@ CREATE TABLE [dbo].[Company](
 );
 
 GO
+
+CREATE TABLE [dbo].[Company_ParentChildRelationship](
+	[RelationshipID] [int] IDENTITY(1,1) NOT NULL,
+	[ParentID] [int] NOT NULL,
+	[ChildID] [int] NOT NULL,
+	--[verticalid] [int] NULL,
+ CONSTRAINT [PK_ClientRelationships] PRIMARY KEY CLUSTERED 
+(
+	[ParentID] ASC,
+	[ChildID] ASC
+) ON [PRIMARY]
+);
+
+GO
+
+ALTER TABLE [dbo].[Company_ParentChildRelationship]  WITH NOCHECK ADD  CONSTRAINT [FK_ClientRelationships_Companies] FOREIGN KEY([ParentID])
+REFERENCES [dbo].[Company] ([CompanyID])
+GO
+
+ALTER TABLE [dbo].[Company_ParentChildRelationship]  WITH NOCHECK ADD  CONSTRAINT [FK_ClientRelationships_Companies1] FOREIGN KEY([ChildID])
+REFERENCES [dbo].[Company] ([CompanyID])
+GO

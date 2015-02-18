@@ -31,6 +31,9 @@ VALUES
 ),
 (
 	5, 459, 172, 12, 3, 3, 573, '2013-12-11', '2050-12-10'
+),
+(
+	6, 459, 172, 13, 4, 3, 573, '2013-12-11', '2050-12-10'
 );
 
 SET IDENTITY_INSERT [dbo].[Agreement] OFF;
@@ -47,7 +50,8 @@ VALUES
 (2, 2, 99.00),
 (3, 3, 97.00),
 (4, 4, 100.00),
-(5, 5, 111.00);
+(5, 5, 111.00),
+(6, 6, 191.00);
 
 SET IDENTITY_INSERT [dbo].[Agreement_ContractRateDetail] OFF;
 
@@ -61,4 +65,5 @@ VALUES
 (2, 'Junior Java Jiver', 5),
 (3, 'Project Management Consultant', 4),
 (4, 'C# Afficionado', 4),
-(5, 'Humble Developer', 4);
+(5, 'Humble Developer', 4),
+(6, 'SUPER Developer', 4);

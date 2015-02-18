@@ -12,6 +12,8 @@ VALUES
 -- Contracts With Company Two Only
 (11, 'Bill', 'H.','Contractasaurus', 490, 2, 0),
 -- Active With Comp Three And Alumni With One
-(12, 'Candice', 'J.','Consulty', 490, 3, 0);
+(12, 'Candice', 'J.','Consulty', 490, 3, 0),
+-- Alumni with division of company one
+(13, 'Sally', 'P', 'Divisioner', 490, 4, 0);
 
 SET IDENTITY_INSERT [dbo].[Users] OFF;
