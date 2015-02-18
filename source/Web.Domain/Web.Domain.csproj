@@ -50,7 +50,7 @@
     <Compile Include="ContractService.cs" />
     <Compile Include="EulaService.cs" />
     <Compile Include="ISessionContext.cs" />
-    <Compile Include="Repositories\ConsultantMockData.cs" />
+    <Compile Include="Repositories\CompanyRepository.cs" />
     <Compile Include="Repositories\ConsultantRepository.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="Repositories\EulaRepository.cs" />

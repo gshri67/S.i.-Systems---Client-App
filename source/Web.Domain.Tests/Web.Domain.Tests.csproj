@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompanyRepositoryTests.cs" />
     <Compile Include="ConsultantRepositoryTests.cs" />
     <Compile Include="ConsultantServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
