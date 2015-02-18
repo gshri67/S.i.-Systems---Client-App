@@ -38,7 +38,7 @@ CREATE TABLE [dbo].[Candidate_SkillsMatrix](
 	[UserID] [int] NOT NULL,
 	[SpecID] [int] NOT NULL,
 	[SkillID] [int] NULL,
-	--[ExpID] [int] NULL,
+	[ExpID] [int] NULL,
 	--[KeySkill] [bit] NULL CONSTRAINT [DF_Candidate_SkillsMatrix_KeySkill]  DEFAULT (0),
 	[Inactive] [bit] NULL CONSTRAINT [DF_Candidate_SkillsMatrix_Inactive]  DEFAULT ((0)),
 	--[CreateUserID] [int] NULL,

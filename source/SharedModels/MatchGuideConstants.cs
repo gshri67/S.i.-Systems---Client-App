@@ -49,5 +49,14 @@
             ///consider this equivalent to NotChecked
             public const int AlsoNotChecked = 5;
         }
+
+        public class YearsOfExperience
+        {
+            public const int LessThanTwo = 448;
+            public const int TwoToFour = 449;
+            public const int FiveToSeven = 450;
+            public const int EightToTen = 451;
+            public const int MoreThanTen = 452;
+        }
     }
 }

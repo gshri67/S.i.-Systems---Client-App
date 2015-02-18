@@ -38,11 +38,12 @@ INSERT INTO [dbo].[Candidate_SkillsMatrix](
 	[SkillsMatrixID],
 	[UserID],
 	[SpecID],
-	[SkillID]
+	[SkillID],
+	[ExpID]
 )
 VALUES
-(1, 10, 4, 3), --PM -> 7 Sigma
-(2, 10, 5, 1), --SD -> Java
-(3, 10, 5, 2), --SD -> C#
-(4, 10, 5, 4); --SD -> ColdFusion
+(1, 10, 4, 3, 448), --PM -> 7 Sigma
+(2, 10, 5, 1, 450), --SD -> Java
+(3, 10, 5, 2, 451), --SD -> C#
+(4, 10, 5, 4, 452); --SD -> ColdFusion
 SET IDENTITY_INSERT [dbo].[Candidate_SkillsMatrix] OFF;
