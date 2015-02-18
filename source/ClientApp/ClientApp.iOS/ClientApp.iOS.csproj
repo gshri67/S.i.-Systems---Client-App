@@ -164,6 +164,7 @@
     <Compile Include="Alumni\NewContractViewController.designer.cs">
       <DependentUpon>NewContractViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoadingOverlay.cs" />
     <Compile Include="Startup\EulaViewController.cs" />
     <Compile Include="Startup\EulaViewController.designer.cs">
       <DependentUpon>EulaViewController.cs</DependentUpon>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
 using ClientApp.Services.Interfaces;
@@ -12,6 +13,11 @@ namespace ClientApp.ViewModels
         private readonly IAlumniService _alumniService;
 
         private Consultant _consultant;
+
+        public bool IsLoading
+        {
+            get { return _consultant == null; }
+        }
 
         public ConsultantDetailViewModel(IAlumniService alumniService)
         {

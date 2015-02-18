@@ -23,6 +23,7 @@ namespace ClientApp.iOS
 		}
 
         private readonly ConsultantDetailViewModel _detailViewModel;
+	    private LoadingOverlay _overlay;
 
         public ConsultantDetailViewController (IntPtr handle) : base (handle)
         {
@@ -33,20 +34,29 @@ namespace ClientApp.iOS
 	    {
 	        base.LoadView();
 	        DetailsTable.Delegate = this;
+	        if (_detailViewModel.IsLoading)
+	        {
+	            _overlay = new LoadingOverlay(DetailsTable.Frame);
+                View.Add(_overlay);
+	        }
 	    }
 
 	    public async void LoadConsultant(int id)
 	    {
-	        var consultant = await _detailViewModel.GetConsultant(id);
-	        InvokeOnMainThread(delegate
+            var consultant = await _detailViewModel.GetConsultant(id);
+            InvokeOnMainThread(delegate
 	                           {
                                    Title = consultant.FullName;
 	                               TitleLabel.Text =
 	                                   consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
 	                               RatingLabel.Text = GetRatingString(consultant.Rating);
-	                               ContractsLabel.Text = string.Format("{0} contracts", consultant.Contracts.Count);
+	                               ContractsLabel.Text = consultant.Contracts.Count.ToString();
                                    AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
                                    DetailsTable.ReloadData();
+	                               if (_overlay != null)
+	                               {
+	                                   _overlay.Hide();
+	                               }
 	                           });
             
 	    }
