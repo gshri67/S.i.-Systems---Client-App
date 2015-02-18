@@ -14,6 +14,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         private int _companyOneId = 1;
         private int _companyTwoId = 2;
         private int _companyThreeId = 3;
+        private int _companyFourId = 4;
 
         [SetUp]
         public void Setup()
@@ -48,6 +49,25 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
             //Company Two has contract with bill
             var groups = _repo.FindAlumni(searchText, new List<int> { _companyTwoId });
+
+            Assert.IsTrue(groups.Any());
+        }
+
+        [Test]
+        public void FindAlumni_PassingMultipleCompanyIds_ShouldFetchForAll()
+        {
+            const string searchText = "";
+
+            var groups = _repo.FindAlumni(searchText, new List<int> {_companyOneId, _companyFourId });
+
+            var contractors = groups.SelectMany(g => g.Consultants);
+
+            //should find Tommy
+            Assert.IsTrue(contractors.Any(c => c.FullName == "Tommy Contractor"));
+
+            //should find Sally
+            Assert.IsTrue(contractors.Any(c => c.FullName == "Sally Divisioner"));
+
 
             Assert.IsTrue(groups.Any());
         }
