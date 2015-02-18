@@ -46,10 +46,10 @@
                                     <constraint id="5133" firstItem="9" firstAttribute="height" constant="50"/>
                                 </constraints>
                             </textField>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Alumni" lineBreakMode="tailTruncation" minimumFontSize="10" id="17" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="The Alumni Knowledge Solution™" lineBreakMode="tailTruncation" minimumFontSize="10" id="17" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" textAlignment="center" numberOfLines="1">
                                 <rect key="frame" x="105" y="136" width="110" height="36"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="32"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.50196078431372548" green="0.50196078431372548" blue="0.52156862745098043" alpha="1"/>
                                 <nil key="highlightedColor"/>
                                 <color key="tintColor" colorSpace="calibratedRGB" red="0.50196078431372548" green="0.50196078431372548" blue="0.52156862745098043" alpha="1"/>
@@ -89,8 +89,9 @@
                             <constraint firstItem="5" firstAttribute="width" secondItem="9" secondAttribute="width" id="5145"/>
                             <constraint firstItem="9" firstAttribute="width" secondItem="8" secondAttribute="width" id="5146"/>
                             <constraint firstItem="9" firstAttribute="leading" secondItem="8" secondAttribute="leading" constant="2" id="5147"/>
-                            <constraint firstItem="17" firstAttribute="centerX" secondItem="4934" secondAttribute="centerX" constant="0.0" id="5152"/>
                             <constraint firstItem="5" firstAttribute="leading" secondItem="9" secondAttribute="leading" constant="0.0" id="5154"/>
+                            <constraint firstItem="17" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="5214"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="17" secondAttribute="trailing" constant="20" id="5222"/>
                         </constraints>
                     </view>
                     <connections>
