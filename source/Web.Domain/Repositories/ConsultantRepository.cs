@@ -45,7 +45,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                             //Only Include FloThru contracts for now
                                              + "AND A.AgreementType=" + MatchGuideConstants.AgreementTypes.Contract + " "
                                              + "AND A.AgreementSubType=" + MatchGuideConstants.AgreementSubTypes.FloThru + " "
-                                            //Filter CandidateIDs with active or pending contracts with client
+                                            //Match on specific user id
                                              + "AND U.UserID = @UserId";
                 
                 var consultants = new Dictionary<int, Consultant>();
@@ -62,7 +62,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 {
                     //get specializations..
                     const string specializationQuery = @"SELECT SP.SpecializationID Id, SP.Name, "
-                                                       + "SK.SkillID Id, SK.SkillName Name "
+                                                       + "SK.SkillID Id, SK.SkillName Name, CSM.ExpID YearsOfExperience "
                                                        + "FROM [Candidate_SkillsMatrix] AS CSM, "
                                                        + "[Specialization] AS SP, "
                                                        + "[Skill] AS SK "

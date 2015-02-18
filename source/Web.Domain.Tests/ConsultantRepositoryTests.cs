@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.ClientApp.SharedModels;
@@ -27,7 +28,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "Tommy";
 
-            var groups = _repo.FindAlumni(searchText, new List<int>{_companyOneId});
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
 
             Assert.AreEqual(2, groups.Count());
         }
@@ -58,7 +59,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "";
 
-            var groups = _repo.FindAlumni(searchText, new List<int> {_companyOneId, _companyFourId });
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId, _companyFourId });
 
             var contractors = groups.SelectMany(g => g.Consultants);
 
@@ -82,7 +83,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "Candice";
 
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyThreeId});
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyThreeId });
 
             Assert.IsTrue(!groups.Any());
         }
@@ -129,12 +130,19 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             Assert.Contains("Project Management", specializationNames);
             Assert.Contains("Software Development", specializationNames);
 
-            var skillNames = consultant.Specializations.Select(s => s.Skills.Select(sk=>sk.Name)).SelectMany(s=>s).ToList();
+            var skills = consultant.Specializations.SelectMany(s => s.Skills);
+            
+            var skillNames = skills.Select(s => s.Name).ToList();
+
             Assert.AreEqual(4, skillNames.Count);
             Assert.Contains("Java", skillNames);
             Assert.Contains("C#", skillNames);
             Assert.Contains("7 Sigma", skillNames);
             Assert.Contains("ColdFusion", skillNames);
+
+            //verify experience included and in range
+            Assert.IsTrue(skills.Select(s => s.YearsOfExperience)
+                .All(y => y >= MatchGuideConstants.YearsOfExperience.LessThanTwo && y <= MatchGuideConstants.YearsOfExperience.MoreThanTen));
         }
 
         [Test]
