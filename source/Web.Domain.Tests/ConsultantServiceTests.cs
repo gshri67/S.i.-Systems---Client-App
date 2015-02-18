@@ -12,7 +12,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
     public class ConsultantServiceTests
     {
         private Mock<ISessionContext> _sessionContextMock;
-        private CompanyRepository _companyRepository;
+        private Mock<ICompanyRepository> _companyRepositoryMock;
 
         private const int CurrentUserClientId = 1;
         private const int AnotherClientId = 2;
@@ -29,7 +29,10 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 Login = "Test.User",
                 PasswordHash = "#"
             });
-            _companyRepository = new CompanyRepository(new MockCache());
+
+            _companyRepositoryMock = new Mock<ICompanyRepository>();
+            _companyRepositoryMock.Setup(m => m.GetAllAssociatedCompanyIds(It.IsAny<int>()))
+                .Returns<int>((id) => new List<int> { id });
         }
 
         [Test]
@@ -42,7 +45,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                     Contracts = new List<Contract>()
                 });
 
-            var service = new ConsultantService(repo.Object, _companyRepository, _sessionContextMock.Object);
+            var service = new ConsultantService(repo.Object, _companyRepositoryMock.Object, _sessionContextMock.Object);
             Assert.Throws<UnauthorizedAccessException>(()=> service.Find(10));
         }
 
@@ -59,7 +62,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                     }
                 });
 
-            var service = new ConsultantService(repo.Object, _companyRepository, _sessionContextMock.Object);
+            var service = new ConsultantService(repo.Object, _companyRepositoryMock.Object, _sessionContextMock.Object);
             Assert.DoesNotThrow(() => service.Find(10));
         }
 
@@ -78,7 +81,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                     }
                 });
 
-            var service = new ConsultantService(repo.Object, _companyRepository, _sessionContextMock.Object);
+            var service = new ConsultantService(repo.Object, _companyRepositoryMock.Object, _sessionContextMock.Object);
 
             var consultant = service.Find(10);
 
@@ -112,7 +115,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                     }
                 });
 
-            var service = new ConsultantService(repo.Object, _companyRepository, _sessionContextMock.Object);
+            var service = new ConsultantService(repo.Object, _companyRepositoryMock.Object, _sessionContextMock.Object);
 
             var results = service.FindAlumni("Java");
 
@@ -141,7 +144,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                     }
                 });
 
-            var service = new ConsultantService(repo.Object, _companyRepository, _sessionContextMock.Object);
+            var service = new ConsultantService(repo.Object, _companyRepositoryMock.Object, _sessionContextMock.Object);
 
             var results = service.FindAlumni("Java");
 
