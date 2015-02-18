@@ -14,35 +14,76 @@ namespace SiSystems.ClientApp.Web.Domain
     /// </summary>
     public class ConsultantService
     {
-        private readonly IConsultantRepository _repository;
+        private readonly IConsultantRepository _consultantRepository;
+        private readonly CompanyRepository _companyRepository;
         private readonly ISessionContext _sessionContext;
 
-        public ConsultantService(IConsultantRepository repository, ISessionContext sessionContext)
+        public ConsultantService(IConsultantRepository consultantRepository, CompanyRepository companyRepository, ISessionContext sessionContext)
         {
-            _repository = repository;
+            _consultantRepository = consultantRepository;
+            _companyRepository = companyRepository;
             _sessionContext = sessionContext;
         }
 
         public Consultant Find(int id)
         {
-            var consultant = _repository.Find(id);
+            var consultant = _consultantRepository.Find(id);
+
+            var associatedCompanyIds =
+                _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.ClientId);
 
             //filter out any contracts that the current user shouldn't see
             if (consultant != null)
             {
                 consultant.Contracts =
-                    consultant.Contracts.Where(c => c.ClientId == _sessionContext.CurrentUser.ClientId).ToList();
+                    consultant.Contracts.Where(c => associatedCompanyIds.Contains(c.ClientId)).ToList();
             }
-            
-            if (consultant!=null && !consultant.Contracts.Any())
+
+            if (consultant != null && !consultant.Contracts.Any())
                 throw new UnauthorizedAccessException();
-            
+
             return consultant;
         }
 
         public IEnumerable<ConsultantGroup> FindAlumni(string query)
         {
-            return _repository.FindAlumni(query, new List<int>{_sessionContext.CurrentUser.ClientId});
+            var associatedCompanyIds =
+                _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.ClientId);
+
+            var results = _consultantRepository.FindAlumni(query, associatedCompanyIds);
+            var orderedResults = OrderAlumniGroups(results);
+
+            return orderedResults;
+        }
+
+        private IOrderedEnumerable<ConsultantGroup> OrderAlumniGroups(IEnumerable<ConsultantGroup> results)
+        {
+            //order results by group length
+            var orderedResults = results.OrderByDescending(g => g.Consultants.Count);
+
+            foreach (var group in orderedResults)
+            {
+                @group.Consultants = @group.Consultants
+                    .OrderByDescending(c => ConvertResumeRatingToSortableInt(c.Rating))
+                    .ThenBy(c => c.FirstName)
+                    .ThenBy(c => c.LastName).ToList();
+            }
+            return orderedResults;
+        }
+
+        private int ConvertResumeRatingToSortableInt(int? rating)
+        {
+            switch (rating)
+            {
+                case MatchGuideConstants.ResumeRating.AboveStandard:
+                    return 3;
+                case MatchGuideConstants.ResumeRating.Standard:
+                    return 2;
+                case MatchGuideConstants.ResumeRating.BelowStandard:
+                    return 1;
+                default:
+                    return 0;
+            }
         }
     }
 }
