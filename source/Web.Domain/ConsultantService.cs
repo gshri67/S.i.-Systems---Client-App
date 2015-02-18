@@ -42,7 +42,7 @@ namespace SiSystems.ClientApp.Web.Domain
 
         public IEnumerable<ConsultantGroup> FindAlumni(string query)
         {
-            return _repository.FindAlumni(query, _sessionContext.CurrentUser.ClientId);
+            return _repository.FindAlumni(query, new List<int>{_sessionContext.CurrentUser.ClientId});
         }
     }
 }

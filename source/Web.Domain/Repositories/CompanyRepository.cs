@@ -6,27 +6,49 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
     public class CompanyRepository
     {
+        private readonly IObjectCache _cache;
+        private const string IndexCacheKey = "CompanyRepository.RelationshipIndex";
+
+        public CompanyRepository(IObjectCache cache)
+        {
+            _cache = cache;
+        }
+
+        /// <summary>
+        /// Returns IDs of all associated companies/divisions.
+        /// Basically the entire hierarchy.
+        /// </summary>
         public IEnumerable<int> GetAllAssociatedCompanyIds(int companyId)
         {
-            EnsureIndexExists();
-            var companyNode = EnsureNode(companyId, _companyIndex);
+            var index = GetCompanyRelationshipIndex();
+            var companyNode = EnsureNode(companyId, index);
 
             var nodes = new TreeTraverser().GetAllConnectedNodes(companyNode);
 
             return nodes.Select(n => n.Id);
         }
 
-        private static Dictionary<int, TreeNode> _companyIndex;
-
-        private void EnsureIndexExists()
+        /// <summary>
+        /// Fetches company relationship index from cache or builds it if it is not present
+        /// </summary>
+        private Dictionary<int, TreeNode> GetCompanyRelationshipIndex()
         {
-            if (_companyIndex == null)
+            var companyIndex = _cache.GetItem(IndexCacheKey) as Dictionary<int, TreeNode>;
+            if (companyIndex == null)
             {
-                BuildCompanyRelationshipIndex();
+                companyIndex = BuildCompanyRelationshipIndex();
+                _cache.AddItem(IndexCacheKey, companyIndex);
             }
+            return companyIndex;
         }
 
-        private void BuildCompanyRelationshipIndex()
+        /// <summary>
+        /// Fetches all company relationships from the database,
+        /// creates a TreeNode entity for each present company
+        /// and connects nodes to define their relationships.
+        /// </summary>
+        /// <returns>A dictionary with entries for each company node.</returns>
+        private Dictionary<int, TreeNode> BuildCompanyRelationshipIndex()
         {
             var hash = new Dictionary<int, TreeNode>();
 
@@ -34,7 +56,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             {
                 const string allCompanyRelationshipsQuery = "SELECT ParentID as ParentId, ChildID as ChildId "
                                                             + "FROM [Company_ParentChildRelationship]";
-                
+
                 var relationships = db.Connection.Query<dynamic>(allCompanyRelationshipsQuery);
 
                 foreach (var relationship in relationships)
@@ -47,7 +69,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 }
             }
 
-            _companyIndex = hash;
+            return hash;
         }
 
         private TreeNode EnsureNode(int id, Dictionary<int, TreeNode> dictionary)

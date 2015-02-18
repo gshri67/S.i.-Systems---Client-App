@@ -15,9 +15,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         /// Does not include candidates that have current active or pending contracts with the specifed client.
         /// </summary>
         /// <param name="query">Text to search for in candidate name or contract specialization.</param>
-        /// <param name="clientId">Client company ID that alumni must have worked for in the past.</param>
+        /// <param name="clientIds">Client company IDs that alumni must have worked for in the past.</param>
         /// <returns>A list of consultants, grouped by specialization.</returns>
-        IEnumerable<ConsultantGroup> FindAlumni(string query, int clientId);
+        IEnumerable<ConsultantGroup> FindAlumni(string query, IEnumerable<int> clientIds);
     }
 
     public class ConsultantRepository : IConsultantRepository
@@ -107,9 +107,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         /// Does not include candidates that have current active or pending contracts with the specifed client.
         /// </summary>
         /// <param name="query">Text to search for in candidate name</param>
-        /// <param name="clientId">Client company ID that alumni must have worked for in the past.</param>
+        /// <param name="clientIds">Client company ID that alumni must have worked for in the past.</param>
         /// <returns>A list of consultants, grouped by specialization.</returns>
-        public IEnumerable<ConsultantGroup> FindAlumni(string query, int clientId)
+        public IEnumerable<ConsultantGroup> FindAlumni(string query, IEnumerable<int> clientIds)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -132,14 +132,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              + "AND A.AgreementType=" + MatchGuideConstants.AgreementTypes.Contract + " "
                                              + "AND A.AgreementSubType=" + MatchGuideConstants.AgreementSubTypes.FloThru + " "
                                              //That are between the candidate and the client
-                                             + "AND A.CompanyID=@CompanyId "
+                                             + "AND A.CompanyID IN @CompanyIds "
                                              + "AND A.Inactive = 0 "
                                              //Text query used to match on full name
                                              + "AND (U.FirstName+' '+U.LastName) LIKE @Query "
                                             //Filter CandidateIDs with active or pending contracts with client
                                              + "AND U.UserID NOT IN ("
                                                  + "SELECT A.CandidateID FROM [Agreement] AS A "
-                                                 + "WHERE A.CompanyID=@CompanyID "
+                                                 + "WHERE A.CompanyID in @CompanyIds "
                                                  + "AND A.AgreementType=" + MatchGuideConstants.AgreementTypes.Contract+" "
                                                  + "AND A.AgreementSubType=" + MatchGuideConstants.AgreementSubTypes.FloThru + " "
                                                  + "AND (A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Active + " "
@@ -157,7 +157,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                     CreateContractConsultantMappingFunction(consultants),
                     new
                     {
-                        CompanyId = clientId,
+                        CompanyIds = clientIds,
                         Query = "%" + query + "%"
                     },
                     //Each row contains a Consultant and a Contract

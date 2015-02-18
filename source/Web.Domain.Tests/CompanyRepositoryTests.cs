@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 
@@ -17,14 +18,13 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         [SetUp]
         public void Setup()
         {
-            _repo = new CompanyRepository();
+            _repo = new CompanyRepository(new MockCache());
         }
 
         [Test]
         public void GetAllAssociatedCompanyIds_ShouldIncludeDivision()
         {
             var ids = _repo.GetAllAssociatedCompanyIds(_companyWithDivisionId).ToList();
-
 
             Assert.Contains(_divisionId, ids);
         }
@@ -45,6 +45,20 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             Assert.AreEqual(1, ids.Count);
             Assert.Contains(_companyWithNoDivisionId, ids);
         }
-        
+    }
+
+    class MockCache : IObjectCache
+    {
+        private readonly Dictionary<string, object> _mockCache = new Dictionary<string, object>(); 
+
+        public void AddItem(string key, object value)
+        {
+            _mockCache.Add(key, value);
+        }
+
+        public object GetItem(string key)
+        {
+            return _mockCache.ContainsKey(key) ? _mockCache[key] : null;
+        }
     }
 }

@@ -19,6 +19,11 @@ namespace SiSystems.ClientApp.Web
             get { return bool.Parse(ConfigurationManager.AppSettings["EnableApiTestPage"]); }
         }
 
+        public static int ObjectCacheLifetime
+        {
+            get { return int.Parse(ConfigurationManager.AppSettings["ObjectCache.ExpirationInMinutes"]); }
+        }
+
         public static string LoginTokenEndpoint = "/api/Login";
     }
 }

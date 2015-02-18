@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.ClientApp.SharedModels;
@@ -25,7 +26,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "Tommy";
 
-            var groups = _repo.FindAlumni(searchText, _companyOneId);
+            var groups = _repo.FindAlumni(searchText, new List<int>{_companyOneId});
 
             Assert.AreEqual(2, groups.Count());
         }
@@ -34,7 +35,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void FindAlumni_ByName_ShouldNotBeAffectedByCase()
         {
             const string searchText = "tOmMy";
-            var groups = _repo.FindAlumni(searchText, _companyOneId);
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
 
             Assert.IsTrue(groups.Any()
                 && groups.All(c => GroupSpecializationMatchesText(c, searchText) || c.Consultants.All(con => ConsultantNameMatchesText(con, searchText))));
@@ -46,7 +47,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             const string searchText = "Bill";
 
             //Company Two has contract with bill
-            var groups = _repo.FindAlumni(searchText, _companyTwoId);
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyTwoId });
 
             Assert.IsTrue(groups.Any());
         }
@@ -61,7 +62,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "Candice";
 
-            var groups = _repo.FindAlumni(searchText, _companyThreeId);
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyThreeId});
 
             Assert.IsTrue(!groups.Any());
         }
@@ -71,7 +72,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "Candice";
 
-            var groups = _repo.FindAlumni(searchText, _companyOneId);
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
 
             Assert.IsTrue(groups.Any());
         }
@@ -80,8 +81,8 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void FindAlumni_ShouldBeNoMatch_WhenTargetHasNoContractWithClient()
         {
             const string searchText = "Candice";
-            
-            var groups = _repo.FindAlumni(searchText, _companyTwoId);
+
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyTwoId });
 
             Assert.IsFalse(groups.Any());
         }
@@ -89,9 +90,9 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         [Test]
         public void FindAlumni_WhenNoResumeInfo_RatingShouldBeNotChecked()
         {
-            const string searchText = "Bill"; 
+            const string searchText = "Bill";
 
-            var groups = _repo.FindAlumni(searchText, _companyTwoId);
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyTwoId });
 
             Assert.AreEqual(MatchGuideConstants.ResumeRating.NotChecked, groups.First().Consultants.First().Rating);
         }
