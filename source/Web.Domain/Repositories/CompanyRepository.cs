@@ -4,7 +4,16 @@ using Dapper;
 
 namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
-    public class CompanyRepository
+    public interface ICompanyRepository
+    {
+        /// <summary>
+        /// Returns IDs of all associated companies/divisions.
+        /// Basically the entire hierarchy.
+        /// </summary>
+        IEnumerable<int> GetAllAssociatedCompanyIds(int companyId);
+    }
+
+    public class CompanyRepository : ICompanyRepository
     {
         private readonly IObjectCache _cache;
         private const string IndexCacheKey = "CompanyRepository.RelationshipIndex";

@@ -15,10 +15,10 @@ namespace SiSystems.ClientApp.Web.Domain
     public class ConsultantService
     {
         private readonly IConsultantRepository _consultantRepository;
-        private readonly CompanyRepository _companyRepository;
+        private readonly ICompanyRepository _companyRepository;
         private readonly ISessionContext _sessionContext;
 
-        public ConsultantService(IConsultantRepository consultantRepository, CompanyRepository companyRepository, ISessionContext sessionContext)
+        public ConsultantService(IConsultantRepository consultantRepository, ICompanyRepository companyRepository, ISessionContext sessionContext)
         {
             _consultantRepository = consultantRepository;
             _companyRepository = companyRepository;

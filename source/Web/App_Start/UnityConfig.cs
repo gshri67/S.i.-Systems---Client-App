@@ -37,6 +37,7 @@ namespace SiSystems.ClientApp.Web
         {
             container.RegisterType<ISessionContext, SessionContext>(new PerRequestLifetimeManager());
             container.RegisterType<IConsultantRepository, ConsultantRepository>();
+            container.RegisterType<ICompanyRepository, CompanyRepository>();
 
             container.RegisterType<IObjectCache, ObjectCache>();
         }
