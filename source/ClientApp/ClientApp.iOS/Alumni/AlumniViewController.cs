@@ -25,7 +25,9 @@ namespace ClientApp.iOS
             var alumniCount = CountAlumni(consultantGroup);
             var specializationsCount = CountSpecializations(consultantGroup);
 
-            summaryLabel.Text = string.Format("You have {0} alumni in {1} specializations.", alumniCount, specializationsCount);
+	        summaryLabel.Text = specializationsCount == 0 ? 
+                string.Format("There are no records to display.") : 
+                string.Format("You have {0} alumni in {1} specializations.", alumniCount, specializationsCount);
         }
 
         private static int CountSpecializations(IEnumerable<ConsultantGroup> consultantGroup)
