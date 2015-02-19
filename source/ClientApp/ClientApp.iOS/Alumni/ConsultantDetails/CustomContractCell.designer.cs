@@ -24,10 +24,6 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel FullNameLabel { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel RateLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -39,10 +35,6 @@ namespace ClientApp.iOS
 			if (DateLabel != null) {
 				DateLabel.Dispose ();
 				DateLabel = null;
-			}
-			if (FullNameLabel != null) {
-				FullNameLabel.Dispose ();
-				FullNameLabel = null;
 			}
 			if (RateLabel != null) {
 				RateLabel.Dispose ();

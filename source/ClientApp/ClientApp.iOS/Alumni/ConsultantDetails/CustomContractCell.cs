@@ -15,9 +15,8 @@ namespace ClientApp.iOS
 	    {
 	    }
 
-	    public void UpdateCell(string fullName, string rate, string dates, string shortName)
+	    public void UpdateCell(string rate, string dates, string shortName)
 	    {
-	        FullNameLabel.Text = fullName;
 	        RateLabel.Text = rate;
 	        DateLabel.Text = dates;
 	        ContractShortNameLabel.Text = shortName;

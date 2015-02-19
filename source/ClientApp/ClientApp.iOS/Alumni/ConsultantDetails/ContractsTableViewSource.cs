@@ -30,7 +30,7 @@ namespace ClientApp.iOS.Alumni.ConsultantDetails
 
             var rate = string.Format("{0:C}/h", contract.Rate);
 
-            cell.UpdateCell("Test Name", rate, contractDate, contract.SpecializationNameShort);
+            cell.UpdateCell(rate, contractDate, contract.SpecializationNameShort);
 
             return cell;
         }
