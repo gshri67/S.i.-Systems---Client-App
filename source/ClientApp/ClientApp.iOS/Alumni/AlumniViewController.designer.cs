@@ -20,15 +20,11 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UISearchBar contractorSearch { get; set; }
+		UISearchBar AlumniSearch { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableView SpecializationTable { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel summaryLabel { get; set; }
 
 		[Action ("AdditionalActions_Activated:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -40,17 +36,13 @@ namespace ClientApp.iOS
 				AdditionalActions.Dispose ();
 				AdditionalActions = null;
 			}
-			if (contractorSearch != null) {
-				contractorSearch.Dispose ();
-				contractorSearch = null;
+			if (AlumniSearch != null) {
+				AlumniSearch.Dispose ();
+				AlumniSearch = null;
 			}
 			if (SpecializationTable != null) {
 				SpecializationTable.Dispose ();
 				SpecializationTable = null;
-			}
-			if (summaryLabel != null) {
-				summaryLabel.Dispose ();
-				summaryLabel = null;
 			}
 		}
 	}

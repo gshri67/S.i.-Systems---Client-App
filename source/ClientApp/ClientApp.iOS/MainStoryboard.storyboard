@@ -192,23 +192,12 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <searchBar contentMode="redraw" id="3377" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Search">
-                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
-                            </searchBar>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="3384" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" textAlignment="center">
-                                <rect key="frame" x="0.0" y="110" width="235" height="21"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3439" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" separatorStyle="none">
-                                <rect key="frame" x="0.0" y="200" width="322" height="211"/>
+                                <rect key="frame" x="0.0" y="102" width="322" height="309"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3442" imageView="3476" style="IBUITableViewCellStyleDefault" textLabel="3695" detailTextLabel="3692" reuseIdentifier="ConsultantGroupCell" accessoryType="disclosureIndicator">
-                                        <rect key="frame" x="0.0" y="22" width="322" height="44"/>
+                                        <rect key="frame" x="0.0" y="66" width="322" height="44"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="3443" tableViewCell="3442">
                                             <rect key="frame" x="0.0" y="0.0" width="289" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
@@ -226,21 +215,17 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCell>
                                 </prototypes>
+                                <searchBar contentMode="redraw" id="3377" placeholder="Search" key="tableHeaderView">
+                                    <rect key="frame" x="0.0" y="0.0" width="322" height="44"/>
+                                    <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
+                                </searchBar>
                             </tableView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="3377" firstAttribute="trailing" secondItem="1164" secondAttribute="trailing" constant="0.0" id="3385"/>
-                            <constraint firstItem="3377" firstAttribute="leading" secondItem="1164" secondAttribute="leading" constant="0.0" id="3386"/>
-                            <constraint firstItem="3377" firstAttribute="top" secondItem="1160" secondAttribute="bottom" constant="0.0" id="3388"/>
-                            <constraint firstItem="3384" firstAttribute="top" secondItem="3377" secondAttribute="bottom" constant="0.0" id="3389"/>
-                            <constraint firstItem="3384" firstAttribute="width" secondItem="3377" secondAttribute="width" id="3391"/>
-                            <constraint firstItem="3377" firstAttribute="top" secondItem="1160" secondAttribute="bottom" constant="0.0" id="3411"/>
-                            <constraint firstItem="3377" firstAttribute="top" secondItem="1160" secondAttribute="bottom" constant="0.0" id="3412"/>
                             <constraint firstItem="3439" firstAttribute="leading" secondItem="1164" secondAttribute="leading" constant="0.0" id="3446"/>
                             <constraint firstItem="3439" firstAttribute="trailing" secondItem="1164" secondAttribute="trailing" constant="0.0" id="3447"/>
-                            <constraint firstItem="3439" firstAttribute="top" secondItem="3384" secondAttribute="bottom" constant="0.0" id="3458"/>
                             <constraint firstItem="1164" firstAttribute="bottom" secondItem="3439" secondAttribute="bottom" constant="0.0" id="3459"/>
-                            <constraint firstItem="3384" firstAttribute="leading" secondItem="1164" secondAttribute="leading" constant="0.0" id="3728"/>
+                            <constraint firstItem="3439" firstAttribute="top" secondItem="1164" secondAttribute="top" constant="0.0" id="5234"/>
                         </constraints>
                     </view>
                     <navigationItem title="Alumni" id="1719" key="navigationItem">
@@ -252,12 +237,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="summaryLabel" destination="3384" id="name-outlet-3384"/>
                         <outlet property="SpecializationTable" destination="3439" id="name-outlet-3439"/>
                         <segue id="3805" destination="3749" kind="push" identifier="DisciplineSelected"/>
-                        <outlet property="contractorSearch" destination="3377" id="name-outlet-3377"/>
                         <outlet property="AdditionalActions" destination="4058" id="name-outlet-4058"/>
                         <segue id="5016" destination="vXZ-lx-hvc" kind="modal" identifier="logoutSegue" modalTransitionStyle="crossDissolve"/>
+                        <outlet property="AlumniSearch" destination="3377" id="name-outlet-3377"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -725,7 +709,7 @@
     <resources>
         <image name="Default-568h.png" width="320" height="568"/>
         <image name="Default-Portrait.png" width="768" height="1004"/>
-        <image name="Default.png" width="320" height="480"/>
+        <image name="Default.png" width="640" height="960"/>
         <image name="Icon-60.png" width="120" height="120"/>
         <image name="Icon-76.png" width="76" height="76"/>
         <image name="Icon-Small-40.png" width="40" height="40"/>
