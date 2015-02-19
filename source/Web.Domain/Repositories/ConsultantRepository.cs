@@ -134,8 +134,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              //That are between the candidate and the client
                                              + "AND A.CompanyID IN @CompanyIds "
                                              + "AND A.Inactive = 0 "
-                                             //Text query used to match on full name
-                                             + "AND (U.FirstName+' '+U.LastName) LIKE @Query "
+                                             //Text query used to match on full name or resume
+                                             + "AND ((U.FirstName+' '+U.LastName) LIKE @Query "
+                                             + "OR  CRI.ResumeText LIKE @Query)"
                                             //Filter CandidateIDs with active or pending contracts with client
                                              + "AND U.UserID NOT IN ("
                                                  + "SELECT A.CandidateID FROM [Agreement] AS A "

@@ -44,6 +44,20 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         }
 
         [Test]
+        public void FindAlumni_ShouldMatchOnResumeText()
+        {
+            const string searchText = "LOREM IPSUM";
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
+
+            var consultants = groups.SelectMany(g => g.Consultants).Select(c => c.FirstName).Distinct().ToList();
+            
+            //\Database.MatchGuide\Scripts\014 - Add Candidate Resumes.sql
+            Assert.AreEqual(2, consultants.Count);
+            Assert.Contains("Tommy", consultants);
+            Assert.Contains("Candice", consultants);
+        }
+
+        [Test]
         public void FindAlumni_ShouldMatch_WhenTargetHasContractWithClient()
         {
             const string searchText = "Bill";
@@ -131,7 +145,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             Assert.Contains("Software Development", specializationNames);
 
             var skills = consultant.Specializations.SelectMany(s => s.Skills);
-            
+
             var skillNames = skills.Select(s => s.Name).ToList();
 
             Assert.AreEqual(4, skillNames.Count);
