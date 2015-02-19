@@ -31,3 +31,5 @@ function CreateBuild {
 
 CreateBuild "Test"
 CreateBuild "Release"
+
+security default-keychain -s login.keychain
