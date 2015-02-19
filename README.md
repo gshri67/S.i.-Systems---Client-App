@@ -8,7 +8,7 @@ Requirements:
  - Xamarin Business Account (see below)
  - Xamarin for Windows AND/OR Xamarin for OS X
  - Machine running OS X
- - SQL Server 2008+
+ - SQL Server 2008+ with Full-Text Index feature installed
  
 ###Xamarin Business Account
 Ensure that you have a Business level license. This level is required for using Xamarin with Visual Studio. Also ensure that the account you have is licensed for the correct platform.

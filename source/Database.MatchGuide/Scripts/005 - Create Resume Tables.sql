@@ -22,3 +22,18 @@ CREATE TABLE [dbo].[Candidate_ResumeInfo](
 ) ON [PRIMARY]);
 
 GO
+
+
+CREATE FULLTEXT CATALOG [SysFullText]WITH ACCENT_SENSITIVITY = OFF
+AS DEFAULT
+
+GO
+
+-- Create a Full Text Index on Resume Text
+CREATE FULLTEXT INDEX ON [dbo].[Candidate_ResumeInfo](
+[ResumeText] LANGUAGE 'English')
+KEY INDEX [PK_CandidateResumeInfo] ON ([SysFullText])
+WITH (CHANGE_TRACKING = AUTO, STOPLIST = SYSTEM)
+
+
+GO
