@@ -146,13 +146,13 @@ namespace ClientApp.iOS
 	    private static string GetSkillsString(IEnumerable<Skill> skills)
 	    {
             var sb = new StringBuilder();
-            foreach (var skill in skills)
+            foreach (var skill in skills.OrderByDescending(s => s.YearsOfExperience).ThenBy(s => s.Name))
             {
                 sb.Append(skill.Name)
                     .Append(ConsultantDetailViewModel.GetYearsExperienceString(skill.YearsOfExperience))
-                    .Append(", ");
+                    .Append("\n");
             }
-	        return sb.ToString(0, sb.Length - 2);
+	        return sb.ToString(0, sb.Length - 1);
 	    }
         #endregion
     }

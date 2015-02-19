@@ -335,7 +335,7 @@
         <scene sceneID="3940">
             <objects>
                 <tableViewController id="3941" sceneMemberID="viewController" customClass="ConsultantDetailViewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="center" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3942" bounces="NO" bouncesZoom="NO" delaysContentTouches="NO" keyboardDismissMode="2" canCancelContentTouches="NO">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="center" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3942" bouncesZoom="NO" delaysContentTouches="NO" keyboardDismissMode="2" canCancelContentTouches="NO" alwaysBounceVertical="YES">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -550,7 +550,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" id="5435" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <webView contentMode="scaleToFill" id="5435" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" autoresizesSubviews="NO">
                                 <rect key="frame" x="80" y="151" width="160" height="240"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -559,10 +559,10 @@
                             </webView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="5435" firstAttribute="top" secondItem="4675" secondAttribute="bottom" constant="8" id="5436"/>
-                            <constraint firstItem="4679" firstAttribute="trailing" secondItem="5435" secondAttribute="trailing" constant="20" id="5437"/>
-                            <constraint firstItem="4676" firstAttribute="top" secondItem="5435" secondAttribute="bottom" constant="8" id="5438"/>
-                            <constraint firstItem="5435" firstAttribute="leading" secondItem="4679" secondAttribute="leading" constant="20" id="5439"/>
+                            <constraint firstItem="5435" firstAttribute="top" secondItem="4675" secondAttribute="bottom" constant="0.0" id="5436"/>
+                            <constraint firstItem="4679" firstAttribute="trailing" secondItem="5435" secondAttribute="trailing" constant="0.0" id="5437"/>
+                            <constraint firstItem="4676" firstAttribute="top" secondItem="5435" secondAttribute="bottom" constant="0.0" id="5438"/>
+                            <constraint firstItem="5435" firstAttribute="leading" secondItem="4679" secondAttribute="leading" constant="0.0" id="5439"/>
                         </constraints>
                     </view>
                     <connections>

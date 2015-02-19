@@ -60,15 +60,15 @@ namespace ClientApp.ViewModels
             switch (expCode)
             {
                 case MatchGuideConstants.YearsOfExperience.LessThanTwo:
-                    return " (< 2 yrs)";
+                    return " (< 2 years)";
                 case MatchGuideConstants.YearsOfExperience.TwoToFour:
-                    return " (2-4 yrs)";
+                    return " (2 - 4 years)";
                 case MatchGuideConstants.YearsOfExperience.FiveToSeven:
-                    return " (5-7 yrs)";
+                    return " (5 - 7 years)";
                 case MatchGuideConstants.YearsOfExperience.EightToTen:
-                    return " (8-10 yrs)";
+                    return " (8 - 10 years)";
                 case MatchGuideConstants.YearsOfExperience.MoreThanTen:
-                    return " (> 10 yrs)";
+                    return " (> 10 years)";
                 default:
                     return "";
             }
