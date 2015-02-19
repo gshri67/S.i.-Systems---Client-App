@@ -1,6 +1,6 @@
 #!/bin/bash
 
-resultsDir=./buildResults
+resultsDir=./buildResult
 
 #update version numbers
 build_number=${1:-"0"}
