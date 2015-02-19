@@ -181,7 +181,7 @@
         </scene>
         <scene sceneID="1162">
             <objects>
-                <viewController id="1163" sceneMemberID="viewController" customClass="AlumniViewController" title="Contractors">
+                <viewController id="1163" sceneMemberID="viewController" customClass="AlumniViewController" title="Alumni">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1160"/>
                         <viewControllerLayoutGuide type="bottom" id="1161"/>
@@ -242,7 +242,7 @@
                             <constraint firstItem="3384" firstAttribute="leading" secondItem="1164" secondAttribute="leading" constant="0.0" id="3728"/>
                         </constraints>
                     </view>
-                    <navigationItem title="Consultant" id="1719" key="navigationItem">
+                    <navigationItem title="Alumni" id="1719" key="navigationItem">
                         <barButtonItem title="  S.i.  " id="4058" translatesAutoresizingMaskIntoConstraints="NO" key="rightBarButtonItem" style="plain" image="">
                             <connections>
                                 <action selector="AdditionalActions_Activated:" destination="1163" id="4945"/>
@@ -568,6 +568,9 @@
                             <webView contentMode="scaleToFill" id="5435" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                 <rect key="frame" x="80" y="151" width="160" height="240"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint id="5451" firstItem="5435" firstAttribute="height" constant="100" relation="greaterthanorequal"/>
+                                </constraints>
                             </webView>
                         </subviews>
                         <constraints>
