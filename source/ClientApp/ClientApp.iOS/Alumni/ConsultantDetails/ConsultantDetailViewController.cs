@@ -49,7 +49,7 @@ namespace ClientApp.iOS
                                    Title = consultant.FullName;
 	                               TitleLabel.Text =
 	                                   consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
-	                               RatingLabel.Text = GetRatingString(consultant.Rating);
+	                               RatingLabel.Text = ConsultantDetailViewModel.GetRatingString(consultant.Rating);
 	                               ContractsLabel.Text = consultant.Contracts.Count.ToString();
                                    AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
                                    DetailsTable.ReloadData();
@@ -148,25 +148,12 @@ namespace ClientApp.iOS
             var sb = new StringBuilder();
             foreach (var skill in skills)
             {
-                sb.Append(skill.Name).Append(", ");
+                sb.Append(skill.Name)
+                    .Append(ConsultantDetailViewModel.GetYearsExperienceString(skill.YearsOfExperience))
+                    .Append(", ");
             }
 	        return sb.ToString(0, sb.Length - 2);
 	    }
-
-        private static string GetRatingString(int? rating)
-	    {
-            switch (rating)
-	        {
-                case MatchGuideConstants.ResumeRating.Standard:
-                    return "Standard";
-                case MatchGuideConstants.ResumeRating.AboveStandard:
-	                return "Above Standard";
-                case MatchGuideConstants.ResumeRating.BelowStandard:
-	                return "Below Standard";
-                default:
-	                return "Not Checked";
-	        }
-        }
         #endregion
     }
 }
