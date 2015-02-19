@@ -184,7 +184,7 @@ namespace SiSystems.ClientApp.Database.MatchGuide
             {
                 var upgrader = DeployChanges.To
                                             .SqlDatabase(options.ConnectionString)
-                                            .WithTransaction()
+                                            //.WithTransaction()
                                             .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
                                             .LogToConsole()
                                             .Build();

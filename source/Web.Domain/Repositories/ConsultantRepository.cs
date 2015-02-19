@@ -135,8 +135,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              + "AND A.CompanyID IN @CompanyIds "
                                              + "AND A.Inactive = 0 "
                                              //Text query used to match on full name or resume
-                                             + "AND ((U.FirstName+' '+U.LastName) LIKE @Query "
-                                             + "OR  CRI.ResumeText LIKE @Query)"
+                                             + "AND ( (U.FirstName+' '+U.LastName) LIKE @LikeQuery "
+                                             + "OR CONTAINS(CRI.ResumeText, @FullTextQuery))"
                                             //Filter CandidateIDs with active or pending contracts with client
                                              + "AND U.UserID NOT IN ("
                                                  + "SELECT A.CandidateID FROM [Agreement] AS A "
@@ -159,7 +159,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                     new
                     {
                         CompanyIds = clientIds,
-                        Query = "%" + query + "%"
+                        LikeQuery = "%" + query + "%",
+                        FullTextQuery = "\"" + query + "\""
                     },
                     //Each row contains a Consultant and a Contract
                     //Tell Dapper where the object boundaries are by specifying column
