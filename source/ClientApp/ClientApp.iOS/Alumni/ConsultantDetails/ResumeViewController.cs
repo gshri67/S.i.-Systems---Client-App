@@ -17,7 +17,8 @@ namespace ClientApp.iOS
 	    {
 	        base.ViewDidLoad();
 
-	        ResumeText.Text = Resume;
+            //TODO replace this with a proper function with more rules that we should replace
+            ResumeView.LoadHtmlString(Resume.Replace("\n\r", "<br>").Replace("\n", "<br>"), null);
 	    }
 	}
 }

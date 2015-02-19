@@ -565,26 +565,20 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <textView multipleTouchEnabled="YES" contentMode="scaleToFill" id="4791" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" verticalContentHuggingPriority="250" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="YES" scrollEnabled="YES" pagingEnabled="NO" bounces="YES" clipsSubviews="YES" autoresizesSubviews="YES">
-                                <rect key="frame" x="80" y="128" width="160" height="240"/>
+                            <webView contentMode="scaleToFill" id="5435" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                <rect key="frame" x="80" y="151" width="160" height="240"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <constraints>
-                                    <constraint id="5219" firstItem="4791" firstAttribute="height" constant="100" relation="greaterthanorequal"/>
-                                </constraints>
-                            </textView>
+                            </webView>
                         </subviews>
                         <constraints>
-                            <constraint id="4805" constant="20" firstItem="4679" firstAttribute="trailing" secondItem="4791" secondAttribute="trailing"/>
-                            <constraint firstItem="4791" firstAttribute="leading" secondItem="4679" secondAttribute="leading" constant="20" id="4809"/>
-                            <constraint firstItem="4676" firstAttribute="top" secondItem="4791" secondAttribute="bottom" constant="8" id="4810"/>
-                            <constraint firstItem="4791" firstAttribute="top" secondItem="4675" secondAttribute="bottom" constant="8" id="4811"/>
+                            <constraint firstItem="5435" firstAttribute="top" secondItem="4675" secondAttribute="bottom" constant="8" id="5436"/>
+                            <constraint firstItem="4679" firstAttribute="trailing" secondItem="5435" secondAttribute="trailing" constant="20" id="5437"/>
+                            <constraint firstItem="4676" firstAttribute="top" secondItem="5435" secondAttribute="bottom" constant="8" id="5438"/>
+                            <constraint firstItem="5435" firstAttribute="leading" secondItem="4679" secondAttribute="leading" constant="20" id="5439"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="ResumeText" destination="4791" id="name-outlet-4791"/>
+                        <outlet property="ResumeView" destination="5435" id="name-outlet-5435"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4680" userLabel="First Responder" sceneMemberID="firstResponder"/>

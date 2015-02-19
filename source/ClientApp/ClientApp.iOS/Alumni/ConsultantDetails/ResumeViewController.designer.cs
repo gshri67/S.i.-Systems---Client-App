@@ -16,13 +16,13 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextView ResumeText { get; set; }
+		UIWebView ResumeView { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (ResumeText != null) {
-				ResumeText.Dispose ();
-				ResumeText = null;
+			if (ResumeView != null) {
+				ResumeView.Dispose ();
+				ResumeView = null;
 			}
 		}
 	}
