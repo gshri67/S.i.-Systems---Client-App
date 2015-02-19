@@ -31,7 +31,7 @@
 	<key>CFBundleVersion</key>
 	<string>0.0.0</string>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen.storyboard</string>
+	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard</string>
 	<key>XSLaunchImageAssets</key>
