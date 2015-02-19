@@ -23,7 +23,6 @@ function CreateBuild {
 
 	find ./source -path "*/${1}/*" -name "*.ipa" | while read package; do
 		short_name=${package//*\///}
-		short_name=${short_name/%.ipa/-$1.ipa}
 
 		echo "Archiving ${package} to ${resultsDir}/${short_name}"
 		cp $package $resultsDir/$short_name
