@@ -27,7 +27,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                string consultantQuery = @"SELECT U.UserID Id, U.FirstName, U.LastName, "
+                //TODO: Include Email Address..
+                string consultantQuery = @"SELECT U.UserID Id, U.FirstName, U.LastName, UE.PrimaryEmail as EmailAddress, "
                                              + "ISNULL(CRI.ReferenceValue, " + MatchGuideConstants.ResumeRating.NotChecked + ") Rating, "
                                              + "CRI.ResumeText, "
                                              + "A.CandidateID ConsultantId, A.CompanyID ClientId, CD.JobTitle Title, "
@@ -35,11 +36,13 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              + "FROM [Users] AS U "
                                             //ResumeInfo gives us rating, if present
                                              + "LEFT JOIN [Candidate_ResumeInfo] as CRI on CRI.UserID=U.UserID, "
+                                             + "[User_Email] as UE, "
                                             //Contracts
                                              + "[Agreement] AS A, "
                                              + "[Agreement_ContractDetail] AS CD, "
                                              + "[Agreement_ContractRateDetail] AS CRD, [Specialization] as S "
-                                             + "WHERE U.UserID=A.CandidateID "
+                                             + "WHERE U.UserID=UE.UserID "
+                                             + "AND U.UserID=A.CandidateID "
                                              + "AND A.AgreementID=CD.AgreementID "
                                              + "AND A.AgreementID=CRD.AgreementID "
                                              + "AND CD.SpecializationID=S.SpecializationID "

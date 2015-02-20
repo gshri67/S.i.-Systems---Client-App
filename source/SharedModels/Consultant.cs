@@ -11,6 +11,8 @@ namespace SiSystems.ClientApp.SharedModels
 
         public string FullName { get { return FirstName + " " + LastName; } }
 
+        public string EmailAddress { get; set; }
+
         public int? Rating { get; set; }
         
         public string ResumeText { get; set; }
