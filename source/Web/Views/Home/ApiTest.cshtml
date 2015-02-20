@@ -27,9 +27,11 @@
             text-decoration: underline;
             cursor: pointer;
         }
+        .error {
+            background: #b90707; color: white; padding: 10px;
+        }
     </style>
 }
-<div id="error" style="background: #b90707; color: white; padding: 10px; display: none;"></div>
 <div class="row">
     <h3>Authenticate</h3>
     <form id="loginForm" class="col-sm-12">
@@ -101,18 +103,22 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
     <script>
-        (function () {
+        (function() {
 
             $('#username').val('bob.smith@email.com');
             $('#password').val('password');
 
-            function showError(jqXHR) {
-                $('#error').text(jqXHR.status + ': ' + jqXHR.statusText).show();
+            function showError(jqXHR, elmId) {
+                var section = $('#' + elmId);
+                section.html('<div class="error">ERROR</div>' + formatObject(jqXHR));
+                section.each(function (i, block) {
+                    hljs.highlightBlock(block);
+                });
             }
 
-            function clearError() {
-                $('#error').text('').hide();
-            }
+            //function clearError() {
+            //    $('#error').text('').hide();
+            //}
 
             function formatObject(obj) {
                 return JSON.stringify(obj, null, 4)
@@ -121,8 +127,8 @@
 
             var page = {
                 token: null,
-                login: function () {
-                    clearError();
+                login: function() {
+                    $('#token').html('Authenticating...');
 
                     var loginData = {
                         grant_type: 'password',
@@ -134,13 +140,13 @@
                         type: 'POST',
                         url: '@(Settings.LoginTokenEndpoint)',
                         data: loginData
-                    }).done(function (data) {
+                    }).done(function(data) {
                         page.token = data.access_token;
 
                         var section = $('#token');
                         section.html(formatObject(data));
 
-                        section.each(function (i, block) {
+                        section.each(function(i, block) {
                             hljs.highlightBlock(block);
                         });
 
@@ -148,67 +154,66 @@
                         //self.user(data.userName);
                         // Cache the access token in session storage.
                         //sessionStorage.setItem(tokenKey, data.access_token);
-                    }).fail(showError);
+                    }).fail(function(err) { showError(err, 'token'); });
                 },
                 search: function () {
-                    clearError();
+
                     $('#searchResults').html('Searching..');
                     var query = encodeURIComponent($('#searchText').val());
 
                     $.ajax({
-                        type: 'GET',
-                        url: '/api/consultants/alumni/?query=' + query,
-                        headers: {
-                            Authorization: 'Bearer ' + page.token
-                        }
-                    })
-                    .done(function (data) {
-                        var section = $('#searchResults');
+                            type: 'GET',
+                            url: '/api/consultants/alumni/?query=' + query,
+                            headers: {
+                                Authorization: 'Bearer ' + page.token
+                            }
+                        })
+                        .done(function(data) {
+                            var section = $('#searchResults');
 
-                        section.html(formatObject(data));
+                            section.html(formatObject(data));
 
-                        section.each(function (i, block) {
-                            hljs.highlightBlock(block);
-                        });
-
-                        $('#searchResults').children('span:contains("id")').find('span.hljs-number')
-                            .addClass('clickable')
-                            .click(function (e) {
-                                $('#consultantId').val($(this).text());
-                                page.getDetails();
-                                $('#detailsTabButton').click();
+                            section.each(function(i, block) {
+                                hljs.highlightBlock(block);
                             });
 
-                    }).fail(showError);
+                            $('#searchResults').children('span:contains("id")').find('span.hljs-number')
+                                .addClass('clickable')
+                                .click(function(e) {
+                                    $('#consultantId').val($(this).text());
+                                    page.getDetails();
+                                    $('#detailsTabButton').click();
+                                });
+
+                        }).fail(function(err) { showError(err, 'searchResults'); });
                 },
-                getDetails: function () {
-                    clearError();
+                getDetails: function() {
 
                     $('#detailResults').html('Fetching..');
                     var id = $('#consultantId').val();
 
                     $.ajax({
-                        type: 'GET',
-                        url: '/api/consultants/alumni/' + id,
-                        headers: {
-                            Authorization: 'Bearer ' + page.token
-                        }
-                    })
-                    .done(function (data) {
-                        var section = $('#detailResults');
+                            type: 'GET',
+                            url: '/api/consultants/alumni/' + id,
+                            headers: {
+                                Authorization: 'Bearer ' + page.token
+                            }
+                        })
+                        .done(function(data) {
+                            var section = $('#detailResults');
 
-                        section.html(formatObject(data));
+                            section.html(formatObject(data));
 
-                        section.each(function (i, block) {
-                            hljs.highlightBlock(block);
-                        });
+                            section.each(function(i, block) {
+                                hljs.highlightBlock(block);
+                            });
 
 
-                    }).fail(showError);
+                        }).fail(function (err){showError(err, 'detailResults')});
                 }
             };
 
-            $('#loginForm').submit(function (e) {
+            $('#loginForm').submit(function(e) {
                 page.login();
                 e.preventDefault();
             });
@@ -216,18 +221,18 @@
             $('#searchButton').click(page.search);
             $('#getDetailsButton').click(page.getDetails);
 
-            $('#username, #password').on('keydown', function (e) {
+            $('#username, #password').on('keydown', function(e) {
                 if (e.keyCode == 13) {
                     page.login();
                 }
             });
 
-            $('#searchText').on('keydown', function (e) {
+            $('#searchText').on('keydown', function(e) {
                 if (e.keyCode == 13) {
                     page.search();
                 }
             });
-            $('#consultantId').on('keydown', function (e) {
+            $('#consultantId').on('keydown', function(e) {
                 if (e.keyCode == 13) {
                     page.getDetails();
                 }
