@@ -12,7 +12,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.Search
  
         public static string Create(string query)
         {
-            var tokens = Regex.Split(query, "\\s+");
+            var tokens = Regex.Split(query ?? string.Empty, "\\s+");
 
             var finalTokens = tokens.Where(t => !ReservedWords.Contains(t.ToUpperInvariant()));
 
