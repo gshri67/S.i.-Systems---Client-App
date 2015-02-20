@@ -215,7 +215,7 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCell>
                                 </prototypes>
-                                <searchBar contentMode="redraw" id="3377" placeholder="Search" key="tableHeaderView">
+                                <searchBar contentMode="redraw" id="3377" placeholder="Search Names and Resume" key="tableHeaderView">
                                     <rect key="frame" x="0.0" y="0.0" width="322" height="44"/>
                                     <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                                 </searchBar>
@@ -688,6 +688,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="ContractorLabel" destination="5360" id="name-outlet-5360"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

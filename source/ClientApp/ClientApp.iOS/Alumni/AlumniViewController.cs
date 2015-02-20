@@ -51,31 +51,55 @@ namespace ClientApp.iOS
 	        //contractorSearch.ResignFirstResponder();
 	    }
 
-        private void SetupSearchTimer()
+        private void ConfigureSearchEvents()
         {
-            var timer = new Timer()
-            {
-                Interval = 1000,
-                AutoReset = false,
-                Enabled = false //we don't want to start the timer until we change search text
-            };
-            timer.Elapsed += delegate
-            {
-                InvokeOnMainThread(LoadConsultantGroups);
-            };
+            var timer = CreateTimer();
 
             AlumniSearch.TextChanged += delegate
             {
                 _displaySearchbar = true;
 
-                //note that this resets the timer
+                //note that this resets the timer's countdown
                 timer.Start();
             };
             AlumniSearch.SearchButtonClicked += delegate
             {
                 AlumniSearch.ResignFirstResponder();
             };
+            AlumniSearch.CancelButtonClicked += delegate
+            {
+                AlumniSearch.Text = string.Empty;
+                AlumniSearch.ResignFirstResponder();
+                InvokeOnMainThread(LoadConsultantGroups);
+            };
+            //show and hide the cancel search button
+            AlumniSearch.OnEditingStarted += delegate
+            {
+                AlumniSearch.SetShowsCancelButton(true, true);
+            };
+            AlumniSearch.OnEditingStopped += delegate
+            {
+                DisplaySearchCancelIfNotEmpty();
+            };
         }
+
+	    private void DisplaySearchCancelIfNotEmpty()
+	    {
+            if (AlumniSearch.Text.Equals(string.Empty))
+                AlumniSearch.SetShowsCancelButton(false, true);
+	    }
+
+	    private Timer CreateTimer()
+	    {
+	        var timer = new Timer()
+	        {
+	            Interval = 1000,
+	            AutoReset = false,
+	            Enabled = false //we don't want to start the timer until we change search text
+	        };
+	        timer.Elapsed += delegate { InvokeOnMainThread(LoadConsultantGroups); };
+	        return timer;
+	    }
 
 	    #region View lifecycle
 
@@ -86,7 +110,10 @@ namespace ClientApp.iOS
             //set the source for our table's data
             LoadConsultantGroups();
 
-            SetupSearchTimer();
+            //Initially hide the search bar while retrieving data from the server
+            SetSearchbarVisibility();
+
+            ConfigureSearchEvents();
         }
 
 	    public override void ViewWillAppear(bool animated)
@@ -102,6 +129,7 @@ namespace ClientApp.iOS
 
 	    public override void ViewWillDisappear(bool animated)
         {
+            AlumniSearch.ResignFirstResponder();
             base.ViewWillDisappear(animated);
         }
 
@@ -131,8 +159,9 @@ namespace ClientApp.iOS
 	    {
 	        if (!_displaySearchbar)
 	        {
+	            DisplaySearchCancelIfNotEmpty();
 	            SpecializationTable.SetContentOffset(
-	                new CGPoint(0, AlumniSearch.Frame.Height + SpecializationTable.ContentOffset.Y), false);
+	                new CGPoint(0, AlumniSearch.Frame.Height + SpecializationTable.ContentOffset.Y), true);
 	        }
 	    }
 
