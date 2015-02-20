@@ -51,6 +51,7 @@
     <Compile Include="ConsultantRepositoryTests.cs" />
     <Compile Include="ConsultantServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FullTextSearchExpressionTests.cs" />
     <Compile Include="TreeTraverserTests.cs" />
   </ItemGroup>
   <ItemGroup>

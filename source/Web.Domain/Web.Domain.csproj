@@ -59,6 +59,7 @@
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="Repositories\EulaRepository.cs" />
     <Compile Include="Repositories\IObjectCache.cs" />
+    <Compile Include="Repositories\Search\SearchExpression.cs" />
     <Compile Include="Repositories\TreeTraverser.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Settings.cs" />

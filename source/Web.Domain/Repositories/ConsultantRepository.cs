@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dapper;
 using SiSystems.ClientApp.SharedModels;
+using SiSystems.ClientApp.Web.Domain.Repositories.Search;
 
 namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
@@ -160,7 +161,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                     {
                         CompanyIds = clientIds,
                         LikeQuery = "%" + query + "%",
-                        FullTextQuery = "\"" + query + "\""
+                        FullTextQuery = FullTextSearchExpression.Create(query)
                     },
                     //Each row contains a Consultant and a Contract
                     //Tell Dapper where the object boundaries are by specifying column
