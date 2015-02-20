@@ -44,21 +44,36 @@ namespace ClientApp.iOS
 	    public async void LoadConsultant(int id)
 	    {
             var consultant = await _detailViewModel.GetConsultant(id);
-            InvokeOnMainThread(delegate
-	                           {
-                                   Title = consultant.FullName;
-	                               TitleLabel.Text =
-	                                   consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
-	                               RatingLabel.Text = ConsultantDetailViewModel.GetRatingString(consultant.Rating);
-	                               ContractsLabel.Text = consultant.Contracts.Count.ToString();
-                                   AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
-                                   DetailsTable.ReloadData();
-	                               if (_overlay != null)
-	                               {
-	                                   _overlay.Hide();
-	                               }
-	                           });
+            InvokeOnMainThread(delegate{UpdateUI(consultant);});
             
+	    }
+
+	    private void UpdateUI(Consultant consultant)
+	    {
+	        Title = consultant.FullName;
+	        TitleLabel.Text =
+	            consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
+	        RatingLabel.Text = ConsultantDetailViewModel.GetRatingString(consultant.Rating);
+	        ContractsLabel.Text = consultant.Contracts.Count.ToString();
+	        AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
+
+	        if (string.IsNullOrEmpty(consultant.ResumeText))
+	        {
+	            ResumeLabel.Text = "No Resume";
+                ResumeCell.Accessory = UITableViewCellAccessory.None;
+	        }
+	        else
+	        {
+	            ResumeLabel.Text = "Resume";
+                ResumeCell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+	        }
+	        
+            DetailsTable.ReloadData();
+            
+            if (_overlay != null)
+	        {
+	            _overlay.Hide();
+	        }
 	    }
 
 	    partial void NewContractButton_TouchUpInside(UIButton sender)
@@ -102,7 +117,10 @@ namespace ClientApp.iOS
 	        switch (indexPath.Row)
 	        {
                 case (int)DetailsTableCells.Resume:
-                    PerformSegue("ResumeSelected", this);
+	                if (ResumeLabel.Text != "No Resume")
+	                {
+	                    PerformSegue("ResumeSelected", this);
+	                }
 	                break;
                 case (int)DetailsTableCells.ContractHistory:
                     PerformSegue("ContractsSelected", this);
