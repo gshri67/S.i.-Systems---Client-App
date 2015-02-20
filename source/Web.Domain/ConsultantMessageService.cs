@@ -1,17 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SiSystems.ClientApp.SharedModels;
+using SiSystems.ClientApp.Web.Domain.Repositories;
 
 namespace SiSystems.ClientApp.Web.Domain
 {
     public class ConsultantMessageService
     {
-        public void SendConsultantMessage(ConsultantMessage message)
+        private readonly IConsultantRepository _consultantRepository;
+        private readonly ICompanyRepository _companyRepository;
+
+        private readonly ISessionContext _sessionContext;
+
+        public ConsultantMessageService(IConsultantRepository consultantRepository, 
+            ICompanyRepository companyRepository, ISessionContext context)
         {
-            
+            _consultantRepository = consultantRepository;
+            _companyRepository = companyRepository;
+            _sessionContext = context;
+        }
+
+        public void SendMessage(ConsultantMessage message)
+        {
+            //Find consultant to fetch their email address.
+            var consultant = _consultantRepository.Find(message.ConsultantId);
+
+            AssertCurrentUserCanAccessConsultantRecord(consultant);
+
+            if (consultant != null && !consultant.Contracts.Any())
+                throw new UnauthorizedAccessException();
+
+            var mailService = new SendGridMailService();
+            mailService.SendTemplatedEmail(Settings.ContactAlumniTemplateId,
+                consultant.EmailAddress, _sessionContext.CurrentUser.Login,
+                new Dictionary<string, string>
+                {
+                    { "-clientContactFullName-", _sessionContext.CurrentUser.FullName },
+                    { "-clientCompanyName-", _sessionContext.CurrentUser.CompanyName },
+                    { "-message-", message.Text }
+                });
+        }
+
+        /// <summary>
+        /// Validate that current user works for or is associated with a company
+        /// that the consultant has worked for
+        /// </summary>
+        private void AssertCurrentUserCanAccessConsultantRecord(Consultant consultant)
+        {
+            var associatedCompanyIds =
+                _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.ClientId);
+
+            if (consultant != null)
+            {
+                consultant.Contracts =
+                    consultant.Contracts.Where(c => associatedCompanyIds.Contains(c.ClientId)).ToList();
+            }
+
+            if (consultant != null && !consultant.Contracts.Any())
+                throw new UnauthorizedAccessException();
         }
     }
 }

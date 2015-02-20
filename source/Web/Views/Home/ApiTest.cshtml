@@ -27,14 +27,24 @@
             text-decoration: underline;
             cursor: pointer;
         }
+
         .error {
-            background: #b90707; color: white; padding: 10px;
+            background: #b90707;
+            color: white;
+            padding: 10px;
+        }
+
+        .space {
+            margin-top: 5px;
+        }
+        textarea {
+            min-height: 100px;
         }
     </style>
 }
 <div class="row">
-    <h3>Authenticate</h3>
     <form id="loginForm" class="col-sm-12">
+        <h3>Authenticate</h3>
         <div class="form-horizontal">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
@@ -68,6 +78,7 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#search" role="tab" data-toggle="tab">Alumni Search</a></li>
             <li role="presentation"><a id="detailsTabButton" href="#details" role="tab" data-toggle="tab">Consultant Details</a></li>
+            <li role="presentation"><a id="contactTabButton" href="#contact" role="tab" data-toggle="tab">Contact</a></li>
         </ul>
 
         <div class="tab-content">
@@ -92,18 +103,27 @@
                 <div id="detailResults" class="code json well">
                 </div>
             </div>
+
+            <div id="contact" role="details" class="tab-pane">
+                <div>
+                    <input id="contactConsultantId" type="text" class="form-control space" placeholder="Enter a consultant ID (hint: find one in the search first)" />
+                    <textarea id="contactMessage" class="form-control space"></textarea>
+                    <button id="sendMessageButton" class="btn btn-primary pull-right space">Send</button>
+                    <div class="clearfix"></div>
+                </div>
+                <div id="contactResults" class="code json well">
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-
 
 
 @section Scripts {
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
     <script>
-        (function() {
+        (function () {
 
             $('#username').val('bob.smith@email.com');
             $('#password').val('password');
@@ -116,10 +136,6 @@
                 });
             }
 
-            //function clearError() {
-            //    $('#error').text('').hide();
-            //}
-
             function formatObject(obj) {
                 return JSON.stringify(obj, null, 4)
                     .replace(/\n/g, '<br>');
@@ -127,7 +143,7 @@
 
             var page = {
                 token: null,
-                login: function() {
+                login: function () {
                     $('#token').html('Authenticating...');
 
                     var loginData = {
@@ -140,13 +156,13 @@
                         type: 'POST',
                         url: '@(Settings.LoginTokenEndpoint)',
                         data: loginData
-                    }).done(function(data) {
+                    }).done(function (data) {
                         page.token = data.access_token;
 
                         var section = $('#token');
                         section.html(formatObject(data));
 
-                        section.each(function(i, block) {
+                        section.each(function (i, block) {
                             hljs.highlightBlock(block);
                         });
 
@@ -154,7 +170,7 @@
                         //self.user(data.userName);
                         // Cache the access token in session storage.
                         //sessionStorage.setItem(tokenKey, data.access_token);
-                    }).fail(function(err) { showError(err, 'token'); });
+                    }).fail(function (err) { showError(err, 'token'); });
                 },
                 search: function () {
 
@@ -162,78 +178,107 @@
                     var query = encodeURIComponent($('#searchText').val());
 
                     $.ajax({
-                            type: 'GET',
-                            url: '/api/consultants/alumni/?query=' + query,
-                            headers: {
-                                Authorization: 'Bearer ' + page.token
-                            }
-                        })
-                        .done(function(data) {
-                            var section = $('#searchResults');
+                        type: 'GET',
+                        url: '/api/consultants/alumni/?query=' + query,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#searchResults');
 
-                            section.html(formatObject(data));
+                        section.html(formatObject(data));
 
-                            section.each(function(i, block) {
-                                hljs.highlightBlock(block);
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+                        $('#searchResults').children('span:contains("id")').find('span.hljs-number')
+                            .addClass('clickable')
+                            .click(function (e) {
+                                $('#consultantId').val($(this).text());
+                                page.getDetails();
+                                $('#detailsTabButton').click();
                             });
 
-                            $('#searchResults').children('span:contains("id")').find('span.hljs-number')
-                                .addClass('clickable')
-                                .click(function(e) {
-                                    $('#consultantId').val($(this).text());
-                                    page.getDetails();
-                                    $('#detailsTabButton').click();
-                                });
-
-                        }).fail(function(err) { showError(err, 'searchResults'); });
+                    }).fail(function (err) { showError(err, 'searchResults'); });
                 },
-                getDetails: function() {
+                getDetails: function () {
 
                     $('#detailResults').html('Fetching..');
                     var id = $('#consultantId').val();
 
                     $.ajax({
-                            type: 'GET',
-                            url: '/api/consultants/alumni/' + id,
-                            headers: {
-                                Authorization: 'Bearer ' + page.token
-                            }
-                        })
-                        .done(function(data) {
-                            var section = $('#detailResults');
+                        type: 'GET',
+                        url: '/api/consultants/alumni/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#detailResults');
 
-                            section.html(formatObject(data));
+                        section.html(formatObject(data));
 
-                            section.each(function(i, block) {
-                                hljs.highlightBlock(block);
-                            });
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
 
 
-                        }).fail(function (err){showError(err, 'detailResults')});
+                    }).fail(function (err) { showError(err, 'detailResults') });
+                },
+                sendContactMessage: function () {
+                    $('#contactResults').html('Sending...');
+
+                    var message = {
+                        consultantId: $('#contactConsultantId').val(),
+                        text: $('#contactMessage').val()
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/consultantMessages',
+                        data: message,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#contactResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'contactResults') });
                 }
             };
 
-            $('#loginForm').submit(function(e) {
+            $('#loginForm').submit(function (e) {
                 page.login();
                 e.preventDefault();
             });
 
             $('#searchButton').click(page.search);
             $('#getDetailsButton').click(page.getDetails);
+            $('#sendMessageButton').click(page.sendContactMessage);
 
-            $('#username, #password').on('keydown', function(e) {
-                if (e.keyCode == 13) {
+            $('#username, #password').on('keydown', function (e) {
+                if (e.keyCode === 13) {
                     page.login();
                 }
             });
 
-            $('#searchText').on('keydown', function(e) {
-                if (e.keyCode == 13) {
+            $('#searchText').on('keydown', function (e) {
+                if (e.keyCode === 13) {
                     page.search();
                 }
             });
-            $('#consultantId').on('keydown', function(e) {
-                if (e.keyCode == 13) {
+            $('#consultantId').on('keydown', function (e) {
+                if (e.keyCode === 13) {
                     page.getDetails();
                 }
             });

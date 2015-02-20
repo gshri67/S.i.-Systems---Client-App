@@ -18,7 +18,8 @@ namespace SiSystems.ClientApp.Web.Domain
         private readonly ICompanyRepository _companyRepository;
         private readonly ISessionContext _sessionContext;
 
-        public ConsultantService(IConsultantRepository consultantRepository, ICompanyRepository companyRepository, ISessionContext sessionContext)
+        public ConsultantService(IConsultantRepository consultantRepository, 
+            ICompanyRepository companyRepository, ISessionContext sessionContext)
         {
             _consultantRepository = consultantRepository;
             _companyRepository = companyRepository;
@@ -29,10 +30,20 @@ namespace SiSystems.ClientApp.Web.Domain
         {
             var consultant = _consultantRepository.Find(id);
 
+            AssertCurrentUserCanAccessConsultantRecord(consultant);
+
+            return consultant;
+        }
+
+        /// <summary>
+        /// Validate that current user works for or is associated with a company
+        /// that the consultant has worked for
+        /// </summary>
+        private void AssertCurrentUserCanAccessConsultantRecord(Consultant consultant)
+        {
             var associatedCompanyIds =
                 _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.ClientId);
 
-            //filter out any contracts that the current user shouldn't see
             if (consultant != null)
             {
                 consultant.Contracts =
@@ -41,8 +52,6 @@ namespace SiSystems.ClientApp.Web.Domain
 
             if (consultant != null && !consultant.Contracts.Any())
                 throw new UnauthorizedAccessException();
-
-            return consultant;
         }
 
         public IEnumerable<ConsultantGroup> FindAlumni(string query)

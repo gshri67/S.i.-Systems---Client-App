@@ -8,8 +8,7 @@ namespace SiSystems.ClientApp.SharedModels
 {
     public class ConsultantMessage
     {
-        public int ToEmailAddress { get; set; }
-        public int FromEmailAddress { get; set; }
+        public int ConsultantId { get; set; }
         public string Text { get; set; }
     }
 }
