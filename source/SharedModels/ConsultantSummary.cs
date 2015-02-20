@@ -11,7 +11,7 @@ namespace SiSystems.ClientApp.SharedModels
         public string LastName { get; set; }
 
         public string FullName { get { return FirstName + " " + LastName; } }
-        public int? Rating { get; set; }
+        public MatchGuideConstants.ResumeRating Rating { get; set; }
 
         public DateTime MostRecentContractStartDate { get; set; }
         public DateTime MostRecentContractEndDate { get; set; }

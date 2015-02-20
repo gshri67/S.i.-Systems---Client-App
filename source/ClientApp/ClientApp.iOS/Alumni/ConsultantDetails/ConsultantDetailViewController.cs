@@ -49,7 +49,7 @@ namespace ClientApp.iOS
                                    Title = consultant.FullName;
 	                               TitleLabel.Text =
 	                                   consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
-	                               RatingLabel.Text = ConsultantDetailViewModel.GetRatingString(consultant.Rating);
+	                               RatingLabel.Text = consultant.Rating.ToString();
 	                               ContractsLabel.Text = consultant.Contracts.Count.ToString();
                                    AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
                                    DetailsTable.ReloadData();
@@ -149,7 +149,7 @@ namespace ClientApp.iOS
             foreach (var skill in skills)
             {
                 sb.Append(skill.Name)
-                    .Append(ConsultantDetailViewModel.GetYearsExperienceString(skill.YearsOfExperience))
+                    .Append(skill.YearsOfExperience.ToString())
                     .Append(", ");
             }
 	        return sb.ToString(0, sb.Length - 2);

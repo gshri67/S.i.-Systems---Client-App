@@ -6,6 +6,6 @@ namespace SiSystems.ClientApp.SharedModels
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public int YearsOfExperience { get; set; }
+        public MatchGuideConstants.YearsOfExperience YearsOfExperience { get; set; }
     }
 }

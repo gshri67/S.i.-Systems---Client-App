@@ -39,39 +39,5 @@ namespace ClientApp.ViewModels
         {
             return _consultant ?? new Consultant();
         }
-
-        public static string GetRatingString(int? rating)
-        {
-            switch (rating)
-            {
-                case MatchGuideConstants.ResumeRating.Standard:
-                    return "Standard";
-                case MatchGuideConstants.ResumeRating.AboveStandard:
-                    return "Above Standard";
-                case MatchGuideConstants.ResumeRating.BelowStandard:
-                    return "Below Standard";
-                default:
-                    return "Not Checked";
-            }
-        }
-
-        public static string GetYearsExperienceString(int expCode)
-        {
-            switch (expCode)
-            {
-                case MatchGuideConstants.YearsOfExperience.LessThanTwo:
-                    return " (< 2 yrs)";
-                case MatchGuideConstants.YearsOfExperience.TwoToFour:
-                    return " (2-4 yrs)";
-                case MatchGuideConstants.YearsOfExperience.FiveToSeven:
-                    return " (5-7 yrs)";
-                case MatchGuideConstants.YearsOfExperience.EightToTen:
-                    return " (8-10 yrs)";
-                case MatchGuideConstants.YearsOfExperience.MoreThanTen:
-                    return " (> 10 yrs)";
-                default:
-                    return "";
-            }
-        }
     }
 }
