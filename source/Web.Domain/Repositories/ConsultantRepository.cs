@@ -27,7 +27,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                //TODO: Include Email Address..
                 string consultantQuery = @"SELECT U.UserID Id, U.FirstName, U.LastName, UE.PrimaryEmail as EmailAddress, "
                                              + "ISNULL(CRI.ReferenceValue, " + MatchGuideConstants.ResumeRating.NotChecked + ") Rating, "
                                              + "CRI.ResumeText, "
@@ -36,6 +35,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              + "FROM [Users] AS U "
                                             //ResumeInfo gives us rating, if present
                                              + "LEFT JOIN [Candidate_ResumeInfo] as CRI on CRI.UserID=U.UserID, "
+                                             //Include Email
                                              + "[User_Email] as UE, "
                                             //Contracts
                                              + "[Agreement] AS A, "
@@ -151,8 +151,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                                  + "OR A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Pending + ") "
                                                  + "AND A.EndDate > GETUTCDATE() "
                                                  + "AND A.Inactive = 0 "
-                                             + ") "
-                                             + "ORDER BY U.FirstName, U.LastName, U.UserID";
+                                             + ") ";
 
 
                 //Query will return row per contract, with consultant info repeated

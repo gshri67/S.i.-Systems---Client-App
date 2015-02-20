@@ -56,7 +56,7 @@
     <Compile Include="MailService.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />
     <Compile Include="Repositories\ConsultantRepository.cs" />
-    <Compile Include="DatabaseContext.cs" />
+    <Compile Include="Repositories\DatabaseContext.cs" />
     <Compile Include="Repositories\EulaRepository.cs" />
     <Compile Include="Repositories\IObjectCache.cs" />
     <Compile Include="Repositories\Search\SearchExpression.cs" />
