@@ -17,3 +17,15 @@ VALUES
 (13, 'Sally', 'P', 'Divisioner', 490, 4, 0);
 
 SET IDENTITY_INSERT [dbo].[Users] OFF;
+
+
+
+INSERT INTO [dbo].[User_Email]
+(
+	[UserID], [PrimaryEmail]
+)
+VALUES
+(10, 'tommy.contractor@email.com'),
+(11, 'bill.contractasaurus@email.com'),
+(12, 'candice.consulty@email.com'),
+(13, 'sally.divisioner@email.com');
