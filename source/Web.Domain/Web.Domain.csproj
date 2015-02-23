@@ -35,6 +35,9 @@
     <Reference Include="Dapper">
       <HintPath>..\packages\Dapper.1.38\lib\net45\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="SendGrid.SmtpApi">
+      <HintPath>..\packages\SendGrid.SmtpApi.1.2.1\lib\net40\SendGrid.SmtpApi.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -45,19 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsultantMessageService.cs" />
-    <Compile Include="ConsultantService.cs" />
-    <Compile Include="ContractService.cs" />
-    <Compile Include="EulaService.cs" />
-    <Compile Include="ISessionContext.cs" />
+    <Compile Include="Services\ConsultantMessageService.cs" />
+    <Compile Include="Services\ConsultantService.cs" />
+    <Compile Include="Services\ContractService.cs" />
+    <Compile Include="Services\EulaService.cs" />
+    <Compile Include="Context\ISessionContext.cs" />
+    <Compile Include="Services\MailService.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />
     <Compile Include="Repositories\ConsultantRepository.cs" />
-    <Compile Include="DatabaseContext.cs" />
+    <Compile Include="Repositories\DatabaseContext.cs" />
     <Compile Include="Repositories\EulaRepository.cs" />
-    <Compile Include="Repositories\IObjectCache.cs" />
+    <Compile Include="Caching\IObjectCache.cs" />
+    <Compile Include="Repositories\Search\SearchExpression.cs" />
     <Compile Include="Repositories\TreeTraverser.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="UserService.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +75,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -11,10 +11,14 @@ namespace SiSystems.ClientApp.SharedModels
         public int Id { get; set; }
 
         public int ClientId { get; set; }
-
+        public string CompanyName { get; set; }
+     
         public string Login { get; set; }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
 
         public string PasswordHash { get; set; }
     }

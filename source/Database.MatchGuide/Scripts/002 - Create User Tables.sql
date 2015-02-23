@@ -62,3 +62,19 @@ CREATE TABLE [dbo].[User_Login](
 	)
 GO
 
+CREATE TABLE [dbo].[User_Email](
+	[UserID] [int] NOT NULL CONSTRAINT [DF_UserEmail_UserID]  DEFAULT ((0)),
+	[PrimaryEmail] [nvarchar](50) NOT NULL,
+	--[SecondaryEmail] [nvarchar](50) NULL,
+	--[EmailType] [int] NULL CONSTRAINT [DF_UserEmail_EmailPref]  DEFAULT ((1)),
+	--[EmailVerified] [bit] NULL CONSTRAINT [DF_UserEmail_EmailVerified]  DEFAULT ((0)),
+	--[EmailVerifiedDate] [smalldatetime] NULL,
+	--[EmailOverRide] [bit] NULL,
+	--[verticalid] [int] NULL,
+ CONSTRAINT [PK_User_Email] PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+) ON [PRIMARY]
+);
+
+GO

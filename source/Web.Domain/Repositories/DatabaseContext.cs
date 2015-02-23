@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace SiSystems.ClientApp.Web.Domain
+namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
     public enum DatabaseSelect
     {

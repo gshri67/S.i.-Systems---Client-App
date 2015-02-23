@@ -43,13 +43,27 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         }
 
         [Test]
-        public void FindAlumni_ShouldMatchOnResumeText()
+        public void FindAlumni_ShouldMatchOnResumeTextPhrase()
         {
             const string searchText = "LOREM IPSUM";
             var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
 
             var consultants = groups.SelectMany(g => g.Consultants).Select(c => c.FirstName).Distinct().ToList();
             
+            //\Database.MatchGuide\Scripts\014 - Add Candidate Resumes.sql
+            Assert.AreEqual(2, consultants.Count);
+            Assert.Contains("Tommy", consultants);
+            Assert.Contains("Candice", consultants);
+        }
+
+        [Test]
+        public void FindAlumni_ShouldMatchOnResumePartialTextPrefix()
+        {
+            const string searchText = "LORE";
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
+
+            var consultants = groups.SelectMany(g => g.Consultants).Select(c => c.FirstName).Distinct().ToList();
+
             //\Database.MatchGuide\Scripts\014 - Add Candidate Resumes.sql
             Assert.AreEqual(2, consultants.Count);
             Assert.Contains("Tommy", consultants);
@@ -65,6 +79,20 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             var groups = _repo.FindAlumni(searchText, new List<int> { _companyTwoId });
 
             Assert.IsTrue(groups.Any());
+        }
+
+        [Test]
+        public void FindAlumni_ShouldNotRelyOnWordOrder()
+        {
+            const string searchText = "IPSUM LOREM";
+            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
+
+            var consultants = groups.SelectMany(g => g.Consultants).Select(c => c.FirstName).Distinct().ToList();
+
+            //\Database.MatchGuide\Scripts\014 - Add Candidate Resumes.sql
+            Assert.AreEqual(2, consultants.Count);
+            Assert.Contains("Tommy", consultants);
+            Assert.Contains("Candice", consultants);
         }
 
         [Test]

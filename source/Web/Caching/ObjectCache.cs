@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web;
-using SiSystems.ClientApp.Web.Domain.Repositories;
+using SiSystems.ClientApp.Web.Domain.Caching;
 
-namespace SiSystems.ClientApp.Web.Cache
+namespace SiSystems.ClientApp.Web.Caching
 {
     public class ObjectCache : IObjectCache
     {

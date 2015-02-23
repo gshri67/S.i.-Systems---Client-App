@@ -49,6 +49,19 @@ namespace ClientApp.iOS
         {
             base.ViewDidLoad();
 
+            username.ShouldReturn += (textField) =>
+                                     {
+                                         password.BecomeFirstResponder();
+                                         return true;
+                                     };
+
+            password.ShouldReturn += (textField) =>
+                                     {
+                                         textField.ResignFirstResponder();
+                                         login_TouchUpInside(null);
+                                         return true;
+                                     };
+
             var token = TokenStore.GetDeviceToken();
             if (token == null) return;
 

@@ -27,12 +27,24 @@
             text-decoration: underline;
             cursor: pointer;
         }
+
+        .error {
+            background: #b90707;
+            color: white;
+            padding: 10px;
+        }
+
+        .space {
+            margin-top: 5px;
+        }
+        textarea {
+            min-height: 100px;
+        }
     </style>
 }
-<div id="error" style="background: #b90707; color: white; padding: 10px; display: none;"></div>
 <div class="row">
-    <h3>Authenticate</h3>
     <form id="loginForm" class="col-sm-12">
+        <h3>Authenticate</h3>
         <div class="form-horizontal">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
@@ -66,6 +78,7 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#search" role="tab" data-toggle="tab">Alumni Search</a></li>
             <li role="presentation"><a id="detailsTabButton" href="#details" role="tab" data-toggle="tab">Consultant Details</a></li>
+            <li role="presentation"><a id="contactTabButton" href="#contact" role="tab" data-toggle="tab">Contact</a></li>
         </ul>
 
         <div class="tab-content">
@@ -90,11 +103,20 @@
                 <div id="detailResults" class="code json well">
                 </div>
             </div>
+
+            <div id="contact" role="details" class="tab-pane">
+                <div>
+                    <input id="contactConsultantId" type="text" class="form-control space" placeholder="Enter a consultant ID (hint: find one in the search first)" />
+                    <textarea id="contactMessage" class="form-control space"></textarea>
+                    <button id="sendMessageButton" class="btn btn-primary pull-right space">Send</button>
+                    <div class="clearfix"></div>
+                </div>
+                <div id="contactResults" class="code json well">
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-
 
 
 @section Scripts {
@@ -106,12 +128,12 @@
             $('#username').val('bob.smith@email.com');
             $('#password').val('password');
 
-            function showError(jqXHR) {
-                $('#error').text(jqXHR.status + ': ' + jqXHR.statusText).show();
-            }
-
-            function clearError() {
-                $('#error').text('').hide();
+            function showError(jqXHR, elmId) {
+                var section = $('#' + elmId);
+                section.html('<div class="error">ERROR</div>' + formatObject(jqXHR));
+                section.each(function (i, block) {
+                    hljs.highlightBlock(block);
+                });
             }
 
             function formatObject(obj) {
@@ -122,7 +144,7 @@
             var page = {
                 token: null,
                 login: function () {
-                    clearError();
+                    $('#token').html('Authenticating...');
 
                     var loginData = {
                         grant_type: 'password',
@@ -148,10 +170,10 @@
                         //self.user(data.userName);
                         // Cache the access token in session storage.
                         //sessionStorage.setItem(tokenKey, data.access_token);
-                    }).fail(showError);
+                    }).fail(function (err) { showError(err, 'token'); });
                 },
                 search: function () {
-                    clearError();
+
                     $('#searchResults').html('Searching..');
                     var query = encodeURIComponent($('#searchText').val());
 
@@ -179,10 +201,9 @@
                                 $('#detailsTabButton').click();
                             });
 
-                    }).fail(showError);
+                    }).fail(function (err) { showError(err, 'searchResults'); });
                 },
                 getDetails: function () {
-                    clearError();
 
                     $('#detailResults').html('Fetching..');
                     var id = $('#consultantId').val();
@@ -204,7 +225,35 @@
                         });
 
 
-                    }).fail(showError);
+                    }).fail(function (err) { showError(err, 'detailResults') });
+                },
+                sendContactMessage: function () {
+                    $('#contactResults').html('Sending...');
+
+                    var message = {
+                        consultantId: $('#contactConsultantId').val(),
+                        text: $('#contactMessage').val()
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/consultantMessages',
+                        data: message,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#contactResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'contactResults') });
                 }
             };
 
@@ -215,20 +264,21 @@
 
             $('#searchButton').click(page.search);
             $('#getDetailsButton').click(page.getDetails);
+            $('#sendMessageButton').click(page.sendContactMessage);
 
             $('#username, #password').on('keydown', function (e) {
-                if (e.keyCode == 13) {
+                if (e.keyCode === 13) {
                     page.login();
                 }
             });
 
             $('#searchText').on('keydown', function (e) {
-                if (e.keyCode == 13) {
+                if (e.keyCode === 13) {
                     page.search();
                 }
             });
             $('#consultantId').on('keydown', function (e) {
-                if (e.keyCode == 13) {
+                if (e.keyCode === 13) {
                     page.getDetails();
                 }
             });

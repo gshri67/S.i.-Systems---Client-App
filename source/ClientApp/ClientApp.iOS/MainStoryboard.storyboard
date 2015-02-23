@@ -32,7 +32,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="8" translatesAutoresizingMaskIntoConstraints="NO" adjustsFontSizeToFitWidth="NO" misplaced="YES" placeholder="Email">
                                 <rect key="frame" x="32" y="225" width="255" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                 <color key="tintColor" colorSpace="calibratedRGB" red="0.50196078431372548" green="0.50196078431372548" blue="0" alpha="1"/>
                                 <constraints>
                                     <constraint id="5104" firstItem="8" firstAttribute="height" constant="50"/>
@@ -41,15 +41,15 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="9" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" placeholder="Password">
                                 <rect key="frame" x="34" y="326" width="255" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" returnKeyType="done"/>
                                 <constraints>
                                     <constraint id="5133" firstItem="9" firstAttribute="height" constant="50"/>
                                 </constraints>
                             </textField>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Alumni" lineBreakMode="tailTruncation" minimumFontSize="10" id="17" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="The Alumni Knowledge Solution™" lineBreakMode="tailTruncation" minimumFontSize="10" id="17" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" textAlignment="center" numberOfLines="1">
                                 <rect key="frame" x="105" y="136" width="110" height="36"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="32"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.50196078431372548" green="0.50196078431372548" blue="0.52156862745098043" alpha="1"/>
                                 <nil key="highlightedColor"/>
                                 <color key="tintColor" colorSpace="calibratedRGB" red="0.50196078431372548" green="0.50196078431372548" blue="0.52156862745098043" alpha="1"/>
@@ -89,8 +89,9 @@
                             <constraint firstItem="5" firstAttribute="width" secondItem="9" secondAttribute="width" id="5145"/>
                             <constraint firstItem="9" firstAttribute="width" secondItem="8" secondAttribute="width" id="5146"/>
                             <constraint firstItem="9" firstAttribute="leading" secondItem="8" secondAttribute="leading" constant="2" id="5147"/>
-                            <constraint firstItem="17" firstAttribute="centerX" secondItem="4934" secondAttribute="centerX" constant="0.0" id="5152"/>
                             <constraint firstItem="5" firstAttribute="leading" secondItem="9" secondAttribute="leading" constant="0.0" id="5154"/>
+                            <constraint firstItem="17" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="5214"/>
+                            <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="17" secondAttribute="trailing" constant="20" id="5463"/>
                         </constraints>
                     </view>
                     <connections>
@@ -191,23 +192,12 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <searchBar contentMode="redraw" id="3377" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Search">
-                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
-                            </searchBar>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="3384" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" textAlignment="center">
-                                <rect key="frame" x="0.0" y="110" width="235" height="21"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3439" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" separatorStyle="none">
-                                <rect key="frame" x="0.0" y="200" width="322" height="211"/>
+                                <rect key="frame" x="0.0" y="102" width="322" height="309"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3442" imageView="3476" style="IBUITableViewCellStyleDefault" textLabel="3695" detailTextLabel="3692" reuseIdentifier="ConsultantGroupCell" accessoryType="disclosureIndicator">
-                                        <rect key="frame" x="0.0" y="22" width="322" height="44"/>
+                                        <rect key="frame" x="0.0" y="66" width="322" height="44"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="3443" tableViewCell="3442">
                                             <rect key="frame" x="0.0" y="0.0" width="289" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
@@ -225,21 +215,17 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCell>
                                 </prototypes>
+                                <searchBar contentMode="redraw" id="3377" placeholder="Search Names and Resume" key="tableHeaderView">
+                                    <rect key="frame" x="0.0" y="0.0" width="322" height="44"/>
+                                    <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
+                                </searchBar>
                             </tableView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="3377" firstAttribute="trailing" secondItem="1164" secondAttribute="trailing" constant="0.0" id="3385"/>
-                            <constraint firstItem="3377" firstAttribute="leading" secondItem="1164" secondAttribute="leading" constant="0.0" id="3386"/>
-                            <constraint firstItem="3377" firstAttribute="top" secondItem="1160" secondAttribute="bottom" constant="0.0" id="3388"/>
-                            <constraint firstItem="3384" firstAttribute="top" secondItem="3377" secondAttribute="bottom" constant="0.0" id="3389"/>
-                            <constraint firstItem="3384" firstAttribute="width" secondItem="3377" secondAttribute="width" id="3391"/>
-                            <constraint firstItem="3377" firstAttribute="top" secondItem="1160" secondAttribute="bottom" constant="0.0" id="3411"/>
-                            <constraint firstItem="3377" firstAttribute="top" secondItem="1160" secondAttribute="bottom" constant="0.0" id="3412"/>
                             <constraint firstItem="3439" firstAttribute="leading" secondItem="1164" secondAttribute="leading" constant="0.0" id="3446"/>
                             <constraint firstItem="3439" firstAttribute="trailing" secondItem="1164" secondAttribute="trailing" constant="0.0" id="3447"/>
-                            <constraint firstItem="3439" firstAttribute="top" secondItem="3384" secondAttribute="bottom" constant="0.0" id="3458"/>
                             <constraint firstItem="1164" firstAttribute="bottom" secondItem="3439" secondAttribute="bottom" constant="0.0" id="3459"/>
-                            <constraint firstItem="3384" firstAttribute="leading" secondItem="1164" secondAttribute="leading" constant="0.0" id="3728"/>
+                            <constraint firstItem="3439" firstAttribute="top" secondItem="1164" secondAttribute="top" constant="0.0" id="5234"/>
                         </constraints>
                     </view>
                     <navigationItem title="Alumni" id="1719" key="navigationItem">
@@ -251,12 +237,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="summaryLabel" destination="3384" id="name-outlet-3384"/>
                         <outlet property="SpecializationTable" destination="3439" id="name-outlet-3439"/>
                         <segue id="3805" destination="3749" kind="push" identifier="DisciplineSelected"/>
-                        <outlet property="contractorSearch" destination="3377" id="name-outlet-3377"/>
                         <outlet property="AdditionalActions" destination="4058" id="name-outlet-4058"/>
                         <segue id="5016" destination="vXZ-lx-hvc" kind="modal" identifier="logoutSegue" modalTransitionStyle="crossDissolve"/>
+                        <outlet property="AlumniSearch" destination="3377" id="name-outlet-3377"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -350,7 +335,7 @@
         <scene sceneID="3940">
             <objects>
                 <tableViewController id="3941" sceneMemberID="viewController" customClass="ConsultantDetailViewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="center" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3942" bounces="NO" bouncesZoom="NO" delaysContentTouches="NO" keyboardDismissMode="2" canCancelContentTouches="NO">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="center" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3942" bouncesZoom="NO" delaysContentTouches="NO" keyboardDismissMode="2" canCancelContentTouches="NO" alwaysBounceVertical="YES">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -547,6 +532,8 @@
                         <segue id="4891" destination="4823" kind="push" identifier="ContractsSelected"/>
                         <segue id="5355" destination="5221" kind="push" identifier="NewContractSelected"/>
                         <outlet property="NewContractButton" destination="5196" id="name-outlet-5196"/>
+                        <outlet property="ResumeLabel" destination="4309" id="name-outlet-4309"/>
+                        <outlet property="ResumeCell" destination="4265" id="name-outlet-4265"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3947" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -565,7 +552,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" id="5435" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <webView contentMode="scaleToFill" id="5435" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" autoresizesSubviews="NO">
                                 <rect key="frame" x="80" y="151" width="160" height="240"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -574,10 +561,10 @@
                             </webView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="5435" firstAttribute="top" secondItem="4675" secondAttribute="bottom" constant="8" id="5436"/>
-                            <constraint firstItem="4679" firstAttribute="trailing" secondItem="5435" secondAttribute="trailing" constant="20" id="5437"/>
-                            <constraint firstItem="4676" firstAttribute="top" secondItem="5435" secondAttribute="bottom" constant="8" id="5438"/>
-                            <constraint firstItem="5435" firstAttribute="leading" secondItem="4679" secondAttribute="leading" constant="20" id="5439"/>
+                            <constraint firstItem="5435" firstAttribute="top" secondItem="4675" secondAttribute="bottom" constant="0.0" id="5436"/>
+                            <constraint firstItem="4679" firstAttribute="trailing" secondItem="5435" secondAttribute="trailing" constant="0.0" id="5437"/>
+                            <constraint firstItem="4676" firstAttribute="top" secondItem="5435" secondAttribute="bottom" constant="0.0" id="5438"/>
+                            <constraint firstItem="5435" firstAttribute="leading" secondItem="4679" secondAttribute="leading" constant="0.0" id="5439"/>
                         </constraints>
                     </view>
                     <connections>
@@ -596,7 +583,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4827" customClass="CustomContractCell" rowHeight="60" reuseIdentifier="ContractCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4827" rowHeight="60" reuseIdentifier="ContractCell" customClass="CustomContractCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4827" id="4828">
@@ -724,7 +711,7 @@
     <resources>
         <image name="Default-568h.png" width="320" height="568"/>
         <image name="Default-Portrait.png" width="768" height="1004"/>
-        <image name="Default.png" width="320" height="480"/>
+        <image name="Default.png" width="640" height="960"/>
         <image name="Icon-60.png" width="120" height="120"/>
         <image name="Icon-76.png" width="76" height="76"/>
         <image name="Icon-Small-40.png" width="40" height="40"/>

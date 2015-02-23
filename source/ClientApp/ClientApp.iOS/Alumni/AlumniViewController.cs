@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Timers;
 using ClientApp.iOS.Startup;
 using ClientApp.ViewModels;
+using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.SharedModels;
@@ -13,6 +16,7 @@ namespace ClientApp.iOS
 	public partial class AlumniViewController : UIViewController
 	{
 	    private readonly AlumniViewModel _alumniModel;
+	    private bool _displaySearchbar = false;
 
         public AlumniViewController(IntPtr handle)
             : base(handle)
@@ -25,9 +29,9 @@ namespace ClientApp.iOS
             var alumniCount = CountAlumni(consultantGroup);
             var specializationsCount = CountSpecializations(consultantGroup);
 
-	        summaryLabel.Text = specializationsCount == 0 ? 
-                string.Format("There are no records to display.") : 
-                string.Format("You have {0} alumni in {1} specializations.", alumniCount, specializationsCount);
+            //summaryLabel.Text = specializationsCount == 0 ? 
+            //    string.Format("There are no records to display.") : 
+            //    string.Format("You have {0} alumni in {1} specializations.", alumniCount, specializationsCount);
         }
 
         private static int CountSpecializations(IEnumerable<ConsultantGroup> consultantGroup)
@@ -44,7 +48,57 @@ namespace ClientApp.iOS
 	    {
 	        base.TouchesBegan(touches, evt);
 
-	        contractorSearch.ResignFirstResponder();
+	        //contractorSearch.ResignFirstResponder();
+	    }
+
+        private void ConfigureSearchEvents()
+        {
+            var timer = CreateTimer();
+
+            AlumniSearch.TextChanged += delegate
+            {
+                _displaySearchbar = true;
+
+                //note that this resets the timer's countdown
+                timer.Start();
+            };
+            AlumniSearch.SearchButtonClicked += delegate
+            {
+                AlumniSearch.ResignFirstResponder();
+            };
+            AlumniSearch.CancelButtonClicked += delegate
+            {
+                AlumniSearch.Text = string.Empty;
+                AlumniSearch.ResignFirstResponder();
+                InvokeOnMainThread(LoadConsultantGroups);
+            };
+            //show and hide the cancel search button
+            AlumniSearch.OnEditingStarted += delegate
+            {
+                AlumniSearch.SetShowsCancelButton(true, true);
+            };
+            AlumniSearch.OnEditingStopped += delegate
+            {
+                DisplaySearchCancelIfNotEmpty();
+            };
+        }
+
+	    private void DisplaySearchCancelIfNotEmpty()
+	    {
+            if (AlumniSearch.Text.Equals(string.Empty))
+                AlumniSearch.SetShowsCancelButton(false, true);
+	    }
+
+	    private Timer CreateTimer()
+	    {
+	        var timer = new Timer()
+	        {
+	            Interval = 1000,
+	            AutoReset = false,
+	            Enabled = false //we don't want to start the timer until we change search text
+	        };
+	        timer.Elapsed += delegate { InvokeOnMainThread(LoadConsultantGroups); };
+	        return timer;
 	    }
 
 	    #region View lifecycle
@@ -52,32 +106,17 @@ namespace ClientApp.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-            // Perform any additional setup after loading the view, typically from a nib.
-
+            
             //set the source for our table's data
             LoadConsultantGroups();
 
+            //Initially hide the search bar while retrieving data from the server
+            SetSearchbarVisibility();
 
-            contractorSearch.TextChanged += delegate
-            {
-                //todo: set a timer/interval to fire this off after ~1 sec
-                LoadConsultantGroups();
-            };
-            contractorSearch.SearchButtonClicked += delegate
-            {
-                contractorSearch.ResignFirstResponder();
-            };
-
-            //TODO Make button image work properly
-            //var rightButton = NavigationItem.RightBarButtonItem;
-
-            //UIImage image = new UIImage("testbutton.png");
-            //image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
-            //rightButton.SetBackgroundImage(image, UIControlState.Normal, UIBarButtonItemStyle.Plain, UIBarMetrics.Default);
+            ConfigureSearchEvents();
         }
 
-        public override void ViewWillAppear(bool animated)
+	    public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
 
@@ -90,6 +129,7 @@ namespace ClientApp.iOS
 
 	    public override void ViewWillDisappear(bool animated)
         {
+            AlumniSearch.ResignFirstResponder();
             base.ViewWillDisappear(animated);
         }
 
@@ -103,16 +143,29 @@ namespace ClientApp.iOS
 	    private async void LoadConsultantGroups()
 	    {
             //get our list of specializations to display
-            var consultantGroups = await  _alumniModel.GetConsultantGroups(contractorSearch.Text);
+            var consultantGroups = await  _alumniModel.GetConsultantGroups(AlumniSearch.Text);
             InvokeOnMainThread(delegate
                                {
                                    SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
+
+                                   SetSearchbarVisibility();
+
                                    SpecializationTable.ReloadData();
                                    SetSummaryLabel(consultantGroups);
                                });
 	    }
 
-        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+	    private void SetSearchbarVisibility()
+	    {
+	        if (!_displaySearchbar)
+	        {
+	            DisplaySearchCancelIfNotEmpty();
+	            SpecializationTable.SetContentOffset(
+	                new CGPoint(0, AlumniSearch.Frame.Height + SpecializationTable.ContentOffset.Y), true);
+	        }
+	    }
+
+	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
         {
             base.PrepareForSegue(segue, sender);
             

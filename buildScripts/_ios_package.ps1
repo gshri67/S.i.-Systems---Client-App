@@ -19,7 +19,7 @@ function PackageBuild
 
     copy $packageDir\*$configuration.ipa .\
 
-    ls *.ipa | % { $_.Name -match '.*(?<version>\d+\.\d+\.\d+\.\d+).*'}
+    ls *.ipa | % { $_.Name -match '.*?(?<version>\d+(\.\d+)+).*'}
 
     Update-Nuspec -FilePath ".\$configuration.nuspec" -Version $Matches['version']
 

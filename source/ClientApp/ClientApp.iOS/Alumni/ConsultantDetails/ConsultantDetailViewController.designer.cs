@@ -36,6 +36,14 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITableViewCell ResumeCell { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel ResumeLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableViewCell SpecializationCell { get; set; }
 
 		[Outlet]
@@ -67,6 +75,14 @@ namespace ClientApp.iOS
 			if (RatingLabel != null) {
 				RatingLabel.Dispose ();
 				RatingLabel = null;
+			}
+			if (ResumeCell != null) {
+				ResumeCell.Dispose ();
+				ResumeCell = null;
+			}
+			if (ResumeLabel != null) {
+				ResumeLabel.Dispose ();
+				ResumeLabel = null;
 			}
 			if (SpecializationCell != null) {
 				SpecializationCell.Dispose ();
