@@ -37,6 +37,11 @@ namespace SiSystems.ClientApp.SharedModels
                 return new UserTypes(val);
             }
 
+            public static implicit operator UserTypes(int val)
+            {
+                return new UserTypes(val);
+            }
+
             public static implicit operator long(UserTypes s)
             {
                 return s.m_value;
@@ -87,6 +92,11 @@ namespace SiSystems.ClientApp.SharedModels
             }
 
             public static implicit operator AgreementSubTypes(long val)
+            {
+                return new AgreementSubTypes(val);
+            }
+
+            public static implicit operator AgreementSubTypes(int val)
             {
                 return new AgreementSubTypes(val);
             }
@@ -168,6 +178,11 @@ namespace SiSystems.ClientApp.SharedModels
                 return new ResumeRating(val);
             }
 
+            public static implicit operator ResumeRating(int val)
+            {
+                return new ResumeRating(val);
+            }
+
             public static implicit operator long(ResumeRating rating)
             {
                 return rating.m_value;
@@ -205,6 +220,11 @@ namespace SiSystems.ClientApp.SharedModels
             }
 
             public static implicit operator YearsOfExperience(long val)
+            {
+                return new YearsOfExperience(val);
+            }
+
+            public static implicit operator YearsOfExperience(int val)
             {
                 return new YearsOfExperience(val);
             }

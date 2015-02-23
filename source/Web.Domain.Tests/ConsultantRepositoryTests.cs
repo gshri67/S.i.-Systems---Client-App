@@ -156,7 +156,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
             var groups = _repo.FindAlumni(searchText, new List<int> { _companyTwoId });
 
-            Assert.AreEqual(MatchGuideConstants.ResumeRating.NotChecked, groups.First().Consultants.First().Rating);
+            Assert.AreEqual((MatchGuideConstants.ResumeRating)MatchGuideConstants.ResumeRating.NotChecked, groups.First().Consultants.First().Rating);
         }
 
         [Test]
