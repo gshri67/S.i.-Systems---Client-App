@@ -56,7 +56,8 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             var templateId = header.filters.templates.settings.template_id.ToString();
             var isEnabled = header.filters.templates.settings.enabled.ToString();
 
-            Assert.AreEqual(Settings.ContactAlumniTemplateId, templateId);
+            //id set in config file..
+            Assert.AreEqual("2b727004-d8aa-4cea-a01e-f91e4be38dfa", templateId);
             Assert.AreEqual("1", isEnabled);
         }
 

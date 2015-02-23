@@ -12,15 +12,5 @@ namespace SiSystems.ClientApp.Web.Domain
                 return string.IsNullOrWhiteSpace(recipient) ? null : recipient;
             }
         }
-
-        public static string ContactAlumniTemplateId
-        {
-            get { return ConfigurationManager.AppSettings["Email.ContactAlumniTemplateId"]; }
-        }
-
-        public static string ContractProposalTemplateId
-        {
-            get { return ConfigurationManager.AppSettings["Email.ContractProposalTemplateId"]; }
-        }
     }
 }
