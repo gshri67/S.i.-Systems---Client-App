@@ -19,18 +19,15 @@ namespace ClientApp.iOS
 
         }
 
-	    private void SetRatingImage(int? rating)
+        private void SetRatingImage(MatchGuideConstants.ResumeRating? rating)
 	    {
-	        if (rating == null)
-	            return;
-
-	            if (rating.Equals(MatchGuideConstants.ResumeRating.AboveStandard))
+            if (rating == MatchGuideConstants.ResumeRating.AboveStandard)
 	        {
                 ratingImage.Image = UIImage.FromBundle("thumb-up-8x.png");
 	        }
 	    }
 
-        public void UpdateCell(string name, string dates, string rate, int? rating)
+        public void UpdateCell(string name, string dates, string rate, MatchGuideConstants.ResumeRating? rating)
         {
             fullName.Text = name;
             contractDates.Text = dates;
