@@ -188,7 +188,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Caching\ObjectCache.cs" />
     <Compile Include="Controllers\Api\ConsultantMessagesController.cs" />
-    <Compile Include="Controllers\Api\ContractsController.cs" />
+    <Compile Include="Controllers\Api\ContractProposalController.cs" />
     <Compile Include="Controllers\Api\EulaController.cs" />
     <Compile Include="Controllers\Api\LogoutController.cs" />
     <Compile Include="Controllers\Api\ConsultantsController.cs" />

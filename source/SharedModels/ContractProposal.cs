@@ -13,11 +13,7 @@ namespace SiSystems.ClientApp.SharedModels
         public Decimal Rate { get; set; }
 
         public Decimal Fee { get; set; }
-
-        public string ContactEmailAddress { get; set; }
         
         public string TimesheetApproverEmailAddress { get; set; }
-
-        public string InvoiceFormat { get; set; }
     }
 }
