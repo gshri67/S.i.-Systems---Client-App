@@ -1,13 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using NUnit.Framework;
-using SiSystems.ClientApp.Web.Domain.Services.Emails;
+using SiSystems.ClientApp.Web.Domain.Services.EmailTemplates;
 
 namespace SiSystems.ClientApp.Web.Domain.Tests
 {
     [TestFixture]
     public class TemplatedEmailTests
     {
-        private ContactAlumniEmail CreateSimpleMessage()
+        private ContactAlumniEmail CreateSimpleContactAlumniEmail()
         {
             return new ContactAlumniEmail
             {
@@ -19,18 +20,37 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             };
         }
 
-        [Test]
-        public void ToMailMessage_ShouldContainSmtpApiHeader()
+        private ContractProposalEmail CreateSimpleContractProposalEmail()
         {
-            var mailMessage = CreateSimpleMessage().ToMailMessage();
+            return new ContractProposalEmail
+            {
+                To = "someone@email.com",
+                From = "person@email.com",
+                Body = "HELLO",
+                Fee = "123.00",
+                RateToConsultant = "111.00",
+                StartDate = "1/1/2015",
+                EndDate = "12/12/2015",
+                TimesheetApproverEmailAddress = "aguy@email.com",
+                InvoiceFormat = "bits and bytes",
+                ClientCompanyName = "Bees Systems",
+                ClientContactFullName = "Henry Bees",
+                ClientContactEmailAddress = "henry.bees@email.com"
+            };
+        }
+
+        [Test]
+        public void ContactAlumni_ToMailMessage_ShouldContainSmtpApiHeader()
+        {
+            var mailMessage = CreateSimpleContactAlumniEmail().ToMailMessage();
 
             Assert.IsNotNull(mailMessage.Headers["X-SMTPAPI"]);
         }
 
         [Test]
-        public void ToMailMessage_HeaderShouldEnableExpectedTemplate()
+        public void ContactAlumni_ToMailMessage_HeaderShouldEnableExpectedTemplate()
         {
-            var mailMessage = CreateSimpleMessage().ToMailMessage();
+            var mailMessage = CreateSimpleContactAlumniEmail().ToMailMessage();
 
             var header = JsonConvert.DeserializeObject<dynamic>(mailMessage.Headers["X-SMTPAPI"]);
             var templateId = header.filters.templates.settings.template_id.ToString();
@@ -41,25 +61,41 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         }
 
         [Test]
-        public void ToMailMessage_HeaderShouldContainExpectedSubstitutions()
+        public void ContactAlumni_ToMailMessage_HeaderShouldContainExpectedSubstitutions()
         {
-            var mailMessage = CreateSimpleMessage().ToMailMessage();
+            var mailMessage = CreateSimpleContactAlumniEmail().ToMailMessage();
             var header = JsonConvert.DeserializeObject<dynamic>(mailMessage.Headers["X-SMTPAPI"]);
 
-            Assert.AreEqual("Bees Systems", header.sub["-clientCompanyName-"][0].ToString());
-            Assert.AreEqual("Henry Bees", header.sub["-clientContactFullName-"][0].ToString());
+            Assert.AreEqual("Bees Systems", header.sub["[ClientCompanyName]"][0].ToString());
+            Assert.AreEqual("Henry Bees", header.sub["[ClientContactFullName]"][0].ToString());
         }
 
         [Test]
-        public void ToMailMessage_HeaderShouldContainExpectedCategories()
+        public void ContactAlumni_ToMailMessage_HeaderShouldContainExpectedCategories()
         {
-            var mailMessage = CreateSimpleMessage().ToMailMessage();
+            var mailMessage = CreateSimpleContactAlumniEmail().ToMailMessage();
             var header = JsonConvert.DeserializeObject<dynamic>(mailMessage.Headers["X-SMTPAPI"]);
 
             var category = header.category[0];
 
             Assert.AreEqual("Contact Alumni", category.ToString());
 
+        }
+
+        [Test]
+        public void ContractProposal_ToMailMessage_HeaderShouldContainExpectedSubstitutions()
+        {
+            var mailMessage = CreateSimpleContractProposalEmail().ToMailMessage();
+            var header = JsonConvert.DeserializeObject<dynamic>(mailMessage.Headers["X-SMTPAPI"]);
+            
+            Assert.AreEqual("bits and bytes", header.sub["[InvoiceFormat]"][0].ToString());
+        }
+
+        [Test]
+        public void ContractProposal_ToMailMessage_WhenSubstitutionValueMissing_ShouldThrow()
+        {
+            var templatedEmail = new ContractProposalEmail{To="someone@email.com", From="someoneelse@email.com"};
+            Assert.Throws<InvalidOperationException>(() => templatedEmail.ToMailMessage());
         }
 
     }

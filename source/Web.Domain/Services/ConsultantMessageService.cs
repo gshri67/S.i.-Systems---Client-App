@@ -3,7 +3,7 @@ using System.Linq;
 using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
-using SiSystems.ClientApp.Web.Domain.Services.Emails;
+using SiSystems.ClientApp.Web.Domain.Services.EmailTemplates;
 
 namespace SiSystems.ClientApp.Web.Domain.Services
 {

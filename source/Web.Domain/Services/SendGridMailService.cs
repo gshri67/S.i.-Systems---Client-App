@@ -1,5 +1,5 @@
 ﻿using System.Net.Mail;
-using SiSystems.ClientApp.Web.Domain.Services.Emails;
+using SiSystems.ClientApp.Web.Domain.Services.EmailTemplates;
 
 namespace SiSystems.ClientApp.Web.Domain.Services
 {

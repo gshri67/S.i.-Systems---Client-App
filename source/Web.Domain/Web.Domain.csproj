@@ -51,9 +51,10 @@
     <Compile Include="Services\ConsultantMessageService.cs" />
     <Compile Include="Services\ConsultantService.cs" />
     <Compile Include="Services\ContractService.cs" />
-    <Compile Include="Services\Emails\ContactAlumniEmail.cs" />
-    <Compile Include="Services\Emails\TemplatedEmail.cs" />
-    <Compile Include="Services\Emails\TemplateSubstitutionAttribute.cs" />
+    <Compile Include="Services\EmailTemplates\ContractProposalEmail.cs" />
+    <Compile Include="Services\EmailTemplates\ContactAlumniEmail.cs" />
+    <Compile Include="Services\EmailTemplates\TemplatedEmail.cs" />
+    <Compile Include="Services\EmailTemplates\TemplateSubstitutionAttribute.cs" />
     <Compile Include="Services\EulaService.cs" />
     <Compile Include="Context\ISessionContext.cs" />
     <Compile Include="Services\SendGridMailService.cs" />

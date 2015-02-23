@@ -17,5 +17,10 @@ namespace SiSystems.ClientApp.Web.Domain
         {
             get { return ConfigurationManager.AppSettings["Email.ContactAlumniTemplateId"]; }
         }
+
+        public static string ContractProposalTemplateId
+        {
+            get { return ConfigurationManager.AppSettings["Email.ContractProposalTemplateId"]; }
+        }
     }
 }
