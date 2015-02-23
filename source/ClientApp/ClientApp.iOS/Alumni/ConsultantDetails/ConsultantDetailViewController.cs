@@ -164,7 +164,7 @@ namespace ClientApp.iOS
 	    private static string GetSkillsString(IEnumerable<Skill> skills)
 	    {
             var sb = new StringBuilder();
-            foreach (var skill in skills.OrderByDescending(s => s.YearsOfExperience).ThenBy(s => s.Name))
+            foreach (var skill in skills.OrderByDescending(s => (int)s.YearsOfExperience).ThenBy(s => s.Name))
             {
                 sb.Append(skill.Name)
                     .Append(skill.YearsOfExperience.ToString())
