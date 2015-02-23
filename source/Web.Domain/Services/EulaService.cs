@@ -1,7 +1,7 @@
 ﻿using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 
-namespace SiSystems.ClientApp.Web.Domain
+namespace SiSystems.ClientApp.Web.Domain.Services
 {
     public class EulaService
     {

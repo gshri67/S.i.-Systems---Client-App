@@ -1,6 +1,6 @@
 ﻿using SiSystems.ClientApp.SharedModels;
 
-namespace SiSystems.ClientApp.Web.Domain
+namespace SiSystems.ClientApp.Web.Domain.Services
 {
     public class ContractService
     {

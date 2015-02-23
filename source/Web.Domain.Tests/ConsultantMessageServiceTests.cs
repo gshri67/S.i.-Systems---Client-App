@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using SiSystems.ClientApp.SharedModels;
+using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
+using SiSystems.ClientApp.Web.Domain.Services;
 
 namespace SiSystems.ClientApp.Web.Domain.Tests
 {

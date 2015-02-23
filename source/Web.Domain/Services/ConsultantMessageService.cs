@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using SiSystems.ClientApp.SharedModels;
+using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 
-namespace SiSystems.ClientApp.Web.Domain
+namespace SiSystems.ClientApp.Web.Domain.Services
 {
     public class ConsultantMessageService
     {
@@ -27,10 +28,7 @@ namespace SiSystems.ClientApp.Web.Domain
             var consultant = _consultantRepository.Find(message.ConsultantId);
 
             AssertCurrentUserCanAccessConsultantRecord(consultant);
-
-            if (consultant != null && !consultant.Contracts.Any())
-                throw new UnauthorizedAccessException();
-
+            
             var mailService = new SendGridMailService();
             mailService.SendTemplatedEmail(Settings.ContactAlumniTemplateId,
                 consultant.EmailAddress, _sessionContext.CurrentUser.Login,

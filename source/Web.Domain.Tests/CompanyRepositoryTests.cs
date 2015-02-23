@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using SiSystems.ClientApp.Web.Domain.Caching;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 
 namespace SiSystems.ClientApp.Web.Domain.Tests

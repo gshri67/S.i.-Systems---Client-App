@@ -1,5 +1,5 @@
 ﻿
-namespace SiSystems.ClientApp.Web.Domain.Repositories
+namespace SiSystems.ClientApp.Web.Domain.Caching
 {
     /// <summary>
     /// Simple Cache

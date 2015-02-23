@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using SiSystems.ClientApp.Web.Domain.Caching;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 
 namespace SiSystems.ClientApp.Web.Cache

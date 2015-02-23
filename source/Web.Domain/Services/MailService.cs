@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Mail;
 using SendGrid.SmtpApi;
 
-namespace SiSystems.ClientApp.Web.Domain
+namespace SiSystems.ClientApp.Web.Domain.Services
 {
     class SendGridMailService
     {

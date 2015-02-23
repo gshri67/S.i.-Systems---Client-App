@@ -2,7 +2,8 @@ using System;
 using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.Web.Auth;
 using SiSystems.ClientApp.Web.Cache;
-using SiSystems.ClientApp.Web.Domain;
+using SiSystems.ClientApp.Web.Domain.Caching;
+using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 
 namespace SiSystems.ClientApp.Web

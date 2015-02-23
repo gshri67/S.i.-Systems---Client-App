@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using SiSystems.ClientApp.Web.Domain;
+using SiSystems.ClientApp.Web.Domain.Services;
 
 namespace SiSystems.ClientApp.Web.Auth
 {

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using SiSystems.ClientApp.SharedModels;
+using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 
-namespace SiSystems.ClientApp.Web.Domain
+namespace SiSystems.ClientApp.Web.Domain.Services
 {
     /// <summary>
     /// You might be wondering why there are two layers here.
