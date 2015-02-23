@@ -24,26 +24,6 @@ namespace ClientApp.iOS
             _alumniModel = DependencyResolver.Current.Resolve<AlumniViewModel>();
         }
 
-	    private void SetSummaryLabel(IEnumerable<ConsultantGroup> consultantGroup)
-        {
-            var alumniCount = CountAlumni(consultantGroup);
-            var specializationsCount = CountSpecializations(consultantGroup);
-
-            //summaryLabel.Text = specializationsCount == 0 ? 
-            //    string.Format("There are no records to display.") : 
-            //    string.Format("You have {0} alumni in {1} specializations.", alumniCount, specializationsCount);
-        }
-
-        private static int CountSpecializations(IEnumerable<ConsultantGroup> consultantGroup)
-        {
-            return consultantGroup.Count();
-        }
-
-        private static int CountAlumni(IEnumerable<ConsultantGroup> consultantGroup)
-        {
-            return consultantGroup.Sum(x => x.Consultants.Count);
-        }
-
 	    public override void TouchesBegan(NSSet touches, UIEvent evt)
 	    {
 	        base.TouchesBegan(touches, evt);
@@ -147,11 +127,10 @@ namespace ClientApp.iOS
             InvokeOnMainThread(delegate
                                {
                                    SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
-
+                                   
                                    SetSearchbarVisibility();
 
                                    SpecializationTable.ReloadData();
-                                   SetSummaryLabel(consultantGroups);
                                });
 	    }
 
@@ -177,7 +156,7 @@ namespace ClientApp.iOS
                 {
                     var source = SpecializationTable.Source as AlumniTableViewSource;
                     var rowpath = SpecializationTable.IndexPathForSelectedRow;
-                    var consultantGroup = source.GetItem(rowpath.Section);
+                    var consultantGroup = source.GetItem(rowpath.Row);
                     navCtrl.SetSpecialization(this, consultantGroup);
                 }
             }

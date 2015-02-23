@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using CoreGraphics;
 using Foundation;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
@@ -27,7 +27,7 @@ namespace ClientApp.iOS
 
         private string BuildDetailText(ConsultantGroup consultantGroup)
         {
-            var description = string.Format("{0} Alumni", consultantGroup.Consultants.Count);
+            var description = string.Format("{0}", consultantGroup.Consultants.Count);
 
             return description;
         }
@@ -43,39 +43,53 @@ namespace ClientApp.iOS
             return cell;
         }
 
-
         public override nint NumberOfSections(UITableView tableView)
         {
-            return _consultantGroups.Count;
+            return 1;
         }
 
         private void SetCellLabels(NSIndexPath indexPath, UITableViewCell cell)
         {
-            cell.TextLabel.Text = BuildDetailText(_consultantGroups[indexPath.Section]);
+            cell.TextLabel.Text = _consultantGroups[indexPath.Row].Specialization;
+            cell.DetailTextLabel.Text = BuildDetailText(_consultantGroups[indexPath.Row]);
         }
 
-        public override string TitleForHeader(UITableView tableView, nint section)
+        private string BuildFooterText()
         {
-            return _consultantGroups[(int) section].Specialization;
+            var alumniCount = _consultantGroups.Sum(x => x.Consultants.Count);
+            var specializationsCount = _consultantGroups.Count();
+
+            return specializationsCount == 0
+                ? string.Format("No Results")
+                : string.Format("Total: {0} Alumni, {1} Specializations", alumniCount, specializationsCount);
+        }
+
+        public override UIView GetViewForFooter(UITableView tableView, nint section)
+        {
+            var label = new UILabel(new CGRect(0, 0, tableView.Frame.Width, 30));
+            label.Text = BuildFooterText();
+            label.TextAlignment = UITextAlignment.Center;
+            label.Font = UIFont.SystemFontOfSize(14);
+            tableView.Add(label);
+            return label;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            //each section is represents one group of consultants (i.e. one specialization)
-            return 1;
+            return _consultantGroups.Count;
         }
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            //normal iOS behaviour is to remove the selection
-            //tableView.DeselectRow(indexPath, true);
-
             _parentController.PerformSegue("DisciplineSelected", indexPath);
+
+            //normal iOS behaviour is to remove the selection
+            tableView.DeselectRow(indexPath, true);
         }
 
-        public ConsultantGroup GetItem(int section)
+        public ConsultantGroup GetItem(int row)
         {
-            return _consultantGroups[(int)section];
+            return _consultantGroups[(int)row];
         }
     }
 }
