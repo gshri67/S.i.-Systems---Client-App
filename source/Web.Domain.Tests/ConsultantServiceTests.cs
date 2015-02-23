@@ -150,7 +150,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
             var results = service.FindAlumni("Java");
 
-            Assert.AreEqual(MatchGuideConstants.ResumeRating.AboveStandard, results.First().Consultants.First().Rating);
+            Assert.AreEqual((MatchGuideConstants.ResumeRating)MatchGuideConstants.ResumeRating.AboveStandard, results.First().Consultants.First().Rating);
         }
 
         [Test]
@@ -178,7 +178,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
             var ratings = results.SelectMany(g => g.Consultants).Select(c => c.Rating).ToList();
 
-            Assert.Contains(MatchGuideConstants.ResumeRating.BelowStandard, ratings);
+            Assert.Contains((MatchGuideConstants.ResumeRating)MatchGuideConstants.ResumeRating.BelowStandard, ratings);
         }
     }
 }
