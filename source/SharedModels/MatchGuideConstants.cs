@@ -17,8 +17,7 @@ namespace SiSystems.ClientApp.SharedModels
     {
         // Used to identify a type as a match guide constant
         public interface IMatchGuideConstant
-        {
-             
+        {   
         }
 
         public struct UserTypes : IMatchGuideConstant
@@ -26,19 +25,19 @@ namespace SiSystems.ClientApp.SharedModels
             public const int Candidate = 490;
             public const int ClientContact = 661;
 
-            private readonly int m_value;
+            private readonly long m_value;
 
-            private UserTypes(int value)
+            private UserTypes(long value)
             {
                 m_value = value;
             }
 
-            public static implicit operator UserTypes(int val)
+            public static implicit operator UserTypes(long val)
             {
                 return new UserTypes(val);
             }
 
-            public static implicit operator int(UserTypes s)
+            public static implicit operator long(UserTypes s)
             {
                 return s.m_value;
             }
@@ -53,19 +52,19 @@ namespace SiSystems.ClientApp.SharedModels
         {
             public const int Contract = 459;
 
-            private readonly int m_value;
+            private readonly long m_value;
 
-            private AgreementTypes(int value)
+            private AgreementTypes(long value)
             {
                 m_value = value;
             }
 
-            public static implicit operator AgreementTypes(int val)
+            public static implicit operator AgreementTypes(long val)
             {
                 return new AgreementTypes(val);
             }
 
-            public static implicit operator int(AgreementTypes s)
+            public static implicit operator long(AgreementTypes s)
             {
                 return s.m_value;
             }
@@ -80,19 +79,19 @@ namespace SiSystems.ClientApp.SharedModels
         {
             public const int FloThru = 172;
 
-            private readonly int m_value;
+            private readonly long m_value;
 
-            private AgreementSubTypes(int value)
+            private AgreementSubTypes(long value)
             {
                 m_value = value;
             }
 
-            public static implicit operator AgreementSubTypes(int val)
+            public static implicit operator AgreementSubTypes(long val)
             {
                 return new AgreementSubTypes(val);
             }
 
-            public static implicit operator int(AgreementSubTypes s)
+            public static implicit operator long(AgreementSubTypes s)
             {
                 return s.m_value;
             }
@@ -110,19 +109,19 @@ namespace SiSystems.ClientApp.SharedModels
             public const int Expired = 575;
             public const int Pending = 576;
 
-            private readonly int m_value;
+            private readonly long m_value;
 
-            private ContractStatusTypes(int value)
+            private ContractStatusTypes(long value)
             {
                 m_value = value;
             }
 
-            public static implicit operator ContractStatusTypes(int val)
+            public static implicit operator ContractStatusTypes(long val)
             {
                 return new ContractStatusTypes(val);
             }
 
-            public static implicit operator int(ContractStatusTypes s)
+            public static implicit operator long(ContractStatusTypes s)
             {
                 return s.m_value;
             }
@@ -189,7 +188,7 @@ namespace SiSystems.ClientApp.SharedModels
             public const int EightToTen = 451;
             public const int MoreThanTen = 452;
 
-            private static readonly Dictionary<int, string> DescriptionDictionary = new Dictionary<int, string>
+            private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
             {
                 {LessThanTwo, "(< 2 years)"},
                 {TwoToFour, "(2-4 years)"},
@@ -198,19 +197,19 @@ namespace SiSystems.ClientApp.SharedModels
                 {MoreThanTen, "(> 10 years)"}
             };
 
-            private readonly int m_value;
+            private readonly long m_value;
 
-            private YearsOfExperience(int value)
+            private YearsOfExperience(long value)
             {
                 m_value = value;
             }
 
-            public static implicit operator YearsOfExperience(int val)
+            public static implicit operator YearsOfExperience(long val)
             {
                 return new YearsOfExperience(val);
             }
 
-            public static implicit operator int(YearsOfExperience yearsOfExperience)
+            public static implicit operator long(YearsOfExperience yearsOfExperience)
             {
                 return yearsOfExperience.m_value;
             }

@@ -33,19 +33,35 @@ namespace SiSystems.ClientApp.Tests
 
         [Test]
         [ExpectedException]
-        public void ResumeRating_FromJsonNullToNonNullableProperty_ShouldFail()
+        public void ResumeRating_FromJsonStringToNonNullableProperty_ShouldFail()
         {
-            const string jsonString = "{\"rating\":null}";
+            const string jsonString = "{\"rating\":\"317\"}";
             var sut = JsonConvert.DeserializeObject<FakeObject>(jsonString);
         }
 
         [Test]
-        public void ResumeRating_FromJsonNullToNonNullableProperty_ShouldSucceed()
+        [ExpectedException]
+        public void ResumeRating_FromJsonStringToNullableProperty_ShouldFail()
+        {
+            const string jsonString = "{\"nullableRating\":\"317\"}";
+            var sut = JsonConvert.DeserializeObject<FakeObject>(jsonString);
+        }
+
+        [Test]
+        public void ResumeRating_FromJsonNullToNullableProperty_CanBeDeserialized()
         {
             const string jsonString = "{\"nullableRating\":null}";
             var sut = JsonConvert.DeserializeObject<FakeObject>(jsonString);
 
             Assert.IsFalse(sut.NullableRating.HasValue);
+        }
+
+        [Test]
+        [ExpectedException]
+        public void ResumeRating_FromJsonNullToNonNullableProperty_ShouldFail()
+        {
+            const string jsonString = "{\"rating\":null}";
+            var sut = JsonConvert.DeserializeObject<FakeObject>(jsonString);
         }
 
         [Test]
