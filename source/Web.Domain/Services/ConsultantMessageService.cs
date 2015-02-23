@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
+using SiSystems.ClientApp.Web.Domain.Services.Emails;
 
 namespace SiSystems.ClientApp.Web.Domain.Services
 {
@@ -28,17 +28,18 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             var consultant = _consultantRepository.Find(message.ConsultantId);
 
             AssertCurrentUserCanAccessConsultantRecord(consultant);
-            
+
+            var email = new ContactAlumniEmail
+            {
+                To = consultant.EmailAddress,
+                From = _sessionContext.CurrentUser.Login,
+                Body = message.Text,
+                ClientCompanyName = _sessionContext.CurrentUser.CompanyName,
+                ClientContactFullName = _sessionContext.CurrentUser.FullName
+            };
+
             var mailService = new SendGridMailService();
-            mailService.SendTemplatedEmail(Settings.ContactAlumniTemplateId,
-                consultant.EmailAddress, _sessionContext.CurrentUser.Login,
-                message.Text,
-                new Dictionary<string, string>
-                {
-                    { "-clientContactFullName-", _sessionContext.CurrentUser.FullName },
-                    { "-clientCompanyName-", _sessionContext.CurrentUser.CompanyName }
-                },
-                new []{"Contact Alumni"});
+            mailService.SendTemplatedEmail(email);
         }
 
         /// <summary>
