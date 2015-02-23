@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using SendGrid.SmtpApi;
 
@@ -6,14 +8,14 @@ namespace SiSystems.ClientApp.Web.Domain
 {
     class SendGridMailService
     {
-        public void SendTemplatedEmail(string templateId, string to, string from, Dictionary<string, string> substitutions)
+        public void SendTemplatedEmail(string templateId, string to, string from, string body, Dictionary<string, string> substitutions, IEnumerable<string> categories )
         {
             //Configuration override in DEV & TEST environments 
             //to prevent emails being sent to actual users
             var recipient = Settings.EmailRecipientOverride ?? to;
 
-            MailMessage mail = new MailMessage();
-
+            MailMessage mail = new MailMessage {IsBodyHtml = true};
+            mail.Body = ReplaceNewLinesWithBreakTags(body);
             mail.To.Add(new MailAddress(recipient));
             //mail.From is handled by SMTP configuration
 
@@ -23,10 +25,19 @@ namespace SiSystems.ClientApp.Web.Domain
 
             SetTemplate(header, templateId, substitutions);
 
+            header.SetCategories(categories);
+
             mail.Headers.Add("X-SMTPAPI", header.JsonString());
 
             SmtpClient client = new SmtpClient();
             client.Send(mail);
+        }
+
+        private static string ReplaceNewLinesWithBreakTags(string content)
+        {
+            return (content ?? string.Empty)
+                .Replace("\n", "<br/>")
+                .Replace("\r\n", "<br/>");
         }
 
         /// <summary>

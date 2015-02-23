@@ -34,12 +34,13 @@ namespace SiSystems.ClientApp.Web.Domain
             var mailService = new SendGridMailService();
             mailService.SendTemplatedEmail(Settings.ContactAlumniTemplateId,
                 consultant.EmailAddress, _sessionContext.CurrentUser.Login,
+                message.Text,
                 new Dictionary<string, string>
                 {
                     { "-clientContactFullName-", _sessionContext.CurrentUser.FullName },
-                    { "-clientCompanyName-", _sessionContext.CurrentUser.CompanyName },
-                    { "-message-", message.Text }
-                });
+                    { "-clientCompanyName-", _sessionContext.CurrentUser.CompanyName }
+                },
+                new []{"Contact Alumni"});
         }
 
         /// <summary>
