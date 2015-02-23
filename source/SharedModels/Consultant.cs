@@ -11,7 +11,7 @@ namespace SiSystems.ClientApp.SharedModels
 
         public string FullName { get { return FirstName + " " + LastName; } }
 
-        public MatchGuideConstants.ResumeRating Rating { get; set; }
+        public MatchGuideConstants.ResumeRating? Rating { get; set; }
         
         public string ResumeText { get; set; }
 

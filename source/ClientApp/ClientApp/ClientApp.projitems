@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IEulaService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ILoginService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LogoutService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MatchGuideConstantConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ConsultantDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AlumniViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\EulaViewModel.cs" />

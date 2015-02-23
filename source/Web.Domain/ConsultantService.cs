@@ -71,9 +71,9 @@ namespace SiSystems.ClientApp.Web.Domain
             return orderedResults;
         }
 
-        private int ConvertResumeRatingToSortableInt(int? rating)
+        private int ConvertResumeRatingToSortableInt(MatchGuideConstants.ResumeRating? rating)
         {
-            switch (rating)
+            switch (rating.GetValueOrDefault(0))
             {
                 case MatchGuideConstants.ResumeRating.AboveStandard:
                     return 3;
