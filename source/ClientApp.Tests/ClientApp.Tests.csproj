@@ -58,6 +58,7 @@
     <Compile Include="ViewModels\EulaViewModelTests.cs" />
     <Compile Include="ViewModels\LoginViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\NewContractViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
