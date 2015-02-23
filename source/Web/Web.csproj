@@ -187,7 +187,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Cache\ObjectCache.cs" />
+    <Compile Include="Caching\ObjectCache.cs" />
     <Compile Include="Controllers\Api\ConsultantMessagesController.cs" />
     <Compile Include="Controllers\Api\ContractsController.cs" />
     <Compile Include="Controllers\Api\EulaController.cs" />
