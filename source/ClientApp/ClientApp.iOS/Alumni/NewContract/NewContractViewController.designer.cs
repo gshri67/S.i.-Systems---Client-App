@@ -52,6 +52,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField TitleField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel TotalLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -91,6 +95,10 @@ namespace ClientApp.iOS
 			if (StartDateLabel != null) {
 				StartDateLabel.Dispose ();
 				StartDateLabel = null;
+			}
+			if (TitleField != null) {
+				TitleField.Dispose ();
+				TitleField = null;
 			}
 			if (TotalLabel != null) {
 				TotalLabel.Dispose ();

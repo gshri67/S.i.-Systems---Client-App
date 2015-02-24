@@ -30,6 +30,7 @@ namespace ClientApp.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string ApproverEmail { get; set; }
+        public string ContractTitle { get; set; }
 
         public bool ValidateEmailAddress()
         {
@@ -46,6 +47,10 @@ namespace ClientApp.ViewModels
 
         public ValidationResult Validate()
         {
+            if (string.IsNullOrEmpty(ContractTitle))
+            {
+                return new ValidationResult(false, "The contract requires a Title");
+            }
             if (ContractorRate <= 0)
             {
                 return new ValidationResult(false, "You must enter a valid contractor rate");

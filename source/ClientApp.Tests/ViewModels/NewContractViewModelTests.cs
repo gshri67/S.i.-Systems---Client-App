@@ -16,7 +16,14 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [SetUp]
         public void SetUp()
         {
-            _vm = new NewContractViewModel();
+            _vm = new NewContractViewModel
+                  {
+                      StartDate = DateTime.Now,
+                      EndDate = DateTime.Now.AddDays(1),
+                      ApproverEmail = "test@test.com",
+                      ContractorRate = 100,
+                      ContractTitle = "Senior Developer"
+                  };
         }
 
         [Test]
@@ -50,8 +57,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_FailsWithEmptyEmail()
         {
-            _vm.StartDate = DateTime.Now;
-            _vm.EndDate = DateTime.Now.AddDays(1);
+            _vm.ApproverEmail = "";
             var result = _vm.Validate();
             Assert.IsFalse(result.IsValid);
         }
@@ -59,10 +65,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_FailsWithNoAtSymbol()
         {
-            _vm.StartDate = DateTime.Now;
-            _vm.EndDate = DateTime.Now.AddDays(1);
             _vm.ApproverEmail = "test.com";
-            _vm.ContractorRate = 100;
             var result = _vm.Validate();
             Assert.IsFalse(result.IsValid);
         }
@@ -70,10 +73,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_PassesWithValidEmail()
         {
-            _vm.StartDate = DateTime.Now;
-            _vm.EndDate = DateTime.Now.AddDays(1);
             _vm.ApproverEmail = "test@test.com";
-            _vm.ContractorRate = 100;
             var result = _vm.Validate();
             Assert.IsTrue(result.IsValid);
         }
@@ -82,9 +82,6 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         public void Validate_FailsWithPastStartDate()
         {
             _vm.StartDate = DateTime.MinValue;
-            _vm.EndDate = DateTime.Now;
-            _vm.ApproverEmail = "test@test.com";
-            _vm.ContractorRate = 100;
             var result = _vm.Validate();
             Assert.IsFalse(result.IsValid);
         }
@@ -92,9 +89,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_FailsWithPastEndDate()
         {
-            _vm.StartDate = DateTime.Now;
             _vm.EndDate = DateTime.MinValue;
-            _vm.ApproverEmail = "test@test.com";
             var result = _vm.Validate();
             Assert.IsFalse(result.IsValid);
         }
@@ -104,8 +99,6 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         {
             _vm.StartDate = DateTime.Now.AddDays(1);
             _vm.EndDate = DateTime.Now;
-            _vm.ApproverEmail = "test@test.com";
-            _vm.ContractorRate = 100;
             var result = _vm.Validate();
             Assert.IsFalse(result.IsValid);
         }
@@ -113,10 +106,6 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_PassesWithValidDates()
         {
-            _vm.StartDate = DateTime.Now;
-            _vm.EndDate = DateTime.Now.AddDays(1);
-            _vm.ApproverEmail = "test@test.com";
-            _vm.ContractorRate = 100;
             var result = _vm.Validate();
             Assert.IsTrue(result.IsValid);
         }
@@ -124,9 +113,6 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_FailsWithZeroRate()
         {
-            _vm.StartDate = DateTime.Now;
-            _vm.EndDate = DateTime.Now.AddDays(1);
-            _vm.ApproverEmail = "test@test.com";
             _vm.ContractorRate = 0;
             var result = _vm.Validate();
             Assert.IsFalse(result.IsValid);
@@ -135,10 +121,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_FailsWithLessThanZeroRate()
         {
-            _vm.StartDate = DateTime.Now;
-            _vm.EndDate = DateTime.Now.AddDays(1);
-            _vm.ApproverEmail = "test@test.com";
-            _vm.ContractorRate = 0;
+            _vm.ContractorRate = -100;
             var result = _vm.Validate();
             Assert.IsFalse(result.IsValid);
         }
@@ -146,10 +129,21 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_PassesWithGreatherThanZeroRate()
         {
-            _vm.StartDate = DateTime.Now;
-            _vm.EndDate = DateTime.Now.AddDays(1);
-            _vm.ApproverEmail = "test@test.com";
-            _vm.ContractorRate = 100;
+            var result = _vm.Validate();
+            Assert.IsTrue(result.IsValid);
+        }
+
+        [Test]
+        public void Validate_FailsNoContractTitle()
+        {
+            _vm.ContractTitle = "";
+            var result = _vm.Validate();
+            Assert.IsFalse(result.IsValid);
+        }
+
+        [Test]
+        public void Validate_PassesWithValidContractTitle()
+        {
             var result = _vm.Validate();
             Assert.IsTrue(result.IsValid);
         }

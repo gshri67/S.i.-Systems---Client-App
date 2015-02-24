@@ -3,6 +3,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Globalization;
 using System.Linq;
+using ClientApp.iOS.Alumni.ConsultantDetails;
 using ClientApp.ViewModels;
 using CoreGraphics;
 using ObjCRuntime;
@@ -13,8 +14,8 @@ namespace ClientApp.iOS
 {
 	partial class NewContractViewController : UITableViewController
 	{
-	    private UIDatePicker StartDatePicker;
-	    private UIDatePicker EndDatePicker;
+	    private readonly UIDatePicker _startDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden =  true};
+        private readonly UIDatePicker _endDatePicker = new UIDatePicker { Mode = UIDatePickerMode.Date, Hidden = true };
         private readonly NewContractViewModel _viewModel;
         public Consultant Consultant { set { _viewModel.Consultant = value; } }
 
@@ -23,50 +24,21 @@ namespace ClientApp.iOS
             _viewModel = new NewContractViewModel();
 		}
 
-	    public override void ViewDidLoad()
+        #region Setup
+        public override void ViewDidLoad()
 	    {
 	        base.ViewDidLoad();
-	        var cancelButton = new UIBarButtonItem {Title = "Cancel"};
-            var submitButton = new UIBarButtonItem { Title = "Submit" };
-            cancelButton.Clicked += (sender, args) => { NavigationController.DismissModalViewController(true); };
-	        submitButton.Clicked += (sender, args) =>
-	                                {
-                                        var result = _viewModel.Validate();
-                                        InvokeOnMainThread(delegate
-                                        {
-                                            if (result.IsValid)
-                                            {
-                                                PerformSegue("SubmitSelected", submitButton);
-                                            }
-                                            else
-                                            {
-                                                var view = new UIAlertView("Error", result.Message, null, "Ok");
-                                                view.Show();
-                                            }
-                                        });
-	                                };
-            NavigationItem.SetLeftBarButtonItem(cancelButton, false);
-            NavigationItem.SetRightBarButtonItem(submitButton, false);
 
-	        ApproverEmailField.ValueChanged += (sender, args) => { _viewModel.ApproverEmail = ApproverEmailField.Text; };
-	        ApproverEmailField.ShouldReturn += field =>
-	        {
-	            _viewModel.ApproverEmail = field.Text;
-                if (_viewModel.ValidateEmailAddress())
-                {
-                    ApproverEmailField.ResignFirstResponder();
-                }
-	            return true;
-	        };
-	        StartDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden =  true};
-	        EndDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
-	        StartDateCell.Add(StartDatePicker);
-            EndDateCell.Add(EndDatePicker);
-	        SetupDatePicker(StartDatePicker, StartDateLabel, DateTime.Now.Date, true);
-	        SetupDatePicker(EndDatePicker, EndDateLabel, DateTime.Now.Date, false);
+	        SetupNavigationHeader();
 
-	        StartDateLabel.Text = DateTime.Now.Date.ToString("D");
-	        EndDateLabel.Text = DateTime.Now.Date.ToString("D");
+	        SetupApproverEmail();
+
+	        SetupDatePicker(_startDatePicker, StartDateLabel, DateTime.Now.Date, true);
+	        SetupDatePicker(_endDatePicker, EndDateLabel, DateTime.Now.Date, false);
+
+            //Load initial values
+            StartDateLabel.Text = DateTime.Now.Date.ToString("d");
+	        EndDateLabel.Text = DateTime.Now.Date.ToString("d");
 
 	        NameLabel.Text = _viewModel.Consultant.FullName;
 	        RateField.Text = string.Format("{0:N2}", _viewModel.ContractorRate);
@@ -75,7 +47,47 @@ namespace ClientApp.iOS
 
             AddToolBarToKeyboard(RateField);
 	    }
-        
+
+	    private void SetupApproverEmail()
+	    {
+	        ApproverEmailField.ValueChanged += (sender, args) => { _viewModel.ApproverEmail = ApproverEmailField.Text; };
+	        ApproverEmailField.ShouldReturn += field =>
+	                                           {
+	                                               _viewModel.ApproverEmail = field.Text;
+	                                               if (string.IsNullOrEmpty(field.Text) || _viewModel.ValidateEmailAddress())
+	                                               {
+	                                                   ApproverEmailField.ResignFirstResponder();
+	                                               }
+	                                               return true;
+	                                           };
+	    }
+
+	    private void SetupNavigationHeader()
+	    {
+	        var cancelButton = new UIBarButtonItem {Title = "Cancel"};
+	        var submitButton = new UIBarButtonItem {Title = "Submit"};
+	        cancelButton.Clicked += (sender, args) => { NavigationController.DismissModalViewController(true); };
+	        submitButton.Clicked += (sender, args) =>
+	                                {
+	                                    var result = _viewModel.Validate();
+	                                    InvokeOnMainThread(delegate
+	                                                       {
+	                                                           if (result.IsValid)
+	                                                           {
+	                                                               PerformSegue("SubmitSelected", submitButton);
+	                                                           }
+	                                                           else
+	                                                           {
+	                                                               var view = new UIAlertView("Error", result.Message, null,
+	                                                                   "Ok");
+	                                                               view.Show();
+	                                                           }
+	                                                       });
+	                                };
+	        NavigationItem.SetLeftBarButtonItem(cancelButton, false);
+	        NavigationItem.SetRightBarButtonItem(submitButton, false);
+	    }
+
 	    private void SetupDatePicker(UIDatePicker picker, UILabel label, DateTime setDate, bool isStartDate)
 	    {
             label.Text = setDate.ToString("D");
@@ -86,26 +98,30 @@ namespace ClientApp.iOS
                 if (isStartDate)
                 {
                     _viewModel.StartDate = NSDateToDateTime(picker.Date);
-                    label.Text = _viewModel.StartDate.ToString("D");
+                    label.Text = _viewModel.StartDate.ToString("d");
                 }
                 else
                 {
                     _viewModel.EndDate = NSDateToDateTime(picker.Date);
-                    label.Text = _viewModel.EndDate.ToString("D");
+                    label.Text = _viewModel.EndDate.ToString("d");
                 }
             };
 
 	        if (isStartDate)
 	        {
 	            _viewModel.StartDate = setDate;
+                StartDateCell.Add(_startDatePicker);
 	        }
 	        else
 	        {
 	            _viewModel.EndDate = setDate;
+                EndDateCell.Add(_endDatePicker);
 	        }
 	    }
+        #endregion
 
-	    private void AddToolBarToKeyboard(UITextField field)
+        #region Rate Keyboard
+        private void AddToolBarToKeyboard(UITextField field)
 	    {
 	        var toolbar = new UIToolbar(new CGRect(0f, 0f, UIScreen.MainScreen.Bounds.Width, 44f));
 	        var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done,
@@ -140,18 +156,14 @@ namespace ClientApp.iOS
             if(result)
             {
                 _viewModel.ContractorRate = val;
+                RateField.Text = string.Format("{0:N2}", val);
                 TotalLabel.Text = ToRateString(_viewModel.TotalRate);
             }
             return result;
         }
-
-	    private static string ToRateString(decimal rate)
-	    {
-	        return string.Format("$ {0:N2} / hr", rate);
-	    }
+        #endregion
 
         #region Table Delegates
-
 	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 	    {
 	        if (indexPath.Section == 2 && indexPath.Row == 1)
@@ -174,8 +186,8 @@ namespace ClientApp.iOS
                     var shouldDisplayPicker = StartDateCell.Frame.Height == 0;
                     NewContractTable.DeselectRow(indexPath, true);
                     NewContractTable.BeginUpdates();
-                    StartDateCell.Frame = new CGRect(0, 0, StartDateCell.Frame.Width, shouldDisplayPicker ? 200 : 0);
-                    StartDatePicker.Hidden = !shouldDisplayPicker;
+                    StartDateCell.Frame = new CGRect(0, 0, StartDateCell.Frame.Width, shouldDisplayPicker ? 216 : 0);
+                    _startDatePicker.Hidden = !shouldDisplayPicker;
                     NewContractTable.EndUpdates();
                 }
                 else if (indexPath.Row == 2)
@@ -183,8 +195,8 @@ namespace ClientApp.iOS
                     var shouldDisplayPicker = EndDateCell.Frame.Height == 0;
                     NewContractTable.DeselectRow(indexPath, true);
                     NewContractTable.BeginUpdates();
-                    EndDateCell.Frame = new CGRect(0, 0, EndDateCell.Frame.Width, shouldDisplayPicker ? 200 : 0);
-                    EndDatePicker.Hidden = !shouldDisplayPicker;
+                    EndDateCell.Frame = new CGRect(0, 0, EndDateCell.Frame.Width, shouldDisplayPicker ? 216 : 0);
+                    _endDatePicker.Hidden = !shouldDisplayPicker;
                     NewContractTable.EndUpdates();
                 }
 
@@ -193,7 +205,7 @@ namespace ClientApp.iOS
 
 	    #endregion
 
-        #region Date Convertors
+        #region Data Helpers
         private static DateTime NSDateToDateTime(NSDate date)
         {
             DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime(
@@ -208,6 +220,12 @@ namespace ClientApp.iOS
             return NSDate.FromTimeIntervalSinceReferenceDate(
                 (date - reference).TotalSeconds);
         }
-        #endregion
+
+	    private static string ToRateString(decimal rate)
+	    {
+	        return string.Format("$ {0:N2} / hr", rate);
+	    }
+
+	    #endregion
     }
 }
