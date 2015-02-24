@@ -13,7 +13,9 @@ namespace ClientApp.iOS
 {
 	partial class NewContractViewController : UITableViewController
 	{
-	    private readonly NewContractViewModel _viewModel;
+	    private UIDatePicker StartDatePicker;
+	    private UIDatePicker EndDatePicker;
+        private readonly NewContractViewModel _viewModel;
         public Consultant Consultant { set { _viewModel.Consultant = value; } }
 
         public NewContractViewController (IntPtr handle) : base (handle)
@@ -24,6 +26,27 @@ namespace ClientApp.iOS
 	    public override void ViewDidLoad()
 	    {
 	        base.ViewDidLoad();
+	        var cancelButton = new UIBarButtonItem {Title = "Cancel"};
+            var submitButton = new UIBarButtonItem { Title = "Submit" };
+            cancelButton.Clicked += (sender, args) => { NavigationController.DismissModalViewController(true); };
+	        submitButton.Clicked += (sender, args) =>
+	                                {
+                                        var result = _viewModel.Validate();
+                                        InvokeOnMainThread(delegate
+                                        {
+                                            if (result.IsValid)
+                                            {
+                                                PerformSegue("SubmitSelected", submitButton);
+                                            }
+                                            else
+                                            {
+                                                var view = new UIAlertView("Error", result.Message, null, "Ok");
+                                                view.Show();
+                                            }
+                                        });
+	                                };
+            NavigationItem.SetLeftBarButtonItem(cancelButton, false);
+            NavigationItem.SetRightBarButtonItem(submitButton, false);
 
 	        ApproverEmailField.ValueChanged += (sender, args) => { _viewModel.ApproverEmail = ApproverEmailField.Text; };
 	        ApproverEmailField.ShouldReturn += field =>
@@ -35,26 +58,12 @@ namespace ClientApp.iOS
                 }
 	            return true;
 	        };
-            //CancelButton.TouchUpInside += (sender, args) => { NavigationController.PopViewController(true); };
-            //SubmitButton.TouchUpInside += (sender, args) =>
-            //{
-            //    var result = _viewModel.Validate();
-            //    InvokeOnMainThread(delegate
-            //    {
-            //        if (result.IsValid)
-            //        {
-            //            PerformSegue("SubmitSelected", SubmitButton);
-            //        }
-            //        else
-            //        {
-            //            var view = new UIAlertView("Error", result.Message, null, "Ok");
-            //            view.Show();
-            //        }
-            //    });
-            //};
-
-	        //SetupDatePicker(StartDatePicker, StartDateLabel, DateTime.Now.Date, true);
-	        //SetupDatePicker(EndDatePicker, EndDateLabel, DateTime.Now.Date.AddYears(1), false);
+	        StartDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden =  true};
+	        EndDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
+	        StartDateCell.Add(StartDatePicker);
+            EndDateCell.Add(EndDatePicker);
+	        SetupDatePicker(StartDatePicker, StartDateLabel, DateTime.Now.Date, true);
+	        SetupDatePicker(EndDatePicker, EndDateLabel, DateTime.Now.Date, false);
 
 	        StartDateLabel.Text = DateTime.Now.Date.ToString("D");
 	        EndDateLabel.Text = DateTime.Now.Date.ToString("D");
@@ -66,7 +75,7 @@ namespace ClientApp.iOS
 
             AddToolBarToKeyboard(RateField);
 	    }
-
+        
 	    private void SetupDatePicker(UIDatePicker picker, UILabel label, DateTime setDate, bool isStartDate)
 	    {
             label.Text = setDate.ToString("D");
@@ -141,6 +150,50 @@ namespace ClientApp.iOS
 	        return string.Format("$ {0:N2} / hr", rate);
 	    }
 
+        #region Table Delegates
+
+	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+	    {
+	        if (indexPath.Section == 2 && indexPath.Row == 1)
+	        {
+	            return StartDateCell.Frame.Height;
+	        }
+            if (indexPath.Section == 2 && indexPath.Row == 3)
+	        {
+	            return EndDateCell.Frame.Height;
+	        }
+            return base.GetHeightForRow(tableView, indexPath);
+	    }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (indexPath.Section == 2)
+            {
+                if (indexPath.Row == 0)
+                {
+                    var shouldDisplayPicker = StartDateCell.Frame.Height == 0;
+                    NewContractTable.DeselectRow(indexPath, true);
+                    NewContractTable.BeginUpdates();
+                    StartDateCell.Frame = new CGRect(0, 0, StartDateCell.Frame.Width, shouldDisplayPicker ? 200 : 0);
+                    StartDatePicker.Hidden = !shouldDisplayPicker;
+                    NewContractTable.EndUpdates();
+                }
+                else if (indexPath.Row == 2)
+                {
+                    var shouldDisplayPicker = EndDateCell.Frame.Height == 0;
+                    NewContractTable.DeselectRow(indexPath, true);
+                    NewContractTable.BeginUpdates();
+                    EndDateCell.Frame = new CGRect(0, 0, EndDateCell.Frame.Width, shouldDisplayPicker ? 200 : 0);
+                    EndDatePicker.Hidden = !shouldDisplayPicker;
+                    NewContractTable.EndUpdates();
+                }
+
+            }
+        }
+
+	    #endregion
+
+        #region Date Convertors
         private static DateTime NSDateToDateTime(NSDate date)
         {
             DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime(
@@ -155,5 +208,6 @@ namespace ClientApp.iOS
             return NSDate.FromTimeIntervalSinceReferenceDate(
                 (date - reference).TotalSeconds);
         }
-	}
+        #endregion
+    }
 }

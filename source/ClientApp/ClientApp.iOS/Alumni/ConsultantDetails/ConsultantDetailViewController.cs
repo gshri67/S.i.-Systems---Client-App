@@ -98,7 +98,8 @@ namespace ClientApp.iOS
                 view.Title = Title;
 	        } else if (segue.Identifier == "NewContractSelected")
 	        {
-	            var view = (NewContractViewController) segue.DestinationViewController;
+	            var navController = (UINavigationController) segue.DestinationViewController;
+	            var view = (NewContractViewController) navController.ViewControllers[0];
 	            view.Consultant = _detailViewModel.GetConsultant();
 	        }
 	    }
