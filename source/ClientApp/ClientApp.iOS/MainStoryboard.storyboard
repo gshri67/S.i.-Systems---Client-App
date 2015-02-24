@@ -451,6 +451,9 @@
                                                         <constraint id="4364" firstAttribute="height" constant="21"/>
                                                     </constraints>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="5725" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                    <rect key="frame" x="270" y="7" width="30" height="30"/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint id="4356" constant="20" firstItem="4300" firstAttribute="leading" secondItem="4082" secondAttribute="leading"/>
@@ -545,6 +548,7 @@
                         <outlet property="NewContractButton" destination="5196" id="name-outlet-5196"/>
                         <outlet property="ResumeLabel" destination="4309" id="name-outlet-4309"/>
                         <outlet property="ResumeCell" destination="4265" id="name-outlet-4265"/>
+                        <outlet property="ratingImage" destination="5725" id="name-outlet-5725"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3947" userLabel="First Responder" sceneMemberID="firstResponder"/>

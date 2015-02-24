@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ClientApp.iOS.Alumni;
 using ClientApp.ViewModels;
 using CoreGraphics;
 using Foundation;
@@ -54,6 +55,7 @@ namespace ClientApp.iOS
 	        TitleLabel.Text =
 	            consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
 	        RatingLabel.Text = consultant.Rating.ToString();
+	        //ratingImage.Image = RatingImage.GetImageForRating(consultant.Rating);
 	        ContractsLabel.Text = consultant.Contracts.Count.ToString();
 	        AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
 

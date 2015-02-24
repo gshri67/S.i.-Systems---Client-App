@@ -32,6 +32,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIImageView ratingImage { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel RatingLabel { get; set; }
 
 		[Outlet]
@@ -71,6 +75,10 @@ namespace ClientApp.iOS
 			if (NewContractButton != null) {
 				NewContractButton.Dispose ();
 				NewContractButton = null;
+			}
+			if (ratingImage != null) {
+				ratingImage.Dispose ();
+				ratingImage = null;
 			}
 			if (RatingLabel != null) {
 				RatingLabel.Dispose ();

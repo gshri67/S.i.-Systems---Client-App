@@ -173,6 +173,7 @@
     <Compile Include="Alumni\CustomAlumniCell.designer.cs">
       <DependentUpon>CustomAlumniCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Alumni\RatingImage.cs" />
     <Compile Include="LoadingOverlay.cs" />
     <Compile Include="Startup\EulaViewController.cs" />
     <Compile Include="Startup\EulaViewController.designer.cs">
