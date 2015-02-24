@@ -35,8 +35,8 @@ namespace ClientApp.iOS
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             // if there are no cells to reuse, create a new one
-            var cell = tableView.DequeueReusableCell(CellIdentifier) ??
-                       new UITableViewCell(UITableViewCellStyle.Default, CellIdentifier);
+            var cell = tableView.DequeueReusableCell(CellIdentifier) as CustomAlumniCell ??
+                       new CustomAlumniCell(CellIdentifier);
 
             SetCellLabels(indexPath, cell);
 
@@ -48,10 +48,11 @@ namespace ClientApp.iOS
             return 1;
         }
 
-        private void SetCellLabels(NSIndexPath indexPath, UITableViewCell cell)
+        private void SetCellLabels(NSIndexPath indexPath, CustomAlumniCell cell)
         {
-            cell.TextLabel.Text = _consultantGroups[indexPath.Row].Specialization;
-            cell.DetailTextLabel.Text = BuildDetailText(_consultantGroups[indexPath.Row]);
+            var specialization = _consultantGroups[indexPath.Row].Specialization;
+            var numAlumni = BuildDetailText(_consultantGroups[indexPath.Row]);
+            cell.UpdateCell(specialization, numAlumni);
         }
 
         private string BuildFooterText()

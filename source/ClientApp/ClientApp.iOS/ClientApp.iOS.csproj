@@ -169,6 +169,10 @@
     <Compile Include="Alumni\NewContractViewController.designer.cs">
       <DependentUpon>NewContractViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Alumni\CustomAlumniCell.cs" />
+    <Compile Include="Alumni\CustomAlumniCell.designer.cs">
+      <DependentUpon>CustomAlumniCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoadingOverlay.cs" />
     <Compile Include="Startup\EulaViewController.cs" />
     <Compile Include="Startup\EulaViewController.designer.cs">
