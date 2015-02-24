@@ -71,6 +71,7 @@ namespace ClientApp.iOS
             label.Text = BuildFooterText();
             label.TextAlignment = UITextAlignment.Center;
             label.Font = UIFont.SystemFontOfSize(14);
+            label.BackgroundColor = UIColor.White;
             tableView.Add(label);
             return label;
         }

@@ -16,7 +16,8 @@ namespace ClientApp.iOS
 	public partial class AlumniViewController : UIViewController
 	{
 	    private readonly AlumniViewModel _alumniModel;
-	    private bool _displaySearchbar = false;
+	    private LoadingOverlay _loadingOverlay;
+	    private bool _isLoading = false;
 
         public AlumniViewController(IntPtr handle)
             : base(handle)
@@ -37,8 +38,6 @@ namespace ClientApp.iOS
 
             AlumniSearch.TextChanged += delegate
             {
-                _displaySearchbar = true;
-
                 //note that this resets the timer's countdown
                 timer.Start();
             };
@@ -86,12 +85,12 @@ namespace ClientApp.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            
-            //set the source for our table's data
-            LoadConsultantGroups();
 
             //Initially hide the search bar while retrieving data from the server
             SetSearchbarVisibility();
+            
+            //set the source for our table's data
+            LoadConsultantGroups();
 
             ConfigureSearchEvents();
         }
@@ -122,26 +121,61 @@ namespace ClientApp.iOS
 
 	    private async void LoadConsultantGroups()
 	    {
-            //get our list of specializations to display
+	        ShowLoadingOverlay();
+
+	        //get our list of specializations to display
             var consultantGroups = await  _alumniModel.GetConsultantGroups(AlumniSearch.Text);
             InvokeOnMainThread(delegate
                                {
                                    SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
-                                   
-                                   SetSearchbarVisibility();
+
+                                   //SetSearchbarVisibility();
 
                                    SpecializationTable.ReloadData();
                                });
+
+            HideLoadingOverlay();
+	    }
+
+	    private void ShowLoadingOverlay()
+	    {
+            if (!_isLoading)
+            {
+                _isLoading = true;
+
+                //use specialization table frame, but dont hide the search bar
+                var offsetForSearchbar = AlumniSearch.Frame.Height + (float)Math.Abs(SpecializationTable.ContentOffset.Y);
+
+                var frame = new CGRect(SpecializationTable.Frame.X,
+                                        SpecializationTable.Frame.Y + offsetForSearchbar,
+                                        SpecializationTable.Frame.Width,
+                                        SpecializationTable.Frame.Height - offsetForSearchbar);
+
+                InvokeOnMainThread(delegate
+                {
+                    _loadingOverlay = new LoadingOverlay(frame);
+                    View.Add(_loadingOverlay);
+                });
+            }
+	    }
+
+	    private void HideLoadingOverlay()
+	    {
+	        InvokeOnMainThread(delegate
+	        {
+	            if (_loadingOverlay != null)
+	            {
+	                _loadingOverlay.Hide();
+	            }
+	        });
+	        _isLoading = false;
 	    }
 
 	    private void SetSearchbarVisibility()
 	    {
-	        if (!_displaySearchbar)
-	        {
-	            DisplaySearchCancelIfNotEmpty();
-	            SpecializationTable.SetContentOffset(
-	                new CGPoint(0, AlumniSearch.Frame.Height + SpecializationTable.ContentOffset.Y), true);
-	        }
+	        DisplaySearchCancelIfNotEmpty();
+	        SpecializationTable.SetContentOffset(
+	            new CGPoint(0, AlumniSearch.Frame.Height + SpecializationTable.ContentOffset.Y), false);
 	    }
 
 	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
