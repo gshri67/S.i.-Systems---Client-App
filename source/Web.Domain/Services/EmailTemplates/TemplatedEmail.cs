@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using System.Reflection;
 using SendGrid.SmtpApi;
 
 namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
 {
+    /// <summary>
+    /// Use to build templated emails
+    /// sent through SendGrid's SMTP API
+    /// </summary>
     public abstract class TemplatedEmail
     {
         public string To { get; set; }
@@ -16,37 +19,48 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
         
         public MailMessage ToMailMessage()
         {
+            var mail = new MailMessage
+            {
+                IsBodyHtml = true,
+                Body = FormatAsHtml(Body)
+            };
+
+            //Add SMTP header required for SendGrid to parse and process
+            //template substitutions
+            var header = BuildSendGridSmtpApiHeader();
+            mail.Headers.Add("X-SMTPAPI", header.JsonString());
+
             //Configuration override for use in DEV & TEST environments 
             //to prevent emails being sent to actual users
             var recipient = Settings.EmailRecipientOverride ?? To;
-
-            MailMessage mail = new MailMessage
-            {
-                IsBodyHtml = true,
-                Body = ReplaceNewLinesWithBreakTags(Body)
-            };
-
             mail.To.Add(new MailAddress(recipient));
 
             //mail.From is handled by SMTP configuration
 
             mail.ReplyToList.Add(new MailAddress(From));
 
-            //Add SMTP header required for SendGrid to parse and process
-            //template substitutions
-            SetSmtpApiHeader(mail);
 
             return mail;
         }
 
-        private void SetSmtpApiHeader(MailMessage mail)
+        private Header BuildSendGridSmtpApiHeader()
         {
             var header = new Header();
 
-            SetTemplate(header, GetTemplateId(), GetSubstitutions());
-            header.SetCategories(GetCategories());
+            var templateId = GetTemplateId();
+            var substitutions = GetSubstitutions();
+            var categories = GetCategories();
 
-            mail.Headers.Add("X-SMTPAPI", header.JsonString());
+            header.AddFilterSetting("templates", new List<string> { "template_id" }, templateId);
+            header.AddFilterSetting("templates", new List<string> { "enabled" }, "1");
+
+            foreach (var sub in substitutions.Keys)
+            {
+                header.AddSubstitution(sub, new List<string> { substitutions[sub] });
+            }
+
+            header.SetCategories(categories);
+            return header;
         }
 
         private string GetTemplateId()
@@ -59,6 +73,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
             throw new Exception("Missing Template attribute on TemplatedEmail instance.");
         }
 
+        /// <summary>
+        /// Extract template substitutions for SendGrid template engine.
+        /// Substitution properties are marked with the TemplateSubstitutionAttribute.
+        /// </summary>
         protected Dictionary<string, string> GetSubstitutions()
         {
             var props = from p in GetType().GetProperties()
@@ -69,7 +87,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
             var subs = new Dictionary<string, string>();
             foreach (var prop in props)
             {
-                var propName = GetSubstitutionVariableName(prop.Attribute, prop.Property);
+                //Template substitution variable name
+                //If TemplateAttribute.Name is set, we'll use that,
+                //otherwise our default is [PropertyName]
+                var propName = !string.IsNullOrEmpty(prop.Attribute.Name) ? prop.Attribute.Name :  string.Format("[{0}]", prop.Property.Name);
+
                 var value = prop.Property.GetValue(this) as string;
 
                 if(value==null)
@@ -80,6 +102,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
             return subs;
         }
 
+        /// <summary>
+        /// Extract categories from TemplateAttribute on child type.
+        /// </summary>
         private IEnumerable<string> GetCategories()
         {
             var templateAttr = GetType().GetCustomAttributes(typeof(TemplateAttribute), true).FirstOrDefault();
@@ -91,46 +116,12 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
             throw new Exception("Missing Template attribute on TemplatedEmail instance.");
         } 
 
-        /// <summary>
-        /// If Name is set on TemplateSubstitutionAttribute, we'll use that,
-        /// otherwise we'll assume default and wrap the property name in []
-        /// </summary>
-        private string GetSubstitutionVariableName(TemplateSubstitutionAttribute attr, PropertyInfo propertyInfo)
-        {
-            if (!string.IsNullOrEmpty(attr.Name))
-                return attr.Name;
 
-            return string.Format("[{0}]", propertyInfo.Name);
-        }
-
-        private static string ReplaceNewLinesWithBreakTags(string content)
+        private static string FormatAsHtml(string content)
         {
             return (content ?? string.Empty)
                 .Replace("\n", "<br/>")
                 .Replace("\r\n", "<br/>");
-        }
-
-        /// <summary>
-        /// Adds required header voodoo to associate 
-        /// the email with a specific SendGrid Template
-        /// </summary>
-        private static void SetTemplate(Header header, string templateId, Dictionary<string, string> substitutions)
-        {
-            header.AddFilterSetting("templates",
-                new List<string> { "template_id" }, templateId);
-
-            header.AddFilterSetting("templates",
-                new List<string> { "enabled" }, "1");
-
-            AddTemplateSubstitutions(header, substitutions);
-        }
-
-        private static void AddTemplateSubstitutions(Header header, Dictionary<string, string> substitutions)
-        {
-            foreach (var sub in substitutions.Keys)
-            {
-                header.AddSubstitution(sub, new List<string> { substitutions[sub] });
-            }
         }
     }
 }

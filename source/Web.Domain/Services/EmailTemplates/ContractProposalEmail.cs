@@ -1,9 +1,5 @@
 ﻿namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
 {
-    /// <summary>
-    /// Describes Contract Proposal email messages
-    /// sent through SendGrid's SMTP API
-    /// </summary>
     [Template(IdConfigPropertyName = "Email.ContractProposalTemplateId", Categories="Contract Proposal")]
     public class ContractProposalEmail : TemplatedEmail
     {
