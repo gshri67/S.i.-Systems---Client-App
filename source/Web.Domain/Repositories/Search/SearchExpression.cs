@@ -18,6 +18,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.Search
         private static readonly HashSet<string> ReservedWords =
             new HashSet<string> { "AND", "OR"};
  
+        
+
         public static string Create(string query)
         {
             var cleanQuery = ScrubQuery(query);
@@ -31,17 +33,33 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.Search
             var finalTokens = tokens.Where(t => !ReservedWords.Contains(t.ToUpperInvariant()));
             
             //If there are multiple tokens, combine them with AND
-            return finalTokens.Aggregate((a, b) => a + " AND " + b);
+            return finalTokens.Where(t=>!string.IsNullOrWhiteSpace(t)).Aggregate((a, b) => a + " AND " + b);
         }
+
+        //Special keywords or sequences that could break the full-text query
+        private static readonly Dictionary<string, string> Replacements = new Dictionary<string, string>
+        {
+            {"~", string.Empty},
+            {"!", string.Empty},
+            {"&", string.Empty},
+            {"|", string.Empty},
+            {"*", string.Empty},
+            {"[", string.Empty},
+            {"]", string.Empty},
+            {"(", string.Empty},
+            {")", string.Empty},
+            {"/", string.Empty},
+            {"\\", string.Empty},
+            {"\"", string.Empty}
+        };
 
         private static string ScrubQuery(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return string.Empty;
 
-            return query
-                .Replace("\"", string.Empty)
-                .Replace("*", string.Empty);
+            //apply any replacements
+            return Replacements.Keys.Aggregate(query, (current, sequence) => current.Replace(sequence, Replacements[sequence]));
         }
 
     }
