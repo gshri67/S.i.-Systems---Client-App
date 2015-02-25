@@ -20,16 +20,28 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.Search
  
         public static string Create(string query)
         {
-            if (string.IsNullOrWhiteSpace(query))
+            var cleanQuery = ScrubQuery(query);
+
+            if (string.IsNullOrWhiteSpace(cleanQuery))
                 return "*";
 
-            var tokens = Regex.Split(query ?? string.Empty, "\\s+");
+            var tokens = Regex.Split(cleanQuery, "\\s+");
 
             //Remove reserved words that could break the query
             var finalTokens = tokens.Where(t => !ReservedWords.Contains(t.ToUpperInvariant()));
             
             //If there are multiple tokens, combine them with AND
             return finalTokens.Aggregate((a, b) => a + " AND " + b);
+        }
+
+        private static string ScrubQuery(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return string.Empty;
+
+            return query
+                .Replace("\"", string.Empty)
+                .Replace("*", string.Empty);
         }
 
     }

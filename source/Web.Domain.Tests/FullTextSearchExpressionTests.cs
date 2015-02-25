@@ -32,7 +32,15 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             const string expected = "Java AND C++";
 
             Assert.AreEqual(expected, FullTextSearchExpression.Create(query));
+        }
 
+        [Test]
+        public void Create_ShouldIgnoreQuotes()
+        {
+            const string query = "\"";
+            const string expected = "*";
+
+            Assert.AreEqual(expected, FullTextSearchExpression.Create(query));
         }
     }
 }
