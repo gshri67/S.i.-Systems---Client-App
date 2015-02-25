@@ -129,28 +129,31 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void FindAlumni_ConsultantsShouldBeOrderedByRating()
         {
             var repo = new Mock<IConsultantRepository>();
-            repo.Setup(m => m.FindAlumni(It.IsAny<string>(), It.IsAny<IEnumerable<int>>()))
-                .Returns(new List<ConsultantGroup>
+            var expectedOrderedResult = new List<ConsultantGroup>
+            {
+                new ConsultantGroup
                 {
-                    new ConsultantGroup
+                    Specialization = "Javaers",
+                    Consultants = new List<ConsultantSummary>
                     {
-                        Specialization = "Javaers",
-                        Consultants = new List<ConsultantSummary>
-                        {
-                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.NotChecked},
-                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.AboveStandard},
-                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.BelowStandard},
-                            new ConsultantSummary{Rating = MatchGuideConstants.ResumeRating.Standard},
-                            new ConsultantSummary{Rating = 1234}
-                        }
+                        new ConsultantSummary {Id = 5, Rating = 1234},
+                        new ConsultantSummary {Id = 6, Rating = null},
+                        new ConsultantSummary {Id = 1, Rating = MatchGuideConstants.ResumeRating.AboveStandard},
+                        new ConsultantSummary {Id = 2, Rating = MatchGuideConstants.ResumeRating.Standard},
+                        new ConsultantSummary {Id = 3, Rating = MatchGuideConstants.ResumeRating.NotChecked},
+                        new ConsultantSummary {Id = 4, Rating = MatchGuideConstants.ResumeRating.BelowStandard},
                     }
-                });
+                }
+            };
+            repo.Setup(m => m.FindAlumni(It.IsAny<string>(), It.IsAny<IEnumerable<int>>()))
+                .Returns(expectedOrderedResult);
 
             var service = new ConsultantService(repo.Object, _companyRepositoryMock.Object, _sessionContextMock.Object);
 
             var results = service.FindAlumni("Java");
 
-            Assert.AreEqual((MatchGuideConstants.ResumeRating)MatchGuideConstants.ResumeRating.AboveStandard, results.First().Consultants.First().Rating);
+            Assert.AreEqual(MatchGuideConstants.ResumeRating.AboveStandard, (int)results.First().Consultants.Select(e => e.Rating).First());
+            Assert.AreEqual(0, (int)results.First().Consultants.Select(e => e.Rating).Last().GetValueOrDefault());
         }
 
         [Test]

@@ -11,9 +11,7 @@ namespace ClientApp.iOS.Alumni
 
         public static UIImage GetImageForRating(MatchGuideConstants.ResumeRating? rating)
         {
-            if (rating == null) return null;
-
-            switch (rating.Value)
+            switch (rating.GetValueOrDefault())
             {
                 case MatchGuideConstants.ResumeRating.AboveStandard:
                     return ThreeStar;

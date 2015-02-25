@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace SiSystems.ClientApp.SharedModels
 {
@@ -143,9 +147,17 @@ namespace SiSystems.ClientApp.SharedModels
         }
 
         /// Consider any unanticipated values as the default, NotChecked
+        [DataContract]
         public struct ResumeRating : IMatchGuideConstant
         {
+            [DataMember(Name = "backingValue")]
             private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
 
             public const int AboveStandard = 314;
             public const int Standard = 315;
@@ -187,7 +199,7 @@ namespace SiSystems.ClientApp.SharedModels
             {
                 return rating.m_value;
             }
-
+           
             public override string ToString()
             {
                 string description;
@@ -241,18 +253,18 @@ namespace SiSystems.ClientApp.SharedModels
             }
         }
 
-        public abstract class MatchGuideConstant<T, K>
-            where K : MatchGuideConstant<T, K>
+        public abstract class MatchGuideConstant<TBackingType, TConstantType>
+            where TConstantType : MatchGuideConstant<TBackingType, TConstantType>
         {
-            private readonly T m_value;
+            private readonly TBackingType m_value;
 
-            protected virtual Dictionary<T, string> DescriptionDictionary { get { return new Dictionary<T, string>(); } }
+            protected virtual Dictionary<TBackingType, string> DescriptionDictionary { get { return new Dictionary<TBackingType, string>(); } }
 
             /// <summary>
             /// Provides the default text to display if the value is not defined
             /// as a key in the the DescriptionDictionary
             /// </summary>
-            protected virtual Func<T, string> DefaultStringFunc
+            protected virtual Func<TBackingType, string> DefaultStringFunc
             {
                 get { return arg => arg.ToString(); }
             }
@@ -261,22 +273,22 @@ namespace SiSystems.ClientApp.SharedModels
             {
             }
 
-            protected MatchGuideConstant(T value)
+            protected MatchGuideConstant(TBackingType value)
             {
                 m_value = value;
             }
 
-            protected T GetBackingValue()
+            protected TBackingType GetBackingValue()
             {
                 return m_value;
             }
 
-            public static implicit operator MatchGuideConstant<T, K>(T val)
+            public static implicit operator MatchGuideConstant<TBackingType, TConstantType>(TBackingType val)
             {
-                return (K)Activator.CreateInstance(typeof(K), val);
+                return (TConstantType)Activator.CreateInstance(typeof(TConstantType), val);
             }
 
-            public static implicit operator T(MatchGuideConstant<T, K> matchGuideConstant)
+            public static implicit operator TBackingType(MatchGuideConstant<TBackingType, TConstantType> matchGuideConstant)
             {
                 return matchGuideConstant.GetBackingValue();
             }

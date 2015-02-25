@@ -83,7 +83,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         private int ConvertResumeRatingToSortableInt(MatchGuideConstants.ResumeRating? rating)
         {
-            switch (rating.GetValueOrDefault(0))
+            if (!rating.HasValue) return -1;
+            switch (rating.Value)
             {
                 case MatchGuideConstants.ResumeRating.AboveStandard:
                     return 3;
