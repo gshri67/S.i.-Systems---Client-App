@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClientApp.Services;
 using ClientApp.Services.Interfaces;
 using ClientApp.ViewModels;
 using Moq;
@@ -12,11 +13,13 @@ namespace SiSystems.ClientApp.Tests.ViewModels
     public class NewContractViewModelTests
     {
         private NewContractViewModel _vm;
+        private Mock<IContractService> _contractMock;
 
         [SetUp]
         public void SetUp()
         {
-            _vm = new NewContractViewModel
+            _contractMock = new Mock<IContractService>();
+            _vm = new NewContractViewModel(_contractMock.Object)
                   {
                       StartDate = DateTime.Now,
                       EndDate = DateTime.Now.AddDays(1),
