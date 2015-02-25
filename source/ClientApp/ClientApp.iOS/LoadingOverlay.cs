@@ -14,19 +14,15 @@ namespace ClientApp.iOS
             : base(frame)
         {
             // configurable bits
-            BackgroundColor = UIColor.Black;
-            Alpha = 0.75f;
+            BackgroundColor = UIColor.White;
             AutoresizingMask = UIViewAutoresizing.FlexibleDimensions;
-
-            var labelHeight = 22;
-            var labelWidth = Frame.Width - 20;
-
+            
             // derive the center x and y
             var centerX = Frame.Width / 2;
             var centerY = Frame.Height / 2;
 
             // create the activity spinner, center it horizontall and put it 5 points above center x
-            activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
+            activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.Gray);
             activitySpinner.Frame = new CGRect(
                 centerX - (activitySpinner.Frame.Width / 2),
                 centerY - activitySpinner.Frame.Height - 20,
@@ -35,20 +31,6 @@ namespace ClientApp.iOS
             activitySpinner.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
             AddSubview(activitySpinner);
             activitySpinner.StartAnimating();
-
-            // create and configure the "Loading Data" label
-            loadingLabel = new UILabel(new CGRect(
-                centerX - (labelWidth / 2),
-                centerY + 20,
-                labelWidth,
-                labelHeight
-                ));
-            loadingLabel.BackgroundColor = UIColor.Clear;
-            loadingLabel.TextColor = UIColor.White;
-            loadingLabel.Text = "Loading Data...";
-            loadingLabel.TextAlignment = UITextAlignment.Center;
-            loadingLabel.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
-            AddSubview(loadingLabel);
         }
 
         /// <summary>
