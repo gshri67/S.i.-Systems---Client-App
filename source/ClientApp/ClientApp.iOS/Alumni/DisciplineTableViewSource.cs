@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 using Foundation;
@@ -14,6 +15,7 @@ namespace ClientApp.iOS
         private DisciplineViewController _parentController;
         private readonly ConsultantGroup _consultantGroup;
         private const string CellIdentifier = "DisciplineCell";
+        private const string DateSeperator = "\u2192";
 
         public DisciplineTableViewSource(DisciplineViewController parentController, ConsultantGroup consultantGroups)
         {
@@ -29,8 +31,9 @@ namespace ClientApp.iOS
                        new CustomDisciplineCell(CellIdentifier);
 
             var consultant = _consultantGroup.Consultants[indexPath.Row];
-            var contractDate = string.Format("{0:d} - {1:d}", consultant.MostRecentContractStartDate,
-                consultant.MostRecentContractEndDate);
+            var contractDate = string.Format("{0:MMM dd, yyyy} {2} {1:MMM dd, yyyy}", consultant.MostRecentContractStartDate,
+                consultant.MostRecentContractEndDate,
+                DateSeperator);
 
             var rate = string.Format("{0:C}/h", consultant.MostRecentContractRate); 
 

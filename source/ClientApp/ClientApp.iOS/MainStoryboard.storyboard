@@ -296,7 +296,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3988" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" minimumFontSize="10" enabled="NO">
-                                            <rect key="frame" x="58" y="28" width="144" height="21"/>
+                                            <rect key="frame" x="58" y="38" width="144" height="7"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
@@ -319,23 +319,22 @@
                                         <constraint firstItem="3754" firstAttribute="trailing" secondItem="3825" secondAttribute="trailing" constant="6" id="3978"/>
                                         <constraint firstItem="3825" firstAttribute="top" secondItem="3754" secondAttribute="top" constant="14" id="3979"/>
                                         <constraint firstItem="3754" firstAttribute="bottom" secondItem="3825" secondAttribute="bottom" constant="15" id="3980"/>
-                                        <constraint firstItem="3988" firstAttribute="bottom" secondItem="3754" secondAttribute="bottom" constant="0.0" id="4005"/>
                                         <constraint firstItem="3988" firstAttribute="leading" secondItem="3815" secondAttribute="leading" constant="1" id="4031"/>
                                         <constraint firstItem="3988" firstAttribute="leading" secondItem="3815" secondAttribute="leading" constant="1" id="4046"/>
-                                        <constraint firstItem="3988" firstAttribute="top" secondItem="3815" secondAttribute="bottom" constant="7" id="4048"/>
                                         <constraint firstItem="3815" firstAttribute="trailing" secondItem="3988" secondAttribute="trailing" constant="0.0" id="5165"/>
                                         <constraint firstItem="3988" firstAttribute="trailing" secondItem="3815" secondAttribute="trailing" constant="0.0" id="5166"/>
                                         <constraint firstItem="3825" firstAttribute="leading" secondItem="3815" secondAttribute="trailing" constant="8" id="5167"/>
-                                        <constraint firstItem="3825" firstAttribute="leading" secondItem="3988" secondAttribute="trailing" constant="8" id="5168"/>
                                         <constraint firstItem="5990" firstAttribute="centerY" secondItem="3754" secondAttribute="centerY" constant="0.0" id="5991"/>
-                                        <constraint firstItem="5990" firstAttribute="leading" secondItem="3754" secondAttribute="leading" constant="0.0" id="5992"/>
+                                        <constraint firstItem="5990" firstAttribute="leading" secondItem="3754" secondAttribute="leading" constant="5" id="5992"/>
                                         <constraint firstItem="5990" firstAttribute="bottom" secondItem="5993" secondAttribute="bottom" constant="0.0" id="5994"/>
                                         <constraint firstItem="5995" firstAttribute="leading" secondItem="5993" secondAttribute="trailing" constant="0.0" id="5997"/>
                                         <constraint firstItem="5993" firstAttribute="leading" secondItem="5990" secondAttribute="trailing" constant="0.0" id="5998"/>
                                         <constraint firstItem="5995" firstAttribute="bottom" secondItem="5993" secondAttribute="bottom" constant="0.0" id="5999"/>
-                                        <constraint firstItem="3815" firstAttribute="leading" secondItem="5995" secondAttribute="trailing" constant="2" id="6130"/>
+                                        <constraint firstItem="3815" firstAttribute="leading" secondItem="5995" secondAttribute="trailing" constant="5" id="6130"/>
                                         <constraint firstItem="5993" firstAttribute="width" secondItem="5995" secondAttribute="width" id="6133"/>
                                         <constraint firstItem="5990" firstAttribute="width" secondItem="5993" secondAttribute="width" id="6134"/>
+                                        <constraint firstItem="3988" firstAttribute="centerY" secondItem="3754" secondAttribute="centerY" constant="8" id="6145"/>
+                                        <constraint firstItem="3754" firstAttribute="centerY" secondItem="3815" secondAttribute="centerY" constant="8" id="6146"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
