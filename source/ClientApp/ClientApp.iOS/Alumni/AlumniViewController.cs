@@ -60,7 +60,7 @@ namespace ClientApp.iOS
             };
             AlumniSearch.OnEditingStopped += delegate
             {
-                DisplaySearchCancelIfNotEmpty();
+                DisplaySearchCancelButton();
             };
         }
 
@@ -79,7 +79,7 @@ namespace ClientApp.iOS
             SpecializationTable.ReloadData();
 	    }
 
-	    private void DisplaySearchCancelIfNotEmpty()
+	    private void DisplaySearchCancelButton()
 	    {
             if (AlumniSearch.Text.Equals(string.Empty))
                 AlumniSearch.SetShowsCancelButton(false, true);
@@ -104,9 +104,6 @@ namespace ClientApp.iOS
             base.ViewDidLoad();
 
             StartSpinner();
-
-            //Initially hide the search bar while retrieving data from the server
-            SetSearchbarVisibility();
             
             //set the source for our table's data
             LoadConsultantGroups();
@@ -147,6 +144,8 @@ namespace ClientApp.iOS
                                    SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
                                    
                                    SpecializationTable.ReloadData();
+
+                                   SetSearchbarVisibility();
                                });
 
             StopSpinner();
@@ -164,9 +163,11 @@ namespace ClientApp.iOS
 
 	    private void SetSearchbarVisibility()
 	    {
-	        DisplaySearchCancelIfNotEmpty();
+	        if (!AlumniSearch.Text.Equals(string.Empty))
+	            return;
+	        DisplaySearchCancelButton();
 	        SpecializationTable.SetContentOffset(
-	            new CGPoint(0, AlumniSearch.Frame.Height + SpecializationTable.ContentOffset.Y), false);
+	            new CGPoint(0, AlumniSearch.Frame.Height + SpecializationTable.ContentOffset.Y), true);
 	    }
 
 	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
