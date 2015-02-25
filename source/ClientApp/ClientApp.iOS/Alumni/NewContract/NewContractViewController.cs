@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using ClientApp.ViewModels;
 using CoreGraphics;
 using Foundation;
+using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
@@ -19,9 +20,9 @@ namespace ClientApp.iOS
         public Consultant Consultant { set { _viewModel.Consultant = value; } }
 
         public NewContractViewController (IntPtr handle) : base (handle)
-		{
-            _viewModel = new NewContractViewModel();
-		}
+        {
+            _viewModel = DependencyResolver.Current.Resolve<NewContractViewModel>();
+        }
 
 	    private void SetSpecialization(Specialization specialization)
 	    {
@@ -33,17 +34,6 @@ namespace ClientApp.iOS
         public override void ViewDidLoad()
 	    {
 	        base.ViewDidLoad();
-
-            //TODO REPLACE
-            var specModel = new SpecializationPickerModel(new[]
-                                                          {
-                                                              new Specialization {Id = 1, Name = "Developer"},
-                                                              new Specialization {Id = 4, Name = "Project Management"},
-                                                              new Specialization {Id = 3, Name = "Senior Developer"},
-                                                          }, _viewModel.Consultant.Specializations, this);
-            _specPicker.Model = specModel;
-            _specPicker.Select(0, 0, false);
-            SpecializationCell.Add(_specPicker);
 
             TitleField.ShouldReturn += field =>
                                        {
@@ -68,6 +58,17 @@ namespace ClientApp.iOS
 	        TotalLabel.Text = ToRateString(_viewModel.TotalRate);
 
             AddToolBarToKeyboard(RateField);
+
+            GetAllSpecializations();
+	    }
+
+	    private async Task GetAllSpecializations()
+	    {
+	        var specs = await _viewModel.GetAllSpecializations();
+            var specModel = new SpecializationPickerModel(specs, _viewModel.Consultant.Specializations, this);
+            _specPicker.Model = specModel;
+            _specPicker.Select(0, 0, false);
+            SpecializationCell.Add(_specPicker);
 	    }
 
 	    private void SetupApproverEmail()

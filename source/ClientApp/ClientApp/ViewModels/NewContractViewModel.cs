@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
+using ClientApp.Services.Interfaces;
 using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.ViewModels
 {
     public class NewContractViewModel : ViewModelBase
     {
+        private IContractService _contractService;
         private Consultant _consultant;
         public Consultant Consultant
         {
@@ -32,6 +35,11 @@ namespace ClientApp.ViewModels
         public string ApproverEmail { get; set; }
         public string ContractTitle { get; set; }
         public Specialization Specialization { get; set; }
+
+        public NewContractViewModel(IContractService contractService)
+        {
+            _contractService = contractService;
+        }
 
         public bool ValidateEmailAddress()
         {
@@ -82,6 +90,11 @@ namespace ClientApp.ViewModels
         private bool IsDateTodayOrGreater(DateTime date)
         {
             return date >= DateTime.Now.Date;
+        }
+
+        public Task<IList<Specialization>> GetAllSpecializations()
+        {
+            return _contractService.GetAllSpecializations();
         }
     }
 }

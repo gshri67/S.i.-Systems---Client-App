@@ -29,6 +29,7 @@ namespace ClientApp.iOS
             container.RegisterType<IEulaService, EulaService>();
             container.RegisterType<IConnectionService, ConnectionService>();
             container.RegisterType<IAlumniService, AlumniService>();
+            container.RegisterType<IContractService, ContractService>();
         }
     }
 }

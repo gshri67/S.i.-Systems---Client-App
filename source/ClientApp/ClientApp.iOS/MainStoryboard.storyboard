@@ -1013,10 +1013,6 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
-                        <view contentMode="scaleToFill" id="5497" key="tableFooterView">
-                            <rect key="frame" x="0.0" y="706" width="320" height="44"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        </view>
                     </tableView>
                     <connections>
                         <outlet property="NameLabel" destination="5499" id="name-outlet-5499"/>
