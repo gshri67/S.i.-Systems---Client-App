@@ -54,8 +54,9 @@ namespace ClientApp.iOS
 	        Title = consultant.FullName;
 	        TitleLabel.Text =
 	            consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
-	        RatingLabel.Text = consultant.Rating.ToString();
-	        //ratingImage.Image = RatingImage.GetImageForRating(consultant.Rating);
+
+	        SetRatingImages(consultant);
+
 	        ContractsLabel.Text = consultant.Contracts.Count.ToString();
 	        AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
 
@@ -76,6 +77,14 @@ namespace ClientApp.iOS
 	        {
 	            _overlay.Hide();
 	        }
+	    }
+
+	    private void SetRatingImages(Consultant consultant)
+	    {
+	        var ratingImageFetcher = new RatingImage(consultant.Rating);
+	        RightStar.Image = ratingImageFetcher.GetRightStarImage();
+	        MiddleStar.Image = ratingImageFetcher.GetMiddleStarImage();
+	        LeftStar.Image = ratingImageFetcher.GetLeftStarImage();
 	    }
 
 	    partial void NewContractButton_TouchUpInside(UIButton sender)

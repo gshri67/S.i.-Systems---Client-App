@@ -28,11 +28,15 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton NewContractButton { get; set; }
+		UIImageView LeftStar { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView ratingImage { get; set; }
+		UIImageView MiddleStar { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton NewContractButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -45,6 +49,10 @@ namespace ClientApp.iOS
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel ResumeLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIImageView RightStar { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -72,13 +80,17 @@ namespace ClientApp.iOS
 				DetailsTable.Dispose ();
 				DetailsTable = null;
 			}
+			if (LeftStar != null) {
+				LeftStar.Dispose ();
+				LeftStar = null;
+			}
+			if (MiddleStar != null) {
+				MiddleStar.Dispose ();
+				MiddleStar = null;
+			}
 			if (NewContractButton != null) {
 				NewContractButton.Dispose ();
 				NewContractButton = null;
-			}
-			if (ratingImage != null) {
-				ratingImage.Dispose ();
-				ratingImage = null;
 			}
 			if (RatingLabel != null) {
 				RatingLabel.Dispose ();
@@ -91,6 +103,10 @@ namespace ClientApp.iOS
 			if (ResumeLabel != null) {
 				ResumeLabel.Dispose ();
 				ResumeLabel = null;
+			}
+			if (RightStar != null) {
+				RightStar.Dispose ();
+				RightStar = null;
 			}
 			if (SpecializationCell != null) {
 				SpecializationCell.Dispose ();
