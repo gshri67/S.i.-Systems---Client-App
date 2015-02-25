@@ -314,4 +314,22 @@
       <InProject>false</InProject>
     </ImageAsset>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\star%403.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\star%402.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\star%401.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\goldstar%403.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\goldstar%402.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\goldstar%401.png" />
+  </ItemGroup>
 </Project>

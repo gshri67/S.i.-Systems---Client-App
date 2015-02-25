@@ -1115,5 +1115,7 @@
         <image name="Images.xcassets/AppIcons.appiconset/Icon-Small-40.png" width="40" height="40"/>
         <image name="Images.xcassets/LaunchImage.launchimage/Default-568h.png" width="640" height="1136"/>
         <image name="Images.xcassets/LaunchImage.launchimage/Default.png" width="640" height="960"/>
+        <image name="star.png" width="42" height="42"/>
+        <image name="goldstar.png" width="42" height="42"/>
     </resources>
 </document>
