@@ -151,7 +151,7 @@ namespace ClientApp.iOS
                     Text = GetSkillsString(spec.Skills),
                     Frame = new CGRect(20, y, frame.Width - 40, skillFont.LineHeight),
                     Font = skillFont,
-                    TextColor = new UIColor(0.1215686274509804f, 0.1215686274509804f, 0.1215686274509804f, 255),
+                    TextColor = StyleGuideConstants.DarkGray,
                     Lines = 0,
                     LineBreakMode = UILineBreakMode.WordWrap
                 };

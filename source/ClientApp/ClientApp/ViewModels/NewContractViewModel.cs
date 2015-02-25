@@ -27,7 +27,9 @@ namespace ClientApp.ViewModels
             }
         }
 
+        //TODO get from Client object
         public const decimal ServiceRate = 3;
+
         public decimal ContractorRate { get; set; }
         public decimal TotalRate { get { return ContractorRate + ServiceRate; } }
         public DateTime StartDate { get; set; }

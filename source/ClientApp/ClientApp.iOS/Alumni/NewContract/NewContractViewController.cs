@@ -30,6 +30,17 @@ namespace ClientApp.iOS
             InvokeOnMainThread(() => { SpecializationLabel.Text = specialization.Name; });
 	    }
 
+	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+	    {
+            base.PrepareForSegue(segue, sender);
+
+            if (segue.Identifier == "SubmitSelected")
+            {
+                var view = (ConfirmContractViewController)segue.DestinationViewController;
+                view.ViewModel = _viewModel;
+            }
+	    }
+
         #region Setup
         public override void ViewDidLoad()
 	    {
