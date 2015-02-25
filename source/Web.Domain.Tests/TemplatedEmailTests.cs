@@ -29,13 +29,15 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 Body = "HELLO",
                 Fee = "123.00",
                 RateToConsultant = "111.00",
+                TotalRate = "134.00",
                 StartDate = "1/1/2015",
                 EndDate = "12/12/2015",
                 TimesheetApproverEmailAddress = "aguy@email.com",
                 InvoiceFormat = "bits and bytes",
                 ClientCompanyName = "Bees Systems",
                 ClientContactFullName = "Henry Bees",
-                ClientContactEmailAddress = "henry.bees@email.com"
+                ClientContactEmailAddress = "henry.bees@email.com",
+                Specialization = "Testing"
             };
         }
 

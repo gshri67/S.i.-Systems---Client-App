@@ -1,4 +1,5 @@
-﻿namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
+
+namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
 {
     [Template(IdConfigPropertyName = "Email.ContractProposalTemplateId", Categories="Contract Proposal")]
     public class ContractProposalEmail : TemplatedEmail
@@ -8,6 +9,9 @@
 
         [TemplateSubstitution]
         public string RateToConsultant { get; set; }
+
+        [TemplateSubstitution]
+        public string TotalRate { get; set; }
 
         [TemplateSubstitution]
         public string StartDate { get; set; }
@@ -29,5 +33,8 @@
 
         [TemplateSubstitution]
         public string InvoiceFormat { get; set; }
+
+        [TemplateSubstitution]
+        public string Specialization { get; set; }
     }
 }
