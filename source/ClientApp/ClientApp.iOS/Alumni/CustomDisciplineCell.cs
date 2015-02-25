@@ -25,7 +25,10 @@ namespace ClientApp.iOS
             fullName.Text = name;
             contractDates.Text = dates;
             lastContractRate.Text = rate;
-            ratingImage.Image = RatingImage.GetImageForRating(rating);
+            var ratingImages = new RatingImage(rating);
+            RightStar.Image = ratingImages.GetRightStarImage();
+            MiddleStar.Image = ratingImages.GetMiddleStarImage();
+            LeftStar.Image = ratingImages.GetLeftStarImage();
         }
 	}
 }

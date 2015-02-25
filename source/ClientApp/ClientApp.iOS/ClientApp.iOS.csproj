@@ -315,21 +315,21 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\star%403.png" />
+    <BundleResource Include="Resources\star%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\star%402.png" />
+    <BundleResource Include="Resources\star%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\star%401.png" />
+    <BundleResource Include="Resources\star.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\goldstar%403.png" />
+    <BundleResource Include="Resources\goldstar%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\goldstar%402.png" />
+    <BundleResource Include="Resources\goldstar%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\goldstar%401.png" />
+    <BundleResource Include="Resources\goldstar.png" />
   </ItemGroup>
 </Project>

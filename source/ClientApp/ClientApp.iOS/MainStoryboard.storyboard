@@ -288,14 +288,6 @@
                                             <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="3820" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000">
-                                            <rect key="frame" x="10" y="10" width="30" height="30"/>
-                                            <rect key="contentStretch" x="0.0" y="0.0" width="1" height="1"/>
-                                            <constraints>
-                                                <constraint id="4040" firstAttribute="width" constant="30"/>
-                                                <constraint id="4041" firstAttribute="height" constant="30"/>
-                                            </constraints>
-                                        </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="3825" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO" horizontalCompressionResistancePriority="1000" textAlignment="right">
                                             <rect key="frame" x="238" y="13" width="42" height="21"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -310,6 +302,18 @@
                                             <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="5990" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                            <rect key="frame" x="0.0" y="17" width="14" height="14"/>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="5993" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                            <rect key="frame" x="20" y="15" width="14" height="14"/>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="5995" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                            <rect key="frame" x="41" y="19" width="14" height="14"/>
+                                            <constraints>
+                                                <constraint id="6131" firstItem="5995" firstAttribute="width" constant="14" relation="greaterthanorequal"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="3754" firstAttribute="trailing" secondItem="3825" secondAttribute="trailing" constant="6" id="3978"/>
@@ -317,22 +321,30 @@
                                         <constraint firstItem="3754" firstAttribute="bottom" secondItem="3825" secondAttribute="bottom" constant="15" id="3980"/>
                                         <constraint firstItem="3988" firstAttribute="bottom" secondItem="3754" secondAttribute="bottom" constant="0.0" id="4005"/>
                                         <constraint firstItem="3988" firstAttribute="leading" secondItem="3815" secondAttribute="leading" constant="1" id="4031"/>
-                                        <constraint id="4038" constant="10" firstItem="3820" firstAttribute="leading" secondItem="3754" secondAttribute="leading"/>
-                                        <constraint id="4039" constant="9" firstItem="3754" firstAttribute="bottom" secondItem="3820" secondAttribute="bottom"/>
                                         <constraint firstItem="3988" firstAttribute="leading" secondItem="3815" secondAttribute="leading" constant="1" id="4046"/>
-                                        <constraint firstItem="3815" firstAttribute="leading" secondItem="3820" secondAttribute="trailing" constant="17" id="4047"/>
                                         <constraint firstItem="3988" firstAttribute="top" secondItem="3815" secondAttribute="bottom" constant="7" id="4048"/>
                                         <constraint firstItem="3815" firstAttribute="trailing" secondItem="3988" secondAttribute="trailing" constant="0.0" id="5165"/>
                                         <constraint firstItem="3988" firstAttribute="trailing" secondItem="3815" secondAttribute="trailing" constant="0.0" id="5166"/>
                                         <constraint firstItem="3825" firstAttribute="leading" secondItem="3815" secondAttribute="trailing" constant="8" id="5167"/>
                                         <constraint firstItem="3825" firstAttribute="leading" secondItem="3988" secondAttribute="trailing" constant="8" id="5168"/>
+                                        <constraint firstItem="5990" firstAttribute="centerY" secondItem="3754" secondAttribute="centerY" constant="0.0" id="5991"/>
+                                        <constraint firstItem="5990" firstAttribute="leading" secondItem="3754" secondAttribute="leading" constant="0.0" id="5992"/>
+                                        <constraint firstItem="5990" firstAttribute="bottom" secondItem="5993" secondAttribute="bottom" constant="0.0" id="5994"/>
+                                        <constraint firstItem="5995" firstAttribute="leading" secondItem="5993" secondAttribute="trailing" constant="0.0" id="5997"/>
+                                        <constraint firstItem="5993" firstAttribute="leading" secondItem="5990" secondAttribute="trailing" constant="0.0" id="5998"/>
+                                        <constraint firstItem="5995" firstAttribute="bottom" secondItem="5993" secondAttribute="bottom" constant="0.0" id="5999"/>
+                                        <constraint firstItem="3815" firstAttribute="leading" secondItem="5995" secondAttribute="trailing" constant="2" id="6130"/>
+                                        <constraint firstItem="5993" firstAttribute="width" secondItem="5995" secondAttribute="width" id="6133"/>
+                                        <constraint firstItem="5990" firstAttribute="width" secondItem="5993" secondAttribute="width" id="6134"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="fullName" destination="3815" id="name-outlet-3815"/>
-                                    <outlet property="ratingImage" destination="3820" id="name-outlet-3820"/>
                                     <outlet property="lastContractRate" destination="3825" id="name-outlet-3825"/>
                                     <outlet property="contractDates" destination="3988" id="name-outlet-3988"/>
+                                    <outlet property="RightStar" destination="5995" id="name-outlet-5995"/>
+                                    <outlet property="MiddleStar" destination="5993" id="name-outlet-5993"/>
+                                    <outlet property="LeftStar" destination="5990" id="name-outlet-5990"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1115,7 +1127,7 @@
         <image name="Images.xcassets/AppIcons.appiconset/Icon-Small-40.png" width="40" height="40"/>
         <image name="Images.xcassets/LaunchImage.launchimage/Default-568h.png" width="640" height="1136"/>
         <image name="Images.xcassets/LaunchImage.launchimage/Default.png" width="640" height="960"/>
-        <image name="star.png" width="42" height="42"/>
-        <image name="goldstar.png" width="42" height="42"/>
+        <image name="star.png" width="14" height="14"/>
+        <image name="goldstar.png" width="14" height="14"/>
     </resources>
 </document>

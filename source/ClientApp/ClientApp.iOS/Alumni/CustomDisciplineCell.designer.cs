@@ -28,7 +28,15 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView ratingImage { get; set; }
+		UIImageView LeftStar { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIImageView MiddleStar { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIImageView RightStar { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -44,9 +52,17 @@ namespace ClientApp.iOS
 				lastContractRate.Dispose ();
 				lastContractRate = null;
 			}
-			if (ratingImage != null) {
-				ratingImage.Dispose ();
-				ratingImage = null;
+			if (LeftStar != null) {
+				LeftStar.Dispose ();
+				LeftStar = null;
+			}
+			if (MiddleStar != null) {
+				MiddleStar.Dispose ();
+				MiddleStar = null;
+			}
+			if (RightStar != null) {
+				RightStar.Dispose ();
+				RightStar = null;
 			}
 		}
 	}

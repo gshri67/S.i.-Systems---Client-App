@@ -5,23 +5,39 @@ namespace ClientApp.iOS.Alumni
 {
     public class RatingImage
     {
-        private static readonly UIImage OneStar = UIImage.FromBundle("thumb-up-8x.png");
-        private static readonly UIImage TwoStar = UIImage.FromBundle("thumb-up-8x.png");
-        private static readonly UIImage ThreeStar = UIImage.FromBundle("thumb-up-8x.png");
+        private static readonly UIImage GoldStar = UIImage.FromBundle("goldstar");
+        private static readonly UIImage BlankStar = UIImage.FromBundle("star");
+        private readonly MatchGuideConstants.ResumeRating _rating;
 
-        public static UIImage GetImageForRating(MatchGuideConstants.ResumeRating? rating)
+        public RatingImage(MatchGuideConstants.ResumeRating? resumeRating)
         {
-            switch (rating.GetValueOrDefault())
-            {
-                case MatchGuideConstants.ResumeRating.AboveStandard:
-                    return ThreeStar;
-                case MatchGuideConstants.ResumeRating.Standard:
-                    return TwoStar;
-                case MatchGuideConstants.ResumeRating.BelowStandard:
-                    return OneStar;
-                default:
-                    return null;
-            }
+            _rating = resumeRating.GetValueOrDefault();
+        }
+
+        public UIImage GetRightStarImage()
+        {
+            return GoldStar;
+        }
+
+        private bool IsStandardOrAboveRating()
+        {
+            return _rating == MatchGuideConstants.ResumeRating.Standard ||
+                   _rating == MatchGuideConstants.ResumeRating.AboveStandard;
+        }
+
+        private bool IsAboveStandardRating()
+        {
+            return _rating == MatchGuideConstants.ResumeRating.AboveStandard;
+        }
+
+        public UIImage GetMiddleStarImage()
+        {
+            return IsStandardOrAboveRating() ? GoldStar : BlankStar;
+        }
+
+        public UIImage GetLeftStarImage()
+        {
+            return IsAboveStandardRating() ? GoldStar : BlankStar;
         }
     }
 }
