@@ -199,6 +199,7 @@
       <DependentUpon>ResumeViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Startup\TokenStore.cs" />
+    <Compile Include="StyleGuideConstants.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />

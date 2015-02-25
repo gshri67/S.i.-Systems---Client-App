@@ -65,7 +65,7 @@ namespace ClientApp.iOS
 	    private void SetupNavigationHeader()
 	    {
 	        var cancelButton = new UIBarButtonItem {Title = "Cancel"};
-	        var submitButton = new UIBarButtonItem {Title = "Submit"};
+	        var submitButton = new UIBarButtonItem {Title = "Submit", TintColor = StyleGuideConstants.RedUiColor};
 	        cancelButton.Clicked += (sender, args) => { NavigationController.DismissModalViewController(true); };
 	        submitButton.Clicked += (sender, args) =>
 	                                {
