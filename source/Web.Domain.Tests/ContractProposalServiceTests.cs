@@ -24,8 +24,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 .Returns(new Consultant
                 {
                     Id = 0xBEEF,
-                    EmailAddress = "someone@email.com",
-                    Specializations = new[] {new Specialization {Name = "Testing"}}
+                    EmailAddress = "someone@email.com"
                 });
 
             sessionContextMock.Setup(s => s.CurrentUser)

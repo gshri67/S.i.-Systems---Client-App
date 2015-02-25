@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\SpecializationRepository.cs" />
     <Compile Include="Services\ConsultantMessageService.cs" />
     <Compile Include="Services\ConsultantService.cs" />
     <Compile Include="Services\ContractProposalService.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Repositories\Search\SearchExpression.cs" />
     <Compile Include="Repositories\TreeTraverser.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Services\SpecializationService.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

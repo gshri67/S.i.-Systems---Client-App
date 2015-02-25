@@ -65,46 +65,30 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 if (consultant != null)
                 {
                     //get specializations..
-                    const string specializationQuery = @"SELECT SP.SpecializationID Id, SP.Name, "
-                                                       + "SK.SkillID Id, SK.SkillName Name, CSM.ExpID YearsOfExperience "
-                                                       + "FROM [Candidate_SkillsMatrix] AS CSM, "
-                                                       + "[Specialization] AS SP, "
-                                                       + "[Skill] AS SK "
-                                                       + "WHERE CSM.UserID=@UserId "
-                                                       + "AND CSM.SpecID=SP.SpecializationID "
-                                                       + "AND CSM.SkillID=SK.SkillID ";
+                    const string specializationQuery = @"set nocount on
+                                                        DECLARE @t TABLE(Id int, SpecializationId int, Name varchar(50), YearsOfExperience int)
+                                                        insert @t
+	                                                        SELECT s.SkillId, cs.SpecID, SkillName, cs.ExpID
+	                                                        FROM Skill s
+	                                                        JOIN Candidate_SkillsMatrix cs on cs.SkillID = s.SkillID
+	                                                        WHERE UserId = @UserId
+                                                        set nocount off 
+                                                        SELECT * FROM @t
+                                                        SELECT SpecializationId Id, Name, Description FROM Specialization WHERE SpecializationID in (select t.SpecializationId from @t t)";
 
-                    var specializations = new Dictionary<int, Specialization>();
-                    db.Connection.Query(specializationQuery,
-                        CreateSkillSpecializationMappingFunction(specializations),
-                        new { UserId = id },
-                        //Each row contains a Specialization and a Skill
-                        //Tell Dapper where the object boundaries are by specifying column
-                        splitOn: "Id");
-
-                    consultant.Specializations = specializations.Values.ToList();
+                    var multi = db.Connection.QueryMultiple(specializationQuery, new { UserId = id });
+                    var skills = multi.Read<Skill>();
+                    var specializations = multi.Read<Specialization>();
+                    foreach (var specialization in specializations)
+                    {
+                        specialization.Skills = skills.Where(sk => sk.SpecializationId == specialization.Id);
+                    }
+                    consultant.Specializations = specializations;
                 }
 
                 return consultant;
             }
         }
-
-        private Func<Specialization, Skill, Specialization> CreateSkillSpecializationMappingFunction(Dictionary<int, Specialization> specLookup)
-        {
-            //map skill to specialization
-            //reuse specialization instance if it is already present in dictionary to avoid duplicates
-            return (spec, skill) =>
-            {
-                Specialization specialization;
-                if (!specLookup.TryGetValue(spec.Id, out specialization))
-                {
-                    specLookup.Add(spec.Id, specialization = spec);
-                }
-                specialization.Skills.Add(skill);
-                return specialization;
-            };
-        }
-        
 
         /// <summary>
         /// Find alumni consultant candidates for a specific client.

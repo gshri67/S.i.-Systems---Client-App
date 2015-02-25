@@ -1,5 +1,4 @@
-﻿using System;
-using SiSystems.ClientApp.SharedModels;
+﻿using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.ClientApp.Web.Domain.Services.EmailTemplates;

@@ -1,16 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SiSystems.ClientApp.SharedModels
 {
     public class Specialization
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public IList<Skill> Skills { get; set; }
 
-        public Specialization()
-        {
-            Skills = new List<Skill>();
-        }
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public IEnumerable<Skill> Skills { get; set; }
     }
 }
