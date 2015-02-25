@@ -24,12 +24,21 @@ namespace SiSystems.ClientApp.SharedModels
         {   
         }
 
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
         public struct UserTypes : IMatchGuideConstant
         {
+            [DataMember(Name = "backingValue")]
+            private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
             public const int Candidate = 490;
             public const int ClientContact = 661;
-
-            private readonly long m_value;
 
             private UserTypes(long value)
             {
@@ -57,11 +66,20 @@ namespace SiSystems.ClientApp.SharedModels
             }
         }
 
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
         public struct AgreementTypes : IMatchGuideConstant
         {
-            public const int Contract = 459;
-
+            [DataMember(Name = "backingValue")]
             private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
+            public const int Contract = 459;
 
             private AgreementTypes(long value)
             {
@@ -84,11 +102,20 @@ namespace SiSystems.ClientApp.SharedModels
             }
         }
 
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
         public struct AgreementSubTypes : IMatchGuideConstant
         {
-            public const int FloThru = 172;
-
+            [DataMember(Name = "backingValue")]
             private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
+            public const int FloThru = 172;
 
             private AgreementSubTypes(long value)
             {
@@ -116,14 +143,23 @@ namespace SiSystems.ClientApp.SharedModels
             }
         }
 
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
         public struct ContractStatusTypes : IMatchGuideConstant
         {
+            [DataMember(Name = "backingValue")]
+            private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
             public const int Active = 573;
             public const int Cancelled = 574;
             public const int Expired = 575;
             public const int Pending = 576;
-
-            private readonly long m_value;
 
             private ContractStatusTypes(long value)
             {
@@ -148,6 +184,7 @@ namespace SiSystems.ClientApp.SharedModels
 
         /// Consider any unanticipated values as the default, NotChecked
         [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
         public struct ResumeRating : IMatchGuideConstant
         {
             [DataMember(Name = "backingValue")]
@@ -207,8 +244,19 @@ namespace SiSystems.ClientApp.SharedModels
             }
         }
 
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
         public struct YearsOfExperience : IMatchGuideConstant
         {
+            [DataMember(Name = "backingValue")]
+            private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
             public const int LessThanTwo = 448;
             public const int TwoToFour = 449;
             public const int FiveToSeven = 450;
@@ -223,8 +271,6 @@ namespace SiSystems.ClientApp.SharedModels
                 {EightToTen, "(8-10 years)"},
                 {MoreThanTen, "(> 10 years)"}
             };
-
-            private readonly long m_value;
 
             private YearsOfExperience(long value)
             {
