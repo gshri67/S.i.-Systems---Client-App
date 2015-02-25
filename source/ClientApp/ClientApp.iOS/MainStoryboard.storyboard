@@ -311,7 +311,7 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="5995" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                             <rect key="frame" x="41" y="19" width="14" height="14"/>
                                             <constraints>
-                                                <constraint id="6131" firstItem="5995" firstAttribute="width" constant="14" relation="greaterthanorequal"/>
+                                                <constraint id="6132" firstItem="5995" firstAttribute="width" constant="14" relation="greaterthanorequal"/>
                                             </constraints>
                                         </imageView>
                                     </subviews>
@@ -810,7 +810,7 @@
                                                 <constraint firstItem="6118" firstAttribute="bottom" secondItem="6052" secondAttribute="bottom" constant="11" id="6121"/>
                                                 <constraint id="6126" constant="20" firstItem="6118" firstAttribute="trailing" secondItem="6078" secondAttribute="trailing" relation="greaterthanorequal"/>
                                                 <constraint id="6127" constant="6" firstItem="6118" firstAttribute="bottom" secondItem="6078" secondAttribute="bottom"/>
-                                                <constraint firstItem="6078" firstAttribute="leading" secondItem="6052" secondAttribute="trailing" constant="0.0" id="6130"/>
+                                                <constraint firstItem="6078" firstAttribute="leading" secondItem="6052" secondAttribute="trailing" constant="0.0" id="6135"/>
                                                 <constraint firstItem="6078" firstAttribute="top" secondItem="6118" secondAttribute="top" constant="7" id="6131"/>
                                             </constraints>
                                         </tableViewCellContentView>
