@@ -16,8 +16,10 @@ namespace ClientApp.iOS
 	public partial class AlumniViewController : UIViewController
 	{
 	    private readonly AlumniViewModel _alumniModel;
-	    private LoadingOverlay _loadingOverlay;
 	    private bool _isLoading = false;
+        private const string DisciplineSegueIdentifier = "DisciplineSelected";
+        private const string LogoutSegueIdentifier = "logoutSegue";
+	    private const int SearchTimerInterval = 1000;
 
         public AlumniViewController(IntPtr handle)
             : base(handle)
@@ -28,8 +30,6 @@ namespace ClientApp.iOS
 	    public override void TouchesBegan(NSSet touches, UIEvent evt)
 	    {
 	        base.TouchesBegan(touches, evt);
-
-	        //contractorSearch.ResignFirstResponder();
 	    }
 
         private void ConfigureSearchEvents()
@@ -38,6 +38,8 @@ namespace ClientApp.iOS
 
             AlumniSearch.TextChanged += delegate
             {
+                IndicateSearchToUser();
+
                 //note that this resets the timer's countdown
                 timer.Start();
             };
@@ -62,6 +64,21 @@ namespace ClientApp.iOS
             };
         }
 
+	    private void IndicateSearchToUser()
+	    {
+            InvokeOnMainThread(delegate
+            {
+                StartSpinner();
+                ClearSpecializationTable();
+            });
+	    }
+
+	    private void ClearSpecializationTable()
+	    {
+            SpecializationTable.Source = null;
+            SpecializationTable.ReloadData();
+	    }
+
 	    private void DisplaySearchCancelIfNotEmpty()
 	    {
             if (AlumniSearch.Text.Equals(string.Empty))
@@ -72,7 +89,7 @@ namespace ClientApp.iOS
 	    {
 	        var timer = new Timer()
 	        {
-	            Interval = 1000,
+                Interval = SearchTimerInterval,
 	            AutoReset = false,
 	            Enabled = false //we don't want to start the timer until we change search text
 	        };
@@ -85,6 +102,8 @@ namespace ClientApp.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            StartSpinner();
 
             //Initially hide the search bar while retrieving data from the server
             SetSearchbarVisibility();
@@ -121,54 +140,26 @@ namespace ClientApp.iOS
 
 	    private async void LoadConsultantGroups()
 	    {
-	        ShowLoadingOverlay();
-
 	        //get our list of specializations to display
             var consultantGroups = await  _alumniModel.GetConsultantGroups(AlumniSearch.Text);
             InvokeOnMainThread(delegate
                                {
                                    SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
-
-                                   //SetSearchbarVisibility();
-
+                                   
                                    SpecializationTable.ReloadData();
                                });
 
-            HideLoadingOverlay();
+            StopSpinner();
 	    }
 
-	    private void ShowLoadingOverlay()
+	    private void StartSpinner()
 	    {
-            if (!_isLoading)
-            {
-                _isLoading = true;
-
-                //use specialization table frame, but dont hide the search bar
-                var offsetForSearchbar = AlumniSearch.Frame.Height + (float)Math.Abs(SpecializationTable.ContentOffset.Y);
-
-                var frame = new CGRect(SpecializationTable.Frame.X,
-                                        SpecializationTable.Frame.Y + offsetForSearchbar,
-                                        SpecializationTable.Frame.Width,
-                                        SpecializationTable.Frame.Height - offsetForSearchbar);
-
-                InvokeOnMainThread(delegate
-                {
-                    _loadingOverlay = new LoadingOverlay(frame);
-                    View.Add(_loadingOverlay);
-                });
-            }
+            alumniActivityIndicator.StartAnimating();
 	    }
 
-	    private void HideLoadingOverlay()
+	    private void StopSpinner()
 	    {
-	        InvokeOnMainThread(delegate
-	        {
-	            if (_loadingOverlay != null)
-	            {
-	                _loadingOverlay.Hide();
-	            }
-	        });
-	        _isLoading = false;
+            alumniActivityIndicator.StopAnimating();
 	    }
 
 	    private void SetSearchbarVisibility()
@@ -182,7 +173,7 @@ namespace ClientApp.iOS
         {
             base.PrepareForSegue(segue, sender);
             
-            if (segue.Identifier == "DisciplineSelected")
+            if (segue.Identifier == DisciplineSegueIdentifier)
             {
                 var navCtrl = segue.DestinationViewController as DisciplineViewController;
 
@@ -204,7 +195,7 @@ namespace ClientApp.iOS
                 {
                     _alumniModel.Logout();
                     TokenStore.DeleteDeviceToken();
-                    InvokeOnMainThread(delegate{PerformSegue("logoutSegue", this);});
+                    InvokeOnMainThread(delegate{PerformSegue(LogoutSegueIdentifier, this);});
                 });
             var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
             controller.AddAction(logoutAction);
