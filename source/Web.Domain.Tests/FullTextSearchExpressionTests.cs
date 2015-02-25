@@ -11,7 +11,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void Create_SingleWordSearch_ShouldReturnQuotedPrefixExpression()
         {
             const string query = "hello";
-            const string expected = "\"hello*\"";
+            const string expected = "hello";
 
             Assert.AreEqual(expected, FullTextSearchExpression.Create(query));
         }
@@ -20,7 +20,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void Create_ShouldRemoveReservedExpressionWords()
         {
             const string query = "hello and";
-            const string expected = "\"hello*\"";
+            const string expected = "hello";
 
             Assert.AreEqual(expected, FullTextSearchExpression.Create(query));
         }
@@ -29,7 +29,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void Create_ShouldCombineTokensWithOperator()
         {
             const string query = "Java C++";
-            const string expected = "\"Java*\" AND \"C++*\"";
+            const string expected = "Java AND C++";
 
             Assert.AreEqual(expected, FullTextSearchExpression.Create(query));
 

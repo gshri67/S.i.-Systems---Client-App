@@ -57,20 +57,6 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         }
 
         [Test]
-        public void FindAlumni_ShouldMatchOnResumePartialTextPrefix()
-        {
-            const string searchText = "LORE";
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
-
-            var consultants = groups.SelectMany(g => g.Consultants).Select(c => c.FirstName).Distinct().ToList();
-
-            //\Database.MatchGuide\Scripts\014 - Add Candidate Resumes.sql
-            Assert.AreEqual(2, consultants.Count);
-            Assert.Contains("Tommy", consultants);
-            Assert.Contains("Candice", consultants);
-        }
-
-        [Test]
         public void FindAlumni_ShouldMatch_WhenTargetHasContractWithClient()
         {
             const string searchText = "Bill";

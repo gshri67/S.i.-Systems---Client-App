@@ -7,6 +7,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.Search
     /// <summary>
     /// Used to generate an expression that can be used
     /// in a SQL Server Full-Text query
+    /// 
+    /// We are intentionally not supporting partial word matches using wildcards
+    /// as this has a significant impact on performance.
+    /// In our testing, building a wildcard query, such as "Java*" could take up to 15 seconds with test data,
+    /// whereas a simple match search for "Java" is sub-second.
     /// </summary>
     public class FullTextSearchExpression
     {
@@ -15,16 +20,16 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.Search
  
         public static string Create(string query)
         {
+            if (string.IsNullOrWhiteSpace(query))
+                return "*";
+
             var tokens = Regex.Split(query ?? string.Empty, "\\s+");
 
             //Remove reserved words that could break the query
             var finalTokens = tokens.Where(t => !ReservedWords.Contains(t.ToUpperInvariant()));
-
-            //Add wildcard so that prefix matches
-            var prefixTokens = finalTokens.Select(t => "\"" + t + "*\"");
-
+            
             //If there are multiple tokens, combine them with AND
-            return prefixTokens.Aggregate((a, b) => a + " AND " + b);
+            return finalTokens.Aggregate((a, b) => a + " AND " + b);
         }
 
     }
