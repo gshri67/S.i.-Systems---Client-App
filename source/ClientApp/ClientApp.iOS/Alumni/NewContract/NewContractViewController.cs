@@ -1,12 +1,10 @@
-using Foundation;
 using System;
-using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using ClientApp.iOS.Alumni.ConsultantDetails;
 using ClientApp.ViewModels;
 using CoreGraphics;
-using ObjCRuntime;
+using Foundation;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
@@ -14,8 +12,9 @@ namespace ClientApp.iOS
 {
 	partial class NewContractViewController : UITableViewController
 	{
-	    private readonly UIDatePicker _startDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden =  true};
-        private readonly UIDatePicker _endDatePicker = new UIDatePicker { Mode = UIDatePickerMode.Date, Hidden = true };
+	    private readonly UIDatePicker _startDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
+	    private readonly UIDatePicker _endDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
+        private readonly UIPickerView _specPicker = new UIPickerView{Hidden = true};
         private readonly NewContractViewModel _viewModel;
         public Consultant Consultant { set { _viewModel.Consultant = value; } }
 
@@ -24,10 +23,33 @@ namespace ClientApp.iOS
             _viewModel = new NewContractViewModel();
 		}
 
+	    private void SetSpecialization(Specialization specialization)
+	    {
+	        _viewModel.Specialization = specialization;
+            InvokeOnMainThread(() => { SpecializationLabel.Text = specialization.Name; });
+	    }
+
         #region Setup
         public override void ViewDidLoad()
 	    {
 	        base.ViewDidLoad();
+
+            //TODO REPLACE
+            var specModel = new SpecializationPickerModel(new[]
+                                                          {
+                                                              new Specialization {Id = 1, Name = "Developer"},
+                                                              new Specialization {Id = 4, Name = "Project Management"},
+                                                              new Specialization {Id = 3, Name = "Senior Developer"},
+                                                          }, _viewModel.Consultant.Specializations, this);
+            _specPicker.Model = specModel;
+            _specPicker.Select(0, 0, false);
+            SpecializationCell.Add(_specPicker);
+
+            TitleField.ShouldReturn += field =>
+                                       {
+                                           field.ResignFirstResponder();
+                                           return true;
+                                       };
 
 	        SetupNavigationHeader();
 
@@ -50,10 +72,10 @@ namespace ClientApp.iOS
 
 	    private void SetupApproverEmail()
 	    {
-	        ApproverEmailField.ValueChanged += (sender, args) => { _viewModel.ApproverEmail = ApproverEmailField.Text; };
+	        ApproverEmailField.ValueChanged += (sender, args) => { _viewModel.ApproverEmail = ApproverEmailField.Text.Trim(); };
 	        ApproverEmailField.ShouldReturn += field =>
 	                                           {
-	                                               _viewModel.ApproverEmail = field.Text;
+	                                               _viewModel.ApproverEmail = field.Text.Trim();
 	                                               if (string.IsNullOrEmpty(field.Text) || _viewModel.ValidateEmailAddress())
 	                                               {
 	                                                   ApproverEmailField.ResignFirstResponder();
@@ -69,7 +91,8 @@ namespace ClientApp.iOS
 	        cancelButton.Clicked += (sender, args) => { NavigationController.DismissModalViewController(true); };
 	        submitButton.Clicked += (sender, args) =>
 	                                {
-	                                    var result = _viewModel.Validate();
+	                                    _viewModel.ContractTitle = TitleField.Text.Trim();
+                                        var result = _viewModel.Validate();
 	                                    InvokeOnMainThread(delegate
 	                                                       {
 	                                                           if (result.IsValid)
@@ -166,7 +189,11 @@ namespace ClientApp.iOS
         #region Table Delegates
 	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 	    {
-	        if (indexPath.Section == 2 && indexPath.Row == 1)
+            if (indexPath.Section == 0 && indexPath.Row == 2)
+            {
+                return SpecializationCell.Frame.Height;
+            } 
+            if (indexPath.Section == 2 && indexPath.Row == 1)
 	        {
 	            return StartDateCell.Frame.Height;
 	        }
@@ -179,7 +206,19 @@ namespace ClientApp.iOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            if (indexPath.Section == 2)
+            //Contract Details Section
+            if (indexPath.Section == 0 && indexPath.Row == 1)
+            {
+                var shouldDisplayPicker = SpecializationCell.Frame.Height == 0;
+                NewContractTable.DeselectRow(indexPath, true);
+                NewContractTable.BeginUpdates();
+                SpecializationCell.Frame = new CGRect(0, 0, SpecializationCell.Frame.Width, shouldDisplayPicker ? 216 : 0);
+                _specPicker.Hidden = !shouldDisplayPicker;
+                NewContractTable.EndUpdates();
+
+            }
+            //Dates Section
+            else if (indexPath.Section == 2)
             {
                 if (indexPath.Row == 0)
                 {
@@ -227,5 +266,47 @@ namespace ClientApp.iOS
 	    }
 
 	    #endregion
+
+	    private class SpecializationPickerModel : UIPickerViewModel
+	    {
+	        private readonly IList<Tuple<Specialization, bool>> _specs;
+	        private NewContractViewController _controller;
+
+	        public SpecializationPickerModel(IList<Specialization> specs, IList<Specialization> consultantsSpecs, NewContractViewController controller)
+	        {
+	            _specs = new List<Tuple<Specialization, bool>>();
+                foreach (var spec in specs)
+	            {
+	                _specs.Add(new Tuple<Specialization, bool>(spec, consultantsSpecs.Any(s => s.Id == spec.Id)));
+	            }
+	            _specs = _specs.OrderByDescending(t => t.Item2).ThenBy(t => t.Item1.Name).ToList();
+                _specs.Insert(0, new Tuple<Specialization, bool>(new Specialization{Name = ""}, false));
+	            _controller = controller;
+	        }
+
+	        public override nint GetComponentCount(UIPickerView pickerView)
+	        {
+	            return 1;
+	        }
+
+	        public override nint GetRowsInComponent(UIPickerView pickerView, nint component)
+	        {
+	            return _specs.Count;
+	        }
+
+	        public override NSAttributedString GetAttributedTitle(UIPickerView pickerView, nint row, nint component)
+	        {
+	            return _specs[(int) row].Item2
+	                ? new NSAttributedString(_specs[(int) row].Item1.Name,
+	                    new UIStringAttributes {ForegroundColor = UIColor.Black})
+	                : new NSAttributedString(_specs[(int) row].Item1.Name,
+	                    new UIStringAttributes {ForegroundColor = UIColor.DarkGray});
+	        }
+
+	        public override void Selected(UIPickerView pickerView, nint row, nint component)
+	        {
+                _controller.SetSpecialization(_specs[(int)row].Item1);
+	        }
+	    }
     }
 }

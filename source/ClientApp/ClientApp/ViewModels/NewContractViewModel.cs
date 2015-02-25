@@ -31,6 +31,7 @@ namespace ClientApp.ViewModels
         public DateTime EndDate { get; set; }
         public string ApproverEmail { get; set; }
         public string ContractTitle { get; set; }
+        public Specialization Specialization { get; set; }
 
         public bool ValidateEmailAddress()
         {
@@ -47,6 +48,10 @@ namespace ClientApp.ViewModels
 
         public ValidationResult Validate()
         {
+            if (Specialization == null || string.IsNullOrEmpty(Specialization.Name))
+            {
+                return new ValidationResult(false, "The contract requires a Specialization");
+            }
             if (string.IsNullOrEmpty(ContractTitle))
             {
                 return new ValidationResult(false, "The contract requires a Title");
