@@ -316,9 +316,6 @@
                                         </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="3754" firstAttribute="trailing" secondItem="3825" secondAttribute="trailing" constant="6" id="3978"/>
-                                        <constraint firstItem="3825" firstAttribute="top" secondItem="3754" secondAttribute="top" constant="14" id="3979"/>
-                                        <constraint firstItem="3754" firstAttribute="bottom" secondItem="3825" secondAttribute="bottom" constant="15" id="3980"/>
                                         <constraint firstItem="3988" firstAttribute="leading" secondItem="3815" secondAttribute="leading" constant="1" id="4031"/>
                                         <constraint firstItem="3988" firstAttribute="leading" secondItem="3815" secondAttribute="leading" constant="1" id="4046"/>
                                         <constraint firstItem="3815" firstAttribute="trailing" secondItem="3988" secondAttribute="trailing" constant="0.0" id="5165"/>
@@ -335,6 +332,8 @@
                                         <constraint firstItem="5990" firstAttribute="width" secondItem="5993" secondAttribute="width" id="6134"/>
                                         <constraint firstItem="3988" firstAttribute="centerY" secondItem="3754" secondAttribute="centerY" constant="8" id="6145"/>
                                         <constraint firstItem="3754" firstAttribute="centerY" secondItem="3815" secondAttribute="centerY" constant="8" id="6146"/>
+                                        <constraint firstItem="3754" firstAttribute="centerY" secondItem="3825" secondAttribute="centerY" constant="0.0" id="6213"/>
+                                        <constraint firstItem="3754" firstAttribute="trailing" secondItem="3825" secondAttribute="trailing" constant="0.0" id="6235"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -463,7 +462,7 @@
                                                     <rect key="frame" x="200" y="11" width="100" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1"/>
                                                     <nil key="highlightedColor"/>
                                                     <constraints>
                                                         <constraint id="4364" firstAttribute="height" constant="21"/>

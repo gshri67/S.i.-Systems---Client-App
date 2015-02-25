@@ -26,9 +26,9 @@ namespace ClientApp.iOS
             contractDates.Text = dates;
             lastContractRate.Text = rate;
             var ratingImages = new RatingImage(rating);
-            RightStar.Image = ratingImages.GetRightStarImage();
-            MiddleStar.Image = ratingImages.GetMiddleStarImage();
-            LeftStar.Image = ratingImages.GetLeftStarImage();
+            RightStar.Image = ratingImages.GetFirstStar();
+            MiddleStar.Image = ratingImages.GetSecondStar();
+            LeftStar.Image = ratingImages.GetThirdStar();
         }
 	}
 }

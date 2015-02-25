@@ -55,7 +55,7 @@ namespace ClientApp.iOS
 	        TitleLabel.Text =
 	            consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
 
-	        SetRatingImages(consultant);
+	        SetRatingImagesOrText(consultant);
 
 	        ContractsLabel.Text = consultant.Contracts.Count.ToString();
 	        AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
@@ -79,12 +79,17 @@ namespace ClientApp.iOS
 	        }
 	    }
 
-	    private void SetRatingImages(Consultant consultant)
+	    private void SetRatingImagesOrText(Consultant consultant)
 	    {
-	        var ratingImageFetcher = new RatingImage(consultant.Rating);
-	        RightStar.Image = ratingImageFetcher.GetRightStarImage();
-	        MiddleStar.Image = ratingImageFetcher.GetMiddleStarImage();
-	        LeftStar.Image = ratingImageFetcher.GetLeftStarImage();
+	        if (consultant.Rating == MatchGuideConstants.ResumeRating.NotChecked ||
+	            consultant.Rating == MatchGuideConstants.ResumeRating.AlsoNotChecked)
+	            RatingLabel.Text = consultant.Rating.ToString();
+            else { 
+	            var ratingImageFetcher = new RatingImage(consultant.Rating);
+                LeftStar.Image = ratingImageFetcher.GetFirstStar();
+                MiddleStar.Image = ratingImageFetcher.GetSecondStar();
+                RightStar.Image = ratingImageFetcher.GetThirdStar();
+            }
 	    }
 
 	    partial void NewContractButton_TouchUpInside(UIButton sender)
