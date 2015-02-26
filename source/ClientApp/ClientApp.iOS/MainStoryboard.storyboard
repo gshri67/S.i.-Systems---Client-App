@@ -1368,7 +1368,7 @@
         </scene>
         <scene sceneID="6242">
             <objects>
-                <viewController id="6243" sceneMemberID="viewController" customClass="ContactAlumniViewController" title="Contact Alumni">
+                <viewController id="6243" sceneMemberID="viewController" customClass="ContactAlumniViewController" title="Contact Alumni" automaticallyAdjustsScrollViewInsets="NO">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6240"/>
                         <viewControllerLayoutGuide type="bottom" id="6241"/>
@@ -1378,7 +1378,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="6320" translatesAutoresizingMaskIntoConstraints="NO" text="" misplaced="YES">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="6320" translatesAutoresizingMaskIntoConstraints="NO" text="" misplaced="YES" textAlignment="left">
                                 <rect key="frame" x="20" y="87" width="280" height="461"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

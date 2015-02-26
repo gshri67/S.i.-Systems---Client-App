@@ -12,10 +12,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\AlumniService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ConnectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ContractService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\EmailService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\EulaService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IAlumniService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IConnectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IContractService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IEmailService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ILogoutService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LoginService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IEulaService.cs" />

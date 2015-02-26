@@ -12,6 +12,7 @@ namespace ClientApp.iOS
 	partial class ContactAlumniViewController : UIViewController
 	{
 	    private MessageViewModel _viewModel;
+	    private LoadingOverlay _overlay;
         public Consultant Consultant { get; set; }
         
         public ContactAlumniViewController (IntPtr handle) : base (handle)
@@ -34,6 +35,8 @@ namespace ClientApp.iOS
                                 InvokeOnMainThread(() =>
                                     {
                                         _viewModel.Message = new ConsultantMessage() { ConsultantId = Consultant.Id, Text = EmailTextField.Text };
+                                        _overlay = new LoadingOverlay(UIScreen.MainScreen.Bounds);
+                                        View.Add(_overlay);
                                         Task.Factory.StartNew(() => SendMessage());
                                     });
                             }
@@ -45,18 +48,25 @@ namespace ClientApp.iOS
 
 	    private async Task SendMessage()
 	    {
-            //TODO display sending message indicator
 	        var result = await _viewModel.SendMessage();
 	        if (result)
 	        {
-	            //TODO hide indicator
-                NavigationController.PopViewController(true);
+	            InvokeOnMainThread(() =>
+	                               {
+	                                   _overlay.Hide();
+	                                   NavigationController.PopViewController(true);
+	                               });
 	        }
 	        else
 	        {
-                //TODO hide indicator
-	            var view = new UIAlertView("Error", "An error has occurred while attempting to send the email. Please try again.", null, "Ok");
-                view.Show();
+	            InvokeOnMainThread(() =>
+	                               {
+	                                   _overlay.Hide();
+	                                   var view = new UIAlertView("Error",
+	                                       "An error has occurred while attempting to send the email. Please try again.",
+	                                       null, "Ok");
+	                                   view.Show();
+	                               });
 	        }
 	    }
 	}
