@@ -33,7 +33,7 @@ namespace ClientApp.iOS
 
 	    public override async void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-	        if (indexPath.Section == 5 && indexPath.Row == 0)
+	        if (indexPath.Section == 4 && indexPath.Row == 0)
             {
 	            ViewModel.SubmitContract();
 	        }

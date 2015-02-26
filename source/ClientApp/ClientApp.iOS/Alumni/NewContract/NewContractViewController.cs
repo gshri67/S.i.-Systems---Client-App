@@ -88,7 +88,7 @@ namespace ClientApp.iOS
 
 	    private void SetupApproverEmail()
 	    {
-	        ApproverEmailField.ValueChanged += (sender, args) => { _viewModel.ApproverEmail = ApproverEmailField.Text.Trim(); };
+	        ApproverEmailField.EditingDidEnd += (sender, args) => { _viewModel.ApproverEmail = ApproverEmailField.Text.Trim(); };
 	        ApproverEmailField.ShouldReturn += field =>
 	                                           {
 	                                               _viewModel.ApproverEmail = field.Text.Trim();
@@ -108,6 +108,7 @@ namespace ClientApp.iOS
 	        submitButton.Clicked += (sender, args) =>
 	                                {
 	                                    _viewModel.ContractTitle = TitleField.Text.Trim();
+	                                    _viewModel.ApproverEmail = ApproverEmailField.Text.Trim();
                                         var result = _viewModel.Validate();
 	                                    InvokeOnMainThread(delegate
 	                                                       {
