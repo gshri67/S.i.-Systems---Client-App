@@ -119,7 +119,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
 
         private static string FormatAsHtml(string content)
         {
-            return (content ?? string.Empty)
+            // Using an empty span tag instead of an empty string
+            // So that SendGrid will consider the email to be HTML
+            return (content ?? "<span></span>")
                 .Replace("\n", "<br/>")
                 .Replace("\r\n", "<br/>");
         }
