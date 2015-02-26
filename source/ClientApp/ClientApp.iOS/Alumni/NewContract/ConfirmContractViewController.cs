@@ -8,6 +8,9 @@ namespace ClientApp.iOS
 	partial class ConfirmContractViewController : UITableViewController
 	{
         public NewContractViewModel ViewModel { set; private get; }
+
+	    private ContractSubmissionDelegate submissionDelegate;
+
         public ConfirmContractViewController (IntPtr handle) : base (handle)
         {
         }
@@ -35,7 +38,18 @@ namespace ClientApp.iOS
         {
 	        if (indexPath.Section == 4 && indexPath.Row == 0)
             {
-	            ViewModel.SubmitContract();
+                submissionDelegate = new ContractSubmissionDelegate(this);
+                try
+                {
+                    await ViewModel.SubmitContract();
+                    var view = new UIAlertView("Success", "Your contract proposal has been sent.", submissionDelegate, "Ok");
+                    view.Show();
+                }
+                catch (Exception ex)
+                {
+                    var view = new UIAlertView("Error", "Something went wrong.", submissionDelegate, "Ok");
+                    view.Show();
+                }
 	        }
         }
 
@@ -43,5 +57,27 @@ namespace ClientApp.iOS
         {
             return string.Format("${0,6:N2}/hr", rate);
         }
+
+	    class ContractSubmissionDelegate : UIAlertViewDelegate
+	    {
+	        private readonly UIViewController _controller;
+
+            public ContractSubmissionDelegate(UIViewController controller)
+	        {
+	            this._controller = controller;
+	        }
+
+	        public override void Clicked(UIAlertView alertview, nint buttonIndex)
+	        {
+                if (alertview.Title == "Success")
+	            {
+	                _controller.DismissViewController(true, null);
+	            }
+	            else
+	            {
+	                _controller.NavigationController.PopViewController(true);
+	            }
+	        }
+	    }
 	}
 }
