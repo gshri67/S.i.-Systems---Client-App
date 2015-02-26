@@ -587,10 +587,10 @@
                         <outlet property="ResumeLabel" destination="4309" id="name-outlet-4309"/>
                         <outlet property="ResumeCell" destination="4265" id="name-outlet-4265"/>
                         <segue id="6006" destination="5851" kind="modal" identifier="NewContractSelected"/>
-                        <segue id="6007" destination="6243" kind="push" identifier="ContactSelected"/>
                         <outlet property="RightStar" destination="6281" id="name-outlet-6281"/>
                         <outlet property="MiddleStar" destination="6283" id="name-outlet-6283"/>
                         <outlet property="LeftStar" destination="6284" id="name-outlet-6284"/>
+                        <segue id="6478" destination="6344" kind="modal" identifier="ContactSelected"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3947" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1395,10 +1395,25 @@
                     <connections>
                         <outlet property="EmailTextField" destination="6320" id="name-outlet-6320"/>
                     </connections>
+                    <navigationItem title="Title" id="6430" key="navigationItem"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6245" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1901" y="713"/>
+        </scene>
+        <scene sceneID="6343">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="6344" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6347">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    </navigationBar>
+                    <connections>
+                        <segue id="6431" destination="6243" kind="relationship" relationship="rootViewController"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6348" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1492" y="711"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

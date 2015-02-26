@@ -123,7 +123,8 @@ namespace ClientApp.iOS
             }
             else if (segue.Identifier == "ContactSelected")
             {
-                var view = (ContactAlumniViewController) segue.DestinationViewController;
+                var navController = (UINavigationController)segue.DestinationViewController;
+                var view = (ContactAlumniViewController)navController.ViewControllers[0];
                 view.Consultant = _detailViewModel.GetConsultant();
             }
 	    }

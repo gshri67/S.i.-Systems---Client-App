@@ -1,10 +1,8 @@
-using Foundation;
 using System;
-using System.CodeDom.Compiler;
 using System.Threading.Tasks;
 using ClientApp.ViewModels;
-using SiSystems.ClientApp.SharedModels;
 using Microsoft.Practices.Unity;
+using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS
@@ -24,9 +22,17 @@ namespace ClientApp.iOS
 	    {
 	        base.ViewDidLoad();
 
-            var submitButton = new UIBarButtonItem { Title = "Submit", TintColor = StyleGuideConstants.RedUiColor};
+            var cancelButton = new UIBarButtonItem { Title = "Cancel" };
+            var submitButton = new UIBarButtonItem { Title = "Send", TintColor = StyleGuideConstants.RedUiColor};
+            cancelButton.Clicked += (sender, args) => { NavigationController.DismissModalViewController(true); };
             submitButton.Clicked += (sender, args) =>
                 {
+                    if (string.IsNullOrEmpty(EmailTextField.Text.Trim()))
+                    {
+                        var error = new UIAlertView("Error", "You must enter some text before sending the email.", null, "Ok");
+                        error.Show();
+                        return;
+                    }
                     var view = new UIAlertView("Confirm", "Are you sure you want to send this email?", null, "Cancel", "Ok");
                     view.Clicked += (o, eventArgs) =>
                         {
@@ -43,7 +49,9 @@ namespace ClientApp.iOS
                         };
                     view.Show();
                 };
+            NavigationItem.SetLeftBarButtonItem(cancelButton, false);
             NavigationItem.SetRightBarButtonItem(submitButton, false);
+	        EmailTextField.BecomeFirstResponder();
 	    }
 
 	    private async Task SendMessage()
@@ -54,7 +62,7 @@ namespace ClientApp.iOS
 	            InvokeOnMainThread(() =>
 	                               {
 	                                   _overlay.Hide();
-	                                   NavigationController.PopViewController(true);
+                                       NavigationController.DismissModalViewController(true);
 	                               });
 	        }
 	        else
