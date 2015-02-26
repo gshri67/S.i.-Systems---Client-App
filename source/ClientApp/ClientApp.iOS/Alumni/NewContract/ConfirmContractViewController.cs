@@ -1,25 +1,24 @@
 using System;
-using ClientApp.Services.Interfaces;
 using ClientApp.ViewModels;
-using Microsoft.Practices.Unity;
+using Foundation;
 using UIKit;
 
 namespace ClientApp.iOS
 {
 	partial class ConfirmContractViewController : UITableViewController
 	{
-	    private IContractService _contractService;
         public NewContractViewModel ViewModel { set; private get; }
         public ConfirmContractViewController (IntPtr handle) : base (handle)
         {
-            _contractService = DependencyResolver.Current.Resolve<IContractService>();
         }
 
 	    public override void ViewDidLoad()
 	    {
             base.ViewDidLoad();
 
-            SetupNavigationHeader();
+            var cancelButton = new UIBarButtonItem { Title = "Cancel", };
+            cancelButton.Clicked += (sender, args) => { NavigationController.PopViewController(true); };
+            NavigationItem.SetLeftBarButtonItem(cancelButton, false);
 
             NameLabel.Text = ViewModel.Consultant.FullName;
             SpecializationLabel.Text = ViewModel.Specialization.Name;
@@ -32,22 +31,17 @@ namespace ClientApp.iOS
             ApproverEmailLabel.Text = ViewModel.ApproverEmail;
 	    }
 
-        private void SetupNavigationHeader()
-        {
-            var cancelButton = new UIBarButtonItem { Title = "Cancel" };
-            var submitButton = new UIBarButtonItem { Title = "Submit", TintColor = StyleGuideConstants.RedUiColor };
-            cancelButton.Clicked += (sender, args) => { NavigationController.PopViewController(true); };
-            submitButton.Clicked += (sender, args) =>
-            {
-                //_contractService.Submit(object)
-            };
-            NavigationItem.SetLeftBarButtonItem(cancelButton, false);
-            NavigationItem.SetRightBarButtonItem(submitButton, false);
-        }
+	    public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+	    {
+	        if (indexPath.Section == 5 && indexPath.Row == 0)
+	        {
+	            ViewModel.SubmitContract();
+	        }
+	    }
 
-        private static string ToRateString(decimal rate)
+	    private static string ToRateString(decimal rate)
         {
-            return string.Format("$ {0:N2} / hr", rate);
+            return string.Format("${0,6:N2}/hr", rate);
         }
 	}
 }

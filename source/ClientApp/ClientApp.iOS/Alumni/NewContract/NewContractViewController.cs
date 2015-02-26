@@ -68,18 +68,22 @@ namespace ClientApp.iOS
 	        ServiceLabel.Text = ToRateString(NewContractViewModel.ServiceRate);
 	        TotalLabel.Text = ToRateString(_viewModel.TotalRate);
 
+            RateField.EditingDidEnd += (sender, args) => ValidateRateField();
             AddToolBarToKeyboard(RateField);
 
-            GetAllSpecializations();
+            Task.Factory.StartNew(() => GetAllSpecializations());
 	    }
 
 	    private async Task GetAllSpecializations()
 	    {
 	        var specs = await _viewModel.GetAllSpecializations();
             var specModel = new SpecializationPickerModel(specs, _viewModel.Consultant.Specializations, this);
-            _specPicker.Model = specModel;
-            _specPicker.Select(0, 0, false);
-            SpecializationCell.Add(_specPicker);
+            InvokeOnMainThread(() =>
+                               {
+                                   _specPicker.Model = specModel;
+                                   _specPicker.Select(0, 0, false);
+                                   SpecializationCell.Add(_specPicker);                       
+                               });
 	    }
 
 	    private void SetupApproverEmail()
@@ -274,7 +278,7 @@ namespace ClientApp.iOS
 
 	    private static string ToRateString(decimal rate)
 	    {
-	        return string.Format("$ {0:N2} / hr", rate);
+            return string.Format("${0,6:N2}/hr", rate);
 	    }
 
 	    #endregion

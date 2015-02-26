@@ -11,7 +11,7 @@ namespace ClientApp.ViewModels
 {
     public class NewContractViewModel : ViewModelBase
     {
-        private IContractService _contractService;
+        private readonly IContractService _contractService;
         private Consultant _consultant;
         public Consultant Consultant
         {
@@ -97,6 +97,12 @@ namespace ClientApp.ViewModels
         public Task<IList<Specialization>> GetAllSpecializations()
         {
             return _contractService.GetAllSpecializations();
+        }
+
+        public Task SubmitContract()
+        {
+            //_contractService.Submit()
+            return Task.FromResult(true);
         }
     }
 }
