@@ -11,7 +11,7 @@ namespace ClientApp.ViewModels
 {
     public class NewContractViewModel : ViewModelBase
     {
-        private IContractService _contractService;
+        private readonly IContractService _contractService;
         private Consultant _consultant;
         public Consultant Consultant
         {
@@ -97,6 +97,19 @@ namespace ClientApp.ViewModels
         public Task<IEnumerable<Specialization>> GetAllSpecializations()
         {
             return _contractService.GetAllSpecializations();
+        }
+
+        public async Task SubmitContract()
+        {
+            await _contractService.Submit(new ContractProposal
+            {
+                ConsultantId = this.Consultant.Id,
+                RateToConsultant = this.ContractorRate,
+                Fee = ServiceRate,
+                StartDate = this.StartDate,
+                EndDate = this.EndDate,
+                TimesheetApproverEmailAddress = this.ApproverEmail
+            });
         }
     }
 }

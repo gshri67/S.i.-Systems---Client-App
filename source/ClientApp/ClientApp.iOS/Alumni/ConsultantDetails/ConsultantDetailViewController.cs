@@ -54,8 +54,9 @@ namespace ClientApp.iOS
 	        Title = consultant.FullName;
 	        TitleLabel.Text =
 	            consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
-	        RatingLabel.Text = consultant.Rating.ToString();
-	        //ratingImage.Image = RatingImage.GetImageForRating(consultant.Rating);
+
+	        SetRatingImagesOrText(consultant);
+
 	        ContractsLabel.Text = consultant.Contracts.Count.ToString();
 	        AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
 
@@ -78,9 +79,27 @@ namespace ClientApp.iOS
 	        }
 	    }
 
+	    private void SetRatingImagesOrText(Consultant consultant)
+	    {
+	        if (consultant.Rating == MatchGuideConstants.ResumeRating.NotChecked ||
+	            consultant.Rating == MatchGuideConstants.ResumeRating.AlsoNotChecked)
+	            RatingLabel.Text = consultant.Rating.ToString();
+            else { 
+	            var ratingImageFetcher = new RatingImage(consultant.Rating);
+                LeftStar.Image = ratingImageFetcher.GetFirstStar();
+                MiddleStar.Image = ratingImageFetcher.GetSecondStar();
+                RightStar.Image = ratingImageFetcher.GetThirdStar();
+            }
+	    }
+
 	    partial void NewContractButton_TouchUpInside(UIButton sender)
 	    {
             PerformSegue("NewContractSelected", sender);
+	    }
+
+	    partial void ContactButton_TouchUpInside(UIButton sender)
+	    {
+	        PerformSegue("ContactSelected", sender);
 	    }
 
 	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -101,7 +120,12 @@ namespace ClientApp.iOS
 	            var navController = (UINavigationController) segue.DestinationViewController;
 	            var view = (NewContractViewController) navController.ViewControllers[0];
 	            view.Consultant = _detailViewModel.GetConsultant();
-	        }
+            }
+            else if (segue.Identifier == "ContactSelected")
+            {
+                var view = (ContactAlumniViewController) segue.DestinationViewController;
+                view.Consultant = _detailViewModel.GetConsultant();
+            }
 	    }
 
 	    #region Table Delegates
@@ -151,7 +175,7 @@ namespace ClientApp.iOS
                     Text = GetSkillsString(spec.Skills),
                     Frame = new CGRect(20, y, frame.Width - 40, skillFont.LineHeight),
                     Font = skillFont,
-                    TextColor = StyleGuideConstants.DarkGray,
+                    TextColor = StyleGuideConstants.DarkGrayUiColor,
                     Lines = 0,
                     LineBreakMode = UILineBreakMode.WordWrap
                 };
@@ -174,5 +198,5 @@ namespace ClientApp.iOS
 	        return string.Join("\n", lines);
 	    }
         #endregion
-    }
+	}
 }

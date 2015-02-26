@@ -30,6 +30,7 @@ namespace ClientApp.iOS
             container.RegisterType<IConnectionService, ConnectionService>();
             container.RegisterType<IAlumniService, AlumniService>();
             container.RegisterType<IContractService, ContractService>();
+            container.RegisterType<IEmailService, EmailService>();
         }
     }
 }

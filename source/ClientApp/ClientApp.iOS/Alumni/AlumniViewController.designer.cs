@@ -20,10 +20,6 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIActivityIndicatorView alumniActivityIndicator { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UISearchBar AlumniSearch { get; set; }
 
 		[Outlet]
@@ -39,10 +35,6 @@ namespace ClientApp.iOS
 			if (AdditionalActions != null) {
 				AdditionalActions.Dispose ();
 				AdditionalActions = null;
-			}
-			if (alumniActivityIndicator != null) {
-				alumniActivityIndicator.Dispose ();
-				alumniActivityIndicator = null;
 			}
 			if (AlumniSearch != null) {
 				AlumniSearch.Dispose ();

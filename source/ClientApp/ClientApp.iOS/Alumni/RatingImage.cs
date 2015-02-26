@@ -14,9 +14,13 @@ namespace ClientApp.iOS.Alumni
             _rating = resumeRating.GetValueOrDefault();
         }
 
-        public UIImage GetRightStarImage()
+        private bool IsUnchecked
         {
-            return GoldStar;
+            get
+            {
+                return _rating == MatchGuideConstants.ResumeRating.NotChecked ||
+                       _rating == MatchGuideConstants.ResumeRating.AlsoNotChecked;
+            }
         }
 
         private bool IsStandardOrAboveRating()
@@ -30,13 +34,22 @@ namespace ClientApp.iOS.Alumni
             return _rating == MatchGuideConstants.ResumeRating.AboveStandard;
         }
 
-        public UIImage GetMiddleStarImage()
+        public UIImage GetFirstStar()
         {
+            return IsUnchecked ? null : GoldStar;
+        }
+
+        public UIImage GetSecondStar()
+        {
+            if (IsUnchecked)
+                return null;
             return IsStandardOrAboveRating() ? GoldStar : BlankStar;
         }
 
-        public UIImage GetLeftStarImage()
+        public UIImage GetThirdStar()
         {
+            if (IsUnchecked)
+                return null;
             return IsAboveStandardRating() ? GoldStar : BlankStar;
         }
     }

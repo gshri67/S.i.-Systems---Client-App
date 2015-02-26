@@ -178,6 +178,10 @@
     <Compile Include="Alumni\NewContract\ConfirmContractViewController.designer.cs">
       <DependentUpon>ConfirmContractViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Alumni\ConsultantDetails\ContactAlumniViewController.cs" />
+    <Compile Include="Alumni\ConsultantDetails\ContactAlumniViewController.designer.cs">
+      <DependentUpon>ContactAlumniViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoadingOverlay.cs" />
     <Compile Include="Startup\EulaViewController.cs" />
     <Compile Include="Startup\EulaViewController.designer.cs">
