@@ -21,5 +21,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         {
             return await _specializationRepository.GetAllAsync();
         }
+
+        public async Task<Specialization> GetAsync(int id)
+        {
+            return await _specializationRepository.FindAsync(id);
+        }
     }
 }

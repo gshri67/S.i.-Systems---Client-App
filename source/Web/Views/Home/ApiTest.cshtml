@@ -79,6 +79,7 @@
             <li role="presentation" class="active"><a href="#search" role="tab" data-toggle="tab">Alumni Search</a></li>
             <li role="presentation"><a id="detailsTabButton" href="#details" role="tab" data-toggle="tab">Consultant Details</a></li>
             <li role="presentation"><a id="contactTabButton" href="#contact" role="tab" data-toggle="tab">Contact</a></li>
+            <li role="presentation"><a id="specializationTabButton" href="#specialization" role="tab" data-toggle="tab">Specializations</a></li>
         </ul>
 
         <div class="tab-content">
@@ -106,12 +107,23 @@
 
             <div id="contact" role="details" class="tab-pane">
                 <div>
-                    <input id="contactConsultantId" type="text" class="form-control space" placeholder="Enter a consultant ID (hint: find one in the search first)" />
+                    <input id="contactConsultantId" type="text" class="form-control space" placeholder="Enter a consultant ID (hint: find one in the search first)"/>
                     <textarea id="contactMessage" class="form-control space"></textarea>
                     <button id="sendMessageButton" class="btn btn-primary pull-right space">Send</button>
                     <div class="clearfix"></div>
                 </div>
                 <div id="contactResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="specialization" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="specializationId" type="text" class="form-control" placeholder="Enter a specialization ID (or leave this blank to get them all)"/>
+                    <div class="input-group-btn">
+                        <button id="getSpecializationsButton" type="button" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <div id="specializationResults" class="code json well">
                 </div>
             </div>
         </div>
@@ -254,6 +266,29 @@
 
 
                     }).fail(function (err) { showError(err, 'contactResults') });
+                },
+                getSpecializations: function() {
+                    $('#specializationResults').html('Sending...');
+                    var id = $('#specializationId').val();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/specializations/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#specializationResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'specializationResults') });
                 }
             };
 
@@ -265,6 +300,7 @@
             $('#searchButton').click(page.search);
             $('#getDetailsButton').click(page.getDetails);
             $('#sendMessageButton').click(page.sendContactMessage);
+            $('#getSpecializationsButton').click(page.getSpecializations);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {
