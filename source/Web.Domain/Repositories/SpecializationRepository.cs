@@ -19,7 +19,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                return await db.Connection.QueryAsync<Specialization>("SELECT SpecializationId Id, Name, Description FROM Specialization WHERE VerticalId = 4");
+                return await db.Connection.QueryAsync<Specialization>("SELECT SpecializationId Id, Name, Description FROM Specialization WHERE VerticalId = 4 and Inactive = 0");
             }
         }
 
