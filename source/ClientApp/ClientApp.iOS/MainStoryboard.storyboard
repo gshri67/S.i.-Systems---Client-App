@@ -325,7 +325,7 @@
                                         <constraint firstItem="5990" firstAttribute="width" secondItem="5993" secondAttribute="width" id="6134"/>
                                         <constraint firstItem="3988" firstAttribute="centerY" secondItem="3754" secondAttribute="centerY" constant="8" id="6145"/>
                                         <constraint firstItem="3754" firstAttribute="centerY" secondItem="3815" secondAttribute="centerY" constant="8" id="6146"/>
-                                        <constraint firstItem="3754" firstAttribute="centerY" secondItem="3825" secondAttribute="centerY" constant="0.0" id="6213"/>
+                                        <constraint firstItem="3754" firstAttribute="centerY" secondItem="3825" secondAttribute="centerY" constant="0.0" id="6216"/>
                                         <constraint firstItem="3754" firstAttribute="trailing" secondItem="3825" secondAttribute="trailing" constant="0.0" id="6235"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -461,18 +461,18 @@
                                                         <constraint id="4364" firstAttribute="height" constant="21"/>
                                                     </constraints>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="5725" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="293" y="15" width="14" height="14"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="6281" translatesAutoresizingMaskIntoConstraints="NO">
+                                                    <rect key="frame" x="284" y="13" width="26" height="15"/>
                                                     <constraints>
-                                                        <constraint id="6181" firstItem="5725" firstAttribute="width" constant="14" relation="greaterthanorequal"/>
-                                                        <constraint id="6182" firstItem="5725" firstAttribute="height" constant="14" relation="greaterthanorequal"/>
+                                                        <constraint id="6290" firstItem="6281" firstAttribute="height" constant="14" relation="greaterthanorequal"/>
+                                                        <constraint id="6293" firstItem="6281" firstAttribute="width" constant="14" relation="greaterthanorequal"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="6184" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="264" y="15" width="14" height="14"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="6283" translatesAutoresizingMaskIntoConstraints="NO">
+                                                    <rect key="frame" x="229" y="10" width="42" height="24"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="6189" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="242" y="15" width="14" height="14"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="6284" translatesAutoresizingMaskIntoConstraints="NO">
+                                                    <rect key="frame" x="204" y="15" width="17" height="14"/>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
@@ -482,17 +482,23 @@
                                                 <constraint id="4366" firstItem="4082" firstAttribute="trailing" secondItem="4301" secondAttribute="trailing" constant="20"/>
                                                 <constraint firstItem="4301" firstAttribute="leading" secondItem="4300" secondAttribute="trailing" constant="8" id="4381"/>
                                                 <constraint firstItem="4082" firstAttribute="bottom" secondItem="4301" secondAttribute="bottom" constant="11" id="4412"/>
-                                                <constraint firstItem="5725" firstAttribute="centerY" secondItem="4082" secondAttribute="centerY" constant="0.0" id="6180"/>
-                                                <constraint firstItem="4082" firstAttribute="trailing" secondItem="5725" secondAttribute="trailing" constant="13" id="6183"/>
                                                 <constraint firstItem="6184" firstAttribute="centerY" secondItem="4082" secondAttribute="centerY" constant="0.0" id="6185"/>
-                                                <constraint firstItem="6184" firstAttribute="width" secondItem="5725" secondAttribute="width" id="6186"/>
-                                                <constraint firstItem="6184" firstAttribute="height" secondItem="5725" secondAttribute="height" id="6187"/>
-                                                <constraint firstItem="5725" firstAttribute="leading" secondItem="6184" secondAttribute="trailing" constant="0.0" id="6188"/>
-                                                <constraint firstItem="6189" firstAttribute="centerY" secondItem="4082" secondAttribute="centerY" constant="0.0" id="6190"/>
-                                                <constraint firstItem="6189" firstAttribute="centerY" secondItem="4301" secondAttribute="centerY" constant="0.0" id="6191"/>
-                                                <constraint firstItem="6189" firstAttribute="width" secondItem="6184" secondAttribute="width" id="6192"/>
-                                                <constraint firstItem="6189" firstAttribute="height" secondItem="6184" secondAttribute="height" id="6193"/>
-                                                <constraint firstItem="6184" firstAttribute="leading" secondItem="6189" secondAttribute="trailing" constant="0.0" id="6194"/>
+                                                <constraint firstItem="6281" firstAttribute="centerY" secondItem="4082" secondAttribute="centerY" constant="0.0" id="6282"/>
+                                                <constraint firstItem="6283" firstAttribute="centerY" secondItem="4082" secondAttribute="centerY" constant="0.0" id="6285"/>
+                                                <constraint firstItem="6284" firstAttribute="centerY" secondItem="4082" secondAttribute="centerY" constant="0.0" id="6286"/>
+                                                <constraint firstItem="4301" firstAttribute="centerY" secondItem="6281" secondAttribute="centerY" constant="3" id="6287"/>
+                                                <constraint firstItem="4301" firstAttribute="centerY" secondItem="6281" secondAttribute="centerY" constant="3" id="6289"/>
+                                                <constraint firstItem="4301" firstAttribute="centerY" secondItem="6281" secondAttribute="centerY" constant="3" id="6291"/>
+                                                <constraint firstItem="4301" firstAttribute="centerY" secondItem="6281" secondAttribute="centerY" constant="3" id="6292"/>
+                                                <constraint firstItem="6283" firstAttribute="height" secondItem="6281" secondAttribute="height" id="6294"/>
+                                                <constraint firstItem="6283" firstAttribute="width" secondItem="6281" secondAttribute="width" id="6295"/>
+                                                <constraint firstItem="6284" firstAttribute="height" secondItem="6283" secondAttribute="height" id="6296"/>
+                                                <constraint firstItem="6284" firstAttribute="width" secondItem="6283" secondAttribute="width" id="6297"/>
+                                                <constraint firstItem="6281" firstAttribute="leading" secondItem="6283" secondAttribute="trailing" constant="0.0" id="6298"/>
+                                                <constraint firstItem="6284" firstAttribute="centerY" secondItem="4301" secondAttribute="centerY" constant="0.0" id="6299"/>
+                                                <constraint firstItem="6283" firstAttribute="leading" secondItem="6284" secondAttribute="trailing" constant="0.0" id="6300"/>
+                                                <constraint firstItem="6281" firstAttribute="trailing" secondItem="4301" secondAttribute="trailing" constant="0" id="6303"/>
+                                                <constraint firstItem="4301" firstAttribute="trailing" secondItem="6281" secondAttribute="trailing" constant="0.0" id="6317"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -578,10 +584,11 @@
                         <outlet property="NewContractButton" destination="5196" id="name-outlet-5196"/>
                         <outlet property="ResumeLabel" destination="4309" id="name-outlet-4309"/>
                         <outlet property="ResumeCell" destination="4265" id="name-outlet-4265"/>
-                        <outlet property="RightStar" destination="5725" id="name-outlet-5725"/>
                         <segue id="6006" destination="5851" kind="modal" identifier="NewContractSelected"/>
                         <outlet property="MiddleStar" destination="6184" id="name-outlet-6184"/>
-                        <outlet property="LeftStar" destination="6189" id="name-outlet-6189"/>
+                        <outlet property="RightStar" destination="6281" id="name-outlet-6281"/>
+                        <outlet property="MiddleStar" destination="6283" id="name-outlet-6283"/>
+                        <outlet property="LeftStar" destination="6284" id="name-outlet-6284"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3947" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1103,7 +1110,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Specialization" lineBreakMode="tailTruncation" minimumFontSize="10" id="6189" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Specialization" lineBreakMode="tailTruncation" minimumFontSize="10" id="6217" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
