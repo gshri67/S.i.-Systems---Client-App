@@ -60,8 +60,8 @@ namespace ClientApp.iOS
 	        SetupDatePicker(_endDatePicker, EndDateLabel, DateTime.Now.Date, false);
 
             //Load initial values
-            StartDateLabel.Text = DateTime.Now.Date.ToString("d");
-	        EndDateLabel.Text = DateTime.Now.Date.ToString("d");
+            StartDateLabel.Text = DateTime.Now.Date.ToString("MMM dd, yyyy");
+	        EndDateLabel.Text = DateTime.Now.Date.ToString("MMM dd, yyyy");
 
 	        NameLabel.Text = _viewModel.Consultant.FullName;
 	        RateField.Text = string.Format("{0:N2}", _viewModel.ContractorRate);
@@ -103,7 +103,7 @@ namespace ClientApp.iOS
 	    private void SetupNavigationHeader()
 	    {
 	        var cancelButton = new UIBarButtonItem {Title = "Cancel"};
-	        var submitButton = new UIBarButtonItem {Title = "Submit", TintColor = StyleGuideConstants.RedUiColor};
+	        var submitButton = new UIBarButtonItem {Title = "Next", TintColor = StyleGuideConstants.RedUiColor};
 	        cancelButton.Clicked += (sender, args) => { NavigationController.DismissModalViewController(true); };
 	        submitButton.Clicked += (sender, args) =>
 	                                {
@@ -130,7 +130,7 @@ namespace ClientApp.iOS
 
 	    private void SetupDatePicker(UIDatePicker picker, UILabel label, DateTime setDate, bool isStartDate)
 	    {
-            label.Text = setDate.ToString("D");
+            label.Text = setDate.ToString("MMM dd, yyyy");
             picker.SetDate(DateTimeToNSDate(setDate), false);
             picker.MinimumDate = DateTimeToNSDate(DateTime.Now.Date);
             picker.ValueChanged += (sender, args) =>
@@ -138,12 +138,12 @@ namespace ClientApp.iOS
                 if (isStartDate)
                 {
                     _viewModel.StartDate = NSDateToDateTime(picker.Date);
-                    label.Text = _viewModel.StartDate.ToString("d");
+                    label.Text = _viewModel.StartDate.ToString("MMM dd, yyyy");
                 }
                 else
                 {
                     _viewModel.EndDate = NSDateToDateTime(picker.Date);
-                    label.Text = _viewModel.EndDate.ToString("d");
+                    label.Text = _viewModel.EndDate.ToString("MMM dd, yyyy");
                 }
             };
 

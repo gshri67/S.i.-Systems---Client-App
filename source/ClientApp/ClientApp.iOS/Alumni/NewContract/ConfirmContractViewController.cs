@@ -29,8 +29,8 @@ namespace ClientApp.iOS
             ContractorRateLabel.Text = ToRateString(ViewModel.ContractorRate);
             ServicesRateLabel.Text = ToRateString(NewContractViewModel.ServiceRate);
             TotalRateLabel.Text = ToRateString(ViewModel.TotalRate);
-            StartDateLabel.Text = ViewModel.StartDate.ToString("d");
-            EndDateLabel.Text = ViewModel.EndDate.ToString("d");
+            StartDateLabel.Text = ViewModel.StartDate.ToString("MMM dd, yyyy");
+            EndDateLabel.Text = ViewModel.EndDate.ToString("MMM dd, yyyy");
             ApproverEmailLabel.Text = ViewModel.ApproverEmail;
 	    }
 

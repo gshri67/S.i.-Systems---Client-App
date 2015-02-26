@@ -1088,21 +1088,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Name" lineBreakMode="tailTruncation" minimumFontSize="10" id="6188" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Name" lineBreakMode="tailTruncation" minimumFontSize="10" id="6188" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6498" firstItem="6188" firstAttribute="width" constant="115"/>
+                                                        <constraint id="6499" firstItem="6188" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6197" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6197" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="135" y="11" width="165" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6503" firstItem="6197" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6188" firstAttribute="leading" secondItem="6162" secondAttribute="leading" constant="20" id="6494"/>
+                                                <constraint firstItem="6188" firstAttribute="top" secondItem="6162" secondAttribute="top" constant="11" id="6495"/>
+                                                <constraint id="6504" constant="20" firstItem="6162" firstAttribute="trailing" secondItem="6197" secondAttribute="trailing" relation="greaterthanorequal"/>
+                                                <constraint id="6505" constant="11" firstItem="6197" firstAttribute="top" secondItem="6162" secondAttribute="top"/>
+                                                <constraint firstItem="6197" firstAttribute="leading" secondItem="6188" secondAttribute="trailing" constant="0.0" id="6507"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6163">
@@ -1112,21 +1126,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Specialization" lineBreakMode="tailTruncation" minimumFontSize="10" id="6217" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Specialization" lineBreakMode="tailTruncation" minimumFontSize="10" id="6217" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6510" firstItem="6217" firstAttribute="height" constant="21"/>
+                                                        <constraint id="6511" firstItem="6217" firstAttribute="width" constant="115"/>
+                                                    </constraints>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6198" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6198" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="135" y="11" width="165" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6519" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6217" firstAttribute="top" secondItem="6164" secondAttribute="top" constant="11" id="6508"/>
+                                                <constraint firstItem="6217" firstAttribute="leading" secondItem="6164" secondAttribute="leading" constant="20" id="6509"/>
+                                                <constraint id="6516" constant="20" firstItem="6164" firstAttribute="trailing" secondItem="6198" secondAttribute="trailing" relation="greaterthanorequal"/>
+                                                <constraint id="6517" constant="11" firstItem="6198" firstAttribute="top" secondItem="6164" secondAttribute="top"/>
+                                                <constraint firstItem="6198" firstAttribute="leading" secondItem="6217" secondAttribute="trailing" constant="0.0" id="6520"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6165">
@@ -1136,21 +1164,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" minimumFontSize="10" id="6190" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" minimumFontSize="10" id="6190" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6523" firstItem="6190" firstAttribute="width" constant="115"/>
+                                                        <constraint id="6524" firstItem="6190" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6199" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6199" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="135" y="11" width="165" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6528" firstItem="6199" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6190" firstAttribute="top" secondItem="6166" secondAttribute="top" constant="11" id="6521"/>
+                                                <constraint firstItem="6190" firstAttribute="leading" secondItem="6166" secondAttribute="leading" constant="20" id="6522"/>
+                                                <constraint firstItem="6166" firstAttribute="trailing" secondItem="6199" secondAttribute="trailing" constant="20" id="6525" relation="greaterthanorequal"/>
+                                                <constraint firstItem="6199" firstAttribute="top" secondItem="6166" secondAttribute="top" constant="11" id="6526"/>
+                                                <constraint firstItem="6199" firstAttribute="leading" secondItem="6190" secondAttribute="trailing" constant="0.0" id="6527"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -1164,21 +1206,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="To Contractor" lineBreakMode="tailTruncation" minimumFontSize="10" id="6191" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="To Contractor" lineBreakMode="tailTruncation" minimumFontSize="10" id="6191" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6546" firstItem="6191" firstAttribute="width" constant="115"/>
+                                                        <constraint id="6547" firstItem="6191" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6200" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6200" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="135" y="11" width="165" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="17"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6550" firstItem="6200" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6191" firstAttribute="top" secondItem="6169" secondAttribute="top" constant="11" id="6544"/>
+                                                <constraint firstItem="6191" firstAttribute="leading" secondItem="6169" secondAttribute="leading" constant="20" id="6545"/>
+                                                <constraint firstItem="6200" firstAttribute="top" secondItem="6169" secondAttribute="top" constant="11" id="6548"/>
+                                                <constraint firstItem="6169" firstAttribute="trailing" secondItem="6200" secondAttribute="trailing" constant="20" id="6549" relation="greaterthanorequal"/>
+                                                <constraint firstItem="6200" firstAttribute="leading" secondItem="6191" secondAttribute="trailing" constant="0.0" id="6551"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6170">
@@ -1188,21 +1244,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Services" lineBreakMode="tailTruncation" minimumFontSize="10" id="6192" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Services" lineBreakMode="tailTruncation" minimumFontSize="10" id="6192" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6554" firstItem="6192" firstAttribute="width" constant="115"/>
+                                                        <constraint id="6555" firstItem="6192" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6201" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6201" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="135" y="11" width="165" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="17"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6558" firstItem="6201" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6192" firstAttribute="leading" secondItem="6171" secondAttribute="leading" constant="20" id="6552"/>
+                                                <constraint firstItem="6192" firstAttribute="top" secondItem="6171" secondAttribute="top" constant="11" id="6553"/>
+                                                <constraint firstItem="6171" firstAttribute="trailing" secondItem="6201" secondAttribute="trailing" constant="20" id="6556"/>
+                                                <constraint firstItem="6201" firstAttribute="top" secondItem="6171" secondAttribute="top" constant="11" id="6557"/>
+                                                <constraint firstItem="6201" firstAttribute="leading" secondItem="6192" secondAttribute="trailing" constant="0.0" id="6559"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6172">
@@ -1212,21 +1282,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Total" lineBreakMode="tailTruncation" minimumFontSize="10" id="6193" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Total" lineBreakMode="tailTruncation" minimumFontSize="10" id="6193" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6562" firstItem="6193" firstAttribute="width" constant="115"/>
+                                                        <constraint id="6563" firstItem="6193" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6202" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6202" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="135" y="11" width="165" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="17"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6566" firstItem="6202" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6193" firstAttribute="leading" secondItem="6173" secondAttribute="leading" constant="20" id="6560"/>
+                                                <constraint firstItem="6193" firstAttribute="top" secondItem="6173" secondAttribute="top" constant="11" id="6561"/>
+                                                <constraint firstItem="6202" firstAttribute="top" secondItem="6173" secondAttribute="top" constant="11" id="6564"/>
+                                                <constraint firstItem="6173" firstAttribute="trailing" secondItem="6202" secondAttribute="trailing" constant="20" id="6565"/>
+                                                <constraint firstItem="6202" firstAttribute="leading" secondItem="6193" secondAttribute="trailing" constant="0.0" id="6567"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -1240,21 +1324,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Start Date" lineBreakMode="tailTruncation" minimumFontSize="10" id="6194" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Start Date" lineBreakMode="tailTruncation" minimumFontSize="10" id="6194" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6570" firstItem="6194" firstAttribute="height" constant="21"/>
+                                                        <constraint id="6571" firstItem="6194" firstAttribute="width" constant="115"/>
+                                                    </constraints>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6203" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6203" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="135" y="11" width="165" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6573" firstItem="6203" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6194" firstAttribute="top" secondItem="6176" secondAttribute="top" constant="11" id="6568"/>
+                                                <constraint firstItem="6194" firstAttribute="leading" secondItem="6176" secondAttribute="leading" constant="20" id="6569"/>
+                                                <constraint firstItem="6176" firstAttribute="trailing" secondItem="6203" secondAttribute="trailing" constant="20" id="6572" relation="greaterthanorequal"/>
+                                                <constraint firstItem="6203" firstAttribute="top" secondItem="6176" secondAttribute="top" constant="11" id="6574"/>
+                                                <constraint firstItem="6203" firstAttribute="leading" secondItem="6194" secondAttribute="trailing" constant="0.0" id="6575"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6177">
@@ -1264,21 +1362,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="End Date" lineBreakMode="tailTruncation" minimumFontSize="10" id="6195" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="End Date" lineBreakMode="tailTruncation" minimumFontSize="10" id="6195" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6578" firstItem="6195" firstAttribute="width" constant="115"/>
+                                                        <constraint id="6579" firstItem="6195" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6204" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6204" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="135" y="11" width="165" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6582" firstItem="6204" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6195" firstAttribute="top" secondItem="6178" secondAttribute="top" constant="11" id="6576"/>
+                                                <constraint firstItem="6195" firstAttribute="leading" secondItem="6178" secondAttribute="leading" constant="20" id="6577"/>
+                                                <constraint firstItem="6178" firstAttribute="trailing" secondItem="6204" secondAttribute="trailing" constant="20" id="6580" relation="greaterthanorequal"/>
+                                                <constraint firstItem="6204" firstAttribute="top" secondItem="6178" secondAttribute="top" constant="11" id="6581"/>
+                                                <constraint firstItem="6204" firstAttribute="leading" secondItem="6195" secondAttribute="trailing" constant="0.0" id="6583"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -1292,21 +1404,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Approver" lineBreakMode="tailTruncation" minimumFontSize="10" id="6196" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Approver" lineBreakMode="tailTruncation" minimumFontSize="10" id="6196" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6584" firstItem="6196" firstAttribute="width" constant="115"/>
+                                                        <constraint id="6585" firstItem="6196" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6205" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6205" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="135" y="11" width="165" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6590" firstItem="6205" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6196" firstAttribute="top" secondItem="6183" secondAttribute="top" constant="11" id="6586"/>
+                                                <constraint firstItem="6196" firstAttribute="leading" secondItem="6183" secondAttribute="leading" constant="20" id="6587"/>
+                                                <constraint firstItem="6205" firstAttribute="top" secondItem="6183" secondAttribute="top" constant="11" id="6588"/>
+                                                <constraint firstItem="6183" firstAttribute="trailing" secondItem="6205" secondAttribute="trailing" constant="20" id="6589" relation="greaterthanorequal"/>
+                                                <constraint firstItem="6205" firstAttribute="leading" secondItem="6196" secondAttribute="trailing" constant="0.0" id="6591"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -1320,7 +1446,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Submit Contract" lineBreakMode="tailTruncation" minimumFontSize="10" id="6226" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Submit Contract" lineBreakMode="tailTruncation" minimumFontSize="10" id="6226" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
                                                     <rect key="frame" x="20" y="11" width="280" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1328,6 +1454,12 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6226" firstAttribute="leading" secondItem="6221" secondAttribute="leading" constant="20" id="6594"/>
+                                                <constraint firstItem="6221" firstAttribute="trailing" secondItem="6226" secondAttribute="trailing" constant="20" id="6595"/>
+                                                <constraint firstItem="6226" firstAttribute="top" secondItem="6221" secondAttribute="top" constant="11" id="6596"/>
+                                                <constraint firstItem="6221" firstAttribute="bottom" secondItem="6226" secondAttribute="bottom" constant="11" id="6597"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
