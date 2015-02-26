@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AlumniViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\EulaViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MessageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NewContractViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelBase.cs" />
   </ItemGroup>

@@ -16,9 +16,9 @@ namespace ClientApp.iOS
 	    {
             base.ViewDidLoad();
 
-            var cancelButton = new UIBarButtonItem { Title = "Cancel", };
-            cancelButton.Clicked += (sender, args) => { NavigationController.PopViewController(true); };
-            NavigationItem.SetLeftBarButtonItem(cancelButton, false);
+            var backButton = new UIBarButtonItem { Title = "Back", };
+            backButton.Clicked += (sender, args) => { NavigationController.PopViewController(true); };
+            NavigationItem.SetLeftBarButtonItem(backButton, false);
 
             NameLabel.Text = ViewModel.Consultant.FullName;
             SpecializationLabel.Text = ViewModel.Specialization.Name;

@@ -391,7 +391,9 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleColor" colorSpace="calibratedRGB" red="0.97254901960784312" green="0.22745098039215686" blue="0.24705882352941178" alpha="1"/>
                                                     </state>
-                                                    <connections/>
+                                                    <connections>
+                                                        <action selector="ContactButton_TouchUpInside:" destination="3941" id="6305" eventType="touchUpInside"/>
+                                                    </connections>
                                                     <constraints>
                                                         <constraint id="4401" firstAttribute="width" constant="71"/>
                                                         <constraint id="4402" firstAttribute="height" constant="34"/>
@@ -585,7 +587,7 @@
                         <outlet property="ResumeLabel" destination="4309" id="name-outlet-4309"/>
                         <outlet property="ResumeCell" destination="4265" id="name-outlet-4265"/>
                         <segue id="6006" destination="5851" kind="modal" identifier="NewContractSelected"/>
-                        <outlet property="MiddleStar" destination="6184" id="name-outlet-6184"/>
+                        <segue id="6007" destination="6243" kind="push" identifier="ContactSelected"/>
                         <outlet property="RightStar" destination="6281" id="name-outlet-6281"/>
                         <outlet property="MiddleStar" destination="6283" id="name-outlet-6283"/>
                         <outlet property="LeftStar" destination="6284" id="name-outlet-6284"/>
@@ -1363,6 +1365,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5855" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2856" y="21"/>
+        </scene>
+        <scene sceneID="6242">
+            <objects>
+                <viewController id="6243" sceneMemberID="viewController" customClass="ContactAlumniViewController" title="Contact Alumni">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6240"/>
+                        <viewControllerLayoutGuide type="bottom" id="6241"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6244">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="6320" translatesAutoresizingMaskIntoConstraints="NO" text="" misplaced="YES">
+                                <rect key="frame" x="20" y="87" width="280" height="461"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="6320" firstAttribute="top" secondItem="6240" secondAttribute="bottom" constant="23" id="6323"/>
+                            <constraint firstItem="6320" firstAttribute="leading" secondItem="6244" secondAttribute="leading" constant="20" id="6324"/>
+                            <constraint firstItem="6244" firstAttribute="trailing" secondItem="6320" secondAttribute="trailing" constant="20" id="6325"/>
+                            <constraint firstItem="6320" firstAttribute="bottom" secondItem="6241" secondAttribute="top" constant="1" id="6326"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="EmailTextField" destination="6320" id="name-outlet-6320"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6245" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1901" y="713"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
