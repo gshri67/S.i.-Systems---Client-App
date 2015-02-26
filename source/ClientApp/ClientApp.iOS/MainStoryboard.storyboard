@@ -64,7 +64,7 @@
                                     <action selector="resetPassword_TouchUpInside:" destination="vXZ-lx-hvc" id="279" eventType="touchUpInside"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="22" userInteractionEnabled="NO" hidden="YES" hidesWhenStopped="YES" fixedFrame="YES">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="22" userInteractionEnabled="NO" hidden="YES" hidesWhenStopped="YES" misplaced="YES">
                                 <rect key="frame" x="146" y="180" width="37" height="37"/>
                             </activityIndicatorView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="4934" translatesAutoresizingMaskIntoConstraints="NO" image="sisystems_logo.jpg">
@@ -92,6 +92,8 @@
                             <constraint firstItem="5" firstAttribute="leading" secondItem="9" secondAttribute="leading" constant="0.0" id="5154"/>
                             <constraint firstItem="17" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="5214"/>
                             <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="17" secondAttribute="trailing" constant="20" id="5463"/>
+                            <constraint firstItem="22" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" constant="0.0" id="6613"/>
+                            <constraint firstItem="22" firstAttribute="top" secondItem="17" secondAttribute="bottom" constant="8" id="6614"/>
                         </constraints>
                     </view>
                     <connections>
