@@ -24,7 +24,7 @@ CREATE TABLE [dbo].[Specialization](
 	--[Name_Old] [varchar](50) NULL,
 	--[DisplayLegacy] [bit] NOT NULL CONSTRAINT [DF_Specialization_displayLegacy_1]  DEFAULT (0),
 	[Inactive] [int] NOT NULL CONSTRAINT [DF_Specialization_Inactive]  DEFAULT (0),
-	--[verticalid] [int] NULL,
+	[verticalid] [int] NULL,
  CONSTRAINT [PK_Specialization] PRIMARY KEY CLUSTERED 
 (
 	[SpecializationID] ASC

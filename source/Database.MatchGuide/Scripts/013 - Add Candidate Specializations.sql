@@ -22,11 +22,12 @@ INSERT INTO [dbo].[Specialization]
 (
 	[SpecializationID],
 	[Name],
-	[Description]
+	[Description],
+	[VerticalId]
 )
 VALUES
-(4, 'Project Management', 'PM'),
-(5, 'Software Development', 'SD');
+(4, 'Project Management', 'PM', 4),
+(5, 'Software Development', 'SD', 4);
 
 SET IDENTITY_INSERT [dbo].[Specialization] OFF;
 
