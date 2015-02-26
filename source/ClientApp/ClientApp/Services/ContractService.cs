@@ -21,5 +21,10 @@ namespace ClientApp.Services
             var specializations = JsonConvert.DeserializeObject<IEnumerable<Specialization>>(json);
             return specializations;
         }
+
+        public async Task Submit(ContractProposal proposal)
+        {
+            await _connection.Post("ContractProposal", proposal);
+        }
     }
 }

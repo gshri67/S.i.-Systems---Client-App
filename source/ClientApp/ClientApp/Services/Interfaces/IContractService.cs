@@ -9,6 +9,7 @@ namespace ClientApp.Services.Interfaces
     public interface IContractService
     {
         Task<IEnumerable<Specialization>> GetAllSpecializations();
-        //private Task<ValidationResult> Submit(NewContractObject);
+
+        Task Submit(ContractProposal proposal);
     }
 }

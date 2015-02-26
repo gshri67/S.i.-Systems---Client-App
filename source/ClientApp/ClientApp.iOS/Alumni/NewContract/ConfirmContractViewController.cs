@@ -2,6 +2,7 @@ using System;
 using ClientApp.Services.Interfaces;
 using ClientApp.ViewModels;
 using Microsoft.Practices.Unity;
+using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS
@@ -39,7 +40,15 @@ namespace ClientApp.iOS
             cancelButton.Clicked += (sender, args) => { NavigationController.PopViewController(true); };
             submitButton.Clicked += (sender, args) =>
             {
-                //_contractService.Submit(object)
+                _contractService.Submit(new ContractProposal
+                {
+                    ConsultantId = ViewModel.Consultant.Id,
+                    RateToConsultant = ViewModel.ContractorRate,
+                    Fee = NewContractViewModel.ServiceRate,
+                    StartDate = ViewModel.StartDate,
+                    EndDate = ViewModel.EndDate,
+                    TimesheetApproverEmailAddress = ViewModel.ApproverEmail
+                });
             };
             NavigationItem.SetLeftBarButtonItem(cancelButton, false);
             NavigationItem.SetRightBarButtonItem(submitButton, false);
