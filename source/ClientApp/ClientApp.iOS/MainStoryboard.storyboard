@@ -1527,7 +1527,7 @@
                     <connections>
                         <outlet property="EmailTextField" destination="6320" id="name-outlet-6320"/>
                     </connections>
-                    <navigationItem title="Title" id="6430" key="navigationItem"/>
+                    <navigationItem title="Contact Alumni" id="6430" key="navigationItem"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6245" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
