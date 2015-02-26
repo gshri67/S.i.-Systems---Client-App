@@ -8,7 +8,6 @@ namespace ClientApp.iOS
     {
         // control declarations
         UIActivityIndicatorView activitySpinner;
-        UILabel loadingLabel;
 
         public LoadingOverlay(CGRect frame)
             : base(frame)

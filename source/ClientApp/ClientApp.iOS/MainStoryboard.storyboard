@@ -193,7 +193,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="3439" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
-                                <rect key="frame" x="0.0" y="131" width="322" height="257"/>
+                                <rect key="frame" x="0.0" y="0.0" width="322" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3442" imageView="3476" reuseIdentifier="ConsultantGroupCell" accessoryType="disclosureIndicator" customClass="CustomAlumniCell">
@@ -231,18 +231,12 @@
                                     <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                                 </searchBar>
                             </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5962" hidden="YES" hidesWhenStopped="YES" misplaced="YES">
-                                <rect key="frame" x="142" y="383" width="37" height="37"/>
-                            </activityIndicatorView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="3439" firstAttribute="leading" secondItem="1164" secondAttribute="leading" constant="0.0" id="3446"/>
                             <constraint firstItem="3439" firstAttribute="trailing" secondItem="1164" secondAttribute="trailing" constant="0.0" id="3447"/>
                             <constraint firstItem="1164" firstAttribute="bottom" secondItem="3439" secondAttribute="bottom" constant="0.0" id="3459"/>
                             <constraint firstItem="3439" firstAttribute="top" secondItem="1164" secondAttribute="top" constant="0.0" id="5234"/>
-                            <constraint firstItem="5962" firstAttribute="centerX" secondItem="1164" secondAttribute="centerX" constant="0.0" id="5965"/>
-                            <constraint firstItem="5962" firstAttribute="centerX" secondItem="1164" secondAttribute="centerX" constant="0.0" id="5966"/>
-                            <constraint firstItem="5962" firstAttribute="centerY" secondItem="1164" secondAttribute="centerY" constant="0.0" id="5967"/>
                         </constraints>
                     </view>
                     <navigationItem title="Alumni" id="1719" key="navigationItem">
@@ -259,7 +253,6 @@
                         <outlet property="AdditionalActions" destination="4058" id="name-outlet-4058"/>
                         <segue id="5016" destination="vXZ-lx-hvc" kind="modal" identifier="logoutSegue" modalTransitionStyle="crossDissolve"/>
                         <outlet property="AlumniSearch" destination="3377" id="name-outlet-3377"/>
-                        <outlet property="alumniActivityIndicator" destination="5962" id="name-outlet-5962"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>

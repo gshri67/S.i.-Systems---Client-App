@@ -16,7 +16,7 @@ namespace ClientApp.iOS
 	public partial class AlumniViewController : UIViewController
 	{
 	    private readonly AlumniViewModel _alumniModel;
-	    private bool _isLoading = false;
+        private LoadingOverlay _overlay;
         private const string DisciplineSegueIdentifier = "DisciplineSelected";
         private const string LogoutSegueIdentifier = "logoutSegue";
 	    private const int SearchTimerInterval = 1000;
@@ -68,15 +68,17 @@ namespace ClientApp.iOS
 	    {
             InvokeOnMainThread(delegate
             {
-                StartSpinner();
-                ClearSpecializationTable();
-            });
-	    }
+                if (_overlay != null) return;
 
-	    private void ClearSpecializationTable()
-	    {
-            SpecializationTable.Source = null;
-            SpecializationTable.ReloadData();
+                var offsetForSearchbar = AlumniSearch.Frame.Height + (float)Math.Abs(SpecializationTable.ContentOffset.Y);
+
+                var frame = new CGRect(SpecializationTable.Frame.X,
+                    SpecializationTable.Frame.Y + offsetForSearchbar,
+                    SpecializationTable.Frame.Width,
+                    SpecializationTable.Frame.Height - offsetForSearchbar);
+                _overlay = new LoadingOverlay(frame);
+                View.Add(_overlay);
+            });
 	    }
 
 	    private void DisplaySearchCancelButton()
@@ -103,7 +105,8 @@ namespace ClientApp.iOS
         {
             base.ViewDidLoad();
 
-            StartSpinner();
+            _overlay = new LoadingOverlay(SpecializationTable.Frame);
+            View.Add(_overlay);
             
             //set the source for our table's data
             LoadConsultantGroups();
@@ -148,17 +151,15 @@ namespace ClientApp.iOS
                                    SetSearchbarVisibility();
                                });
 
-            StopSpinner();
+            RemoveOverlay();
 	    }
 
-	    private void StartSpinner()
+	    private void RemoveOverlay()
 	    {
-            alumniActivityIndicator.StartAnimating();
-	    }
+	        if (_overlay == null) return;
 
-	    private void StopSpinner()
-	    {
-            alumniActivityIndicator.StopAnimating();
+	        InvokeOnMainThread(_overlay.Hide);
+	        _overlay = null;
 	    }
 
 	    private void SetSearchbarVisibility()
