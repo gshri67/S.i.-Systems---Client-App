@@ -94,7 +94,7 @@ namespace ClientApp.ViewModels
             return date >= DateTime.Now.Date;
         }
 
-        public Task<IList<Specialization>> GetAllSpecializations()
+        public Task<IEnumerable<Specialization>> GetAllSpecializations()
         {
             return _contractService.GetAllSpecializations();
         }

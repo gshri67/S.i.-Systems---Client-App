@@ -284,7 +284,7 @@ namespace ClientApp.iOS
 	        private readonly IList<Tuple<Specialization, bool>> _specs;
 	        private NewContractViewController _controller;
 
-	        public SpecializationPickerModel(IList<Specialization> specs, IEnumerable<Specialization> consultantsSpecs, NewContractViewController controller)
+	        public SpecializationPickerModel(IEnumerable<Specialization> specs, IEnumerable<Specialization> consultantsSpecs, NewContractViewController controller)
 	        {
 	            _specs = new List<Tuple<Specialization, bool>>();
                 foreach (var spec in specs)
