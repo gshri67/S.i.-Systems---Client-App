@@ -108,7 +108,8 @@ namespace ClientApp.ViewModels
                 Fee = ServiceRate,
                 StartDate = this.StartDate,
                 EndDate = this.EndDate,
-                TimesheetApproverEmailAddress = this.ApproverEmail
+                TimesheetApproverEmailAddress = this.ApproverEmail,
+                Specialization = this.Specialization
             });
         }
     }
