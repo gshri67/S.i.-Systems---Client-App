@@ -190,9 +190,9 @@ namespace ClientApp.iOS
         private void DisableControls()
         {
             username.Enabled = false;
-            username.BackgroundColor = UIColor.LightGray;
+            username.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
             password.Enabled = false;
-            password.BackgroundColor = UIColor.LightGray;
+            password.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
             login.Enabled = false;
             loginActivityIndicator.StartAnimating();
         }
