@@ -109,6 +109,7 @@ namespace ClientApp.iOS
 	                                {
 	                                    _viewModel.ContractTitle = TitleField.Text.Trim();
 	                                    _viewModel.ApproverEmail = ApproverEmailField.Text.Trim();
+	                                    ValidateRateField();
                                         var result = _viewModel.Validate();
 	                                    InvokeOnMainThread(delegate
 	                                                       {
