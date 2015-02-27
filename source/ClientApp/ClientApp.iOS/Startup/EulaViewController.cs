@@ -35,7 +35,14 @@ namespace ClientApp.iOS
         {
             EulaModel.AcceptEula( UserName, _eula.Version);
             var storageString = EulaModel.GetUpdatedStorageString();
-            NSUserDefaults.StandardUserDefaults.SetString(storageString, "eulaVersions");
+            try
+            {
+                NSUserDefaults.StandardUserDefaults.SetString(storageString, "eulaVersions");
+            }
+            catch (Exception)
+            {
+                //Continue if the save fails.  They will just see the Eula again next login
+            }
 
             PerformSegue("alumniSegue", sender);
         }
