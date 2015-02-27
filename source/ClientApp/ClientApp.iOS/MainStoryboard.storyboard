@@ -230,7 +230,7 @@
                                 </prototypes>
                                 <searchBar contentMode="redraw" id="3377" placeholder="Search Names and Resume" key="tableHeaderView">
                                     <rect key="frame" x="0.0" y="0.0" width="322" height="44"/>
-                                    <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
+                                    <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 </searchBar>
                             </tableView>
                         </subviews>

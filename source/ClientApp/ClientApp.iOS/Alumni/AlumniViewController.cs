@@ -36,11 +36,14 @@ namespace ClientApp.iOS
         {
             var timer = CreateTimer();
 
+            ConfigureSearchKeyboard();
+
             AlumniSearch.TextChanged += delegate
             {
                 IndicateSearchToUser();
 
                 //note that this resets the timer's countdown
+                timer.Stop();
                 timer.Start();
             };
             AlumniSearch.SearchButtonClicked += delegate
@@ -53,7 +56,6 @@ namespace ClientApp.iOS
                 AlumniSearch.ResignFirstResponder();
                 InvokeOnMainThread(LoadConsultantGroups);
             };
-            //show and hide the cancel search button
             AlumniSearch.OnEditingStarted += delegate
             {
                 AlumniSearch.SetShowsCancelButton(true, true);
@@ -63,6 +65,12 @@ namespace ClientApp.iOS
                 DisplaySearchCancelButton();
             };
         }
+
+	    private void ConfigureSearchKeyboard()
+	    {
+	        AlumniSearch.ReturnKeyType = UIReturnKeyType.Done;
+	        AlumniSearch.EnablesReturnKeyAutomatically = false;
+	    }
 
 	    private void IndicateSearchToUser()
 	    {
@@ -169,6 +177,7 @@ namespace ClientApp.iOS
 	        DisplaySearchCancelButton();
 	        SpecializationTable.SetContentOffset(
 	            new CGPoint(0, AlumniSearch.Frame.Height + SpecializationTable.ContentOffset.Y), true);
+	        AlumniSearch.ResignFirstResponder();
 	    }
 
 	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
