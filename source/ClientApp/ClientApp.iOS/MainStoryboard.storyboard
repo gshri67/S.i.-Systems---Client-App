@@ -255,6 +255,7 @@
                         <outlet property="AdditionalActions" destination="4058" id="name-outlet-4058"/>
                         <segue id="5016" destination="vXZ-lx-hvc" kind="modal" identifier="logoutSegue" modalTransitionStyle="crossDissolve"/>
                         <outlet property="AlumniSearch" destination="3377" id="name-outlet-3377"/>
+                        <outlet property="AlumniView" destination="1164" id="name-outlet-1164"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>

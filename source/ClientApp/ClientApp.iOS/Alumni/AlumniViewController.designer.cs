@@ -24,6 +24,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIView AlumniView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableView SpecializationTable { get; set; }
 
 		[Action ("AdditionalActions_Activated:")]
@@ -39,6 +43,10 @@ namespace ClientApp.iOS
 			if (AlumniSearch != null) {
 				AlumniSearch.Dispose ();
 				AlumniSearch = null;
+			}
+			if (AlumniView != null) {
+				AlumniView.Dispose ();
+				AlumniView = null;
 			}
 			if (SpecializationTable != null) {
 				SpecializationTable.Dispose ();

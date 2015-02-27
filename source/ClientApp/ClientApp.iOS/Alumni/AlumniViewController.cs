@@ -40,7 +40,7 @@ namespace ClientApp.iOS
 
             AlumniSearch.TextChanged += delegate
             {
-                IndicateSearchToUser();
+                IndicateLoading();
 
                 //note that this resets the timer's countdown
                 timer.Stop();
@@ -72,7 +72,7 @@ namespace ClientApp.iOS
 	        AlumniSearch.EnablesReturnKeyAutomatically = false;
 	    }
 
-	    private void IndicateSearchToUser()
+	    private void IndicateLoading()
 	    {
             InvokeOnMainThread(delegate
             {
@@ -80,10 +80,10 @@ namespace ClientApp.iOS
 
                 var offsetForSearchbar = AlumniSearch.Frame.Height + (float)Math.Abs(SpecializationTable.ContentOffset.Y);
 
-                var frame = new CGRect(SpecializationTable.Frame.X,
-                    SpecializationTable.Frame.Y + offsetForSearchbar,
-                    SpecializationTable.Frame.Width,
-                    SpecializationTable.Frame.Height - offsetForSearchbar);
+                var frame = new CGRect(AlumniView.Frame.X,
+                    AlumniView.Frame.Y + offsetForSearchbar,
+                    AlumniView.Frame.Width,
+                    AlumniView.Frame.Height - offsetForSearchbar);
                 _overlay = new LoadingOverlay(frame);
                 View.Add(_overlay);
             });
@@ -113,8 +113,7 @@ namespace ClientApp.iOS
         {
             base.ViewDidLoad();
 
-            _overlay = new LoadingOverlay(SpecializationTable.Frame);
-            View.Add(_overlay);
+            IndicateLoading();
             
             //set the source for our table's data
             LoadConsultantGroups();
