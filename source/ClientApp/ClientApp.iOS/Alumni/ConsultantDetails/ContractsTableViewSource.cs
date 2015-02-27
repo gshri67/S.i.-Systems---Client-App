@@ -26,7 +26,8 @@ namespace ClientApp.iOS.Alumni.ConsultantDetails
                        new CustomContractCell(CellIdentifier);
 
             var contract = _contracts[indexPath.Row];
-            var contractDate = string.Format("{0:d} - {1:d}", contract.StartDate, contract.EndDate);
+            var contractDate = string.Format("{0:MMM dd, yyyy} {2} {1:MMM dd, yyyy}", contract.StartDate, contract.EndDate,
+                StyleGuideConstants.DateSeperator);
 
             var rate = string.Format("{0:C}/h", contract.Rate);
 
