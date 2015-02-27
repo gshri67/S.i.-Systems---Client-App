@@ -32,7 +32,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="8" translatesAutoresizingMaskIntoConstraints="NO" adjustsFontSizeToFitWidth="NO" misplaced="YES" placeholder="Email">
                                 <rect key="frame" x="32" y="225" width="255" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="next" keyboardType="emailAddress"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="next" keyboardType="emailAddress" autocorrectionType="no" spellCheckingType="no"/>
                                 <color key="tintColor" colorSpace="calibratedRGB" red="0.50196078431372548" green="0.50196078431372548" blue="0" alpha="1"/>
                                 <constraints>
                                     <constraint id="5104" firstItem="8" firstAttribute="height" constant="50"/>
@@ -41,7 +41,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="9" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" placeholder="Password">
                                 <rect key="frame" x="34" y="326" width="255" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES" returnKeyType="done"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" returnKeyType="done" autocorrectionType="no" spellCheckingType="no"/>
                                 <constraints>
                                     <constraint id="5133" firstItem="9" firstAttribute="height" constant="50"/>
                                 </constraints>
@@ -1025,7 +1025,7 @@
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" minimumFontSize="17" id="5580" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Email address">
                                                     <rect key="frame" x="135" y="10" width="165" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="done"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="done" autocorrectionType="no" spellCheckingType="no"/>
                                                     <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                 </textField>
                                             </subviews>
