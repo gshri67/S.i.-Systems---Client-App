@@ -9,7 +9,8 @@ namespace ClientApp.iOS
 	{
         public NewContractViewModel ViewModel { set; private get; }
 
-	    private ContractSubmissionDelegate submissionDelegate;
+	    private ContractSubmissionDelegate _submissionDelegate;
+	    private LoadingOverlay _overlay;
 
         public ConfirmContractViewController (IntPtr handle) : base (handle)
         {
@@ -38,16 +39,20 @@ namespace ClientApp.iOS
         {
 	        if (indexPath.Section == 4 && indexPath.Row == 0)
             {
-                submissionDelegate = new ContractSubmissionDelegate(this);
+                _submissionDelegate = new ContractSubmissionDelegate(this);
                 try
                 {
+                    _overlay = new LoadingOverlay(UIScreen.MainScreen.ApplicationFrame);
+                    ParentViewController.View.Add(_overlay);
                     await ViewModel.SubmitContract();
-                    var view = new UIAlertView("Success", "Your contract proposal has been sent.", submissionDelegate, "Ok");
+                    _overlay.Hide();
+                    var view = new UIAlertView("Success", "Your contract proposal has been sent.", _submissionDelegate, "Ok");
                     view.Show();
                 }
                 catch (Exception ex)
                 {
-                    var view = new UIAlertView("Error", "Something went wrong.", submissionDelegate, "Ok");
+                    _overlay.Hide();
+                    var view = new UIAlertView("Error", "There was an error sending the contract proposal to the server. Please try again.", _submissionDelegate, "Ok");
                     view.Show();
                 }
 	        }
@@ -72,10 +77,6 @@ namespace ClientApp.iOS
                 if (alertview.Title == "Success")
 	            {
 	                _controller.DismissViewController(true, null);
-	            }
-	            else
-	            {
-	                _controller.NavigationController.PopViewController(true);
 	            }
 	        }
 	    }
