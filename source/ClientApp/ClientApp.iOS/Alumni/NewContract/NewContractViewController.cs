@@ -242,7 +242,8 @@ namespace ClientApp.iOS
                     var shouldDisplayPicker = StartDateCell.Frame.Height == 0;
                     NewContractTable.DeselectRow(indexPath, true);
                     NewContractTable.BeginUpdates();
-                    StartDateCell.Frame = new CGRect(0, 0, StartDateCell.Frame.Width, shouldDisplayPicker ? 216 : 0);
+                    StartDateCell.SendSubviewToBack(NewContractTable);
+                    StartDateCell.Frame = new CGRect(StartDateCell.Frame.X, StartDateCell.Frame.Y, StartDateCell.Frame.Width, shouldDisplayPicker ? 216 : 0);
                     _startDatePicker.Hidden = !shouldDisplayPicker;
                     NewContractTable.EndUpdates();
                 }
@@ -251,7 +252,8 @@ namespace ClientApp.iOS
                     var shouldDisplayPicker = EndDateCell.Frame.Height == 0;
                     NewContractTable.DeselectRow(indexPath, true);
                     NewContractTable.BeginUpdates();
-                    EndDateCell.Frame = new CGRect(0, 0, EndDateCell.Frame.Width, shouldDisplayPicker ? 216 : 0);
+                    EndDateCell.SendSubviewToBack(NewContractTable);
+                    EndDateCell.Frame = new CGRect(EndDateCell.Frame.X, EndDateCell.Frame.Y, EndDateCell.Frame.Width, shouldDisplayPicker ? 216 : 0);
                     _endDatePicker.Hidden = !shouldDisplayPicker;
                     NewContractTable.EndUpdates();
                 }
