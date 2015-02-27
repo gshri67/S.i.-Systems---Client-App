@@ -46,7 +46,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         [Test]
         public void Create_ShouldRemoveReservedCharacters()
         {
-            const string query = ")]|\\!&*()~\"\\|";
+            const string query = ")]|\\!&*()~\"\\|,";
             const string expected = "*";
 
             Assert.AreEqual(expected, FullTextSearchExpression.Create(query));

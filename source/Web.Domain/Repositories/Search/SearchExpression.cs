@@ -37,20 +37,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.Search
         }
 
         //Special keywords or sequences that could break the full-text query
-        private static readonly Dictionary<string, string> Replacements = new Dictionary<string, string>
+        private static readonly string[] Replacements = new []
         {
-            {"~", string.Empty},
-            {"!", string.Empty},
-            {"&", string.Empty},
-            {"|", string.Empty},
-            {"*", string.Empty},
-            {"[", string.Empty},
-            {"]", string.Empty},
-            {"(", string.Empty},
-            {")", string.Empty},
-            {"/", string.Empty},
-            {"\\", string.Empty},
-            {"\"", string.Empty}
+            "~", "!", "&", "|", "*", "[", "]", "(", ")", "/", "\\", "\"", ","
         };
 
         private static string ScrubQuery(string query)
@@ -59,7 +48,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.Search
                 return string.Empty;
 
             //apply any replacements
-            return Replacements.Keys.Aggregate(query, (current, sequence) => current.Replace(sequence, Replacements[sequence]));
+            return Replacements.Aggregate(query, (current, sequence) => current.Replace(sequence, string.Empty));
         }
 
     }
