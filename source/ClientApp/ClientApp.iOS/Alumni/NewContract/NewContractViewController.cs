@@ -229,7 +229,8 @@ namespace ClientApp.iOS
                 var shouldDisplayPicker = SpecializationCell.Frame.Height == 0;
                 NewContractTable.DeselectRow(indexPath, true);
                 NewContractTable.BeginUpdates();
-                SpecializationCell.Frame = new CGRect(0, 0, SpecializationCell.Frame.Width, shouldDisplayPicker ? 216 : 0);
+                SpecializationCell.SendSubviewToBack(NewContractTable);
+                SpecializationCell.Frame = new CGRect(SpecializationCell.Frame.X, SpecializationCell.Frame.Y, SpecializationCell.Frame.Width, shouldDisplayPicker ? 216 : 0);
                 _specPicker.Hidden = !shouldDisplayPicker;
                 NewContractTable.EndUpdates();
 
