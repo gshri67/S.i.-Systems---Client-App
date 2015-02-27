@@ -17,11 +17,27 @@ namespace ClientApp.iOS
 	    {
 	        base.ViewDidLoad();
 
-            //TODO replace this with a proper function with more rules that we should replace
 	        if (Resume != null)
 	        {
-                ResumeView.LoadHtmlString(Resume.Replace("\n\r", "<br>").Replace("\n", "<br>"), null);
+                ResumeView.LoadHtmlString(ConvertToHtmlString(Resume), null);
 	        }
+	    }
+
+	    private string ConvertToHtmlString(string resume)
+	    {
+	        var replacedResume = resume.Replace("\n\r", "<br>").Replace("\n", "<br>");
+            return string.Format(@"<html>
+                <head>
+                    <style type='text/css'>
+                      body {{
+                        font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue';
+                      }}
+                    </style>
+                </head>
+                <body>
+                  {0}
+                </body>
+                </html>", resume);
 	    }
 	}
 }
