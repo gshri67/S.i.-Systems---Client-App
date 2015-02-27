@@ -37,7 +37,7 @@ namespace ClientApp.iOS
                 <body>
                   {0}
                 </body>
-                </html>", resume);
+                </html>", replacedResume);
 	    }
 	}
 }
