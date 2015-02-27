@@ -660,7 +660,7 @@
                                             <rect key="frame" x="23" y="28" width="200" height="21"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" colorSpace="calibratedRGB" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="PM" lineBreakMode="tailTruncation" minimumFontSize="10" id="4906" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" textAlignment="center" horizontalCompressionResistancePriority="1000">
