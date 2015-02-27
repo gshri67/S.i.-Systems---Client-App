@@ -56,8 +56,8 @@ namespace ClientApp.iOS
 	            consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
 
 	        SetRatingImagesOrText(consultant);
-
-	        ContractsLabel.Text = consultant.Contracts.Count.ToString();
+	        ContractsLabel.Text = string.Format("{0} {1}", consultant.Contracts.Count,
+	            consultant.Contracts.OrderBy(c => c.EndDate).Select(c => string.Format("({0:c}/hr)", c.Rate)).FirstOrDefault()).TrimEnd();
 	        AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
 
 	        if (string.IsNullOrEmpty(consultant.ResumeText))
