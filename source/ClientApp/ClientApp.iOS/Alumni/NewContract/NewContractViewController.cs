@@ -261,6 +261,31 @@ namespace ClientApp.iOS
             return base.GetViewForFooter(tableView, section);
 	    }
 
+	    public override UIView GetViewForHeader(UITableView tableView, nint section)
+	    {
+	        if (section == 1)
+	        {
+                var view = new UIView();
+                var leftLabel = new UILabel(new CGRect(17, 18, 140, 13))
+                {
+                    Font = UIFont.SystemFontOfSize(13f),
+                    TextColor = UIColor.ScrollViewTexturedBackgroundColor,
+                    Text = "RATE"
+                };
+                var rightLabel = new UILabel(new CGRect(160, 21, UIScreen.MainScreen.Bounds.Width - 180, 10))
+                {
+                    Font = UIFont.SystemFontOfSize(10f),
+                    TextColor = StyleGuideConstants.MediumGrayUiColor,
+                    TextAlignment = UITextAlignment.Right,
+                    Text = _viewModel.GetRateHeader()
+                };
+                view.Add(leftLabel);
+                view.Add(rightLabel);
+                return view;
+	        }
+            return base.GetViewForHeader(tableView, section);
+	    }
+
 	    #endregion
 
         #region Data Helpers

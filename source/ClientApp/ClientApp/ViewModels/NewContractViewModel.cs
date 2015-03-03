@@ -110,6 +110,11 @@ namespace ClientApp.ViewModels
             });
         }
 
+        public string GetRateHeader()
+        {
+            return string.Format("Last Contract: ${0:0.##}/hr", LastContractRate);
+        }
+
         public string GetRateFooter()
         {
             if (TotalRate != ContractorRate)
