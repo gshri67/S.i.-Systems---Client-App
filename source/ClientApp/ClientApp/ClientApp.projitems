@@ -9,6 +9,7 @@
     <Import_RootNamespace>ClientApp</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CurrentUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AlumniService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ConnectionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ContractService.cs" />

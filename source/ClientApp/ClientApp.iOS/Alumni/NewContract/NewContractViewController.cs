@@ -252,7 +252,7 @@ namespace ClientApp.iOS
                                 Font = UIFont.SystemFontOfSize(10f),
                                 TextColor = StyleGuideConstants.MediumGrayUiColor,
                                 TextAlignment = UITextAlignment.Right,
-                                Text = string.Format("+ Service Fee (${0}/hr) = ${1}", NewContractViewModel.ServiceRate, _viewModel.TotalRate)
+                                Text = _viewModel.GetRateFooter()
 	                        };
 
                 view.Add(label);

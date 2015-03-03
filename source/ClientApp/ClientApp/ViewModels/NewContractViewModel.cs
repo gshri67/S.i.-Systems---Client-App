@@ -27,12 +27,12 @@ namespace ClientApp.ViewModels
             }
         }
 
-        //TODO get from Client object
-        public const decimal ServiceRate = 3;
+        public decimal ServiceRate = CurrentUser.ServiceFee;
+        public decimal MspPercent = CurrentUser.MspPercent;
 
         public decimal LastContractRate { get; private set; }
         public decimal ContractorRate { get; set; }
-        public decimal TotalRate { get { return ContractorRate + ServiceRate; } }
+        public decimal TotalRate { get { return ContractorRate + (ContractorRate * MspPercent / 100) + ServiceRate; } }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string TimesheetApprovalEmail { get; set; }
@@ -101,12 +101,26 @@ namespace ClientApp.ViewModels
             {
                 ConsultantId = this.Consultant.Id,
                 RateToConsultant = this.ContractorRate,
+                //TODO add MSP
                 Fee = ServiceRate,
                 StartDate = this.StartDate,
                 EndDate = this.EndDate,
                 TimesheetApproverEmailAddress = this.TimesheetApprovalEmail,
                 ContractApproverEmailAddress = this.ContractApprovalEmail,
             });
+        }
+
+        public string GetRateFooter()
+        {
+            if (TotalRate != ContractorRate)
+            {
+                var serviceString = ServiceRate > 0
+                    ? string.Format("+ Service Fee (${0}/hr) ", ServiceRate)
+                    : string.Empty;
+                var mspString = MspPercent > 0 ? string.Format("+ MSP rate ({0}%) ", MspPercent) : string.Empty;
+                return string.Format("{0}{1}= ${2:0.##}", serviceString, mspString, TotalRate);
+            }
+            return string.Empty;
         }
     }
 }

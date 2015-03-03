@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
-using Foundation;
-using UIKit;
-
-namespace ClientApp.iOS.Startup
+namespace ClientApp
 {
     /// <summary>
     /// Stores details about the currently logged in user
@@ -25,5 +18,8 @@ namespace ClientApp.iOS.Startup
         {
             get { return Email.Contains('@') ? Email.Substring(0, Email.IndexOf('@')) : null; }
         }
+
+        public const decimal ServiceFee = 3;
+        public const decimal MspPercent = 0;
     }
 }

@@ -27,11 +27,13 @@ namespace SiSystems.ClientApp.Tests.ViewModels
                       ContractApprovalEmail = "test@test.com",
                       ContractorRate = 100,
                       ContractTitle = "Senior Developer",
+                      MspPercent = 0,
+                      ServiceRate = 3
                   };
         }
 
         [Test]
-        public void Consultant_SettingAlsoSetsRate()
+        public void Consultant_SettingAlsoSetsLastRate()
         {
             var consultant = new Consultant();
             consultant.Contracts.Add(new Contract{EndDate = DateTime.MaxValue, Rate = 80});
@@ -55,7 +57,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         public void TotalRate_AddsContractorAndServiceRate()
         {
             _vm.ContractorRate = 80;
-            Assert.AreEqual(80 + NewContractViewModel.ServiceRate, _vm.TotalRate);
+            Assert.AreEqual(80 + _vm.ServiceRate, _vm.TotalRate);
         }
 
         [Test]
@@ -164,6 +166,59 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         {
             var result = _vm.Validate();
             Assert.IsTrue(result.IsValid);
+        }
+
+        [Test]
+        public void GetRateFooter_EmptyWhenNoFees()
+        {
+            _vm.MspPercent = 0;
+            _vm.ServiceRate = 0;
+            Assert.AreEqual(string.Empty, _vm.GetRateFooter());
+        }
+
+        [Test]
+        public void GetRateFooter_NoserviceWhenZero()
+        {
+            _vm.MspPercent = 2;
+            _vm.ServiceRate = 0;
+            Assert.AreEqual("+ MSP rate (2%) = $102", _vm.GetRateFooter());
+        }
+
+        [Test]
+        public void GetRateFooter_MspAndServiceWhenNotZero()
+        {
+            _vm.MspPercent = 2;
+            Assert.AreEqual("+ Service Fee ($3/hr) + MSP rate (2%) = $105", _vm.GetRateFooter());
+        }
+
+        [Test]
+        public void GetRateFooter_NoMSPWhenZero()
+        {
+            Assert.AreEqual("+ Service Fee ($3/hr) = $103", _vm.GetRateFooter());
+        }
+
+        [Test]
+        public void GetRateFooter_MSPWhenNotZero()
+        {
+            _vm.MspPercent = 2;
+            _vm.ServiceRate = 0;
+            Assert.AreEqual("+ MSP rate (2%) = $102", _vm.GetRateFooter());
+        }
+
+        [Test]
+        public void GetRateFooter_TotalIsCorrect()
+        {
+            _vm.ContractorRate = 50;
+            _vm.ServiceRate = 5;
+            Assert.AreEqual("+ Service Fee ($5/hr) = $55", _vm.GetRateFooter());
+        }
+
+        [Test]
+        public void GetRateFooter_TotalIsTwoDecimals()
+        {
+            _vm.MspPercent = 3.3333m;
+            _vm.ServiceRate = 0;
+            Assert.AreEqual("+ MSP rate (3.3333%) = $103.33", _vm.GetRateFooter());
         }
     }
 }
