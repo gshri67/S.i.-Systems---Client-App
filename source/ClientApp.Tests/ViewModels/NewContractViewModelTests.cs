@@ -38,7 +38,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
             consultant.Contracts.Add(new Contract{EndDate = DateTime.MaxValue, Rate = 80});
 
             _vm.Consultant = consultant;
-            Assert.AreEqual(80, _vm.ContractorRate);
+            Assert.AreEqual(80, _vm.LastContractRate);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
             consultant.Contracts.Add(new Contract { EndDate = DateTime.MinValue, Rate = 120 });
 
             _vm.Consultant = consultant;
-            Assert.AreEqual(80, _vm.ContractorRate);
+            Assert.AreEqual(80, _vm.LastContractRate);
         }
 
         [Test]
