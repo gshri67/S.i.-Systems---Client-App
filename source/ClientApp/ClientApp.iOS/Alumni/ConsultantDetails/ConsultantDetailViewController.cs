@@ -114,7 +114,6 @@ namespace ClientApp.iOS
 	        {
                 var view = (ContractsViewController)segue.DestinationViewController;
                 view.Contracts = _detailViewModel.GetConsultant().Contracts;
-                view.Title = Title;
 	        } else if (segue.Identifier == "NewContractSelected")
 	        {
 	            var navController = (UINavigationController) segue.DestinationViewController;
