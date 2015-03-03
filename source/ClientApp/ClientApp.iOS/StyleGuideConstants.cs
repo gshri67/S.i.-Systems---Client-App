@@ -10,6 +10,7 @@ namespace ClientApp.iOS
         public static readonly UIColor LightGreenUiColor = new UIColor(0.23046875f, 0.703125f, 0.2890625f, 1); //#b5d6a7
         public static readonly UIColor LightGrayUiColor = new UIColor(0.859375f, 0.859375f, 0.859375f, 1); //#eaeaea
         public static readonly UIColor DarkGrayUiColor = new UIColor(0.15234375f, 0.15234375f, 0.15234375f, 1); //#272727
+        public static readonly UIColor MediumGrayUiColor = new UIColor(0.62890625f, 0.625f, 0.63671875f, 1); //#a1a0a3
 
         public const string DateSeperator = "\u2192";
     }

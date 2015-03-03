@@ -57,18 +57,16 @@ namespace ClientApp.iOS
 
 	        SetupApproverEmails();
 
-	        SetupDatePicker(_startDatePicker, StartDateLabel, DateTime.Now.Date, true);
-	        SetupDatePicker(_endDatePicker, EndDateLabel, DateTime.Now.Date, false);
+            SetupDatePicker(_startDatePicker, StartDateLabel, DateTime.Now.Date.AddDays(1), true);
+            SetupDatePicker(_endDatePicker, EndDateLabel, DateTime.Now.Date.AddDays(1).AddMonths(6), false);
 
             //Load initial values
             StartDateLabel.Text = DateTime.Now.Date.AddDays(1).ToString("MMM dd, yyyy");
 	        EndDateLabel.Text = DateTime.Now.Date.AddDays(1).AddMonths(6).ToString("MMM dd, yyyy");
 
 	        NameLabel.Text = _viewModel.Consultant.FullName;
-	        ServiceLabel.Text = ToRateString(NewContractViewModel.ServiceRate);
-	        TotalLabel.Text = ToRateString(_viewModel.TotalRate);
-
-            RateField.EditingDidEnd += (sender, args) => ValidateRateField();
+            
+	        RateField.EditingDidEnd += (sender, args) => ValidateRateField();
             AddToolBarToKeyboard(RateField);
 
             Task.Factory.StartNew(() => GetAllSpecializations());
@@ -184,7 +182,7 @@ namespace ClientApp.iOS
 	    {
 	        var toolbar = new UIToolbar(new CGRect(0f, 0f, UIScreen.MainScreen.Bounds.Width, 44f));
 	        var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done,
-	            delegate
+	            (sender, args) => 
 	            {
 	                if (!ValidateRateField())
 	                {
@@ -196,6 +194,7 @@ namespace ClientApp.iOS
 	                }
 	            });
 	        var space = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
+            doneButton.TintColor = StyleGuideConstants.RedUiColor;
 	        toolbar.Items = new[] {space, doneButton};
 
 	        field.InputAccessoryView = toolbar;
@@ -206,7 +205,6 @@ namespace ClientApp.iOS
             if (string.IsNullOrEmpty(RateField.Text))
             {
                 _viewModel.ContractorRate = 0;
-                TotalLabel.Text = ToRateString(_viewModel.TotalRate);
                 return true;
             }
 
@@ -216,7 +214,7 @@ namespace ClientApp.iOS
             {
                 _viewModel.ContractorRate = val;
                 RateField.Text = string.Format("{0:N2}", val);
-                TotalLabel.Text = ToRateString(_viewModel.TotalRate);
+                NewContractTable.ReloadData();
             }
             return result;
         }
@@ -280,6 +278,25 @@ namespace ClientApp.iOS
 
             }
         }
+
+	    public override UIView GetViewForFooter(UITableView tableView, nint section)
+	    {
+	        if (section == 1)
+	        {
+	            var view = new UIView();
+	            var label = new UILabel(new CGRect(20, 4, UIScreen.MainScreen.Bounds.Width - 40, 10))
+	                        {
+                                Font = UIFont.SystemFontOfSize(10f),
+                                TextColor = StyleGuideConstants.MediumGrayUiColor,
+                                TextAlignment = UITextAlignment.Right,
+                                Text = string.Format("+ Service Fee (${0}/hr) = ${1}", NewContractViewModel.ServiceRate, _viewModel.TotalRate)
+	                        };
+
+                view.Add(label);
+	            return view;
+	        }
+            return base.GetViewForFooter(tableView, section);
+	    }
 
 	    #endregion
 

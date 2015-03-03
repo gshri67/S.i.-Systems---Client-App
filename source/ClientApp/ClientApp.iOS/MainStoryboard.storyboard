@@ -884,60 +884,12 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="5803">
-                                        <rect key="frame" x="0.0" y="501" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5803" id="5804">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Services" lineBreakMode="tailTruncation" minimumFontSize="10" id="5502" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="left" fixedFrame="YES">
-                                                    <rect key="frame" x="20" y="11" width="115" height="21"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$  3.00/hr" lineBreakMode="tailTruncation" minimumFontSize="10" id="5503" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                                    <rect key="frame" x="143" y="11" width="157" height="21"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="17"/>
-                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="5805">
-                                        <rect key="frame" x="0.0" y="545" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5805" id="5806">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Total" lineBreakMode="tailTruncation" minimumFontSize="10" id="5505" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="20" y="11" width="115" height="21"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$153.00/hr" lineBreakMode="tailTruncation" minimumFontSize="10" id="5506" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="143" y="11" width="157" height="21"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="17"/>
-                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Dates" id="5807">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="5808" rowHeight="44">
-                                        <rect key="frame" x="0.0" y="841" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="665" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5808" id="5809">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -966,11 +918,11 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews/>
                                         </tableViewCellContentView>
-                                        <rect key="frame" x="0.0" y="885" width="320" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="709" width="320" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6030" rowHeight="44">
-                                        <rect key="frame" x="0.0" y="885" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="709" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6030" id="6031">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -994,7 +946,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6032" rowHeight="0">
-                                        <rect key="frame" x="0.0" y="929" width="320" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="753" width="320" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6032" id="6033">
                                             <rect key="frame" x="0.0" y="-0.5" width="320" height="0.5"/>
@@ -1006,7 +958,7 @@
                             <tableViewSection headerTitle="Approval" id="5814">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="5815">
-                                        <rect key="frame" x="0.0" y="1137" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="961" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5815" id="5816">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1023,7 +975,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6630">
-                                        <rect key="frame" x="0.0" y="1181" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1005" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6630" id="6631">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1050,8 +1002,6 @@
                         <segue id="5768" destination="5593" kind="push" identifier="SubmitSelected"/>
                         <outlet property="NewContractTable" destination="5222" id="name-outlet-5222"/>
                         <outlet property="RateField" destination="5507" id="name-outlet-5507"/>
-                        <outlet property="TotalLabel" destination="5506" id="name-outlet-5506"/>
-                        <outlet property="ServiceLabel" destination="5503" id="name-outlet-5503"/>
                         <outlet property="StartDateLabel" destination="5568" id="name-outlet-5568"/>
                         <outlet property="StartDateCell" destination="5810" id="name-outlet-5810"/>
                         <outlet property="EndDateLabel" destination="5567" id="name-outlet-5567"/>

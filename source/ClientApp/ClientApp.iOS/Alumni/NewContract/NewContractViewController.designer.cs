@@ -40,10 +40,6 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel ServiceLabel { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableViewCell SpecializationCell { get; set; }
 
 		[Outlet]
@@ -65,10 +61,6 @@ namespace ClientApp.iOS
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField TitleField { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel TotalLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -96,10 +88,6 @@ namespace ClientApp.iOS
 				RateField.Dispose ();
 				RateField = null;
 			}
-			if (ServiceLabel != null) {
-				ServiceLabel.Dispose ();
-				ServiceLabel = null;
-			}
 			if (SpecializationCell != null) {
 				SpecializationCell.Dispose ();
 				SpecializationCell = null;
@@ -123,10 +111,6 @@ namespace ClientApp.iOS
 			if (TitleField != null) {
 				TitleField.Dispose ();
 				TitleField = null;
-			}
-			if (TotalLabel != null) {
-				TotalLabel.Dispose ();
-				TotalLabel = null;
 			}
 		}
 	}
