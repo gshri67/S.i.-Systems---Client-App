@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Repositories\SpecializationRepository.cs" />
     <Compile Include="Services\ConsultantMessageService.cs" />
+    <Compile Include="Services\ClientDetailsService.cs" />
     <Compile Include="Services\ConsultantService.cs" />
     <Compile Include="Services\ContractProposalService.cs" />
     <Compile Include="Services\EmailTemplates\ContractProposalEmail.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Services\EmailTemplates\TemplatedEmail.cs" />
     <Compile Include="Services\EmailTemplates\TemplateSubstitutionAttribute.cs" />
     <Compile Include="Services\EulaService.cs" />
+    <Compile Include="Repositories\ClientDetailsRepository.cs" />
     <Compile Include="Context\ISessionContext.cs" />
     <Compile Include="Services\SendGridMailService.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />
