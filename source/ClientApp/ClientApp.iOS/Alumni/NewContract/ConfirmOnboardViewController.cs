@@ -5,14 +5,14 @@ using UIKit;
 
 namespace ClientApp.iOS
 {
-	partial class ConfirmContractViewController : UITableViewController
+	partial class ConfirmOnboardViewController : UITableViewController
 	{
         public NewContractViewModel ViewModel { set; private get; }
 
 	    private ContractSubmissionDelegate _submissionDelegate;
 	    private LoadingOverlay _overlay;
 
-        public ConfirmContractViewController (IntPtr handle) : base (handle)
+        public ConfirmOnboardViewController (IntPtr handle) : base (handle)
         {
         }
 

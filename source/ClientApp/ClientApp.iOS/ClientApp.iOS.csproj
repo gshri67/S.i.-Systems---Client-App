@@ -174,9 +174,9 @@
       <DependentUpon>CustomAlumniCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Alumni\RatingImage.cs" />
-    <Compile Include="Alumni\NewContract\ConfirmContractViewController.cs" />
-    <Compile Include="Alumni\NewContract\ConfirmContractViewController.designer.cs">
-      <DependentUpon>ConfirmContractViewController.cs</DependentUpon>
+    <Compile Include="Alumni\NewContract\ConfirmOnboardViewController.cs" />
+    <Compile Include="Alumni\NewContract\ConfirmOnboardViewController.designer.cs">
+      <DependentUpon>ConfirmOnboardViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Alumni\ConsultantDetails\ContactAlumniViewController.cs" />
     <Compile Include="Alumni\ConsultantDetails\ContactAlumniViewController.designer.cs">

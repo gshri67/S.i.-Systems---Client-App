@@ -11,8 +11,8 @@ using UIKit;
 
 namespace ClientApp.iOS
 {
-	[Register ("ConfirmContractViewController")]
-	partial class ConfirmContractViewController
+	[Register ("ConfirmOnboardViewController")]
+	partial class ConfirmOnboardViewController
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]

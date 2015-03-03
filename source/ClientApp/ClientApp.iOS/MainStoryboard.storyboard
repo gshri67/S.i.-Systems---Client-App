@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4451" systemVersion="13A461" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc" xamarin-freeze-misplacements="true">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4451" systemVersion="13A461" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733.0"/>
     </dependencies>
@@ -1022,7 +1022,7 @@
         </scene>
         <scene sceneID="5592">
             <objects>
-                <tableViewController id="5593" sceneMemberID="viewController" title="Confirm Contract" customClass="ConfirmContractViewController">
+                <tableViewController id="5593" sceneMemberID="viewController" title="Confirm Onboard" customClass="ConfirmOnboardViewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="5594">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1032,7 +1032,7 @@
                             <outlet property="delegate" destination="5593" id="5596"/>
                         </connections>
                         <sections>
-                            <tableViewSection headerTitle="Contract Details" id="6160">
+                            <tableViewSection headerTitle="Onboard Details" id="6160">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6161">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -1456,6 +1456,10 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <view contentMode="scaleToFill" id="6705" key="tableFooterView">
+                            <rect key="frame" x="0.0" y="656" width="320" height="44"/>
+                            <color key="backgroundColor" customColorSpace="calibratedWhite" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        </view>
                     </tableView>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size width="320" height="700" key="freeformSize"/>

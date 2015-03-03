@@ -41,7 +41,7 @@ namespace ClientApp.iOS
 
             if (segue.Identifier == "SubmitSelected")
             {
-                var view = (ConfirmContractViewController)segue.DestinationViewController;
+                var view = (ConfirmOnboardViewController)segue.DestinationViewController;
                 view.ViewModel = _viewModel;
             }
 	    }
