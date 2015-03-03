@@ -65,7 +65,6 @@ namespace ClientApp.iOS
 	        EndDateLabel.Text = DateTime.Now.Date.ToString("MMM dd, yyyy");
 
 	        NameLabel.Text = _viewModel.Consultant.FullName;
-	        RateField.Text = string.Format("{0:N2}", _viewModel.ContractorRate);
 	        ServiceLabel.Text = ToRateString(NewContractViewModel.ServiceRate);
 	        TotalLabel.Text = ToRateString(_viewModel.TotalRate);
 

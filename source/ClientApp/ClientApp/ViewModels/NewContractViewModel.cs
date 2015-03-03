@@ -22,7 +22,7 @@ namespace ClientApp.ViewModels
                 var lastContract = _consultant.Contracts.OrderByDescending(c => c.EndDate).First();
                 if (lastContract != null)
                 {
-                    ContractorRate = lastContract.Rate;
+                    LastContractRate = lastContract.Rate;
                 }
             }
         }
@@ -30,6 +30,7 @@ namespace ClientApp.ViewModels
         //TODO get from Client object
         public const decimal ServiceRate = 3;
 
+        public decimal LastContractRate { get; private set; }
         public decimal ContractorRate { get; set; }
         public decimal TotalRate { get { return ContractorRate + ServiceRate; } }
         public DateTime StartDate { get; set; }
