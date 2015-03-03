@@ -13,9 +13,9 @@ namespace SiSystems.ClientApp.SharedModels
         //public AccountExecutive ClientAccountExecutive { get; set; }
 
         public decimal FloThruFee { get; set; }
-        public string FloThruFeePayer { get; set; }
-        public string FloThruFeeType { get; set; }
-        public string InvoiceFormat { get; set; }
-        public string InvoiceFrequency { get; set; }
+        public int FloThruFeePayer { get; set; }
+        public int FloThruFeeType { get; set; }
+        public int InvoiceFormat { get; set; }
+        public int InvoiceFrequency { get; set; }
     }
 }

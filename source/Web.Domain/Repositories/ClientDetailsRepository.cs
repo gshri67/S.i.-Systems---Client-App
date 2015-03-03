@@ -24,15 +24,13 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var query = @"SELECT InvoiceFormatTable.Title as InvoiceFormat"
-                              + ",InvoiceFrequencyTable.Title as InvoiceFrequency"
-                              + ",[FloThruFeeType]"
-                              + ",[FloThruFee]"
-                              + ",[FloThruFeePayment]"
-                          + "FROM [MatchGuideDev].[dbo].[Company] as CompanyTable "
-                          + "LEFT JOIN [MatchGuideDev].[dbo].[PAMInvoiceFormat] as InvoiceFormatTable on CompanyTable.InvoiceFormatId=InvoiceFormatTable.InvoiceFormatId "
-                          + "LEFT JOIN [MatchGuideDev].[dbo].[PAMInvoiceFrequency] as InvoiceFrequencyTable on CompanyTable.InvoiceFrequencyId=InvoiceFrequencyTable.InvoiceFrequencyId "
-                          + "WHERE CompanyTable.CompanyID="+clientId.ToString();
+                var query = @"SELECT InvoiceFormat"
+                              + " ,InvoiceFrequency"
+                              + " ,FloThruFeeType"
+                              + " ,FloThruFee"
+                              + " ,FloThruFeePayment"
+                          + " FROM [MatchGuideDev].[dbo].[Company]"
+                          + " WHERE CompanyID="+clientId.ToString();
                 var clientDetails = db.Connection.Query<ClientAccountDetails>(query).FirstOrDefault();
                 return clientDetails ?? new ClientAccountDetails();
             }
