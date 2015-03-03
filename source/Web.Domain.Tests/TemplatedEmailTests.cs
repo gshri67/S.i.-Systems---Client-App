@@ -33,6 +33,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 StartDate = "1/1/2015",
                 EndDate = "12/12/2015",
                 TimesheetApproverEmailAddress = "aguy@email.com",
+                ContractApproverEmailAddress = "aguy@email.com",
                 InvoiceFormat = "bits and bytes",
                 ClientCompanyName = "Bees Systems",
                 ClientContactFullName = "Henry Bees",
