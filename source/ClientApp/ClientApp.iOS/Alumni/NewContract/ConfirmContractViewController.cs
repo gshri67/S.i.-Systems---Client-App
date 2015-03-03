@@ -32,7 +32,8 @@ namespace ClientApp.iOS
             TotalRateLabel.Text = ToRateString(ViewModel.TotalRate);
             StartDateLabel.Text = ViewModel.StartDate.ToString("MMM dd, yyyy");
             EndDateLabel.Text = ViewModel.EndDate.ToString("MMM dd, yyyy");
-            ApproverEmailLabel.Text = ViewModel.TimesheetApprovalEmail;
+            TimesheetApproverEmailLabel.Text = ViewModel.TimesheetApprovalEmail;
+	        ContractApproverEmailLabel.Text = ViewModel.ContractApprovalEmail;
 	    }
 
 	    public override async void RowSelected(UITableView tableView, NSIndexPath indexPath)
@@ -62,6 +63,11 @@ namespace ClientApp.iOS
         {
             return string.Format("${0,6:N2}/hr", rate);
         }
+
+	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+	    {
+	        return indexPath.Section == 4 ? 44f : 30f;
+	    }
 
 	    class ContractSubmissionDelegate : UIAlertViewDelegate
 	    {

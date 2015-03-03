@@ -16,7 +16,7 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel ApproverEmailLabel { get; set; }
+		UILabel ContractApproverEmailLabel { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -44,6 +44,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel TimesheetApproverEmailLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel TitleLabel { get; set; }
 
 		[Outlet]
@@ -52,9 +56,9 @@ namespace ClientApp.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (ApproverEmailLabel != null) {
-				ApproverEmailLabel.Dispose ();
-				ApproverEmailLabel = null;
+			if (ContractApproverEmailLabel != null) {
+				ContractApproverEmailLabel.Dispose ();
+				ContractApproverEmailLabel = null;
 			}
 			if (ContractorRateLabel != null) {
 				ContractorRateLabel.Dispose ();
@@ -79,6 +83,10 @@ namespace ClientApp.iOS
 			if (StartDateLabel != null) {
 				StartDateLabel.Dispose ();
 				StartDateLabel = null;
+			}
+			if (TimesheetApproverEmailLabel != null) {
+				TimesheetApproverEmailLabel.Dispose ();
+				TimesheetApproverEmailLabel = null;
 			}
 			if (TitleLabel != null) {
 				TitleLabel.Dispose ();
