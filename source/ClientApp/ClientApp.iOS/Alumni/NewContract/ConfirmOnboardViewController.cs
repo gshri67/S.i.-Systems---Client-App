@@ -1,5 +1,6 @@
 using System;
 using ClientApp.ViewModels;
+using CoreGraphics;
 using Foundation;
 using UIKit;
 
@@ -28,11 +29,17 @@ namespace ClientApp.iOS
             TitleLabel.Text = ViewModel.ContractTitle;
             ContractorRateLabel.Text = ToRateString(ViewModel.ContractorRate);
             ServicesRateLabel.Text = ToRateString(ViewModel.ServiceRate);
+	        MspRateLabel.Text = string.Format("{0}%", ViewModel.MspPercent);
             TotalRateLabel.Text = ToRateString(ViewModel.TotalRate);
             StartDateLabel.Text = ViewModel.StartDate.ToString("MMM dd, yyyy");
             EndDateLabel.Text = ViewModel.EndDate.ToString("MMM dd, yyyy");
             TimesheetApproverEmailLabel.Text = ViewModel.TimesheetApprovalEmail;
 	        ContractApproverEmailLabel.Text = ViewModel.ContractApprovalEmail;
+
+            //hide cempty cells
+            MspCell.Hidden = ViewModel.MspPercent == 0;
+	        ServicesCell.Hidden = ViewModel.ServiceRate == 0;
+	        TotalCell.Hidden = ViewModel.MspPercent == 0 && ViewModel.ServiceRate == 0;
 	    }
 
 	    public override async void RowSelected(UITableView tableView, NSIndexPath indexPath)
@@ -65,7 +72,25 @@ namespace ClientApp.iOS
 
 	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 	    {
-	        return indexPath.Section == 4 ? 44f : 30f;
+	        if (indexPath.Section == 1)
+	        {
+                //MSP
+	            if (indexPath.Row == 1)
+	            {
+	                return ViewModel.MspPercent == 0 ? 0 : 30f;
+	            }
+                //Service
+                if (indexPath.Row == 2)
+                {
+                    return ViewModel.ServiceRate == 0 ? 0 : 30f;
+                }
+                //Total
+                if (indexPath.Row == 3)
+                {
+                    return ViewModel.MspPercent == 0 && ViewModel.ServiceRate == 0 ? 0 : 30f;
+                }
+	        }
+            return indexPath.Section == 4 ? 44f : 30f;
 	    }
 
 	    class ContractSubmissionDelegate : UIAlertViewDelegate

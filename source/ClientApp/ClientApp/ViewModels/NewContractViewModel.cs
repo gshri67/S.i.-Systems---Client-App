@@ -123,7 +123,7 @@ namespace ClientApp.ViewModels
                     ? string.Format("+ Service Fee (${0}/hr) ", ServiceRate)
                     : string.Empty;
                 var mspString = MspPercent > 0 ? string.Format("+ MSP rate ({0}%) ", MspPercent) : string.Empty;
-                return string.Format("{0}{1}= ${2:0.##}", serviceString, mspString, TotalRate);
+                return string.Format("{0}{1}= ${2:0.##}", mspString, serviceString, TotalRate);
             }
             return string.Empty;
         }

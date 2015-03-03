@@ -28,7 +28,19 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITableViewCell MspCell { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel MspRateLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel NameLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITableViewCell ServicesCell { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -48,6 +60,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITableViewCell TotalCell { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel TotalRateLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -64,9 +80,21 @@ namespace ClientApp.iOS
 				EndDateLabel.Dispose ();
 				EndDateLabel = null;
 			}
+			if (MspCell != null) {
+				MspCell.Dispose ();
+				MspCell = null;
+			}
+			if (MspRateLabel != null) {
+				MspRateLabel.Dispose ();
+				MspRateLabel = null;
+			}
 			if (NameLabel != null) {
 				NameLabel.Dispose ();
 				NameLabel = null;
+			}
+			if (ServicesCell != null) {
+				ServicesCell.Dispose ();
+				ServicesCell = null;
 			}
 			if (ServicesRateLabel != null) {
 				ServicesRateLabel.Dispose ();
@@ -83,6 +111,10 @@ namespace ClientApp.iOS
 			if (TitleLabel != null) {
 				TitleLabel.Dispose ();
 				TitleLabel = null;
+			}
+			if (TotalCell != null) {
+				TotalCell.Dispose ();
+				TotalCell = null;
 			}
 			if (TotalRateLabel != null) {
 				TotalRateLabel.Dispose ();

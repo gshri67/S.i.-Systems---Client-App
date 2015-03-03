@@ -711,7 +711,7 @@
             <objects>
                 <tableViewController id="5221" sceneMemberID="viewController" customClass="NewContractViewController" title="New Contract" wantsFullScreenLayout="YES">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="5222" autoresizesSubviews="NO" showsHorizontalScrollIndicator="NO">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="750"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="650"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <connections>
@@ -779,11 +779,11 @@
                                                     </constraints>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" minimumFontSize="17" id="6078" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Contract Title">
-                                                    <rect key="frame" x="135" y="7" width="165" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <rect key="frame" x="135" y="0.0" width="165" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="yes" spellCheckingType="yes" autocapitalizationType="sentences" returnKeyType="done"/>
                                                     <constraints>
-                                                        <constraint id="6129" firstAttribute="height" constant="30"/>
+                                                        <constraint id="6129" firstAttribute="height" constant="44"/>
                                                     </constraints>
                                                     <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                 </textField>
@@ -792,7 +792,7 @@
                                                 <constraint firstItem="6052" firstAttribute="leading" secondItem="6048" secondAttribute="leading" constant="20" id="6721"/>
                                                 <constraint firstItem="6052" firstAttribute="top" secondItem="6048" secondAttribute="top" constant="11" id="6722"/>
                                                 <constraint firstItem="6048" firstAttribute="trailing" secondItem="6078" secondAttribute="trailing" constant="20" id="6724"/>
-                                                <constraint firstItem="6078" firstAttribute="top" secondItem="6048" secondAttribute="top" constant="7" id="6725"/>
+                                                <constraint firstItem="6078" firstAttribute="top" secondItem="6048" secondAttribute="top" constant="0.0" id="6725"/>
                                                 <constraint firstItem="6078" firstAttribute="leading" secondItem="6052" secondAttribute="trailing" constant="0.0" id="6726"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -967,7 +967,7 @@
                     </connections>
                     <navigationItem title="New Contract" id="5955" key="navigationItem"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size width="320" height="750" key="freeformSize"/>
+                    <size width="320" height="650" key="freeformSize"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5227" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1112,6 +1112,44 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="MSP" lineBreakMode="tailTruncation" minimumFontSize="10" id="6789" translatesAutoresizingMaskIntoConstraints="NO">
+                                                    <rect key="frame" x="20" y="11" width="115" height="21"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6791" firstItem="6789" firstAttribute="height" constant="21"/>
+                                                        <constraint id="6792" firstItem="6789" firstAttribute="width" constant="115"/>
+                                                    </constraints>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6790" translatesAutoresizingMaskIntoConstraints="NO">
+                                                    <rect key="frame" x="135" y="11" width="165" height="21"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6798" firstItem="6790" firstAttribute="height" constant="21"/>
+                                                    </constraints>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6789" firstAttribute="top" secondItem="6171" secondAttribute="top" constant="5" id="6793"/>
+                                                <constraint firstItem="6789" firstAttribute="leading" secondItem="6171" secondAttribute="leading" constant="20" id="6794"/>
+                                                <constraint firstItem="6171" firstAttribute="trailing" secondItem="6790" secondAttribute="trailing" constant="20" id="6795"/>
+                                                <constraint firstItem="6790" firstAttribute="top" secondItem="6171" secondAttribute="top" constant="5" id="6796"/>
+                                                <constraint firstItem="6790" firstAttribute="leading" secondItem="6789" secondAttribute="trailing" constant="0.0" id="6797"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6172">
+                                        <rect key="frame" x="0.0" y="330" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6172" id="6173">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Services" lineBreakMode="tailTruncation" minimumFontSize="10" id="6192" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1135,18 +1173,18 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="6192" firstAttribute="leading" secondItem="6171" secondAttribute="leading" constant="20" id="6552"/>
-                                                <constraint firstItem="6192" firstAttribute="top" secondItem="6171" secondAttribute="top" constant="5" id="6553"/>
-                                                <constraint firstItem="6171" firstAttribute="trailing" secondItem="6201" secondAttribute="trailing" constant="20" id="6556"/>
-                                                <constraint firstItem="6201" firstAttribute="top" secondItem="6171" secondAttribute="top" constant="5" id="6557"/>
-                                                <constraint firstItem="6201" firstAttribute="leading" secondItem="6192" secondAttribute="trailing" constant="0.0" id="6559"/>
+                                                <constraint firstItem="6192" firstAttribute="leading" secondItem="6173" secondAttribute="leading" constant="20" id="6784"/>
+                                                <constraint firstItem="6192" firstAttribute="top" secondItem="6173" secondAttribute="top" constant="5" id="6785"/>
+                                                <constraint firstItem="6173" firstAttribute="trailing" secondItem="6201" secondAttribute="trailing" constant="20" id="6786"/>
+                                                <constraint firstItem="6201" firstAttribute="top" secondItem="6173" secondAttribute="top" constant="5" id="6787"/>
+                                                <constraint firstItem="6201" firstAttribute="leading" secondItem="6192" secondAttribute="trailing" constant="0.0" id="6788"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6172">
-                                        <rect key="frame" x="0.0" y="330" width="320" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6777">
+                                        <rect key="frame" x="0.0" y="374" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6172" id="6173">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6777" id="6778">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -1173,11 +1211,11 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="6193" firstAttribute="leading" secondItem="6173" secondAttribute="leading" constant="20" id="6560"/>
-                                                <constraint firstItem="6193" firstAttribute="top" secondItem="6173" secondAttribute="top" constant="5" id="6561"/>
-                                                <constraint firstItem="6202" firstAttribute="top" secondItem="6173" secondAttribute="top" constant="5" id="6564"/>
-                                                <constraint firstItem="6173" firstAttribute="trailing" secondItem="6202" secondAttribute="trailing" constant="20" id="6565"/>
-                                                <constraint firstItem="6202" firstAttribute="leading" secondItem="6193" secondAttribute="trailing" constant="0.0" id="6567"/>
+                                                <constraint firstItem="6193" firstAttribute="leading" secondItem="6778" secondAttribute="leading" constant="20" id="6779"/>
+                                                <constraint firstItem="6193" firstAttribute="top" secondItem="6778" secondAttribute="top" constant="5" id="6780"/>
+                                                <constraint firstItem="6778" firstAttribute="trailing" secondItem="6202" secondAttribute="trailing" constant="20" id="6781"/>
+                                                <constraint firstItem="6202" firstAttribute="top" secondItem="6778" secondAttribute="top" constant="5" id="6782"/>
+                                                <constraint firstItem="6202" firstAttribute="leading" secondItem="6193" secondAttribute="trailing" constant="0.0" id="6783"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1186,7 +1224,7 @@
                             <tableViewSection headerTitle="Dates" id="6174">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6175">
-                                        <rect key="frame" x="0.0" y="550" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="638" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6175" id="6176">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1224,7 +1262,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6177">
-                                        <rect key="frame" x="0.0" y="594" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="682" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6177" id="6178">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1266,7 +1304,7 @@
                             <tableViewSection headerTitle="Approval" id="6181">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6182">
-                                        <rect key="frame" x="0.0" y="770" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="858" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6182" id="6183">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1304,7 +1342,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6648">
-                                        <rect key="frame" x="0.0" y="814" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="902" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6648" id="6649">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1325,7 +1363,7 @@
                                                     <rect key="frame" x="135" y="11" width="165" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                                     <nil key="highlightedColor"/>
                                                     <constraints>
                                                         <constraint id="6689" firstItem="6666" firstAttribute="height" constant="21"/>
@@ -1346,7 +1384,7 @@
                             <tableViewSection headerTitle="Confirmation" id="6219">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6220">
-                                        <rect key="frame" x="0.0" y="990" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1078" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6220" id="6221">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1381,13 +1419,17 @@
                     <connections>
                         <outlet property="NameLabel" destination="6197" id="name-outlet-6197"/>
                         <outlet property="ContractorRateLabel" destination="6200" id="name-outlet-6200"/>
-                        <outlet property="ServicesRateLabel" destination="6201" id="name-outlet-6201"/>
-                        <outlet property="TotalRateLabel" destination="6202" id="name-outlet-6202"/>
                         <outlet property="StartDateLabel" destination="6203" id="name-outlet-6203"/>
                         <outlet property="EndDateLabel" destination="6204" id="name-outlet-6204"/>
                         <outlet property="TimesheetApproverEmailLabel" destination="6205" id="name-outlet-6205"/>
                         <outlet property="ContractApproverEmailLabel" destination="6666" id="name-outlet-6666"/>
                         <outlet property="TitleLabel" destination="6199" id="name-outlet-6199"/>
+                        <outlet property="TotalRateLabel" destination="6202" id="name-outlet-6202"/>
+                        <outlet property="ServicesRateLabel" destination="6201" id="name-outlet-6201"/>
+                        <outlet property="MspRateLabel" destination="6790" id="name-outlet-6790"/>
+                        <outlet property="MspCell" destination="6170" id="name-outlet-6170"/>
+                        <outlet property="ServicesCell" destination="6172" id="name-outlet-6172"/>
+                        <outlet property="TotalCell" destination="6777" id="name-outlet-6777"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5599" userLabel="First Responder" sceneMemberID="firstResponder"/>
