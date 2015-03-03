@@ -37,14 +37,5 @@ namespace SiSystems.ClientApp.SharedModels
         
         public string TimesheetApproverEmailAddress { get; set; }
         public string ContractApproverEmailAddress { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="Specialization"/> for this contract.
-        /// </summary>
-        /// <remarks>
-        /// A specialization is required for a contract and does not have
-        /// to be one of the consultant's specializations.
-        /// </remarks>
-        public Specialization Specialization { get; set; }
     }
 }

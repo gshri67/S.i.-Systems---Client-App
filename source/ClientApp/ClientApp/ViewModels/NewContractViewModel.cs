@@ -38,7 +38,6 @@ namespace ClientApp.ViewModels
         public string TimesheetApprovalEmail { get; set; }
         public string ContractApprovalEmail { get; set; }
         public string ContractTitle { get; set; }
-        public Specialization Specialization { get; set; }
 
         public NewContractViewModel(IContractService contractService)
         {
@@ -60,10 +59,6 @@ namespace ClientApp.ViewModels
 
         public ValidationResult Validate()
         {
-            if (Specialization == null || string.IsNullOrEmpty(Specialization.Name))
-            {
-                return new ValidationResult(false, "The contract requires a Specialization");
-            }
             if (string.IsNullOrEmpty(ContractTitle))
             {
                 return new ValidationResult(false, "The contract requires a Title");
@@ -100,11 +95,6 @@ namespace ClientApp.ViewModels
             return date >= DateTime.Now.Date;
         }
 
-        public Task<IEnumerable<Specialization>> GetAllSpecializations()
-        {
-            return _contractService.GetAllSpecializations();
-        }
-
         public async Task SubmitContract()
         {
             await _contractService.Submit(new ContractProposal
@@ -116,7 +106,6 @@ namespace ClientApp.ViewModels
                 EndDate = this.EndDate,
                 TimesheetApproverEmailAddress = this.TimesheetApprovalEmail,
                 ContractApproverEmailAddress = this.ContractApprovalEmail,
-                Specialization = this.Specialization
             });
         }
     }

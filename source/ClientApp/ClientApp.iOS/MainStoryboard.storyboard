@@ -760,55 +760,10 @@
                                         </tableViewCellContentView>
                                         <outlet property="ContractorLabel" destination="5360" id="name-outlet-5360"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6047">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6047">
                                         <rect key="frame" x="0.0" y="99.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6047" id="6048">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Specialization" lineBreakMode="tailTruncation" minimumFontSize="10" id="6051" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="20" y="11" width="115" height="21"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <constraints>
-                                                        <constraint id="6113" firstItem="6051" firstAttribute="width" constant="115"/>
-                                                    </constraints>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6108" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="135" y="11" width="165" height="21"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="6051" firstAttribute="leading" secondItem="6048" secondAttribute="leading" constant="20" id="6109"/>
-                                                <constraint firstItem="6048" firstAttribute="bottom" secondItem="6051" secondAttribute="bottom" constant="11" id="6110"/>
-                                                <constraint firstItem="6051" firstAttribute="top" secondItem="6048" secondAttribute="top" constant="11" id="6111"/>
-                                                <constraint firstItem="6108" firstAttribute="leading" secondItem="6051" secondAttribute="trailing" constant="0.0" id="6112"/>
-                                                <constraint firstItem="6108" firstAttribute="top" secondItem="6048" secondAttribute="top" constant="11" id="6114"/>
-                                                <constraint firstItem="6048" firstAttribute="bottom" secondItem="6108" secondAttribute="bottom" constant="11" id="6115"/>
-                                                <constraint firstItem="6048" firstAttribute="trailing" secondItem="6108" secondAttribute="trailing" constant="20" id="6116" relation="greaterthanorequal"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6049" rowHeight="0">
-                                        <rect key="frame" x="0.0" y="143.5" width="320" height="0.0"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6049" id="6050">
-                                            <rect key="frame" x="0.0" y="-0.5" width="320" height="0.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6117">
-                                        <rect key="frame" x="0.0" y="143.5" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6117" id="6118">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -820,6 +775,7 @@
                                                     <nil key="highlightedColor"/>
                                                     <constraints>
                                                         <constraint id="6083" firstItem="6052" firstAttribute="width" constant="115"/>
+                                                        <constraint id="6723" firstItem="6052" firstAttribute="height" constant="21"/>
                                                     </constraints>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" minimumFontSize="17" id="6078" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Contract Title">
@@ -833,13 +789,11 @@
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="6052" firstAttribute="leading" secondItem="6118" secondAttribute="leading" constant="20" id="6119"/>
-                                                <constraint firstItem="6052" firstAttribute="top" secondItem="6118" secondAttribute="top" constant="11" id="6120"/>
-                                                <constraint firstItem="6118" firstAttribute="bottom" secondItem="6052" secondAttribute="bottom" constant="11" id="6121"/>
-                                                <constraint id="6126" constant="20" firstItem="6118" firstAttribute="trailing" secondItem="6078" secondAttribute="trailing" relation="greaterthanorequal"/>
-                                                <constraint id="6127" constant="6" firstItem="6118" firstAttribute="bottom" secondItem="6078" secondAttribute="bottom"/>
-                                                <constraint firstItem="6078" firstAttribute="leading" secondItem="6052" secondAttribute="trailing" constant="0.0" id="6135"/>
-                                                <constraint firstItem="6078" firstAttribute="top" secondItem="6118" secondAttribute="top" constant="7" id="6131"/>
+                                                <constraint firstItem="6052" firstAttribute="leading" secondItem="6048" secondAttribute="leading" constant="20" id="6721"/>
+                                                <constraint firstItem="6052" firstAttribute="top" secondItem="6048" secondAttribute="top" constant="11" id="6722"/>
+                                                <constraint firstItem="6048" firstAttribute="trailing" secondItem="6078" secondAttribute="trailing" constant="20" id="6724"/>
+                                                <constraint firstItem="6078" firstAttribute="top" secondItem="6048" secondAttribute="top" constant="7" id="6725"/>
+                                                <constraint firstItem="6078" firstAttribute="leading" secondItem="6052" secondAttribute="trailing" constant="0.0" id="6726"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -848,7 +802,7 @@
                             <tableViewSection headerTitle="Rates" id="5800">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="5801">
-                                        <rect key="frame" x="0.0" y="457" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="369" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5801" id="5802">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -889,7 +843,7 @@
                             <tableViewSection headerTitle="Dates" id="5807">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="5808" rowHeight="44">
-                                        <rect key="frame" x="0.0" y="665" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="577" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5808" id="5809">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -918,11 +872,11 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews/>
                                         </tableViewCellContentView>
-                                        <rect key="frame" x="0.0" y="709" width="320" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="621" width="320" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6030" rowHeight="44">
-                                        <rect key="frame" x="0.0" y="709" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="621" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6030" id="6031">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -946,7 +900,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6032" rowHeight="0">
-                                        <rect key="frame" x="0.0" y="753" width="320" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="665" width="320" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6032" id="6033">
                                             <rect key="frame" x="0.0" y="-0.5" width="320" height="0.5"/>
@@ -958,7 +912,7 @@
                             <tableViewSection headerTitle="Approval" id="5814">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="5815">
-                                        <rect key="frame" x="0.0" y="961" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="873" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5815" id="5816">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -975,7 +929,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6630">
-                                        <rect key="frame" x="0.0" y="1005" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="917" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6630" id="6631">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1006,11 +960,10 @@
                         <outlet property="StartDateCell" destination="5810" id="name-outlet-5810"/>
                         <outlet property="EndDateLabel" destination="5567" id="name-outlet-5567"/>
                         <outlet property="EndDateCell" destination="6032" id="name-outlet-6032"/>
-                        <outlet property="SpecializationLabel" destination="6108" id="name-outlet-6108"/>
                         <outlet property="SpecializationCell" destination="6049" id="name-outlet-6049"/>
-                        <outlet property="TitleField" destination="6078" id="name-outlet-6078"/>
                         <outlet property="TimeSheetCell" destination="5815" id="name-outlet-5815"/>
                         <outlet property="ContractCell" destination="6630" id="name-outlet-6630"/>
+                        <outlet property="TitleField" destination="6078" id="name-outlet-6078"/>
                     </connections>
                     <navigationItem title="New Contract" id="5955" key="navigationItem"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -1079,44 +1032,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Specialization" lineBreakMode="tailTruncation" minimumFontSize="10" id="6217" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="20" y="11" width="115" height="21"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <constraints>
-                                                        <constraint id="6510" firstItem="6217" firstAttribute="height" constant="21"/>
-                                                        <constraint id="6511" firstItem="6217" firstAttribute="width" constant="115"/>
-                                                    </constraints>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="6198" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="135" y="11" width="165" height="21"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <constraints>
-                                                        <constraint id="6519" firstAttribute="height" constant="21"/>
-                                                    </constraints>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="6217" firstAttribute="top" secondItem="6164" secondAttribute="top" constant="5" id="6508"/>
-                                                <constraint firstItem="6217" firstAttribute="leading" secondItem="6164" secondAttribute="leading" constant="20" id="6509"/>
-                                                <constraint id="6516" constant="20" firstItem="6164" firstAttribute="trailing" secondItem="6198" secondAttribute="trailing" relation="greaterthanorequal"/>
-                                                <constraint id="6517" constant="5" firstItem="6198" firstAttribute="top" secondItem="6164" secondAttribute="top"/>
-                                                <constraint firstItem="6198" firstAttribute="leading" secondItem="6217" secondAttribute="trailing" constant="0.0" id="6520"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6165">
-                                        <rect key="frame" x="0.0" y="110" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6165" id="6166">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" minimumFontSize="10" id="6190" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1140,11 +1055,11 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="6190" firstAttribute="top" secondItem="6166" secondAttribute="top" constant="5" id="6521"/>
-                                                <constraint firstItem="6190" firstAttribute="leading" secondItem="6166" secondAttribute="leading" constant="20" id="6522"/>
-                                                <constraint firstItem="6166" firstAttribute="trailing" secondItem="6199" secondAttribute="trailing" constant="20" id="6525" relation="greaterthanorequal"/>
-                                                <constraint firstItem="6199" firstAttribute="top" secondItem="6166" secondAttribute="top" constant="5" id="6526"/>
-                                                <constraint firstItem="6199" firstAttribute="leading" secondItem="6190" secondAttribute="trailing" constant="0.0" id="6527"/>
+                                                <constraint firstItem="6190" firstAttribute="leading" secondItem="6164" secondAttribute="leading" constant="20" id="6737"/>
+                                                <constraint firstItem="6190" firstAttribute="top" secondItem="6164" secondAttribute="top" constant="5" id="6738"/>
+                                                <constraint firstItem="6199" firstAttribute="top" secondItem="6164" secondAttribute="top" constant="5" id="6739"/>
+                                                <constraint firstItem="6199" firstAttribute="leading" secondItem="6190" secondAttribute="trailing" constant="0.0" id="6740"/>
+                                                <constraint firstItem="6164" firstAttribute="trailing" secondItem="6199" secondAttribute="trailing" constant="20" id="6741"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1153,7 +1068,7 @@
                             <tableViewSection headerTitle="Rates" id="6167">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6168">
-                                        <rect key="frame" x="0.0" y="330" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="242" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6168" id="6169">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1191,7 +1106,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6170">
-                                        <rect key="frame" x="0.0" y="374" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="286" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6170" id="6171">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1229,7 +1144,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6172">
-                                        <rect key="frame" x="0.0" y="418" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="330" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6172" id="6173">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1271,7 +1186,7 @@
                             <tableViewSection headerTitle="Dates" id="6174">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6175">
-                                        <rect key="frame" x="0.0" y="638" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="550" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6175" id="6176">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1309,7 +1224,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6177">
-                                        <rect key="frame" x="0.0" y="682" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="594" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6177" id="6178">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1351,7 +1266,7 @@
                             <tableViewSection headerTitle="Approval" id="6181">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6182">
-                                        <rect key="frame" x="0.0" y="858" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="770" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6182" id="6183">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1389,7 +1304,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6648">
-                                        <rect key="frame" x="0.0" y="902" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="814" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6648" id="6649">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1431,7 +1346,7 @@
                             <tableViewSection headerTitle="Confirmation" id="6219">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6220">
-                                        <rect key="frame" x="0.0" y="1078" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="990" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6220" id="6221">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -1465,8 +1380,6 @@
                     <size width="320" height="700" key="freeformSize"/>
                     <connections>
                         <outlet property="NameLabel" destination="6197" id="name-outlet-6197"/>
-                        <outlet property="SpecializationLabel" destination="6198" id="name-outlet-6198"/>
-                        <outlet property="TitleLabel" destination="6199" id="name-outlet-6199"/>
                         <outlet property="ContractorRateLabel" destination="6200" id="name-outlet-6200"/>
                         <outlet property="ServicesRateLabel" destination="6201" id="name-outlet-6201"/>
                         <outlet property="TotalRateLabel" destination="6202" id="name-outlet-6202"/>
@@ -1474,6 +1387,7 @@
                         <outlet property="EndDateLabel" destination="6204" id="name-outlet-6204"/>
                         <outlet property="TimesheetApproverEmailLabel" destination="6205" id="name-outlet-6205"/>
                         <outlet property="ContractApproverEmailLabel" destination="6666" id="name-outlet-6666"/>
+                        <outlet property="TitleLabel" destination="6199" id="name-outlet-6199"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5599" userLabel="First Responder" sceneMemberID="firstResponder"/>

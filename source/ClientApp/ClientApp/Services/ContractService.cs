@@ -15,13 +15,6 @@ namespace ClientApp.Services
             _connection = connection;
         }
 
-        public async Task<IEnumerable<Specialization>> GetAllSpecializations()
-        {
-            var json = await _connection.Get("specializations");
-            var specializations = JsonConvert.DeserializeObject<IEnumerable<Specialization>>(json);
-            return specializations;
-        }
-
         public async Task Submit(ContractProposal proposal)
         {
             await _connection.Post("ContractProposal", proposal);

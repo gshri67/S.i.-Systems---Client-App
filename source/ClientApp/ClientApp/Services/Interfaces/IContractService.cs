@@ -8,8 +8,6 @@ namespace ClientApp.Services.Interfaces
 {
     public interface IContractService
     {
-        Task<IEnumerable<Specialization>> GetAllSpecializations();
-
         Task Submit(ContractProposal proposal);
     }
 }

@@ -25,7 +25,6 @@ namespace ClientApp.iOS
             NavigationItem.SetLeftBarButtonItem(backButton, false);
 
             NameLabel.Text = ViewModel.Consultant.FullName;
-            SpecializationLabel.Text = ViewModel.Specialization.Name;
             TitleLabel.Text = ViewModel.ContractTitle;
             ContractorRateLabel.Text = ToRateString(ViewModel.ContractorRate);
             ServicesRateLabel.Text = ToRateString(NewContractViewModel.ServiceRate);

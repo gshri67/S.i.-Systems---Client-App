@@ -40,14 +40,6 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableViewCell SpecializationCell { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel SpecializationLabel { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableViewCell StartDateCell { get; set; }
 
 		[Outlet]
@@ -87,14 +79,6 @@ namespace ClientApp.iOS
 			if (RateField != null) {
 				RateField.Dispose ();
 				RateField = null;
-			}
-			if (SpecializationCell != null) {
-				SpecializationCell.Dispose ();
-				SpecializationCell = null;
-			}
-			if (SpecializationLabel != null) {
-				SpecializationLabel.Dispose ();
-				SpecializationLabel = null;
 			}
 			if (StartDateCell != null) {
 				StartDateCell.Dispose ();

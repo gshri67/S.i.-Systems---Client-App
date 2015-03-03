@@ -41,7 +41,6 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 EndDate = proposal.EndDate.ToShortDateString(),
                 TimesheetApproverEmailAddress = proposal.TimesheetApproverEmailAddress,
                 ContractApproverEmailAddress = proposal.ContractApproverEmailAddress,
-                Specialization = proposal.Specialization.Name
             };
 
             _mailService.SendTemplatedEmail(email);

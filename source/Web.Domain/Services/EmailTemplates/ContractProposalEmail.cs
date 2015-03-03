@@ -36,8 +36,5 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
 
         [TemplateSubstitution]
         public string InvoiceFormat { get; set; }
-
-        [TemplateSubstitution]
-        public string Specialization { get; set; }
     }
 }

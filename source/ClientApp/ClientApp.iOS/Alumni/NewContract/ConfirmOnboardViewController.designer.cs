@@ -36,10 +36,6 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel SpecializationLabel { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel StartDateLabel { get; set; }
 
 		[Outlet]
@@ -75,10 +71,6 @@ namespace ClientApp.iOS
 			if (ServicesRateLabel != null) {
 				ServicesRateLabel.Dispose ();
 				ServicesRateLabel = null;
-			}
-			if (SpecializationLabel != null) {
-				SpecializationLabel.Dispose ();
-				SpecializationLabel = null;
 			}
 			if (StartDateLabel != null) {
 				StartDateLabel.Dispose ();

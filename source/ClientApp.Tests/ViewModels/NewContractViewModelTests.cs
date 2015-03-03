@@ -27,7 +27,6 @@ namespace SiSystems.ClientApp.Tests.ViewModels
                       ContractApprovalEmail = "test@test.com",
                       ContractorRate = 100,
                       ContractTitle = "Senior Developer",
-                      Specialization = new Specialization { Id = 4, Name = "Project Management"}
                   };
         }
 
@@ -158,14 +157,6 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         {
             var result = _vm.Validate();
             Assert.IsTrue(result.IsValid);
-        }
-
-        [Test]
-        public void Validate_FailsNoSpecialization()
-        {
-            _vm.Specialization = new Specialization();
-            var result = _vm.Validate();
-            Assert.IsFalse(result.IsValid);
         }
 
         [Test]

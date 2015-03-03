@@ -46,8 +46,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 Fee = 123,
                 RateToConsultant = 111,
                 TimesheetApproverEmailAddress = "aguy@email.com",
-                ContractApproverEmailAddress = "aguy@email.com",
-                Specialization = new Specialization {Name = "Testing"}
+                ContractApproverEmailAddress = "aguy@email.com"
             };
 
             var expectedEmail = new ContractProposalEmail
@@ -65,8 +64,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 ContractApproverEmailAddress = "aguy@email.com",
                 ClientCompanyName = "Bees Systems",
                 ClientContactFullName = "Henry Bees",
-                ClientContactEmailAddress = "henry.bees@email.com",
-                Specialization = "Testing"
+                ClientContactEmailAddress = "henry.bees@email.com"
             }.ToExpectedObject();
 
             var service = new ContractProposalService(consultantRepoMock.Object, sessionContextMock.Object, mailServiceMock.Object);
