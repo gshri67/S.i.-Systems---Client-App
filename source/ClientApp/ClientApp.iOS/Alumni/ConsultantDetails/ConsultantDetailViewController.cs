@@ -118,7 +118,7 @@ namespace ClientApp.iOS
 	        } else if (segue.Identifier == "NewContractSelected")
 	        {
 	            var navController = (UINavigationController) segue.DestinationViewController;
-	            var view = (NewContractViewController) navController.ViewControllers[0];
+	            var view = (OnboardViewController) navController.ViewControllers[0];
 	            view.Consultant = _detailViewModel.GetConsultant();
             }
             else if (segue.Identifier == "ContactSelected")

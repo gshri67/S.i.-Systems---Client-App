@@ -8,7 +8,7 @@ namespace ClientApp.iOS
 {
 	partial class ConfirmOnboardViewController : UITableViewController
 	{
-        public NewContractViewModel ViewModel { set; private get; }
+        public OnboardViewModel ViewModel { set; private get; }
 
 	    private ContractSubmissionDelegate _submissionDelegate;
 	    private LoadingOverlay _overlay;

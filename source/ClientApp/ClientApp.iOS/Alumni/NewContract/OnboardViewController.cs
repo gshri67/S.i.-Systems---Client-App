@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ClientApp.iOS.Startup;
 using ClientApp.ViewModels;
 using CoreGraphics;
 using Foundation;
@@ -12,7 +8,7 @@ using UIKit;
 
 namespace ClientApp.iOS
 {
-	partial class NewContractViewController : UITableViewController
+	partial class OnboardViewController : UITableViewController
 	{
 	    private readonly UIDatePicker _startDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
 	    private readonly UIDatePicker _endDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
@@ -20,12 +16,12 @@ namespace ClientApp.iOS
 	    private UILabel _timeSheetDomainLabel;
 	    private UITextField _contractEmailField;
 	    private UILabel _contractDomainLabel;
-        private readonly NewContractViewModel _viewModel;
+        private readonly OnboardViewModel _viewModel;
         public Consultant Consultant { set { _viewModel.Consultant = value; } }
 
-        public NewContractViewController (IntPtr handle) : base (handle)
+        public OnboardViewController (IntPtr handle) : base (handle)
         {
-            _viewModel = DependencyResolver.Current.Resolve<NewContractViewModel>();
+            _viewModel = DependencyResolver.Current.Resolve<OnboardViewModel>();
         }
 
 	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -192,7 +188,7 @@ namespace ClientApp.iOS
             if(result)
             {
                 _viewModel.ContractorRate = val;
-                RateField.Text = string.Format("{0:N2}", val);
+                RateField.Text = string.Format("${0:N2}/hr", val);
                 NewContractTable.ReloadData();
             }
             return result;

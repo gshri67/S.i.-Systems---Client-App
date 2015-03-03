@@ -10,16 +10,16 @@ using SiSystems.ClientApp.SharedModels;
 namespace SiSystems.ClientApp.Tests.ViewModels
 {
     [TestFixture]
-    public class NewContractViewModelTests
+    public class OnboardViewModelTests
     {
-        private NewContractViewModel _vm;
+        private OnboardViewModel _vm;
         private Mock<IContractService> _contractMock;
 
         [SetUp]
         public void SetUp()
         {
             _contractMock = new Mock<IContractService>();
-            _vm = new NewContractViewModel(_contractMock.Object)
+            _vm = new OnboardViewModel(_contractMock.Object)
                   {
                       StartDate = DateTime.Now,
                       EndDate = DateTime.Now.AddDays(1),

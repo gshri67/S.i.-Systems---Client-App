@@ -165,9 +165,9 @@
       <DependentUpon>CustomDisciplineCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Alumni\DisciplineTableViewSource.cs" />
-    <Compile Include="Alumni\NewContract\NewContractViewController.cs" />
-    <Compile Include="Alumni\NewContract\NewContractViewController.designer.cs">
-      <DependentUpon>NewContractViewController.cs</DependentUpon>
+    <Compile Include="Alumni\NewContract\OnboardViewController.cs" />
+    <Compile Include="Alumni\NewContract\OnboardViewController.designer.cs">
+      <DependentUpon>OnboardViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Alumni\CustomAlumniCell.cs" />
     <Compile Include="Alumni\CustomAlumniCell.designer.cs">

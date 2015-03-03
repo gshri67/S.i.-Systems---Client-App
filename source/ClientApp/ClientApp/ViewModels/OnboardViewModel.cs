@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 using ClientApp.Services.Interfaces;
 using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.ViewModels
 {
-    public class NewContractViewModel : ViewModelBase
+    public class OnboardViewModel : ViewModelBase
     {
         private readonly IContractService _contractService;
         private Consultant _consultant;
@@ -39,7 +37,7 @@ namespace ClientApp.ViewModels
         public string ContractApprovalEmail { get; set; }
         public string ContractTitle { get; set; }
 
-        public NewContractViewModel(IContractService contractService)
+        public OnboardViewModel(IContractService contractService)
         {
             _contractService = contractService;
         }
