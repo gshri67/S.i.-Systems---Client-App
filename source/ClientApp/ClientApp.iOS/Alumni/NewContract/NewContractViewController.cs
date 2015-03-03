@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClientApp.iOS.Startup;
 using ClientApp.ViewModels;
 using CoreGraphics;
 using Foundation;
@@ -16,6 +17,10 @@ namespace ClientApp.iOS
 	    private readonly UIDatePicker _startDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
 	    private readonly UIDatePicker _endDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
         private readonly UIPickerView _specPicker = new UIPickerView{Hidden = true};
+	    private UITextField _timeSheetEmailField;
+	    private UILabel _timeSheetDomainLabel;
+	    private UITextField _contractEmailField;
+	    private UILabel _contractDomainLabel;
         private readonly NewContractViewModel _viewModel;
         public Consultant Consultant { set { _viewModel.Consultant = value; } }
 
@@ -46,15 +51,11 @@ namespace ClientApp.iOS
 	    {
 	        base.ViewDidLoad();
 
-            TitleField.ShouldReturn += field =>
-                                       {
-                                           field.ResignFirstResponder();
-                                           return true;
-                                       };
+            TitleField.ShouldReturn += SetupCloseKeyboard;
 
 	        SetupNavigationHeader();
 
-	        SetupApproverEmail();
+	        SetupApproverEmails();
 
 	        SetupDatePicker(_startDatePicker, StartDateLabel, DateTime.Now.Date, true);
 	        SetupDatePicker(_endDatePicker, EndDateLabel, DateTime.Now.Date, false);
@@ -74,6 +75,12 @@ namespace ClientApp.iOS
             Task.Factory.StartNew(() => GetAllSpecializations());
 	    }
 
+	    private static bool SetupCloseKeyboard(UITextField field)
+	    {
+	        field.ResignFirstResponder();
+	        return true;
+	    }
+
 	    private async Task GetAllSpecializations()
 	    {
 	        var specs = await _viewModel.GetAllSpecializations();
@@ -86,18 +93,30 @@ namespace ClientApp.iOS
                                });
 	    }
 
-	    private void SetupApproverEmail()
+	    private void SetupApproverEmails()
 	    {
-	        ApproverEmailField.EditingDidEnd += (sender, args) => { _viewModel.ApproverEmail = ApproverEmailField.Text.Trim(); };
-	        ApproverEmailField.ShouldReturn += field =>
-	                                           {
-	                                               _viewModel.ApproverEmail = field.Text.Trim();
-	                                               if (string.IsNullOrEmpty(field.Text) || _viewModel.ValidateEmailAddress())
-	                                               {
-	                                                   ApproverEmailField.ResignFirstResponder();
-	                                               }
-	                                               return true;
-	                                           };
+            //Programatically add the email objects because Storyboard was refusing to resize the text fields properly
+            _timeSheetDomainLabel = new UILabel();
+            _timeSheetEmailField = new UITextField { ReturnKeyType = UIReturnKeyType.Done };
+            TimeSheetCell.Add(_timeSheetEmailField);
+            TimeSheetCell.Add(_timeSheetDomainLabel);
+            _contractDomainLabel = new UILabel();
+            _contractEmailField = new UITextField { ReturnKeyType = UIReturnKeyType.Done };
+            ContractCell.Add(_contractDomainLabel);
+            ContractCell.Add(_contractEmailField);
+
+            _timeSheetEmailField.Text = CurrentUser.User;
+            _timeSheetDomainLabel.Text = CurrentUser.Domain;
+            _contractEmailField.Text = CurrentUser.User;
+            _contractDomainLabel.Text = CurrentUser.Domain;
+            var size = _timeSheetDomainLabel.IntrinsicContentSize;
+            _timeSheetDomainLabel.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - size.Width - 20, 11f, size.Width, size.Height);
+            _timeSheetEmailField.Frame = new CGRect(135f, 0, UIScreen.MainScreen.Bounds.Width - 155f - size.Width, 44f);
+            _contractDomainLabel.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - size.Width - 20, 11f, size.Width, size.Height);
+            _contractEmailField.Frame = new CGRect(135f, 0, UIScreen.MainScreen.Bounds.Width - 155f - size.Width, 44f);
+
+            _timeSheetEmailField.ShouldReturn += SetupCloseKeyboard;
+            _contractEmailField.ShouldReturn += SetupCloseKeyboard;
 	    }
 
 	    private void SetupNavigationHeader()
@@ -108,7 +127,8 @@ namespace ClientApp.iOS
 	        submitButton.Clicked += (sender, args) =>
 	                                {
 	                                    _viewModel.ContractTitle = TitleField.Text.Trim();
-	                                    _viewModel.ApproverEmail = ApproverEmailField.Text.Trim();
+                                        _viewModel.TimesheetApprovalEmail = _timeSheetEmailField.Text.Trim() + _timeSheetDomainLabel.Text;
+                                        _viewModel.ContractApprovalEmail = _contractEmailField.Text.Trim() + _contractDomainLabel.Text;
 	                                    ValidateRateField();
                                         var result = _viewModel.Validate();
 	                                    InvokeOnMainThread(delegate
@@ -119,8 +139,7 @@ namespace ClientApp.iOS
 	                                                           }
 	                                                           else
 	                                                           {
-	                                                               var view = new UIAlertView("Error", result.Message, null,
-	                                                                   "Ok");
+	                                                               var view = new UIAlertView("Error", result.Message, null, "Ok");
 	                                                               view.Show();
 	                                                           }
 	                                                       });

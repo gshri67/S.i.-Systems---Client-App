@@ -66,6 +66,7 @@ namespace ClientApp.iOS
             if (token == null) return;
 
             username.Text = token.Username;
+            CurrentUser.Email = token.Username;
             password.Text = "aaaaaaaa";
             DisableControls();
 
@@ -123,6 +124,7 @@ namespace ClientApp.iOS
                 if (task.Result.IsValid)
                 {
                     TokenStore.SaveToken(_loginModel.GetAuthToken());
+                    CurrentUser.Email = _loginModel.UserName;
                     CheckEulaService(userName);
                 }
                 else

@@ -23,7 +23,8 @@ namespace SiSystems.ClientApp.Tests.ViewModels
                   {
                       StartDate = DateTime.Now,
                       EndDate = DateTime.Now.AddDays(1),
-                      ApproverEmail = "test@test.com",
+                      TimesheetApprovalEmail = "test@test.com",
+                      ContractApprovalEmail = "test@test.com",
                       ContractorRate = 100,
                       ContractTitle = "Senior Developer",
                       Specialization = new Specialization { Id = 4, Name = "Project Management"}
@@ -61,7 +62,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_FailsWithEmptyEmail()
         {
-            _vm.ApproverEmail = "";
+            _vm.TimesheetApprovalEmail = "";
             var result = _vm.Validate();
             Assert.IsFalse(result.IsValid);
         }
@@ -69,7 +70,15 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_FailsWithNoAtSymbol()
         {
-            _vm.ApproverEmail = "test.com";
+            _vm.TimesheetApprovalEmail = "test.com";
+            var result = _vm.Validate();
+            Assert.IsFalse(result.IsValid);
+        }
+
+        [Test]
+        public void Validate_FailsWithBadContractorEmail()
+        {
+            _vm.ContractApprovalEmail = "test@test.com@test.com";
             var result = _vm.Validate();
             Assert.IsFalse(result.IsValid);
         }
@@ -77,7 +86,6 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [Test]
         public void Validate_PassesWithValidEmail()
         {
-            _vm.ApproverEmail = "test@test.com";
             var result = _vm.Validate();
             Assert.IsTrue(result.IsValid);
         }

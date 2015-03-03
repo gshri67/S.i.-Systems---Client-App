@@ -16,7 +16,7 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField ApproverEmailField { get; set; }
+		UITableViewCell ContractCell { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -60,6 +60,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITableViewCell TimeSheetCell { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField TitleField { get; set; }
 
 		[Outlet]
@@ -68,9 +72,9 @@ namespace ClientApp.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (ApproverEmailField != null) {
-				ApproverEmailField.Dispose ();
-				ApproverEmailField = null;
+			if (ContractCell != null) {
+				ContractCell.Dispose ();
+				ContractCell = null;
 			}
 			if (EndDateCell != null) {
 				EndDateCell.Dispose ();
@@ -111,6 +115,10 @@ namespace ClientApp.iOS
 			if (StartDateLabel != null) {
 				StartDateLabel.Dispose ();
 				StartDateLabel = null;
+			}
+			if (TimeSheetCell != null) {
+				TimeSheetCell.Dispose ();
+				TimeSheetCell = null;
 			}
 			if (TitleField != null) {
 				TitleField.Dispose ();

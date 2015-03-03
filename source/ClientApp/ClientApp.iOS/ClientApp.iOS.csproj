@@ -183,6 +183,7 @@
       <DependentUpon>ContactAlumniViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadingOverlay.cs" />
+    <Compile Include="Startup\CurrentUser.cs" />
     <Compile Include="Startup\EulaViewController.cs" />
     <Compile Include="Startup\EulaViewController.designer.cs">
       <DependentUpon>EulaViewController.cs</DependentUpon>

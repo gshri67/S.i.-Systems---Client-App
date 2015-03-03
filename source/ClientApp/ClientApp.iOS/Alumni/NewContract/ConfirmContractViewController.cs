@@ -32,7 +32,7 @@ namespace ClientApp.iOS
             TotalRateLabel.Text = ToRateString(ViewModel.TotalRate);
             StartDateLabel.Text = ViewModel.StartDate.ToString("MMM dd, yyyy");
             EndDateLabel.Text = ViewModel.EndDate.ToString("MMM dd, yyyy");
-            ApproverEmailLabel.Text = ViewModel.ApproverEmail;
+            ApproverEmailLabel.Text = ViewModel.TimesheetApprovalEmail;
 	    }
 
 	    public override async void RowSelected(UITableView tableView, NSIndexPath indexPath)

@@ -34,7 +34,8 @@ namespace ClientApp.ViewModels
         public decimal TotalRate { get { return ContractorRate + ServiceRate; } }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string ApproverEmail { get; set; }
+        public string TimesheetApprovalEmail { get; set; }
+        public string ContractApprovalEmail { get; set; }
         public string ContractTitle { get; set; }
         public Specialization Specialization { get; set; }
 
@@ -43,11 +44,11 @@ namespace ClientApp.ViewModels
             _contractService = contractService;
         }
 
-        public bool ValidateEmailAddress()
+        public bool ValidateEmailAddress(string email)
         {
             try
             {
-                new MailAddress(ApproverEmail);
+                new MailAddress(email);
                 return true;
             }
             catch (Exception)
@@ -82,9 +83,13 @@ namespace ClientApp.ViewModels
             {
                 return new ValidationResult(false, "End Date must be greater than the Start Date");
             }
-            if (!ValidateEmailAddress())
+            if (!ValidateEmailAddress(TimesheetApprovalEmail))
             {
-                return new ValidationResult(false, "Please enter a valid email address");
+                return new ValidationResult(false, "Please enter a valid timesheet approval email address");
+            }
+            if (!ValidateEmailAddress(ContractApprovalEmail))
+            {
+                return new ValidationResult(false, "Please enter a valid contract approval email address");
             }
             return new ValidationResult(true);
         }
@@ -108,7 +113,7 @@ namespace ClientApp.ViewModels
                 Fee = ServiceRate,
                 StartDate = this.StartDate,
                 EndDate = this.EndDate,
-                TimesheetApproverEmailAddress = this.ApproverEmail,
+                TimesheetApproverEmailAddress = this.TimesheetApprovalEmail,
                 Specialization = this.Specialization
             });
         }
