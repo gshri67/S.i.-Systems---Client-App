@@ -40,6 +40,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 StartDate = proposal.StartDate.ToShortDateString(),
                 EndDate = proposal.EndDate.ToShortDateString(),
                 TimesheetApproverEmailAddress = proposal.TimesheetApproverEmailAddress,
+                ContractApproverEmailAddress = proposal.ContractApproverEmailAddress,
                 Specialization = proposal.Specialization.Name
             };
 

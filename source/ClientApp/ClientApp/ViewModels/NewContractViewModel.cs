@@ -114,6 +114,7 @@ namespace ClientApp.ViewModels
                 StartDate = this.StartDate,
                 EndDate = this.EndDate,
                 TimesheetApproverEmailAddress = this.TimesheetApprovalEmail,
+                ContractApproverEmailAddress = this.ContractApprovalEmail,
                 Specialization = this.Specialization
             });
         }

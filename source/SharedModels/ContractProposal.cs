@@ -36,6 +36,7 @@ namespace SiSystems.ClientApp.SharedModels
         public Decimal Fee { get; set; }
         
         public string TimesheetApproverEmailAddress { get; set; }
+        public string ContractApproverEmailAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="Specialization"/> for this contract.

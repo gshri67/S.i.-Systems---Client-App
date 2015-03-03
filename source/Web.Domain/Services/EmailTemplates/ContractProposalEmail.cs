@@ -23,6 +23,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
         public string TimesheetApproverEmailAddress { get; set; }
 
         [TemplateSubstitution]
+        public string ContractApproverEmailAddress { get; set; }
+
+        [TemplateSubstitution]
         public string ClientCompanyName { get; set; }
 
         [TemplateSubstitution]

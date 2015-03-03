@@ -46,6 +46,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 Fee = 123,
                 RateToConsultant = 111,
                 TimesheetApproverEmailAddress = "aguy@email.com",
+                ContractApproverEmailAddress = "aguy@email.com",
                 Specialization = new Specialization {Name = "Testing"}
             };
 
@@ -61,6 +62,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 EndDate = "12/12/2015",
                 InvoiceFormat = string.Empty,
                 TimesheetApproverEmailAddress = "aguy@email.com",
+                ContractApproverEmailAddress = "aguy@email.com",
                 ClientCompanyName = "Bees Systems",
                 ClientContactFullName = "Henry Bees",
                 ClientContactEmailAddress = "henry.bees@email.com",
