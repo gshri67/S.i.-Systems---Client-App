@@ -188,7 +188,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         public void GetRateFooter_MspAndServiceWhenNotZero()
         {
             _vm.MspPercent = 2;
-            Assert.AreEqual("+ Service Fee ($3/hr) + MSP rate (2%) = $105", _vm.GetRateFooter());
+            Assert.AreEqual("+ MSP rate (2%) + Service Fee ($3/hr) = $105", _vm.GetRateFooter());
         }
 
         [Test]
