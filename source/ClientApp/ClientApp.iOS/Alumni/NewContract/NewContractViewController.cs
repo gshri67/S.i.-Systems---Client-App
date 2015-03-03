@@ -61,8 +61,8 @@ namespace ClientApp.iOS
 	        SetupDatePicker(_endDatePicker, EndDateLabel, DateTime.Now.Date, false);
 
             //Load initial values
-            StartDateLabel.Text = DateTime.Now.Date.ToString("MMM dd, yyyy");
-	        EndDateLabel.Text = DateTime.Now.Date.ToString("MMM dd, yyyy");
+            StartDateLabel.Text = DateTime.Now.Date.AddDays(1).ToString("MMM dd, yyyy");
+	        EndDateLabel.Text = DateTime.Now.Date.AddDays(1).AddMonths(6).ToString("MMM dd, yyyy");
 
 	        NameLabel.Text = _viewModel.Consultant.FullName;
 	        ServiceLabel.Text = ToRateString(NewContractViewModel.ServiceRate);
