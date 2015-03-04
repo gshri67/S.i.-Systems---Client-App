@@ -21,6 +21,7 @@ namespace ClientApp.Core
         Task SendMessage(ConsultantMessage message);
 
         Task<Eula> GetMostRecentEula();
+        Task<ClientAccountDetails> GetClientDetails();
     }
 
     [Api(Settings.MatchGuideApiAddress)]
@@ -73,6 +74,11 @@ namespace ClientApp.Core
         public Task SendMessage(ConsultantMessage message)
         {
             return this._client.Post(message);
+        }
+
+        public Task<ClientAccountDetails> GetClientDetails()
+        {
+            return this._client.Get<ClientAccountDetails>();
         }
     }
 }

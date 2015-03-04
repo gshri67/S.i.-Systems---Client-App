@@ -182,6 +182,8 @@
     <Compile Include="Alumni\ConsultantDetails\ContactAlumniViewController.designer.cs">
       <DependentUpon>ContactAlumniViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="iOSActivityManager.cs" />
+    <Compile Include="iOSExceptionHandler.cs" />
     <Compile Include="LoadingOverlay.cs" />
     <Compile Include="Startup\EulaViewController.cs" />
     <Compile Include="Startup\EulaViewController.designer.cs">
@@ -204,6 +206,7 @@
     </Compile>
     <Compile Include="Startup\TokenStore.cs" />
     <Compile Include="StyleGuideConstants.cs" />
+    <None Include="app.config" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -225,6 +228,9 @@
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
@@ -233,6 +239,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ClientApp.Core\ClientApp.Core.csproj">
+      <Project>{256e615c-7b6f-4477-b215-c00676f278e0}</Project>
+      <Name>ClientApp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
       <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
       <Name>SharedModels</Name>
@@ -280,7 +290,6 @@
   <ItemGroup>
     <BundleResource Include="Resources\sisystems_logo.jpg" />
   </ItemGroup>
-  <Import Project="..\ClientApp\ClientApp.projitems" Label="Shared" Condition="Exists('..\ClientApp\ClientApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

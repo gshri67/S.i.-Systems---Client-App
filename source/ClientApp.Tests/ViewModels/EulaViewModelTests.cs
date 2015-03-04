@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using ClientApp.Services.Interfaces;
-using ClientApp.ViewModels;
-using Moq;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
+using ClientApp.Core.ViewModels;
 
 namespace SiSystems.ClientApp.Tests.ViewModels
 {

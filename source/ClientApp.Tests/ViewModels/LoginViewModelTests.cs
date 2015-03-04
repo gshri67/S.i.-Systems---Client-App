@@ -1,6 +1,6 @@
 ﻿using System;
-using ClientApp.Services.Interfaces;
-using ClientApp.ViewModels;
+using ClientApp.Core.ViewModels;
+using ClientApp.Core;
 using Moq;
 using NUnit.Framework;
 
@@ -9,18 +9,14 @@ namespace SiSystems.ClientApp.Tests.ViewModels
     [TestFixture]
     public class LoginViewModelTests
     {
-        private Mock<ILoginService> _loginMock;
-        private Mock<IEulaService> _eulaMock;
-        private Mock<IClientDetailsService> _clientDetailsMock;
+        private Mock<IMatchGuideApi> _apiMock;
         private LoginViewModel _vm;
 
         [SetUp]
         public void Setup()
         {
-            _loginMock = new Mock<ILoginService>();
-            _eulaMock = new Mock<IEulaService>();
-            _clientDetailsMock = new Mock<IClientDetailsService>();
-            _vm = new LoginViewModel(_loginMock.Object, _eulaMock.Object, _clientDetailsMock.Object);
+            _apiMock = new Mock<IMatchGuideApi>();
+            _vm = new LoginViewModel(_apiMock.Object);
         }
 
         [Test]

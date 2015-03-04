@@ -1,19 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Timers;
 using ClientApp.iOS.Startup;
-using ClientApp.ViewModels;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
-using SiSystems.ClientApp.SharedModels;
 using UIKit;
+using ClientApp.Core.ViewModels;
 
 namespace ClientApp.iOS
 {
-	public partial class AlumniViewController : UIViewController
+    public partial class AlumniViewController : UIViewController
 	{
 	    private readonly AlumniViewModel _alumniModel;
         private LoadingOverlay _overlay;
@@ -201,11 +197,12 @@ namespace ClientApp.iOS
         {
             var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
             var logoutAction = UIAlertAction.Create("Logout", UIAlertActionStyle.Destructive,
-                delegate
+                async delegate
                 {
-                    _alumniModel.Logout();
-                    TokenStore.DeleteDeviceToken();
-                    InvokeOnMainThread(delegate{PerformSegue(LogoutSegueIdentifier, this);});
+                    await _alumniModel.Logout();
+                    var rootController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateViewController("LoginView");
+                    var navigationController = new UINavigationController(rootController);
+                    UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
                 });
             var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
             controller.AddAction(logoutAction);

@@ -1,18 +1,19 @@
 using System;
 using System.Net;
-using ClientApp.iOS.Startup;
-using ClientApp.ViewModels;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
+using ClientApp.Core.ViewModels;
+using ClientApp.Core;
 
 namespace ClientApp.iOS
 {
     public partial class LoginViewController : UIViewController
     {
         private readonly LoginViewModel _loginModel;
+        private readonly ITokenStore _tokenStore;
         private Eula _eula;
         private CGRect _defaultFrame;
         static bool UserInterfaceIdiomIsPhone
@@ -24,6 +25,7 @@ namespace ClientApp.iOS
             : base(handle)
         {
             _loginModel = DependencyResolver.Current.Resolve<LoginViewModel>();
+            _tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -67,14 +69,14 @@ namespace ClientApp.iOS
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, ShowKeyboard);
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, HideKeyboard);
 
-            var token = TokenStore.GetDeviceToken();
+            var token = _tokenStore.GetDeviceToken();
             if (token == null) return;
 
             username.Text = token.Username;
             CurrentUser.Email = token.Username;
             password.Text = "aaaaaaaa";
             DisableControls();
-            _loginModel.SetAuthToken(token);
+
             GetClientDetails();
             CheckEulaService(token.Username);
         }
@@ -150,7 +152,7 @@ namespace ClientApp.iOS
 
         #endregion
 
-        partial void login_TouchUpInside(UIButton sender)
+        async partial void login_TouchUpInside(UIButton sender)
         {
             var userName = username.Text;
             var result = _loginModel.IsValidUserName(userName);
@@ -171,21 +173,18 @@ namespace ClientApp.iOS
 
             DisableControls();
 
-            var loginTask = _loginModel.LoginAsync(userName, password.Text);
-            loginTask.ContinueWith(task =>
-            {
-                if (task.Result.IsValid)
+            var loginTask = await _loginModel.LoginAsync(userName, password.Text);
+
+            if (loginTask.IsValid)
                 {
-                    TokenStore.SaveToken(_loginModel.GetAuthToken());
                     CurrentUser.Email = _loginModel.UserName;
                     GetClientDetails();
                     CheckEulaService(userName);
                 }
                 else
                 {
-                    DisplayInvalidCredentials(task.Result.Message);
-                }
-            });
+                DisplayInvalidCredentials(loginTask.Message);
+            };
         }
 
         partial void resetPassword_TouchUpInside(UIButton sender)
@@ -196,11 +195,9 @@ namespace ClientApp.iOS
 
         private async void CheckEulaService(string userName)
         {
-            try
-            {
-                _eula = await _loginModel.GetCurrentEulaAsync();
-            }
-            catch (WebException)
+
+            _eula = await _loginModel.GetCurrentEulaAsync();
+            if (_eula == null)
             {
                 //Authentication failed
                 password.Text = "";
@@ -211,12 +208,14 @@ namespace ClientApp.iOS
             var storageString = NSUserDefaults.StandardUserDefaults.StringForKey("eulaVersions");
             var hasReadEula = _loginModel.UserHasReadLatestEula(userName, _eula.Version, storageString);
 
-
-            InvokeOnMainThread(delegate
+            if (hasReadEula)
             {
-                PerformSegue(hasReadEula ? "alumniSegue" : "eulaSegue", this);
-            });
-
+                UIApplication.SharedApplication.Windows[0].RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
+            }
+            else
+            {
+                PerformSegue("eulaSegue", this);
+            }
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)

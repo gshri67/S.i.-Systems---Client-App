@@ -1,7 +1,7 @@
 using System;
-using ClientApp.Services;
-using ClientApp.Services.Interfaces;
 using Microsoft.Practices.Unity;
+using ClientApp.Core;
+using ClientApp.iOS.Startup;
 
 namespace ClientApp.iOS
 {
@@ -24,14 +24,11 @@ namespace ClientApp.iOS
 
         private static void RegisterTypes(UnityContainer container)
         {
-            container.RegisterType<ILoginService, LoginService>();
-            container.RegisterType<ILogoutService, LogoutService>();
-            container.RegisterType<IEulaService, EulaService>();
-            container.RegisterType<IClientDetailsService, ClientDetailsService>();
-            container.RegisterType<IConnectionService, ConnectionService>();
-            container.RegisterType<IAlumniService, AlumniService>();
-            container.RegisterType<IContractService, ContractService>();
-            container.RegisterType<IEmailService, EmailService>();
+            container.RegisterType<IHttpMessageHandlerFactory, NativeMessageHandlerFactory>();
+            container.RegisterType<IPlatformExceptionHandler, iOSExceptionHandler>();
+            container.RegisterType<IMatchGuideApi, MatchGuideApi>();
+            container.RegisterType<ITokenStore, TokenStore>();
+            container.RegisterType<IActivityManager, iOSActivityManager>(new ContainerControlledLifetimeManager());
         }
     }
 }

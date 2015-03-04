@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{E002E567-13CA-4A22-93B3-0A4566613E0E}"
 EndProject
@@ -50,8 +50,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp.Core.Tests", "Cli
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		ClientApp\ClientApp\ClientApp.projitems*{5e6d009c-ef7a-4cc1-ba4b-374962fbf79f}*SharedItemsImports = 4
-		ClientApp\ClientApp\ClientApp.projitems*{646bdae9-13c2-497a-a5ad-49d94e1119a2}*SharedItemsImports = 4
 		ClientApp\ClientApp\ClientApp.projitems*{802843b9-d2ff-460e-bd2a-073d8bc6de91}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

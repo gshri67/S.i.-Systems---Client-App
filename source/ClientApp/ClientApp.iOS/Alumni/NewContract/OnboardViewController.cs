@@ -1,5 +1,6 @@
 using System;
-using ClientApp.ViewModels;
+using ClientApp.Core.ViewModels;
+using ClientApp.Core;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;

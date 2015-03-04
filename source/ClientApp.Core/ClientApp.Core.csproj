@@ -39,18 +39,32 @@
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
     <Compile Include="ApiErrorResponse.cs" />
+    <Compile Include="AuthorizationException.cs" />
+    <Compile Include="CurrentUser.cs" />
+    <Compile Include="IPlatformExceptionHandler.cs" />
     <Compile Include="HttpAttributes\ApiAttribute.cs" />
     <Compile Include="HttpAttributes\HttpGetAttribute.cs" />
     <Compile Include="HttpAttributes\HttpMethodAttribute.cs" />
     <Compile Include="HttpAttributes\HttpPostAttribute.cs" />
+    <Compile Include="HttpMessageHandlerFactory.cs" />
     <Compile Include="IActivityManager.cs" />
+    <Compile Include="IApiClient.cs" />
+    <Compile Include="IHttpMessageHandlerFactory.cs" />
     <Compile Include="MatchGuideApi.cs" />
     <Compile Include="ITokenStore.cs" />
     <Compile Include="OAuthMessageHandler.cs" />
     <Compile Include="OAuthToken.cs" />
+    <Compile Include="PassThroughExceptionHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ValidationResult.cs" />
+    <Compile Include="ViewModels\AlumniViewModel.cs" />
+    <Compile Include="ViewModels\ConsultantDetailViewModel.cs" />
+    <Compile Include="ViewModels\EulaViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MessageViewModel.cs" />
+    <Compile Include="ViewModels\OnboardViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">

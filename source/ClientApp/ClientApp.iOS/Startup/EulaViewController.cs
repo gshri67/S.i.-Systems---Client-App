@@ -1,14 +1,12 @@
 using Foundation;
 using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using ClientApp.ViewModels;
+using ClientApp.Core.ViewModels;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS
 {
-	partial class EulaViewController : UIViewController
+    partial class EulaViewController : UIViewController
 	{
         public EulaViewModel EulaModel { private get; set; }
         public string UserName { private get; set; }
@@ -44,7 +42,7 @@ namespace ClientApp.iOS
                 //Continue if the save fails.  They will just see the Eula again next login
             }
 
-            PerformSegue("alumniSegue", sender);
+            UIApplication.SharedApplication.Windows[0].RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
         }
 
 	    public override void ViewDidLoad()

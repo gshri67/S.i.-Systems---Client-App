@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿using Microsoft.Practices.Unity;
 using Foundation;
 using UIKit;
+using ClientApp.Core;
 
 namespace ClientApp.iOS
 {
@@ -33,6 +31,20 @@ namespace ClientApp.iOS
         {
             SetNavbarStyle();
 
+            var tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
+            if (tokenStore.GetDeviceToken() == null)
+            {
+                // User is not logged in - display the login view
+                // TODO: We could also proactively check their token expiry here
+                var rootController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateViewController("LoginView");
+                var navigationController = new UINavigationController(rootController) { NavigationBarHidden = true };
+
+                this.Window.RootViewController = navigationController;
+            }
+            else
+            {
+                this.Window.RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
+            }
             return true;
         }
 

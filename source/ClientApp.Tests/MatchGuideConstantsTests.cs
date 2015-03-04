@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ClientApp.Services;
-using Moq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using SiSystems.ClientApp.SharedModels;
 
 namespace SiSystems.ClientApp.Tests

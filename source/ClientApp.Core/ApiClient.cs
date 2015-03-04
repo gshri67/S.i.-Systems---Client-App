@@ -10,10 +10,11 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using SiSystems.ClientApp.SharedModels;
+using ModernHttpClient;
 
 namespace ClientApp.Core
 {
-    public class ApiClient<TApi>
+    public class ApiClient<TApi> : ClientApp.Core.IApiClient
     {
         private readonly ITokenStore _tokenStore;
 
@@ -21,15 +22,18 @@ namespace ClientApp.Core
 
         private readonly HttpMessageHandler _handler;
 
+        private readonly IPlatformExceptionHandler _exceptionHandler;
+
         private OAuthToken _token;
 
         public Uri BaseAddress { get; set; }
 
-        public ApiClient(ITokenStore tokenStore, IActivityManager activityManager, HttpMessageHandler handler)
+        public ApiClient(ITokenStore tokenStore, IActivityManager activityManager, IPlatformExceptionHandler exceptionHandler, IHttpMessageHandlerFactory handlerFactory)
         {
             this._tokenStore = tokenStore;
-            this._handler = handler;
+            this._handler = handlerFactory.Get();
             this._activityManager = activityManager;
+            this._exceptionHandler = exceptionHandler;
             this._token = this._tokenStore.GetDeviceToken();
             this.BaseAddress = new Uri(typeof(TApi).GetTypeInfo().GetCustomAttribute<ApiAttribute>().BaseUrl);
         }
@@ -81,8 +85,8 @@ namespace ClientApp.Core
 
         public async Task Deauthenticate([CallerMemberName] string caller = null)
         {
-            await this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null), CancellationToken.None);
-            this._tokenStore.Remove();
+            await this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null));
+            this._tokenStore.DeleteDeviceToken();
         }
 
         public Task Post(object data, [CallerMemberName] string caller = null)
@@ -92,7 +96,7 @@ namespace ClientApp.Core
 
         public Task Post(object data, CancellationToken cancellationToken, [CallerMemberName] string caller = null)
         {
-            return this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null), CancellationToken.None);
+            return this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null));
         }
 
         public async Task<TResult> Get<TResult>([CallerMemberName] string caller = null)
@@ -107,38 +111,34 @@ namespace ClientApp.Core
 
         public async Task<TResult> Get<TResult>(object values, CancellationToken cancellationToken, [CallerMemberName] string caller = null)
         {
-            try
-            {
-                var response = await ExecuteWithAuthenticatedClient(async httpClient => await httpClient.GetAsync(GetRelativeUriFromAction(caller, values), HttpCompletionOption.ResponseHeadersRead, cancellationToken), cancellationToken);
+            var response = await ExecuteWithAuthenticatedClient(async httpClient => await httpClient.GetAsync(GetRelativeUriFromAction(caller, values), HttpCompletionOption.ResponseHeadersRead, cancellationToken));
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<TResult>(jsonString);
-                }
-            }
-            catch(ArgumentNullException)
+            if (response != null && response.IsSuccessStatusCode)
             {
-                throw new AuthorizationException("OAuth token is required, but was not found.");
+                var jsonString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<TResult>(jsonString);
             }
             return default(TResult);
         }
 
-        private async Task<T> ExecuteWithAuthenticatedClient<T>(Func<HttpClient, Task<T>> action, CancellationToken cancellationToken)
+        private async Task<T> ExecuteWithAuthenticatedClient<T>(Func<HttpClient, Task<T>> action)
         {
-            if (_token == null)
+            return await this._exceptionHandler.HandleAsync(async () =>
             {
-                throw new ArgumentNullException("token", "Not OAuth token provided for request");
-            }
+                if (this._token == null)
+                {
+                    throw new AuthorizationException("OAuth token is required, but was not found.");
+                }
+                
+                var activityId = this._activityManager.StartActivity(CancellationToken.None);
 
-            var activityId = this._activityManager.StartActivity(CancellationToken.None);
+                var httpClient = new HttpClient(this._handler) { BaseAddress = this.BaseAddress };
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.AccessToken);
 
-            var httpClient = new HttpClient(this._handler) { BaseAddress = this.BaseAddress };
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.AccessToken);
+                this._activityManager.StopActivity(activityId);
 
-            this._activityManager.StopActivity(activityId);
-
-            return await action(httpClient);
+                return await action(httpClient);
+            });
         }
 
         private Uri GetRelativeUriFromAction(string source, object values)

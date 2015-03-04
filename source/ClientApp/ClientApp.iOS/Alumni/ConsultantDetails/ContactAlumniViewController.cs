@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using ClientApp.ViewModels;
 using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
+using ClientApp.Core.ViewModels;
 
 namespace ClientApp.iOS
 {
@@ -12,7 +12,7 @@ namespace ClientApp.iOS
 	    private MessageViewModel _viewModel;
 	    private LoadingOverlay _overlay;
         public Consultant Consultant { get; set; }
-
+        
         private string ScreenTitle
         {
             get { return Consultant==null ? "Contact" : string.Format("Contact {0}", Consultant.FirstName); }
@@ -63,8 +63,7 @@ namespace ClientApp.iOS
 
 	    private async Task SendMessage()
 	    {
-	        var result = await _viewModel.SendMessage();
-	        if (result)
+            try
 	        {
 	            var successDelegate = new ContactAlumniDelegate(this);
 	            InvokeOnMainThread(() =>
@@ -75,7 +74,7 @@ namespace ClientApp.iOS
                                        view.Show();
 	                               });
 	        }
-	        else
+            catch (Exception)
 	        {
 	            InvokeOnMainThread(() =>
 	                               {

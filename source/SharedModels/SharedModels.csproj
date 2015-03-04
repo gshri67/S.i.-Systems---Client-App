@@ -50,13 +50,11 @@
     <Compile Include="FloThruAgreement.cs" />
     <Compile Include="LoginModel.cs" />
     <Compile Include="MatchGuideConstants.cs" />
-    <Compile Include="OAuthToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resume.cs" />
     <Compile Include="Skill.cs" />
     <Compile Include="Specialization.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="ValidationResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

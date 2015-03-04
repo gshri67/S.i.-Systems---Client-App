@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ClientApp.iOS.Alumni;
-using ClientApp.ViewModels;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
+using ClientApp.Core.ViewModels;
 
 namespace ClientApp.iOS
 {
-	partial class ConsultantDetailViewController : UITableViewController, IUITableViewDelegate
+    partial class ConsultantDetailViewController : UITableViewController, IUITableViewDelegate
 	{
 		private enum DetailsTableCells
 		{

@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace ClientApp.Core
 {
-    public interface ITokenStore
+    public interface IPlatformExceptionHandler
     {
-        OAuthToken SaveToken(OAuthToken token);
-
-        OAuthToken GetDeviceToken();
-
-        void DeleteDeviceToken();
+        Task<TResult> HandleAsync<TResult>(Func<Task<TResult>> action);
     }
 }

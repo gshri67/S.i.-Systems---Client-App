@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MatchGuideConstantsTests.cs" />
-    <Compile Include="Services\LogoutServiceTests.cs" />
     <Compile Include="ViewModels\EulaViewModelTests.cs" />
     <Compile Include="ViewModels\LoginViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,6 +65,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClientApp.Core\ClientApp.Core.csproj">
+      <Project>{256e615c-7b6f-4477-b215-c00676f278e0}</Project>
+      <Name>ClientApp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedModels\SharedModels.csproj">
       <Project>{a274548b-6cca-4841-b167-21625d1179b3}</Project>
       <Name>SharedModels</Name>
@@ -75,7 +78,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup />
-  <Import Project="..\ClientApp\ClientApp\ClientApp.projitems" Label="Shared" Condition="Exists('..\ClientApp\ClientApp\ClientApp.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

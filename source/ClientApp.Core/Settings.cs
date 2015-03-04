@@ -8,7 +8,7 @@ namespace ClientApp.Core
 {
     public static class Settings
     {
-    #if LOCAL
+    #if DEBUG
         public const string MatchGuideApiAddress = "http://clientapi.local:50021/api/";
     #elif DEV
         public const string MatchGuideApiAddress = "https://clientapidev.azurewebsites.net/api/";

@@ -1,5 +1,5 @@
 using System;
-using ClientApp.ViewModels;
+using ClientApp.Core.ViewModels;
 using CoreGraphics;
 using Foundation;
 using UIKit;

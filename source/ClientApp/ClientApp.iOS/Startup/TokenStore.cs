@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Foundation;
 using Newtonsoft.Json;
 using Security;
 using SiSystems.ClientApp.SharedModels;
-using UIKit;
+using ClientApp.Core;
 
 namespace ClientApp.iOS.Startup
 {
-    public static class TokenStore
+    public class TokenStore : ITokenStore
     {
-        public static void SaveToken(OAuthToken token)
+        public OAuthToken SaveToken(OAuthToken token)
         {
             var json = JsonConvert.SerializeObject(token);
             var existingRecord = new SecRecord(SecKind.GenericPassword)
@@ -39,9 +34,11 @@ namespace ClientApp.iOS.Startup
                     var addCode2 = SecKeyChain.Add(newRecord);
                 }
             }
+
+            return token;
         }
 
-        public static OAuthToken GetDeviceToken()
+        public OAuthToken GetDeviceToken()
         {
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
@@ -61,7 +58,7 @@ namespace ClientApp.iOS.Startup
             return null;
         }
 
-        public static void DeleteDeviceToken()
+        public void DeleteDeviceToken()
         {
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {

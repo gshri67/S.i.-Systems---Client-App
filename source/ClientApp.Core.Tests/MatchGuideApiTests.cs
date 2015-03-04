@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using ClientApp.Core;
+using Moq;
 using NUnit.Framework;
 using SiSystems.ClientApp.SharedModels;
 using System;
@@ -14,6 +15,8 @@ namespace ClientApp.Core.Tests
     {
         private Mock<ITokenStore> _mockTokenSource;
         private Mock<IActivityManager> _mockActivityManager;
+        private Mock<IHttpMessageHandlerFactory> _mockHttpHandlerHelper;
+        private Mock<PassThroughExceptionHandler> _mockExceptionHandler;
 
         class FakeHttpHandler : DelegatingHandler
         {
@@ -46,17 +49,20 @@ namespace ClientApp.Core.Tests
         {
             _mockTokenSource = new Mock<ITokenStore>();
             _mockActivityManager = new Mock<IActivityManager>();
+            _mockHttpHandlerHelper = new Mock<IHttpMessageHandlerFactory>();
+            _mockHttpHandlerHelper.Setup(h => h.Get()).Returns(new FakeHttpHandler());
+            _mockExceptionHandler = new Mock<PassThroughExceptionHandler> { CallBase = true };
+
         }
 
         [Test]
         public async void Login_ShouldGetAtAValidValidationResultFromLoginEndpoint()
         {
             var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
-            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
 
-            var sut = new MatchGuideApi(apiClient);
-
-            var result = await sut.Login("email@example.com", "password");
+            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockExceptionHandler.Object, _mockHttpHandlerHelper.Object);
+            var _sut = new MatchGuideApi(apiClient);
+            var result = await _sut.Login("email@example.com", "password");
 
             Assert.IsInstanceOf<ValidationResult>(result);
             Assert.IsTrue(result.IsValid);
@@ -68,13 +74,11 @@ namespace ClientApp.Core.Tests
             var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
 
-            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
+            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockExceptionHandler.Object, _mockHttpHandlerHelper.Object);
+            var _sut = new MatchGuideApi(apiClient);
+            await _sut.Logout();
 
-            var sut = new MatchGuideApi(apiClient);
-
-            await sut.Logout();
-
-            this._mockTokenSource.Verify(t => t.Remove(), Times.Once);
+            this._mockTokenSource.Verify(t => t.DeleteDeviceToken(), Times.Once);
         }
 
         [Test]
@@ -84,11 +88,9 @@ namespace ClientApp.Core.Tests
 
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
 
-            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
-
-            var sut = new MatchGuideApi(apiClient);
-
-            var result = sut.GetConsultant(1).Result;
+            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockExceptionHandler.Object, _mockHttpHandlerHelper.Object);
+            var _sut = new MatchGuideApi(apiClient);
+            var result = _sut.GetConsultant(1).Result;
 
             Assert.IsInstanceOf<Consultant>(result);
             Assert.AreEqual(1, result.Id);
@@ -101,11 +103,9 @@ namespace ClientApp.Core.Tests
 
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
 
-            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
-
-            var sut = new MatchGuideApi(apiClient);
-
-            var result = sut.GetConsultantGroups(string.Empty).Result;
+            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockExceptionHandler.Object, _mockHttpHandlerHelper.Object);
+            var _sut = new MatchGuideApi(apiClient);
+            var result = _sut.GetConsultantGroups(string.Empty).Result;
 
             Assert.IsAssignableFrom<ConsultantGroup[]>(result);
             Assert.AreEqual(2, result.Count());
