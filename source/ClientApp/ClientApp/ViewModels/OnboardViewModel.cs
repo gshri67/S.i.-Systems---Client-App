@@ -47,7 +47,7 @@ namespace ClientApp.ViewModels
             try
             {
                 new MailAddress(email);
-                return true;
+                return email.EndsWith(CurrentUser.Domain);
             }
             catch (Exception)
             {
@@ -79,11 +79,11 @@ namespace ClientApp.ViewModels
             }
             if (!ValidateEmailAddress(TimesheetApprovalEmail))
             {
-                return new ValidationResult(false, "Please enter a valid timesheet approval email address");
+                return new ValidationResult(false, "Please enter a valid timesheet approval email address. The address must end in " + CurrentUser.Domain);
             }
             if (!ValidateEmailAddress(ContractApprovalEmail))
             {
-                return new ValidationResult(false, "Please enter a valid contract approval email address");
+                return new ValidationResult(false, "Please enter a valid contract approval email address. The address must end in " + CurrentUser.Domain);
             }
             return new ValidationResult(true);
         }

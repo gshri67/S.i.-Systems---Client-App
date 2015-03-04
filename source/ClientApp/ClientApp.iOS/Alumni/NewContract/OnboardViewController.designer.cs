@@ -16,6 +16,10 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField ContractApproverField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableViewCell ContractCell { get; set; }
 
 		[Outlet]
@@ -48,6 +52,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField TimesheetApproverField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableViewCell TimeSheetCell { get; set; }
 
 		[Outlet]
@@ -56,6 +64,10 @@ namespace ClientApp.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (ContractApproverField != null) {
+				ContractApproverField.Dispose ();
+				ContractApproverField = null;
+			}
 			if (ContractCell != null) {
 				ContractCell.Dispose ();
 				ContractCell = null;
@@ -87,6 +99,10 @@ namespace ClientApp.iOS
 			if (StartDateLabel != null) {
 				StartDateLabel.Dispose ();
 				StartDateLabel = null;
+			}
+			if (TimesheetApproverField != null) {
+				TimesheetApproverField.Dispose ();
+				TimesheetApproverField = null;
 			}
 			if (TimeSheetCell != null) {
 				TimeSheetCell.Dispose ();

@@ -3,6 +3,7 @@ using ClientApp.ViewModels;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
+using ObjCRuntime;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
@@ -12,10 +13,6 @@ namespace ClientApp.iOS
 	{
 	    private readonly UIDatePicker _startDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
 	    private readonly UIDatePicker _endDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
-	    private UITextField _timeSheetEmailField;
-	    private UILabel _timeSheetDomainLabel;
-	    private UITextField _contractEmailField;
-	    private UILabel _contractDomainLabel;
         private readonly OnboardViewModel _viewModel;
         public Consultant Consultant { set { _viewModel.Consultant = value; } }
 
@@ -44,7 +41,11 @@ namespace ClientApp.iOS
 
 	        SetupNavigationHeader();
 
-	        SetupApproverEmails();
+            SetupApproverEmails();
+            TimesheetApproverField.Text = CurrentUser.Email;
+            TimesheetApproverField.Placeholder = CurrentUser.Domain;
+            ContractApproverField.Text = CurrentUser.Email;
+            ContractApproverField.Placeholder = CurrentUser.Domain;
 
             SetupDatePicker(_startDatePicker, StartDateLabel, DateTime.Now.Date.AddDays(1), true);
             SetupDatePicker(_endDatePicker, EndDateLabel, DateTime.Now.Date.AddDays(1).AddMonths(6), false);
@@ -67,28 +68,38 @@ namespace ClientApp.iOS
 
 	    private void SetupApproverEmails()
 	    {
-            //Programatically add the email objects because Storyboard was refusing to resize the text fields properly
-            _timeSheetDomainLabel = new UILabel();
-            _timeSheetEmailField = new UITextField { ReturnKeyType = UIReturnKeyType.Done };
-            TimeSheetCell.Add(_timeSheetEmailField);
-            TimeSheetCell.Add(_timeSheetDomainLabel);
-            _contractDomainLabel = new UILabel();
-            _contractEmailField = new UITextField { ReturnKeyType = UIReturnKeyType.Done };
-            ContractCell.Add(_contractDomainLabel);
-            ContractCell.Add(_contractEmailField);
+            TimesheetApproverField.EditingChanged += AppendDomainSetCursor;
+	        TimesheetApproverField.EditingDidBegin += (sender, args) => { TimesheetApproverField.PerformSelector(new Selector("selectAll"), null, 0f); };
+            ContractApproverField.EditingChanged += AppendDomainSetCursor;
+            ContractApproverField.EditingDidBegin += (sender, args) => { ContractApproverField.PerformSelector(new Selector("selectAll"), null, 0f); };
+            TimesheetApproverField.ShouldReturn += SetupCloseKeyboard;
+            ContractApproverField.ShouldReturn += SetupCloseKeyboard;
+            TimesheetApproverField.EditingDidEnd += ValidateEmailField;
+            ContractApproverField.EditingDidEnd += ValidateEmailField;
+	    }
 
-            _timeSheetEmailField.Text = CurrentUser.User;
-            _timeSheetDomainLabel.Text = CurrentUser.Domain;
-            _contractEmailField.Text = CurrentUser.User;
-            _contractDomainLabel.Text = CurrentUser.Domain;
-            var size = _timeSheetDomainLabel.IntrinsicContentSize;
-            _timeSheetDomainLabel.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - size.Width - 20, 11f, size.Width, size.Height);
-            _timeSheetEmailField.Frame = new CGRect(135f, 0, UIScreen.MainScreen.Bounds.Width - 155f - size.Width, 44f);
-            _contractDomainLabel.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - size.Width - 20, 11f, size.Width, size.Height);
-            _contractEmailField.Frame = new CGRect(135f, 0, UIScreen.MainScreen.Bounds.Width - 155f - size.Width, 44f);
+	    private void ValidateEmailField(object sender, EventArgs eventArgs)
+	    {
+	        var field = (UITextField) sender;
+	        if (!field.Text.Contains("@"))
+	        {
+	            field.Text = field.Text + CurrentUser.Domain;
+	        }
+	        if (!_viewModel.ValidateEmailAddress(field.Text))
+	        {
+	            field.Text = string.Empty;
+	        }
+	    }
 
-            _timeSheetEmailField.ShouldReturn += SetupCloseKeyboard;
-            _contractEmailField.ShouldReturn += SetupCloseKeyboard;
+        private void AppendDomainSetCursor(object sender, EventArgs eventArgs)
+	    {
+            var field = (UITextField)sender;
+            if (!field.Text.EndsWith(CurrentUser.Domain))
+            {
+                field.Text = field.Text + CurrentUser.Domain;
+                var position = field.GetPosition(field.EndOfDocument, -CurrentUser.Domain.Length);
+                field.SelectedTextRange = field.GetTextRange(position, position);
+            }
 	    }
 
 	    private void SetupNavigationHeader()
@@ -99,8 +110,8 @@ namespace ClientApp.iOS
 	        submitButton.Clicked += (sender, args) =>
 	                                {
 	                                    _viewModel.ContractTitle = TitleField.Text.Trim();
-                                        _viewModel.TimesheetApprovalEmail = _timeSheetEmailField.Text.Trim() + _timeSheetDomainLabel.Text;
-                                        _viewModel.ContractApprovalEmail = _contractEmailField.Text.Trim() + _contractDomainLabel.Text;
+                                        _viewModel.TimesheetApprovalEmail = TimesheetApproverField.Text.Trim();
+                                        _viewModel.ContractApprovalEmail = ContractApproverField.Text.Trim();
 	                                    ValidateRateField();
                                         var result = _viewModel.Validate();
 	                                    InvokeOnMainThread(delegate

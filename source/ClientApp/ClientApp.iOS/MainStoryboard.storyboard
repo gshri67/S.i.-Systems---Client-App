@@ -918,14 +918,33 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Timesheet" lineBreakMode="tailTruncation" minimumFontSize="10" id="5539" translatesAutoresizingMaskIntoConstraints="NO" numberOfLines="1" fixedFrame="YES">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Timesheet" lineBreakMode="tailTruncation" minimumFontSize="10" id="5539" translatesAutoresizingMaskIntoConstraints="NO" numberOfLines="1">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6850" firstItem="5539" firstAttribute="height" constant="21"/>
+                                                        <constraint id="6851" firstItem="5539" firstAttribute="width" constant="115"/>
+                                                    </constraints>
                                                 </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" minimumFontSize="17" id="6842" translatesAutoresizingMaskIntoConstraints="NO" placeholder="@email.com" selected="YES">
+                                                    <rect key="frame" x="135" y="0.0" width="165" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="done" keyboardType="emailAddress" autocorrectionType="no" spellCheckingType="no"/>
+                                                    <constraints>
+                                                        <constraint id="6846" firstItem="6842" firstAttribute="height" constant="44"/>
+                                                    </constraints>
+                                                </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6842" firstAttribute="leading" secondItem="5539" secondAttribute="trailing" constant="0.0" id="6844"/>
+                                                <constraint firstItem="6842" firstAttribute="top" secondItem="5816" secondAttribute="top" constant="0.0" id="6845"/>
+                                                <constraint firstItem="5816" firstAttribute="trailing" secondItem="6842" secondAttribute="trailing" constant="20" id="6847"/>
+                                                <constraint firstItem="5539" firstAttribute="top" secondItem="5816" secondAttribute="top" constant="11" id="6848"/>
+                                                <constraint firstItem="5539" firstAttribute="leading" secondItem="5816" secondAttribute="leading" constant="20" id="6849"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="6630">
@@ -935,14 +954,33 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Contract" lineBreakMode="tailTruncation" minimumFontSize="10" id="6632" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Contract" lineBreakMode="tailTruncation" minimumFontSize="10" id="6632" translatesAutoresizingMaskIntoConstraints="NO">
                                                     <rect key="frame" x="20" y="11" width="115" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <constraints>
+                                                        <constraint id="6852" firstItem="6632" firstAttribute="width" constant="115"/>
+                                                        <constraint id="6853" firstItem="6632" firstAttribute="height" constant="21"/>
+                                                    </constraints>
                                                 </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" minimumFontSize="17" id="6843" translatesAutoresizingMaskIntoConstraints="NO" placeholder="@email.com">
+                                                    <rect key="frame" x="135" y="0.0" width="165" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done"/>
+                                                    <constraints>
+                                                        <constraint id="6857" firstItem="6843" firstAttribute="height" constant="44"/>
+                                                    </constraints>
+                                                </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6632" firstAttribute="top" secondItem="6631" secondAttribute="top" constant="11" id="6854"/>
+                                                <constraint firstItem="6632" firstAttribute="leading" secondItem="6631" secondAttribute="leading" constant="20" id="6855"/>
+                                                <constraint firstItem="6843" firstAttribute="top" secondItem="6631" secondAttribute="top" constant="0.0" id="6856"/>
+                                                <constraint firstItem="6631" firstAttribute="trailing" secondItem="6843" secondAttribute="trailing" constant="20" id="6858"/>
+                                                <constraint firstItem="6843" firstAttribute="leading" secondItem="6632" secondAttribute="trailing" constant="0.0" id="6859"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -964,6 +1002,8 @@
                         <outlet property="TimeSheetCell" destination="5815" id="name-outlet-5815"/>
                         <outlet property="ContractCell" destination="6630" id="name-outlet-6630"/>
                         <outlet property="TitleField" destination="6078" id="name-outlet-6078"/>
+                        <outlet property="TimesheetApproverField" destination="6842" id="name-outlet-6842"/>
+                        <outlet property="ContractApproverField" destination="6843" id="name-outlet-6843"/>
                     </connections>
                     <navigationItem title="Onboard" id="5955" key="navigationItem"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

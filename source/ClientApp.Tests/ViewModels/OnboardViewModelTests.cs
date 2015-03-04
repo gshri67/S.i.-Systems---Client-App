@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClientApp;
 using ClientApp.Services;
 using ClientApp.Services.Interfaces;
 using ClientApp.ViewModels;
@@ -72,6 +73,15 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         public void Validate_FailsWithNoAtSymbol()
         {
             _vm.TimesheetApprovalEmail = "test.com";
+            var result = _vm.Validate();
+            Assert.IsFalse(result.IsValid);
+        }
+
+        [Test]
+        public void Validate_FailsWithWrongDomain()
+        {
+            CurrentUser.Email = "bob@email.com";
+            _vm.TimesheetApprovalEmail = "test@test.com";
             var result = _vm.Validate();
             Assert.IsFalse(result.IsValid);
         }
