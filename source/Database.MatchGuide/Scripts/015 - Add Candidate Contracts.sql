@@ -43,7 +43,7 @@ SET IDENTITY_INSERT [dbo].[Agreement_ContractRateDetail] ON;
 INSERT INTO [dbo].[Agreement_ContractRateDetail](
 	[ContractRateID],
 	[AgreementID],
-	[BillRate]
+	[PayRate]
 )
 VALUES
 (1, 1, 88.00),

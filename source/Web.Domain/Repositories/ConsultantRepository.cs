@@ -31,7 +31,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                              + "ISNULL(CRI.ReferenceValue, " + MatchGuideConstants.ResumeRating.NotChecked + ") Rating, "
                                              + "CRI.ResumeText, "
                                              + "A.CandidateID ConsultantId, A.CompanyID ClientId, CD.JobTitle Title, "
-                                             + "A.StartDate, A.EndDate, CRD.BillRate Rate, S.Name SpecializationName, S.Description SpecializationNameShort "
+                                             + "A.StartDate, A.EndDate, CRD.PayRate Rate, S.Name SpecializationName, S.Description SpecializationNameShort "
                                              + "FROM [Users] AS U "
                                             //ResumeInfo gives us rating, if present
                                              + "LEFT JOIN [Candidate_ResumeInfo] as CRI on CRI.UserID=U.UserID, "
@@ -104,7 +104,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 string contractQuery = @"SELECT DISTINCT U.UserID Id, U.FirstName, U.LastName, "
                                              +"ISNULL(CRI.ReferenceValue, "+MatchGuideConstants.ResumeRating.NotChecked+") Rating, "
                                              + "A.CandidateID ConsultantId, A.CompanyID ClientId, CD.JobTitle Title, "
-                                             + "A.StartDate, A.EndDate, CRD.BillRate Rate, S.Name SpecializationName, S.Description SpecializationNameShort "
+                                             + "A.StartDate, A.EndDate, CRD.PayRate Rate, S.Name SpecializationName, S.Description SpecializationNameShort "
                                              + "FROM [Users] AS U "
                                              //ResumeInfo gives us rating, if present
                                              + "LEFT JOIN [Candidate_ResumeInfo] as CRI on CRI.UserID=U.UserID, "  
