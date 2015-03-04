@@ -12,6 +12,11 @@ namespace ClientApp.iOS
 	    private MessageViewModel _viewModel;
 	    private LoadingOverlay _overlay;
         public Consultant Consultant { get; set; }
+
+        private string ScreenTitle
+        {
+            get { return Consultant==null ? "Contact" : string.Format("Contact {0}", Consultant.FirstName); }
+        }
         
         public ContactAlumniViewController (IntPtr handle) : base (handle)
         {
@@ -52,6 +57,8 @@ namespace ClientApp.iOS
             NavigationItem.SetLeftBarButtonItem(cancelButton, false);
             NavigationItem.SetRightBarButtonItem(submitButton, false);
 	        EmailTextField.BecomeFirstResponder();
+
+	        Title = ScreenTitle;
 	    }
 
 	    private async Task SendMessage()
