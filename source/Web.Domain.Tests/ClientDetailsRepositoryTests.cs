@@ -10,6 +10,7 @@ using SiSystems.ClientApp.Web.Domain.Repositories;
 namespace SiSystems.ClientApp.Web.Domain.Tests
 {
     [TestFixture]
+    [Category("Database")]
     public class ClientDetailsRepositoryTests
     {
         private ClientDetailsRepository _repo;
