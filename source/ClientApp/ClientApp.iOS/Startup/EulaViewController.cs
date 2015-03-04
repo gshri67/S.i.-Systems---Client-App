@@ -41,7 +41,6 @@ namespace ClientApp.iOS
             {
                 //Continue if the save fails.  They will just see the Eula again next login
             }
-
             UIApplication.SharedApplication.Windows[0].RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
         }
 

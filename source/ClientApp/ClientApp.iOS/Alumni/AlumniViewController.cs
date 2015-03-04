@@ -6,6 +6,8 @@ using Foundation;
 using Microsoft.Practices.Unity;
 using UIKit;
 using ClientApp.Core.ViewModels;
+using System.Linq;
+using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.iOS
 {
@@ -21,9 +23,16 @@ namespace ClientApp.iOS
             : base(handle)
         {
             _alumniModel = DependencyResolver.Current.Resolve<AlumniViewModel>();
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
         }
 
-	    public override void TouchesBegan(NSSet touches, UIEvent evt)
+        public void OnTokenExpired(NSNotification notifcation)
+        {
+            var loginViewController = this.Storyboard.InstantiateViewController("LoginView");
+            this.NavigationController.PushViewController(loginViewController, true);
+        }
+
+        public override void TouchesBegan(NSSet touches, UIEvent evt)
 	    {
 	        base.TouchesBegan(touches, evt);
 	    }
@@ -144,7 +153,7 @@ namespace ClientApp.iOS
 	    private async void LoadConsultantGroups()
 	    {
 	        //get our list of specializations to display
-            var consultantGroups = await  _alumniModel.GetConsultantGroups(AlumniSearch.Text);
+            var consultantGroups = await _alumniModel.GetConsultantGroups(AlumniSearch.Text) ?? Enumerable.Empty<ConsultantGroup>();
             InvokeOnMainThread(delegate
                                {
                                    SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);

@@ -65,7 +65,6 @@ namespace ClientApp.iOS
 	    {
             try
 	        {
-	            var successDelegate = new ContactAlumniDelegate(this);
 	            InvokeOnMainThread(() =>
 	                               {
 	                                   _overlay.Hide();

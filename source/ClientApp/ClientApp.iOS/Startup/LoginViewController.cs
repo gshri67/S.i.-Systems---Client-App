@@ -76,7 +76,7 @@ namespace ClientApp.iOS
             CurrentUser.Email = token.Username;
             password.Text = "aaaaaaaa";
             DisableControls();
-
+            
             GetClientDetails();
             CheckEulaService(token.Username);
         }
@@ -176,13 +176,13 @@ namespace ClientApp.iOS
             var loginTask = await _loginModel.LoginAsync(userName, password.Text);
 
             if (loginTask.IsValid)
-                {
-                    CurrentUser.Email = _loginModel.UserName;
+            {
+                CurrentUser.Email = _loginModel.UserName;
                     GetClientDetails();
-                    CheckEulaService(userName);
-                }
-                else
-                {
+                CheckEulaService(userName);
+            }
+            else
+            {
                 DisplayInvalidCredentials(loginTask.Message);
             };
         }
@@ -195,11 +195,11 @@ namespace ClientApp.iOS
 
         private async void CheckEulaService(string userName)
         {
-
-            _eula = await _loginModel.GetCurrentEulaAsync();
+                _eula = await _loginModel.GetCurrentEulaAsync();
             if (_eula == null)
             {
-                //Authentication failed
+                // Something went wrong
+                // Could mean an exception was handled in an unexpected way
                 password.Text = "";
                 EnableControls();
                 return;
