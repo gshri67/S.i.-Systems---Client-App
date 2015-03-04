@@ -67,7 +67,7 @@ namespace ClientApp.iOS
 
         private static string ToRateString(decimal rate)
         {
-            return string.Format("${0,6:N2}/hr", rate);
+            return string.Format("${0:N2}/hr", rate);
         }
 
 	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)

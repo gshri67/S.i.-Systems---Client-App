@@ -310,12 +310,6 @@ namespace ClientApp.iOS
             return NSDate.FromTimeIntervalSinceReferenceDate(
                 (date - reference).TotalSeconds);
         }
-
-	    private static string ToRateString(decimal rate)
-	    {
-            return string.Format("${0,6:N2}/hr", rate);
-	    }
-
 	    #endregion
     }
 }
