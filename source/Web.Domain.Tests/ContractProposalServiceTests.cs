@@ -46,7 +46,8 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 Fee = 123,
                 RateToConsultant = 111,
                 TimesheetApproverEmailAddress = "aguy@email.com",
-                ContractApproverEmailAddress = "aguy@email.com"
+                ContractApproverEmailAddress = "aguy@email.com",
+                InvoiceFormat = 0
             };
 
             var expectedEmail = new ContractProposalEmail
@@ -59,12 +60,13 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 TotalRate = "$234.00",
                 StartDate = "1/1/2015",
                 EndDate = "12/12/2015",
-                InvoiceFormat = string.Empty,
+                InvoiceFormat = 0.ToString(),
                 TimesheetApproverEmailAddress = "aguy@email.com",
                 ContractApproverEmailAddress = "aguy@email.com",
                 ClientCompanyName = "Bees Systems",
                 ClientContactFullName = "Henry Bees",
                 ClientContactEmailAddress = "henry.bees@email.com"
+                //todo: add MspPercent if that gets added to the email
             }.ToExpectedObject();
 
             var service = new ContractProposalService(consultantRepoMock.Object, sessionContextMock.Object, mailServiceMock.Object);

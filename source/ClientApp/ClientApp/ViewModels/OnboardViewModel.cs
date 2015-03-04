@@ -27,6 +27,7 @@ namespace ClientApp.ViewModels
 
         public decimal ServiceRate = CurrentUser.ServiceFee;
         public decimal MspPercent = CurrentUser.MspPercent;
+        public int InvoiceFormat = CurrentUser.InvoiceFormat;
 
         public decimal LastContractRate { get; private set; }
         public decimal ContractorRate { get; set; }
@@ -99,10 +100,11 @@ namespace ClientApp.ViewModels
             {
                 ConsultantId = this.Consultant.Id,
                 RateToConsultant = this.ContractorRate,
-                //TODO add MSP
                 Fee = ServiceRate,
                 StartDate = this.StartDate,
                 EndDate = this.EndDate,
+                MspFeePercentage = MspPercent,
+                InvoiceFormat = InvoiceFormat,
                 TimesheetApproverEmailAddress = this.TimesheetApprovalEmail,
                 ContractApproverEmailAddress = this.ContractApprovalEmail,
             });

@@ -1,4 +1,5 @@
-﻿using SiSystems.ClientApp.SharedModels;
+﻿using System.Globalization;
+using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.ClientApp.Web.Domain.Services.EmailTemplates;
@@ -31,8 +32,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 ClientCompanyName = _sessionContext.CurrentUser.CompanyName,
                 ClientContactFullName = _sessionContext.CurrentUser.FullName,
                 ClientContactEmailAddress = _sessionContext.CurrentUser.Login,
-                // TODO: Invoice Format
-                InvoiceFormat = string.Empty,
+                // TODO: unsure of the type of data we're getting from MatchGuide for InvoiceFormat
+                InvoiceFormat = proposal.InvoiceFormat.ToString(),
                 
                 Fee = proposal.Fee.ToString("C"),
                 RateToConsultant = proposal.RateToConsultant.ToString("C"),
@@ -41,6 +42,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 EndDate = proposal.EndDate.ToShortDateString(),
                 TimesheetApproverEmailAddress = proposal.TimesheetApproverEmailAddress,
                 ContractApproverEmailAddress = proposal.ContractApproverEmailAddress,
+                //todo: to send or not to send. Add if this gets sent in the email
+                //MspFeePercentage = proposal.MspFeePercentage.ToString(CultureInfo.InvariantCulture)
             };
 
             _mailService.SendTemplatedEmail(email);

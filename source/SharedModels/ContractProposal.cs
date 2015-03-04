@@ -34,8 +34,11 @@ namespace SiSystems.ClientApp.SharedModels
         public Decimal RateToConsultant { get; set; }
 
         public Decimal Fee { get; set; }
+
+        public Decimal MspFeePercentage { get; set; }
         
         public string TimesheetApproverEmailAddress { get; set; }
         public string ContractApproverEmailAddress { get; set; }
+        public int InvoiceFormat { get; set; }
     }
 }
