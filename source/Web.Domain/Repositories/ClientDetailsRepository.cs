@@ -29,6 +29,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                               + " ,FloThruFeeType"
                               + " ,FloThruFee"
                               + " ,FloThruFeePayment"
+                              + " ,MSPFeePercentage as MspFeePercentage"
                           + " FROM [MatchGuideDev].[dbo].[Company]"
                           + " WHERE CompanyID="+clientId.ToString();
                 var clientDetails = db.Connection.Query<ClientAccountDetails>(query).FirstOrDefault();

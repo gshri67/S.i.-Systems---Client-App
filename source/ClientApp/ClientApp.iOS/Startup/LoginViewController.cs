@@ -69,8 +69,8 @@ namespace ClientApp.iOS
             CurrentUser.Email = token.Username;
             password.Text = "aaaaaaaa";
             DisableControls();
-            GetClientDetails();
             _loginModel.SetAuthToken(token);
+            GetClientDetails();
             CheckEulaService(token.Username);
         }
 
@@ -80,7 +80,7 @@ namespace ClientApp.iOS
             {
                 var clientDetails = await _loginModel.GetClientDetailsAsync();
                 CurrentUser.ServiceFee = clientDetails.FloThruFee;
-                CurrentUser.MspPercent = clientDetails.MspPercent;
+                CurrentUser.MspPercent = clientDetails.MspFeePercentage;
                 CurrentUser.FloThruFeeType = clientDetails.FloThruFeeType;
                 CurrentUser.FloThruFeePayer = clientDetails.FloThruFeePayer;
                 CurrentUser.InvoiceFormat = clientDetails.InvoiceFormat;

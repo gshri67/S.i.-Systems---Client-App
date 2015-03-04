@@ -35,6 +35,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             Assert.AreEqual(emptyClientDetails.FloThruFeeType, clientDetailsFromRepo.FloThruFeeType);
             Assert.AreEqual(emptyClientDetails.InvoiceFormat, clientDetailsFromRepo.InvoiceFormat);
             Assert.AreEqual(emptyClientDetails.InvoiceFrequency, clientDetailsFromRepo.InvoiceFrequency);
+            Assert.AreEqual(emptyClientDetails.MspFeePercentage, clientDetailsFromRepo.MspFeePercentage);
         }
 
         [Test]
@@ -49,6 +50,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             Assert.AreEqual(emptyClientDetails.FloThruFeeType, clientDetailsFromRepo.FloThruFeeType);
             Assert.AreEqual(emptyClientDetails.InvoiceFormat, clientDetailsFromRepo.InvoiceFormat);
             Assert.AreEqual(emptyClientDetails.InvoiceFrequency, clientDetailsFromRepo.InvoiceFrequency);
+            Assert.AreEqual(emptyClientDetails.MspFeePercentage, clientDetailsFromRepo.MspFeePercentage);
         }
     }
 }
