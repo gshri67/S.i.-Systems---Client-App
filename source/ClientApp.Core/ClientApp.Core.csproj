@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
+    <Compile Include="ApiErrorResponse.cs" />
     <Compile Include="HttpAttributes\ApiAttribute.cs" />
     <Compile Include="HttpAttributes\HttpGetAttribute.cs" />
     <Compile Include="HttpAttributes\HttpMethodAttribute.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="OAuthMessageHandler.cs" />
     <Compile Include="OAuthToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidationResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">

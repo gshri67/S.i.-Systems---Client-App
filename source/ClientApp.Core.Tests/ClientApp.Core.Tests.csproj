@@ -64,6 +64,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ApiClientTests.cs" />
+    <Compile Include="MatchGuideApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +74,10 @@
     <ProjectReference Include="..\ClientApp.Core\ClientApp.Core.csproj">
       <Project>{256e615c-7b6f-4477-b215-c00676f278e0}</Project>
       <Name>ClientApp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharedModels\SharedModels.csproj">
+      <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
+      <Name>SharedModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

@@ -6,7 +6,7 @@ namespace ClientApp.Core
 {
     public interface IMatchGuideApi
     {
-        Task<bool> Login(string username, string password);
+        Task<ValidationResult> Login(string username, string password);
 
         Task<Consultant> GetConsultant(int id);
     }
@@ -19,6 +19,8 @@ namespace ClientApp.Core
     [Api("https://clientapitest.azurewebsites.net/api/")]
 #elif PROD
     [Api("https://clientapi.azurewebsites.net/api/")]
+#else
+    [Api("https://clientapi.test/api/")]
 #endif
     public class MatchGuideApi : IMatchGuideApi
     {
@@ -30,7 +32,7 @@ namespace ClientApp.Core
         }
 
         [HttpPost("login")]
-        public async Task<bool> Login(string username, string password)
+        public async Task<ValidationResult> Login(string username, string password)
         {
             return await this._client.Authenticate(username, password);
         }

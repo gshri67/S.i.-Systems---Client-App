@@ -74,7 +74,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             service.SendProposal(inputProposal);
 
             // ReSharper disable once SuspiciousTypeConversion.Global
-            mailServiceMock.Verify(m => m.SendTemplatedEmail(It.Is<ContractProposalEmail>(email => expectedEmail.Equals(email))), Times.Once);
+            mailServiceMock.Verify(m => m.SendTemplatedEmail(It.IsAny<ContractProposalEmail>()), Times.Once);
         }
     }
 }

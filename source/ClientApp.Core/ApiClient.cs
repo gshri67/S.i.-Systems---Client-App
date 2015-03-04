@@ -29,10 +29,11 @@ namespace ClientApp.Core
             this._tokenStore = tokenStore;
             this._handler = handler;
             this._activityManager = activityManager;
+            this._token = this._tokenStore.Fetch();
             this.BaseAddress = new Uri(typeof(TApi).GetTypeInfo().GetCustomAttribute<ApiAttribute>().BaseUrl);
         }
 
-        public async Task<bool> Authenticate(string username, string password, [CallerMemberName] string caller = null)
+        public async Task<ValidationResult> Authenticate(string username, string password, [CallerMemberName] string caller = null)
         {
             var activityId = this._activityManager.StartActivity(CancellationToken.None);
 
@@ -52,27 +53,29 @@ namespace ClientApp.Core
 
                 var authenticationResponse = await httpClient.SendAsync(request);
 
+                var jsonString = await authenticationResponse.Content.ReadAsStringAsync();
+
                 if (authenticationResponse.IsSuccessStatusCode)
                 {
-                    var tokenJsonString = await authenticationResponse.Content.ReadAsStringAsync();
-                    var token = JsonConvert.DeserializeObject<OAuthToken>(tokenJsonString);
-
+                    var token = JsonConvert.DeserializeObject<OAuthToken>(jsonString);
                     this._token = _tokenStore.Store(token);
 
-                    return true;
+                    return new ValidationResult { IsValid = true };
                 }
-                return false;
+                else
+                {
+                    var error = JsonConvert.DeserializeObject<ApiErrorResponse>(jsonString);
+                    return new ValidationResult { IsValid = false, Message = error.ErrorDescription };
+                }
             }
             catch (Exception ex)
             {
-                var message = ex.Message;
+                return new ValidationResult { IsValid = false, Message = ex.Message };
             }
             finally
             {
                 this._activityManager.StopActivity(activityId);
             }
-
-            return false;
         }
 
         public async Task<TResult> Get<TResult>(object parameters, [CallerMemberName] string caller = null)
@@ -84,11 +87,12 @@ namespace ClientApp.Core
         {
             var response = await ExecuteWithAuthenticatedClient(async httpClient => await httpClient.GetAsync(GetRelativeUriFromAction(caller, values), HttpCompletionOption.ResponseHeadersRead, cancellationToken), cancellationToken);
 
-            var jsonString = await response.Content.ReadAsStringAsync();
-
-            var result = JsonConvert.DeserializeObject<TResult>(jsonString);
-
-            return result;
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<TResult>(jsonString);
+            }
+            return default(TResult);
         }
 
         private Task<T> ExecuteWithAuthenticatedClient<T>(Func<HttpClient, Task<T>> action, CancellationToken cancellationToken)
