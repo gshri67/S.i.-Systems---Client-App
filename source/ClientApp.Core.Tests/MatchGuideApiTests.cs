@@ -52,7 +52,6 @@ namespace ClientApp.Core.Tests
             _mockHttpHandlerHelper = new Mock<IHttpMessageHandlerFactory>();
             _mockHttpHandlerHelper.Setup(h => h.Get()).Returns(new FakeHttpHandler());
             _mockExceptionHandler = new Mock<PassThroughExceptionHandler> { CallBase = true };
-
         }
 
         [Test]
