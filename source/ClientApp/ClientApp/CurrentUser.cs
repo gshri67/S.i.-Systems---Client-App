@@ -1,4 +1,5 @@
 using System.Linq;
+using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp
 {
@@ -19,7 +20,11 @@ namespace ClientApp
             get { return Email.Contains('@') ? Email.Substring(0, Email.IndexOf('@')) : null; }
         }
 
-        public const decimal ServiceFee = 3;
-        public const decimal MspPercent = 0;
+        public static decimal ServiceFee { get; set; }
+        public static decimal MspPercent { get; set; }
+        public static int FloThruFeeType { get; set; }
+        public static int FloThruFeePayer { get; set; }
+        public static int InvoiceFormat { get; set; }
+        public static int InvoiceFrequency { get; set; }
     }
 }

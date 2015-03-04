@@ -69,9 +69,27 @@ namespace ClientApp.iOS
             CurrentUser.Email = token.Username;
             password.Text = "aaaaaaaa";
             DisableControls();
-
+            GetClientDetails();
             _loginModel.SetAuthToken(token);
             CheckEulaService(token.Username);
+        }
+
+        private async void GetClientDetails()
+        {
+            try
+            {
+                var clientDetails = await _loginModel.GetClientDetailsAsync();
+                CurrentUser.ServiceFee = clientDetails.FloThruFee;
+                CurrentUser.MspPercent = clientDetails.MspPercent;
+                CurrentUser.FloThruFeeType = clientDetails.FloThruFeeType;
+                CurrentUser.FloThruFeePayer = clientDetails.FloThruFeePayer;
+                CurrentUser.InvoiceFormat = clientDetails.InvoiceFormat;
+                CurrentUser.InvoiceFrequency = clientDetails.InvoiceFrequency;
+            }
+            catch (WebException)
+            {
+                //todo: make this do something. Logging maybe?
+            }
         }
 
         public override void ViewWillAppear(bool animated)
@@ -125,6 +143,7 @@ namespace ClientApp.iOS
                 {
                     TokenStore.SaveToken(_loginModel.GetAuthToken());
                     CurrentUser.Email = _loginModel.UserName;
+                    GetClientDetails();
                     CheckEulaService(userName);
                 }
                 else

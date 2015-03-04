@@ -11,6 +11,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
     {
         private Mock<ILoginService> _loginMock;
         private Mock<IEulaService> _eulaMock;
+        private Mock<IClientDetailsService> _clientDetailsMock;
         private LoginViewModel _vm;
 
         [SetUp]
@@ -18,7 +19,8 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         {
             _loginMock = new Mock<ILoginService>();
             _eulaMock = new Mock<IEulaService>();
-            _vm = new LoginViewModel(_loginMock.Object, _eulaMock.Object);
+            _clientDetailsMock = new Mock<IClientDetailsService>();
+            _vm = new LoginViewModel(_loginMock.Object, _eulaMock.Object, _clientDetailsMock.Object);
         }
 
         [Test]

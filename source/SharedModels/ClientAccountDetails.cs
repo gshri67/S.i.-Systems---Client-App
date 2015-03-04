@@ -17,5 +17,6 @@ namespace SiSystems.ClientApp.SharedModels
         public int FloThruFeeType { get; set; }
         public int InvoiceFormat { get; set; }
         public int InvoiceFrequency { get; set; }
+        public decimal MspPercent { get; set; }
     }
 }

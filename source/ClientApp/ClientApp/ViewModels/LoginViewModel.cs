@@ -14,13 +14,15 @@ namespace ClientApp.ViewModels
     {
         private readonly ILoginService _loginService;
         private readonly IEulaService _eulaService;
+        private readonly IClientDetailsService _clientDetailsService;
         public Dictionary<string, int> EulaVersions { get; private set; }
         public string UserName { get; set; }
 
-        public LoginViewModel(ILoginService loginService, IEulaService eulaService)
+        public LoginViewModel(ILoginService loginService, IEulaService eulaService, IClientDetailsService clientDetailsService)
         {
             _loginService = loginService;
             _eulaService = eulaService;
+            _clientDetailsService = clientDetailsService;
         }
 
         public ValidationResult IsValidUserName(string username)
@@ -93,6 +95,11 @@ namespace ClientApp.ViewModels
         public OAuthToken GetAuthToken()
         {
             return _loginService.GetAuthToken();
+        }
+
+        public Task<ClientAccountDetails> GetClientDetailsAsync()
+        {
+            return _clientDetailsService.GetClientDetails();
         }
     }
 }

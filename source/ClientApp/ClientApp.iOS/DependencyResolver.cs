@@ -27,6 +27,7 @@ namespace ClientApp.iOS
             container.RegisterType<ILoginService, LoginService>();
             container.RegisterType<ILogoutService, LogoutService>();
             container.RegisterType<IEulaService, EulaService>();
+            container.RegisterType<IClientDetailsService, ClientDetailsService>();
             container.RegisterType<IConnectionService, ConnectionService>();
             container.RegisterType<IAlumniService, AlumniService>();
             container.RegisterType<IContractService, ContractService>();
