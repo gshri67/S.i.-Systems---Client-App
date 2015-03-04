@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.Core
 {
@@ -29,7 +30,7 @@ namespace ClientApp.Core
             this._tokenStore = tokenStore;
             this._handler = handler;
             this._activityManager = activityManager;
-            this._token = this._tokenStore.Fetch();
+            this._token = this._tokenStore.GetDeviceToken();
             this.BaseAddress = new Uri(typeof(TApi).GetTypeInfo().GetCustomAttribute<ApiAttribute>().BaseUrl);
         }
 
@@ -58,7 +59,7 @@ namespace ClientApp.Core
                 if (authenticationResponse.IsSuccessStatusCode)
                 {
                     var token = JsonConvert.DeserializeObject<OAuthToken>(jsonString);
-                    this._token = _tokenStore.Store(token);
+                    this._token = _tokenStore.SaveToken(token);
 
                     return new ValidationResult { IsValid = true };
                 }
@@ -78,6 +79,27 @@ namespace ClientApp.Core
             }
         }
 
+        public async Task Deauthenticate([CallerMemberName] string caller = null)
+        {
+            await this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null), CancellationToken.None);
+            this._tokenStore.Remove();
+        }
+
+        public Task Post(object data, [CallerMemberName] string caller = null)
+        {
+            return Post(data, CancellationToken.None, caller);
+        }
+
+        public Task Post(object data, CancellationToken cancellationToken, [CallerMemberName] string caller = null)
+        {
+            return this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null), CancellationToken.None);
+        }
+
+        public async Task<TResult> Get<TResult>([CallerMemberName] string caller = null)
+        {
+            return await Get<TResult>(null, CancellationToken.None, caller);
+        }
+
         public async Task<TResult> Get<TResult>(object parameters, [CallerMemberName] string caller = null)
         {
             return await Get<TResult>(parameters, CancellationToken.None, caller);
@@ -85,21 +107,28 @@ namespace ClientApp.Core
 
         public async Task<TResult> Get<TResult>(object values, CancellationToken cancellationToken, [CallerMemberName] string caller = null)
         {
-            var response = await ExecuteWithAuthenticatedClient(async httpClient => await httpClient.GetAsync(GetRelativeUriFromAction(caller, values), HttpCompletionOption.ResponseHeadersRead, cancellationToken), cancellationToken);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TResult>(jsonString);
+                var response = await ExecuteWithAuthenticatedClient(async httpClient => await httpClient.GetAsync(GetRelativeUriFromAction(caller, values), HttpCompletionOption.ResponseHeadersRead, cancellationToken), cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<TResult>(jsonString);
+                }
+            }
+            catch(ArgumentNullException)
+            {
+                throw new AuthorizationException("OAuth token is required, but was not found.");
             }
             return default(TResult);
         }
 
-        private Task<T> ExecuteWithAuthenticatedClient<T>(Func<HttpClient, Task<T>> action, CancellationToken cancellationToken)
+        private async Task<T> ExecuteWithAuthenticatedClient<T>(Func<HttpClient, Task<T>> action, CancellationToken cancellationToken)
         {
             if (_token == null)
             {
-                throw new ArgumentNullException("token", "An OAuth token is required with every request");
+                throw new ArgumentNullException("token", "Not OAuth token provided for request");
             }
 
             var activityId = this._activityManager.StartActivity(CancellationToken.None);
@@ -109,7 +138,7 @@ namespace ClientApp.Core
 
             this._activityManager.StopActivity(activityId);
 
-            return action(httpClient);
+            return await action(httpClient);
         }
 
         private Uri GetRelativeUriFromAction(string source, object values)

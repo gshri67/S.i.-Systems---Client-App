@@ -8,9 +8,9 @@ namespace ClientApp.Core
 {
     public interface ITokenStore
     {
-        OAuthToken Store(OAuthToken token);
+        void SaveToken(OAuthToken token);
 
-        OAuthToken Fetch();
+        OAuthToken GetDeviceToken();
 
         void Remove();
     }

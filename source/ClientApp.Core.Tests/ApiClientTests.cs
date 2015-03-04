@@ -33,6 +33,9 @@ namespace ClientApp.Core.Tests
 
             [HttpGet("mytesttype")]
             MyTestType GetMyTestType();
+
+            [HttpPost("mytest")]
+            Task MyTest();
         }
 
         class FakeHttpHandler : DelegatingHandler
@@ -50,6 +53,8 @@ namespace ClientApp.Core.Tests
                     case "/api/mytesttype":
                         const string json = "{\"description\":\"My Test Type\"}";
                         return new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new StringContent(json) };
+                    case "/api/mytest":
+                        return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
                     default:
                         throw new NotImplementedException("There is no fake data for this request");
                 }
@@ -72,54 +77,37 @@ namespace ClientApp.Core.Tests
         }
 
         [Test]
-        public void Authorize_ShouldStoreTheAuthorizationToken_WhenSuccess()
+        public async void Authorize_ShouldStoreTheAuthorizationToken_WhenSuccess()
         {
             const string username = "email@example.com";
             const string password = "password";
 
-            _mockTokenSource.Setup(service => service.Store(It.Is<OAuthToken>(token => token.Username == username)));
+            _mockTokenSource.Setup(service => service.SaveToken(It.Is<OAuthToken>(token => token.Username == username)));
 
             var sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
 
-            var result = sut.Authenticate(username, password, "Login").Result;
+            var result = await sut.Authenticate(username, password, "Login");
 
             _mockTokenSource.VerifyAll();
         }
 
         [Test]
-        public void Authorize_ShouldNotStoreTheAuthorizationToken_WhenFailure()
+        public async void Authorize_ShouldNotStoreTheAuthorizationToken_WhenFailure()
         {
             const string username = "email@example.com";
             const string password = "password";
 
-            _mockTokenSource.Setup(service => service.Store(It.Is<OAuthToken>(token => token.Username == username)));
+            _mockTokenSource.Setup(service => service.SaveToken(It.Is<OAuthToken>(token => token.Username == username)));
 
             var sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
 
-            var result = sut.Authenticate(username, password, "LoginFailure").Result;
+            var result = await sut.Authenticate(username, password, "LoginFailure");
 
-            _mockTokenSource.Verify(service => service.Store(It.IsAny<OAuthToken>()), Times.Never);
+            _mockTokenSource.Verify(service => service.SaveToken(It.IsAny<OAuthToken>()), Times.Never);
         }
 
         [Test]
-        public void Authorize_ShouldStartAndStopActivity_WhenSuccess()
-        {
-            const string username = "email@example.com";
-            const string password = "password";
-
-            var activityGuid = new Guid("e8bf96ca-7a63-4b7c-970c-2a24e200ab68");
-            _mockActivityManager.Setup(service => service.StartActivity(It.IsAny<CancellationToken>())).Returns(activityGuid);
-
-            var sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
-
-            var result = sut.Authenticate(username, password, "Login").Result;
-
-            _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Once);
-            _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Once);
-        }
-
-        [Test]
-        public void Authorize_ShouldStartAndStopActivity_WhenFailure()
+        public async void Authorize_ShouldStartAndStopActivity_WhenSuccess()
         {
             const string username = "email@example.com";
             const string password = "password";
@@ -129,40 +117,69 @@ namespace ClientApp.Core.Tests
 
             var sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
 
-            var result = sut.Authenticate(username, password, "FailedLogin").Result;
+            var result = await sut.Authenticate(username, password, "Login");
 
             _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Once);
             _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Once);
         }
 
         [Test]
-        public void Get_ShouldStartAndStopActivity_WhenSuccess()
+        public async void Authorize_ShouldStartAndStopActivity_WhenFailure()
         {
+            const string username = "email@example.com";
+            const string password = "password";
+
             var activityGuid = new Guid("e8bf96ca-7a63-4b7c-970c-2a24e200ab68");
             _mockActivityManager.Setup(service => service.StartActivity(It.IsAny<CancellationToken>())).Returns(activityGuid);
-            _mockTokenSource.Setup(service => service.Fetch()).Returns(new OAuthToken { Username = "email@example.com" });
 
             var sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
 
-            var result = sut.Get<MyTestType>(null, "GetMyTestType");
+            var result = await sut.Authenticate(username, password, "FailedLogin");
 
             _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Once);
             _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Once);
         }
 
         [Test]
-        public void Get_ShouldNotStartAndStopActivity_IfNoToken()
+        public async void Get_ShouldStartAndStopActivity_WhenSuccess()
         {
             var activityGuid = new Guid("e8bf96ca-7a63-4b7c-970c-2a24e200ab68");
             _mockActivityManager.Setup(service => service.StartActivity(It.IsAny<CancellationToken>())).Returns(activityGuid);
-            _mockTokenSource.Setup(service => service.Fetch()).Returns((OAuthToken)null);
+            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
             var sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
 
-            var result = sut.Get<MyTestType>(null, "GetMyTestType");
+            var result = await sut.Get<MyTestType>(null, "GetMyTestType");
 
-            _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Never);
-            _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Never);
+            _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Once);
+            _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Once);
+        }
+
+        [Test, ExpectedException(typeof(AuthorizationException))]
+        public async void Get_ShouldThrow_IfNoToken()
+        {
+            var activityGuid = new Guid("e8bf96ca-7a63-4b7c-970c-2a24e200ab68");
+            _mockActivityManager.Setup(service => service.StartActivity(It.IsAny<CancellationToken>())).Returns(activityGuid);
+            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns((OAuthToken)null);
+
+            var sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
+
+            var result = await sut.Get<MyTestType>(null, "GetMyTestType");
+        }
+
+        [Test]
+        public async void Post_ShouldStartAndStopActivity_WhenSuccess()
+        {
+            var activityGuid = new Guid("e8bf96ca-7a63-4b7c-970c-2a24e200ab68");
+            _mockActivityManager.Setup(service => service.StartActivity(It.IsAny<CancellationToken>())).Returns(activityGuid);
+            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
+
+            var sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, new FakeHttpHandler());
+
+            await sut.Post(null, "MyTest");
+
+            _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Once);
+            _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Once);
         }
     }
 }
