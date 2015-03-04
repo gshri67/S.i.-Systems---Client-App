@@ -15,7 +15,6 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         private ClientDetailsRepository _repo;
 
         private const int InvalidCompanyId = 0;
-        private const int ValidCompanyIdWithEmptyDetails = 1;
 
         [SetUp]
         public void Setup()
@@ -28,21 +27,6 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             var emptyClientDetails = new ClientAccountDetails();
             var clientDetailsFromRepo = _repo.GetClientDetails(InvalidCompanyId);
-
-
-            Assert.AreEqual(emptyClientDetails.FloThruFee, clientDetailsFromRepo.FloThruFee);
-            Assert.AreEqual(emptyClientDetails.FloThruFeePayer, clientDetailsFromRepo.FloThruFeePayer);
-            Assert.AreEqual(emptyClientDetails.FloThruFeeType, clientDetailsFromRepo.FloThruFeeType);
-            Assert.AreEqual(emptyClientDetails.InvoiceFormat, clientDetailsFromRepo.InvoiceFormat);
-            Assert.AreEqual(emptyClientDetails.InvoiceFrequency, clientDetailsFromRepo.InvoiceFrequency);
-            Assert.AreEqual(emptyClientDetails.MspFeePercentage, clientDetailsFromRepo.MspFeePercentage);
-        }
-
-        [Test]
-        public void GetClientDetails_WhenValidIdForEmptyResults_ShouldGetEmptyDetails()
-        {
-            var emptyClientDetails = new ClientAccountDetails();
-            var clientDetailsFromRepo = _repo.GetClientDetails(ValidCompanyIdWithEmptyDetails);
 
 
             Assert.AreEqual(emptyClientDetails.FloThruFee, clientDetailsFromRepo.FloThruFee);
