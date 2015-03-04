@@ -16,10 +16,6 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton ContactButton { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel ContractsLabel { get; set; }
 
 		[Outlet]
@@ -36,7 +32,7 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton NewContractButton { get; set; }
+		UIButton OnboardButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -62,20 +58,12 @@ namespace ClientApp.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel TitleLabel { get; set; }
 
-		[Action ("ContactButton_TouchUpInside:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void ContactButton_TouchUpInside (UIButton sender);
-
 		[Action ("NewContractButton_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void NewContractButton_TouchUpInside (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (ContactButton != null) {
-				ContactButton.Dispose ();
-				ContactButton = null;
-			}
 			if (ContractsLabel != null) {
 				ContractsLabel.Dispose ();
 				ContractsLabel = null;
@@ -92,9 +80,9 @@ namespace ClientApp.iOS
 				MiddleStar.Dispose ();
 				MiddleStar = null;
 			}
-			if (NewContractButton != null) {
-				NewContractButton.Dispose ();
-				NewContractButton = null;
+			if (OnboardButton != null) {
+				OnboardButton.Dispose ();
+				OnboardButton = null;
 			}
 			if (RatingLabel != null) {
 				RatingLabel.Dispose ();

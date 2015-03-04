@@ -336,4 +336,16 @@
   <ItemGroup>
     <BundleResource Include="Resources\goldstar.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon-mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon-mail%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon-mail%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\GreenButtonBack.png" />
+  </ItemGroup>
 </Project>

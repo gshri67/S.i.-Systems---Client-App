@@ -242,7 +242,7 @@
                         </constraints>
                     </view>
                     <navigationItem title="Alumni" id="1719" key="navigationItem">
-                        <barButtonItem title="  S.i.  " id="4058" translatesAutoresizingMaskIntoConstraints="NO" key="rightBarButtonItem" style="plain" image="">
+                        <barButtonItem title="  S.i.  " id="4058" translatesAutoresizingMaskIntoConstraints="NO" key="rightBarButtonItem" style="bordered" image="">
                             <connections>
                                 <action selector="AdditionalActions_Activated:" destination="1163" id="4945"/>
                             </connections>
@@ -377,8 +377,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="wordWrap" minimumFontSize="8" id="4113" translatesAutoresizingMaskIntoConstraints="NO" numberOfLines="2" adjustsLetterSpacingToFitWidth="YES" baselineAdjustment="alignBaselines" enabled="YES">
-                                                    <rect key="frame" x="20" y="8" width="201" height="34"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="wordWrap" minimumFontSize="8" id="4113" translatesAutoresizingMaskIntoConstraints="NO" numberOfLines="2" adjustsLetterSpacingToFitWidth="YES" baselineAdjustment="alignBaselines" enabled="YES" textAlignment="center">
+                                                    <rect key="frame" x="20" y="8" width="280" height="34"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
@@ -388,43 +388,27 @@
                                                         <constraint id="5208" firstItem="4113" firstAttribute="width" constant="100" relation="greaterthanorequal"/>
                                                     </constraints>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4114" translatesAutoresizingMaskIntoConstraints="NO" horizontalCompressionResistancePriority="1000">
-                                                    <rect key="frame" x="229" y="8" width="71" height="34"/>
-                                                    <state key="normal" title="Contact">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <color key="titleColor" colorSpace="calibratedRGB" red="0.97254901960784312" green="0.22745098039215686" blue="0.24705882352941178" alpha="1"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="ContactButton_TouchUpInside:" destination="3941" id="6305" eventType="touchUpInside"/>
-                                                    </connections>
-                                                    <constraints>
-                                                        <constraint id="4401" firstAttribute="width" constant="71"/>
-                                                        <constraint id="4402" firstAttribute="height" constant="34"/>
-                                                    </constraints>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5196" translatesAutoresizingMaskIntoConstraints="NO">
-                                                    <rect key="frame" x="64" y="42" width="184" height="30"/>
-                                                    <state key="normal" title="Onboard">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <color key="titleColor" colorSpace="calibratedRGB" red="0.97254901960784312" green="0.22745098039215686" blue="0.24705882352941178" alpha="1"/>
-                                                    </state>
+                                                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="custom" lineBreakMode="middleTruncation" id="5196" translatesAutoresizingMaskIntoConstraints="NO">
+                                                    <rect key="frame" x="20" y="42" width="280" height="30"/>
                                                     <connections>
                                                         <action selector="NewContractButton_TouchUpInside:" destination="3941" id="5358" eventType="touchUpInside"/>
                                                     </connections>
                                                     <constraints>
                                                         <constraint id="5410" firstItem="5196" firstAttribute="height" constant="30"/>
                                                     </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <state key="normal" title="Onboard" backgroundImage="">
+                                                        <color key="titleColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
+                                                    </state>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint id="4399" constant="20" firstItem="4078" firstAttribute="trailing" secondItem="4114" secondAttribute="trailing"/>
                                                 <constraint id="4404" constant="20" firstItem="4113" firstAttribute="leading" secondItem="4078" secondAttribute="leading"/>
                                                 <constraint id="4405" constant="8" firstItem="4113" firstAttribute="top" secondItem="4078" secondAttribute="top"/>
-                                                <constraint firstItem="4114" firstAttribute="top" secondItem="4078" secondAttribute="top" constant="8" id="4407"/>
-                                                <constraint firstItem="4114" firstAttribute="leading" secondItem="4113" secondAttribute="trailing" constant="8" id="4408"/>
                                                 <constraint firstItem="5196" firstAttribute="leading" secondItem="4078" secondAttribute="leading" constant="20" id="5407" relation="greaterthanorequal"/>
                                                 <constraint firstItem="4078" firstAttribute="trailing" secondItem="5196" secondAttribute="trailing" constant="20" id="5408" relation="greaterthanorequal"/>
                                                 <constraint firstItem="4078" firstAttribute="bottom" secondItem="5196" secondAttribute="bottom" constant="8" id="5409"/>
+                                                <constraint firstItem="4078" firstAttribute="trailing" secondItem="4113" secondAttribute="trailing" constant="20" id="6875"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" colorSpace="calibratedRGB" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1"/>
@@ -578,7 +562,6 @@
                         </view>
                     </tableView>
                     <connections>
-                        <outlet property="ContactButton" destination="4114" id="name-outlet-4114"/>
                         <outlet property="TitleLabel" destination="4113" id="name-outlet-4113"/>
                         <outlet property="SpecializationCell" destination="4079" id="name-outlet-4079"/>
                         <outlet property="RatingLabel" destination="4301" id="name-outlet-4301"/>
@@ -586,10 +569,10 @@
                         <outlet property="DetailsTable" destination="3942" id="name-outlet-3942"/>
                         <segue id="4775" destination="4678" kind="push" identifier="ResumeSelected"/>
                         <segue id="4891" destination="4823" kind="push" identifier="ContractsSelected"/>
-                        <outlet property="NewContractButton" destination="5196" id="name-outlet-5196"/>
+                        <outlet property="OnboardButton" destination="5196" id="name-outlet-5196"/>
                         <outlet property="ResumeLabel" destination="4309" id="name-outlet-4309"/>
                         <outlet property="ResumeCell" destination="4265" id="name-outlet-4265"/>
-                        <segue id="6006" destination="5851" kind="modal" identifier="NewContractSelected"/>
+                        <segue id="6006" destination="5851" kind="modal" identifier="OnboardSelected"/>
                         <outlet property="RightStar" destination="6281" id="name-outlet-6281"/>
                         <outlet property="MiddleStar" destination="6283" id="name-outlet-6283"/>
                         <outlet property="LeftStar" destination="6284" id="name-outlet-6284"/>
@@ -1478,7 +1461,7 @@
         </scene>
         <scene sceneID="5850">
             <objects>
-                <navigationController definesPresentationContext="YES" id="5851" sceneMemberID="viewController" title="New Contract">
+                <navigationController definesPresentationContext="YES" id="5851" sceneMemberID="viewController" title="Onboard">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5854">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
@@ -1580,5 +1563,7 @@
         <image name="Images.xcassets/LaunchImage.launchimage/Default.png" width="640" height="960"/>
         <image name="star.png" width="14" height="14"/>
         <image name="goldstar.png" width="14" height="14"/>
+        <image name="icon-mail.png" width="26" height="19"/>
+        <image name="GreenButtonBack.png" width="102" height="162"/>
     </resources>
 </document>

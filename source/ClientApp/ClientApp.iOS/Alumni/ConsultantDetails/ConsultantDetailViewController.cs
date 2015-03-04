@@ -40,6 +40,25 @@ namespace ClientApp.iOS
 	            _overlay = new LoadingOverlay(DetailsTable.Frame);
                 View.Add(_overlay);
 	        }
+
+	        var contactButton = new UIBarButtonItem
+	                            {
+	                                Image = UIImage.FromBundle("icon-mail"),
+	                                TintColor = StyleGuideConstants.RedUiColor
+	                            };
+	        contactButton.Clicked += (sender, args) => { PerformSegue("ContactSelected", contactButton); };
+	        NavigationItem.SetRightBarButtonItem(contactButton, false);
+
+            /* TODO
+             * - Replace GreenButtonBack with the new proper logo, not sure if we need a 2x and 3x version and how that effects the next point
+             * - Change the 20 inset to 3 (probably? style guide says corners should be 3 pt)
+             * - replace icon-mail with the new vector version
+             * */
+
+	        var image = UIImage.FromBundle("GreenButtonBack");
+	        var resizeImage = image.CreateResizableImage(new UIEdgeInsets(20, 20, 20, 20));
+            OnboardButton.SetBackgroundImage(resizeImage, UIControlState.Normal);
+	        OnboardButton.TouchUpInside += (sender, args) => { PerformSegue("OnboardSelected", OnboardButton); };
 	    }
 
 	    public async void LoadConsultant(int id)
@@ -90,16 +109,6 @@ namespace ClientApp.iOS
                 MiddleStar.Image = ratingImageFetcher.GetSecondStar();
                 RightStar.Image = ratingImageFetcher.GetThirdStar();
             }
-	    }
-
-	    partial void NewContractButton_TouchUpInside(UIButton sender)
-	    {
-            PerformSegue("NewContractSelected", sender);
-	    }
-
-	    partial void ContactButton_TouchUpInside(UIButton sender)
-	    {
-	        PerformSegue("ContactSelected", sender);
 	    }
 
 	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
