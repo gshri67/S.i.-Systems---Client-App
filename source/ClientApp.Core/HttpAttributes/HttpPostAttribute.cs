@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClientApp.Core.HttpAttributes
 {
-    internal class HttpPostAttribute : HttpMethodAttribute
+    public class HttpPostAttribute : HttpMethodAttribute
     {
         public HttpPostAttribute(string url) : base(HttpMethod.Post, url)
         {

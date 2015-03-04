@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ClientApp.Core.HttpAttributes
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    internal class ApiAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
+    public class ApiAttribute : Attribute
     {
         public string BaseUrl { get; set; }
 

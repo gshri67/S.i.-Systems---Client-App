@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClientApp.Core.HttpAttributes
 {
-    internal class HttpGetAttribute : HttpMethodAttribute
+    public class HttpGetAttribute : HttpMethodAttribute
     {
         public HttpGetAttribute(string url) : base(HttpMethod.Get, url)
         {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ClientApp.Core.HttpAttributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    internal abstract class HttpMethodAttribute : Attribute
+    public abstract class HttpMethodAttribute : Attribute
     {
         static readonly Regex parameterRegex = new Regex(@"{(.*?)}");
 
@@ -27,6 +27,10 @@ namespace ClientApp.Core.HttpAttributes
         public string BuildRelativeUrl(object values)
         {
             var url = this.Url;
+            if (values == null)
+            {
+                return url;
+            }
             var routeValueDictionary = values.GetType().GetRuntimeProperties()
                 .ToDictionary(pi => pi.Name, pi => pi.GetValue(values));
             url = parameterRegex.Replace(url, match =>
