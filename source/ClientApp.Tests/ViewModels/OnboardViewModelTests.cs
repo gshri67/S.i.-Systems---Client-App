@@ -19,6 +19,7 @@ namespace SiSystems.ClientApp.Tests.ViewModels
         [SetUp]
         public void SetUp()
         {
+            CurrentUser.Email = "test@test.com";
             _contractMock = new Mock<IContractService>();
             _vm = new OnboardViewModel(_contractMock.Object)
                   {
