@@ -24,7 +24,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var query = @"SELECT InvoiceFormat"
+                var query = @"SELECT InvoiceFormatId as InvoiceFormat"
                               + " ,InvoiceFrequency"
                               + " ,FloThruFeeType"
                               + " ,FloThruFee"

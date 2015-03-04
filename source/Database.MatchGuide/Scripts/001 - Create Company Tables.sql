@@ -34,7 +34,7 @@ CREATE TABLE [dbo].[Company] (
 	[FloThruFee] DECIMAL(6,2) DEFAULT NULL,
 	[FloThruFeePayment] INT DEFAULT NULL,
 	[FloThruMSPPayment] INT DEFAULT NULL,
-	--[InvoiceFrequency] INT DEFAULT NULL,
+	[InvoiceFrequency] INT DEFAULT NULL,
 	[FloThruAlumni] BIT DEFAULT NULL,
 	[MaxVisibleRatePerHour] MONEY DEFAULT NULL,
 	[MaxVisibleRatePerDay] MONEY DEFAULT NULL,
