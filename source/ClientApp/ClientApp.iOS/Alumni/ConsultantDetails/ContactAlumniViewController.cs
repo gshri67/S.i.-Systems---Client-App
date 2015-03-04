@@ -66,10 +66,13 @@ namespace ClientApp.iOS
 	        var result = await _viewModel.SendMessage();
 	        if (result)
 	        {
+	            var successDelegate = new ContactAlumniDelegate(this);
 	            InvokeOnMainThread(() =>
 	                               {
 	                                   _overlay.Hide();
-                                       NavigationController.DismissModalViewController(true);
+                                       var view = new UIAlertView("Success",
+                                           "The message was succesfully sent", successDelegate, "Ok");
+                                       view.Show();
 	                               });
 	        }
 	        else
@@ -84,5 +87,20 @@ namespace ClientApp.iOS
 	                               });
 	        }
 	    }
+        
+        class ContactAlumniDelegate : UIAlertViewDelegate
+        {
+            private readonly UIViewController _controller;
+
+            public ContactAlumniDelegate(UIViewController controller)
+            {
+                _controller = controller;
+            }
+
+            public override void Clicked(UIAlertView alertview, nint buttonIndex)
+            {
+                _controller.DismissViewController(true, null);
+            }
+        }
 	}
 }
