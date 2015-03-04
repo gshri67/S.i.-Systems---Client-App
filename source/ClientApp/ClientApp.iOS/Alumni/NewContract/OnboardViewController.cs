@@ -94,7 +94,7 @@ namespace ClientApp.iOS
         private void AppendDomainSetCursor(object sender, EventArgs eventArgs)
 	    {
             var field = (UITextField)sender;
-            if (!field.Text.EndsWith(CurrentUser.Domain))
+            if (!field.Text.EndsWith(CurrentUser.Domain) && !field.Text.Contains("@"))
             {
                 field.Text = field.Text + CurrentUser.Domain;
                 var position = field.GetPosition(field.EndOfDocument, -CurrentUser.Domain.Length);
