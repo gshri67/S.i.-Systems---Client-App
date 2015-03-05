@@ -14,16 +14,8 @@ namespace ClientApp.iOS
 	[Register ("ContactAlumniViewController")]
 	partial class ContactAlumniViewController
 	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextView EmailTextField { get; set; }
-
 		void ReleaseDesignerOutlets ()
 		{
-			if (EmailTextField != null) {
-				EmailTextField.Dispose ();
-				EmailTextField = null;
-			}
 		}
 	}
 }
