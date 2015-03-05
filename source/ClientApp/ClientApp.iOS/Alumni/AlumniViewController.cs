@@ -8,12 +8,14 @@ using UIKit;
 using ClientApp.Core.ViewModels;
 using System.Linq;
 using SiSystems.ClientApp.SharedModels;
+using ClientApp.Core;
 
 namespace ClientApp.iOS
 {
     public partial class AlumniViewController : UIViewController
 	{
 	    private readonly AlumniViewModel _alumniModel;
+        private readonly IActivityManager _activityManager;
         private LoadingOverlay _overlay;
         private const string DisciplineSegueIdentifier = "DisciplineSelected";
         private const string LogoutSegueIdentifier = "logoutSegue";
@@ -23,6 +25,7 @@ namespace ClientApp.iOS
             : base(handle)
         {
             _alumniModel = DependencyResolver.Current.Resolve<AlumniViewModel>();
+            _activityManager = DependencyResolver.Current.Resolve<IActivityManager>();
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
         }
 
@@ -81,6 +84,7 @@ namespace ClientApp.iOS
 	    {
             InvokeOnMainThread(delegate
             {
+                this._activityManager.StartActivity();
                 if (_overlay != null) return;
 
                 var offsetForSearchbar = AlumniSearch.Frame.Height + (float)Math.Abs(SpecializationTable.ContentOffset.Y);
@@ -162,12 +166,12 @@ namespace ClientApp.iOS
 
                                    SetSearchbarVisibility();
                                });
-
             RemoveOverlay();
 	    }
 
 	    private void RemoveOverlay()
 	    {
+            this._activityManager.StopActivity();
 	        if (_overlay == null) return;
 
 	        InvokeOnMainThread(_overlay.Hide);
