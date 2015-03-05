@@ -76,6 +76,7 @@ namespace ClientApp.Core
             return this._client.Post(message);
         }
 
+        [HttpGet("clientdetails")]
         public Task<ClientAccountDetails> GetClientDetails()
         {
             return this._client.Get<ClientAccountDetails>();
