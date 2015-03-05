@@ -33,18 +33,6 @@ namespace ClientApp.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            var tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
-            if (tokenStore.GetDeviceToken() == null)
-            {
-                // User is not logged in - display the login view
-                // TODO: We could also proactively check their token expiry here
-                var rootController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateViewController("LoginView");
-                var navigationController = new UINavigationController(rootController);
-
-                this.Window.RootViewController = navigationController;
-            }
-            else
-            {
             SetNavbarStyle();
 
             var tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
