@@ -1567,6 +1567,6 @@
         <image name="button-green-left.png" width="5" height="31"/>
         <image name="button-gray-right.png" width="5" height="31"/>
         <image name="button-gray-left.png" width="5" height="31"/>
-        <image name="button-green.png" width="11" height="31"/>
+        <image name="button-green.png" width="11" height="11"/>
     </resources>
 </document>
