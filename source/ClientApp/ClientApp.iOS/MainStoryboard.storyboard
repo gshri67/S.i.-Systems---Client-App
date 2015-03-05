@@ -104,6 +104,7 @@
                         <outlet property="loginActivityIndicator" destination="22" id="name-outlet-22"/>
                         <segue id="369" destination="31" kind="modal" identifier="eulaSegue" modalTransitionStyle="coverVertical"/>
                         <segue id="1539" destination="151" kind="modal" identifier="alumniSegue" modalTransitionStyle="crossDissolve"/>
+                        <outlet property="LoginView" destination="kh9-bI-dsS" id="name-outlet-kh9-bI-dsS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

@@ -2,10 +2,9 @@ using System;
 using System.Net;
 using ClientApp.iOS.Startup;
 using ClientApp.ViewModels;
+using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
-using Newtonsoft.Json;
-using Security;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
@@ -15,6 +14,7 @@ namespace ClientApp.iOS
     {
         private readonly LoginViewModel _loginModel;
         private Eula _eula;
+        private CGRect _defaultFrame;
         static bool UserInterfaceIdiomIsPhone
         {
             get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
@@ -62,6 +62,11 @@ namespace ClientApp.iOS
                                          return true;
                                      };
 
+            //Force Sign In button to always be visible even when they keyboard tries to cover it
+            _defaultFrame = LoginView.Frame;
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, ShowKeyboard);
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, HideKeyboard);
+
             var token = TokenStore.GetDeviceToken();
             if (token == null) return;
 
@@ -72,6 +77,36 @@ namespace ClientApp.iOS
             _loginModel.SetAuthToken(token);
             GetClientDetails();
             CheckEulaService(token.Username);
+        }
+
+        private void ShowKeyboard(NSNotification notification)
+        {
+            var spaceFromBottom = UIScreen.MainScreen.Bounds.Height - login.Frame.Y - login.Frame.Height;
+            var keyHeight = UIKeyboard.FrameEndFromNotification(notification).Height;
+            if (spaceFromBottom < keyHeight)
+            {
+                InvokeOnMainThread(() =>
+                {
+                    UIView.Animate(1, () =>
+                    {
+                        LoginView.Frame = new CGRect(_defaultFrame.X,
+                            _defaultFrame.Y + (spaceFromBottom - keyHeight),
+                            _defaultFrame.Width, _defaultFrame.Height);
+                    });                       
+                });
+            }
+        }
+
+        private void HideKeyboard(NSNotification notification)
+        {
+            if (LoginView.Frame.Y != _defaultFrame.Y)
+            {
+                UIView.Animate(0.2, () =>
+                {
+                    LoginView.Frame = new CGRect(_defaultFrame.X, _defaultFrame.Y,
+                        _defaultFrame.Width, _defaultFrame.Height);
+                });
+            }
         }
 
         private async void GetClientDetails()
@@ -121,7 +156,7 @@ namespace ClientApp.iOS
             var result = _loginModel.IsValidUserName(userName);
             if (!result.IsValid)
             {
-                var view = new UIAlertView("Oops", result.Message, null, "Ok");
+                var view = new UIAlertView("Error", result.Message, null, "Ok");
                 view.Show();
                 return;
             }
@@ -129,7 +164,7 @@ namespace ClientApp.iOS
             result = _loginModel.IsValidPassword(password.Text);
             if (!result.IsValid)
             {
-                var view = new UIAlertView("Oops", result.Message, null, "Ok");
+                var view = new UIAlertView("Error", result.Message, null, "Ok");
                 view.Show();
                 return;
             }
@@ -202,7 +237,7 @@ namespace ClientApp.iOS
             InvokeOnMainThread(delegate
                                {
                                    loginActivityIndicator.StopAnimating();
-                                   var view = new UIAlertView("Oops", message, null, "Ok");
+                                   var view = new UIAlertView("Error", message, null, "Ok");
                                    view.Show();
                                    EnableControls();
                                });

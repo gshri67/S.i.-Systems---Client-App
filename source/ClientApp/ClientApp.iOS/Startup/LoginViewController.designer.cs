@@ -24,6 +24,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIView LoginView { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField password { get; set; }
 
 		[Outlet]
@@ -51,6 +55,10 @@ namespace ClientApp.iOS
 			if (loginActivityIndicator != null) {
 				loginActivityIndicator.Dispose ();
 				loginActivityIndicator = null;
+			}
+			if (LoginView != null) {
+				LoginView.Dispose ();
+				LoginView = null;
 			}
 			if (password != null) {
 				password.Dispose ();
