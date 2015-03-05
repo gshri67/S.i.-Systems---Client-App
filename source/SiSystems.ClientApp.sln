@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 	ProjectSection(SolutionItems) = preProject
 		..\buildScripts\_build.ps1 = ..\buildScripts\_build.ps1
 		..\buildScripts\_ios_build.sh = ..\buildScripts\_ios_build.sh
+		..\buildScripts\_ios_package.ps1 = ..\buildScripts\_ios_package.ps1
 		..\buildScripts\_package.ps1 = ..\buildScripts\_package.ps1
 		..\buildScripts\_post_build.ps1 = ..\buildScripts\_post_build.ps1
 		..\buildScripts\_prep_build.ps1 = ..\buildScripts\_prep_build.ps1
