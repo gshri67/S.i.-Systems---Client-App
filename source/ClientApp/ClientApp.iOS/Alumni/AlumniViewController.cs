@@ -210,7 +210,7 @@ namespace ClientApp.iOS
                 {
                     await _alumniModel.Logout();
                     var rootController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateViewController("LoginView");
-                    var navigationController = new UINavigationController(rootController);
+                    var navigationController = new UINavigationController(rootController) { NavigationBarHidden = true };
                     UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
                 });
             var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
