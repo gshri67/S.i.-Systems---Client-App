@@ -1561,7 +1561,8 @@
         <image name="Images.xcassets/LaunchImage.launchimage/Default.png" width="640" height="960"/>
         <image name="star.png" width="14" height="14"/>
         <image name="goldstar.png" width="14" height="14"/>
-        <image name="icon-mail.png" width="26" height="19"/>
+        <image name="icon-mail.png" width="31" height="20"/>
         <image name="GreenButtonBack.png" width="102" height="162"/>
+        <image name="button-green.png" width="11" height="31"/>
     </resources>
 </document>

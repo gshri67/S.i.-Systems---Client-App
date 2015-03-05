@@ -13,5 +13,6 @@ namespace ClientApp.iOS
         public static readonly UIColor MediumGrayUiColor = new UIColor(0.62890625f, 0.625f, 0.63671875f, 1); //#a1a0a3
 
         public const string DateSeperator = "\u2192";
+        public const int ButtonCornerRadius = 3;
     }
 }

@@ -48,15 +48,11 @@ namespace ClientApp.iOS
 	        contactButton.Clicked += (sender, args) => { PerformSegue("ContactSelected", contactButton); };
 	        NavigationItem.SetRightBarButtonItem(contactButton, false);
 
-            /* TODO
-             * - Replace GreenButtonBack with the new proper logo, not sure if we need a 2x and 3x version and how that effects the next point
-             * - Change the 20 inset to 3 (probably? style guide says corners should be 3 pt)
-             * - replace icon-mail with the new vector version
-             * */
-
-	        var image = UIImage.FromBundle("GreenButtonBack");
-	        var resizeImage = image.CreateResizableImage(new UIEdgeInsets(20, 20, 20, 20));
+            var image = UIImage.FromBundle("button-green");
+	        var resizeImage = image.CreateResizableImage(new UIEdgeInsets(5, 5, 5, 5));
             OnboardButton.SetBackgroundImage(resizeImage, UIControlState.Normal);
+            //OnboardButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
+            //OnboardButton.BackgroundColor = StyleGuideConstants.LightGreenUiColor;
 	        OnboardButton.TouchUpInside += (sender, args) => { PerformSegue("OnboardSelected", OnboardButton); };
 	    }
 

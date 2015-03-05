@@ -362,7 +362,13 @@
     <BundleResource Include="Resources\icon-mail%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\GreenButtonBack.png" />
+    <BundleResource Include="Resources\button-green%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\button-green%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\button-green.png" />
   </ItemGroup>
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
 </Project>
