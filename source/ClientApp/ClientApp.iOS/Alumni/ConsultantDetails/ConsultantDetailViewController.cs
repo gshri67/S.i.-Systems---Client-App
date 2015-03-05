@@ -48,12 +48,12 @@ namespace ClientApp.iOS
 	        contactButton.Clicked += (sender, args) => { PerformSegue("ContactSelected", contactButton); };
 	        NavigationItem.SetRightBarButtonItem(contactButton, false);
 
-            var image = UIImage.FromBundle("button-green");
-	        var resizeImage = image.CreateResizableImage(new UIEdgeInsets(5, 5, 5, 5));
-            OnboardButton.SetBackgroundImage(resizeImage, UIControlState.Normal);
-            //OnboardButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
-            //OnboardButton.BackgroundColor = StyleGuideConstants.LightGreenUiColor;
-	        OnboardButton.TouchUpInside += (sender, args) => { PerformSegue("OnboardSelected", OnboardButton); };
+            OnboardButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
+            OnboardButton.BackgroundColor = StyleGuideConstants.LightGreenUiColor;
+	        OnboardButton.TouchUpInside += (sender, args) =>
+	        {
+	            PerformSegue("OnboardSelected", OnboardButton);
+	        };
 	    }
 
 	    public async void LoadConsultant(int id)

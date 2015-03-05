@@ -58,10 +58,6 @@ namespace ClientApp.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel TitleLabel { get; set; }
 
-		[Action ("NewContractButton_TouchUpInside:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void NewContractButton_TouchUpInside (UIButton sender);
-
 		void ReleaseDesignerOutlets ()
 		{
 			if (ContractsLabel != null) {
