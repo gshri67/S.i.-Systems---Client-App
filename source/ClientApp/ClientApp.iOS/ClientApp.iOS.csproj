@@ -276,24 +276,6 @@
     <BundleResource Include="Resources\Si-app-store-icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\thumb-up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\thumb-up-2x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\thumb-up-3x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\thumb-up-4x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\thumb-up-6x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\thumb-up-8x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\sisystems_logo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

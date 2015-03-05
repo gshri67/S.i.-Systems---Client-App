@@ -1563,6 +1563,10 @@
         <image name="goldstar.png" width="14" height="14"/>
         <image name="icon-mail.png" width="31" height="20"/>
         <image name="GreenButtonBack.png" width="102" height="162"/>
+        <image name="button-green-right.png" width="5" height="31"/>
+        <image name="button-green-left.png" width="5" height="31"/>
+        <image name="button-gray-right.png" width="5" height="31"/>
+        <image name="button-gray-left.png" width="5" height="31"/>
         <image name="button-green.png" width="11" height="31"/>
     </resources>
 </document>
