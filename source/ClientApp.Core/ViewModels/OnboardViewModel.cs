@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using SiSystems.ClientApp.SharedModels;
 
@@ -7,7 +8,7 @@ namespace ClientApp.Core.ViewModels
 {
     public class OnboardViewModel : ViewModelBase
     {
-        private readonly IMatchGuideApi _api;
+        private readonly IMatchGuideApi _contractService;
         private Consultant _consultant;
         public Consultant Consultant
         {
@@ -25,6 +26,7 @@ namespace ClientApp.Core.ViewModels
 
         public decimal ServiceRate = CurrentUser.ServiceFee;
         public decimal MspPercent = CurrentUser.MspPercent;
+        public int InvoiceFormat = CurrentUser.InvoiceFormat;
 
         public decimal LastContractRate { get; private set; }
         public decimal ContractorRate { get; set; }
@@ -35,17 +37,18 @@ namespace ClientApp.Core.ViewModels
         public string ContractApprovalEmail { get; set; }
         public string ContractTitle { get; set; }
 
-        public OnboardViewModel(IMatchGuideApi api)
+        public OnboardViewModel(IMatchGuideApi contractService)
         {
-            this._api = api;
+            _contractService = contractService;
         }
 
         public bool ValidateEmailAddress(string email)
         {
             try
             {
-                ///TODO: validate email address!
-                return true;
+                //
+                //new MailAddress(email);
+                return email.EndsWith(CurrentUser.Domain);
             }
             catch (Exception)
             {
@@ -77,11 +80,11 @@ namespace ClientApp.Core.ViewModels
             }
             if (!ValidateEmailAddress(TimesheetApprovalEmail))
             {
-                return new ValidationResult(false, "Please enter a valid timesheet approval email address");
+                return new ValidationResult(false, "Please enter a valid timesheet approval email address. The address must end in " + CurrentUser.Domain);
             }
             if (!ValidateEmailAddress(ContractApprovalEmail))
             {
-                return new ValidationResult(false, "Please enter a valid contract approval email address");
+                return new ValidationResult(false, "Please enter a valid contract approval email address. The address must end in " + CurrentUser.Domain);
             }
             return new ValidationResult(true);
         }
@@ -93,14 +96,15 @@ namespace ClientApp.Core.ViewModels
 
         public async Task SubmitContract()
         {
-            await this._api.Submit(new ContractProposal
+            await _contractService.Submit(new ContractProposal
             {
                 ConsultantId = this.Consultant.Id,
                 RateToConsultant = this.ContractorRate,
-                //TODO add MSP
                 Fee = ServiceRate,
                 StartDate = this.StartDate,
                 EndDate = this.EndDate,
+                MspFeePercentage = MspPercent,
+                InvoiceFormat = InvoiceFormat,
                 TimesheetApproverEmailAddress = this.TimesheetApprovalEmail,
                 ContractApproverEmailAddress = this.ContractApprovalEmail,
             });
