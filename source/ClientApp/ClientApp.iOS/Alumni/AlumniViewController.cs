@@ -7,6 +7,7 @@ using Microsoft.Practices.Unity;
 using UIKit;
 using ClientApp.Core.ViewModels;
 using System.Linq;
+using System.Net;
 using SiSystems.ClientApp.SharedModels;
 using ClientApp.Core;
 
@@ -221,6 +222,23 @@ namespace ClientApp.iOS
             controller.AddAction(logoutAction);
             controller.AddAction(cancelAction);
             PresentViewController(controller, true, null);
+        }
+        private async void GetClientDetails()
+        {
+            try
+            {
+                var clientDetails = await _alumniModel.GetClientDetailsAsync();
+                CurrentUser.ServiceFee = clientDetails.FloThruFee;
+                CurrentUser.MspPercent = clientDetails.MspFeePercentage;
+                CurrentUser.FloThruFeeType = clientDetails.FloThruFeeType;
+                CurrentUser.FloThruFeePayer = clientDetails.FloThruFeePayer;
+                CurrentUser.InvoiceFormat = clientDetails.InvoiceFormat;
+                CurrentUser.InvoiceFrequency = clientDetails.InvoiceFrequency;
+            }
+            catch (WebException)
+            {
+                //todo: make this do something. Logging maybe?
+            }
         }
 	}
 }

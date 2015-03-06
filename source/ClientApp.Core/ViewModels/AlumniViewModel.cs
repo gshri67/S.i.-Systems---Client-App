@@ -22,5 +22,10 @@ namespace ClientApp.Core.ViewModels
         {
             await _api.Logout();
         }
+        
+        public Task<ClientAccountDetails> GetClientDetailsAsync()
+        {
+            return _api.GetClientDetails();
+        }
     }
 }
