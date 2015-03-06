@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fakes\FakeMatchGuideAccountService.cs" />
     <Compile Include="Repositories\SpecializationRepository.cs" />
     <Compile Include="Service References\MatchGuideService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -89,7 +90,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Service References\MatchGuideService\AccountService.wsdl" />
     <None Include="Service References\MatchGuideService\AccountService.xsd">

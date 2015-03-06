@@ -21,7 +21,10 @@ namespace ClientApp.Core
         Task SendMessage(ConsultantMessage message);
 
         Task<Eula> GetMostRecentEula();
+
         Task<ClientAccountDetails> GetClientDetails();
+
+        Task ResetPassword(string emailAddress);
     }
 
     [Api(Settings.MatchGuideApiAddress)]
@@ -80,6 +83,12 @@ namespace ClientApp.Core
         public Task<ClientAccountDetails> GetClientDetails()
         {
             return this._client.Get<ClientAccountDetails>();
+        }
+
+        [HttpPost("forgotpassword")]
+        public Task ResetPassword(string emailAddress)
+        {
+            return this._client.Post(emailAddress);
         }
     }
 }
