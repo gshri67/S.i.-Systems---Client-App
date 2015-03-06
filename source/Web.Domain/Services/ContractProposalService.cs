@@ -29,6 +29,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             {
                 To = consultant.EmailAddress,
                 From = _sessionContext.CurrentUser.Login,
+
+                ConsultantName = consultant.FullName,
+
                 ClientCompanyName = _sessionContext.CurrentUser.CompanyName,
                 ClientContactFullName = _sessionContext.CurrentUser.FullName,
                 ClientContactEmailAddress = _sessionContext.CurrentUser.Login,
