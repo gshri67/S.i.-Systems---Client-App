@@ -240,18 +240,10 @@
                             <constraint firstItem="3439" firstAttribute="top" secondItem="1164" secondAttribute="top" constant="0.0" id="5234"/>
                         </constraints>
                     </view>
-                    <navigationItem title="Alumni" id="1719" key="navigationItem">
-                        <barButtonItem title="  S.i.  " id="4058" translatesAutoresizingMaskIntoConstraints="NO" key="rightBarButtonItem" style="bordered" image="">
-                            <connections>
-                                <action selector="AdditionalActions_Activated:" destination="1163" id="4945"/>
-                            </connections>
-                            <color key="tintColor" colorSpace="calibratedRGB" red="1" green="0" blue="0" alpha="1"/>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem title="Alumni" id="1719" key="navigationItem"/>
                     <connections>
                         <outlet property="SpecializationTable" destination="3439" id="name-outlet-3439"/>
                         <segue id="3805" destination="3749" kind="push" identifier="DisciplineSelected"/>
-                        <outlet property="AdditionalActions" destination="4058" id="name-outlet-4058"/>
                         <outlet property="AlumniSearch" destination="3377" id="name-outlet-3377"/>
                         <outlet property="AlumniView" destination="1164" id="name-outlet-1164"/>
                     </connections>
@@ -335,6 +327,9 @@
                                         <constraint firstItem="3754" firstAttribute="centerY" secondItem="3815" secondAttribute="centerY" constant="8" id="6146"/>
                                         <constraint firstItem="3754" firstAttribute="centerY" secondItem="3825" secondAttribute="centerY" constant="0.0" id="6216"/>
                                         <constraint firstItem="3754" firstAttribute="trailing" secondItem="3825" secondAttribute="trailing" constant="0.0" id="6235"/>
+                                        <constraint firstItem="6928" firstAttribute="centerY" secondItem="3754" secondAttribute="centerY" constant="0.0" id="6929"/>
+                                        <constraint firstItem="6928" firstAttribute="leading" secondItem="3754" secondAttribute="leading" constant="5" id="6930"/>
+                                        <constraint firstItem="3988" firstAttribute="leading" secondItem="6928" secondAttribute="trailing" constant="5" id="6931"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -344,6 +339,7 @@
                                     <outlet property="RightStar" destination="5995" id="name-outlet-5995"/>
                                     <outlet property="MiddleStar" destination="5993" id="name-outlet-5993"/>
                                     <outlet property="LeftStar" destination="5990" id="name-outlet-5990"/>
+                                    <outlet property="UncheckedLabel" destination="6928" id="name-outlet-6928"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1573,5 +1569,6 @@
         <image name="button-gray-right.png" width="5" height="31"/>
         <image name="button-gray-left.png" width="5" height="31"/>
         <image name="button-green.png" width="11" height="11"/>
+        <image name="app-button.png" width="40" height="22"/>
     </resources>
 </document>

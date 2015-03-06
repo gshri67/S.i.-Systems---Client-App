@@ -123,6 +123,7 @@ namespace ClientApp.iOS
         {
             base.ViewDidLoad();
 
+            CreateNavBarRightButton();
 
             GetClientDetails();
 
@@ -134,7 +135,19 @@ namespace ClientApp.iOS
             ConfigureSearchEvents();
         }
 
-	    public override void ViewWillAppear(bool animated)
+        private void CreateNavBarRightButton()
+        {
+            NavigationItem.SetRightBarButtonItem(
+                new UIBarButtonItem(UIImage.FromBundle("app-button").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                , UIBarButtonItemStyle.Plain
+                , (sender, args) =>
+                {
+                    AdditionalActions_Pressed();
+                })
+            , true);
+        }
+
+        public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
 
@@ -210,7 +223,7 @@ namespace ClientApp.iOS
             }
         }
 
-        partial void AdditionalActions_Activated(UIBarButtonItem sender)
+        private void AdditionalActions_Pressed()
         {
             var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
             var logoutAction = UIAlertAction.Create("Logout", UIAlertActionStyle.Destructive,
@@ -226,6 +239,7 @@ namespace ClientApp.iOS
             controller.AddAction(cancelAction);
             PresentViewController(controller, true, null);
         }
+
         private async void GetClientDetails()
         {
             try

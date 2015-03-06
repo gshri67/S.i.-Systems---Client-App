@@ -16,10 +16,6 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIBarButtonItem AdditionalActions { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UISearchBar AlumniSearch { get; set; }
 
 		[Outlet]
@@ -30,16 +26,8 @@ namespace ClientApp.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableView SpecializationTable { get; set; }
 
-		[Action ("AdditionalActions_Activated:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void AdditionalActions_Activated (UIBarButtonItem sender);
-
 		void ReleaseDesignerOutlets ()
 		{
-			if (AdditionalActions != null) {
-				AdditionalActions.Dispose ();
-				AdditionalActions = null;
-			}
 			if (AlumniSearch != null) {
 				AlumniSearch.Dispose ();
 				AlumniSearch = null;

@@ -352,5 +352,14 @@
   <ItemGroup>
     <BundleResource Include="Resources\button-green.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\app-button%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\app-button%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\app-button.png" />
+  </ItemGroup>
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
 </Project>
