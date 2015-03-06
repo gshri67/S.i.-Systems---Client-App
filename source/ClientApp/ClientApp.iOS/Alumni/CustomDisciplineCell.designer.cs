@@ -38,6 +38,10 @@ namespace ClientApp.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView RightStar { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel UncheckedLabel { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (contractDates != null) {
@@ -63,6 +67,10 @@ namespace ClientApp.iOS
 			if (RightStar != null) {
 				RightStar.Dispose ();
 				RightStar = null;
+			}
+			if (UncheckedLabel != null) {
+				UncheckedLabel.Dispose ();
+				UncheckedLabel = null;
 			}
 		}
 	}

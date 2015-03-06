@@ -123,6 +123,9 @@ namespace ClientApp.iOS
         {
             base.ViewDidLoad();
 
+
+            GetClientDetails();
+
             IndicateLoading();
             
             //set the source for our table's data

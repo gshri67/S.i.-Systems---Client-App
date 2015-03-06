@@ -14,7 +14,7 @@ namespace ClientApp.iOS.Alumni
             _rating = resumeRating.GetValueOrDefault();
         }
 
-        private bool IsUnchecked
+        public bool IsUnchecked
         {
             get
             {
@@ -51,6 +51,11 @@ namespace ClientApp.iOS.Alumni
             if (IsUnchecked)
                 return null;
             return IsAboveStandardRating() ? GoldStar : BlankStar;
+        }
+
+        public bool HideCheckedLabel()
+        {
+            return !IsUnchecked;
         }
     }
 }

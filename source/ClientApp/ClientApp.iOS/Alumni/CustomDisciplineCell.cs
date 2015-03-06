@@ -29,6 +29,8 @@ namespace ClientApp.iOS
             RightStar.Image = ratingImages.GetFirstStar();
             MiddleStar.Image = ratingImages.GetSecondStar();
             LeftStar.Image = ratingImages.GetThirdStar();
+            UncheckedLabel.Hidden = ratingImages.HideCheckedLabel();
+            UncheckedLabel.TextColor = StyleGuideConstants.LightGrayUiColor;
         }
 	}
 }
