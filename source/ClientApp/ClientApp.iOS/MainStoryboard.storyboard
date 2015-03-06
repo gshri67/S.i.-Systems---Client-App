@@ -55,13 +55,13 @@
                                 <color key="tintColor" colorSpace="calibratedRGB" red="0.50196078431372548" green="0.50196078431372548" blue="0.52156862745098043" alpha="1"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="18" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
-                                <rect key="frame" x="146" y="530" width="143" height="30"/>
+                                <rect key="frame" x="177" y="530" width="143" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Reset Password">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="resetPassword_TouchUpInside:" destination="vXZ-lx-hvc" id="279" eventType="touchUpInside"/>
+                                    <segue id="7243" destination="7181" kind="modal"/>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="22" userInteractionEnabled="NO" hidden="YES" hidesWhenStopped="YES" misplaced="YES">
@@ -73,6 +73,21 @@
                                     <constraint id="5119" firstItem="4934" firstAttribute="height" constant="95"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6937" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="0.0" y="530" width="143" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resetPassword_TouchUpInside:" destination="6939" id="6938" eventType="touchUpInside"/>
+                                    <segue id="7223" destination="7181" kind="modal"/>
+                                </connections>
+                                <constraints>
+                                    <constraint id="7012" firstAttribute="width" constant="143"/>
+                                    <constraint id="7013" firstAttribute="height" constant="30"/>
+                                </constraints>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="5" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="11" id="997"/>
@@ -94,6 +109,8 @@
                             <constraint firstItem="kh9-bI-dsS" firstAttribute="trailing" secondItem="17" secondAttribute="trailing" constant="20" id="5463"/>
                             <constraint firstItem="22" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" constant="0.0" id="6613"/>
                             <constraint firstItem="22" firstAttribute="top" secondItem="17" secondAttribute="bottom" constant="8" id="6614"/>
+                            <constraint id="7010" constant="0.0" firstItem="6937" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading"/>
+                            <constraint id="7011" constant="8" firstItem="kh9-bI-dsS" firstAttribute="bottom" secondItem="6937" secondAttribute="bottom"/>
                         </constraints>
                     </view>
                     <connections>
@@ -104,10 +121,12 @@
                         <outlet property="loginActivityIndicator" destination="22" id="name-outlet-22"/>
                         <segue id="369" destination="31" kind="modal" identifier="eulaSegue" modalTransitionStyle="coverVertical"/>
                         <outlet property="LoginView" destination="kh9-bI-dsS" id="name-outlet-kh9-bI-dsS"/>
+                        <outlet property="register" destination="6937" id="name-outlet-6937"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-113" y="-102"/>
         </scene>
         <scene sceneID="30">
             <objects>
@@ -1520,6 +1539,77 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6348" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1492" y="711"/>
+        </scene>
+        <scene sceneID="6930">
+            <objects>
+                <viewController id="6931" sceneMemberID="viewController" customClass="RegisterViewController" modalTransitionStyle="coverVertical" modalPresentationStyle="formSheet">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6928"/>
+                        <viewControllerLayoutGuide type="bottom" id="6929"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="center" id="6932">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="6935" translatesAutoresizingMaskIntoConstraints="NO" adjustsFontSizeToFitWidth="NO" placeholder="Email">
+                                <rect key="frame" x="32" y="252" width="255" height="50"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="next" keyboardType="emailAddress" autocorrectionType="no" spellCheckingType="no"/>
+                                <color key="tintColor" colorSpace="calibratedRGB" red="0.50196078431372548" green="0.50196078431372548" blue="0" alpha="1"/>
+                                <constraints>
+                                    <constraint id="6936" firstItem="6935" firstAttribute="height" constant="50"/>
+                                    <constraint id="6949" firstAttribute="width" constant="255"/>
+                                </constraints>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6940" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="32" y="317" width="255" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <size key="titleShadowOffset" width="0" height="0"/>
+                                <state key="normal" title="Submit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" colorSpace="calibratedRGB" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1"/>
+                                </state>
+                                <connections>
+                                    <action selector="login_TouchUpInside:" destination="6942" id="6941" eventType="touchUpInside"/>
+                                </connections>
+                                <constraints>
+                                    <constraint id="6968" firstAttribute="width" constant="255"/>
+                                    <constraint id="6969" firstAttribute="height" constant="30"/>
+                                </constraints>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint id="6947" firstItem="6935" firstAttribute="leading" secondItem="6932" secondAttribute="leading" constant="32"/>
+                            <constraint id="6948" constant="252" firstItem="6935" firstAttribute="top" secondItem="6932" secondAttribute="top"/>
+                            <constraint id="6966" firstItem="6940" firstAttribute="leading" secondItem="6932" secondAttribute="leading" constant="32"/>
+                            <constraint firstItem="6940" firstAttribute="centerY" secondItem="6935" secondAttribute="bottom" constant="30" id="7016"/>
+                        </constraints>
+                    </view>
+                    <navigationItem title="" id="7047" key="navigationItem">
+                        <barButtonItem title="Cancel" id="7084" key="backBarButtonItem"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="Username" destination="6935" id="name-outlet-6935"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6933" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="983" y="-853"/>
+        </scene>
+        <scene sceneID="7180">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="7181" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7184">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    </navigationBar>
+                    <connections>
+                        <segue id="7203" destination="6931" kind="relationship" relationship="rootViewController"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7185" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="537" y="-393"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

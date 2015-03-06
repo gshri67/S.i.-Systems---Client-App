@@ -32,6 +32,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton register { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton resetPassword { get; set; }
 
 		[Outlet]
@@ -41,10 +45,6 @@ namespace ClientApp.iOS
 		[Action ("login_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void login_TouchUpInside (UIButton sender);
-
-		[Action ("resetPassword_TouchUpInside:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void resetPassword_TouchUpInside (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -63,6 +63,10 @@ namespace ClientApp.iOS
 			if (password != null) {
 				password.Dispose ();
 				password = null;
+			}
+			if (register != null) {
+				register.Dispose ();
+				register = null;
 			}
 			if (resetPassword != null) {
 				resetPassword.Dispose ();

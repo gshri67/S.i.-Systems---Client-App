@@ -187,12 +187,6 @@ namespace ClientApp.iOS
             };
         }
 
-        partial void resetPassword_TouchUpInside(UIButton sender)
-        {
-            //TODO: use proper reset password url
-            UIApplication.SharedApplication.OpenUrl(new NSUrl("http://www.google.ca"));
-        }
-
         private async void CheckEulaService(string userName)
         {
                 _eula = await _loginModel.GetCurrentEulaAsync();
