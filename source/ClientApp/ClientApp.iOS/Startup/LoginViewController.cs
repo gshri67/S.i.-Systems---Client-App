@@ -152,7 +152,7 @@ namespace ClientApp.iOS
 
         #endregion
 
-        async partial void login_TouchUpInside(BorderedButton sender)
+        async partial void login_TouchUpInside(UIButton sender)
         {
             var userName = username.Text;
             var result = _loginModel.IsValidUserName(userName);
@@ -223,6 +223,18 @@ namespace ClientApp.iOS
                 view.UserName = username.Text;
                 view.EulaModel = new EulaViewModel(_loginModel.EulaVersions);
             }
+            else if (segue.Identifier == "forgotPasswordSegue")
+            {
+                UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;
+                ResetPasswordViewController viewController = (ResetPasswordViewController)navigationController.TopViewController;
+                viewController.Init("Reset Password", username.Text);
+            }
+            else if (segue.Identifier == "signUpSegue")
+            {
+                UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;
+                ResetPasswordViewController viewController = (ResetPasswordViewController)navigationController.TopViewController;
+                viewController.Init("Sign Up", username.Text);
+            }
         }
 
         private void DisplayInvalidCredentials(string message)
@@ -254,10 +266,6 @@ namespace ClientApp.iOS
             password.BackgroundColor = UIColor.White;
             login.Enabled = true;
             loginActivityIndicator.StopAnimating();
-        }
-
-        partial void ForgotPasswordButton_TouchUpInside(UIButton sender)
-        {
         }
     }
 }

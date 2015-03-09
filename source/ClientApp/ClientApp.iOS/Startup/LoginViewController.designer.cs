@@ -20,7 +20,7 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		ClientApp.iOS.BorderedButton login { get; set; }
+		UIButton login { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -38,13 +38,9 @@ namespace ClientApp.iOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField username { get; set; }
 
-		[Action ("ForgotPasswordButton_TouchUpInside:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void ForgotPasswordButton_TouchUpInside (UIButton sender);
-
 		[Action ("login_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void login_TouchUpInside (ClientApp.iOS.BorderedButton sender);
+		partial void login_TouchUpInside (UIButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
