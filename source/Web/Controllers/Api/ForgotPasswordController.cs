@@ -13,7 +13,7 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
     {
         private readonly AccountService _service;
 
-        ForgotPasswordController(AccountService service)
+        public ForgotPasswordController(AccountService service)
         {
             this._service = service;
         }
