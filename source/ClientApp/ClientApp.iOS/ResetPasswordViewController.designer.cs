@@ -16,6 +16,10 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIActivityIndicatorView activityIndicator { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIBarButtonItem CancelBarButton { get; set; }
 
 		[Outlet]
@@ -36,6 +40,10 @@ namespace ClientApp.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (activityIndicator != null) {
+				activityIndicator.Dispose ();
+				activityIndicator = null;
+			}
 			if (CancelBarButton != null) {
 				CancelBarButton.Dispose ();
 				CancelBarButton = null;

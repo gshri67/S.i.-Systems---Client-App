@@ -1595,6 +1595,13 @@
                                     <action selector="SubmitButton_TouchUpInside:" destination="7347" id="7711" eventType="touchUpInside"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7729" hidden="YES" hidesWhenStopped="YES">
+                                <rect key="frame" x="141.5" y="186" width="37" height="37"/>
+                                <constraints>
+                                    <constraint id="7732" firstItem="7729" firstAttribute="width" constant="37"/>
+                                    <constraint id="7733" firstItem="7729" firstAttribute="height" constant="37"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="7639" firstAttribute="leading" secondItem="7352" secondAttribute="leading" constant="15" id="7700"/>
@@ -1603,6 +1610,8 @@
                             <constraint firstItem="7703" firstAttribute="width" secondItem="7639" secondAttribute="width" id="7704"/>
                             <constraint firstItem="7703" firstAttribute="top" secondItem="7639" secondAttribute="bottom" constant="8" id="7705" symbolic="YES"/>
                             <constraint firstItem="7703" firstAttribute="centerX" secondItem="7352" secondAttribute="centerX" constant="0.0" id="7706"/>
+                            <constraint firstItem="7729" firstAttribute="centerX" secondItem="7352" secondAttribute="centerX" constant="0.0" id="7730"/>
+                            <constraint firstItem="7729" firstAttribute="top" secondItem="7703" secondAttribute="bottom" constant="19" id="7734"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="" id="7351">
@@ -1617,6 +1626,7 @@
                         <outlet property="CancelBarButton" destination="7494" id="name-outlet-7494"/>
                         <outlet property="SubmitButton" destination="7703" id="name-outlet-7703"/>
                         <outlet property="emailAddressField" destination="7639" id="name-outlet-7639"/>
+                        <outlet property="activityIndicator" destination="7729" id="name-outlet-7729"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7353" userLabel="First Responder" sceneMemberID="firstResponder"/>

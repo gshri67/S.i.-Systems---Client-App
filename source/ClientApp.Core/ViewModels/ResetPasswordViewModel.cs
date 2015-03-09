@@ -17,9 +17,17 @@ namespace ClientApp.Core.ViewModels
             this._api = api;
         }
 
-        public async Task ResetPassword()
+        public async Task<bool> ResetPassword()
         {
-            await this._api.ResetPassword(this.EmailAddress);
+            try
+            {
+                await this._api.ResetPassword(this.EmailAddress);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

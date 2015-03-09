@@ -227,13 +227,13 @@ namespace ClientApp.iOS
             {
                 UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;
                 ResetPasswordViewController viewController = (ResetPasswordViewController)navigationController.TopViewController;
-                viewController.Init("Reset Password", username.Text);
+                viewController.Initialize("Reset Password", username.Text);
             }
             else if (segue.Identifier == "signUpSegue")
             {
                 UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;
                 ResetPasswordViewController viewController = (ResetPasswordViewController)navigationController.TopViewController;
-                viewController.Init("Sign Up", username.Text);
+                viewController.Initialize("Sign Up", username.Text);
             }
         }
 
