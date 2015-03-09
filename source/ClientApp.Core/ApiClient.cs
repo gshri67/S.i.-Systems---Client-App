@@ -96,7 +96,7 @@ namespace ClientApp.Core
 
         public Task Post(HttpContent content, CancellationToken cancellationToken, [CallerMemberName] string caller = null)
         {
-            return this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null));
+            return this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), content));
         }
 
         public Task PostUnauthenticated(HttpContent content, [CallerMemberName] string caller = null)

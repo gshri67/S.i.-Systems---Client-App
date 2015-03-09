@@ -38,6 +38,9 @@ namespace ClientApp.Core.Tests
 
             [HttpPost("mytest")]
             Task MyTest();
+
+            [HttpPost("mystringcontenttest")]
+            Task MyDataTest(string data);
         }
 
         class FakeHttpHandler : DelegatingHandler
@@ -57,6 +60,10 @@ namespace ClientApp.Core.Tests
                         return new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new StringContent(json) };
                     case "/api/mytest":
                         return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+                    case "/api/mystringcontenttest":
+                        var data = await request.Content.ReadAsStringAsync();
+                        Assert.AreEqual("mydata", data);
+                        return new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new StringContent(data) };
                     default:
                         throw new NotImplementedException("There is no fake data for this request");
                 }
@@ -177,6 +184,15 @@ namespace ClientApp.Core.Tests
 
             _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Once);
             _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Once);
+        }
+
+        [Test]
+        public async void Post_ShouldSendData()
+        {
+            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
+
+            var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockExceptionHandler.Object, _mockHttpHandlerHelper.Object);
+            await _sut.Post(new StringContent("mydata"), "MyDataTest");
         }
     }
 }
