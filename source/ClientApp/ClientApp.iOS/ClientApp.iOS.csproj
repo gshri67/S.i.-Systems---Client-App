@@ -192,6 +192,10 @@
     <Compile Include="Alumni\ConsultantDetails\ContactAlumniViewController.designer.cs">
       <DependentUpon>ContactAlumniViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="BorderedButton.cs" />
+    <Compile Include="BorderedButton.designer.cs">
+      <DependentUpon>BorderedButton.cs</DependentUpon>
+    </Compile>
     <Compile Include="iOSActivityManager.cs" />
     <Compile Include="iOSExceptionHandler.cs" />
     <Compile Include="LoadingOverlay.cs" />
