@@ -30,13 +30,8 @@ namespace ClientApp.iOS
                        new CustomDisciplineCell(CellIdentifier);
 
             var consultant = _consultantGroup.Consultants[indexPath.Row];
-            var contractDate = string.Format("{0:MMM dd, yyyy} {2} {1:MMM dd, yyyy}", consultant.MostRecentContractStartDate,
-                consultant.MostRecentContractEndDate,
-                StyleGuideConstants.DateSeperator);
 
-            var rate = string.Format("{0:C}/h", consultant.MostRecentContractRate); 
-
-            cell.UpdateCell(consultant.FullName, contractDate, rate, consultant.Rating);
+            cell.UpdateCell(consultant);
 
             return cell;
         }
