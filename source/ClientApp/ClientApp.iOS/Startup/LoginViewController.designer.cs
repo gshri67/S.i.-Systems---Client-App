@@ -16,7 +16,11 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton login { get; set; }
+		UIButton ForgotPasswordButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		ClientApp.iOS.BorderedButton login { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -32,22 +36,22 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton register { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton resetPassword { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField username { get; set; }
+
+		[Action ("ForgotPasswordButton_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void ForgotPasswordButton_TouchUpInside (UIButton sender);
 
 		[Action ("login_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void login_TouchUpInside (UIButton sender);
+		partial void login_TouchUpInside (ClientApp.iOS.BorderedButton sender);
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (ForgotPasswordButton != null) {
+				ForgotPasswordButton.Dispose ();
+				ForgotPasswordButton = null;
+			}
 			if (login != null) {
 				login.Dispose ();
 				login = null;
@@ -63,14 +67,6 @@ namespace ClientApp.iOS
 			if (password != null) {
 				password.Dispose ();
 				password = null;
-			}
-			if (register != null) {
-				register.Dispose ();
-				register = null;
-			}
-			if (resetPassword != null) {
-				resetPassword.Dispose ();
-				resetPassword = null;
 			}
 			if (username != null) {
 				username.Dispose ();

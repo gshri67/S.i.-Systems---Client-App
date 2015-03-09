@@ -152,7 +152,7 @@ namespace ClientApp.iOS
 
         #endregion
 
-        async partial void login_TouchUpInside(UIButton sender)
+        async partial void login_TouchUpInside(BorderedButton sender)
         {
             var userName = username.Text;
             var result = _loginModel.IsValidUserName(userName);
@@ -254,6 +254,10 @@ namespace ClientApp.iOS
             password.BackgroundColor = UIColor.White;
             login.Enabled = true;
             loginActivityIndicator.StopAnimating();
+        }
+
+        partial void ForgotPasswordButton_TouchUpInside(UIButton sender)
+        {
         }
     }
 }
