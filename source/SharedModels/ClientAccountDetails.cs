@@ -18,5 +18,6 @@ namespace SiSystems.ClientApp.SharedModels
         public int InvoiceFormat { get; set; }
         public int InvoiceFrequency { get; set; }
         public decimal MspFeePercentage { get; set; }
+        public decimal MaxVisibleRate { get; set; }
     }
 }

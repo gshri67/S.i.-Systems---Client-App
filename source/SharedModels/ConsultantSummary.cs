@@ -17,6 +17,7 @@ namespace SiSystems.ClientApp.SharedModels
         public DateTime MostRecentContractEndDate { get; set; }
 
         public Decimal MostRecentContractRate { get; set; }
+        public bool RateWitheld { get; set; }
 
         public ConsultantSummary()
         {

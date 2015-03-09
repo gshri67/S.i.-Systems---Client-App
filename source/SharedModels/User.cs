@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace SiSystems.ClientApp.SharedModels
 {
+    public enum Role
+    {
+        //todo: remove the following
+        LimitedAccess = 0,
+        NoAccess = 1,
+        //todo: add the following
+        //NoAccess = 0,
+        //LimitedAccess = 1,
+        AllAccess = 2
+    }
+
     public class User
     {
         public int Id { get; set; }
@@ -23,6 +34,7 @@ namespace SiSystems.ClientApp.SharedModels
 
         public string PasswordHash { get; set; }
 
+        public Role UserRole { get; set; }
         public MatchGuideConstants.UserType UserType { get; set; }
 
         public MatchGuideConstants.ClientPortalType ClientPortalType { get; set; }
