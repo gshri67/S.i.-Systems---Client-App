@@ -3,6 +3,8 @@ using SiSystems.ClientApp.SharedModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace ClientApp.Core
 {
@@ -70,13 +72,15 @@ namespace ClientApp.Core
         [HttpPost("contractproposal")]
         public Task Submit(ContractProposal proposal)
         {
-            return this._client.Post(proposal);
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(proposal), System.Text.Encoding.UTF8, "application/json");
+            return this._client.Post(content);
         }
 
         [HttpPost("consultantmessages")]
         public Task SendMessage(ConsultantMessage message)
         {
-            return this._client.Post(message);
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(message), System.Text.Encoding.UTF8, "application/json");
+            return this._client.Post(content);
         }
 
         [HttpGet("clientdetails")]
@@ -88,7 +92,7 @@ namespace ClientApp.Core
         [HttpPost("forgotpassword")]
         public Task ResetPassword(string emailAddress)
         {
-            return this._client.Post(emailAddress);
+            return this._client.PostUnauthenticated(new StringContent(emailAddress));
         }
     }
 }

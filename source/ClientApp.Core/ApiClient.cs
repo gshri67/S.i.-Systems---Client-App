@@ -89,14 +89,19 @@ namespace ClientApp.Core
             this._tokenStore.DeleteDeviceToken();
         }
 
-        public Task Post(object data, [CallerMemberName] string caller = null)
+        public Task Post(HttpContent content, [CallerMemberName] string caller = null)
         {
-            return Post(data, CancellationToken.None, caller);
+            return Post(content, CancellationToken.None, caller);
         }
 
-        public Task Post(object data, CancellationToken cancellationToken, [CallerMemberName] string caller = null)
+        public Task Post(HttpContent content, CancellationToken cancellationToken, [CallerMemberName] string caller = null)
         {
             return this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null));
+        }
+
+        public Task PostUnauthenticated(HttpContent content, [CallerMemberName] string caller = null)
+        {
+            return this.ExecuteWithDefaultClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), content));
         }
 
         public async Task<TResult> Get<TResult>([CallerMemberName] string caller = null)
@@ -121,7 +126,25 @@ namespace ClientApp.Core
             return default(TResult);
         }
 
-        private async Task<T> ExecuteWithAuthenticatedClient<T>(Func<HttpClient, Task<T>> action)
+        private async Task<HttpResponseMessage> ExecuteWithDefaultClient(Func<HttpClient, Task<HttpResponseMessage>> action)
+        {
+            return await this._exceptionHandler.HandleAsync(async () =>
+            {
+                var activityId = this._activityManager.StartActivity(CancellationToken.None);
+
+                var httpClient = new HttpClient(this._handler) { BaseAddress = this.BaseAddress };
+
+                this._activityManager.StopActivity(activityId);
+
+                var response = await action(httpClient);
+
+                response.EnsureSuccessStatusCode();
+
+                return response;
+            });
+        }
+
+        private async Task<HttpResponseMessage> ExecuteWithAuthenticatedClient(Func<HttpClient, Task<HttpResponseMessage>> action)
         {
             return await this._exceptionHandler.HandleAsync(async () =>
             {
@@ -137,7 +160,11 @@ namespace ClientApp.Core
 
                 this._activityManager.StopActivity(activityId);
 
-                return await action(httpClient);
+                var response = await action(httpClient);
+
+                response.EnsureSuccessStatusCode();
+
+                return response;
             });
         }
 

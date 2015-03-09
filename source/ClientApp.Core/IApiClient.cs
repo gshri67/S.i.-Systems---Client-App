@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net.Http;
+
 namespace ClientApp.Core
 {
     public interface IApiClient
@@ -8,7 +10,8 @@ namespace ClientApp.Core
         System.Threading.Tasks.Task<TResult> Get<TResult>(object parameters, string caller = null);
         System.Threading.Tasks.Task<TResult> Get<TResult>(object values, System.Threading.CancellationToken cancellationToken, string caller = null);
         System.Threading.Tasks.Task<TResult> Get<TResult>(string caller = null);
-        System.Threading.Tasks.Task Post(object data, string caller = null);
-        System.Threading.Tasks.Task Post(object data, System.Threading.CancellationToken cancellationToken, string caller = null);
+        System.Threading.Tasks.Task Post(HttpContent data, string caller = null);
+        System.Threading.Tasks.Task Post(HttpContent data, System.Threading.CancellationToken cancellationToken, string caller = null);
+        System.Threading.Tasks.Task PostUnauthenticated(HttpContent content, string caller = null);
     }
 }
