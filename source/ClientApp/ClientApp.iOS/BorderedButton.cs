@@ -19,13 +19,6 @@ namespace ClientApp.iOS
             try
             {
                 var path = UIBezierPath.FromRoundedRect(rect.Inset(1, 1), StyleGuideConstants.ButtonCornerRadius);
-
-                BackgroundColor.SetFill();
-                path.Fill();
-
-                BackgroundColor = UIColor.White;
-                BackgroundColor.SetFill();
-
                 CurrentTitleColor.SetStroke();
                 path.Stroke();
             }
