@@ -23,6 +23,8 @@ namespace SiSystems.ClientApp.SharedModels
 
         public string PasswordHash { get; set; }
 
+        public decimal? ClientsMaxVisibleRate { get; set; }
+
         public MatchGuideConstants.UserType UserType { get; set; }
 
         public MatchGuideConstants.ClientPortalType ClientPortalType { get; set; }

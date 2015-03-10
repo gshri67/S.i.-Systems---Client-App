@@ -72,10 +72,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         {
             if (_sessionContext.CurrentUser.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalAdministrator)
                 return;
-
+            
             foreach (var consultant in from consultantGroup 
-                    in orderedResults from consultant in consultantGroup.Consultants 
-                    where consultant.MostRecentContractRate >= 100
+                    in orderedResults from consultant in consultantGroup.Consultants
+                    where _sessionContext.CurrentUser.ClientsMaxVisibleRate.HasValue 
+                        && consultant.MostRecentContractRate >= _sessionContext.CurrentUser.ClientsMaxVisibleRate
                     select consultant)
             {
                 consultant.RateWitheld = true;
