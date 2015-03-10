@@ -25,6 +25,7 @@ namespace ClientApp.iOS
         private readonly ConsultantDetailViewModel _detailViewModel;
 	    private LoadingOverlay _overlay;
         private string _emailText;
+        private const string RateWitheldText = "Rate Witheld";
 
         public ConsultantDetailViewController (IntPtr handle) : base (handle)
         {
@@ -76,8 +77,8 @@ namespace ClientApp.iOS
 	        }
 
 	        SetRatingImagesOrText(consultant);
-	        ContractsLabel.Text = string.Format("{0} {1}", consultant.Contracts.Count(),
-	            consultant.Contracts.OrderByDescending(c => c.EndDate).Select(c => string.Format("({0:c}/hr)", c.Rate)).FirstOrDefault()).TrimEnd();
+	        ContractsLabel.Text = string.Format("{0} ({1})", consultant.Contracts.Count(),
+	            consultant.Contracts.OrderByDescending(c => c.EndDate).Select(c => c.RateWitheld ? RateWitheldText : string.Format("{0:c}/hr", c.Rate)).FirstOrDefault()).TrimEnd();
 	        AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
 
 	        if (string.IsNullOrEmpty(consultant.ResumeText))

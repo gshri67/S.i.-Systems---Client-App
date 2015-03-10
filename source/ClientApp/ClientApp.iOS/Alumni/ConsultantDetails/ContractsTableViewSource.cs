@@ -13,6 +13,7 @@ namespace ClientApp.iOS.Alumni.ConsultantDetails
     {
         private const string CellIdentifier = "ContractCell";
         private readonly IList<Contract> _contracts;
+        private const string RateWitheldText = "Rate Witheld";
 
         public ContractsTableViewSource(IList<Contract> contracts)
         {
@@ -29,7 +30,7 @@ namespace ClientApp.iOS.Alumni.ConsultantDetails
             var contractDate = string.Format("{0:MMM dd, yyyy} {2} {1:MMM dd, yyyy}", contract.StartDate, contract.EndDate,
                 StyleGuideConstants.DateSeperator);
 
-            var rate = string.Format("{0:C}/h", contract.Rate);
+            var rate = contract.RateWitheld ? RateWitheldText : string.Format("{0:C}/h", contract.Rate);
 
             cell.UpdateCell(rate, contractDate, contract.SpecializationNameShort);
 

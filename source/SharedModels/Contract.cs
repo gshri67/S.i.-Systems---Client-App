@@ -18,6 +18,7 @@ namespace SiSystems.ClientApp.SharedModels
         public DateTime EndDate { get; set; }
 
         public decimal Rate { get; set; }
+        public bool RateWitheld { get; set; }
 
         public Contact Contact { get; set; }
 

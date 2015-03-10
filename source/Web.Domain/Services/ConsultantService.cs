@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Security.AccessControl;
 using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
@@ -33,9 +35,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
             AssertCurrentUserCanAccessConsultantRecord(consultant);
 
+            TrimConsultantRatesBasedOnMaxVisibleRate(consultant);
+
             return consultant;
         }
-
+        
         /// <summary>
         /// Validate that current user works for or is associated with a company
         /// that the consultant has worked for
@@ -53,6 +57,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
             if (consultant != null && !consultant.Contracts.Any())
                 throw new UnauthorizedAccessException();
+
         }
 
         public IEnumerable<ConsultantGroup> FindAlumni(string query)
@@ -70,18 +75,33 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         private void TrimRatesBasedOnMaxVisibleRate(IOrderedEnumerable<ConsultantGroup> orderedResults)
         {
-            if (_sessionContext.CurrentUser.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalAdministrator)
+            if (!ShouldBeTrimmed())
                 return;
             
             foreach (var consultant in from consultantGroup 
                     in orderedResults from consultant in consultantGroup.Consultants
-                    where _sessionContext.CurrentUser.ClientsMaxVisibleRate.HasValue 
-                        && consultant.MostRecentContractRate >= _sessionContext.CurrentUser.ClientsMaxVisibleRate
+                    where consultant.MostRecentContractRate >= _sessionContext.CurrentUser.ClientsMaxVisibleRate
                     select consultant)
             {
                 consultant.RateWitheld = true;
-                consultant.MostRecentContractRate = 0;
+                consultant.MostRecentContractRate = decimal.Zero;
             }
+        }
+
+        private void TrimConsultantRatesBasedOnMaxVisibleRate(Consultant consultant)
+        {
+            if (!ShouldBeTrimmed())
+                return;
+            foreach (var contract in consultant.Contracts.Where(contract => contract.Rate > _sessionContext.CurrentUser.ClientsMaxVisibleRate))
+            {
+                contract.Rate = decimal.Zero;
+                contract.RateWitheld = true;
+            }
+        }
+
+        private bool ShouldBeTrimmed()
+        {
+            return _sessionContext.CurrentUser.ClientPortalType != MatchGuideConstants.ClientPortalType.PortalAdministrator && _sessionContext.CurrentUser.ClientsMaxVisibleRate.HasValue;
         }
 
         private IOrderedEnumerable<ConsultantGroup> OrderAlumniGroups(IEnumerable<ConsultantGroup> results)

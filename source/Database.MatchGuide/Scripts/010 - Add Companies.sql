@@ -2,13 +2,13 @@
 
 INSERT INTO [dbo].[Company]
 (
-	[CompanyID], [CompanyName], [FloThruFee]
+	[CompanyID], [CompanyName], [FloThruFee], [MaxVisibleRatePerHour]
 )
 VALUES
-(1, 'Company One', 3),
-(2, 'Company Two', 3),
-(3, 'Company Three', 3),
-(4, 'Company One Division 1', 3);
+(1, 'Company One', 3, 100),
+(2, 'Company Two', 3, 100),
+(3, 'Company Three', 3, 100),
+(4, 'Company One Division 1', 3, 100);
 
 SET IDENTITY_INSERT [dbo].[Company] OFF;
 
