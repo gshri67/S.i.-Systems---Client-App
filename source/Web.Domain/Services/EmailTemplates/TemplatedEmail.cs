@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using SendGrid.SmtpApi;
+using System.Net.Mime;
+using System.Text;
+using System.IO;
+using System.Reflection;
 
 namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
 {
@@ -25,6 +29,17 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
                 Body = FormatAsHtml(Body)
             };
 
+            // Embed logo images with CIDs
+            var assembly = Assembly.GetExecutingAssembly();
+            var siLogoStream = assembly.GetManifestResourceStream("SiSystems.ClientApp.Web.Domain.Resources.silogo.jpeg");
+            var top50LogoStream = assembly.GetManifestResourceStream("SiSystems.ClientApp.Web.Domain.Resources.top50logo.jpeg");
+
+            var siLogoImage = new Attachment(siLogoStream, "image001.jpeg", MediaTypeNames.Image.Jpeg){ ContentId = "silogo" };
+            var top50LogoImage = new Attachment(top50LogoStream, "image002.jpeg", MediaTypeNames.Image.Jpeg) { ContentId = "top50logo" };
+
+            mail.Attachments.Add(siLogoImage);
+            mail.Attachments.Add(top50LogoImage);
+
             //Add SMTP header required for SendGrid to parse and process
             //template substitutions
             var header = BuildSendGridSmtpApiHeader();
@@ -38,7 +53,6 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
             //mail.From is handled by SMTP configuration
 
             mail.ReplyToList.Add(new MailAddress(From));
-
 
             return mail;
         }
