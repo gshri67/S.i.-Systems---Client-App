@@ -70,7 +70,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         private void TrimRatesBasedOnMaxVisibleRate(IOrderedEnumerable<ConsultantGroup> orderedResults)
         {
-            if (_sessionContext.CurrentUser.UserRole == MatchGuideConstants.Role.AllAccess)
+            if (_sessionContext.CurrentUser.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalAdministrator)
                 return;
 
             foreach (var consultant in from consultantGroup 

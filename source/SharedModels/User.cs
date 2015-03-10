@@ -23,7 +23,6 @@ namespace SiSystems.ClientApp.SharedModels
 
         public string PasswordHash { get; set; }
 
-        public MatchGuideConstants.Role UserRole { get; set; }
         public MatchGuideConstants.UserType UserType { get; set; }
 
         public MatchGuideConstants.ClientPortalType ClientPortalType { get; set; }

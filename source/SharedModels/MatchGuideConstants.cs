@@ -502,16 +502,5 @@ namespace SiSystems.ClientApp.SharedModels
                 return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultStringFunc(m_value);
             }
         }
-
-        public enum Role
-        {
-            //todo: remove the following
-            LimitedAccess = 0,
-            NoAccess = 1,
-            //todo: add the following
-            //NoAccess = 0,
-            //LimitedAccess = 1,
-            AllAccess = 2
-        }
     }
 }
