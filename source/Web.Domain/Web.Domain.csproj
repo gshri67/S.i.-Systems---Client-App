@@ -42,7 +42,6 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,13 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fakes\FakeMatchGuideAccountService.cs" />
     <Compile Include="Repositories\SpecializationRepository.cs" />
-    <Compile Include="Service References\MatchGuideService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\ConsultantMessageService.cs" />
     <Compile Include="Services\ClientDetailsService.cs" />
@@ -91,58 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Service References\MatchGuideService\AccountService.wsdl" />
-    <None Include="Service References\MatchGuideService\AccountService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MatchGuideService\AccountService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MatchGuideService\AccountService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MatchGuideService\AccountService3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MatchGuideService\AccountService4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MatchGuideService\SiSystems.ClientApp.Web.Domain.MatchGuideService.EContractLoginResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\MatchGuideService\SiSystems.ClientApp.Web.Domain.MatchGuideService.LinkValidationRes.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\MatchGuideService\SiSystems.ClientApp.Web.Domain.MatchGuideService.LoginResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\MatchGuideService\SiSystems.ClientApp.Web.Domain.MatchGuideService.ServiceResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\MatchGuideService\SiSystems.ClientApp.Web.Domain.MatchGuideService.UserDetailsRes.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\MatchGuideService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\MatchGuideService\AccountService.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\MatchGuideService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\MatchGuideService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\MatchGuideService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\silogo.jpeg" />

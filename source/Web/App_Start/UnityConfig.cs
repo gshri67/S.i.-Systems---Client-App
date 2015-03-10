@@ -5,8 +5,6 @@ using SiSystems.ClientApp.Web.Caching;
 using SiSystems.ClientApp.Web.Domain.Caching;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
-using SiSystems.ClientApp.Web.Domain.MatchGuideService;
-using SiSystems.ClientApp.Web.Domain.Fakes;
 
 namespace SiSystems.ClientApp.Web
 {
@@ -43,14 +41,6 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<ICompanyRepository, CompanyRepository>();
             container.RegisterType<IClientDetailsRepository, ClientDetailsRepository>();
             container.RegisterType<ISpecializationRepository, SpecializationRepository>();
-#if DEBUG
-            container.RegisterType<IAccountService, FakeMatchGuideAccountServiceClient>();
-#else
-            container.RegisterType<IAccountService, AccountServiceClient>();
-#endif
-
-
-
             container.RegisterType<IObjectCache, ObjectCache>();
         }
     }

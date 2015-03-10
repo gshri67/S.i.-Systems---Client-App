@@ -1,4 +1,4 @@
-﻿using SiSystems.ClientApp.Web.Domain.MatchGuideService;
+﻿using SiSystems.ClientApp.Web.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +11,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     {
         const string PortalName = "Client";
 
-        private readonly IAccountService _client;
-
-        public AccountService(IAccountService client)
+        public AccountService(UserRepository userRepository)
         {
-            this._client = client;
+
         }
 
         public async Task<bool> ForgotPassword(string emailAddress)
         {
-            var response = await this._client.ForgotPasswordAsync(emailAddress, PortalName);
-            return true;
+            return false;
         }
     }
 }
