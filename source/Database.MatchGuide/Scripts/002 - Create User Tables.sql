@@ -31,12 +31,13 @@ CREATE TABLE [dbo].[Users](
 	--[PAM] [bit] NULL,
 	--[old_aeuserid] [int] NULL,
 	--[ActiveDirectoryLogin] [varchar](200) NULL,
-	--[ClientPortalTypeID] [int] NULL,
+	[ClientPortalTypeID] [int] NULL,
 	--[IsEmpInPAM] [bit] NULL CONSTRAINT [DF_Users_IsEmpInPAM]  DEFAULT ((0)),
 	--[TaxableProvinceType] [int] NULL,
 	--[verticalid] [int] NULL,
 	--[Locationid] [int] NULL,
 	--[IsInCloud] [int] NULL DEFAULT (NULL),
+	[ClientPortalFTAlumniTypeID] [int] NULL DEFAULT (NULL),
 	CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([UserID] ASC)
 );
 GO

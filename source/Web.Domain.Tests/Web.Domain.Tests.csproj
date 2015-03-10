@@ -65,6 +65,7 @@
     <Compile Include="TemplateAttributeTests.cs" />
     <Compile Include="TemplatedEmailTests.cs" />
     <Compile Include="TreeTraverserTests.cs" />
+    <Compile Include="UserRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

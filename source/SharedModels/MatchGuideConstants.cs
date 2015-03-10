@@ -24,9 +24,13 @@ namespace SiSystems.ClientApp.SharedModels
         {   
         }
 
+        /// <summary>
+        /// Corresponds to PickTypeId = 53 in the 
+        /// PickListTable in the MatchGuide database.
+        /// </summary>
         [DataContract]
         [DebuggerDisplay("{DisplayValue}")]
-        public struct UserTypes : IMatchGuideConstant
+        public struct UserType : IMatchGuideConstant
         {
             [DataMember(Name = "backingValue")]
             private readonly long m_value;
@@ -38,24 +42,28 @@ namespace SiSystems.ClientApp.SharedModels
             }
 
             public const int Candidate = 490;
-            public const int ClientContact = 661;
+            public const int ClientContact = 491;
+            public const int Unknown = 492;
+            public const int CareerCandidate = 514;
+            public const int InternalUser = 693;
+            public const int NewCandidate = 2385;
 
-            private UserTypes(long value)
+            private UserType(long value)
             {
                 m_value = value;
             }
 
-            public static implicit operator UserTypes(long val)
+            public static implicit operator UserType(long val)
             {
-                return new UserTypes(val);
+                return new UserType(val);
             }
 
-            public static implicit operator UserTypes(int val)
+            public static implicit operator UserType(int val)
             {
-                return new UserTypes(val);
+                return new UserType(val);
             }
 
-            public static implicit operator long(UserTypes s)
+            public static implicit operator long(UserType s)
             {
                 return s.m_value;
             }
@@ -63,6 +71,134 @@ namespace SiSystems.ClientApp.SharedModels
             public override string ToString()
             {
                 return m_value.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Corresponds to PickTypeId = 105 in the 
+        /// PickListTable in the MatchGuide database.
+        /// </summary>
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
+        public struct ClientPortalType : IMatchGuideConstant
+        {
+            [DataMember(Name = "backingValue")]
+            private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
+            public const int PortalContact = 833;
+            public const int PortalAdministrator = 834;
+            public const int NoPortalAccess = 835;
+
+            /// <summary>
+            /// this value appears as an incorrect default in the database
+            /// which normally is used as a lookup for UserType = 'Contact'
+            /// consider this equivalent to NotChecked
+            /// </summary>
+            public const int AlsoNotChecked = 5;
+
+            private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
+            {
+                {PortalContact, "Portal Contact"},
+                {PortalAdministrator, "Portal Administrator"},
+                {NoPortalAccess, "No Portal Access"}
+            };
+
+            private const string DefaultDisplayString = "No Portal Access";
+
+            private ClientPortalType(long value)
+            {
+                m_value = value;
+            }
+
+            public static implicit operator ClientPortalType(long val)
+            {
+                return new ClientPortalType(val);
+            }
+
+            public static implicit operator ClientPortalType(int val)
+            {
+                return new ClientPortalType(val);
+            }
+
+            public static implicit operator long (ClientPortalType rating)
+            {
+                return rating.m_value;
+            }
+
+            public override string ToString()
+            {
+                string description;
+                return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultDisplayString;
+            }
+        }
+
+        /// <summary>
+        /// Corresponds to PickTypeId = 168 in the 
+        /// PickListTable in the MatchGuide database.
+        /// </summary>
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
+        public struct FloThruAlumniAccess : IMatchGuideConstant
+        {
+            [DataMember(Name = "backingValue")]
+            private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
+            public const int NoAccess = 2467;
+            public const int LimitedAccess = 2468;
+            public const int AllAccess = 2469;
+
+            /// <summary>
+            /// this value appears as an incorrect default in the database
+            /// which normally is used as a lookup for UserType = 'Contact'
+            /// consider this equivalent to NotChecked
+            /// </summary>
+            public const int AlsoNotChecked = 5;
+
+            private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
+            {
+                {NoAccess, "No Access"},
+                {LimitedAccess, "Limited Access"},
+                {AllAccess, "All Access"}
+            };
+
+            private const string DefaultDisplayString = "No Access";
+
+            private FloThruAlumniAccess(long value)
+            {
+                m_value = value;
+            }
+
+            public static implicit operator FloThruAlumniAccess(long val)
+            {
+                return new FloThruAlumniAccess(val);
+            }
+
+            public static implicit operator FloThruAlumniAccess(int val)
+            {
+                return new FloThruAlumniAccess(val);
+            }
+
+            public static implicit operator long (FloThruAlumniAccess rating)
+            {
+                return rating.m_value;
+            }
+
+            public override string ToString()
+            {
+                string description;
+                return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultDisplayString;
             }
         }
 

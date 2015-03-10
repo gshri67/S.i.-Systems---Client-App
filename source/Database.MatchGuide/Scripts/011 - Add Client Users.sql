@@ -3,12 +3,12 @@ SET IDENTITY_INSERT [dbo].[Users] ON;
 
 INSERT INTO [dbo].[Users]
 (
-	[UserID], [FirstName], [Middle], [LastName], [UserType], [CompanyID], [Inactive]
+	[UserID], [FirstName], [Middle], [LastName], [UserType], [CompanyID], [Inactive], [ClientPortalTypeID], [ClientPortalFTAlumniTypeID]
 )
 VALUES
-(1, 'Bob', 'H.', 'Smith', 490, 1, 0),
-(2, 'Tom', 'H.','Smith', 490, 2, 0),
-(3, 'Sally', 'J.','Smitherson', 490, 3, 0);
+(1, 'Bob', 'H.', 'Smith', 491, 1, 0, 833, 2469),
+(2, 'Tom', 'H.','Smith', 491, 2, 0, 833, 2469),
+(3, 'Sally', 'J.','Smitherson', 491, 3, 0, 833, 2469);
 
 SET IDENTITY_INSERT [dbo].[Users] OFF;
 

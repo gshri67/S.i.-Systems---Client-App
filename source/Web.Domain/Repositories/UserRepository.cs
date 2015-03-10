@@ -7,8 +7,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
     public class UserRepository
     {
         const string UserQueryBase = "SELECT U.UserId Id, U.CompanyID ClientId, C.CompanyName, "
-                               + "U.FirstName FirstName, U.LastName LastName, "
-                               + "UL.Login Login, UL.Password PasswordHash "
+                               + "U.FirstName FirstName, U.LastName LastName, U.ClientPortalTypeID ClientPortalType, "
+                               + "U.ClientPortalFTAlumniTypeID FloThruAlumniAccess, UL.Login Login, UL.Password PasswordHash, U.UserType "
                                + "FROM [User_Login] as UL, [Users] as U, [Company] as C "
                                + "WHERE U.UserID=UL.UserID "
                                + "AND U.CompanyID=C.CompanyID ";
