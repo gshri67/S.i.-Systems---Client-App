@@ -16,7 +16,9 @@ namespace ClientApp.Core
 
         Task<Consultant> GetConsultant(int id);
 
-        Task<IEnumerable<ConsultantGroup>> GetConsultantGroups(string query);
+        Task<IEnumerable<ConsultantGroup>> GetAlumniConsultantGroups(string query);
+        
+        Task<IEnumerable<ConsultantGroup>> GetActiveConsultantGroups(string query);
 
         Task Submit(ContractProposal proposal);
 
@@ -58,7 +60,13 @@ namespace ClientApp.Core
         }
 
         [HttpGet("consultants/alumni")]
-        public async Task<IEnumerable<ConsultantGroup>> GetConsultantGroups(string query)
+        public async Task<IEnumerable<ConsultantGroup>> GetAlumniConsultantGroups(string query)
+        {
+            return await this._client.Get<ConsultantGroup[]>(new { query });
+        }
+
+        [HttpGet("consultants/active")]
+        public async Task<IEnumerable<ConsultantGroup>> GetActiveConsultantGroups(string query)
         {
             return await this._client.Get<ConsultantGroup[]>(new { query });
         }

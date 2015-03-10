@@ -63,7 +63,7 @@ namespace ClientApp.iOS
             {
                 AlumniSearch.Text = string.Empty;
                 AlumniSearch.ResignFirstResponder();
-                InvokeOnMainThread(LoadConsultantGroups);
+                InvokeOnMainThread(LoadAlumniConsultantGroups);
             };
             AlumniSearch.OnEditingStarted += delegate
             {
@@ -113,7 +113,7 @@ namespace ClientApp.iOS
 	            AutoReset = false,
 	            Enabled = false //we don't want to start the timer until we change search text
 	        };
-	        timer.Elapsed += delegate { InvokeOnMainThread(LoadConsultantGroups); };
+	        timer.Elapsed += delegate { InvokeOnMainThread(LoadAlumniConsultantGroups); };
 	        return timer;
 	    }
 
@@ -130,7 +130,7 @@ namespace ClientApp.iOS
             IndicateLoading();
             
             //set the source for our table's data
-            LoadConsultantGroups();
+            LoadAlumniConsultantGroups();
 
             ConfigureSearchEvents();
         }
@@ -171,10 +171,10 @@ namespace ClientApp.iOS
 
         #endregion
 
-	    private async void LoadConsultantGroups()
+	    private async void LoadAlumniConsultantGroups()
 	    {
 	        //get our list of specializations to display
-            var consultantGroups = await _alumniModel.GetConsultantGroups(AlumniSearch.Text) ?? Enumerable.Empty<ConsultantGroup>();
+            var consultantGroups = await _alumniModel.GetAlumniConsultantGroups(AlumniSearch.Text) ?? Enumerable.Empty<ConsultantGroup>();
             InvokeOnMainThread(delegate
                                {
                                    SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
@@ -185,6 +185,12 @@ namespace ClientApp.iOS
                                });
             RemoveOverlay();
 	    }
+
+        private async void LoadActiveConsultantGroups()
+        {
+            //TODO Actually use this
+            var consultantGroups = await _alumniModel.GetActiveConsultantGroups(AlumniSearch.Text) ?? Enumerable.Empty<ConsultantGroup>();
+        }
 
 	    private void RemoveOverlay()
 	    {

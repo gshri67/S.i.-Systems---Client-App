@@ -13,9 +13,14 @@ namespace ClientApp.Core.ViewModels
             this._api = api;
         }
 
-        public Task<IEnumerable<ConsultantGroup>> GetConsultantGroups(string query)
+        public Task<IEnumerable<ConsultantGroup>> GetAlumniConsultantGroups(string query)
         {
-            return _api.GetConsultantGroups(query);
+            return _api.GetAlumniConsultantGroups(query);
+        }
+        
+        public Task<IEnumerable<ConsultantGroup>> GetActiveConsultantGroups(string query)
+        {
+            return _api.GetActiveConsultantGroups(query);
         }
 
         public async Task Logout()

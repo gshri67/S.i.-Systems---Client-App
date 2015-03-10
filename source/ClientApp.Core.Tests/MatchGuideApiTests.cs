@@ -104,7 +104,7 @@ namespace ClientApp.Core.Tests
 
             var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockExceptionHandler.Object, _mockHttpHandlerHelper.Object);
             var _sut = new MatchGuideApi(apiClient);
-            var result = _sut.GetConsultantGroups(string.Empty).Result;
+            var result = _sut.GetAlumniConsultantGroups(string.Empty).Result;
 
             Assert.IsAssignableFrom<ConsultantGroup[]>(result);
             Assert.AreEqual(2, result.Count());
