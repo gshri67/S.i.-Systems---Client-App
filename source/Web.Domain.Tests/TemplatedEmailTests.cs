@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using NUnit.Framework;
 using SiSystems.ClientApp.Web.Domain.Services.EmailTemplates;
+using System.Linq;
 
 namespace SiSystems.ClientApp.Web.Domain.Tests
 {
@@ -16,7 +17,8 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 From = "person@email.com",
                 Body = "HELLO",
                 ClientCompanyName = "Bees Systems",
-                ClientContactFullName = "Henry Bees"
+                ClientContactFullName = "Henry Bees",
+                ClientContactEmailAddress = "henry@bees.com"
             };
         }
 
@@ -84,6 +86,15 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
             Assert.AreEqual("Contact Alumni", category.ToString());
 
+        }
+
+        [Test]
+        public void ContactAlumni_ToMailMessage_MessageShouldContainExpectedImages()
+        {
+            var mailMessage = CreateSimpleContactAlumniEmail().ToMailMessage();
+
+            Assert.IsTrue(mailMessage.Attachments.Count(m => m.ContentId == "silogo") == 1);
+            Assert.IsTrue(mailMessage.Attachments.Count(m => m.ContentId == "top50logo") == 1);
         }
 
         [Test]

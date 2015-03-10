@@ -9,5 +9,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
 
         [TemplateSubstitution]
         public string ClientCompanyName { get; set; }
+
+        [TemplateSubstitution]
+        public string ClientContactEmailAddress { get; set; }
     }
 }

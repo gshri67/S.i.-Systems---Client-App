@@ -35,7 +35,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 From = _sessionContext.CurrentUser.Login,
                 Body = message.Text,
                 ClientCompanyName = _sessionContext.CurrentUser.CompanyName,
-                ClientContactFullName = _sessionContext.CurrentUser.FullName
+                ClientContactFullName = _sessionContext.CurrentUser.FullName,
+                ClientContactEmailAddress = _sessionContext.CurrentUser.Login
             };
 
             var mailService = new SendGridMailService();
