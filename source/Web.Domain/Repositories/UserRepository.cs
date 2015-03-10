@@ -4,7 +4,14 @@ using SiSystems.ClientApp.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
-    public class UserRepository
+    public interface IUserRepository
+    {
+        User Find(int id);
+
+        User FindByName(string username);
+    }
+
+    public class UserRepository : IUserRepository
     {
         const string UserQueryBase = "SELECT U.UserId Id, U.CompanyID ClientId, C.CompanyName, "
                                + "U.FirstName FirstName, U.LastName LastName, U.ClientPortalTypeID ClientPortalType, "

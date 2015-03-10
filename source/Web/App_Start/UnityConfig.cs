@@ -41,6 +41,7 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<ICompanyRepository, CompanyRepository>();
             container.RegisterType<IClientDetailsRepository, ClientDetailsRepository>();
             container.RegisterType<ISpecializationRepository, SpecializationRepository>();
+            container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IObjectCache, ObjectCache>();
         }
     }

@@ -51,6 +51,7 @@
     <Compile Include="LoginModel.cs" />
     <Compile Include="MatchGuideConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResetPasswordResult.cs" />
     <Compile Include="Resume.cs" />
     <Compile Include="Skill.cs" />
     <Compile Include="Specialization.cs" />

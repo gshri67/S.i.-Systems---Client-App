@@ -12,5 +12,13 @@ namespace SiSystems.ClientApp.Web.Domain
                 return string.IsNullOrWhiteSpace(recipient) ? null : recipient;
             }
         }
+
+        public static string MatchGuideAccountServiceUrl    
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MatchGuideAccountServiceUrl"];
+            }
+        }
     }
 }
