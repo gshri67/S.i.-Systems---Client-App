@@ -24,6 +24,7 @@ namespace ClientApp.iOS
 
         private readonly ConsultantDetailViewModel _detailViewModel;
 	    private LoadingOverlay _overlay;
+        private string _emailText;
 
         public ConsultantDetailViewController (IntPtr handle) : base (handle)
         {
@@ -45,7 +46,7 @@ namespace ClientApp.iOS
 	                                Image = UIImage.FromBundle("icon-mail"),
 	                                TintColor = StyleGuideConstants.RedUiColor
 	                            };
-	        contactButton.Clicked += (sender, args) => { PerformSegue("ContactSelected", contactButton); };
+	        contactButton.Clicked += (sender, args) => { PopUpCannedMessageView(); };
 	        NavigationItem.SetRightBarButtonItem(contactButton, false);
 
             OnboardButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
@@ -129,10 +130,41 @@ namespace ClientApp.iOS
                 var navController = (UINavigationController)segue.DestinationViewController;
                 var view = (ContactAlumniViewController)navController.ViewControllers[0];
                 view.Consultant = _detailViewModel.GetConsultant();
+                view.InitialEmailText = _emailText;
             }
 	    }
 
-	    #region Table Delegates
+        private void PopUpCannedMessageView()
+        {
+            var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
+            var newContractAction = UIAlertAction.Create("Are you available?", UIAlertActionStyle.Default,
+                action =>
+                {
+                    _emailText = "Are you available for a new contract? ";
+                    PerformSegue("ContactSelected", controller);
+                });
+            var catchupAction = UIAlertAction.Create("Let’s catch up.", UIAlertActionStyle.Default,
+                action =>
+                {
+                    _emailText = "Let's catch up. ";
+                    PerformSegue("ContactSelected", controller);
+                });
+            var customAction = UIAlertAction.Create("Custom Message...", UIAlertActionStyle.Default,
+                action =>
+                {
+                    _emailText = "";
+                    PerformSegue("ContactSelected", controller); 
+                });
+            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+
+            controller.AddAction(newContractAction);
+            controller.AddAction(catchupAction);
+            controller.AddAction(customAction);
+            controller.AddAction(cancelAction);
+            PresentViewController(controller, true, null);
+        }
+
+        #region Table Delegates
 
 	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 	    {

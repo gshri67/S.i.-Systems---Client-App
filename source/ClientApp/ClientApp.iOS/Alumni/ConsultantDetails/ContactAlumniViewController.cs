@@ -14,7 +14,8 @@ namespace ClientApp.iOS
 	    private MessageViewModel _viewModel;
 	    private LoadingOverlay _overlay;
 	    private UITextView _emailTextField;
-        public Consultant Consultant { get; set; }
+        public Consultant Consultant { private get; set; }
+        public string InitialEmailText { private get; set; }
 
         private string ScreenTitle
         {
@@ -80,6 +81,9 @@ namespace ClientApp.iOS
                         UIScreen.MainScreen.Bounds.Height - UIKeyboard.FrameEndFromNotification(notification).Height - startOfViewY - 22);
 	            });
 
+	        _emailTextField.Text = InitialEmailText;
+
+            //resign is necessary for sending multiple emails cause the above code will not fire the 2nd time you open the screen
 	        _emailTextField.ResignFirstResponder();
 	        _emailTextField.BecomeFirstResponder();
 

@@ -1512,26 +1512,11 @@
                     <view key="view" contentMode="scaleToFill" id="6244">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6320">
-                                <rect key="frame" x="20" y="87" width="280" height="461"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                        </subviews>
+                        <subviews/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="6320" firstAttribute="top" secondItem="6240" secondAttribute="bottom" constant="23" id="6323"/>
-                            <constraint firstItem="6320" firstAttribute="leading" secondItem="6244" secondAttribute="leading" constant="20" id="6324"/>
-                            <constraint firstAttribute="trailing" secondItem="6320" secondAttribute="trailing" constant="20" id="6325"/>
-                            <constraint firstItem="6320" firstAttribute="bottom" secondItem="6241" secondAttribute="top" constant="1" id="6326"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Contact Alumni" id="6430"/>
-                    <connections>
-                        <outlet property="EmailTextField" destination="6320" id="name-outlet-6320"/>
-                    </connections>
+                    <connections/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6245" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
