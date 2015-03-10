@@ -11,6 +11,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
     {
         [Test]
         [Category("Integration")]
+        [Category("Database")]
         public async void ForgotPassword_AllAccessClient_ShouldSucceed()
         {
             const string username = "mrestall@suncor.com";
@@ -36,6 +37,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
         [Test]
         [Category("Integration")]
+        [Category("Database")]
         public async void ForgotPassword_PortalAdministratorClient_ShouldSucceed()
         {
             const string username = "mrestall@suncor.com";
@@ -64,6 +66,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
         [Test]
         [Category("Integration")]
+        [Category("Database")]
         public async void ForgotPassword_NoAccessClient_ShouldFail()
         {
             const string username = "mrestall@suncor.com";
