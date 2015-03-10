@@ -56,13 +56,8 @@ namespace ClientApp.iOS
             this.SubmitButton.Enabled = false;
 
             var alertViewResponseDelegate = new ResetPasswordResponseViewDelegate(this);
-            UIAlertView responseAlertView = new UIAlertView("Your password has been reset.", null, alertViewResponseDelegate, "Ok");
-            var isSuccess = await this.viewModel.ResetPassword();
-            if (!isSuccess)
-            {
-                responseAlertView.Title = "Your password has not been reset.";
-                responseAlertView.Message = "Please contact your AE for more information.";
-            }
+            var result = await this.viewModel.ResetPassword();
+            UIAlertView responseAlertView = new UIAlertView(result != null ? result.Description : "Something went wrong. Please contact your AE.", null, alertViewResponseDelegate, "Ok");
             responseAlertView.Show();
 
             this.activityIndicator.StopAnimating();

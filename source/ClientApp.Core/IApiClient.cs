@@ -12,6 +12,6 @@ namespace ClientApp.Core
         System.Threading.Tasks.Task<TResult> Get<TResult>(string caller = null);
         System.Threading.Tasks.Task Post(HttpContent data, string caller = null);
         System.Threading.Tasks.Task Post(HttpContent data, System.Threading.CancellationToken cancellationToken, string caller = null);
-        System.Threading.Tasks.Task PostUnauthenticated(HttpContent content, string caller = null);
+        System.Threading.Tasks.Task<TResult> PostUnauthenticated<TResult>(HttpContent content, string caller = null);
     }
 }

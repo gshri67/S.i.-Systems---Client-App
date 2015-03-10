@@ -28,7 +28,7 @@ namespace ClientApp.Core
 
         Task<ClientAccountDetails> GetClientDetails();
 
-        Task ResetPassword(string emailAddress);
+        Task<ResetPasswordResult> ResetPassword(string emailAddress);
     }
 
     [Api(Settings.MatchGuideApiAddress)]
@@ -98,9 +98,11 @@ namespace ClientApp.Core
         }
 
         [HttpPost("forgotpassword")]
-        public Task ResetPassword(string emailAddress)
+        public Task<ResetPasswordResult> ResetPassword(string emailAddress)
         {
-            return this._client.PostUnauthenticated(new StringContent(emailAddress));
+            // Web API expects form url encoded payload with no key
+            var payload = new FormUrlEncodedContent(new Dictionary<string, string> { { string.Empty, emailAddress } });
+            return this._client.PostUnauthenticated<ResetPasswordResult>(payload);
         }
     }
 }

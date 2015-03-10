@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SiSystems.ClientApp.SharedModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,16 +18,16 @@ namespace ClientApp.Core.ViewModels
             this._api = api;
         }
 
-        public async Task<bool> ResetPassword()
+        public async Task<ResetPasswordResult> ResetPassword()
         {
             try
             {
-                await this._api.ResetPassword(this.EmailAddress);
-                return true;
+                var result = await this._api.ResetPassword(this.EmailAddress);
+                return result;
             }
             catch
             {
-                return false;
+                return new ResetPasswordResult { ResponseCode = -1, Description = "Something went wrong. Your password was not reset. Please contact your AE." };
             }
         }
     }

@@ -14,7 +14,7 @@ using ModernHttpClient;
 
 namespace ClientApp.Core
 {
-    public class ApiClient<TApi> : ClientApp.Core.IApiClient
+    public class ApiClient<TApi> : IApiClient
     {
         private readonly ITokenStore _tokenStore;
 
@@ -99,9 +99,16 @@ namespace ClientApp.Core
             return this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), content));
         }
 
-        public Task PostUnauthenticated(HttpContent content, [CallerMemberName] string caller = null)
+        public async Task<TResult> PostUnauthenticated<TResult>(HttpContent content, [CallerMemberName] string caller = null)
         {
-            return this.ExecuteWithDefaultClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), content));
+            var response = await this.ExecuteWithDefaultClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), content));
+
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<TResult>(jsonString);
+            }
+            return default(TResult);
         }
 
         public async Task<TResult> Get<TResult>([CallerMemberName] string caller = null)
@@ -137,8 +144,6 @@ namespace ClientApp.Core
                 this._activityManager.StopActivity(activityId);
 
                 var response = await action(httpClient);
-
-                response.EnsureSuccessStatusCode();
 
                 return response;
             });
