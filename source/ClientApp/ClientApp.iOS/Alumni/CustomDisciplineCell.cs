@@ -27,9 +27,10 @@ namespace ClientApp.iOS
         {
             if (!consultant.RateWitheld)
                 lastContractRate.Text = string.Format("{0:C}/h", consultant.MostRecentContractRate);
-
-            lastContractRate.TextColor = StyleGuideConstants.LightGrayUiColor;
-            lastContractRate.Text = RateWitheldText;
+            else { 
+                lastContractRate.TextColor = StyleGuideConstants.LightGrayUiColor;
+                lastContractRate.Text = RateWitheldText;
+            }
         }
 
         private static string FormatDateString(ConsultantSummary consultant)
