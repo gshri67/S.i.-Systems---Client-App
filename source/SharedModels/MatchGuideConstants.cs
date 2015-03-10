@@ -202,6 +202,10 @@ namespace SiSystems.ClientApp.SharedModels
             }
         }
 
+        /// <summary>
+        /// Corresponds to PickTypeId = 45 in the 
+        /// PickListTable in the MatchGuide database.
+        /// </summary>
         [DataContract]
         [DebuggerDisplay("{DisplayValue}")]
         public struct AgreementTypes : IMatchGuideConstant
@@ -215,7 +219,12 @@ namespace SiSystems.ClientApp.SharedModels
                 get { return this.ToString(); }
             }
 
+            public const int Opportunity = 458;
             public const int Contract = 459;
+            public const int RFP = 460;
+            public const int SA = 462;
+            public const int RFPOpp = 992;
+            public const int TA = 998;
 
             private AgreementTypes(long value)
             {
@@ -238,6 +247,10 @@ namespace SiSystems.ClientApp.SharedModels
             }
         }
 
+        /// <summary>
+        /// Corresponds to PickTypeId = 21 in the 
+        /// PickListTable in the MatchGuide database.
+        /// </summary>
         [DataContract]
         [DebuggerDisplay("{DisplayValue}")]
         public struct AgreementSubTypes : IMatchGuideConstant
@@ -251,7 +264,11 @@ namespace SiSystems.ClientApp.SharedModels
                 get { return this.ToString(); }
             }
 
+            public const int Consultant = 171;
             public const int FloThru = 172;
+            public const int SO_PVL = 173;
+            public const int Permanent = 174;
+            public const int ContractToHire = 175;
 
             private AgreementSubTypes(long value)
             {
@@ -279,6 +296,10 @@ namespace SiSystems.ClientApp.SharedModels
             }
         }
 
+        /// <summary>
+        /// Corresponds to PickTypeId = 66 in the 
+        /// PickListTable in the MatchGuide database.
+        /// </summary>
         [DataContract]
         [DebuggerDisplay("{DisplayValue}")]
         public struct ContractStatusTypes : IMatchGuideConstant
