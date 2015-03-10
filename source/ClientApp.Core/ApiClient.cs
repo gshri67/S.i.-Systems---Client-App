@@ -162,8 +162,6 @@ namespace ClientApp.Core
 
                 var response = await action(httpClient);
 
-                response.EnsureSuccessStatusCode();
-
                 return response;
             });
         }
