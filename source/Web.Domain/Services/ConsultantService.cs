@@ -62,15 +62,17 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
             var results = _consultantRepository.FindAlumni(query, associatedCompanyIds);
             var orderedResults = OrderAlumniGroups(results);
-            if (_sessionContext.CurrentUser.UserRole == Role.LimitedAccess)
-            {
-                TrimRatesBasedOnMaxVisibleRate(orderedResults);
-            }
+
+            TrimRatesBasedOnMaxVisibleRate(orderedResults);
+
             return orderedResults;
         }
 
         private void TrimRatesBasedOnMaxVisibleRate(IOrderedEnumerable<ConsultantGroup> orderedResults)
         {
+            if (_sessionContext.CurrentUser.UserRole == MatchGuideConstants.Role.AllAccess)
+                return;
+
             foreach (var consultant in from consultantGroup 
                     in orderedResults from consultant in consultantGroup.Consultants 
                     where consultant.MostRecentContractRate >= 100
