@@ -249,20 +249,13 @@ namespace ClientApp.iOS
 
         private async void GetClientDetails()
         {
-            try
-            {
-                var clientDetails = await _alumniModel.GetClientDetailsAsync();
-                CurrentUser.ServiceFee = clientDetails.FloThruFee;
-                CurrentUser.MspPercent = clientDetails.MspFeePercentage;
-                CurrentUser.FloThruFeeType = clientDetails.FloThruFeeType;
-                CurrentUser.FloThruFeePayer = clientDetails.FloThruFeePayer;
-                CurrentUser.InvoiceFormat = clientDetails.InvoiceFormat;
-                CurrentUser.InvoiceFrequency = clientDetails.InvoiceFrequency;
-            }
-            catch (WebException)
-            {
-                //todo: make this do something. Logging maybe?
-            }
+            var clientDetails = await _alumniModel.GetClientDetailsAsync();
+            CurrentUser.ServiceFee = clientDetails.FloThruFee;
+            CurrentUser.MspPercent = clientDetails.MspFeePercentage;
+            CurrentUser.FloThruFeeType = clientDetails.FloThruFeeType;
+            CurrentUser.FloThruFeePayer = clientDetails.FloThruFeePayer;
+            CurrentUser.InvoiceFormat = clientDetails.InvoiceFormat;
+            CurrentUser.InvoiceFrequency = clientDetails.InvoiceFrequency;
         }
 	}
 }
