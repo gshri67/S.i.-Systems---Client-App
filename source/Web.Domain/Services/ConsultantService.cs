@@ -60,17 +60,27 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         }
 
-        public IEnumerable<ConsultantGroup> FindAlumni(string query)
+        private IEnumerable<ConsultantGroup> Find(string query, bool active)
         {
             var associatedCompanyIds =
                 _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.ClientId);
 
-            var results = _consultantRepository.Find(query, associatedCompanyIds);
+            var results = _consultantRepository.Find(query, associatedCompanyIds, active);
             var orderedResults = OrderAlumniGroups(results);
 
             TrimRatesBasedOnMaxVisibleRate(orderedResults);
 
             return orderedResults;
+        }
+
+        public IEnumerable<ConsultantGroup> FindAlumni(string query)
+        {
+            return this.Find(query, false);
+        }
+
+        public IEnumerable<ConsultantGroup> FindActive(string query)
+        {
+            return this.Find(query, true);
         }
 
         private bool RateExceedsMaxVisibleRate(Decimal rate)

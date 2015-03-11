@@ -85,9 +85,17 @@
         <div class="tab-content">
             <div id="search" role="tabpanel" class="tab-pane active">
                 <div class="input-group">
-                    <input id="searchText" type="text" class="form-control" placeholder="Enter an alumni name or partial to search for (ex. 'Tom' or 'Cand')" />
+                    <input data-search-type="alumni" id="searchText" type="text" class="form-control" placeholder="Enter an alumni name or partial to search for (ex. 'Tom' or 'Cand')" />
                     <div class="input-group-btn">
-                        <button id="searchButton" type="button" class="btn btn-primary">Search</button>
+                        <button type="button" class="btn btn-primary" id="searchButton">Search Alumni</button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><button onclick="$('#searchButton').data('search-type', 'alumni').text('Search Alumni')" type="button" class="btn btn-link" id="alumni-option">Search Alumni</button></li>
+                            <li><button onclick ="$('#searchButton').data('search-type', 'active').text('Search Active')" type="button" class="btn btn-link id=" active-option">Search Active</button></li>
+                        </ul>
                     </div>
                 </div>
                 <div id="searchResults" class="code json well">
@@ -188,10 +196,12 @@
 
                     $('#searchResults').html('Searching..');
                     var query = encodeURIComponent($('#searchText').val());
+                    
+                    var url = '/api/consultants/' + ($('#searchButton').data('search-type') || 'alumni');
 
                     $.ajax({
                         type: 'GET',
-                        url: '/api/consultants/alumni/?query=' + query,
+                        url: url + '?query=' + query,
                         headers: {
                             Authorization: 'Bearer ' + page.token
                         }
@@ -222,7 +232,7 @@
 
                     $.ajax({
                         type: 'GET',
-                        url: '/api/consultants/alumni/' + id,
+                        url: '/api/consultants/' + id,
                         headers: {
                             Authorization: 'Bearer ' + page.token
                         }

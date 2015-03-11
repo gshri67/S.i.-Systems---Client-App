@@ -17,13 +17,20 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
         }
 
         [Route("Alumni")]
-        public HttpResponseMessage Get(string query)
+        public HttpResponseMessage GetAlumni(string query)
         {
             var alumniContractorGroups = _service.FindAlumni(query);
             return Request.CreateResponse(HttpStatusCode.OK, alumniContractorGroups);
         }
 
-        [Route("Alumni/{id}")]
+        [Route("Active")]
+        public HttpResponseMessage GetActive(string query)
+        {
+            var alumniContractorGroups = _service.FindActive(query);
+            return Request.CreateResponse(HttpStatusCode.OK, alumniContractorGroups);
+        }
+
+        [Route("{id}")]
         public HttpResponseMessage Get(int id)
         {
             try

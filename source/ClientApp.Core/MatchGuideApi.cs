@@ -53,7 +53,7 @@ namespace ClientApp.Core
             await this._client.Deauthenticate();
         }
 
-        [HttpGet("consultants/alumni/{id}")]
+        [HttpGet("consultants/{id}")]
         public async Task<Consultant> GetConsultant(int id)
         {
             return await this._client.Get<Consultant>(new { id });
