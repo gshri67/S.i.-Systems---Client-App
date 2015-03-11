@@ -12,13 +12,17 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         Consultant Find(int id);
 
         /// <summary>
-        /// Find alumni consultant candidates for a specific client.
+        /// Find consultant candidates for a specific client.
         /// Does not include candidates that have current active or pending contracts with the specifed client.
         /// </summary>
-        /// <param name="query">Text to search for in candidate name or contract specialization.</param>
-        /// <param name="clientIds">Client company IDs that alumni must have worked for in the past.</param>
+        /// <param name="query">Text to search for in candidate name</param>
+        /// <param name="clientIds">Client company ID that alumni must have worked for in the past.</param>
+        /// <param name="active">
+        /// If true finds all consultants who have an active or pending contract with one of the companies specified in <see cref="clientIds"/>
+        /// If false finds all consultants who have no active or pending contracts but do have flo thru contracts in the past.
+        /// </param>
         /// <returns>A list of consultants, grouped by specialization.</returns>
-        IEnumerable<ConsultantGroup> FindAlumni(string query, IEnumerable<int> clientIds);
+        IEnumerable<ConsultantGroup> Find(string query, IEnumerable<int> clientIds, bool active = false);
     }
 
     public class ConsultantRepository : IConsultantRepository
@@ -94,14 +98,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             }
         }
 
-        /// <summary>
-        /// Find alumni consultant candidates for a specific client.
-        /// Does not include candidates that have current active or pending contracts with the specifed client.
-        /// </summary>
-        /// <param name="query">Text to search for in candidate name</param>
-        /// <param name="clientIds">Client company ID that alumni must have worked for in the past.</param>
-        /// <returns>A list of consultants, grouped by specialization.</returns>
-        public IEnumerable<ConsultantGroup> FindAlumni(string query, IEnumerable<int> clientIds)
+        public IEnumerable<ConsultantGroup> Find(string query, IEnumerable<int> clientIds, bool active = false)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -122,9 +119,13 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 const string activeOrPendingContractExistsSubQuery = contractsExistsSubQuery + " AND agr.StatusType in (@ACTIVE, @PENDING)";
 
                 string consultantsQuery = @"
-                        SELECT usr.UserID Id, usr.FirstName, usr.LastName, ue.PrimaryEmail as EmailAddress
+                        SELECT usr.UserID Id
+	                        ,usr.FirstName 
+	                        ,usr.LastName
 	                        ,ISNULL(cri.ReferenceValue, @NOTCHECKED) as Rating
-	                        ,cri.ResumeText
+	                        ,mostRecentContract.StartDate MostRecentContractStartDate
+	                        ,mostRecentContract.EndDate MostRecentContractEndDate
+	                        ,mostRecentContract.PayRate MostRecentContractRate
 	                        ,spec.SpecializationID Id, spec.Name, spec.Description
                         FROM Users usr
 	                        JOIN User_Email ue on ue.UserID = usr.UserID
@@ -132,33 +133,44 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 	                        LEFT JOIN (SELECT DISTINCT SpecId, UserID FROM Candidate_SkillsMatrix WHERE Inactive = 0) skills on usr.UserID = skills.UserID
 	                        LEFT JOIN Specialization spec on spec.SpecializationID = skills.SpecID
 	                        LEFT JOIN [Candidate_ResumeInfo] cri on cri.UserID = usr.UserID
+	                        CROSS APPLY (SELECT	TOP 1	a.CandidateID,
+							                        a.StartDate, 
+							                        a.EndDate,
+							                        crd.PayRate
+				                        FROM [Agreement] a 
+				                        LEFT JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
+				                        WHERE a.CandidateID = usr.UserID
+				                        ORDER BY a.EndDate desc) mostRecentContract
                         WHERE
                         --Text query used to match on full name or resume
                         ((usr.FirstName + ' ' + usr.LastName) LIKE @LikeQuery
-                            OR CONTAINS(cri.ResumeText, @FullTextQuery))"
-                        //Does not have an active or pending contract
-                        + " AND EXISTS ( " + floThruContractExistsSubQuery + " )"
-                        //Has previous flothru contract 
-                        + " AND NOT EXISTS ( " + activeOrPendingContractExistsSubQuery + " )";
+                            OR CONTAINS(cri.ResumeText, @FullTextQuery))";
 
-                var lookup = new Dictionary<int, Consultant>();
-                db.Connection.Query<Consultant, Specialization, Consultant>(constants + consultantsQuery,
-                    (c, s) =>
+                if (active)
+                {
+                    // Currently has an active or pending contract
+                    consultantsQuery += " AND EXISTS ( " + activeOrPendingContractExistsSubQuery + ")";
+                }
+                else
+                {
+                    //Does not have an active or pending contract
+                    consultantsQuery += " AND EXISTS ( " + floThruContractExistsSubQuery + " )";
+                    //Has previous flothru contract 
+                    consultantsQuery += " AND NOT EXISTS ( " + activeOrPendingContractExistsSubQuery + " )";
+                }
+                        
+                var lookup = new Dictionary<int, ConsultantGroup>();
+                db.Connection.Query<ConsultantSummary, Specialization, ConsultantGroup>(constants + consultantsQuery,
+                    (summary, spec) =>
                     {
-                        Consultant consultant;
-                        List<Specialization> specializations;
-                        if (!lookup.TryGetValue(c.Id, out consultant))
+                        ConsultantGroup group;
+                        spec = spec ?? new Specialization { Id = 0, Name = string.Empty };
+                        if (!lookup.TryGetValue(spec.Id, out group))
                         {
-                            lookup.Add(c.Id, consultant = c);
-                            consultant.Specializations = new List<Specialization>();
+                            lookup.Add(spec.Id, group = new ConsultantGroup { Specialization = spec.Name, Consultants = new List<ConsultantSummary>() });
                         }
-                        specializations = consultant.Specializations.ToList();
-                        if (s != null)
-                        {
-                            specializations.Add(s);
-                        }
-                        consultant.Specializations = specializations;
-                        return consultant;
+                        group.Consultants.Add(summary);
+                        return group;
                     },
                     new
                     {
@@ -167,23 +179,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                         FullTextQuery = FullTextSearchExpression.Create(query)
                     });
 
-                var result = lookup.Values.SelectMany(c => c.Specializations.Select(s => new { s.Name, Summary = new ConsultantSummary(c, s.Name) }))
-                    .ToLookup(l => l.Name, l => l.Summary)
-                    .Select(kvp => new ConsultantGroup { Specialization = kvp.Key, Consultants = kvp.ToArray() })
-                    .ToList();
-
-                var consultantsWithNoSpecializations = lookup.Values.Where(c => !c.Specializations.Any())
-                                                .Select(c => new ConsultantSummary(c, string.Empty)).ToList();
-                if (consultantsWithNoSpecializations.Any())
-                {
-                    result.Add(new ConsultantGroup
-                    {
-                        Specialization = string.Empty,
-                        Consultants = consultantsWithNoSpecializations
-                    });
-                }
-                
-                return result;
+                return lookup.Values;
             }
         }
     }

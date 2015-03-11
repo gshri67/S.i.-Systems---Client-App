@@ -76,7 +76,7 @@ namespace ClientApp.iOS
 	        }
 
 	        SetRatingImagesOrText(consultant);
-	        ContractsLabel.Text = string.Format("{0} {1}", consultant.Contracts.Count,
+	        ContractsLabel.Text = string.Format("{0} {1}", consultant.Contracts.Count(),
 	            consultant.Contracts.OrderByDescending(c => c.EndDate).Select(c => string.Format("({0:c}/hr)", c.Rate)).FirstOrDefault()).TrimEnd();
 	        AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
 
@@ -123,7 +123,7 @@ namespace ClientApp.iOS
 	        } else if (segue.Identifier == "ContractsSelected")
 	        {
                 var view = (ContractsViewController)segue.DestinationViewController;
-                view.Contracts = _detailViewModel.GetConsultant().Contracts;
+                view.Contracts = _detailViewModel.GetConsultant().Contracts.ToList();
 	        } else if (segue.Identifier == "OnboardSelected")
 	        {
 	            var navController = (UINavigationController) segue.DestinationViewController;

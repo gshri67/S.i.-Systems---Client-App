@@ -60,7 +60,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             var associatedCompanyIds =
                 _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.ClientId);
 
-            var results = _consultantRepository.FindAlumni(query, associatedCompanyIds);
+            var results = _consultantRepository.Find(query, associatedCompanyIds);
             var orderedResults = OrderAlumniGroups(results);
 
             TrimRatesBasedOnMaxVisibleRate(orderedResults);

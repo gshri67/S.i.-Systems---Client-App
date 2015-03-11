@@ -27,7 +27,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "Tommy";
 
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
+            var groups = _repo.Find(searchText, new List<int> { _companyOneId });
 
             Assert.AreEqual(2, groups.Count());
         }
@@ -36,7 +36,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void FindAlumni_ByName_ShouldNotBeAffectedByCase()
         {
             const string searchText = "tOmMy";
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
+            var groups = _repo.Find(searchText, new List<int> { _companyOneId });
 
             Assert.IsTrue(groups.Any()
                 && groups.All(c => GroupSpecializationMatchesText(c, searchText) || c.Consultants.All(con => ConsultantNameMatchesText(con, searchText))));
@@ -46,7 +46,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void FindAlumni_ShouldMatchOnResumeTextPhrase()
         {
             const string searchText = "LOREM IPSUM";
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
+            var groups = _repo.Find(searchText, new List<int> { _companyOneId });
 
             var consultants = groups.SelectMany(g => g.Consultants).Select(c => c.FirstName).Distinct().ToList();
             
@@ -62,7 +62,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             const string searchText = "Bill";
 
             //Company Two has contract with bill
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyTwoId });
+            var groups = _repo.Find(searchText, new List<int> { _companyTwoId });
 
             Assert.IsTrue(groups.Any());
         }
@@ -71,7 +71,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void FindAlumni_ShouldNotRelyOnWordOrder()
         {
             const string searchText = "IPSUM LOREM";
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
+            var groups = _repo.Find(searchText, new List<int> { _companyOneId });
 
             var consultants = groups.SelectMany(g => g.Consultants).Select(c => c.FirstName).Distinct().ToList();
 
@@ -86,7 +86,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "";
 
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId, _companyFourId });
+            var groups = _repo.Find(searchText, new List<int> { _companyOneId, _companyFourId });
 
             var contractors = groups.SelectMany(g => g.Consultants);
 
@@ -106,7 +106,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "Candice";
 
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyThreeId });
+            var groups = _repo.Find(searchText, new List<int> { _companyThreeId });
 
             Assert.IsTrue(!groups.Any());
         }
@@ -116,7 +116,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "Candice";
 
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyOneId });
+            var groups = _repo.Find(searchText, new List<int> { _companyOneId });
 
             Assert.IsTrue(groups.Any());
         }
@@ -126,7 +126,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "Candice";
 
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyTwoId });
+            var groups = _repo.Find(searchText, new List<int> { _companyTwoId });
 
             Assert.IsFalse(groups.Any());
         }
@@ -136,7 +136,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             const string searchText = "Bill";
 
-            var groups = _repo.FindAlumni(searchText, new List<int> { _companyTwoId });
+            var groups = _repo.Find(searchText, new List<int> { _companyTwoId });
 
             Assert.AreEqual((MatchGuideConstants.ResumeRating)MatchGuideConstants.ResumeRating.NotChecked, groups.First().Consultants.First().Rating);
         }

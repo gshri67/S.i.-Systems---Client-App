@@ -95,7 +95,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void FindAlumni_ResultsShouldBeOrderedBySpecializationGroupSize()
         {
             var repo = new Mock<IConsultantRepository>();
-            repo.Setup(m => m.FindAlumni(It.IsAny<string>(), It.IsAny<IEnumerable<int>>()))
+            repo.Setup(m => m.Find(It.IsAny<string>(), It.IsAny<IEnumerable<int>>(), false))
                 .Returns(new List<ConsultantGroup>
                 {
                     new ConsultantGroup
@@ -145,7 +145,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                     }
                 }
             };
-            repo.Setup(m => m.FindAlumni(It.IsAny<string>(), It.IsAny<IEnumerable<int>>()))
+            repo.Setup(m => m.Find(It.IsAny<string>(), It.IsAny<IEnumerable<int>>(), false))
                 .Returns(expectedOrderedResult);
 
             var service = new ConsultantService(repo.Object, _companyRepositoryMock.Object, _sessionContextMock.Object);
@@ -160,7 +160,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void FindAlumni_ConsultantsWithLowRatingsShouldNotBeFiltered()
         {
             var repo = new Mock<IConsultantRepository>();
-            repo.Setup(m => m.FindAlumni(It.IsAny<string>(), It.IsAny<IEnumerable<int>>()))
+            repo.Setup(m => m.Find(It.IsAny<string>(), It.IsAny<IEnumerable<int>>(), false))
                 .Returns(new List<ConsultantGroup>
                 {
                     new ConsultantGroup

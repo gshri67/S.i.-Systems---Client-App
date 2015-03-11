@@ -4,6 +4,7 @@ using NUnit.Framework;
 using SiSystems.ClientApp.SharedModels;
 using ClientApp.Core;
 using ClientApp.Core.ViewModels;
+using System.Collections.Generic;
 
 namespace SiSystems.ClientApp.Core.Tests.ViewModels
 {
@@ -46,9 +47,14 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         [Test]
         public void Consultant_RateSetUsingLastContract()
         {
-            var consultant = new Consultant();
-            consultant.Contracts.Add(new Contract { EndDate = DateTime.MaxValue, Rate = 80 });
-            consultant.Contracts.Add(new Contract { EndDate = DateTime.MinValue, Rate = 120 });
+            var consultant = new Consultant
+            {
+                Contracts = new List<Contract>
+                {
+                    new Contract { EndDate = DateTime.MaxValue, Rate = 80 },
+                    new Contract { EndDate = DateTime.MinValue, Rate = 120 }
+                }
+            };
 
             _vm.Consultant = consultant;
             Assert.AreEqual(80, _vm.LastContractRate);
