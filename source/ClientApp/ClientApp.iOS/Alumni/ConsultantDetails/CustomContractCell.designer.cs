@@ -16,7 +16,7 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel ContractShortNameLabel { get; set; }
+		UILabel ActiveLabel { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -24,17 +24,25 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel DirectReportLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel RateLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (ContractShortNameLabel != null) {
-				ContractShortNameLabel.Dispose ();
-				ContractShortNameLabel = null;
+			if (ActiveLabel != null) {
+				ActiveLabel.Dispose ();
+				ActiveLabel = null;
 			}
 			if (DateLabel != null) {
 				DateLabel.Dispose ();
 				DateLabel = null;
+			}
+			if (DirectReportLabel != null) {
+				DirectReportLabel.Dispose ();
+				DirectReportLabel = null;
 			}
 			if (RateLabel != null) {
 				RateLabel.Dispose ();

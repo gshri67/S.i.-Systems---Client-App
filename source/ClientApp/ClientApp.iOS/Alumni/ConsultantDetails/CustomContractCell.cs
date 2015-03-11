@@ -15,11 +15,12 @@ namespace ClientApp.iOS
 	    {
 	    }
 
-	    public void UpdateCell(string rate, string dates, string shortName)
+	    public void UpdateCell(string rate, string dates, string contact, bool isActive)
 	    {
 	        RateLabel.Text = rate;
 	        DateLabel.Text = dates;
-	        ContractShortNameLabel.Text = shortName;
+	        ActiveLabel.Hidden = !isActive;
+	        DirectReportLabel.Text = contact;
 	    }
 	}
 }

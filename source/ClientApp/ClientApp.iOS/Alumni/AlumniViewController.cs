@@ -225,7 +225,7 @@ namespace ClientApp.iOS
                     var rowpath = SpecializationTable.IndexPathForSelectedRow;
                     var consultantGroup = source.GetItem(rowpath.Row);
                     //TODO swap this based on if Active or Alumni is selected
-                    navCtrl.SetSpecialization(this, consultantGroup, true);
+                    navCtrl.SetSpecialization(this, consultantGroup, false);
                 }
             }
         }
