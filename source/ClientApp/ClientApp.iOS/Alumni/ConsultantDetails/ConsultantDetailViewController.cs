@@ -25,7 +25,7 @@ namespace ClientApp.iOS
         private readonly ConsultantDetailViewModel _detailViewModel;
 	    private LoadingOverlay _overlay;
         private string _emailText;
-        private const string RateWitheldText = "Rate Witheld";
+        private const string RateWitheldText = "Rate Withheld";
 
         public ConsultantDetailViewController (IntPtr handle) : base (handle)
         {

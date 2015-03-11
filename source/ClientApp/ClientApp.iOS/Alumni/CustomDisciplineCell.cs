@@ -10,7 +10,7 @@ namespace ClientApp.iOS
 {
     partial class CustomDisciplineCell : UITableViewCell
 	{
-        private const string RateWitheldText = "Rate Witheld";
+        private const string RateWitheldText = "Rate Withheld";
 
 		public CustomDisciplineCell (IntPtr handle) : base (handle)
 		{
@@ -28,7 +28,7 @@ namespace ClientApp.iOS
             if (!consultant.RateWitheld)
                 lastContractRate.Text = string.Format("{0:C}/h", consultant.MostRecentContractRate);
             else { 
-                lastContractRate.TextColor = StyleGuideConstants.LightGrayUiColor;
+                lastContractRate.TextColor = UIColor.LightGray;
                 lastContractRate.Text = RateWitheldText;
             }
         }

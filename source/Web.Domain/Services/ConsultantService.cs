@@ -73,6 +73,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             return orderedResults;
         }
 
+        private bool RateExceedsMaxVisibleRate(Decimal rate)
+        {
+            return rate > _sessionContext.CurrentUser.ClientsMaxVisibleRate;
+        }
+
         private void TrimRatesBasedOnMaxVisibleRate(IOrderedEnumerable<ConsultantGroup> orderedResults)
         {
             if (!ShouldBeTrimmed())
@@ -80,7 +85,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             
             foreach (var consultant in from consultantGroup 
                     in orderedResults from consultant in consultantGroup.Consultants
-                    where consultant.MostRecentContractRate >= _sessionContext.CurrentUser.ClientsMaxVisibleRate
+                    where RateExceedsMaxVisibleRate(consultant.MostRecentContractRate) 
                     select consultant)
             {
                 consultant.RateWitheld = true;
@@ -92,7 +97,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         {
             if (!ShouldBeTrimmed())
                 return;
-            foreach (var contract in consultant.Contracts.Where(contract => contract.Rate > _sessionContext.CurrentUser.ClientsMaxVisibleRate))
+            foreach (var contract in consultant.Contracts.Where(contract => RateExceedsMaxVisibleRate(contract.Rate) ))
             {
                 contract.Rate = decimal.Zero;
                 contract.RateWitheld = true;
