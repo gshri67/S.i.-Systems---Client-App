@@ -31,7 +31,7 @@ namespace ClientApp.Core.Tests
                     case "/api/logout":
                         json = string.Empty;
                         break;
-                    case "/api/consultants/alumni/1":
+                    case "/api/consultants/1":
                         json = "{\"id\":1}";
                         break;
                     case "/api/consultants/alumni":
