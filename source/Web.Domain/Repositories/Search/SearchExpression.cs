@@ -33,7 +33,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.Search
             var finalTokens = tokens.Where(t => !ReservedWords.Contains(t.ToUpperInvariant()));
             
             //If there are multiple tokens, combine them with AND
-            return finalTokens.Where(t=>!string.IsNullOrWhiteSpace(t)).Aggregate((a, b) => a + " AND " + b);
+            return finalTokens.Where(t=>!string.IsNullOrWhiteSpace(t)).Aggregate((a, b) => a + " OR " + b);
         }
 
         //Special keywords or sequences that could break the full-text query
