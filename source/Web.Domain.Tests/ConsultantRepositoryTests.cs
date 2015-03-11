@@ -169,6 +169,18 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         }
 
         [Test]
+        public void Find_ShouldIncludePersonalDetails()
+        {
+            var consultant = _repo.Find(12);
+            Assert.AreEqual(12, consultant.Id);
+            Assert.AreEqual("Candice", consultant.FirstName);
+            Assert.AreEqual("Consulty", consultant.LastName);
+            Assert.AreEqual("Candice Consulty", consultant.FullName);
+            Assert.AreEqual("candice.consulty@email.com", consultant.EmailAddress);
+            Assert.AreEqual((MatchGuideConstants.ResumeRating)314, consultant.Rating);
+        }
+
+        [Test]
         public void Find_ShouldIncludeResumeText()
         {
             var consultant = _repo.Find(12);

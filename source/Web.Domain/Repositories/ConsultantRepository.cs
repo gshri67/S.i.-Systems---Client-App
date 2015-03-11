@@ -38,7 +38,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                             + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
 
                 const string consultantQuery = @"
-                                SELECT usr.UserID, usr.FirstName, usr.LastName, ue.PrimaryEmail as EmailAddress
+                                SELECT usr.UserID Id, usr.FirstName, usr.LastName, ue.PrimaryEmail as EmailAddress
 	                                ,ISNULL(cri.ReferenceValue, @NOTCHECKED) as Rating, cri.ResumeText
                                 FROM Users usr
 	                                LEFT JOIN User_Email ue on ue.UserID = usr.UserID
@@ -75,22 +75,33 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                     const string floThruContractsQuery = @"
                                             SELECT agr.CandidateID ConsultantId,
                                             agr.CompanyID ClientId,
+                                            agr.AgreementSubType,
                                             agrDetail.JobTitle Title,
                                             agr.StartDate, 
                                             agr.EndDate, 
                                             agrRateDetail.PayRate Rate,
                                             spec.Name SpecializationName, 
-                                            spec.Description SpecializationNameShort
+                                            spec.Description SpecializationNameShort,
+                                            contact.UserID ContactId,
+											contact.FirstName,
+											contact.LastName,
+											contactEmail.PrimaryEmail EmailAddress
                                             FROM [Agreement] agr 
                                             LEFT JOIN [Agreement_ContractDetail] agrDetail on agr.AgreementID = agrDetail.AgreementID
                                             LEFT JOIN [Agreement_ContractRateDetail] agrRateDetail on agr.AgreementID = agrRateDetail.AgreementID
                                             LEFT JOIN [Specialization] spec on agrDetail.SpecializationID = spec.SpecializationID
+                                            LEFT JOIN Users contact on contact.UserID = agr.ContactID
+											JOIN User_Email contactEmail on contactEmail.UserID = contact.UserID
 					                        WHERE agr.CandidateId = @UserId
                                                 --AND agr.CompanyID in @CompanyIds
 						                        AND agr.AgreementType = @CONTRACT
                                                 AND agr.AgreementSubType = @FLOTHRU";
-
-                    var floThruContracts = db.Connection.Query<Contract>(constants + floThruContractsQuery, new { UserId = id });
+                    var floThruContracts = db.Connection.Query<Contract, Contact, Contract>(constants + floThruContractsQuery,
+                        (contract, contact) =>
+                        {
+                            contract.Contact = contact;
+                            return contract;
+                        }, param: new { UserId = id }, splitOn: "ContactId");
                     consultant.Contracts = floThruContracts;
                 }
 
