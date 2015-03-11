@@ -44,6 +44,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel RateLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableViewCell StartDateCell { get; set; }
 
 		[Outlet]
@@ -91,6 +95,10 @@ namespace ClientApp.iOS
 			if (RateField != null) {
 				RateField.Dispose ();
 				RateField = null;
+			}
+			if (RateLabel != null) {
+				RateLabel.Dispose ();
+				RateLabel = null;
 			}
 			if (StartDateCell != null) {
 				StartDateCell.Dispose ();

@@ -20,9 +20,13 @@ namespace ClientApp.Core.ViewModels
                 if (lastContract != null)
                 {
                     LastContractRate = lastContract.Rate;
+                    IsFullService = lastContract.IsFullService;
                 }
             }
         }
+
+        public bool IsActiveConsultant { get; set; }
+        public bool IsFullService { get; private set; }
 
         public decimal ServiceRate = CurrentUser.ServiceFee;
         public decimal MspPercent = CurrentUser.MspPercent;

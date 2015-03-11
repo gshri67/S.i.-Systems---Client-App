@@ -1016,6 +1016,7 @@
                         <outlet property="TimesheetApproverField" destination="6842" id="name-outlet-6842"/>
                         <outlet property="TitleField" destination="6078" id="name-outlet-6078"/>
                         <segue destination="5593" kind="push" identifier="SubmitSelected" id="5768"/>
+                        <outlet property="RateLabel" destination="5500" id="name-outlet-5500"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5227" userLabel="First Responder" sceneMemberID="firstResponder"/>

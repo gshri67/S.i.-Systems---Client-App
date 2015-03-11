@@ -34,5 +34,7 @@ namespace ClientApp.Core.ViewModels
         {
             return _consultant ?? new Consultant();
         }
+
+        public bool IsActiveConsultant { get; set; }
     }
 }

@@ -188,7 +188,7 @@ namespace ClientApp.iOS
 
         private async void LoadActiveConsultantGroups()
         {
-            //TODO Actually use this
+            //TODO Actually use this for other search tab
             var consultantGroups = await _alumniModel.GetActiveConsultantGroups(AlumniSearch.Text) ?? Enumerable.Empty<ConsultantGroup>();
         }
 
@@ -224,7 +224,8 @@ namespace ClientApp.iOS
                     var source = SpecializationTable.Source as AlumniTableViewSource;
                     var rowpath = SpecializationTable.IndexPathForSelectedRow;
                     var consultantGroup = source.GetItem(rowpath.Row);
-                    navCtrl.SetSpecialization(this, consultantGroup);
+                    //TODO swap this based on if Active or Alumni is selected
+                    navCtrl.SetSpecialization(this, consultantGroup, true);
                 }
             }
         }

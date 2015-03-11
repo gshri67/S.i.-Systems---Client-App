@@ -11,6 +11,7 @@ namespace ClientApp.iOS
 	    private AlumniViewController _parentController;
 	    private ConsultantGroup _consultantGroup;
 	    private string _previousScreenTitle;
+	    private bool _isActiveConsultants;
 
 		public DisciplineViewController (IntPtr handle) : base (handle)
 		{
@@ -33,8 +34,6 @@ namespace ClientApp.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-            // Perform any additional setup after loading the view, typically from a nib.
         }
 
         public override void ViewWillAppear(bool animated)
@@ -70,10 +69,11 @@ namespace ClientApp.iOS
 
         #endregion
 
-	    public void SetSpecialization(AlumniViewController parentController, ConsultantGroup consultantGroup)
+	    public void SetSpecialization(AlumniViewController parentController, ConsultantGroup consultantGroup, bool isActiveConsultants)
 	    {
 	        _parentController = parentController;
 	        _consultantGroup = consultantGroup;
+	        _isActiveConsultants = isActiveConsultants;
 	    }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -86,7 +86,7 @@ namespace ClientApp.iOS
                 var source = DisciplineTable.Source as DisciplineTableViewSource;
                 var rowpath = DisciplineTable.IndexPathForSelectedRow;
                 var consultant = source.GetItem(rowpath.Row);
-                view.LoadConsultant(consultant.Id);
+                view.LoadConsultant(consultant.Id, _isActiveConsultants);
             }
         }
 	}

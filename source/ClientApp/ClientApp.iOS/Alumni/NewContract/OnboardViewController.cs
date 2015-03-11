@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using ClientApp.Core.ViewModels;
 using ClientApp.Core;
 using CoreGraphics;
@@ -16,6 +17,7 @@ namespace ClientApp.iOS
 	    private readonly UIDatePicker _endDatePicker = new UIDatePicker {Mode = UIDatePickerMode.Date, Hidden = true};
         private readonly OnboardViewModel _viewModel;
         public Consultant Consultant { set { _viewModel.Consultant = value; } }
+        public bool IsActiveConsultant { set { _viewModel.IsActiveConsultant = value; } }
 
         public OnboardViewController (IntPtr handle) : base (handle)
         {
@@ -52,10 +54,24 @@ namespace ClientApp.iOS
             SetupDatePicker(_endDatePicker, EndDateLabel, DateTime.Now.Date.AddDays(1).AddMonths(6), false);
 
             //Load initial values
-            StartDateLabel.Text = DateTime.Now.Date.AddDays(1).ToString("MMM dd, yyyy");
-	        EndDateLabel.Text = DateTime.Now.Date.AddDays(1).AddMonths(6).ToString("MMM dd, yyyy");
+            if (_viewModel.IsActiveConsultant)
+            {
+                var lastContractDate = _viewModel.Consultant.Contracts.OrderBy(c => c.EndDate).Last().EndDate;
+                StartDateLabel.Text = lastContractDate.AddDays(1).ToString("MMM dd, yyyy");
+                EndDateLabel.Text = lastContractDate.AddDays(1).AddMonths(6).ToString("MMM dd, yyyy");
+                RateField.Text = RateField.Text = string.Format("${0:N2}/hr", _viewModel.LastContractRate); ;
+            }
+            else
+            {
+                StartDateLabel.Text = DateTime.Now.Date.AddDays(1).ToString("MMM dd, yyyy");
+                EndDateLabel.Text = DateTime.Now.Date.AddDays(1).AddMonths(6).ToString("MMM dd, yyyy");
+            }
+            if (_viewModel.IsFullService)
+            {
+                RateLabel.Text = "Bill Rate";
+            }
 
-	        NameLabel.Text = _viewModel.Consultant.FullName;
+            NameLabel.Text = _viewModel.Consultant.FullName;
             
 	        RateField.EditingDidEnd += (sender, args) => ValidateRateField();
             AddToolBarToKeyboard(RateField);
@@ -252,7 +268,7 @@ namespace ClientApp.iOS
 
 	    public override UIView GetViewForFooter(UITableView tableView, nint section)
 	    {
-	        if (section == 1)
+	        if (section == 1 && !_viewModel.IsFullService)
 	        {
 	            var view = new UIView();
 	            var label = new UILabel(new CGRect(20, 4, UIScreen.MainScreen.Bounds.Width - 40, 10))
@@ -271,7 +287,7 @@ namespace ClientApp.iOS
 
 	    public override UIView GetViewForHeader(UITableView tableView, nint section)
 	    {
-	        if (section == 1)
+	        if (section == 1 && !_viewModel.IsActiveConsultant)
 	        {
                 var view = new UIView();
                 var leftLabel = new UILabel(new CGRect(17, 18, 140, 13))

@@ -57,8 +57,9 @@ namespace ClientApp.iOS
 	        };
 	    }
 
-	    public async void LoadConsultant(int id)
+	    public async void LoadConsultant(int id, bool isActiveConsultant)
 	    {
+	        _detailViewModel.IsActiveConsultant = isActiveConsultant;
             var consultant = await _detailViewModel.GetConsultant(id);
             InvokeOnMainThread(delegate{UpdateUI(consultant);});
             
@@ -69,6 +70,10 @@ namespace ClientApp.iOS
 	        Title = consultant.FullName;
 	        TitleLabel.Text =
 	            consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
+	        if (_detailViewModel.IsActiveConsultant)
+	        {
+	            OnboardButton.SetTitle("Renew", UIControlState.Normal);
+	        }
 
 	        SetRatingImagesOrText(consultant);
 	        ContractsLabel.Text = string.Format("{0} {1}", consultant.Contracts.Count,
@@ -124,7 +129,8 @@ namespace ClientApp.iOS
 	            var navController = (UINavigationController) segue.DestinationViewController;
 	            var view = (OnboardViewController) navController.ViewControllers[0];
 	            view.Consultant = _detailViewModel.GetConsultant();
-            }
+	            view.IsActiveConsultant = _detailViewModel.IsActiveConsultant;
+	        }
             else if (segue.Identifier == "ContactSelected")
             {
                 var navController = (UINavigationController)segue.DestinationViewController;
