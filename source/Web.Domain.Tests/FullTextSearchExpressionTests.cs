@@ -29,7 +29,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         public void Create_ShouldCombineTokensWithOperator()
         {
             const string query = "Java C++";
-            const string expected = "Java AND C++";
+            const string expected = "Java OR C++";
 
             Assert.AreEqual(expected, FullTextSearchExpression.Create(query));
         }
