@@ -502,5 +502,57 @@ namespace SiSystems.ClientApp.SharedModels
                 return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultStringFunc(m_value);
             }
         }
+
+
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
+        public struct FloThruFeePayment : IMatchGuideConstant
+        {
+            [DataMember(Name = "backingValue")]
+            private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
+            public const int ClientPays = 2463;
+            public const int ContractorPays = 2464;
+
+            private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
+            {
+                {ClientPays, "Client Pays"},
+                {ContractorPays, "Contractor Pays"},
+            };
+
+            private const string DefaultDisplayString = "Client Pays";
+
+            private FloThruFeePayment(long value)
+            {
+                m_value = value;
+            }
+
+            public static implicit operator FloThruFeePayment(long val)
+            {
+                return new FloThruFeePayment(val);
+            }
+
+            public static implicit operator FloThruFeePayment(int val)
+            {
+                return new FloThruFeePayment(val);
+            }
+
+            public static implicit operator long(FloThruFeePayment feePayment)
+            {
+                return feePayment.m_value;
+            }
+
+            public override string ToString()
+            {
+                string description;
+                return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultDisplayString;
+            }
+        }
     }
 }

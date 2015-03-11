@@ -25,10 +25,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 var query = @"SELECT InvoiceFormatId as InvoiceFormat"
-                              + " ,InvoiceFrequency"
-                              + " ,FloThruFeeType"
+                              //+ " ,InvoiceFrequency"
+                              + " ,CompanyInvoiceFrequencyID as InvoiceFrequency"
+                              + " ,FloThruFeeTypeID as FloThruFeeType"
                               + " ,FloThruFee"
-                              + " ,FloThruFeePayment"
+                              + " ,FloThruFeePaymentID as FloThruFeePayment"
                               + " ,MSPFeePercentage as MspFeePercentage"
                               + " ,MaxVisibleRatePerHour as MaxVisibleRate"
                           + " FROM [Company]"

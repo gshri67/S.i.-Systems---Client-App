@@ -14,7 +14,7 @@ namespace SiSystems.ClientApp.SharedModels
 
         public decimal FloThruFee { get; set; }
         public int FloThruFeePayer { get; set; }
-        public int FloThruFeeType { get; set; }
+        public MatchGuideConstants.FloThruFeePayment FloThruFeeType { get; set; }
         public int InvoiceFormat { get; set; }
         public int InvoiceFrequency { get; set; }
         public decimal MspFeePercentage { get; set; }

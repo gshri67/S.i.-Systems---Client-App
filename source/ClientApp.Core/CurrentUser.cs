@@ -1,3 +1,5 @@
+using SiSystems.ClientApp.SharedModels;
+
 namespace ClientApp.Core
 {
     /// <summary>
@@ -19,7 +21,7 @@ namespace ClientApp.Core
 
         public static decimal ServiceFee { get; set; }
         public static decimal MspPercent { get; set; }
-        public static int FloThruFeeType { get; set; }
+        public static MatchGuideConstants.FloThruFeePayment FloThruFeeType { get; set; }
         public static int FloThruFeePayer { get; set; }
         public static int InvoiceFormat { get; set; }
         public static int InvoiceFrequency { get; set; }
