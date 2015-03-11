@@ -53,6 +53,7 @@ namespace ClientApp.iOS.Startup
             {
                 var json = NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
                 var token = JsonConvert.DeserializeObject<OAuthToken>(json);
+                CurrentUser.Email = token.Username;
                 return token;
             }
             return null;
