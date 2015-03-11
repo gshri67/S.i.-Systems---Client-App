@@ -34,8 +34,10 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         [Test]
         public void Consultant_SettingAlsoSetsLastRate()
         {
-            var consultant = new Consultant();
-            consultant.Contracts.Add(new Contract{EndDate = DateTime.MaxValue, Rate = 80});
+            var consultant = new Consultant
+            {
+                Contracts = new List<Contract> { new Contract { EndDate = DateTime.MaxValue, Rate = 80 } }
+            }; 
 
             _vm.Consultant = consultant;
             Assert.AreEqual(80, _vm.LastContractRate);
