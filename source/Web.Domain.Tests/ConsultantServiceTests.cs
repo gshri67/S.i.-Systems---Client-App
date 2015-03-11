@@ -29,7 +29,8 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 FirstName = "Test",
                 LastName = "User",
                 Login = "Test.User",
-                PasswordHash = "#"
+                PasswordHash = "#",
+                ClientsMaxVisibleRate = 20
             });
 
             _companyRepositoryMock = new Mock<ICompanyRepository>();
@@ -182,6 +183,37 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             var ratings = results.SelectMany(g => g.Consultants).Select(c => c.Rating).ToList();
 
             Assert.Contains((MatchGuideConstants.ResumeRating)MatchGuideConstants.ResumeRating.BelowStandard, ratings);
+        }
+
+        [Test]
+        public void FindAlumni_ShouldHideRatesAboveMaxAllowedRate()
+        {
+            var repo = new Mock<IConsultantRepository>();
+            repo.Setup(m => m.Find(It.IsAny<string>(), It.IsAny<IEnumerable<int>>(), false))
+                .Returns(new List<ConsultantGroup>
+                {
+                    new ConsultantGroup
+                    {
+                        Specialization = "Javaers",
+                        Consultants = new List<ConsultantSummary>
+                        {
+                            new ConsultantSummary{MostRecentContractRate = 10},
+                            new ConsultantSummary{MostRecentContractRate = 20},
+                            new ConsultantSummary{MostRecentContractRate = 30},
+                        }
+                    }
+                });
+
+            var service = new ConsultantService(repo.Object, _companyRepositoryMock.Object, _sessionContextMock.Object);
+
+            var summaries = service.FindAlumni(string.Empty).SelectMany(s => s.Consultants).OrderBy(s => s.MostRecentContractRate).ToArray();
+
+            Assert.IsTrue(summaries[0].RateWitheld);
+            Assert.IsFalse(summaries[1].RateWitheld);
+            Assert.IsFalse(summaries[2].RateWitheld);
+            Assert.AreEqual(0, summaries[0].MostRecentContractRate);
+            Assert.AreEqual(10, summaries[1].MostRecentContractRate);
+            Assert.AreEqual(20, summaries[2].MostRecentContractRate);
         }
     }
 }
