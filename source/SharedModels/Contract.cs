@@ -18,5 +18,9 @@ namespace SiSystems.ClientApp.SharedModels
         public Decimal Rate { get; set; }
 
         public Contact Contact { get; set; }
+
+        public int AgreementSubType { get; set; }
+        public bool IsFloThru { get { return AgreementSubType == MatchGuideConstants.AgreementSubTypes.FloThru; } }
+        public bool IsFullService { get { return AgreementSubType == MatchGuideConstants.AgreementSubTypes.Consultant; } }
     }
 }
