@@ -75,7 +75,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                     const string floThruContractsQuery = @"
                                             SELECT agr.CandidateID ConsultantId,
                                             agr.CompanyID ClientId,
-                                            agr.AgreementSubType,
+                                            CAST(agr.AgreementSubType AS INT) AgreementSubType,
                                             agrDetail.JobTitle Title,
                                             agr.StartDate, 
                                             agr.EndDate, 
