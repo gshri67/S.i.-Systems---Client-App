@@ -90,12 +90,8 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
             var contractors = groups.SelectMany(g => g.Consultants);
 
-            //should find Tommy
             Assert.IsTrue(contractors.Any(c => c.FullName == "Tommy Contractor"));
-
-            //should find Sally
-            Assert.IsTrue(contractors.Any(c => c.FullName == "Sally Divisioner"));
-
+            Assert.IsTrue(contractors.Any(c => c.FullName == "Candice Consulty"));
 
             Assert.IsTrue(groups.Any());
         }

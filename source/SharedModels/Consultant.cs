@@ -20,10 +20,11 @@ namespace SiSystems.ClientApp.SharedModels
 
         public IEnumerable<Specialization> Specializations { get; set; }
 
-        public IList<Contract> Contracts { get; set; }
+        public IEnumerable<Contract> Contracts { get; set; }
 
         public Consultant()
         {
+            Specializations = new List<Specialization>();
             Contracts = new List<Contract>();
         }
 

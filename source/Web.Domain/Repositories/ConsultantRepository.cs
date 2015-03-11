@@ -27,40 +27,23 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                string consultantQuery = @"SELECT U.UserID Id, U.FirstName, U.LastName, UE.PrimaryEmail as EmailAddress, "
-                                             + "ISNULL(CRI.ReferenceValue, " + MatchGuideConstants.ResumeRating.NotChecked + ") Rating, "
-                                             + "CRI.ResumeText, "
-                                             + "A.CandidateID ConsultantId, A.CompanyID ClientId, CD.JobTitle Title, "
-                                             + "A.StartDate, A.EndDate, CRD.PayRate Rate, S.Name SpecializationName, S.Description SpecializationNameShort "
-                                             + "FROM [Users] AS U "
-                                            //ResumeInfo gives us rating, if present
-                                             + "LEFT JOIN [Candidate_ResumeInfo] as CRI on CRI.UserID=U.UserID, "
-                                             //Include Email
-                                             + "[User_Email] as UE, "
-                                            //Contracts
-                                             + "[Agreement] AS A, "
-                                             + "[Agreement_ContractDetail] AS CD, "
-                                             + "[Agreement_ContractRateDetail] AS CRD, [Specialization] as S "
-                                             + "WHERE U.UserID=UE.UserID "
-                                             + "AND U.UserID=A.CandidateID "
-                                             + "AND A.AgreementID=CD.AgreementID "
-                                             + "AND A.AgreementID=CRD.AgreementID "
-                                             + "AND CD.SpecializationID=S.SpecializationID "
-                                            //Only Include FloThru contracts for now
-                                             + "AND A.AgreementType=" + MatchGuideConstants.AgreementTypes.Contract + " "
-                                             + "AND A.AgreementSubType=" + MatchGuideConstants.AgreementSubTypes.FloThru + " "
-                                            //Match on specific user id
-                                             + "AND U.UserID = @UserId";
-                
-                var consultants = new Dictionary<int, Consultant>();
-                db.Connection.Query(consultantQuery,
-                    CreateContractConsultantMappingFunction(consultants),
-                    new { UserId = id },
-                    //Each row contains a Consultant and a Contract
-                    //Tell Dapper where the object boundaries are by specifying column
-                    splitOn: "ConsultantId");
+                string constants = @"DECLARE @ACTIVE int = " + MatchGuideConstants.ContractStatusTypes.Active + ","
+                                            + "@PENDING int = " + MatchGuideConstants.ContractStatusTypes.Pending + ","
+                                            + "@FLOTHRU int = " + MatchGuideConstants.AgreementSubTypes.FloThru + ","
+                                            + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
+                                            + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
 
-                var consultant = consultants.Values.FirstOrDefault();
+                const string consultantQuery = @"
+                                SELECT usr.UserID, usr.FirstName, usr.LastName, ue.PrimaryEmail as EmailAddress
+	                                ,ISNULL(cri.ReferenceValue, @NOTCHECKED) as Rating, cri.ResumeText
+                                FROM Users usr
+	                                LEFT JOIN User_Email ue on ue.UserID = usr.UserID
+	                                LEFT JOIN [Candidate_ResumeInfo] cri on cri.UserID = usr.UserID
+                                WHERE usr.UserId = @UserId";
+
+                var consultants = db.Connection.Query<Consultant>(constants + consultantQuery, new { UserId = id });
+
+                var consultant = consultants.FirstOrDefault();
 
                 if (consultant != null)
                 {
@@ -84,6 +67,27 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                         specialization.Skills = skills.Where(sk => sk.SpecializationId == specialization.Id);
                     }
                     consultant.Specializations = specializations;
+                    //get contracts..
+                    const string floThruContractsQuery = @"
+                                            SELECT agr.CandidateID ConsultantId,
+                                            agr.CompanyID ClientId,
+                                            agrDetail.JobTitle Title,
+                                            agr.StartDate, 
+                                            agr.EndDate, 
+                                            agrRateDetail.PayRate Rate,
+                                            spec.Name SpecializationName, 
+                                            spec.Description SpecializationNameShort
+                                            FROM [Agreement] agr 
+                                            LEFT JOIN [Agreement_ContractDetail] agrDetail on agr.AgreementID = agrDetail.AgreementID
+                                            LEFT JOIN [Agreement_ContractRateDetail] agrRateDetail on agr.AgreementID = agrRateDetail.AgreementID
+                                            LEFT JOIN [Specialization] spec on agrDetail.SpecializationID = spec.SpecializationID
+					                        WHERE agr.CandidateId = @UserId
+                                                --AND agr.CompanyID in @CompanyIds
+						                        AND agr.AgreementType = @CONTRACT
+                                                AND agr.AgreementSubType = @FLOTHRU";
+
+                    var floThruContracts = db.Connection.Query<Contract>(constants + floThruContractsQuery, new { UserId = id });
+                    consultant.Contracts = floThruContracts;
                 }
 
                 return consultant;
@@ -101,95 +105,86 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                string contractQuery = @"SELECT DISTINCT U.UserID Id, U.FirstName, U.LastName, "
-                                             +"ISNULL(CRI.ReferenceValue, "+MatchGuideConstants.ResumeRating.NotChecked+") Rating, "
-                                             + "A.CandidateID ConsultantId, A.CompanyID ClientId, CD.JobTitle Title, "
-                                             + "A.StartDate, A.EndDate, CRD.PayRate Rate, S.Name SpecializationName, S.Description SpecializationNameShort "
-                                             + "FROM [Users] AS U "
-                                             //ResumeInfo gives us rating, if present
-                                             + "LEFT JOIN [Candidate_ResumeInfo] as CRI on CRI.UserID=U.UserID, "  
-                                             //Contracts
-                                             + "[Agreement] AS A, "
-                                             + "[Agreement_ContractDetail] AS CD, "
-                                             + "[Agreement_ContractRateDetail] AS CRD, [Specialization] as S "
-                                             + "WHERE U.UserID=A.CandidateID "
-                                             + "AND A.AgreementID=CD.AgreementID "
-                                             + "AND A.AgreementID=CRD.AgreementID "
-                                             + "AND CD.SpecializationID=S.SpecializationID "
-                                             //Only FloThru contracts
-                                             + "AND A.AgreementType=" + MatchGuideConstants.AgreementTypes.Contract + " "
-                                             + "AND A.AgreementSubType=" + MatchGuideConstants.AgreementSubTypes.FloThru + " "
-                                             //That are between the candidate and the client
-                                             + "AND A.CompanyID IN @CompanyIds "
-                                             + "AND A.Inactive = 0 "
-                                             //Text query used to match on full name or resume
-                                             + "AND ( (U.FirstName+' '+U.LastName) LIKE @LikeQuery "
-                                             + "OR CONTAINS(CRI.ResumeText, @FullTextQuery)) "
-                                            //Filter CandidateIDs with active or pending contracts with client
-                                             + "AND U.UserID NOT IN ("
-                                                 + "SELECT A.CandidateID FROM [Agreement] AS A "
-                                                 + "WHERE A.CompanyID in @CompanyIds "
-                                                 + "AND A.AgreementType=" + MatchGuideConstants.AgreementTypes.Contract+" "
-                                                 + "AND A.AgreementSubType=" + MatchGuideConstants.AgreementSubTypes.FloThru + " "
-                                                 + "AND (A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Active + " "
-                                                 + "OR A.StatusType=" + MatchGuideConstants.ContractStatusTypes.Pending + ") "
-                                                 + "AND A.EndDate > GETUTCDATE() "
-                                                 + "AND A.Inactive = 0 "
-                                             + ") ";
+                string constants = @"DECLARE @ACTIVE int = " + MatchGuideConstants.ContractStatusTypes.Active + ","
+                                            + "@PENDING int = " + MatchGuideConstants.ContractStatusTypes.Pending + ","
+                                            + "@FLOTHRU int = " + MatchGuideConstants.AgreementSubTypes.FloThru + ","
+                                            + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
+                                            + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
 
+                const string contractsExistsSubQuery = @"
+                                            SELECT TOP 1 * 
+					                        FROM [Agreement] agr 
+					                        WHERE agr.CandidateId = usr.UserID
+                                                AND agr.CompanyID in @CompanyIds
+						                        AND agr.AgreementType = @CONTRACT";
 
-                //Query will return row per contract, with consultant info repeated
-                //Map contracts to consultants to get our desired data model.
-                var consultants = new Dictionary<int, Consultant>();
-                db.Connection.Query(contractQuery,
-                    CreateContractConsultantMappingFunction(consultants),
+                const string floThruContractExistsSubQuery = contractsExistsSubQuery + " AND agr.AgreementSubType = @FLOTHRU";
+                const string activeOrPendingContractExistsSubQuery = contractsExistsSubQuery + " AND agr.StatusType in (@ACTIVE, @PENDING)";
+
+                string consultantsQuery = @"
+                        SELECT usr.UserID Id, usr.FirstName, usr.LastName, ue.PrimaryEmail as EmailAddress
+	                        ,ISNULL(cri.ReferenceValue, @NOTCHECKED) as Rating
+	                        ,cri.ResumeText
+	                        ,spec.SpecializationID Id, spec.Name, spec.Description
+                        FROM Users usr
+	                        JOIN User_Email ue on ue.UserID = usr.UserID
+	                        -- Include one record for each of a candidate's specializations
+	                        LEFT JOIN (SELECT DISTINCT SpecId, UserID FROM Candidate_SkillsMatrix WHERE Inactive = 0) skills on usr.UserID = skills.UserID
+	                        LEFT JOIN Specialization spec on spec.SpecializationID = skills.SpecID
+	                        LEFT JOIN [Candidate_ResumeInfo] cri on cri.UserID = usr.UserID
+                        WHERE
+                        --Text query used to match on full name or resume
+                        ((usr.FirstName + ' ' + usr.LastName) LIKE @LikeQuery
+                            OR CONTAINS(cri.ResumeText, @FullTextQuery))"
+                        //Does not have an active or pending contract
+                        + " AND EXISTS ( " + floThruContractExistsSubQuery + " )"
+                        //Has previous flothru contract 
+                        + " AND NOT EXISTS ( " + activeOrPendingContractExistsSubQuery + " )";
+
+                var lookup = new Dictionary<int, Consultant>();
+                db.Connection.Query<Consultant, Specialization, Consultant>(constants + consultantsQuery,
+                    (c, s) =>
+                    {
+                        Consultant consultant;
+                        List<Specialization> specializations;
+                        if (!lookup.TryGetValue(c.Id, out consultant))
+                        {
+                            lookup.Add(c.Id, consultant = c);
+                            consultant.Specializations = new List<Specialization>();
+                        }
+                        specializations = consultant.Specializations.ToList();
+                        if (s != null)
+                        {
+                            specializations.Add(s);
+                        }
+                        consultant.Specializations = specializations;
+                        return consultant;
+                    },
                     new
                     {
                         CompanyIds = clientIds,
                         LikeQuery = "%" + query + "%",
                         FullTextQuery = FullTextSearchExpression.Create(query)
-                    },
-                    //Each row contains a Consultant and a Contract
-                    //Tell Dapper where the object boundaries are by specifying column
-                    splitOn: "ConsultantId");
+                    });
 
-                return GroupConsultantsByContractSpecialization(consultants.Values);
-            }
-        }
+                var result = lookup.Values.SelectMany(c => c.Specializations.Select(s => new { s.Name, Summary = new ConsultantSummary(c, s.Name) }))
+                    .ToLookup(l => l.Name, l => l.Summary)
+                    .Select(kvp => new ConsultantGroup { Specialization = kvp.Key, Consultants = kvp.ToArray() })
+                    .ToList();
 
-        private Func<Consultant, Contract, Consultant> CreateContractConsultantMappingFunction(Dictionary<int, Consultant> consultantLookup)
-        {
-            //map contract to consultant
-            //reuse consultant instance if it is already present in dictionary to avoid duplicates
-            return (c, contract) =>
-            {
-                Consultant consultant;
-                if (!consultantLookup.TryGetValue(c.Id, out consultant))
+                var consultantsWithNoSpecializations = lookup.Values.Where(c => !c.Specializations.Any())
+                                                .Select(c => new ConsultantSummary(c, string.Empty)).ToList();
+                if (consultantsWithNoSpecializations.Any())
                 {
-                    consultantLookup.Add(c.Id, consultant = c);
-                }
-                consultant.Contracts.Add(contract);
-                return consultant;
-            };
-        }
-
-        private static IEnumerable<ConsultantGroup> GroupConsultantsByContractSpecialization(IEnumerable<Consultant> matchingConsultants)
-        {
-            var groups = new Dictionary<string, ConsultantGroup>();
-
-            foreach (var consultant in matchingConsultants)
-            {
-                foreach (var specializationName in consultant.Contracts.Select(c => c.SpecializationName).Distinct())
-                {
-                    if (!groups.ContainsKey(specializationName))
+                    result.Add(new ConsultantGroup
                     {
-                        groups.Add(specializationName, new ConsultantGroup { Specialization = specializationName });
-                    }
-                    var group = groups[specializationName];
-                    @group.Consultants.Add(new ConsultantSummary(consultant, specializationName));
+                        Specialization = string.Empty,
+                        Consultants = consultantsWithNoSpecializations
+                    });
                 }
+                
+                return result;
             }
-            return groups.Select(g => g.Value).OrderBy(g => g.Specialization);
         }
     }
 }
