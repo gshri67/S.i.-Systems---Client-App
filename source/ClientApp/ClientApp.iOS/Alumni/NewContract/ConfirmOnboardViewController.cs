@@ -36,10 +36,23 @@ namespace ClientApp.iOS
             TimesheetApproverEmailLabel.Text = ViewModel.TimesheetApprovalEmail;
 	        ContractApproverEmailLabel.Text = ViewModel.ContractApprovalEmail;
 
-            //hide cempty cells
+            //hide empty cells
             MspCell.Hidden = ViewModel.MspPercent == 0;
 	        ServicesCell.Hidden = ViewModel.ServiceRate == 0;
 	        TotalCell.Hidden = ViewModel.MspPercent == 0 && ViewModel.ServiceRate == 0;
+
+	        if (ViewModel.IsActiveConsultant)
+	        {
+	            Title = "Confirm Renew";
+	        }
+
+	        if (ViewModel.IsFullService)
+	        {
+	            ContractorRateTypeLabel.Text = "Bill Rate";
+	            MspCell.Hidden = true;
+                ServicesCell.Hidden = true;
+                TotalCell.Hidden = true;
+	        }
 	    }
 
 	    public override async void RowSelected(UITableView tableView, NSIndexPath indexPath)
@@ -77,20 +90,29 @@ namespace ClientApp.iOS
                 //MSP
 	            if (indexPath.Row == 1)
 	            {
-	                return ViewModel.MspPercent == 0 ? 0 : 30f;
+	                return MspCell.Hidden ? 0 : 30f;
 	            }
                 //Service
                 if (indexPath.Row == 2)
                 {
-                    return ViewModel.ServiceRate == 0 ? 0 : 30f;
+                    return ServicesCell.Hidden ? 0 : 30f;
                 }
                 //Total
                 if (indexPath.Row == 3)
                 {
-                    return ViewModel.MspPercent == 0 && ViewModel.ServiceRate == 0 ? 0 : 30f;
+                    return MspCell.Hidden && ServicesCell.Hidden ? 0 : 30f;
                 }
 	        }
             return indexPath.Section == 4 ? 44f : 30f;
+	    }
+
+	    public override string TitleForHeader(UITableView tableView, nint section)
+	    {
+	        if (section == 0 && ViewModel.IsActiveConsultant)
+	        {
+	            return "Renew Details";
+	        }
+            return base.TitleForHeader(tableView, section);
 	    }
 
 	    class ContractSubmissionDelegate : UIAlertViewDelegate

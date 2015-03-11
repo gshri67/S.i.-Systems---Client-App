@@ -21,6 +21,8 @@ namespace ClientApp.Core.ViewModels
                 {
                     LastContractRate = lastContract.Rate;
                     IsFullService = lastContract.IsFullService;
+                    LastContractTitle = lastContract.Title;
+                    LastContractEndDate = lastContract.EndDate;
                 }
             }
         }
@@ -33,6 +35,9 @@ namespace ClientApp.Core.ViewModels
         public int InvoiceFormat = CurrentUser.InvoiceFormat;
 
         public decimal LastContractRate { get; private set; }
+        public string LastContractTitle { get; private set; }
+        public DateTime LastContractEndDate { get; private set; }
+
         public decimal ContractorRate { get; set; }
         public decimal TotalRate { get { return ContractorRate + (ContractorRate * MspPercent / 100) + ServiceRate; } }
         public DateTime StartDate { get; set; }

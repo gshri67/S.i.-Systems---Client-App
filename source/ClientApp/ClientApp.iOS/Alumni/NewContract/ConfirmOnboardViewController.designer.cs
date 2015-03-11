@@ -24,6 +24,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel ContractorRateTypeLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel EndDateLabel { get; set; }
 
 		[Outlet]
@@ -75,6 +79,10 @@ namespace ClientApp.iOS
 			if (ContractorRateLabel != null) {
 				ContractorRateLabel.Dispose ();
 				ContractorRateLabel = null;
+			}
+			if (ContractorRateTypeLabel != null) {
+				ContractorRateTypeLabel.Dispose ();
+				ContractorRateTypeLabel = null;
 			}
 			if (EndDateLabel != null) {
 				EndDateLabel.Dispose ();

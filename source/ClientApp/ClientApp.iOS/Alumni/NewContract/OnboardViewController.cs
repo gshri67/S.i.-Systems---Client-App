@@ -56,16 +56,27 @@ namespace ClientApp.iOS
             //Load initial values
             if (_viewModel.IsActiveConsultant)
             {
-                var lastContractDate = _viewModel.Consultant.Contracts.OrderBy(c => c.EndDate).Last().EndDate;
-                StartDateLabel.Text = lastContractDate.AddDays(1).ToString("MMM dd, yyyy");
-                EndDateLabel.Text = lastContractDate.AddDays(1).AddMonths(6).ToString("MMM dd, yyyy");
-                RateField.Text = RateField.Text = string.Format("${0:N2}/hr", _viewModel.LastContractRate); ;
+                Title = "Renew";
+
+                var startdate = _viewModel.LastContractEndDate.AddDays(1);
+                var enddate = _viewModel.LastContractEndDate.AddDays(1).AddMonths(6);
+                StartDateLabel.Text = startdate.ToString("MMM dd, yyyy");
+                EndDateLabel.Text = enddate.ToString("MMM dd, yyyy");
+                SetupDatePicker(_startDatePicker, StartDateLabel, startdate, true);
+                SetupDatePicker(_endDatePicker, EndDateLabel, enddate, false);
+
+                RateField.Text = RateField.Text = string.Format("${0:N2}/hr", _viewModel.LastContractRate);
+                _viewModel.ContractorRate = _viewModel.LastContractRate;
+                TitleField.Text = _viewModel.LastContractTitle;
             }
             else
             {
                 StartDateLabel.Text = DateTime.Now.Date.AddDays(1).ToString("MMM dd, yyyy");
                 EndDateLabel.Text = DateTime.Now.Date.AddDays(1).AddMonths(6).ToString("MMM dd, yyyy");
+                SetupDatePicker(_startDatePicker, StartDateLabel, DateTime.Now.Date.AddDays(1), true);
+                SetupDatePicker(_endDatePicker, EndDateLabel, DateTime.Now.Date.AddDays(1).AddMonths(6), false);
             }
+
             if (_viewModel.IsFullService)
             {
                 RateLabel.Text = "Bill Rate";
@@ -152,7 +163,7 @@ namespace ClientApp.iOS
 	    {
             label.Text = setDate.ToString("MMM dd, yyyy");
             picker.SetDate(DateTimeToNSDate(setDate), false);
-            picker.MinimumDate = DateTimeToNSDate(DateTime.Now.Date);
+            picker.MinimumDate = DateTimeToNSDate(DateTime.Now.Date.AddDays(1));
             picker.ValueChanged += (sender, args) =>
             {
                 if (isStartDate)
@@ -310,20 +321,27 @@ namespace ClientApp.iOS
             return base.GetViewForHeader(tableView, section);
 	    }
 
+	    public override string TitleForHeader(UITableView tableView, nint section)
+	    {
+	        if (section == 0 && _viewModel.IsActiveConsultant)
+	        {
+	            return "Renew Details";
+	        }
+            return base.TitleForHeader(tableView, section);
+	    }
+
 	    #endregion
 
         #region Data Helpers
         private static DateTime NSDateToDateTime(NSDate date)
         {
-            DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime(
-                new DateTime(2001, 1, 1, 0, 0, 0));
+            DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0);
             return reference.AddSeconds(date.SecondsSinceReferenceDate);
         }
 
         private static NSDate DateTimeToNSDate(DateTime date)
         {
-            DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime(
-                new DateTime(2001, 1, 1, 0, 0, 0));
+            DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0);
             return NSDate.FromTimeIntervalSinceReferenceDate(
                 (date - reference).TotalSeconds);
         }
