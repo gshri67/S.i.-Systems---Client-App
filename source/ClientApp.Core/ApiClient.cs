@@ -64,6 +64,7 @@ namespace ClientApp.Core
                 {
                     var token = JsonConvert.DeserializeObject<OAuthToken>(jsonString);
                     this._token = _tokenStore.SaveToken(token);
+                    _tokenStore.SaveUserName(token.Username);
 
                     return new ValidationResult { IsValid = true };
                 }

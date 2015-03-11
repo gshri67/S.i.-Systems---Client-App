@@ -102,6 +102,20 @@ namespace ClientApp.Core.Tests
         }
 
         [Test]
+        public async void Authorize_ShouldStoreTheUsername_WhenSuccess()
+        {
+            const string username = "email@example.com";
+            const string password = "password";
+
+            _mockTokenSource.Setup(service => service.SaveUserName(It.Is<string>(user => user == username)));
+
+            var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockExceptionHandler.Object, _mockHttpHandlerHelper.Object);
+            var result = await _sut.Authenticate(username, password, "Login");
+
+            _mockTokenSource.VerifyAll();
+        }
+
+        [Test]
         public async void Authorize_ShouldNotStoreTheAuthorizationToken_WhenFailure()
         {
             const string username = "email@example.com";

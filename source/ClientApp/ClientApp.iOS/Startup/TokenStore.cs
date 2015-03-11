@@ -69,5 +69,49 @@ namespace ClientApp.iOS.Startup
 
             SecKeyChain.Remove(existingRecord);
         }
+
+        public void SaveUserName(string username)
+        {
+            var existingRecord = new SecRecord(SecKind.GenericPassword)
+            {
+                Service = "SiSystemsClientApp",
+                Label = "Username",
+            };
+            var newRecord = new SecRecord(SecKind.GenericPassword)
+            {
+                Service = "SiSystemsClientApp",
+                Label = "Username",
+                ValueData = NSData.FromString(username),
+                Accessible = SecAccessible.AlwaysThisDeviceOnly
+            };
+
+            var addCode = SecKeyChain.Add(newRecord);
+            if (addCode == SecStatusCode.DuplicateItem)
+            {
+                var remCode = SecKeyChain.Remove(existingRecord);
+                if (remCode == SecStatusCode.Success)
+                {
+                    var addCode2 = SecKeyChain.Add(newRecord);
+                }
+            }
+        }
+
+        public string GetUserName()
+        {
+            var existingRecord = new SecRecord(SecKind.GenericPassword)
+            {
+                Label = "Username",
+                Service = "SiSystemsClientApp"
+            };
+
+            SecStatusCode resultCode;
+            var data = SecKeyChain.QueryAsRecord(existingRecord, out resultCode);
+
+            if (resultCode == SecStatusCode.Success)
+            {
+               return NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
+            }
+            return null;
+        }
     }
 }

@@ -69,16 +69,8 @@ namespace ClientApp.iOS
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, ShowKeyboard);
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, HideKeyboard);
 
-            var token = _tokenStore.GetDeviceToken();
-            if (token == null) return;
-
-            username.Text = token.Username;
-            CurrentUser.Email = token.Username;
-            password.Text = "aaaaaaaa";
-            DisableControls();
-            
-            GetClientDetails();
-            CheckEulaService(token.Username);
+            var previousUsername = _tokenStore.GetUserName();
+            username.Text = previousUsername;
         }
 
         private void ShowKeyboard(NSNotification notification)

@@ -12,6 +12,10 @@ namespace ClientApp.Core
 
         OAuthToken GetDeviceToken();
 
+        void SaveUserName(string username);
+
+        string GetUserName();
+
         void DeleteDeviceToken();
     }
 }
