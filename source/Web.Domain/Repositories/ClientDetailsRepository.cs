@@ -24,14 +24,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var query = @"SELECT InvoiceFormatId as InvoiceFormat"
-                              //+ " ,InvoiceFrequency"
-                              + " ,CompanyInvoiceFrequencyID as InvoiceFrequency"
-                              + " ,FloThruFeeTypeID as FloThruFeeType"
-                              + " ,FloThruFee"
-                              + " ,FloThruFeePaymentID as FloThruFeePayment"
+                var query = @"SELECT FloThruFee"
                               + " ,MSPFeePercentage as MspFeePercentage"
+                              + " ,FloThruFeeTypeID as FloThruFeeType"
+                              + " ,FloThruFeePaymentID as FloThruFeePayment"
                               + " ,MaxVisibleRatePerHour as MaxVisibleRate"
+                              + " ,FloThruMSPPaymentID as FloThruMspPayment"
                           + " FROM [Company]"
                           + " WHERE CompanyID="+clientId.ToString();
                 var clientDetails = db.Connection.Query<ClientAccountDetails>(query).FirstOrDefault();

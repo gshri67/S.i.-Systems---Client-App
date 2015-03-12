@@ -258,8 +258,7 @@ namespace ClientApp.iOS
             var clientDetails = await _alumniModel.GetClientDetailsAsync() ?? new ClientAccountDetails();
             CurrentUser.ServiceFee = clientDetails.FloThruFee;
             CurrentUser.MspPercent = clientDetails.MspFeePercentage;
-            CurrentUser.FloThruFeeType = clientDetails.FloThruFeeType;
-            CurrentUser.FloThruFeePayer = clientDetails.FloThruFeePayer;
+            CurrentUser.FloThruFeePayment = clientDetails.FloThruFeePayment;
             CurrentUser.InvoiceFormat = clientDetails.InvoiceFormat;
             CurrentUser.InvoiceFrequency = clientDetails.InvoiceFrequency;
         }

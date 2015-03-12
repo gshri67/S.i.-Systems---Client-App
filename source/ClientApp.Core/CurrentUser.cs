@@ -21,9 +21,10 @@ namespace ClientApp.Core
 
         public static decimal ServiceFee { get; set; }
         public static decimal MspPercent { get; set; }
-        public static MatchGuideConstants.FloThruFeePayment FloThruFeeType { get; set; }
-        public static int FloThruFeePayer { get; set; }
         public static int InvoiceFormat { get; set; }
         public static int InvoiceFrequency { get; set; }
+        public static MatchGuideConstants.FloThruFeePayment FloThruFeePayment { get; set; }
+        public static MatchGuideConstants.FloThruMspPayment FloThruMspPayment { get; set; }
+        public static MatchGuideConstants.FloThruFeeType FloThruFeeType { get; set;}
     }
 }

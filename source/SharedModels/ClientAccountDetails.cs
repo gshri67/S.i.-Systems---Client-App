@@ -9,15 +9,13 @@ namespace SiSystems.ClientApp.SharedModels
 
     public class ClientAccountDetails
     {
-        //public FloThruAgreement CleintFloThruAgreement { get; set; }
-        //public AccountExecutive ClientAccountExecutive { get; set; }
-
         public decimal FloThruFee { get; set; }
-        public int FloThruFeePayer { get; set; }
-        public MatchGuideConstants.FloThruFeePayment FloThruFeeType { get; set; }
-        public int InvoiceFormat { get; set; }
-        public int InvoiceFrequency { get; set; }
         public decimal MspFeePercentage { get; set; }
         public decimal MaxVisibleRate { get; set; }
+        public MatchGuideConstants.FloThruFeeType FloThruFeeType { get; set; }
+        public MatchGuideConstants.FloThruFeePayment FloThruFeePayment { get; set; }
+        public MatchGuideConstants.FloThruMspPayment FloThruMspPayment { get; set; }
+        public int InvoiceFormat { get; set; }
+        public int InvoiceFrequency { get; set; }
     }
 }
