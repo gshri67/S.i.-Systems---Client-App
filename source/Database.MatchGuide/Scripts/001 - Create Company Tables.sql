@@ -28,16 +28,16 @@ CREATE TABLE [dbo].[Company] (
     --[LimitationOfContract] BIT           NOT NULL,
     --[SendEPerformance]     BIT           NOT NULL,
     --[TargetPayTime]        INT           NULL,
-
-	[MSPFeePercentage] DECIMAL(6,2) DEFAULT NULL,
-	[FloThruFeeTypeID] INT DEFAULT NULL,
-	[FloThruFee] DECIMAL(6,2) DEFAULT NULL,
-	[FloThruFeePaymentID] INT DEFAULT NULL,
-	[FloThruMSPPaymentID] INT DEFAULT NULL,
-	[CompanyInvoiceFrequencyID] INT DEFAULT NULL,
-	[FloThruAlumni] BIT DEFAULT NULL,
-	[MaxVisibleRatePerHour] MONEY DEFAULT NULL,
-	[MaxVisibleRatePerDay] MONEY DEFAULT NULL,
+	--[SendeContractTerms] [bit] NULL DEFAULT ((1)),
+	[MSPFeePercentage] [decimal](6, 2) NULL DEFAULT (NULL),
+	[FloThruFeeTypeID] [int] NULL DEFAULT (NULL),
+	[FloThruFee] [decimal](6, 2) NULL DEFAULT (NULL),
+	[FloThruFeePaymentID] [int] NULL DEFAULT (NULL),
+	[FloThruMSPPaymentID] [int] NULL DEFAULT (NULL),
+	[CompanyInvoiceFrequencyID] [int] NULL DEFAULT (NULL),
+	[IsHavingFTAlumni] [bit] NULL DEFAULT (NULL),
+	[MaxVisibleRatePerHour] [money] NULL DEFAULT (NULL),
+	[MaxVisibleRatePerDay] [money] NULL DEFAULT (NULL),
     CONSTRAINT [PK_Clients] PRIMARY KEY CLUSTERED ([CompanyID] ASC) WITH (FILLFACTOR = 97)
 );
 
