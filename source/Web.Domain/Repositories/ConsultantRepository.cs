@@ -118,56 +118,89 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                             + "@FLOTHRU int = " + MatchGuideConstants.AgreementSubTypes.FloThru + ","
                                             + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
                                             + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
-
-                const string contractsExistsSubQuery = @"
-                                            SELECT TOP 1 * 
-					                        FROM [Agreement] agr 
-					                        WHERE agr.CandidateId = usr.UserID
-                                                AND agr.CompanyID in @CompanyIds
-						                        AND agr.AgreementType = @CONTRACT";
-
-                const string floThruContractExistsSubQuery = contractsExistsSubQuery + " AND agr.AgreementSubType = @FLOTHRU";
-                const string activeOrPendingContractExistsSubQuery = contractsExistsSubQuery + " AND agr.StatusType in (@ACTIVE, @PENDING)";
-
-                string consultantsQuery = @"
-                        SELECT usr.UserID Id
-	                        ,usr.FirstName 
-	                        ,usr.LastName
-	                        ,ISNULL(cri.ReferenceValue, @NOTCHECKED) as Rating
-	                        ,mostRecentContract.StartDate MostRecentContractStartDate
-	                        ,mostRecentContract.EndDate MostRecentContractEndDate
-	                        ,mostRecentContract.PayRate MostRecentContractRate
-	                        ,spec.SpecializationID Id, spec.Name, spec.Description
-                        FROM Users usr
-	                        JOIN User_Email ue on ue.UserID = usr.UserID
-	                        -- Include one record for each of a candidate's specializations
-	                        LEFT JOIN (SELECT DISTINCT SpecId, UserID FROM Candidate_SkillsMatrix WHERE Inactive = 0) skills on usr.UserID = skills.UserID
-	                        LEFT JOIN Specialization spec on spec.SpecializationID = skills.SpecID
-	                        LEFT JOIN [Candidate_ResumeInfo] cri on cri.UserID = usr.UserID
-	                        CROSS APPLY (SELECT	TOP 1	a.CandidateID,
-							                        a.StartDate, 
-							                        a.EndDate,
-							                        crd.PayRate
-				                        FROM [Agreement] a 
-				                        LEFT JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
-				                        WHERE a.CandidateID = usr.UserID
-				                        ORDER BY a.EndDate desc) mostRecentContract
-                        WHERE
-                        --Text query used to match on full name or resume
-                        ((usr.FirstName + ' ' + usr.LastName) LIKE @LikeQuery
-                            OR CONTAINS(cri.ResumeText, @FullTextQuery))";
-
+                string consultantsQuery;
                 if (active)
                 {
-                    // Currently has an active or pending contract
-                    consultantsQuery += " AND EXISTS ( " + activeOrPendingContractExistsSubQuery + ")";
+                    consultantsQuery = @"SELECT usr.UserID Id
+	                                    ,usr.FirstName
+	                                    ,usr.LastName
+	                                    ,ISNULL(cri.ReferenceValue, @NOTCHECKED) as Rating
+	                                    ,mostRecentContract.StartDate MostRecentContractStartDate
+	                                    ,mostRecentContract.EndDate MostRecentContractEndDate
+	                                    ,mostRecentContract.PayRate MostRecentContractRate
+	                                    ,mostRecentContract.SpecializationID Id, mostRecentContract.Name, mostRecentContract.Description
+                                    FROM Users usr
+	                                    JOIN User_Email ue on ue.UserID = usr.UserID
+	                                    LEFT JOIN [Candidate_ResumeInfo] cri on cri.UserID = usr.UserID
+	                                    CROSS APPLY (SELECT	TOP 1	a.CandidateID,
+							                                    a.StartDate, 
+							                                    a.EndDate,
+							                                    crd.PayRate
+							                                    ,spec.SpecializationID, spec.Name, spec.Description
+				                                    FROM [Agreement] a
+				                                    JOIN [Agreement_ContractDetail] cd on cd.AgreementID = a.AgreementID
+				                                    JOIN [Specialization] spec on spec.SpecializationID = cd.SpecializationID
+				                                    JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
+				                                    WHERE a.CandidateID = usr.UserID AND a.StatusType = @ACTIVE
+				                                    ORDER BY a.EndDate desc) mostRecentContract
+                                    WHERE
+                                    --Text query used to match on full name or resume
+                                    ((usr.FirstName + ' ' + usr.LastName) LIKE @LikeQuery
+                                        OR CONTAINS(cri.ResumeText, @FullTextQuery))
+                                    AND 
+                                    EXISTS (
+	                                    SELECT TOP 1 * 
+	                                    FROM [Agreement] agr 
+	                                    WHERE agr.CandidateId = usr.UserID
+		                                    AND agr.CompanyID IN @CompanyIds
+		                                    AND agr.AgreementType = @CONTRACT
+		                                    AND agr.StatusType IN (@ACTIVE, @PENDING)
+                                    )";
                 }
                 else
                 {
-                    //Does not have an active or pending contract
-                    consultantsQuery += " AND EXISTS ( " + floThruContractExistsSubQuery + " )";
-                    //Has previous flothru contract 
-                    consultantsQuery += " AND NOT EXISTS ( " + activeOrPendingContractExistsSubQuery + " )";
+                    consultantsQuery = @"SELECT usr.UserID Id
+	                                    ,usr.FirstName
+	                                    ,usr.LastName
+	                                    ,ISNULL(cri.ReferenceValue, @NOTCHECKED) as Rating
+	                                    ,mostRecentContract.StartDate MostRecentContractStartDate
+	                                    ,mostRecentContract.EndDate MostRecentContractEndDate
+	                                    ,mostRecentContract.PayRate MostRecentContractRate
+	                                    ,spec.SpecializationID Id, spec.Name, spec.Description
+                                    FROM Users usr
+	                                    JOIN User_Email ue on ue.UserID = usr.UserID
+	                                    -- Include one record for each of a candidate's specializations
+	                                    LEFT JOIN (SELECT DISTINCT SpecId, UserID FROM Candidate_SkillsMatrix WHERE Inactive = 0) skills on usr.UserID = skills.UserID
+	                                    LEFT JOIN Specialization spec on spec.SpecializationID = skills.SpecID
+	                                    LEFT JOIN [Candidate_ResumeInfo] cri on cri.UserID = usr.UserID
+	                                    CROSS APPLY (SELECT	TOP 1	a.CandidateID,
+							                                    a.StartDate, 
+							                                    a.EndDate,
+							                                    crd.PayRate
+				                                    FROM [Agreement] a 
+				                                    LEFT JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
+				                                    WHERE a.CandidateID = usr.UserID
+				                                    ORDER BY a.EndDate desc) mostRecentContract
+                                    WHERE
+                                    --Text query used to match on full name or resume
+                                    ((usr.FirstName + ' ' + usr.LastName) LIKE @LikeQuery
+                                        OR CONTAINS(cri.ResumeText, @FullTextQuery))
+                                    AND EXISTS (
+	                                    SELECT TOP 1 * 
+	                                    FROM [Agreement] agr 
+	                                    WHERE agr.CandidateId = usr.UserID
+		                                    AND agr.CompanyID in @CompanyIds
+		                                    AND agr.AgreementType = @CONTRACT
+		                                    AND agr.AgreementSubType = @FLOTHRU
+                                    )
+                                    AND NOT EXISTS (
+	                                    SELECT TOP 1 * 
+	                                    FROM [Agreement] agr 
+	                                    WHERE agr.CandidateId = usr.UserID
+		                                    AND agr.CompanyID in @CompanyIds
+		                                    AND agr.AgreementType = @CONTRACT
+		                                    AND agr.StatusType IN (@ACTIVE, @PENDING)
+                                    )";
                 }
                         
                 var lookup = new Dictionary<int, ConsultantGroup>();
