@@ -4,6 +4,8 @@ using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Services;
+using System.Web.Http;
+using System.Net;
 
 namespace SiSystems.ClientApp.Web.Auth
 {
@@ -24,7 +26,12 @@ namespace SiSystems.ClientApp.Web.Auth
         private User GetCurrentAuthenticatedUser()
         {
             var userId = int.Parse(HttpContext.Current.User.Identity.GetUserId());
-            return _userService.Find(userId);
+            var user = _userService.Find(userId);
+            if (user == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
+            }
+            return user;
         }
     }
 }

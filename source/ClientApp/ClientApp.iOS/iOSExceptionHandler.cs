@@ -8,6 +8,7 @@ using UIKit;
 using ClientApp.Core;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Net.Http;
 
 namespace ClientApp.iOS
 {
@@ -33,7 +34,7 @@ namespace ClientApp.iOS
             }
             catch (Exception ex)
             {
-                throw;
+                // swallow network related exceptions for now
             }
             return default(TResult);
         }

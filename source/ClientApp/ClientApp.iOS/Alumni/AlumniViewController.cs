@@ -21,19 +21,25 @@ namespace ClientApp.iOS
         private const string DisciplineSegueIdentifier = "DisciplineSelected";
         private const string LogoutSegueIdentifier = "logoutSegue";
 	    private const int SearchTimerInterval = 1000;
+        private readonly NSObject _tokenExpiredObserver;
 
         public AlumniViewController(IntPtr handle)
             : base(handle)
         {
             _alumniModel = DependencyResolver.Current.Resolve<AlumniViewModel>();
             _activityManager = DependencyResolver.Current.Resolve<IActivityManager>();
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
+            this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
         }
 
         public void OnTokenExpired(NSNotification notifcation)
         {
+            // Unsubscribe from this event so that it won't be handled again
+            NSNotificationCenter.DefaultCenter.RemoveObserver(_tokenExpiredObserver);
+
             var loginViewController = this.Storyboard.InstantiateViewController("LoginView");
-            this.NavigationController.PushViewController(loginViewController, true);
+            var navigationController = new UINavigationController(loginViewController) { NavigationBarHidden = true };
+
+            UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
         }
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
@@ -249,7 +255,7 @@ namespace ClientApp.iOS
 
         private async void GetClientDetails()
         {
-            var clientDetails = await _alumniModel.GetClientDetailsAsync();
+            var clientDetails = await _alumniModel.GetClientDetailsAsync() ?? new ClientAccountDetails();
             CurrentUser.ServiceFee = clientDetails.FloThruFee;
             CurrentUser.MspPercent = clientDetails.MspFeePercentage;
             CurrentUser.FloThruFeeType = clientDetails.FloThruFeeType;

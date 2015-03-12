@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SiSystems.ClientApp.SharedModels;
 using ModernHttpClient;
+using System.Dynamic;
 
 namespace ClientApp.Core
 {
@@ -167,6 +168,20 @@ namespace ClientApp.Core
                 this._activityManager.StopActivity(activityId);
 
                 var response = await action(httpClient);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var errorType = new { message = "", exceptionMessage = "", stackTrace = "" };
+                    var errorResponse = JsonConvert.DeserializeAnonymousType(content, errorType);
+
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        throw new AuthorizationException();
+                    }
+
+                    throw new Exception(errorResponse.exceptionMessage);
+                }
 
                 return response;
             });
