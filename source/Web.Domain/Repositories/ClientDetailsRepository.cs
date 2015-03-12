@@ -31,6 +31,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                               + " ,MaxVisibleRatePerHour as MaxVisibleRate"
                               + " ,FloThruMSPPaymentID as FloThruMspPayment"
                               + " ,CompanyInvoiceFrequencyID as ClientInvoiceFrequency"
+                              + " ,IsHavingFTAlumni as HasAccess"
                           + " FROM [Company]"
                           + " WHERE CompanyID="+clientId.ToString();
                 var clientDetails = db.Connection.Query<ClientAccountDetails>(query).FirstOrDefault();
