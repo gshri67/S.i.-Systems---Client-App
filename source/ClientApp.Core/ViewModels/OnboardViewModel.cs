@@ -21,7 +21,7 @@ namespace ClientApp.Core.ViewModels
                 if (lastContract != null)
                 {
                     LastContractRate = lastContract.Rate;
-                    IsFullService = lastContract.IsFullService;
+                    IsFullySourced = lastContract.IsFullySourced;
                     LastContractTitle = lastContract.Title;
                     LastContractEndDate = lastContract.EndDate;
                 }
@@ -29,7 +29,7 @@ namespace ClientApp.Core.ViewModels
         }
 
         public bool IsActiveConsultant { get; set; }
-        public bool IsFullService { get; private set; }
+        public bool IsFullySourced { get; private set; }
 
         public decimal ServiceFee = CurrentUser.ServiceFee;
         public decimal MspPercent = CurrentUser.MspPercent;

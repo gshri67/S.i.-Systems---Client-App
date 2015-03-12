@@ -46,7 +46,7 @@ namespace ClientApp.iOS
 	            Title = "Confirm Renew";
 	        }
 
-	        if (ViewModel.IsFullService)
+	        if (ViewModel.IsFullySourced)
 	        {
 	            ContractorRateTypeLabel.Text = "Bill Rate";
 	            MspCell.Hidden = true;

@@ -77,7 +77,7 @@ namespace ClientApp.iOS
                 SetupDatePicker(_endDatePicker, EndDateLabel, DateTime.Now.Date.AddDays(1).AddMonths(6), false);
             }
 
-            if (_viewModel.IsFullService)
+            if (_viewModel.IsFullySourced)
             {
                 RateLabel.Text = "Bill Rate";
             }
@@ -279,7 +279,7 @@ namespace ClientApp.iOS
 
 	    public override UIView GetViewForFooter(UITableView tableView, nint section)
 	    {
-	        if (section == 1 && !_viewModel.IsFullService)
+	        if (section == 1 && !_viewModel.IsFullySourced)
 	        {
 	            var view = new UIView();
 	            var label = new UILabel(new CGRect(20, 4, UIScreen.MainScreen.Bounds.Width - 40, 10))
