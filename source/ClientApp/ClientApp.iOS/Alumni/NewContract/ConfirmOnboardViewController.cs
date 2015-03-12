@@ -28,7 +28,7 @@ namespace ClientApp.iOS
             NameLabel.Text = ViewModel.Consultant.FullName;
             TitleLabel.Text = ViewModel.ContractTitle;
             ContractorRateLabel.Text = ToRateString(ViewModel.ContractorRate);
-            ServicesRateLabel.Text = ToRateString(ViewModel.ServiceRate);
+            ServicesRateLabel.Text = ToRateString(ViewModel.ServiceFee);
 	        MspRateLabel.Text = string.Format("{0}%", ViewModel.MspPercent);
             TotalRateLabel.Text = ToRateString(ViewModel.TotalRate);
             StartDateLabel.Text = ViewModel.StartDate.ToString("MMM dd, yyyy");
@@ -37,9 +37,9 @@ namespace ClientApp.iOS
 	        ContractApproverEmailLabel.Text = ViewModel.ContractApprovalEmail;
 
             //hide empty cells
-            MspCell.Hidden = ViewModel.MspPercent == 0;
-	        ServicesCell.Hidden = ViewModel.ServiceRate == 0;
-	        TotalCell.Hidden = ViewModel.MspPercent == 0 && ViewModel.ServiceRate == 0;
+            MspCell.Hidden = ViewModel.MspPercent == 0 || ViewModel.ConsultantPaysMspPercent;
+	        ServicesCell.Hidden = ViewModel.ServiceFee == 0 || ViewModel.ConsultantPaysServiceFee;
+	        TotalCell.Hidden = ViewModel.MspPercent == 0 && ViewModel.ServiceFee == 0;
 
 	        if (ViewModel.IsActiveConsultant)
 	        {

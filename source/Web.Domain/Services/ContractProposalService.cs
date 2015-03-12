@@ -39,8 +39,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 InvoiceFormat = proposal.InvoiceFormat.ToString(),
                 
                 Fee = proposal.Fee.ToString("C"),
-                RateToConsultant = proposal.RateToConsultant.ToString("C"),
-                TotalRate = string.Format("{0:C}", proposal.Fee + proposal.RateToConsultant),
+                RateToConsultant = proposal.Rate.ToString("C"),
+                TotalRate = string.Format("{0:C}", proposal.Fee + proposal.Rate),
                 StartDate = proposal.StartDate.ToShortDateString(),
                 EndDate = proposal.EndDate.ToShortDateString(),
                 TimesheetApproverEmailAddress = proposal.TimesheetApproverEmailAddress,

@@ -44,7 +44,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 StartDate = new DateTime(2015, 01, 01),
                 EndDate = new DateTime(2015, 12, 12),
                 Fee = 123,
-                RateToConsultant = 111,
+                Rate = 111,
                 TimesheetApproverEmailAddress = "aguy@email.com",
                 ContractApproverEmailAddress = "aguy@email.com",
                 InvoiceFormat = 0

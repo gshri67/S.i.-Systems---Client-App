@@ -31,10 +31,12 @@ namespace SiSystems.ClientApp.SharedModels
         /// </remarks>
         public DateTime EndDate { get; set; }
 
-        public Decimal RateToConsultant { get; set; }
+        public Decimal Rate { get; set; }
 
+        public MatchGuideConstants.FloThruFeePayment FloThruFeePayment { get; set; }
         public Decimal Fee { get; set; }
 
+        public MatchGuideConstants.FloThruMspPayment FloThruMspPayment { get; set; }
         public Decimal MspFeePercentage { get; set; }
         
         public string TimesheetApproverEmailAddress { get; set; }

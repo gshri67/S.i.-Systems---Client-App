@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.Core.ViewModels
@@ -30,16 +31,45 @@ namespace ClientApp.Core.ViewModels
         public bool IsActiveConsultant { get; set; }
         public bool IsFullService { get; private set; }
 
-        public decimal ServiceRate = CurrentUser.ServiceFee;
+        public decimal ServiceFee = CurrentUser.ServiceFee;
         public decimal MspPercent = CurrentUser.MspPercent;
         public int InvoiceFormat = CurrentUser.InvoiceFormat;
+
+        public readonly bool ConsultantPaysServiceFee = CurrentUser.FloThruFeePayment ==
+                                                MatchGuideConstants.FloThruFeePayment.ContractorPays;
+
+        public readonly bool ConsultantPaysMspPercent = CurrentUser.FloThruMspPayment ==
+                                               MatchGuideConstants.FloThruMspPayment.DeductFromContractorPay;
 
         public decimal LastContractRate { get; private set; }
         public string LastContractTitle { get; private set; }
         public DateTime LastContractEndDate { get; private set; }
 
         public decimal ContractorRate { get; set; }
-        public decimal TotalRate { get { return ContractorRate + (ContractorRate * MspPercent / 100) + ServiceRate; } }
+
+        public decimal TotalRate
+        {
+            get
+            {
+                if (!ConsultantPaysMspPercent && !ConsultantPaysServiceFee)
+                {
+                    return ContractorRate + (ContractorRate*MspPercent/100) + ServiceFee;
+                }
+                else if(ConsultantPaysServiceFee && !ConsultantPaysMspPercent)
+                {
+                    return ContractorRate + (ContractorRate*MspPercent/100);
+                }
+                else if (!ConsultantPaysServiceFee && ConsultantPaysMspPercent)
+                {
+                    return ContractorRate + ServiceFee;
+                }
+                else
+                {
+                    return ContractorRate;
+                }
+            }
+        }
+
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string TimesheetApprovalEmail { get; set; }
@@ -55,9 +85,7 @@ namespace ClientApp.Core.ViewModels
         {
             try
             {
-                //
-                //new MailAddress(email);
-                return email.EndsWith(CurrentUser.Domain);
+                return email.EndsWith(CurrentUser.Domain) && Regex.IsMatch(email, @"^[^@]+@[^@]+\.[^@]+$");
             }
             catch (Exception)
             {
@@ -108,14 +136,16 @@ namespace ClientApp.Core.ViewModels
             await _contractService.Submit(new ContractProposal
             {
                 ConsultantId = this.Consultant.Id,
-                RateToConsultant = this.ContractorRate,
-                Fee = ServiceRate,
+                Rate = this.ContractorRate,
+                Fee = ServiceFee,
                 StartDate = this.StartDate,
                 EndDate = this.EndDate,
                 MspFeePercentage = MspPercent,
                 InvoiceFormat = InvoiceFormat,
                 TimesheetApproverEmailAddress = this.TimesheetApprovalEmail,
                 ContractApproverEmailAddress = this.ContractApprovalEmail,
+                FloThruFeePayment = CurrentUser.FloThruFeePayment,
+                FloThruMspPayment = CurrentUser.FloThruMspPayment
             });
         }
 
@@ -126,15 +156,15 @@ namespace ClientApp.Core.ViewModels
 
         public string GetRateFooter()
         {
-            if (TotalRate != ContractorRate)
-            {
-                var serviceString = ServiceRate > 0
-                    ? string.Format("+ Service Fee (${0}/hr) ", ServiceRate)
-                    : string.Empty;
-                var mspString = MspPercent > 0 ? string.Format("+ MSP rate ({0}%) ", MspPercent) : string.Empty;
-                return string.Format("{0}{1}= ${2:0.##}", mspString, serviceString, TotalRate);
-            }
-            return string.Empty;
+            var serviceString = !ConsultantPaysServiceFee && ServiceFee > 0
+                ? string.Format("+ Service Fee (${0}/hr) ", ServiceFee)
+                : string.Empty;
+            var mspString = !ConsultantPaysMspPercent && MspPercent > 0 ? string.Format("+ MSP rate ({0}%) ", MspPercent) : string.Empty;
+                
+            if (string.IsNullOrEmpty(serviceString) && string.IsNullOrEmpty(mspString)) 
+                return string.Empty;
+                
+            return string.Format("{0}{1}= ${2:0.##}", mspString, serviceString, TotalRate);
         }
     }
 }

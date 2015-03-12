@@ -19,6 +19,10 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         {
             _apiMock = new Mock<IMatchGuideApi>();
             CurrentUser.Email = "test@test.com";
+            CurrentUser.FloThruFeePayment = MatchGuideConstants.FloThruFeePayment.ClientPays;
+            CurrentUser.FloThruMspPayment = MatchGuideConstants.FloThruMspPayment.AddToBillRate;
+            CurrentUser.ServiceFee = 3;
+            CurrentUser.MspPercent = 0;
             _vm = new OnboardViewModel(_apiMock.Object)
                   {
                       StartDate = DateTime.Now,
@@ -26,12 +30,11 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
                       TimesheetApprovalEmail = "test@test.com",
                       ContractApprovalEmail = "test@test.com",
                       ContractorRate = 100,
-                      ContractTitle = "Senior Developer",
-                      MspPercent = 0,
-                      ServiceRate = 3
+                      ContractTitle = "Senior Developer"
                   };
         }
 
+        #region Consultant
         [Test]
         public void Consultant_SettingAlsoSetsLastRate()
         {
@@ -59,16 +62,62 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
             _vm.Consultant = consultant;
             Assert.AreEqual(80, _vm.LastContractRate);
         }
+        #endregion
 
+        #region Total Rate
         [Test]
-        public void TotalRate_AddsContractorAndServiceRate()
+        public void TotalRate_ClientPaysBoth()
         {
-            _vm.ContractorRate = 80;
-            Assert.AreEqual(80 + _vm.ServiceRate, _vm.TotalRate);
+            RateTestSetup(false, false);
+            Assert.AreEqual(105, _vm.TotalRate);
         }
 
         [Test]
-        [Ignore("Email validation not implemented")]
+        public void TotalRate_ClientPaysService()
+        {
+            RateTestSetup(true, false);
+            Assert.AreEqual(102, _vm.TotalRate);
+        }
+
+        [Test]
+        public void TotalRate_ClientPaysMsp()
+        {
+            RateTestSetup(false, true);
+            Assert.AreEqual(103, _vm.TotalRate);
+        }
+
+        [Test]
+        public void TotalRate_ClientPaysNone()
+        {
+            RateTestSetup(true, true);
+            Assert.AreEqual(100, _vm.TotalRate);
+        }
+
+        
+
+        private void RateTestSetup(bool conPaysFee, bool conPaysMsp)
+        {
+            if (conPaysMsp)
+                CurrentUser.FloThruMspPayment = MatchGuideConstants.FloThruMspPayment.DeductFromContractorPay;
+            if (conPaysFee)
+                CurrentUser.FloThruFeePayment = MatchGuideConstants.FloThruFeePayment.ContractorPays;
+
+            CurrentUser.MspPercent = 2;
+
+            _vm = new OnboardViewModel(_apiMock.Object)
+            {
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+                TimesheetApprovalEmail = "test@test.com",
+                ContractApprovalEmail = "test@test.com",
+                ContractorRate = 100,
+                ContractTitle = "Senior Developer"
+            };
+        }
+        #endregion
+
+        #region Validate
+        [Test]
         public void Validate_FailsWithEmptyEmail()
         {
             _vm.TimesheetApprovalEmail = "";
@@ -77,7 +126,6 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         }
 
         [Test]
-        [Ignore("Email validation not implemented")]
         public void Validate_FailsWithNoAtSymbol()
         {
             _vm.TimesheetApprovalEmail = "test.com";
@@ -86,7 +134,6 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         }
 
         [Test]
-        [Ignore("Email validation not implemented")]
         public void Validate_FailsWithWrongDomain()
         {
             CurrentUser.Email = "bob@email.com";
@@ -96,7 +143,6 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         }
 
         [Test]
-        [Ignore("Email validation not implemented")]
         public void Validate_FailsWithBadContractorEmail()
         {
             _vm.ContractApprovalEmail = "test@test.com@test.com";
@@ -187,12 +233,14 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
             var result = _vm.Validate();
             Assert.IsTrue(result.IsValid);
         }
+        #endregion
 
+        #region GetRateFooter
         [Test]
         public void GetRateFooter_EmptyWhenNoFees()
         {
             _vm.MspPercent = 0;
-            _vm.ServiceRate = 0;
+            _vm.ServiceFee = 0;
             Assert.AreEqual(string.Empty, _vm.GetRateFooter());
         }
 
@@ -200,7 +248,7 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         public void GetRateFooter_NoserviceWhenZero()
         {
             _vm.MspPercent = 2;
-            _vm.ServiceRate = 0;
+            _vm.ServiceFee = 0;
             Assert.AreEqual("+ MSP rate (2%) = $102", _vm.GetRateFooter());
         }
 
@@ -221,7 +269,7 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         public void GetRateFooter_MSPWhenNotZero()
         {
             _vm.MspPercent = 2;
-            _vm.ServiceRate = 0;
+            _vm.ServiceFee = 0;
             Assert.AreEqual("+ MSP rate (2%) = $102", _vm.GetRateFooter());
         }
 
@@ -229,7 +277,7 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         public void GetRateFooter_TotalIsCorrect()
         {
             _vm.ContractorRate = 50;
-            _vm.ServiceRate = 5;
+            _vm.ServiceFee = 5;
             Assert.AreEqual("+ Service Fee ($5/hr) = $55", _vm.GetRateFooter());
         }
 
@@ -237,8 +285,30 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         public void GetRateFooter_TotalIsTwoDecimals()
         {
             _vm.MspPercent = 3.3333m;
-            _vm.ServiceRate = 0;
+            _vm.ServiceFee = 0;
             Assert.AreEqual("+ MSP rate (3.3333%) = $103.33", _vm.GetRateFooter());
         }
+
+        [Test]
+        public void GetRateFooter_HidesMspIfContractorPays()
+        {
+            RateTestSetup(false, true);
+            Assert.AreEqual("+ Service Fee ($3/hr) = $103", _vm.GetRateFooter());
+        }
+
+        [Test]
+        public void GetRateFooter_HidesServiceIfContractorPays()
+        {
+            RateTestSetup(true, false);
+            Assert.AreEqual("+ MSP rate (2%) = $102", _vm.GetRateFooter());
+        }
+
+        [Test]
+        public void GetRateFooter_HidesBothIfContractorPays()
+        {
+            RateTestSetup(true, true);
+            Assert.AreEqual("", _vm.GetRateFooter());
+        }
+        #endregion
     }
 }
