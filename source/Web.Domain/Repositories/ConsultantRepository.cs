@@ -95,7 +95,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 					                        WHERE agr.CandidateId = @UserId
                                                 --AND agr.CompanyID in @CompanyIds
 						                        AND agr.AgreementType = @CONTRACT
-                                                AND agr.AgreementSubType = @FLOTHRU";
+                                                AND agr.AgreementSubType = @FLOTHRU
+                                            ORDER BY agr.EndDate desc";
+
                     var floThruContracts = db.Connection.Query<Contract, Contact, Contract>(constants + floThruContractsQuery,
                         (contract, contact) =>
                         {
@@ -142,6 +144,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 				                                    JOIN [Specialization] spec on spec.SpecializationID = cd.SpecializationID
 				                                    JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
 				                                    WHERE a.CandidateID = usr.UserID AND a.StatusType = @ACTIVE
+                                                            AND a.AgreementSubType = @FLOTHRU
 				                                    ORDER BY a.EndDate desc) mostRecentContract
                                     WHERE
                                     --Text query used to match on full name or resume
