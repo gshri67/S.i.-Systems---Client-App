@@ -36,7 +36,11 @@ namespace ClientApp.iOS.Alumni.ConsultantDetails
             var contractDate = string.Format("{0:MMM dd, yyyy} {2} {1:MMM dd, yyyy}", contract.StartDate, contract.EndDate,
                 StyleGuideConstants.DateSeperator);
 
-            var rate = contract.RateWitheld ? RateWitheldText : string.Format("{0:C}/h as {1}", contract.Rate, contract.SpecializationNameShort);
+            var rate = contract.RateWitheld
+                ? RateWitheldText
+                : string.Format("{0:C}{1}{2}", contract.Rate,
+                    string.IsNullOrEmpty(contract.SpecializationNameShort) ? "" : "/h as ",
+                    contract.SpecializationNameShort);
 
             cell.UpdateCell(rate, contractDate, contract.Contact.FullName, _isActiveContract[indexPath.Row]);
 
