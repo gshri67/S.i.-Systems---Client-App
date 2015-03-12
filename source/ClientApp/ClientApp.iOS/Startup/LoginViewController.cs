@@ -103,23 +103,6 @@ namespace ClientApp.iOS
             }
         }
 
-        private async void GetClientDetails()
-        {
-            try
-            {
-                var clientDetails = await _loginModel.GetClientDetailsAsync() ?? new ClientAccountDetails();
-                CurrentUser.ServiceFee = clientDetails.FloThruFee;
-                CurrentUser.MspPercent = clientDetails.MspFeePercentage;
-                CurrentUser.FloThruFeePayment = clientDetails.FloThruFeePayment;
-                CurrentUser.ClientInvoiceFrequency = clientDetails.ClientInvoiceFrequency;
-                CurrentUser.InvoiceFormat = clientDetails.InvoiceFormat;
-            }
-            catch (WebException)
-            {
-                //todo: make this do something. Logging maybe?
-            }
-        }
-
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
@@ -169,7 +152,6 @@ namespace ClientApp.iOS
             if (loginTask.IsValid)
             {
                 CurrentUser.Email = _loginModel.UserName;
-                    GetClientDetails();
                 CheckEulaService(userName);
             }
             else
