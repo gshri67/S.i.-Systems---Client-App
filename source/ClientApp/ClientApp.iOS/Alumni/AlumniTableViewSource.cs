@@ -50,7 +50,7 @@ namespace ClientApp.iOS
 
         private void SetCellLabels(NSIndexPath indexPath, CustomAlumniCell cell)
         {
-            var specialization = _consultantGroups[indexPath.Row].Specialization;
+            var specialization = string.IsNullOrEmpty(_consultantGroups[indexPath.Row].Specialization) ? "No Specialization" : _consultantGroups[indexPath.Row].Specialization;
             var numAlumni = BuildDetailText(_consultantGroups[indexPath.Row]);
             cell.UpdateCell(specialization, numAlumni);
         }
@@ -62,7 +62,8 @@ namespace ClientApp.iOS
 
             return specializationsCount == 0
                 ? string.Format("No Results")
-                : string.Format("Total: {0} Alumni, {1} Specializations", alumniCount, specializationsCount);
+                : string.Format("Total: {0} {2}, {1} Specializations", alumniCount, specializationsCount,
+                    _parentController.IsAlumniSelected ? "Alumni" : "Active");
         }
 
         public override UIView GetViewForFooter(UITableView tableView, nint section)

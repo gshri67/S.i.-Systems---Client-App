@@ -31,6 +31,8 @@ namespace ClientApp.iOS
         private IEnumerable<ConsultantGroup> _lastActiveResults;
         private IEnumerable<ConsultantGroup> _lastAlumniResults;
 
+        public bool IsAlumniSelected { get { return _tableSelector.SelectedSegment == AlumniSelected; } }
+
         public AlumniViewController(IntPtr handle)
             : base(handle)
         {
