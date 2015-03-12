@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Timers;
 using ClientApp.iOS.Startup;
 using CoreGraphics;
@@ -19,9 +20,16 @@ namespace ClientApp.iOS
         private readonly IActivityManager _activityManager;
         private LoadingOverlay _overlay;
         private const string DisciplineSegueIdentifier = "DisciplineSelected";
-        private const string LogoutSegueIdentifier = "logoutSegue";
+        private const int AlumniSelected = 0;
 	    private const int SearchTimerInterval = 1000;
         private readonly NSObject _tokenExpiredObserver;
+        private UISegmentedControl _tableSelector;
+
+        //Search caching
+        private string _lastActiveSearch;
+        private string _lastAlumniSearch;
+        private IEnumerable<ConsultantGroup> _lastActiveResults;
+        private IEnumerable<ConsultantGroup> _lastAlumniResults;
 
         public AlumniViewController(IntPtr handle)
             : base(handle)
@@ -69,7 +77,7 @@ namespace ClientApp.iOS
             {
                 AlumniSearch.Text = string.Empty;
                 AlumniSearch.ResignFirstResponder();
-                InvokeOnMainThread(LoadAlumniConsultantGroups);
+                InvokeOnMainThread(LoadConsultantGroups);
             };
             AlumniSearch.OnEditingStarted += delegate
             {
@@ -119,7 +127,7 @@ namespace ClientApp.iOS
 	            AutoReset = false,
 	            Enabled = false //we don't want to start the timer until we change search text
 	        };
-	        timer.Elapsed += delegate { InvokeOnMainThread(LoadAlumniConsultantGroups); };
+            timer.Elapsed += delegate { InvokeOnMainThread(LoadConsultantGroups); };
 	        return timer;
 	    }
 
@@ -131,14 +139,32 @@ namespace ClientApp.iOS
 
             CreateNavBarRightButton();
 
+            AddTableSelector();
+
             GetClientDetails();
 
             IndicateLoading();
             
             //set the source for our table's data
-            LoadAlumniConsultantGroups();
+            LoadConsultantGroups();
 
             ConfigureSearchEvents();
+        }
+
+        private void AddTableSelector()
+        {
+            _tableSelector = new UISegmentedControl(new CGRect(0, 0, 150, 22));
+            _tableSelector.InsertSegment("Alumni", 0, false);
+            _tableSelector.InsertSegment("Active", 1, false);
+            _tableSelector.SelectedSegment = 0;
+
+            _tableSelector.ValueChanged +=
+                (sender, args) =>
+                {
+                    LoadConsultantGroups();
+                };
+
+            NavigationItem.TitleView = _tableSelector;
         }
 
         private void CreateNavBarRightButton()
@@ -177,28 +203,65 @@ namespace ClientApp.iOS
 
         #endregion
 
-	    private async void LoadAlumniConsultantGroups()
-	    {
-	        //get our list of specializations to display
-            var consultantGroups = await _alumniModel.GetAlumniConsultantGroups(AlumniSearch.Text) ?? Enumerable.Empty<ConsultantGroup>();
-            InvokeOnMainThread(delegate
-                               {
-                                   SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
-                                   
-                                   SpecializationTable.ReloadData();
+        #region Load Consultant Groups
 
-                                   SetSearchbarVisibility();
-                               });
-            RemoveOverlay();
+        private void LoadConsultantGroups()
+        {
+            if (_tableSelector.SelectedSegment == AlumniSelected)
+            {
+                Title = "Alumni";
+                LoadAlumniConsultantGroups();
+            }
+            else
+            {
+                Title = "Active";
+                LoadActiveConsultantGroups();
+            }
+        }
+
+        private async void LoadAlumniConsultantGroups()
+        {
+            if (AlumniSearch.Text != _lastAlumniSearch)
+            {
+                _lastAlumniSearch = AlumniSearch.Text;
+                IndicateLoading();
+                _lastAlumniResults = await _alumniModel.GetAlumniConsultantGroups(AlumniSearch.Text) ??
+                                   Enumerable.Empty<ConsultantGroup>();
+
+            }
+
+            UpdateTableSource(_lastAlumniResults);
 	    }
 
         private async void LoadActiveConsultantGroups()
         {
-            //TODO Actually use this for other search tab
-            var consultantGroups = await _alumniModel.GetActiveConsultantGroups(AlumniSearch.Text) ?? Enumerable.Empty<ConsultantGroup>();
+            if (AlumniSearch.Text != _lastActiveSearch)
+            {
+                _lastActiveSearch = AlumniSearch.Text;
+                IndicateLoading();
+                _lastActiveResults = await _alumniModel.GetActiveConsultantGroups(AlumniSearch.Text) ??
+                                   Enumerable.Empty<ConsultantGroup>();
+            }
+
+            UpdateTableSource(_lastActiveResults);
         }
 
-	    private void RemoveOverlay()
+        private void UpdateTableSource(IEnumerable<ConsultantGroup> consultantGroups)
+        {
+            InvokeOnMainThread(delegate
+            {
+                SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
+
+                SpecializationTable.ReloadData();
+
+                SetSearchbarVisibility();
+            });
+            RemoveOverlay();
+        }
+
+        #endregion
+
+        private void RemoveOverlay()
 	    {
             this._activityManager.StopActivity();
 	        if (_overlay == null) return;
@@ -209,11 +272,12 @@ namespace ClientApp.iOS
 
 	    private void SetSearchbarVisibility()
 	    {
-	        if (!AlumniSearch.Text.Equals(string.Empty))
-	            return;
+	        if (!string.IsNullOrEmpty(AlumniSearch.Text))
+	        {
+                return;
+	        }
 	        DisplaySearchCancelButton();
-	        SpecializationTable.SetContentOffset(
-	            new CGPoint(0, AlumniSearch.Frame.Height + SpecializationTable.ContentOffset.Y), true);
+            SpecializationTable.SetContentOffset(new CGPoint(0, -20), true);
 	        AlumniSearch.ResignFirstResponder();
 	    }
 
@@ -230,8 +294,7 @@ namespace ClientApp.iOS
                     var source = SpecializationTable.Source as AlumniTableViewSource;
                     var rowpath = SpecializationTable.IndexPathForSelectedRow;
                     var consultantGroup = source.GetItem(rowpath.Row);
-                    //TODO swap this based on if Active or Alumni is selected
-                    navCtrl.SetSpecialization(this, consultantGroup, false);
+                    navCtrl.SetSpecialization(this, consultantGroup, _tableSelector.SelectedSegment != AlumniSelected);
                 }
             }
         }
