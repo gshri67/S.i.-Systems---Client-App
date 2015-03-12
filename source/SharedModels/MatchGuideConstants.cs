@@ -159,13 +159,6 @@ namespace SiSystems.ClientApp.SharedModels
             public const int LimitedAccess = 2468;
             public const int AllAccess = 2469;
 
-            /// <summary>
-            /// this value appears as an incorrect default in the database
-            /// which normally is used as a lookup for UserType = 'Contact'
-            /// consider this equivalent to NotChecked
-            /// </summary>
-            public const int AlsoNotChecked = 5;
-
             private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
             {
                 {NoAccess, "No Access"},
