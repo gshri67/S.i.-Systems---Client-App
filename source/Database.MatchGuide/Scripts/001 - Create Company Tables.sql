@@ -22,8 +22,8 @@ CREATE TABLE [dbo].[Company] (
     --[taxapplicable]        INT           NULL,
     --[IndustryId]           INT           NULL,
     --[SubIndustryId]        INT           NULL,
-    [InvoiceFormatId]      INT           NULL,
-    [InvoiceFrequencyId]   INT           NULL,
+    --[InvoiceFormatId]      INT           NULL,
+    --[InvoiceFrequencyId]   INT           NULL,
     --[HasProjectPO]         BIT           NULL,
     --[LimitationOfContract] BIT           NOT NULL,
     --[SendEPerformance]     BIT           NOT NULL,
@@ -40,43 +40,6 @@ CREATE TABLE [dbo].[Company] (
 	[MaxVisibleRatePerDay] MONEY DEFAULT NULL,
     CONSTRAINT [PK_Clients] PRIMARY KEY CLUSTERED ([CompanyID] ASC) WITH (FILLFACTOR = 97)
 );
-
-GO
-
-CREATE TABLE [dbo].[PAMInvoiceFormat] (
-    [InvoiceFormatId] INT          IDENTITY (1, 1) NOT NULL,
-    [Title]           VARCHAR (50) NOT NULL,
-    --[DisplayOrder]    SMALLINT     NOT NULL,
-    --[GPCode]          VARCHAR (25) NOT NULL,
-    CONSTRAINT [PK_PAMInvoiceFormatDetails] PRIMARY KEY CLUSTERED ([InvoiceFormatId] ASC)
-);
-
-
-GO
-
-CREATE TABLE [dbo].[PAMInvoiceFrequency] (
-    [InvoiceFrequencyId] INT          IDENTITY (1, 1) NOT NULL,
-    [Title]              VARCHAR (50) NOT NULL,
-    --[DisplayOrder]       SMALLINT     NOT NULL,
-    --[GPCode]             VARCHAR (25) NOT NULL,
-    CONSTRAINT [PK_PAMInvoiceFrequencyDetails] PRIMARY KEY CLUSTERED ([InvoiceFrequencyId] ASC)
-);
-
-GO
-ALTER TABLE [dbo].[Company] WITH NOCHECK
-    ADD CONSTRAINT [FK_Company_InvoiceFormatId] FOREIGN KEY ([InvoiceFormatId]) REFERENCES [dbo].[PAMInvoiceFormat] ([InvoiceFormatId]);
-
-GO
-
-ALTER TABLE [dbo].[Company] WITH NOCHECK
-    ADD CONSTRAINT [FK_Company_InvoiceFrequencyId] FOREIGN KEY ([InvoiceFrequencyId]) REFERENCES [dbo].[PAMInvoiceFrequency] ([InvoiceFrequencyId]);
-
-GO
-
-ALTER TABLE [dbo].[Company] WITH CHECK CHECK CONSTRAINT [FK_Company_InvoiceFormatId];
-
-ALTER TABLE [dbo].[Company] WITH CHECK CHECK CONSTRAINT [FK_Company_InvoiceFrequencyId];
-
 
 GO
 
