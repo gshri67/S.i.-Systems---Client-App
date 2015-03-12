@@ -607,6 +607,61 @@ namespace SiSystems.ClientApp.SharedModels
                 return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultDisplayString;
             }
         }
+
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
+        public struct ClientInvoiceFrequency : IMatchGuideConstant
+        {
+            [DataMember(Name = "backingValue")]
+            private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
+            public const int Monthly = 956;
+            public const int SemiMonthly = 957;
+            public const int Weekly = 973;
+            public const int InactiveWeekly = 978;
+
+            private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
+            {
+                {Monthly, "Monthly"},
+                {SemiMonthly, "Semi - Monthly"},
+                {Weekly, "Weekly"},
+                {InactiveWeekly, "Weekly"},
+            };
+
+            private const string DefaultDisplayString = "Monthly";
+
+            private ClientInvoiceFrequency(long value)
+            {
+                m_value = value;
+            }
+
+            public static implicit operator ClientInvoiceFrequency(long val)
+            {
+                return new ClientInvoiceFrequency(val);
+            }
+
+            public static implicit operator ClientInvoiceFrequency(int val)
+            {
+                return new ClientInvoiceFrequency(val);
+            }
+
+            public static implicit operator long(ClientInvoiceFrequency frequency)
+            {
+                return frequency.m_value;
+            }
+
+            public override string ToString()
+            {
+                string description;
+                return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultDisplayString;
+            }
+        }
         
         [DataContract]
         [DebuggerDisplay("{DisplayValue}")]

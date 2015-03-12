@@ -31,11 +31,12 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
 
 
             Assert.AreEqual(emptyClientDetails.FloThruFee, clientDetailsFromRepo.FloThruFee);
-            Assert.AreEqual(emptyClientDetails.FloThruFeePayer, clientDetailsFromRepo.FloThruFeePayer);
+            Assert.AreEqual(emptyClientDetails.FloThruFeePayment, clientDetailsFromRepo.FloThruFeePayment);
             Assert.AreEqual(emptyClientDetails.FloThruFeeType, clientDetailsFromRepo.FloThruFeeType);
             Assert.AreEqual(emptyClientDetails.InvoiceFormat, clientDetailsFromRepo.InvoiceFormat);
-            Assert.AreEqual(emptyClientDetails.InvoiceFrequency, clientDetailsFromRepo.InvoiceFrequency);
+            Assert.AreEqual(emptyClientDetails.ClientInvoiceFrequency, clientDetailsFromRepo.ClientInvoiceFrequency);
             Assert.AreEqual(emptyClientDetails.MspFeePercentage, clientDetailsFromRepo.MspFeePercentage);
+            Assert.AreEqual(emptyClientDetails.MaxVisibleRate, clientDetailsFromRepo.MaxVisibleRate);
         }
     }
 }

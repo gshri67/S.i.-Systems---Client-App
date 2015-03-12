@@ -107,13 +107,12 @@ namespace ClientApp.iOS
         {
             try
             {
-                var clientDetails = await _loginModel.GetClientDetailsAsync();
+                var clientDetails = await _loginModel.GetClientDetailsAsync() ?? new ClientAccountDetails();
                 CurrentUser.ServiceFee = clientDetails.FloThruFee;
                 CurrentUser.MspPercent = clientDetails.MspFeePercentage;
-                CurrentUser.FloThruFeeType = clientDetails.FloThruFeeType;
-                CurrentUser.FloThruFeePayer = clientDetails.FloThruFeePayer;
+                CurrentUser.FloThruFeePayment = clientDetails.FloThruFeePayment;
+                CurrentUser.ClientInvoiceFrequency = clientDetails.ClientInvoiceFrequency;
                 CurrentUser.InvoiceFormat = clientDetails.InvoiceFormat;
-                CurrentUser.InvoiceFrequency = clientDetails.InvoiceFrequency;
             }
             catch (WebException)
             {

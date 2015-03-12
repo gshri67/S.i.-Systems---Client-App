@@ -16,6 +16,6 @@ namespace SiSystems.ClientApp.SharedModels
         public MatchGuideConstants.FloThruFeePayment FloThruFeePayment { get; set; }
         public MatchGuideConstants.FloThruMspPayment FloThruMspPayment { get; set; }
         public int InvoiceFormat { get; set; }
-        public int InvoiceFrequency { get; set; }
+        public MatchGuideConstants.ClientInvoiceFrequency ClientInvoiceFrequency { get; set; }
     }
 }

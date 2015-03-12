@@ -259,8 +259,8 @@ namespace ClientApp.iOS
             CurrentUser.ServiceFee = clientDetails.FloThruFee;
             CurrentUser.MspPercent = clientDetails.MspFeePercentage;
             CurrentUser.FloThruFeePayment = clientDetails.FloThruFeePayment;
+            CurrentUser.ClientInvoiceFrequency = clientDetails.ClientInvoiceFrequency;
             CurrentUser.InvoiceFormat = clientDetails.InvoiceFormat;
-            CurrentUser.InvoiceFrequency = clientDetails.InvoiceFrequency;
         }
 	}
 }
