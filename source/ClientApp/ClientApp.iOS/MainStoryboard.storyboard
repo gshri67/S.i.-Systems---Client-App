@@ -372,7 +372,7 @@
                                     <outlet property="fullName" destination="3815" id="name-outlet-3815"/>
                                     <outlet property="lastContractRate" destination="3825" id="name-outlet-3825"/>
                                 </connections>
-                                <inset key="separatorInset" minX="47" minY="0.0" maxX="2" maxY="0.0"/>
+                                <inset key="separatorInset" minX="52" minY="0.0" maxX="2" maxY="0.0"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
