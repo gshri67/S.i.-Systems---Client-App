@@ -1,14 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using System.Threading.Tasks;
 using Foundation;
 using UIKit;
 using ClientApp.Core;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Net.Http;
 using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.iOS
@@ -38,7 +32,7 @@ namespace ClientApp.iOS
                 UIAlertView forbiddenAlert = new UIAlertView(ex.Message, null, null, "OK", null);
                 forbiddenAlert.Show();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // swallow network related exceptions for now
             }

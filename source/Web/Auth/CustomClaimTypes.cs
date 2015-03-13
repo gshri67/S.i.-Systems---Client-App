@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SiSystems.ClientApp.Web.Auth
+﻿namespace SiSystems.ClientApp.Web.Auth
 {
     public static class CustomClaimTypes
     {

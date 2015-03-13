@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using SiSystems.ClientApp.SharedModels;
-using System;
 
 namespace SiSystems.ClientApp.Web.Auth
 {
