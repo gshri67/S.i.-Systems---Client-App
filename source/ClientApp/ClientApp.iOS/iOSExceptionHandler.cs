@@ -9,6 +9,7 @@ using ClientApp.Core;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Http;
+using SiSystems.ClientApp.SharedModels;
 
 namespace ClientApp.iOS
 {
@@ -31,6 +32,11 @@ namespace ClientApp.iOS
             {
                 _tokenStore.DeleteDeviceToken();
                 NSNotificationCenter.DefaultCenter.PostNotificationName("TokenExpired", new NSObject());
+            }
+            catch (AccessLevelException ex)
+            {
+                UIAlertView forbiddenAlert = new UIAlertView(ex.Message, null, null, "OK", null);
+                forbiddenAlert.Show();
             }
             catch (Exception ex)
             {

@@ -59,6 +59,7 @@
     <Compile Include="ApiErrorResponse.cs" />
     <Compile Include="AuthorizationException.cs" />
     <Compile Include="CurrentUser.cs" />
+    <Compile Include="HttpError.cs" />
     <Compile Include="IPlatformExceptionHandler.cs" />
     <Compile Include="HttpAttributes\ApiAttribute.cs" />
     <Compile Include="HttpAttributes\HttpGetAttribute.cs" />
