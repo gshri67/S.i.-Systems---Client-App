@@ -40,7 +40,8 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 InvoiceFormat = "bits and bytes",
                 ClientCompanyName = "Bees Systems",
                 ClientContactFullName = "Henry Bees",
-                ClientContactEmailAddress = "henry.bees@email.com"
+                ClientContactEmailAddress = "henry.bees@email.com",
+                JobTitle = "Super Job!"
             };
         }
 
