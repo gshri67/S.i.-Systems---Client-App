@@ -8,6 +8,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
         public string ConsultantName { get; set; }
 
         [TemplateSubstitution]
+        public string JobTitle { get; set; }
+
+        [TemplateSubstitution]
         public string Fee { get; set; }
 
         [TemplateSubstitution]

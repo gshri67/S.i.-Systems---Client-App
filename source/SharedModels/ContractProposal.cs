@@ -42,5 +42,6 @@ namespace SiSystems.ClientApp.SharedModels
         public string TimesheetApproverEmailAddress { get; set; }
         public string ContractApproverEmailAddress { get; set; }
         public int InvoiceFormat { get; set; }
+        public string JobTitle { get; set; }
     }
 }

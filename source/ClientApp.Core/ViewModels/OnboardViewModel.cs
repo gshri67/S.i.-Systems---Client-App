@@ -145,7 +145,8 @@ namespace ClientApp.Core.ViewModels
                 TimesheetApproverEmailAddress = this.TimesheetApprovalEmail,
                 ContractApproverEmailAddress = this.ContractApprovalEmail,
                 FloThruFeePayment = CurrentUser.FloThruFeePayment,
-                FloThruMspPayment = CurrentUser.FloThruMspPayment
+                FloThruMspPayment = CurrentUser.FloThruMspPayment,
+                JobTitle = ContractTitle
             });
         }
 
