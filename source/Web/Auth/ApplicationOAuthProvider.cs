@@ -34,6 +34,13 @@ namespace SiSystems.ClientApp.Web.Auth
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
             }
+            if (!user.IsGrantedAccess)
+            {
+                context.SetError("invalid_access", user.CompanyHasAccess 
+                    ? "User has not been granted access to the application" 
+                    : "Company has not been granted access to the application.");
+                return;
+            }
 
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
                OAuthDefaults.AuthenticationType);

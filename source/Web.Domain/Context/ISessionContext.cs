@@ -9,5 +9,9 @@ namespace SiSystems.ClientApp.Web.Domain.Context
     public interface ISessionContext
     {
         User CurrentUser { get; }
+
+        ClientAccountDetails CurrentUserDetails { get; }
+
+        bool IsAuthorized { get; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using SiSystems.ClientApp.SharedModels;
+using System.Linq;
 
 namespace SiSystems.ClientApp.Web.Auth
 {
@@ -13,12 +14,14 @@ namespace SiSystems.ClientApp.Web.Auth
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
 
             // Add custom user claims here
-            userIdentity.AddClaim(new Claim(CustomClaimTypes.FloThruAlumniAccessLevel, this._user.FloThruAlumniAccess.ToString()));
-            userIdentity.AddClaim(new Claim(CustomClaimTypes.CompanyAccess, this._details.HasAccess.ToString()));
-            userIdentity.AddClaim(new Claim(CustomClaimTypes.Company, this._user.CompanyName));
 
             return userIdentity;
         }
+
+        private static MatchGuideConstants.FloThruAlumniAccess[] allowedAccessLevels = new MatchGuideConstants.FloThruAlumniAccess[] {
+                MatchGuideConstants.FloThruAlumniAccess.AllAccess,
+                MatchGuideConstants.FloThruAlumniAccess.LimitedAccess
+            };
 
         private readonly User _user;
         private readonly ClientAccountDetails _details;
@@ -32,6 +35,24 @@ namespace SiSystems.ClientApp.Web.Auth
         {
             get { return _user.Login; }
             set { _user.Login = value; }
+        }
+
+        public bool UserHasAccess
+        {
+            get { return allowedAccessLevels.Contains(_user.FloThruAlumniAccess); }
+        }
+
+        public bool CompanyHasAccess
+        {
+            get { return _details.HasAccess; }
+        }
+
+        public bool IsGrantedAccess
+        {
+            get
+            {
+                return UserHasAccess && CompanyHasAccess;
+            }
         }
 
         public ApplicationUser(User user, ClientAccountDetails details)

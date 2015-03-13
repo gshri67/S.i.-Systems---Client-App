@@ -62,8 +62,18 @@ namespace ClientApp.iOS
 	    {
 	        _detailViewModel.IsActiveConsultant = isActiveConsultant;
             var consultant = await _detailViewModel.GetConsultant(id);
-            InvokeOnMainThread(delegate{UpdateUI(consultant);});
-            
+
+            InvokeOnMainThread(() =>
+            {
+                if (consultant == null)
+                {
+                    this.NavigationController.PopViewController(true);
+                }
+                else
+                {
+                    UpdateUI(consultant);
+                }
+            });
 	    }
 
 	    private void UpdateUI(Consultant consultant)
