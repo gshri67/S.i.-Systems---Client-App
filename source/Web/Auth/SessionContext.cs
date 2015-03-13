@@ -27,6 +27,8 @@ namespace SiSystems.ClientApp.Web.Auth
         {
             var userId = int.Parse(HttpContext.Current.User.Identity.GetUserId());
             var user = _userService.Find(userId);
+            // This ocurrs when we switch from Debug -> Dev because the user has a
+            // valid token, but the user does not exist in the database
             if (user == null)
             {
                 throw new HttpResponseException(HttpStatusCode.Unauthorized);

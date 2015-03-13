@@ -17,15 +17,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                + "U.FirstName FirstName, U.LastName LastName, U.ClientPortalTypeID ClientPortalType, "
                                + "U.ClientPortalFTAlumniTypeID FloThruAlumniAccess, UL.Login Login, UL.Password PasswordHash, U.UserType, MaxVisibleRatePerHour as ClientsMaxVisibleRate "
                                + "FROM [User_Login] as UL, [Users] as U, [Company] as C "
-                               + "WHERE U.UserID=UL.UserID "
-                               + "AND U.CompanyID=C.CompanyID ";
+                               + "WHERE U.UserID=UL.UserID";
 
         public User Find(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query = UserQueryBase
-                                    + "AND U.UserId = @Id";
+                                    + " AND U.UserId = @Id";
 
                 return db.Connection.Query<User>(query, new { Id = id }).FirstOrDefault();
             }
@@ -36,7 +35,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query = UserQueryBase
-                                    + "AND UL.Login = @Username";
+                                    + " AND UL.Login = @Username";
 
                 return db.Connection.Query<User>(query, new {Username = username}).FirstOrDefault();
             }

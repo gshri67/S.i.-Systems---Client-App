@@ -25,6 +25,8 @@ namespace SiSystems.ClientApp.Web
             
             if(!Settings.AllowInsecureConnections)
                 config.Filters.Add(new Filters.RequireHttpsAttribute());
+
+            config.Filters.Add(new Filters.AccessClaimAttribute());
             
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }

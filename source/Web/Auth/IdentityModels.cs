@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using SiSystems.ClientApp.SharedModels;
+using System;
 
 namespace SiSystems.ClientApp.Web.Auth
 {
@@ -11,14 +12,17 @@ namespace SiSystems.ClientApp.Web.Auth
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
-            
+
             // Add custom user claims here
-            //TODO: Custom Claims?
+            userIdentity.AddClaim(new Claim(CustomClaimTypes.FloThruAlumniAccessLevel, this._user.FloThruAlumniAccess.ToString()));
+            userIdentity.AddClaim(new Claim(CustomClaimTypes.CompanyAccess, this._details.HasAccess.ToString()));
+            userIdentity.AddClaim(new Claim(CustomClaimTypes.Company, this._user.CompanyName));
 
             return userIdentity;
         }
 
         private readonly User _user;
+        private readonly ClientAccountDetails _details;
 
         public string Id
         {
@@ -31,9 +35,10 @@ namespace SiSystems.ClientApp.Web.Auth
             set { _user.Login = value; }
         }
 
-        public ApplicationUser(User user)
+        public ApplicationUser(User user, ClientAccountDetails details)
         {
             _user = user;
+            _details = details;
         }
     }
 }

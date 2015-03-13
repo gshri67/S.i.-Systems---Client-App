@@ -8,10 +8,12 @@ namespace SiSystems.ClientApp.Web.Auth
     public class UserStore : IUserStore<ApplicationUser>, IUserPasswordStore<ApplicationUser>
     {
         private readonly UserService _userService;
+        private readonly ClientDetailsService _detailsService;
 
-        public UserStore(UserService userService)
+        public UserStore(UserService userService, ClientDetailsService detailsService)
         {
             _userService = userService;
+            _detailsService = detailsService;
         }
 
         public Task<ApplicationUser> FindByNameAsync(string userName)
@@ -19,9 +21,15 @@ namespace SiSystems.ClientApp.Web.Auth
             return Task.Run(() =>
             {
                 var user = _userService.FindByName(userName);
-                return user != null
-                    ? new ApplicationUser(user)
-                    : null;
+                if (user != null)
+                {
+                    var details = _detailsService.GetAccountDetails(user.Id);
+                    if (details != null)
+                    {
+                        return new ApplicationUser(user, details);
+                    }
+                }
+                return null;
             });
         }
 
@@ -51,9 +59,15 @@ namespace SiSystems.ClientApp.Web.Auth
                 int.TryParse(userId, out id);
 
                 var user = _userService.Find(id);
-                return user != null 
-                    ? new ApplicationUser(user)
-                    : null;
+                if (user != null)
+                {
+                    var details = _detailsService.GetAccountDetails(user.Id);
+                    if (details != null)
+                    {
+                        return new ApplicationUser(user, details);
+                    }
+                }
+                return null;
             });
         }
 

@@ -12,18 +12,15 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     public class ClientDetailsService
     {
         private readonly IClientDetailsRepository _clientDetailsRepository;
-        private readonly ISessionContext _sessionContext;
 
-
-        public ClientDetailsService(IClientDetailsRepository clientDetailsRepository, ISessionContext sessionContext)
+        public ClientDetailsService(IClientDetailsRepository clientDetailsRepository)
         {
             _clientDetailsRepository = clientDetailsRepository;
-            _sessionContext = sessionContext;
         }
 
-        public ClientAccountDetails GetAccountDetails()
+        public ClientAccountDetails GetAccountDetails(int id)
         {
-            return _clientDetailsRepository.GetClientDetails(_sessionContext.CurrentUser.ClientId);
+            return _clientDetailsRepository.GetClientDetails(id);
         }
     }
 }
