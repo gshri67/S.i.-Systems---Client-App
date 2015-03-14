@@ -170,8 +170,9 @@ namespace ClientApp.iOS
 
         private void CreateNavBarRightButton()
         {
+            var buttonImage = UIImage.FromBundle("app-button").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
             NavigationItem.SetRightBarButtonItem(
-                new UIBarButtonItem(UIImage.FromBundle("app-button").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                new UIBarButtonItem(buttonImage
                 , UIBarButtonItemStyle.Plain
                 , (sender, args) =>
                 {
