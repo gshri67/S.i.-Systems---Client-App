@@ -18,7 +18,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             _clientDetailsRepository = clientDetailsRepository;
         }
 
-        public ClientAccountDetails GetAccountDetails(int id)
+        public ClientAccountDetails GetClientDetails(int id)
         {
             return _clientDetailsRepository.GetClientDetails(id);
         }

@@ -57,7 +57,7 @@ namespace SiSystems.ClientApp.Web.Auth
         private ClientAccountDetails GetCurrentAuthenticatedUserDetails()
         {
             var user = this.GetCurrentAuthenticatedUser();
-            var details = _detailsService.GetAccountDetails(user.Id);
+            var details = _detailsService.GetClientDetails(user.ClientId);
             return details;
         }
     }

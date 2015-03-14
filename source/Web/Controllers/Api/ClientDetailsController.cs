@@ -22,7 +22,7 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
         public HttpResponseMessage Get()
         {
             var currentUser = (ApplicationUser)User.Identity;
-            return Request.CreateResponse(HttpStatusCode.OK, _service.GetAccountDetails(_session.CurrentUser.Id));
+            return Request.CreateResponse(HttpStatusCode.OK, _service.GetClientDetails(_session.CurrentUser.ClientId));
         }
     }
 }
