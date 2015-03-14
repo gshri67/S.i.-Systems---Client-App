@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Repositories;
@@ -15,12 +12,23 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
     {
         private ClientDetailsRepository _repo;
 
+        private Mock<ICompanyRepository> _companyRepository;
+
+        private DateTime ExpiryDate = new DateTime(2015, 3, 20);
+
         private const int InvalidCompanyId = 0;
 
         [SetUp]
         public void Setup()
         {
-            _repo = new ClientDetailsRepository();
+            _companyRepository = new Mock<ICompanyRepository>();
+            _repo = new ClientDetailsRepository(_companyRepository.Object);
+        }
+
+        [Test]
+        public void ShouldNotBeUsingConfiguredCompaniesOnceDatabaseIsReady()
+        {
+            Assert.IsTrue(DateTime.Today < ExpiryDate, "User repository is still using the company list from configuration. It should be removed by now.");
         }
 
         [Test]

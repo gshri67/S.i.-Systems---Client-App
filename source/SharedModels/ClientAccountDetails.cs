@@ -9,6 +9,7 @@ namespace SiSystems.ClientApp.SharedModels
 
     public class ClientAccountDetails
     {
+        public int ClientId { get; set; }
         public decimal FloThruFee { get; set; }
         public decimal MspFeePercentage { get; set; }
         public decimal MaxVisibleRate { get; set; }

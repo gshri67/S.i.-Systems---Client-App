@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Dapper;
 using SiSystems.ClientApp.SharedModels;
 
@@ -20,11 +16,19 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 
     public class ClientDetailsRepository : IClientDetailsRepository
     {
+        private readonly ICompanyRepository _companyRepository;
+
+        public ClientDetailsRepository(ICompanyRepository companyRepository)
+        {
+            this._companyRepository = companyRepository;
+        }
+
         public ClientAccountDetails GetClientDetails(int clientId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var query = @"SELECT FloThruFee"
+                var query = @"SELECT CompanyId as ClientId," 
+                              + "  FloThruFee"
                               + " ,MSPFeePercentage as MspFeePercentage"
                               + " ,FloThruFeeTypeID as FloThruFeeType"
                               + " ,FloThruFeePaymentID as FloThruFeePayment"
@@ -34,8 +38,18 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                               + " ,IsHavingFTAlumni as HasAccess"
                           + " FROM [Company]"
                           + " WHERE CompanyID="+clientId.ToString();
-                var clientDetails = db.Connection.Query<ClientAccountDetails>(query).FirstOrDefault();
-                return clientDetails ?? new ClientAccountDetails();
+                var details = db.Connection.Query<ClientAccountDetails>(query).FirstOrDefault() 
+                    ?? new ClientAccountDetails();
+
+                // Temporary work around to get list of participating 
+                // companies until the matchguide database is updated
+                if (Settings.ShouldUseConfiguredParticipatingCompaniesList)
+                {
+                    var associatedCompanies = this._companyRepository.GetAllAssociatedCompanyIds(details.ClientId);
+                    details.HasAccess = Settings.ParticipatingCompaniesList.Values.Any(v => associatedCompanies.Contains(v));
+                }
+
+                return details;
             }
         }
     }
