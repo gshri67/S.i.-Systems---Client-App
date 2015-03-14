@@ -142,6 +142,14 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         }
 
         [Test]
+        public void Find_ShouldSortNoSpecializationToEndOfList()
+        {
+            var groups = _repo.Find(string.Empty, new[] { _companyTwoId });
+
+            Assert.AreEqual(groups.Last().Specialization, string.Empty);
+        }
+
+        [Test]
         public void Find_ShouldIncludeSpecializationsAndSkills()
         {
             //Tommy Consultant
@@ -194,7 +202,6 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             var consultant = _repo.Find(11);
             Assert.IsNull(consultant.ResumeText);
         }
-
 
         private bool GroupSpecializationMatchesText(ConsultantGroup group, string text)
         {

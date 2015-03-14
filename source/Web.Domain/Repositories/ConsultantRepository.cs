@@ -61,7 +61,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 	                                                        WHERE UserId = @UserId
                                                         set nocount off 
                                                         SELECT * FROM @t
-                                                        SELECT SpecializationId Id, Name, Description FROM Specialization WHERE SpecializationID in (select t.SpecializationId from @t t)";
+                                                        SELECT SpecializationId Id, Name, Description FROM Specialization WHERE SpecializationID in (select t.SpecializationId from @t t)
+                                                        ORDER BY Name";
 
                     var multi = db.Connection.QueryMultiple(specializationQuery, new { UserId = id });
                     var skills = multi.Read<Skill>();
@@ -70,6 +71,15 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                     {
                         specialization.Skills = skills.Where(sk => sk.SpecializationId == specialization.Id);
                     }
+
+                    // Move the "No Specialization" to the end
+                    var noSpecialization = specializations.SingleOrDefault(s => string.IsNullOrWhiteSpace(s.Name));
+                    var sortedSpecializations = specializations.ToList();
+                    if (noSpecialization != null && sortedSpecializations.Remove(noSpecialization))
+                    {
+                        sortedSpecializations.Add(noSpecialization);
+                    }
+
                     consultant.Specializations = specializations;
                     //get contracts..
                     const string floThruContractsQuery = @"
@@ -226,7 +236,15 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                         FullTextQuery = FullTextSearchExpression.Create(query)
                     });
 
-                return lookup.Values;
+                var sortedGroups = lookup.Values.OrderBy(g => g.Specialization).ToList();
+                // Move the "No Specialization" to the end
+                var noSpecialization = sortedGroups.SingleOrDefault(s => string.IsNullOrWhiteSpace(s.Specialization));
+                if (noSpecialization != null && sortedGroups.Remove(noSpecialization))
+                {
+                    sortedGroups.Add(noSpecialization);
+                }
+
+                return sortedGroups;
             }
         }
     }
