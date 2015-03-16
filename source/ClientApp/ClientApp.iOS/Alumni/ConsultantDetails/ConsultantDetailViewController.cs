@@ -200,7 +200,7 @@ namespace ClientApp.iOS
 	        switch (indexPath.Row)
 	        {
 	            case (int)DetailsTableCells.TitleAndContact:
-	                return string.IsNullOrEmpty(TitleLabel.Text) ? 46 : 80;
+	                return string.IsNullOrEmpty(TitleLabel.Text) ? 56 : 80;
 	            case (int)DetailsTableCells.SpecializationAndSkills:
 	                return SpecializationCell.Frame.Height;
 	        }
