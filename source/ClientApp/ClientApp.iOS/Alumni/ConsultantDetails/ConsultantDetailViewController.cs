@@ -47,7 +47,18 @@ namespace ClientApp.iOS
 	                                Image = UIImage.FromBundle("icon-mail"),
 	                                TintColor = StyleGuideConstants.RedUiColor
 	                            };
-	        contactButton.Clicked += (sender, args) => { PopUpCannedMessageView(); };
+            contactButton.Clicked += (sender, args) =>
+	                                 {
+	                                     if (_detailViewModel.IsActiveConsultant)
+	                                     {
+	                                         _emailText = string.Empty;
+	                                         PerformSegue("ContactSelected", contactButton);
+	                                     }
+	                                     else
+	                                     {
+	                                         PopUpCannedMessageView();
+	                                     }
+	                                 };
 	        NavigationItem.SetRightBarButtonItem(contactButton, false);
 
             OnboardButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
