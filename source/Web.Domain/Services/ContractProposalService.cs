@@ -46,8 +46,6 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 EndDate = proposal.EndDate.ToShortDateString(),
                 TimesheetApproverEmailAddress = proposal.TimesheetApproverEmailAddress,
                 ContractApproverEmailAddress = proposal.ContractApproverEmailAddress,
-                //todo: to send or not to send. Add if this gets sent in the email
-                //MspFeePercentage = proposal.MspFeePercentage.ToString(CultureInfo.InvariantCulture)
             };
 
             _mailService.SendTemplatedEmail(email);
