@@ -120,7 +120,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         private IOrderedEnumerable<ConsultantGroup> OrderAlumniGroups(IEnumerable<ConsultantGroup> results)
         {
             //order results by group length
-            var orderedResults = results.OrderByDescending(g => g.Consultants.Count);
+            var orderedResults = results.OrderBy(g => string.IsNullOrEmpty(g.Specialization)).ThenByDescending(g => g.Consultants.Count);
 
             foreach (var group in orderedResults)
             {
