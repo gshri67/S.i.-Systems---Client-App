@@ -35,6 +35,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 StartDate = "1/1/2015",
                 EndDate = "12/12/2015",
                 ConsultantName = "Bob Smith",
+                ConsultantId = "1000",
                 TimesheetApproverEmailAddress = "aguy@email.com",
                 ContractApproverEmailAddress = "aguy@email.com",
                 InvoiceFormat = "bits and bytes",
