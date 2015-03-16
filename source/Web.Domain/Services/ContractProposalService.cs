@@ -58,11 +58,12 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             var sb = new StringBuilder();
             if (proposal.MspFeePercentage > 0)
             {
+                var amount = proposal.Rate*(proposal.MspFeePercentage/100);
                 if (proposal.FloThruMspPayment == MatchGuideConstants.FloThruMspPayment.DeductFromContractorPay)
                 {
                     sb.Append("Contractor Pays ");
                 }
-                sb.Append("MSP ").Append(proposal.MspFeePercentage).Append("%").Append(" ");
+                sb.Append("MSP ").Append(proposal.MspFeePercentage).Append("% (").Append(amount.ToString("C")).Append(")");
             }
             if (sb.Length > 0)
             {
@@ -74,7 +75,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 {
                     sb.Append("Contractor Pays ");
                 }
-                sb.Append("").Append(proposal.Fee.ToString("C")).Append(" ");
+                sb.Append("").Append(proposal.Fee.ToString("C")).Append("Service ");
             }
             if (sb.Length == 0)
             {
