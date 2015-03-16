@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -52,10 +53,10 @@ namespace ClientApp.Core
 
                 return await httpClient.SendAsync(request);
             });
-            if (response != null)
+            try
             {
                 string json = null;
-                if (response.Content!= null)
+                if (response.Content != null)
                 {
                     json = await response.Content.ReadAsStringAsync();
                 }
@@ -67,13 +68,14 @@ namespace ClientApp.Core
 
                     return new ValidationResult { IsValid = true };
                 }
-                else
-                {
-                    var error = JsonConvert.DeserializeObject<ApiErrorResponse>(json);
-                    return new ValidationResult { IsValid = false, Message = error.ErrorDescription };
-                }
+
+                var error = JsonConvert.DeserializeObject<ApiErrorResponse>(json);
+                return new ValidationResult { IsValid = false, Message = error.ErrorDescription };
             }
-            return new ValidationResult { IsValid = false, Message = "Error executing login request" };
+            catch (Exception e)
+            {
+                return new ValidationResult { IsValid = false, Message = "Error executing login request. " + e.Message };
+            }
         }
 
         public async Task Deauthenticate([CallerMemberName] string caller = null)
@@ -133,9 +135,8 @@ namespace ClientApp.Core
                     case HttpStatusCode.Unauthorized:
                     case HttpStatusCode.Forbidden:
                         this._tokenStore.DeleteDeviceToken();
-                        var errorMessageSchema = new { message = "" };
-                        var errorMessage = JsonConvert.DeserializeAnonymousType(content, errorMessageSchema);
-                        this._errorSource.ReportError("TokenExpired", errorMessage.message, true);
+                        var error = JsonConvert.DeserializeObject<ApiErrorResponse>(content);
+                        this._errorSource.ReportError("TokenExpired", error.ErrorDescription, true);
                         return response;
                     default:
                         return response;
@@ -158,8 +159,10 @@ namespace ClientApp.Core
             {
                 if (this._token == null)
                 {
-                    this._errorSource.ReportError("TokenExpired", null);
-                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                    return new HttpResponseMessage(HttpStatusCode.Unauthorized)
+                    {
+                        Content = new StringContent("{\"error\":\"no_token\",\"error_description\":\"Token has expired.\"}")
+                    };
                 }
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.AccessToken);
                 return await action(httpClient);
