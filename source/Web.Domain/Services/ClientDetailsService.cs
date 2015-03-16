@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SiSystems.ClientApp.SharedModels;
+﻿using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 
@@ -12,15 +7,17 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     public class ClientDetailsService
     {
         private readonly IClientDetailsRepository _clientDetailsRepository;
+        private readonly ISessionContext _sessionContext;
 
-        public ClientDetailsService(IClientDetailsRepository clientDetailsRepository)
+        public ClientDetailsService(ISessionContext sessionContext, IClientDetailsRepository clientDetailsRepository)
         {
             _clientDetailsRepository = clientDetailsRepository;
+            _sessionContext = sessionContext;
         }
 
-        public ClientAccountDetails GetClientDetails(int id)
+        public ClientAccountDetails GetClientDetails()
         {
-            return _clientDetailsRepository.GetClientDetails(id);
+            return _clientDetailsRepository.GetClientDetails(_sessionContext.CurrentUser.CompanyId);
         }
     }
 }

@@ -25,12 +25,13 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             _sessionContextMock = new Mock<ISessionContext>();
             _sessionContextMock.Setup(m => m.CurrentUser).Returns(() => new User
             {
-                ClientId = CurrentUserClientId,
+                CompanyId = CurrentUserClientId,
                 FirstName = "Test",
                 LastName = "User",
                 Login = "Test.User",
                 PasswordHash = "#",
-                ClientsMaxVisibleRate = 20
+                ClientsMaxVisibleRate = 20,
+                ClientPortalType = 833
             });
 
             _companyRepositoryMock = new Mock<ICompanyRepository>();

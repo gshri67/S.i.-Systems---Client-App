@@ -10,9 +10,7 @@ namespace SiSystems.ClientApp.SharedModels
     {
         public int Id { get; set; }
 
-        public int ClientId { get; set; }
-
-        public string CompanyName { get; set; }
+        public int CompanyId { get; set; }
      
         public string Login { get; set; }
 
@@ -23,15 +21,16 @@ namespace SiSystems.ClientApp.SharedModels
 
         public string PasswordHash { get; set; }
 
-        public decimal? ClientsMaxVisibleRate { get; set; }
-
         public MatchGuideConstants.UserType UserType { get; set; }
 
-        public MatchGuideConstants.ClientPortalType ClientPortalType { get; set; }
-        
-        /// <summary>
-        /// Determines level of access to the Alumni app
-        /// </summary>
         public MatchGuideConstants.FloThruAlumniAccess FloThruAlumniAccess { get; set; }
+
+        public MatchGuideConstants.ClientPortalType ClientPortalType { get; set; }
+
+        public string CompanyName { get; set; }
+
+        public bool IsCompanyParticipating { get; set; }
+
+        public decimal? ClientsMaxVisibleRate { get; set; }
     }
 }

@@ -196,7 +196,6 @@
     <Compile Include="Controllers\Api\ForgotPasswordController.cs" />
     <Compile Include="Controllers\Api\LogoutController.cs" />
     <Compile Include="Controllers\Api\ConsultantsController.cs" />
-    <Compile Include="Controllers\Api\SpecializationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AccessAuthorizationAttribute.cs" />
     <Compile Include="Filters\RequireHttpsAttribute.cs" />

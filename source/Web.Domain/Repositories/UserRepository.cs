@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Dapper;
 using SiSystems.ClientApp.SharedModels;
+using System.Threading.Tasks;
 
 namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
@@ -13,18 +14,13 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 
     public class UserRepository : IUserRepository
     {
-        const string UserQueryBase = "SELECT U.UserId Id, U.CompanyID ClientId, C.CompanyName, "
-                               + "U.FirstName FirstName, U.LastName LastName, U.ClientPortalTypeID ClientPortalType, "
-                               + "U.ClientPortalFTAlumniTypeID FloThruAlumniAccess, UL.Login Login, UL.Password PasswordHash, U.UserType, MaxVisibleRatePerHour as ClientsMaxVisibleRate "
-                               + "FROM [User_Login] as UL, [Users] as U, [Company] as C "
-                               + "WHERE U.UserID=UL.UserID";
-
-        private readonly IClientDetailsRepository _detailsRepository;
-
-        public UserRepository(IClientDetailsRepository detailsRepository)
-        {
-            this._detailsRepository = detailsRepository;
-        }
+        const string UserQueryBase = @"SELECT U.[UserId] Id, U.[FirstName] FirstName, U.[LastName] LastName, 
+	                                    U.[UserType], U.[ClientPortalTypeID] ClientPortalType, U.ClientPortalFTAlumniTypeID FloThruAlumniAccess,
+	                                    UL.[Login], UL.[Password] PasswordHash,
+	                                    C.[CompanyID] CompanyId, C.[CompanyName],
+	                                    C.[MaxVisibleRatePerHour] as ClientsMaxVisibleRate, C.[IsHavingFTAlumni] IsCompanyParticipating
+                                    FROM [Users] as U, [User_Login] as UL, [Company] as C
+                                    WHERE U.UserID=UL.UserID AND U.CompanyID = C.CompanyID";
 
         public User Find(int id)
         {
@@ -34,14 +30,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                     + " AND U.UserId = @Id";
 
                 var user = db.Connection.Query<User>(query, new { Id = id }).FirstOrDefault();
-
-                // Temporary work around to get list of participating 
-                // companies until the matchguide database is updated
-                if (user != null && user.UserType == MatchGuideConstants.UserType.ClientContact && Settings.ShouldUseConfiguredParticipatingCompaniesList)
-                {
-                    var clientDetails = this._detailsRepository.GetClientDetails(user.ClientId);
-                    user.FloThruAlumniAccess = clientDetails.HasAccess ? MatchGuideConstants.FloThruAlumniAccess.AllAccess : MatchGuideConstants.FloThruAlumniAccess.NoAccess;
-                }
+                SetAccessLevel(user);
                 return user;
             }
         }
@@ -54,16 +43,36 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                     + " AND UL.Login = @Username";
 
                 var user = db.Connection.Query<User>(query, new {Username = username}).FirstOrDefault();
-
-                // Temporary work around to get list of participating 
-                // companies until the matchguide database is updated
-                if (user != null && user.UserType == MatchGuideConstants.UserType.ClientContact && Settings.ShouldUseConfiguredParticipatingCompaniesList)
-                {
-                    var clientDetails = this._detailsRepository.GetClientDetails(user.ClientId);
-                    user.FloThruAlumniAccess = clientDetails.HasAccess ? MatchGuideConstants.FloThruAlumniAccess.AllAccess : MatchGuideConstants.FloThruAlumniAccess.NoAccess;
-                }
+                SetAccessLevel(user);
                 return user;
             }
         }
+
+        #region Workaround
+
+        private readonly ICompanyRepository _companyRepository;
+
+        public UserRepository(ICompanyRepository companyRepository)
+        {
+            this._companyRepository = companyRepository;
+        }
+
+        /// <summary>
+        /// Temporary workaround to set the user and company access
+        /// permissions until we have real data
+        /// </summary>
+        /// <param name="user">The client user</param>
+        private void SetAccessLevel(User user)
+        {
+            if (Settings.ShouldUseConfiguredParticipatingCompaniesList 
+                && user.UserType == MatchGuideConstants.UserType.ClientContact)
+            {
+                var associatedCompanies = this._companyRepository.GetAllAssociatedCompanyIds(user.CompanyId);
+                user.IsCompanyParticipating = Settings.ParticipatingCompaniesList.Values.Any(v => associatedCompanies.Contains(v));
+                user.FloThruAlumniAccess = MatchGuideConstants.FloThruAlumniAccess.AllAccess;
+            }
+        }
+
+        #endregion
     }
 }

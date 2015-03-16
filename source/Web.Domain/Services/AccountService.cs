@@ -13,25 +13,28 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     public class AccountService
     {
         const string PortalName = "Client";
+        private readonly HttpMessageHandler _httpHandler;
         private readonly IUserRepository _userRepository;
 
-        public AccountService(IUserRepository userRepository)
+        public AccountService(IUserRepository userRepository, HttpMessageHandler httpHandler)
         {
             this._userRepository = userRepository;
+            this._httpHandler = httpHandler;
         }
 
         public async Task<ResetPasswordResult> ForgotPassword(string emailAddress)
         {
             var clientContact = this._userRepository.FindByName(emailAddress);
-
             if (clientContact == null)
             {
                 return new ResetPasswordResult { ResponseCode = -1, Description = "Please contact your AE." };
             }
-            if (!(clientContact.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalContact || clientContact.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalAdministrator))
+            if (!(clientContact.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalContact 
+                || clientContact.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalAdministrator))
             {
                 return new ResetPasswordResult { ResponseCode = -1, Description = "Your account does not have access. Please contact your AE." };
             }
+
             if (string.IsNullOrEmpty(Settings.MatchGuideAccountServiceUrl))
             {
                 throw new NotImplementedException("No account service URL has been specified for this environment.");
@@ -50,7 +53,6 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                     return JsonConvert.DeserializeObject<ResetPasswordResult>(json);
                 }
             }
-
             return new ResetPasswordResult { ResponseCode = -1, Description = "Your password could not be reset. Please contact your AE for more information." };
         }
     }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Security.AccessControl;
 using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
@@ -47,7 +45,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         private void AssertCurrentUserCanAccessConsultantRecord(Consultant consultant)
         {
             var associatedCompanyIds =
-                _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.ClientId);
+                _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.CompanyId);
 
             if (consultant != null)
             {
@@ -63,7 +61,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         private IEnumerable<ConsultantGroup> Find(string query, bool active)
         {
             var associatedCompanyIds =
-                _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.ClientId);
+                _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.CompanyId);
 
             var results = _consultantRepository.Find(query, associatedCompanyIds, active);
             var orderedResults = OrderAlumniGroups(results);
@@ -83,7 +81,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             return this.Find(query, true);
         }
 
-        private bool RateExceedsMaxVisibleRate(Decimal rate)
+        private bool RateExceedsMaxVisibleRate(decimal rate)
         {
             return rate > _sessionContext.CurrentUser.ClientsMaxVisibleRate;
         }

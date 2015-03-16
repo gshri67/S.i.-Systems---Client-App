@@ -59,13 +59,11 @@
     <Compile Include="ConsultantRepositoryTests.cs" />
     <Compile Include="ConsultantServiceTests.cs" />
     <Compile Include="ContractProposalServiceTests.cs" />
-    <Compile Include="MatchGuideServiceIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FullTextSearchExpressionTests.cs" />
     <Compile Include="TemplateAttributeTests.cs" />
     <Compile Include="TemplatedEmailTests.cs" />
     <Compile Include="TreeTraverserTests.cs" />
-    <Compile Include="UserRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

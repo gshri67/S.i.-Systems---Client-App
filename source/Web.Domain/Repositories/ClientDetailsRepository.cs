@@ -27,7 +27,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var query = @"SELECT CompanyId as ClientId," 
+                var query = @"SELECT CompanyId as ClientId,"
                               + "  FloThruFee"
                               + " ,MSPFeePercentage as MspFeePercentage"
                               + " ,FloThruFeeTypeID as FloThruFeeType"
@@ -37,9 +37,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                               + " ,CompanyInvoiceFrequencyID as ClientInvoiceFrequency"
                               + " ,IsHavingFTAlumni as HasAccess"
                           + " FROM [Company]"
-                          + " WHERE CompanyID="+clientId.ToString();
-                var details = db.Connection.Query<ClientAccountDetails>(query).FirstOrDefault() 
-                    ?? new ClientAccountDetails();
+                          + " WHERE CompanyID=@CompanyId";
+                var details = db.Connection.Query<ClientAccountDetails>(query, new { CompanyId = clientId })
+                    .FirstOrDefault() ?? new ClientAccountDetails();
 
                 // Temporary work around to get list of participating 
                 // companies until the matchguide database is updated

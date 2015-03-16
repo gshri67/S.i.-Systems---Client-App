@@ -8,6 +8,11 @@ namespace SiSystems.ClientApp.Web.Auth
 {
     public class ApplicationUser : IUser
     {
+        private static MatchGuideConstants.FloThruAlumniAccess[] allowedAccessLevels = new MatchGuideConstants.FloThruAlumniAccess[] {
+                MatchGuideConstants.FloThruAlumniAccess.AllAccess,
+                MatchGuideConstants.FloThruAlumniAccess.LimitedAccess
+            };
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -18,13 +23,12 @@ namespace SiSystems.ClientApp.Web.Auth
             return userIdentity;
         }
 
-        private static MatchGuideConstants.FloThruAlumniAccess[] allowedAccessLevels = new MatchGuideConstants.FloThruAlumniAccess[] {
-                MatchGuideConstants.FloThruAlumniAccess.AllAccess,
-                MatchGuideConstants.FloThruAlumniAccess.LimitedAccess
-            };
-
         private readonly User _user;
-        private readonly ClientAccountDetails _details;
+
+        public ApplicationUser(User user)
+        {
+            _user = user;
+        }
 
         public string Id
         {
@@ -37,28 +41,29 @@ namespace SiSystems.ClientApp.Web.Auth
             set { _user.Login = value; }
         }
 
-        public bool UserHasAccess
+        public int CompanyId { get { return _user.CompanyId; } }
+
+        public string CompanyName
         {
-            get { return allowedAccessLevels.Contains(_user.FloThruAlumniAccess); }
+            get { return _user.CompanyName; }
         }
 
-        public bool CompanyHasAccess
+        public MatchGuideConstants.FloThruAlumniAccess AccessLevel
         {
-            get { return _details.HasAccess; }
+            get { return _user.FloThruAlumniAccess; }
+        }
+
+        public bool IsCompanyParticipating
+        {
+            get { return _user.IsCompanyParticipating; }
         }
 
         public bool IsGrantedAccess
         {
-            get
-            {
-                return UserHasAccess && CompanyHasAccess;
+            get {
+                return _user.IsCompanyParticipating
+                  && allowedAccessLevels.Contains(this.AccessLevel);
             }
-        }
-
-        public ApplicationUser(User user, ClientAccountDetails details)
-        {
-            _user = user;
-            _details = details;
         }
     }
 }

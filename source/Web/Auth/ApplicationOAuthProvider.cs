@@ -36,8 +36,8 @@ namespace SiSystems.ClientApp.Web.Auth
             }
             if (!user.IsGrantedAccess)
             {
-                context.SetError("invalid_access", user.CompanyHasAccess 
-                    ? "User has not been granted access to the application" 
+                context.SetError("invalid_access", user.IsCompanyParticipating
+                    ? "User has not been granted access to the application"
                     : "Company has not been granted access to the application.");
                 return;
             }

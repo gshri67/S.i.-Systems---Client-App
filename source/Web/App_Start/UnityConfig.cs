@@ -5,6 +5,7 @@ using SiSystems.ClientApp.Web.Caching;
 using SiSystems.ClientApp.Web.Domain.Caching;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
+using System.Net.Http;
 
 namespace SiSystems.ClientApp.Web
 {
@@ -40,9 +41,9 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<IConsultantRepository, ConsultantRepository>();
             container.RegisterType<ICompanyRepository, CompanyRepository>();
             container.RegisterType<IClientDetailsRepository, ClientDetailsRepository>();
-            container.RegisterType<ISpecializationRepository, SpecializationRepository>();
             container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IObjectCache, ObjectCache>();
+            container.RegisterType<HttpMessageHandler, HttpClientHandler>();
         }
     }
 }

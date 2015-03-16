@@ -23,11 +23,7 @@ namespace SiSystems.ClientApp.Web.Auth
                 var user = _userService.FindByName(userName);
                 if (user != null)
                 {
-                    var details = _detailsService.GetClientDetails(user.ClientId);
-                    if (details != null)
-                    {
-                        return new ApplicationUser(user, details);
-                    }
+                    return new ApplicationUser(user);
                 }
                 return null;
             });
@@ -61,11 +57,7 @@ namespace SiSystems.ClientApp.Web.Auth
                 var user = _userService.Find(id);
                 if (user != null)
                 {
-                    var details = _detailsService.GetClientDetails(user.ClientId);
-                    if (details != null)
-                    {
-                        return new ApplicationUser(user, details);
-                    }
+                    return new ApplicationUser(user);
                 }
                 return null;
             });

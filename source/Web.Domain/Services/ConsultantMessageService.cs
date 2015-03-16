@@ -50,7 +50,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         private void AssertCurrentUserCanAccessConsultantRecord(Consultant consultant)
         {
             var associatedCompanyIds =
-                _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.ClientId);
+                _companyRepository.GetAllAssociatedCompanyIds(_sessionContext.CurrentUser.CompanyId);
 
             if (consultant != null)
             {

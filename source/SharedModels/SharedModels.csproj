@@ -37,7 +37,6 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessLevelException.cs" />
     <Compile Include="AccountExecutive.cs" />
     <Compile Include="ClientAccountDetails.cs" />
     <Compile Include="Consultant.cs" />

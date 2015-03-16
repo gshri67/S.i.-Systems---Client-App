@@ -30,7 +30,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             sessionContextMock.Setup(s => s.CurrentUser)
                 .Returns(new User
                 {
-                    ClientId = 1
+                    CompanyId = 1
                 });
 
             companyRepoMock.Setup(m => m.GetAllAssociatedCompanyIds(It.IsAny<int>()))

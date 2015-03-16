@@ -30,7 +30,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             sessionContextMock.Setup(s => s.CurrentUser)
                 .Returns(new User
                 {
-                    ClientId = 1,
+                    CompanyId = 1,
                     Login = "henry.bees@email.com",
                     FirstName = "Henry",
                     LastName = "Bees",
