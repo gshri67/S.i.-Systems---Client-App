@@ -41,7 +41,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 
                 Fee = BuildFeeString(proposal),
                 RateToConsultant = CalculateRate(proposal),
-                TotalRate = string.Format("{0:C}", proposal.Fee + proposal.Rate),
+                TotalRate = CalculateTotalRate(proposal),
                 StartDate = proposal.StartDate.ToShortDateString(),
                 EndDate = proposal.EndDate.ToShortDateString(),
                 TimesheetApproverEmailAddress = proposal.TimesheetApproverEmailAddress,
@@ -89,12 +89,27 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             var rate = proposal.Rate;
             if (proposal.MspFeePercentage > 0 && proposal.FloThruMspPayment == MatchGuideConstants.FloThruMspPayment.DeductFromContractorPay)
             {
-                rate = (rate*(1 - proposal.MspFeePercentage));
+                rate = rate - (rate*(proposal.MspFeePercentage/100));
             }
             
             if (proposal.Fee > 0 && proposal.FloThruFeePayment == MatchGuideConstants.FloThruFeePayment.ContractorPays)
             {
                 rate = rate - proposal.Fee;
+            }
+            return rate.ToString("C");
+        }
+
+        private string CalculateTotalRate(ContractProposal proposal)
+        {
+            var rate = proposal.Rate;
+            if (proposal.MspFeePercentage > 0 && proposal.FloThruMspPayment == MatchGuideConstants.FloThruMspPayment.AddToBillRate)
+            {
+                rate = rate + (rate * (proposal.MspFeePercentage / 100));
+            }
+
+            if (proposal.Fee > 0 && proposal.FloThruFeePayment == MatchGuideConstants.FloThruFeePayment.ClientPays)
+            {
+                rate = rate + proposal.Fee;
             }
             return rate.ToString("C");
         }
