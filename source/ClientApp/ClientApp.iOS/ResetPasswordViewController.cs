@@ -56,13 +56,18 @@ namespace ClientApp.iOS
             this.SubmitButton.Enabled = false;
 
             var alertViewResponseDelegate = new ResetPasswordResponseViewDelegate(this);
+            
             this.viewModel.ResetPassword().ContinueWith(t =>
             {
-                var result = t.Result;
-                UIAlertView responseAlertView = new UIAlertView(result != null ? result.Description : "Something went wrong. Please contact your AE.", null, alertViewResponseDelegate, "Ok");
-                responseAlertView.Show();
-
-                this.activityIndicator.StopAnimating();
+                InvokeOnMainThread(() =>
+                {
+                    var result = t.Result;
+                    var responseMessage = result != null ? result.Description
+                        : "Something went wrong. Please contact your AE.";
+                    UIAlertView responseAlertView = new UIAlertView(responseMessage, null, alertViewResponseDelegate, "Ok");
+                    this.activityIndicator.StopAnimating();
+                    responseAlertView.Show();
+                });
             });
         }
 
