@@ -90,8 +90,9 @@ namespace ClientApp.iOS
 	    private void UpdateUI(Consultant consultant)
 	    {
 	        Title = consultant.FullName;
-	        TitleLabel.Text =
-	            consultant.Contracts.OrderByDescending(c => c.EndDate).First().Title;
+	        var lastContract =
+	            consultant.Contracts.Where(c => !string.IsNullOrEmpty(c.Title)).OrderByDescending(c => c.EndDate).FirstOrDefault();
+	        TitleLabel.Text = lastContract != null ? lastContract.Title : "";
 	        if (_detailViewModel.IsActiveConsultant)
 	        {
 	            OnboardButton.SetTitle("Renew", UIControlState.Normal);
@@ -196,9 +197,12 @@ namespace ClientApp.iOS
 
 	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 	    {
-	        if (indexPath.Row == (int)DetailsTableCells.SpecializationAndSkills)
+	        switch (indexPath.Row)
 	        {
-	            return SpecializationCell.Frame.Height;
+	            case (int)DetailsTableCells.TitleAndContact:
+	                return string.IsNullOrEmpty(TitleLabel.Text) ? 46 : 80;
+	            case (int)DetailsTableCells.SpecializationAndSkills:
+	                return SpecializationCell.Frame.Height;
 	        }
 	        return base.GetHeightForRow(tableView, indexPath);
 	    }
