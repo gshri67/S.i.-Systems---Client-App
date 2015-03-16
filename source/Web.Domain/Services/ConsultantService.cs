@@ -114,7 +114,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         private bool ShouldBeTrimmed()
         {
-            return _sessionContext.CurrentUser.ClientPortalType != MatchGuideConstants.ClientPortalType.PortalAdministrator && _sessionContext.CurrentUser.ClientsMaxVisibleRate.HasValue;
+            return _sessionContext.CurrentUser.FloThruAlumniAccess != MatchGuideConstants.FloThruAlumniAccess.AllAccess && _sessionContext.CurrentUser.ClientsMaxVisibleRate.HasValue;
         }
 
         private IOrderedEnumerable<ConsultantGroup> OrderAlumniGroups(IEnumerable<ConsultantGroup> results)
