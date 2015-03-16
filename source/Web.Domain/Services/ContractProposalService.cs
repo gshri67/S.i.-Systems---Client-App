@@ -76,6 +76,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 }
                 sb.Append("").Append(proposal.Fee.ToString("C")).Append(" ");
             }
+            if (sb.Length == 0)
+            {
+                sb.Append("$0.00");
+            }
             return sb.ToString();
         }
 
