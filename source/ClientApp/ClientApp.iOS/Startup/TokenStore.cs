@@ -1,7 +1,6 @@
 using Foundation;
 using Newtonsoft.Json;
 using Security;
-using SiSystems.ClientApp.SharedModels;
 using ClientApp.Core;
 
 namespace ClientApp.iOS.Startup

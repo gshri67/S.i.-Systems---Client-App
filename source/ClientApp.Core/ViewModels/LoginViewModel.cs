@@ -62,7 +62,7 @@ namespace ClientApp.Core.ViewModels
             {
                 EulaVersions = JsonConvert.DeserializeObject<Dictionary<string, int>>(storageString);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO log error
                 EulaVersions = new Dictionary<string, int>();

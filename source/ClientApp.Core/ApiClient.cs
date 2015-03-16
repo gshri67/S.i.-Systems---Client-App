@@ -88,19 +88,7 @@ namespace ClientApp.Core
 
         public async Task<TResult> PostUnauthenticated<TResult>(HttpContent content, [CallerMemberName] string caller = null)
         {
-            var response = await this.ExecuteWithDefaultClient(async httpClient =>
-            {
-                try
-                {
-                    var res = await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), content);
-                    return res;
-                }
-                catch(Exception ex)
-                {
-                    // WAT?
-                    return null;
-                }
-            });
+            var response = await this.ExecuteWithDefaultClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), content));
 
             if (response != null && response.IsSuccessStatusCode)
             {

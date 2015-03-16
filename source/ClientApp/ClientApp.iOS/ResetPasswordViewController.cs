@@ -41,12 +41,12 @@ namespace ClientApp.iOS
             };
         }
 
-        async partial void SubmitButton_TouchUpInside(UIButton sender)
+        partial void SubmitButton_TouchUpInside(UIButton sender)
         {
-            await this.ResetPassword();
+            this.ResetPassword();
         }
 
-        private async Task ResetPassword()
+        private void ResetPassword()
         {
             this.activityIndicator.StartAnimating();
 
@@ -56,11 +56,14 @@ namespace ClientApp.iOS
             this.SubmitButton.Enabled = false;
 
             var alertViewResponseDelegate = new ResetPasswordResponseViewDelegate(this);
-            var result = await this.viewModel.ResetPassword();
-            UIAlertView responseAlertView = new UIAlertView(result != null ? result.Description : "Something went wrong. Please contact your AE.", null, alertViewResponseDelegate, "Ok");
-            responseAlertView.Show();
+            this.viewModel.ResetPassword().ContinueWith(t =>
+            {
+                var result = t.Result;
+                UIAlertView responseAlertView = new UIAlertView(result != null ? result.Description : "Something went wrong. Please contact your AE.", null, alertViewResponseDelegate, "Ok");
+                responseAlertView.Show();
 
-            this.activityIndicator.StopAnimating();
+                this.activityIndicator.StopAnimating();
+            });
         }
 
         partial void CancelBarButton_Activated(UIBarButtonItem sender)
