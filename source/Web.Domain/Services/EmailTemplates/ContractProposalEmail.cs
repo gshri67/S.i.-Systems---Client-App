@@ -5,6 +5,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
     public class ContractProposalEmail : TemplatedEmail
     {
         [TemplateSubstitution]
+        public string ConsultantId { get; set; }
+
+        [TemplateSubstitution]
         public string ConsultantName { get; set; }
 
         [TemplateSubstitution]

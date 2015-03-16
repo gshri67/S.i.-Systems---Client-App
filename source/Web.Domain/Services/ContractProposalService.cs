@@ -31,6 +31,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 To = consultant.EmailAddress,
                 From = _sessionContext.CurrentUser.Login,
 
+                ConsultantId = consultant.Id.ToString(),
                 ConsultantName = consultant.FullName,
                 JobTitle = proposal.JobTitle,
                 ClientCompanyName = _sessionContext.CurrentUser.CompanyName,
