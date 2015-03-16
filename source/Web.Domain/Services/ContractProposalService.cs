@@ -75,7 +75,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 {
                     sb.Append("Contractor Pays ");
                 }
-                sb.Append("").Append(proposal.Fee.ToString("C")).Append(" Service ");
+                sb.Append(proposal.Fee.ToString("C")).Append(" Service ");
             }
             if (sb.Length == 0)
             {
