@@ -20,7 +20,7 @@ namespace ClientApp.Core.Tests
 
         class FakeHttpHandler : DelegatingHandler
         {
-            protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
             {
                 string json;
                 switch (request.RequestUri.AbsolutePath)
@@ -40,7 +40,7 @@ namespace ClientApp.Core.Tests
                     default:
                         throw new NotImplementedException(string.Format("There is no fake data for this request: {0}", request.RequestUri.AbsolutePath));
                 }
-                return new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new StringContent(json) };
+                return Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new StringContent(json) });
             }
         }
 

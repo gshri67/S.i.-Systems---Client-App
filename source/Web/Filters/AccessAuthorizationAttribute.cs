@@ -23,7 +23,7 @@ namespace SiSystems.ClientApp.Web.Filters
                     ? string.Format("{0} is configured in the application, but you have not been granted access.", user.CompanyName)
                     : string.Format("{0} has not been configured for access to the application.", user.CompanyName);
 
-                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Forbidden, errorMessage);
+                actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.Forbidden, errorMessage);
             }
 
             return base.IsAuthorized(actionContext);

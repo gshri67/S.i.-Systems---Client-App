@@ -69,7 +69,8 @@ namespace ClientApp.Core
                 }
                 else
                 {
-                    return new ValidationResult { IsValid = false, Message = json };
+                    var error = JsonConvert.DeserializeObject<ApiErrorResponse>(json);
+                    return new ValidationResult { IsValid = false, Message = error.ErrorDescription };
                 }
             }
             return new ValidationResult { IsValid = false, Message = "Error executing login request" };
@@ -132,7 +133,9 @@ namespace ClientApp.Core
                     case HttpStatusCode.Unauthorized:
                     case HttpStatusCode.Forbidden:
                         this._tokenStore.DeleteDeviceToken();
-                        this._errorSource.ReportError("TokenExpired", content, true);
+                        var errorMessageSchema = new { message = "" };
+                        var errorMessage = JsonConvert.DeserializeAnonymousType(content, errorMessageSchema);
+                        this._errorSource.ReportError("TokenExpired", errorMessage.message, true);
                         return response;
                     default:
                         return response;
