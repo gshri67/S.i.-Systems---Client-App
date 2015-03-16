@@ -63,7 +63,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 {
                     sb.Append("Contractor Pays ");
                 }
-                sb.Append("MSP ").Append(proposal.MspFeePercentage).Append("% (").Append(amount.ToString("C")).Append(") ");
+                sb.AppendFormat("MSP {0}% ({1:C}) ", proposal.MspFeePercentage, amount);
             }
             if (sb.Length > 0)
             {
@@ -75,7 +75,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 {
                     sb.Append("Contractor Pays ");
                 }
-                sb.Append(proposal.Fee.ToString("C")).Append(" Service ");
+                sb.AppendFormat("{0:C} Service ", proposal.Fee);
             }
             if (sb.Length == 0)
             {
