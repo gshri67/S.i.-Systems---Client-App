@@ -101,7 +101,6 @@ namespace ClientApp.iOS
 	    {
             InvokeOnMainThread(delegate
             {
-                this._activityManager.StartActivity();
                 if (_overlay != null) return;
 
                 var offsetForSearchbar = AlumniSearch.Frame.Height + (float)Math.Abs(SpecializationTable.ContentOffset.Y);
@@ -112,7 +111,6 @@ namespace ClientApp.iOS
                     AlumniView.Frame.Height - offsetForSearchbar);
                 _overlay = new LoadingOverlay(frame);
                 View.Add(_overlay);
-                this._activityManager.StopActivity();
             });
 	    }
 

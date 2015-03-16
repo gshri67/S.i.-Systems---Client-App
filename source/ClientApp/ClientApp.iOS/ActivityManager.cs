@@ -1,17 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Foundation;
 using UIKit;
 using ClientApp.Core;
 using System.Threading;
-using System.Collections.ObjectModel;
 
 namespace ClientApp.iOS
 {
-    public class iOSActivityManager : IActivityManager
+    public class ActivityManager : IActivityManager
     {
         private static int _tasks;
         private object synchronize = new object();
@@ -25,7 +19,10 @@ namespace ClientApp.iOS
         {
             lock (synchronize)
             {
-                UIApplication.SharedApplication.NetworkActivityIndicatorVisible = ++_tasks > 0;
+                UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                {
+                    UIApplication.SharedApplication.NetworkActivityIndicatorVisible = ++_tasks > 0;
+                });
             }
 
             return Guid.Empty;
@@ -40,7 +37,10 @@ namespace ClientApp.iOS
         {
             lock(synchronize)
             {
-                UIApplication.SharedApplication.NetworkActivityIndicatorVisible = --_tasks > 0;
+                UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                {
+                    UIApplication.SharedApplication.NetworkActivityIndicatorVisible = --_tasks > 0;
+                });
             }
         }
     }

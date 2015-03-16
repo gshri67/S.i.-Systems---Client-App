@@ -56,11 +56,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
-    <Compile Include="ApiErrorResponse.cs" />
-    <Compile Include="AuthorizationException.cs" />
     <Compile Include="CurrentUser.cs" />
-    <Compile Include="HttpError.cs" />
-    <Compile Include="IPlatformExceptionHandler.cs" />
+    <Compile Include="IErrorReporter.cs" />
+    <Compile Include="ErrorSource.cs" />
     <Compile Include="HttpAttributes\ApiAttribute.cs" />
     <Compile Include="HttpAttributes\HttpGetAttribute.cs" />
     <Compile Include="HttpAttributes\HttpMethodAttribute.cs" />
@@ -71,9 +69,7 @@
     <Compile Include="IHttpMessageHandlerFactory.cs" />
     <Compile Include="MatchGuideApi.cs" />
     <Compile Include="ITokenStore.cs" />
-    <Compile Include="OAuthMessageHandler.cs" />
     <Compile Include="OAuthToken.cs" />
-    <Compile Include="PassThroughExceptionHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ValidationResult.cs" />

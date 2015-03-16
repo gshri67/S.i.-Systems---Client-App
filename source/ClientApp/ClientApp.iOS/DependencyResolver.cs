@@ -25,10 +25,11 @@ namespace ClientApp.iOS
         private static void RegisterTypes(UnityContainer container)
         {
             container.RegisterType<IHttpMessageHandlerFactory, NativeMessageHandlerFactory>();
-            container.RegisterType<IPlatformExceptionHandler, iOSExceptionHandler>();
+            container.RegisterType<IErrorSource, ErrorSource>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IErrorReporter, ErrorReporter>();
             container.RegisterType<IMatchGuideApi, MatchGuideApi>();
             container.RegisterType<ITokenStore, TokenStore>();
-            container.RegisterType<IActivityManager, iOSActivityManager>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IActivityManager, ActivityManager>(new ContainerControlledLifetimeManager());
         }
     }
 }

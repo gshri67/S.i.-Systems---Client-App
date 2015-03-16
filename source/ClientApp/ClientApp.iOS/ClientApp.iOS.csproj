@@ -196,8 +196,8 @@
     <Compile Include="BorderedButton.designer.cs">
       <DependentUpon>BorderedButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="iOSActivityManager.cs" />
-    <Compile Include="iOSExceptionHandler.cs" />
+    <Compile Include="ActivityManager.cs" />
+    <Compile Include="ErrorReporter.cs" />
     <Compile Include="LoadingOverlay.cs" />
     <Compile Include="ResetPasswordViewController.cs" />
     <Compile Include="ResetPasswordViewController.designer.cs">
