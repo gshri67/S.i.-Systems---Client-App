@@ -24,23 +24,30 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         public async Task<ResetPasswordResult> ForgotPassword(string emailAddress)
         {
-            var clientContact = this._userRepository.FindByName(emailAddress);
-            if (clientContact == null)
-            {
-                return new ResetPasswordResult { ResponseCode = -1, Description = "Please contact your AE." };
-            }
-            if (!(clientContact.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalContact 
-                || clientContact.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalAdministrator))
-            {
-                return new ResetPasswordResult { ResponseCode = -1, Description = "Your account does not have access. Please contact your AE." };
-            }
-
-            if (string.IsNullOrWhiteSpace(Settings.MatchGuideAccountServiceUrl) || 
+            if (string.IsNullOrWhiteSpace(Settings.MatchGuideAccountServiceUrl) ||
                 string.IsNullOrWhiteSpace(Settings.MatchGuideAccountServiceGatewayId) ||
                 string.IsNullOrWhiteSpace(Settings.MatchGuideAccountServiceGatewayPwd))
             {
                 throw new NotImplementedException("No account service portal has been specified for this environment.");
             }
+
+            var errorResponse = new ResetPasswordResult
+            {
+                ResponseCode = -1,
+                Description = "Your Client Portal account may not be activated. Please contact your Account Executive to resolve this issue."
+            };
+
+            var clientContact = this._userRepository.FindByName(emailAddress);
+            if (clientContact == null)
+            {
+                return errorResponse;
+            }
+            if (!(clientContact.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalContact 
+                || clientContact.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalAdministrator))
+            {
+                return errorResponse;
+            }
+
             using (var httpClient = new HttpClient() { BaseAddress = new Uri(Settings.MatchGuideAccountServiceUrl) })
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, string.Format("ForgotPassword/User?userEmail={0}&portal={1}", emailAddress, PortalName));
@@ -49,13 +56,22 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
                 var response = await httpClient.SendAsync(request);
 
+                var json = response != null && response.Content != null 
+                    ? await response.Content.ReadAsStringAsync() 
+                    : string.Empty;
                 if (response.IsSuccessStatusCode)
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<ResetPasswordResult>(json);
+                    var result = JsonConvert.DeserializeObject<ResetPasswordResult>(json);
+                    if (result.ResponseCode > 0)
+                    {
+                        result.Description = result.Description.Substring(0, result.Description.IndexOf('<'));
+                    }
+                    return result;
                 }
+                errorResponse.Description = json;
             }
-            return new ResetPasswordResult { ResponseCode = -1, Description = "Your password could not be reset. Please contact your AE for more information." };
+
+            return errorResponse;
         }
     }
 }

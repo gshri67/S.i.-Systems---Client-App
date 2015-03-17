@@ -62,8 +62,9 @@ namespace ClientApp.iOS
                 InvokeOnMainThread(() =>
                 {
                     var result = t.Result;
-                    var responseMessage = result != null ? result.Description
-                        : "Something went wrong. Please contact your AE.";
+                    var responseMessage = result != null 
+                        ? result.Description
+                        : "Your Client Portal account may not be activated. Please contact your Account Executive to resolve this issue.";
                     UIAlertView responseAlertView = new UIAlertView(responseMessage, null, alertViewResponseDelegate, "Ok");
                     this.activityIndicator.StopAnimating();
                     responseAlertView.Show();
