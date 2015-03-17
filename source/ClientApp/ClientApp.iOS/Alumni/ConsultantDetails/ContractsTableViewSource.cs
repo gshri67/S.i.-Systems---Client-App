@@ -42,7 +42,7 @@ namespace ClientApp.iOS.Alumni.ConsultantDetails
                     string.IsNullOrEmpty(contract.SpecializationNameShort) ? "" : "/h as ",
                     contract.SpecializationNameShort);
 
-            cell.UpdateCell(rate, contractDate, contract.Contact.FullName, _isActiveContract[indexPath.Row]);
+            cell.UpdateCell(rate, contractDate, contract.DirectReport.FullName, _isActiveContract[indexPath.Row]);
 
             return cell;
         }

@@ -136,3 +136,29 @@ CREATE TABLE [dbo].[Agreement_ContractRateDetail](
 ) ON [PRIMARY]);
 
 GO
+
+CREATE TABLE [dbo].[Agreement_ContractAdminContactMatrix](
+	[ContractAdminMatrixID] [int] IDENTITY(1,1) NOT NULL,
+	[AgreementID] [int] NOT NULL,
+	--[BillingUserID] [int] NOT NULL,
+	[DirectReportUserID] [int] NOT NULL,
+	--[CreateDate] [datetime] NULL,
+	--[CreateUserID] [int] NULL,
+	--[UpdateDate] [datetime] NULL,
+	--[UpdateUserID] [int] NULL,
+	[Inactive] [bit] NOT NULL CONSTRAINT [DF__Agreement__Inact__7FB85519]  DEFAULT (0),
+	--[verticalid] [int] NULL,
+ CONSTRAINT [PK__Agreement_Contra__7EC430E0] PRIMARY KEY CLUSTERED 
+(
+	[ContractAdminMatrixID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Agreement_ContractAdminContactMatrix]  WITH CHECK ADD  CONSTRAINT [FK_Agreement_ContractAdminContactMatrix_Agreement] FOREIGN KEY([AgreementID])
+REFERENCES [dbo].[Agreement] ([AgreementID])
+GO
+
+ALTER TABLE [dbo].[Agreement_ContractAdminContactMatrix] CHECK CONSTRAINT [FK_Agreement_ContractAdminContactMatrix_Agreement]
+GO

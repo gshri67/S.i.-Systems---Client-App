@@ -67,3 +67,22 @@ VALUES
 (4, 'C# Afficionado', 4),
 (5, 'Humble Developer', 4),
 (6, 'SUPER Developer', 4);
+
+SET IDENTITY_INSERT [dbo].[Agreement_ContractAdminContactMatrix] ON;
+
+INSERT INTO [dbo].[Agreement_ContractAdminContactMatrix]
+           ([ContractAdminMatrixID]
+		   ,[AgreementID]
+           ,[DirectReportUserID]
+           ,[Inactive]
+)
+VALUES
+(1, 1, 1, 0),
+(2, 2, 2, 0),
+(3, 3, 1, 0),
+(4, 4, 1, 0),
+(5, 5, 2, 0),
+(6, 6, 3, 0)
+          
+
+SET IDENTITY_INSERT [dbo].[Agreement_ContractAdminContactMatrix] OFF;

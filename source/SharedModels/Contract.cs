@@ -22,6 +22,8 @@ namespace SiSystems.ClientApp.SharedModels
 
         public Contact Contact { get; set; }
 
+        public Contact DirectReport { get; set; }
+
         public MatchGuideConstants.AgreementSubTypes AgreementSubType { get; set; }
 
         public bool IsFloThru { get { return AgreementSubType == MatchGuideConstants.AgreementSubTypes.FloThru; } }

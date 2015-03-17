@@ -92,28 +92,36 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                             agrRateDetail.PayRate Rate,
                                             spec.Name SpecializationName, 
                                             spec.Description SpecializationNameShort,
-                                            contact.UserID ContactId,
+                                            contact.UserID Id,
 											contact.FirstName,
 											contact.LastName,
-											contactEmail.PrimaryEmail EmailAddress
+											contactEmail.PrimaryEmail EmailAddress,
+                                            directReport.UserID Id,
+	                                        directReport.FirstName,
+	                                        directReport.LastName,
+	                                        directReportEmail.PrimaryEmail EmailAddress
                                             FROM [Agreement] agr 
                                             LEFT JOIN [Agreement_ContractDetail] agrDetail on agr.AgreementID = agrDetail.AgreementID
                                             LEFT JOIN [Agreement_ContractRateDetail] agrRateDetail on agr.AgreementID = agrRateDetail.AgreementID
                                             LEFT JOIN [Specialization] spec on agrDetail.SpecializationID = spec.SpecializationID
-                                            LEFT JOIN Users contact on contact.UserID = agr.ContactID
-											JOIN User_Email contactEmail on contactEmail.UserID = contact.UserID
+                                            JOIN [Users] contact on contact.UserID = agr.ContactID
+		                                    JOIN [User_Email] contactEmail on contactEmail.UserID = contact.UserID
+		                                    JOIN [Agreement_ContractAdminContactMatrix] m on m.AgreementId = agr.AgreementId and m.Inactive = 0
+		                                    JOIN [Users] directReport on directReport.UserID = m.DirectReportUserID
+		                                    JOIN [User_Email] directReportEmail on directReportEmail.UserID = directReport.UserID
 					                        WHERE agr.CandidateId = @UserId
                                                 --AND agr.CompanyID in @CompanyIds
 						                        AND agr.AgreementType = @CONTRACT
                                                 AND agr.AgreementSubType = @FLOTHRU
                                             ORDER BY agr.EndDate desc";
 
-                    var floThruContracts = db.Connection.Query<Contract, Contact, Contract>(constants + floThruContractsQuery,
-                        (contract, contact) =>
+                    var floThruContracts = db.Connection.Query<Contract, Contact, Contact, Contract>(constants + floThruContractsQuery,
+                        (contract, contact, directReport) =>
                         {
                             contract.Contact = contact;
+                            contract.DirectReport = directReport;
                             return contract;
-                        }, param: new { UserId = id }, splitOn: "ContactId");
+                        }, param: new { UserId = id });
                     consultant.Contracts = floThruContracts;
                 }
 
@@ -154,7 +162,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 				                                    JOIN [Specialization] spec on spec.SpecializationID = cd.SpecializationID
 				                                    JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
 				                                    WHERE a.CandidateID = usr.UserID AND a.StatusType = @ACTIVE
-                                                            AND a.AgreementSubType = @FLOTHRU
 				                                    ORDER BY a.EndDate desc) mostRecentContract
                                     WHERE
                                     --Text query used to match on full name or resume
@@ -192,7 +199,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 							                                    crd.PayRate
 				                                    FROM [Agreement] a 
 				                                    LEFT JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
-				                                    WHERE a.CandidateID = usr.UserID
+				                                    WHERE a.CandidateID = usr.UserID 
+                                                        AND a.AgreementSubType = @FLOTHRU
 				                                    ORDER BY a.EndDate desc) mostRecentContract
                                     WHERE
                                     --Text query used to match on full name or resume
