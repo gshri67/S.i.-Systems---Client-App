@@ -25,9 +25,9 @@ namespace ClientApp.Core.ViewModels
                 var result = await this._api.ResetPassword(this.EmailAddress);
                 return result;
             }
-            catch
+            catch (Exception e)
             {
-                return new ResetPasswordResult { ResponseCode = -1, Description = "Something went wrong. Your password was not reset. Please contact your AE." };
+                return new ResetPasswordResult { ResponseCode = -1, Description = e.Message };
             }
         }
     }

@@ -56,19 +56,22 @@ namespace ClientApp.iOS
             this.SubmitButton.Enabled = false;
 
             var alertViewResponseDelegate = new ResetPasswordResponseViewDelegate(this);
-            
+
             this.viewModel.ResetPassword().ContinueWith(t =>
             {
                 InvokeOnMainThread(() =>
                 {
                     var result = t.Result;
-                    var responseMessage = result != null 
+                    var responseMessage = result != null
                         ? result.Description
                         : "Your Client Portal account may not be activated. Please contact your Account Executive to resolve this issue.";
                     UIAlertView responseAlertView = new UIAlertView(responseMessage, null, alertViewResponseDelegate, "Ok");
-                    this.activityIndicator.StopAnimating();
+
                     responseAlertView.Show();
                 });
+            }).ContinueWith(_ =>
+            {
+                this.activityIndicator.StopAnimating();
             });
         }
 
