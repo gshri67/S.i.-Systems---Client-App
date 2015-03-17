@@ -68,7 +68,8 @@ namespace ClientApp.iOS
 	                UIScreen.MainScreen.Bounds.Height - 22))
 	            {
 	                Editable = true, 
-                    AlwaysBounceVertical = true
+                    AlwaysBounceVertical = true,
+                    Font = UIFont.SystemFontOfSize(14)
 	            };
 	        View.Add(_emailTextField);
 
