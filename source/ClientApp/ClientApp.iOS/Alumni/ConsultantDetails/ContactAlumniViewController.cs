@@ -64,7 +64,7 @@ namespace ClientApp.iOS
 	        var startOfViewY = UIApplication.SharedApplication.StatusBarFrame.Height +
 	                           NavigationController.NavigationBar.Frame.Height;
 	        _emailTextField =
-	            new UITextView(new CGRect(20, startOfViewY+11, UIScreen.MainScreen.Bounds.Width - 40,
+	            new UITextView(new CGRect(17, startOfViewY+11, UIScreen.MainScreen.Bounds.Width - 34,
 	                UIScreen.MainScreen.Bounds.Height - 22))
 	            {
 	                Editable = true, 
