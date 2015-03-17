@@ -18,10 +18,17 @@ namespace SiSystems.ClientApp.Web.Domain
 
         public static string MatchGuideAccountServiceUrl    
         {
-            get
-            {
-                return ConfigurationManager.AppSettings["MatchGuideAccountServiceUrl"];
-            }
+            get { return ConfigurationManager.AppSettings["MatchGuideAccountService.Url"]; }
+        }
+
+        public static string MatchGuideAccountServiceGatewayId
+        {
+            get { return ConfigurationManager.AppSettings["MatchGuideAccountService.GatewayId"]; }
+        }
+
+        public static string MatchGuideAccountServiceGatewayPwd
+        {
+            get { return ConfigurationManager.AppSettings["MatchGuideAccountService.GatewayPwd"]; }
         }
 
         public static Dictionary<string, int> ParticipatingCompaniesList

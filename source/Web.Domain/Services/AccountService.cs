@@ -35,15 +35,17 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 return new ResetPasswordResult { ResponseCode = -1, Description = "Your account does not have access. Please contact your AE." };
             }
 
-            if (string.IsNullOrEmpty(Settings.MatchGuideAccountServiceUrl))
+            if (string.IsNullOrWhiteSpace(Settings.MatchGuideAccountServiceUrl) || 
+                string.IsNullOrWhiteSpace(Settings.MatchGuideAccountServiceGatewayId) ||
+                string.IsNullOrWhiteSpace(Settings.MatchGuideAccountServiceGatewayPwd))
             {
-                throw new NotImplementedException("No account service URL has been specified for this environment.");
+                throw new NotImplementedException("No account service portal has been specified for this environment.");
             }
             using (var httpClient = new HttpClient() { BaseAddress = new Uri(Settings.MatchGuideAccountServiceUrl) })
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, string.Format("ForgotPassword/User?userEmail={0}&portal={1}", emailAddress, PortalName));
-                request.Headers.Add("gatewayId", "rxH4mJUatb6xYYpXsJsaAw==");
-                request.Headers.Add("gatewayPwd", "D1MajGi5bVtuY5GVSx6nyQ==");
+                request.Headers.Add("gatewayId", Settings.MatchGuideAccountServiceGatewayId);
+                request.Headers.Add("gatewayPwd", Settings.MatchGuideAccountServiceGatewayPwd);
 
                 var response = await httpClient.SendAsync(request);
 
