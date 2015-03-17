@@ -95,7 +95,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             {
                 rate = rate - proposal.Fee;
             }
-            return rate.ToString("C");
+            return string.Format("{0:C}/hr", rate);
         }
 
         private string CalculateTotalRate(ContractProposal proposal)
