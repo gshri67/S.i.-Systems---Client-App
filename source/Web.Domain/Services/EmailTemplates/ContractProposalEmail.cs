@@ -45,9 +45,5 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
 
         [TemplateSubstitution]
         public string InvoiceFormat { get; set; }
-
-        //todo: Send MSP Percent in email?
-        //[TemplateSubstitution]
-        //public string MspFeePercentage { get; set; }
     }
 }

@@ -54,6 +54,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         private string BuildFeeString(ContractProposal proposal)
         {
+            if (proposal.IsFullySourced)
+            {
+                return "Fully Sourced Contract";
+            }
+
             var sb = new StringBuilder();
             if (proposal.MspFeePercentage > 0)
             {
@@ -85,6 +90,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         private string CalculateRate(ContractProposal proposal)
         {
+            if (proposal.IsFullySourced)
+            {
+                return string.Format("{0:C}/hr", proposal.Rate);
+            }
+
             var rate = proposal.Rate;
             if (proposal.MspFeePercentage > 0 && proposal.FloThruMspPayment == MatchGuideConstants.FloThruMspPayment.DeductFromContractorPay)
             {

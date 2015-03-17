@@ -43,5 +43,6 @@ namespace SiSystems.ClientApp.SharedModels
         public string ContractApproverEmailAddress { get; set; }
         public int InvoiceFormat { get; set; }
         public string JobTitle { get; set; }
+        public bool IsFullySourced { get; set; }
     }
 }

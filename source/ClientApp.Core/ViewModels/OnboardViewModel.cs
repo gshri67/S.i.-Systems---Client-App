@@ -146,7 +146,8 @@ namespace ClientApp.Core.ViewModels
                 ContractApproverEmailAddress = this.ContractApprovalEmail,
                 FloThruFeePayment = CurrentUser.FloThruFeePayment,
                 FloThruMspPayment = CurrentUser.FloThruMspPayment,
-                JobTitle = ContractTitle
+                JobTitle = ContractTitle,
+                IsFullySourced = IsFullySourced
             });
         }
 
