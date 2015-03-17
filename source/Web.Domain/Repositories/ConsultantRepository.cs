@@ -83,7 +83,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 
                     consultant.Specializations = specializations;
                     //get contracts..
-                    const string floThruContractsQuery = @"
+                    const string contractsQuery = @"
                                             SELECT agr.CandidateID ConsultantId,
                                             agr.CompanyID ClientId,
                                             CAST(agr.AgreementSubType AS INT) AgreementSubType,
@@ -116,7 +116,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                                 AND agr.AgreementSubType IN (@FLOTHRU, @FULLYSOURCED) -- fully sourced will be filtered out later for alumni
                                             ORDER BY agr.EndDate desc";
 
-                    var contracts = db.Connection.Query<Contract, Contact, Contact, Contract>(constants + floThruContractsQuery,
+                    var contracts = db.Connection.Query<Contract, Contact, Contact, Contract>(constants + contractsQuery,
                         (contract, contact, directReport) =>
                         {
                             contract.Contact = contact;
