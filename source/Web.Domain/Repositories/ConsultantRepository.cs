@@ -34,6 +34,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 string constants = @"DECLARE @ACTIVE int = " + MatchGuideConstants.ContractStatusTypes.Active + ","
                                             + "@PENDING int = " + MatchGuideConstants.ContractStatusTypes.Pending + ","
                                             + "@FLOTHRU int = " + MatchGuideConstants.AgreementSubTypes.FloThru + ","
+                                            + "@FULLYSOURCED int = " + MatchGuideConstants.AgreementSubTypes.Consultant + ","
                                             + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
                                             + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
 
@@ -112,7 +113,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 		                                    JOIN [User_Email] directReportEmail on directReportEmail.UserID = directReport.UserID
 					                        WHERE agr.CandidateId = @UserId
 						                        AND agr.AgreementType = @CONTRACT
-                                                --AND agr.AgreementSubType = @FLOTHRU -- fully sourced will be filtered out later for alumni
+                                                AND agr.AgreementSubType IN (@FLOTHRU, @FULLYSOURCED) -- fully sourced will be filtered out later for alumni
                                             ORDER BY agr.EndDate desc";
 
                     var contracts = db.Connection.Query<Contract, Contact, Contact, Contract>(constants + floThruContractsQuery,
@@ -136,6 +137,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 string constants = @"DECLARE @ACTIVE int = " + MatchGuideConstants.ContractStatusTypes.Active + ","
                                             + "@PENDING int = " + MatchGuideConstants.ContractStatusTypes.Pending + ","
                                             + "@FLOTHRU int = " + MatchGuideConstants.AgreementSubTypes.FloThru + ","
+                                            + "@FULLYSOURCED int = " + MatchGuideConstants.AgreementSubTypes.Consultant + ","
                                             + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
                                             + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
                 string consultantsQuery;
@@ -163,6 +165,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 				                                    JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
 				                                    WHERE a.CandidateID = usr.UserID AND a.StatusType = @ACTIVE
                                                         AND a.CompanyID in @CompanyIds
+                                                        AND a.AgreementSubType IN (@FLOTHRU, @FULLYSOURCED)
 				                                    ORDER BY a.EndDate desc) mostRecentContract
                                     WHERE
                                     --Text query used to match on full name or resume
@@ -175,6 +178,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 	                                    WHERE agr.CandidateId = usr.UserID
 		                                    AND agr.CompanyID IN @CompanyIds
 		                                    AND agr.AgreementType = @CONTRACT
+                                            AND agr.AgreementSubType IN (@FLOTHRU, @FULLYSOURCED)
 		                                    AND agr.StatusType IN (@ACTIVE, @PENDING)
                                     )";
                 }
@@ -224,6 +228,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 		                                    AND agr.CompanyID in @CompanyIds
 		                                    AND agr.AgreementType = @CONTRACT
 		                                    AND agr.StatusType IN (@ACTIVE, @PENDING)
+                                            AND agr.AgreementSubType IN (@FLOTHRU, @FULLYSOURCED)
                                     )";
                 }
                         
