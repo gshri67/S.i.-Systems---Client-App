@@ -64,7 +64,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         /// <param name="user">The client user</param>
         private void SetAccessLevel(User user)
         {
-            if (Settings.ShouldUseConfiguredParticipatingCompaniesList 
+            if (user != null && Settings.ShouldUseConfiguredParticipatingCompaniesList 
                 && user.UserType == MatchGuideConstants.UserType.ClientContact)
             {
                 var associatedCompanies = this._companyRepository.GetAllAssociatedCompanyIds(user.CompanyId);
