@@ -5,6 +5,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
     public class ContractProposalEmail : TemplatedEmail
     {
         [TemplateSubstitution]
+        public string EmailIntro { get; set; }
+
+        [TemplateSubstitution]
         public string ConsultantId { get; set; }
 
         [TemplateSubstitution]
@@ -17,7 +20,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services.EmailTemplates
         public string Fee { get; set; }
 
         [TemplateSubstitution]
-        public string RateToConsultant { get; set; }
+        public string Rate { get; set; }
+
+        [TemplateSubstitution]
+        public string RateTo { get; set; }
 
         [TemplateSubstitution]
         public string TotalRate { get; set; }

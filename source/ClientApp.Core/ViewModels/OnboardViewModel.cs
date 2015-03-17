@@ -147,7 +147,8 @@ namespace ClientApp.Core.ViewModels
                 FloThruFeePayment = CurrentUser.FloThruFeePayment,
                 FloThruMspPayment = CurrentUser.FloThruMspPayment,
                 JobTitle = ContractTitle,
-                IsFullySourced = IsFullySourced
+                IsFullySourced = IsFullySourced,
+                IsRenewal = IsActiveConsultant
             });
         }
 

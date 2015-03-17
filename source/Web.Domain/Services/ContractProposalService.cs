@@ -28,6 +28,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
             var email = new ContractProposalEmail
             {
+                EmailIntro = proposal.IsRenewal ? "Renewal request from " : "New independent contractor request from ",
                 To = consultant.EmailAddress,
                 From = _sessionContext.CurrentUser.Login,
 
@@ -41,7 +42,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 InvoiceFormat = proposal.InvoiceFormat.ToString(),
                 
                 Fee = BuildFeeString(proposal),
-                RateToConsultant = CalculateRate(proposal),
+                Rate = CalculateRate(proposal),
+                RateTo = proposal.IsFullySourced ? "SI" : "Consultant",
                 TotalRate = CalculateTotalRate(proposal),
                 StartDate = proposal.StartDate.ToShortDateString(),
                 EndDate = proposal.EndDate.ToShortDateString(),

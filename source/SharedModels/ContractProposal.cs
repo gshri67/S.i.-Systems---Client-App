@@ -44,5 +44,6 @@ namespace SiSystems.ClientApp.SharedModels
         public int InvoiceFormat { get; set; }
         public string JobTitle { get; set; }
         public bool IsFullySourced { get; set; }
+        public bool IsRenewal { get; set; }
     }
 }
