@@ -172,7 +172,7 @@ namespace ClientApp.iOS
                     _emailText = "Are you available for a new contract? ";
                     PerformSegue("ContactSelected", controller);
                 });
-            var catchupAction = UIAlertAction.Create("Let’s catch up.", UIAlertActionStyle.Default,
+            var catchupAction = UIAlertAction.Create("Let's catch up.", UIAlertActionStyle.Default,
                 action =>
                 {
                     _emailText = "Let's catch up. ";
