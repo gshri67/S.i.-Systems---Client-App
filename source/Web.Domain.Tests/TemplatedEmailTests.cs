@@ -26,6 +26,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         {
             return new ContractProposalEmail
             {
+                EmailIntro = "Test Intro",
                 To = "someone@email.com",
                 From = "person@email.com",
                 Body = "HELLO",
@@ -115,6 +116,5 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             var templatedEmail = new ContractProposalEmail{To="someone@email.com", From="someoneelse@email.com"};
             Assert.Throws<InvalidOperationException>(() => templatedEmail.ToMailMessage());
         }
-
     }
 }
