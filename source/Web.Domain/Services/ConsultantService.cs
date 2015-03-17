@@ -51,6 +51,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             {
                 consultant.Contracts =
                     consultant.Contracts.Where(c => associatedCompanyIds.Contains(c.ClientId)).ToList();
+
+                // Filter out non-flothru contracts for alumni
+                var isActive = consultant.Contracts.Any(c => c.StatusType == MatchGuideConstants.ContractStatusTypes.Active 
+                    || c.StatusType == MatchGuideConstants.ContractStatusTypes.Pending);
+                if (!isActive)
+                {
+                    consultant.Contracts = consultant.Contracts.Where(c => c.IsFloThru);
+                }
             }
 
             if (consultant != null && !consultant.Contracts.Any())

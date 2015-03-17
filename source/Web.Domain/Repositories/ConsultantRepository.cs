@@ -88,7 +88,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                             CAST(agr.AgreementSubType AS INT) AgreementSubType,
                                             agrDetail.JobTitle Title,
                                             agr.StartDate, 
-                                            agr.EndDate, 
+                                            agr.EndDate,
+                                            CAST(agr.StatusType AS INT) StatusType,
                                             agrRateDetail.PayRate Rate,
                                             spec.Name SpecializationName, 
                                             spec.Description SpecializationNameShort,
@@ -110,19 +111,18 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 		                                    JOIN [Users] directReport on directReport.UserID = m.DirectReportUserID
 		                                    JOIN [User_Email] directReportEmail on directReportEmail.UserID = directReport.UserID
 					                        WHERE agr.CandidateId = @UserId
-                                                --AND agr.CompanyID in @CompanyIds
 						                        AND agr.AgreementType = @CONTRACT
-                                                AND agr.AgreementSubType = @FLOTHRU
+                                                --AND agr.AgreementSubType = @FLOTHRU -- fully sourced will be filtered out later for alumni
                                             ORDER BY agr.EndDate desc";
 
-                    var floThruContracts = db.Connection.Query<Contract, Contact, Contact, Contract>(constants + floThruContractsQuery,
+                    var contracts = db.Connection.Query<Contract, Contact, Contact, Contract>(constants + floThruContractsQuery,
                         (contract, contact, directReport) =>
                         {
                             contract.Contact = contact;
                             contract.DirectReport = directReport;
                             return contract;
                         }, param: new { UserId = id });
-                    consultant.Contracts = floThruContracts;
+                    consultant.Contracts = contracts;
                 }
 
                 return consultant;

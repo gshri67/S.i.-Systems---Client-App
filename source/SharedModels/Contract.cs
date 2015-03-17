@@ -29,5 +29,7 @@ namespace SiSystems.ClientApp.SharedModels
         public bool IsFloThru { get { return AgreementSubType == MatchGuideConstants.AgreementSubTypes.FloThru; } }
 
         public bool IsFullySourced { get { return AgreementSubType == MatchGuideConstants.AgreementSubTypes.Consultant; } }
+
+        public MatchGuideConstants.ContractStatusTypes StatusType { get; set; }
     }
 }

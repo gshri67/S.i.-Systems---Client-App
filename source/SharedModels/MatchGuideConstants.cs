@@ -321,6 +321,11 @@ namespace SiSystems.ClientApp.SharedModels
                 return new ContractStatusTypes(val);
             }
 
+            public static implicit operator ContractStatusTypes(int val)
+            {
+                return new ContractStatusTypes(val);
+            }
+
             public static implicit operator long(ContractStatusTypes s)
             {
                 return s.m_value;

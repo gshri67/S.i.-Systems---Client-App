@@ -54,7 +54,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         }
 
         [Test]
-        public void FindAlumni_WhenMutualContract_ShouldNotThrow()
+        public void FindAlumni_WhenMutualFloThruContract_ShouldNotThrow()
         {
             var repo = new Mock<IConsultantRepository>();
             repo.Setup(m => m.Find(It.IsAny<int>())).Returns(
@@ -62,7 +62,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 {
                     Contracts = new List<Contract>
                     {
-                        new Contract{ClientId = CurrentUserClientId}
+                        new Contract{ClientId = CurrentUserClientId, AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru}
                     }
                 });
 
@@ -79,9 +79,9 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
                 {
                     Contracts = new List<Contract>
                     {
-                        new Contract{ClientId = CurrentUserClientId},
-                        new Contract{ClientId = AnotherClientId},
-                        new Contract{ClientId = CurrentUserClientId}
+                        new Contract{ClientId = CurrentUserClientId, AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru},
+                        new Contract{ClientId = AnotherClientId, AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru},
+                        new Contract{ClientId = CurrentUserClientId, AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru}
                     }
                 });
 
