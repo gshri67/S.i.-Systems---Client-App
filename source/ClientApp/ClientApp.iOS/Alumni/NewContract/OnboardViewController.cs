@@ -335,15 +335,15 @@ namespace ClientApp.iOS
         #region Data Helpers
         private static DateTime NSDateToDateTime(NSDate date)
         {
-            DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0);
+            DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(2001, 1, 1, 0, 0, 0));
             return reference.AddSeconds(date.SecondsSinceReferenceDate);
         }
 
         private static NSDate DateTimeToNSDate(DateTime date)
         {
-            DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0);
-            return NSDate.FromTimeIntervalSinceReferenceDate(
-                (date - reference).TotalSeconds);
+            if (date.Kind == DateTimeKind.Unspecified)
+                date = DateTime.SpecifyKind(date, DateTimeKind.Local);
+            return (NSDate) date;
         }
 	    #endregion
     }
