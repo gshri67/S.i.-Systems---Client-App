@@ -9,6 +9,7 @@ using UIKit;
 using ClientApp.Core.ViewModels;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using SiSystems.ClientApp.SharedModels;
 using ClientApp.Core;
 
@@ -301,22 +302,50 @@ namespace ClientApp.iOS
 
         private void AdditionalActions_Pressed()
         {
-            var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
-            var logoutAction = UIAlertAction.Create("Logout", UIAlertActionStyle.Destructive,
-                async delegate
-                {
-                    await _alumniModel.Logout();
-                    var rootController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateViewController("LoginView");
-                    var navigationController = new UINavigationController(rootController) { NavigationBarHidden = true };
-                    UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
-                });
-            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
-            controller.AddAction(logoutAction);
-            controller.AddAction(cancelAction);
-            PresentViewController(controller, true, null);
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
+                var logoutAction = UIAlertAction.Create("Logout", UIAlertActionStyle.Destructive, LogoutDelegate);
+                var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+                controller.AddAction(logoutAction);
+                controller.AddAction(cancelAction);
+                PresentViewController(controller, true, null);
+            }
+            else
+            {
+                var sheet = new UIActionSheet();
+                sheet.AddButton("Logout");
+                sheet.AddButton("Cancel");
+                sheet.DestructiveButtonIndex = 0;
+                sheet.CancelButtonIndex = 1;
+                sheet.Clicked += LogoutDelegate;
+                sheet.ShowInView(View);
+            }
         }
 
-        private async void GetClientDetails()
+        private async void LogoutDelegate(UIAlertAction action)
+        {
+            await _alumniModel.Logout();
+            var rootController =
+                UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle)
+                    .InstantiateViewController("LoginView");
+            var navigationController = new UINavigationController(rootController)
+            {
+                NavigationBarHidden = true
+            };
+            UIApplication.SharedApplication.Windows[0].RootViewController =
+                navigationController;
+        }
+
+        private void LogoutDelegate(object sender, UIButtonEventArgs args)
+        {
+            if (args.ButtonIndex == 0)
+            {
+                LogoutDelegate(null);
+            }
+        }
+
+        private async Task GetClientDetails()
         {
             var clientDetails = await _alumniModel.GetClientDetailsAsync() ?? new ClientAccountDetails();
             CurrentUser.ServiceFee = clientDetails.FloThruFee;

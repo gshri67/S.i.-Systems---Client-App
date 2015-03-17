@@ -165,32 +165,64 @@ namespace ClientApp.iOS
 
         private void PopUpCannedMessageView()
         {
-            var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
-            var newContractAction = UIAlertAction.Create("Are you available?", UIAlertActionStyle.Default,
-                action =>
-                {
-                    _emailText = "Are you available for a new contract? ";
-                    PerformSegue("ContactSelected", controller);
-                });
-            var catchupAction = UIAlertAction.Create("Let's catch up.", UIAlertActionStyle.Default,
-                action =>
-                {
-                    _emailText = "Let's catch up. ";
-                    PerformSegue("ContactSelected", controller);
-                });
-            var customAction = UIAlertAction.Create("Custom Message...", UIAlertActionStyle.Default,
-                action =>
-                {
-                    _emailText = "";
-                    PerformSegue("ContactSelected", controller); 
-                });
-            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
+                var newContractAction = UIAlertAction.Create("Are you available?", UIAlertActionStyle.Default,
+                    action =>
+                    {
+                        _emailText = "Are you available for a new contract? ";
+                        PerformSegue("ContactSelected", controller);
+                    });
+                var catchupAction = UIAlertAction.Create("Let's catch up.", UIAlertActionStyle.Default,
+                    action =>
+                    {
+                        _emailText = "Let's catch up. ";
+                        PerformSegue("ContactSelected", controller);
+                    });
+                var customAction = UIAlertAction.Create("Custom Message...", UIAlertActionStyle.Default,
+                    action =>
+                    {
+                        _emailText = "";
+                        PerformSegue("ContactSelected", controller);
+                    });
+                var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
 
-            controller.AddAction(newContractAction);
-            controller.AddAction(catchupAction);
-            controller.AddAction(customAction);
-            controller.AddAction(cancelAction);
-            PresentViewController(controller, true, null);
+                controller.AddAction(newContractAction);
+                controller.AddAction(catchupAction);
+                controller.AddAction(customAction);
+                controller.AddAction(cancelAction);
+                PresentViewController(controller, true, null);
+            }
+            else
+            {
+                var sheet = new UIActionSheet();
+                sheet.AddButton("Are you available?");
+                sheet.AddButton("Let's catch up.");
+                sheet.AddButton("Custom Message...");
+                sheet.AddButton("Cancel");
+                sheet.CancelButtonIndex = 3;
+                sheet.Clicked += (sender, args) =>
+                                 {
+                                     switch (args.ButtonIndex)
+                                     {
+                                         case 0:
+                                             _emailText = "Are you available for a new contract? ";
+                                             PerformSegue("ContactSelected", sheet);
+                                             break;
+                                         case 1:
+                                             _emailText = "Let's catch up. ";
+                                             PerformSegue("ContactSelected", sheet);
+                                             break;
+                                         case 2:
+                                             _emailText = "";
+                                             PerformSegue("ContactSelected", sheet);
+                                             break;
+                                     }
+                                 };
+                sheet.ShowInView(View);
+            }
+            
         }
 
         #region Table Delegates
