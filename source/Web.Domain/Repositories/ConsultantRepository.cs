@@ -162,6 +162,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 				                                    JOIN [Specialization] spec on spec.SpecializationID = cd.SpecializationID
 				                                    JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
 				                                    WHERE a.CandidateID = usr.UserID AND a.StatusType = @ACTIVE
+                                                        AND a.CompanyID in @CompanyIds
 				                                    ORDER BY a.EndDate desc) mostRecentContract
                                     WHERE
                                     --Text query used to match on full name or resume
@@ -200,7 +201,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 				                                    FROM [Agreement] a 
 				                                    LEFT JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
 				                                    WHERE a.CandidateID = usr.UserID 
-                                                        AND a.AgreementSubType = @FLOTHRU
+                                                        AND a.AgreementType = @CONTRACT
+					                                    AND a.AgreementSubType = @FLOTHRU
+                                                        AND a.CompanyID in @CompanyIds
 				                                    ORDER BY a.EndDate desc) mostRecentContract
                                     WHERE
                                     --Text query used to match on full name or resume
