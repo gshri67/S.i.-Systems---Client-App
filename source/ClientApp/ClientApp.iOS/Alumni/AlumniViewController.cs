@@ -264,7 +264,6 @@ namespace ClientApp.iOS
 
         private void RemoveOverlay()
 	    {
-            this._activityManager.StopActivity();
 	        if (_overlay == null) return;
 
 	        InvokeOnMainThread(_overlay.Hide);

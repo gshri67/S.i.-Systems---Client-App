@@ -2,13 +2,13 @@ using System;
 using UIKit;
 using ClientApp.Core;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ClientApp.iOS
 {
     public class ActivityManager : IActivityManager
     {
         private static int _tasks;
-        private object synchronize = new object();
 
         public void StartActivity()
         {
@@ -17,13 +17,8 @@ namespace ClientApp.iOS
 
         public Guid StartActivity(CancellationToken cancellationToken)
         {
-            lock (synchronize)
-            {
-                UIApplication.SharedApplication.InvokeOnMainThread(() =>
-                {
-                    UIApplication.SharedApplication.NetworkActivityIndicatorVisible = ++_tasks > 0;
-                });
-            }
+
+            UIApplication.SharedApplication.NetworkActivityIndicatorVisible = ++_tasks > 0;
 
             return Guid.Empty;
         }
@@ -35,13 +30,12 @@ namespace ClientApp.iOS
 
         public void StopActivity(Guid activityId)
         {
-            lock(synchronize)
+            if (!UIApplication.SharedApplication.NetworkActivityIndicatorVisible || _tasks <= 0)
             {
-                UIApplication.SharedApplication.InvokeOnMainThread(() =>
-                {
-                    UIApplication.SharedApplication.NetworkActivityIndicatorVisible = --_tasks > 0;
-                });
+                _tasks = 0;
+                return;
             }
+            UIApplication.SharedApplication.NetworkActivityIndicatorVisible = --_tasks > 0;
         }
     }
 }
