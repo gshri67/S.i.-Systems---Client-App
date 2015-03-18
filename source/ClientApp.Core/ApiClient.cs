@@ -93,7 +93,7 @@ namespace ClientApp.Core
         {
             var response = await this.ExecuteWithDefaultClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), content));
 
-            if (response != null && response.IsSuccessStatusCode)
+            if (response != null && response.Content != null)
             {
                 var jsonString = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<TResult>(jsonString);
