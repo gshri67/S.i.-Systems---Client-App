@@ -140,15 +140,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                             + "@FULLYSOURCED int = " + MatchGuideConstants.AgreementSubTypes.Consultant + ","
                                             + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
                                             + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
-
-                Func<string, string> nameSearchGenerator = column =>
-                {
-                    var searchTokens = query.Split(' ').ToList();
-                    searchTokens.Add(query);
-                    var tokens = searchTokens.Select(token => string.Format("{0} LIKE '%{1}%'", column, token));
-                    return string.Join(" OR ", tokens);
-                };
-
                 string consultantsQuery;
                 if (active)
                 {
@@ -177,9 +168,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                                         AND a.AgreementSubType IN (@FLOTHRU, @FULLYSOURCED)
 				                                    ORDER BY a.EndDate desc) mostRecentContract
                                     WHERE
-                                    --Text query used to match on full name or resume" +
-                                    "(" + nameSearchGenerator("(usr.FirstName + ' ' + usr.LastName)") +
-                                        @"OR CONTAINS(cri.ResumeText, @FullTextQuery))
+                                    --Text query used to match on full name or resume
+                                    ((usr.FirstName + ' ' + usr.LastName) LIKE @LikeQuery
+                                        OR CONTAINS(cri.ResumeText, @FullTextQuery))
                                     AND 
                                     EXISTS (
 	                                    SELECT TOP 1 * 
@@ -219,9 +210,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                                         AND a.CompanyID in @CompanyIds
 				                                    ORDER BY a.EndDate desc) mostRecentContract
                                     WHERE
-                                    --Text query used to match on full name or resume" +
-                                    "(" + nameSearchGenerator("(usr.FirstName + ' ' + usr.LastName)") +
-                                        @"OR CONTAINS(cri.ResumeText, @FullTextQuery))
+                                    --Text query used to match on full name or resume
+                                    ((usr.FirstName + ' ' + usr.LastName) LIKE @LikeQuery
+                                        OR CONTAINS(cri.ResumeText, @FullTextQuery))
                                     AND EXISTS (
 	                                    SELECT TOP 1 * 
 	                                    FROM [Agreement] agr 
