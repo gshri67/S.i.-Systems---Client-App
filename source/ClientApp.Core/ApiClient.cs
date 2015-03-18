@@ -80,8 +80,9 @@ namespace ClientApp.Core
 
         public async Task Deauthenticate([CallerMemberName] string caller = null)
         {
-            await this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null));
             this._tokenStore.DeleteDeviceToken();
+            await this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null));
+            this._token = null;
         }
 
         public Task Post(HttpContent content, [CallerMemberName] string caller = null)
@@ -109,7 +110,6 @@ namespace ClientApp.Core
         public async Task<TResult> Get<TResult>(object parameters, [CallerMemberName] string caller = null)
         {
             var response = await ExecuteWithAuthenticatedClient(async httpClient => await httpClient.GetAsync(GetRelativeUriFromAction(caller, parameters), HttpCompletionOption.ResponseHeadersRead));
-
             if (response != null && response.IsSuccessStatusCode)
             {
                 var jsonString = await response.Content.ReadAsStringAsync();
@@ -137,6 +137,10 @@ namespace ClientApp.Core
                         this._tokenStore.DeleteDeviceToken();
                         var error = JsonConvert.DeserializeObject<ApiErrorResponse>(content);
                         this._errorSource.ReportError("TokenExpired", error.ErrorDescription, true);
+                        return response;
+                    case HttpStatusCode.InternalServerError:
+                        var serverError = JsonConvert.DeserializeObject<HttpError>(content);
+                        this._errorSource.ReportError(null, serverError.Message);
                         return response;
                     default:
                         return response;
