@@ -15,8 +15,19 @@ namespace SiSystems.ClientApp.Web.Filters
 
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
+            var userName = GetUserName(actionContext.RequestContext);
+            if (string.IsNullOrEmpty(userName))
+            {
+                return false;
+            }
+
             var userManager = actionContext.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var user = userManager.FindByNameAsync(actionContext.RequestContext.Principal.Identity.Name).Result;
+            var user = userManager.FindByNameAsync(userName).Result;
+
+            if (user == null)
+            {
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Forbidden, new { error = "invalid_access", error_description = "User not found." });
+            }
             if (!user.IsGrantedAccess)
             {
                 string errorMessage = user.IsCompanyParticipating
@@ -27,6 +38,15 @@ namespace SiSystems.ClientApp.Web.Filters
             }
 
             return base.IsAuthorized(actionContext);
+        }
+
+        private string GetUserName(HttpRequestContext context)
+        {
+            if (context.Principal != null && context.Principal.Identity != null)
+            {
+                return context.Principal.Identity.Name;
+            }
+            return null;
         }
     }
 }
