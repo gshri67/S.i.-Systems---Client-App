@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin;
 
 namespace ClientApp.Core
 {
@@ -66,14 +67,34 @@ namespace ClientApp.Core
                     this._token = _tokenStore.SaveToken(token);
                     _tokenStore.SaveUserName(token.Username);
 
+                    Insights.Identify(token.Username, new Dictionary<string, string>
+                    {
+                        { "Token Expires At", token.ExpiresAt },
+                        { "Token Expires In", token.ExpiresIn.ToString() },
+                        { "Token Issued At", token.IssuedAt }
+                    });
+                    Insights.Track(TrackId.LoginSuccess, Insights.Traits.Email, username);
+
                     return new ValidationResult { IsValid = true };
                 }
 
                 var error = JsonConvert.DeserializeObject<ApiErrorResponse>(json);
+
+                Insights.Track(TrackId.LoginFailure, new Dictionary<string, string>
+                {
+                    {Insights.Traits.Email, username },
+                    {"Error", error.Error },
+                    {"Error Description", error.ErrorDescription }
+                });
+
                 return new ValidationResult { IsValid = false, Message = error.ErrorDescription };
             }
             catch (Exception e)
             {
+                Insights.Report(e, new Dictionary<string, string>
+                {
+                    { Insights.Traits.Email, username }
+                });
                 return new ValidationResult { IsValid = false, Message = "Error executing login request. " + e.Message };
             }
         }

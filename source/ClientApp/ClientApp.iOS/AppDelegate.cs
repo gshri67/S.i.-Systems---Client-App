@@ -6,6 +6,7 @@ using Foundation;
 using UIKit;
 using ClientApp.Core;
 using Microsoft.Practices.Unity;
+using Xamarin;
 
 namespace ClientApp.iOS
 {
@@ -33,21 +34,40 @@ namespace ClientApp.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            SetNavbarStyle();
-
-            var tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
-            if (tokenStore.GetDeviceToken() == null)
+            try
             {
-                // User is not logged in - display the login view
-                // TODO: We could also proactively check their token expiry here
-                var rootController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateViewController("LoginView");
-                var navigationController = new UINavigationController(rootController) { NavigationBarHidden = true };
+                SetNavbarStyle();
 
-                this.Window.RootViewController = navigationController;
+                var tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
+                var token = tokenStore.GetDeviceToken();
+                if (tokenStore.GetDeviceToken() == null)
+                {
+                    // User is not logged in - display the login view
+                    // TODO: We could also proactively check their token expiry here
+                    var rootController =
+                        UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle)
+                            .InstantiateViewController("LoginView");
+                    var navigationController = new UINavigationController(rootController) {NavigationBarHidden = true};
+
+                    this.Window.RootViewController = navigationController;
+                }
+                else
+                {
+                    Insights.Identify(token.Username, new Dictionary<string, string>
+                    {
+                        {"Token Expires At", token.ExpiresAt},
+                        {"Token Expires In", token.ExpiresIn.ToString()},
+                        {"Token Issued At", token.IssuedAt}
+                    });
+
+                    this.Window.RootViewController =
+                        UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
+                }
             }
-            else
+            catch (Exception e)
             {
-                this.Window.RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
+                Insights.Report(e, ReportSeverity.Error);
+                return false;
             }
             return true;
         }
