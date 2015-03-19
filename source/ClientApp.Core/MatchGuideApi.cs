@@ -100,7 +100,7 @@ namespace ClientApp.Core
         {
             // Web API expects form url encoded payload with no key
             var payload = new FormUrlEncodedContent(new Dictionary<string, string> { { string.Empty, emailAddress } });
-            return this._client.PostUnauthenticated<ResetPasswordResult>(payload);
+            return this._client.Post<ResetPasswordResult>(payload, false);
         }
     }
 }

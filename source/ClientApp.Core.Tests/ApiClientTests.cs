@@ -191,7 +191,7 @@ namespace ClientApp.Core.Tests
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
             var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-            await _sut.Post(null, "MyTest");
+            await _sut.Post(null, true, "MyTest");
 
             _mockActivityManager.Verify(service => service.StartActivity(), Times.Once);
             _mockActivityManager.Verify(service => service.StopActivity(), Times.Once);
@@ -203,7 +203,7 @@ namespace ClientApp.Core.Tests
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
             var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-            await _sut.Post(new StringContent("mydata"), "MyDataTest");
+            await _sut.Post(new StringContent("mydata"), true, "MyDataTest");
         }
     }
 }

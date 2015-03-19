@@ -10,9 +10,8 @@ namespace ClientApp.Core
         Task Deauthenticate(string caller = null);
 
         Task<TResult> Get<TResult>(object parameters = null, string caller = null);
-        Task<TResult> GetUnauthenticated<TResult>(object parameters = null, string caller = null);
 
-        Task Post(object data, string caller = null);
-        Task<TResult> PostUnauthenticated<TResult>(object content, string caller = null);
+        Task Post(object data, bool authenticate = true, string caller = null);
+        Task<TResult> Post<TResult>(object content, bool authenticate = true, string caller = null);
     }
 }

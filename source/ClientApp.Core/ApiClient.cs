@@ -43,17 +43,13 @@ namespace ClientApp.Core
         {
             try
             {
-                var url = GetRelativeUriFromAction(caller, null);
-                var request = new HttpRequestMessage(HttpMethod.Post, url)
-                {
-                    Content = new FormUrlEncodedContent(new Dictionary<string, string> {
+                var content = new FormUrlEncodedContent(new Dictionary<string, string> {
                         { "username", WebUtility.HtmlEncode (username) },
                         { "password", WebUtility.HtmlEncode (password) },
                         { "grant_type", "password" }
-                    })
-                };
+                    });
 
-                var response = await this.ExecuteWithDefaultClient(request, false);
+                var response = await this.ExecuteWithDefaultClient(HttpMethod.Post, content, caller, false);
 
                 string json = null;
                 if (response.Content != null)
@@ -100,56 +96,28 @@ namespace ClientApp.Core
         public async Task Deauthenticate([CallerMemberName] string caller = null)
         {
             this._tokenStore.DeleteDeviceToken();
-            await this.Post(null, caller);
+            await this.Post(null, true, caller);
             this._token = null;
         }
 
-        public Task Post(object content, [CallerMemberName] string caller = null)
+        public Task Post(object content, bool authenticate = true, [CallerMemberName] string caller = null)
         {
-            var url = GetRelativeUriFromAction(caller, null);
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
-            if (content != null)
-            {
-                request.Content = content as HttpContent ?? 
-                    new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json");
-            }
-            return this.ExecuteWithDefaultClient(request);
+            return this.ExecuteWithDefaultClient(HttpMethod.Post, content, caller, authenticate);
         }
 
-        public Task<TResult> PostUnauthenticated<TResult>(object content, [CallerMemberName] string caller = null)
+        public Task<TResult> Post<TResult>(object content, bool authenticate = true, [CallerMemberName] string caller = null)
         {
-            return this.Post<TResult>(content, caller, false);
-        }
-
-        private Task<TResult> Post<TResult>(object content, string caller, bool authenticate)
-        {
-            var url = GetRelativeUriFromAction(caller, null);
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
-            if (content != null)
-            {
-                request.Content = content as HttpContent ??
-                    new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json");
-            }
-            return this.Execute<TResult>(request, authenticate);
+            return this.Execute<TResult>(HttpMethod.Post, content, caller, authenticate);
         }
 
         public Task<TResult> Get<TResult>(object parameters = null, [CallerMemberName] string caller = null)
         {
-            var url = GetRelativeUriFromAction(caller, parameters);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-            return this.Execute<TResult>(request);
+            return this.Execute<TResult>(HttpMethod.Get, parameters, caller);
         }
 
-        public Task<TResult> GetUnauthenticated<TResult>(object parameters = null, [CallerMemberName] string caller = null)
+        private async Task<TResult> Execute<TResult>(HttpMethod method, object content, string caller, bool authenticate = true)
         {
-            var url = GetRelativeUriFromAction(caller, parameters);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-            return this.Execute<TResult>(request, false);
-        }
-
-        private async Task<TResult> Execute<TResult>(HttpRequestMessage request, bool authenticate = true)
-        {
-            var response = await this.ExecuteWithDefaultClient(request, authenticate);
+            var response = await this.ExecuteWithDefaultClient(method, content, caller, authenticate);
             if (response != null && response.IsSuccessStatusCode)
             {
                 var jsonString = await response.Content.ReadAsStringAsync();
@@ -158,7 +126,7 @@ namespace ClientApp.Core
             return default(TResult);
         }
 
-        private async Task<HttpResponseMessage> ExecuteWithDefaultClient(HttpRequestMessage request, bool authenticate = true)
+        private async Task<HttpResponseMessage> ExecuteWithDefaultClient(HttpMethod method, object content, string caller, bool authenticate = true)
         {
             try
             {
@@ -177,9 +145,17 @@ namespace ClientApp.Core
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.AccessToken);
                 }
 
+                var url = GetRelativeUriFromAction(caller, method == HttpMethod.Get ? content : null);
+                var request = new HttpRequestMessage(method, url);
+                if (method == HttpMethod.Post && content != null)
+                {
+                    request.Content = content as HttpContent ??
+                        new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json");
+                }
+
                 var response = await httpClient.SendAsync(request);
 
-                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
+                var responseContent = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
 
                 if ((int)response.StatusCode >= 300)
                 {
@@ -196,11 +172,11 @@ namespace ClientApp.Core
                     case HttpStatusCode.Unauthorized:
                     case HttpStatusCode.Forbidden:
                         this._tokenStore.DeleteDeviceToken();
-                        var error = JsonConvert.DeserializeObject<ApiErrorResponse>(content);
+                        var error = JsonConvert.DeserializeObject<ApiErrorResponse>(responseContent);
                         this._errorSource.ReportError("TokenExpired", error.ErrorDescription, true);
                         return response;
                     case HttpStatusCode.InternalServerError:
-                        var serverError = JsonConvert.DeserializeObject<HttpError>(content);
+                        var serverError = JsonConvert.DeserializeObject<HttpError>(responseContent);
                         this._errorSource.ReportError(null, serverError.Message);
                         return response;
                     default:
