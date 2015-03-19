@@ -36,6 +36,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		ClientApp.iOS.BorderedButton SignUpButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField username { get; set; }
 
 		[Action ("login_TouchUpInside:")]
@@ -63,6 +67,10 @@ namespace ClientApp.iOS
 			if (password != null) {
 				password.Dispose ();
 				password = null;
+			}
+			if (SignUpButton != null) {
+				SignUpButton.Dispose ();
+				SignUpButton = null;
 			}
 			if (username != null) {
 				username.Dispose ();

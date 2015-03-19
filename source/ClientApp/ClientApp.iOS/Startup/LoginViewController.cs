@@ -228,6 +228,8 @@ namespace ClientApp.iOS
             password.Enabled = false;
             password.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
             login.Enabled = false;
+            ForgotPasswordButton.Enabled = false;
+            SignUpButton.Enabled = false;
             loginActivityIndicator.StartAnimating();
         }
 
@@ -238,6 +240,8 @@ namespace ClientApp.iOS
             password.Enabled = true;
             password.BackgroundColor = UIColor.White;
             login.Enabled = true;
+            ForgotPasswordButton.Enabled = true;
+            SignUpButton.Enabled = true;
             loginActivityIndicator.StopAnimating();
         }
     }
