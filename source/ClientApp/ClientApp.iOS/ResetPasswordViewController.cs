@@ -65,10 +65,8 @@ namespace ClientApp.iOS
                     UIAlertView responseAlertView = new UIAlertView(result, null, alertViewResponseDelegate, "Ok");
 
                     responseAlertView.Show();
+                    this.activityIndicator.StopAnimating();
                 });
-            }).ContinueWith(_ =>
-            {
-                this.activityIndicator.StopAnimating();
             });
         }
 
