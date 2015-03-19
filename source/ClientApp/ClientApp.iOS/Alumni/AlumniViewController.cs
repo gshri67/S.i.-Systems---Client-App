@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
-using ClientApp.iOS.Startup;
+using ClientApp.Core;
+using ClientApp.Core.ViewModels;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
-using UIKit;
-using ClientApp.Core.ViewModels;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using SiSystems.ClientApp.SharedModels;
-using ClientApp.Core;
+using UIKit;
 
 namespace ClientApp.iOS
 {
@@ -133,11 +131,38 @@ namespace ClientApp.iOS
 	        return timer;
 	    }
 
+        private async void CheckEulaService()
+        {
+            if (EulaHandler.Eula != null)
+            {
+                //we've already checked the Eula, don't ask the server again
+                return;
+            }
+
+            EulaHandler.Eula = await _alumniModel.GetCurrentEulaAsync();
+            if (EulaHandler.Eula == null)
+            {
+                // Something went wrong
+                // Could mean an exception was handled in an unexpected way
+                return;
+            }
+
+            var storageString = NSUserDefaults.StandardUserDefaults.StringForKey("eulaVersions");
+            var hasReadEula = EulaHandler.UserHasReadLatestEula(CurrentUser.Email, EulaHandler.Eula.Version, storageString);
+
+            if (!hasReadEula)
+            {
+                PerformSegue("eulaSegue", this);
+            }
+        }
+
 	    #region View lifecycle
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            CheckEulaService();
 
             CreateNavBarRightButton();
 
@@ -231,7 +256,10 @@ namespace ClientApp.iOS
 
             }
 
-            UpdateTableSource(_lastAlumniResults);
+            if (_tableSelector.SelectedSegment == AlumniSelected)
+            {
+                UpdateTableSource(_lastAlumniResults);                
+            }
 	    }
 
         private async void LoadActiveConsultantGroups()
@@ -244,7 +272,10 @@ namespace ClientApp.iOS
                                    Enumerable.Empty<ConsultantGroup>();
             }
 
-            UpdateTableSource(_lastActiveResults);
+            if (_tableSelector.SelectedSegment != AlumniSelected)
+            {
+                UpdateTableSource(_lastActiveResults);
+            }
         }
 
         private void UpdateTableSource(IEnumerable<ConsultantGroup> consultantGroups)
@@ -285,6 +316,13 @@ namespace ClientApp.iOS
         {
             base.PrepareForSegue(segue, sender);
             
+            if (segue.Identifier == "eulaSegue")
+            {
+                var view = (EulaViewController)segue.DestinationViewController;
+                view.CurrentEula = EulaHandler.Eula;
+                view.UserName = CurrentUser.Email;
+                view.EulaModel = new EulaViewModel(EulaHandler.EulaVersions);
+            }
             if (segue.Identifier == DisciplineSegueIdentifier)
             {
                 var navCtrl = segue.DestinationViewController as DisciplineViewController;

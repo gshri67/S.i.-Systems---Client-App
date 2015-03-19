@@ -58,6 +58,7 @@
     <Compile Include="ApiClient.cs" />
     <Compile Include="ApiErrorResponse.cs" />
     <Compile Include="CurrentUser.cs" />
+    <Compile Include="EulaHandler.cs" />
     <Compile Include="HttpError.cs" />
     <Compile Include="IErrorReporter.cs" />
     <Compile Include="ErrorSource.cs" />

@@ -14,7 +14,6 @@ namespace ClientApp.iOS
     {
         private readonly LoginViewModel _loginModel;
         private readonly ITokenStore _tokenStore;
-        private Eula _eula;
         private CGRect _defaultFrame;
         static bool UserInterfaceIdiomIsPhone
         {
@@ -162,8 +161,8 @@ namespace ClientApp.iOS
 
         private async void CheckEulaService(string userName)
         {
-                _eula = await _loginModel.GetCurrentEulaAsync();
-            if (_eula == null)
+                EulaHandler.Eula = await _loginModel.GetCurrentEulaAsync();
+                if (EulaHandler.Eula == null)
             {
                 // Something went wrong
                 // Could mean an exception was handled in an unexpected way
@@ -173,7 +172,7 @@ namespace ClientApp.iOS
             }
 
             var storageString = NSUserDefaults.StandardUserDefaults.StringForKey("eulaVersions");
-            var hasReadEula = _loginModel.UserHasReadLatestEula(userName, _eula.Version, storageString);
+            var hasReadEula = EulaHandler.UserHasReadLatestEula(userName, EulaHandler.Eula.Version, storageString);
 
             if (hasReadEula)
             {
@@ -192,9 +191,9 @@ namespace ClientApp.iOS
             if (segue.Identifier == "eulaSegue")
             {
                 var view = (EulaViewController)segue.DestinationViewController;
-                view.CurrentEula = _eula;
+                view.CurrentEula = EulaHandler.Eula;
                 view.UserName = username.Text;
-                view.EulaModel = new EulaViewModel(_loginModel.EulaVersions);
+                view.EulaModel = new EulaViewModel(EulaHandler.EulaVersions);
             }
             else if (segue.Identifier == "forgotPasswordSegue")
             {

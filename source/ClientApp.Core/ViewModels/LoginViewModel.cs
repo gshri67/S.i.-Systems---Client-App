@@ -10,7 +10,6 @@ namespace ClientApp.Core.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         private readonly IMatchGuideApi _api;
-        public Dictionary<string, int> EulaVersions { get; private set; }
         public string UserName { get; set; }
 
         public LoginViewModel(IMatchGuideApi api)
@@ -54,34 +53,6 @@ namespace ClientApp.Core.ViewModels
         public async Task<Eula> GetCurrentEulaAsync()
         {
             return await _api.GetMostRecentEula();
-        }
-
-        public bool UserHasReadLatestEula(string username, int version, string storageString)
-        {
-            try
-            {
-                EulaVersions = JsonConvert.DeserializeObject<Dictionary<string, int>>(storageString);
-            }
-            catch (Exception)
-            {
-                //TODO log error
-                EulaVersions = new Dictionary<string, int>();
-                return false;
-            }
-
-            if (EulaVersions.ContainsKey(username))
-            {
-                if (EulaVersions[username] == version)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public Task<ClientAccountDetails> GetClientDetailsAsync()
-        {
-            return _api.GetClientDetails();
         }
     }
 }

@@ -289,6 +289,7 @@
                         <outlet property="AlumniView" destination="1164" id="name-outlet-1164"/>
                         <outlet property="SpecializationTable" destination="3439" id="name-outlet-3439"/>
                         <segue destination="3749" kind="push" identifier="DisciplineSelected" id="3805"/>
+                        <segue id="8205" destination="31" kind="modal" identifier="eulaSegue"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1165" userLabel="First Responder" sceneMemberID="firstResponder"/>

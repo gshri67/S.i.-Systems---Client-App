@@ -32,5 +32,10 @@ namespace ClientApp.Core.ViewModels
         {
             return _api.GetClientDetails();
         }
+
+        public async Task<Eula> GetCurrentEulaAsync()
+        {
+            return await _api.GetMostRecentEula();
+        }
     }
 }
