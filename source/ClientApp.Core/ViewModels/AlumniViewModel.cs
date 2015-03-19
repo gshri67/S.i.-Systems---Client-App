@@ -23,9 +23,9 @@ namespace ClientApp.Core.ViewModels
             return _api.GetActiveConsultantGroups(query);
         }
 
-        public async Task Logout()
+        public Task Logout()
         {
-            await _api.Logout();
+            return _api.Logout();
         }
         
         public Task<ClientAccountDetails> GetClientDetailsAsync()

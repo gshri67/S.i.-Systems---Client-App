@@ -360,9 +360,9 @@ namespace ClientApp.iOS
             }
         }
 
-        private async void LogoutDelegate(UIAlertAction action)
+        private void LogoutDelegate(UIAlertAction action)
         {
-            await _alumniModel.Logout();
+            _alumniModel.Logout();
             var rootController =
                 UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle)
                     .InstantiateViewController("LoginView");
