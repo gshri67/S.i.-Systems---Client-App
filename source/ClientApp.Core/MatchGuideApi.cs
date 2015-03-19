@@ -8,96 +8,94 @@ using Newtonsoft.Json;
 
 namespace ClientApp.Core
 {
+    [Api(Settings.MatchGuideApiAddress)]
     public interface IMatchGuideApi
     {
+        [HttpPost("login")]
         Task<ValidationResult> Login(string username, string password);
 
+        [HttpPost("logout")]
         Task Logout();
 
+        [HttpGet("consultants/{id}")]
         Task<Consultant> GetConsultant(int id);
 
+        [HttpGet("consultants/alumni")]
         Task<IEnumerable<ConsultantGroup>> GetAlumniConsultantGroups(string query);
-        
+
+        [HttpGet("consultants/active")]
         Task<IEnumerable<ConsultantGroup>> GetActiveConsultantGroups(string query);
 
+        [HttpPost("contractproposal")]
         Task Submit(ContractProposal proposal);
 
+        [HttpPost("consultantmessages")]
         Task SendMessage(ConsultantMessage message);
 
+        [HttpGet("eula")]
         Task<Eula> GetMostRecentEula();
 
+        [HttpGet("clientdetails")]
         Task<ClientAccountDetails> GetClientDetails();
 
+        [HttpPost("forgotpassword")]
         Task<ResetPasswordResult> ResetPassword(string emailAddress);
     }
 
-    [Api(Settings.MatchGuideApiAddress)]
     public class MatchGuideApi : IMatchGuideApi
     {
-        private readonly ApiClient<MatchGuideApi> _client;
+        private readonly ApiClient<IMatchGuideApi> _client;
 
-        public MatchGuideApi(ApiClient<MatchGuideApi> client)
+        public MatchGuideApi(ApiClient<IMatchGuideApi> client)
         {
             this._client = client;
         }
 
-        [HttpPost("login")]
         public async Task<ValidationResult> Login(string username, string password)
         {
             return await this._client.Authenticate(username, password);
         }
 
-        [HttpPost("logout")]
         public async Task Logout()
         {
             await this._client.Deauthenticate();
         }
 
-        [HttpGet("consultants/{id}")]
         public async Task<Consultant> GetConsultant(int id)
         {
             return await this._client.Get<Consultant>(new { id });
         }
 
-        [HttpGet("consultants/alumni")]
         public async Task<IEnumerable<ConsultantGroup>> GetAlumniConsultantGroups(string query)
         {
             return await this._client.Get<ConsultantGroup[]>(new { query });
         }
 
-        [HttpGet("consultants/active")]
         public async Task<IEnumerable<ConsultantGroup>> GetActiveConsultantGroups(string query)
         {
             return await this._client.Get<ConsultantGroup[]>(new { query });
         }
 
-        [HttpGet("eula")]
         public async Task<Eula> GetMostRecentEula()
         {
             return await this._client.Get<Eula>();
         }
 
-        [HttpPost("contractproposal")]
         public Task Submit(ContractProposal proposal)
         {
-            HttpContent content = new StringContent(JsonConvert.SerializeObject(proposal), System.Text.Encoding.UTF8, "application/json");
-            return this._client.Post(content);
+            return this._client.Post(proposal);
         }
 
-        [HttpPost("consultantmessages")]
         public Task SendMessage(ConsultantMessage message)
         {
-            HttpContent content = new StringContent(JsonConvert.SerializeObject(message), System.Text.Encoding.UTF8, "application/json");
-            return this._client.Post(content);
+            return this._client.Post(message);
         }
 
-        [HttpGet("clientdetails")]
         public Task<ClientAccountDetails> GetClientDetails()
         {
             return this._client.Get<ClientAccountDetails>();
         }
 
-        [HttpPost("forgotpassword")]
         public Task<ResetPasswordResult> ResetPassword(string emailAddress)
         {
             // Web API expects form url encoded payload with no key

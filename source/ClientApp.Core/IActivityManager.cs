@@ -7,10 +7,6 @@ namespace ClientApp.Core
     {
         void StartActivity();
 
-        Guid StartActivity(CancellationToken cancellationToken);
-
         void StopActivity();
-
-        void StopActivity(Guid activityId);
     }
 }

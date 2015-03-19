@@ -131,10 +131,9 @@ namespace ClientApp.Core.Tests
             _mockTokenSource.Setup(service => service.SaveToken(It.Is<OAuthToken>(token => token.Username == username)));
 
             var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-            var result = await _sut.Authenticate(username, password, "LoginFailure");
+            var result = await _sut.Authenticate(username, password, "FailedLogin");
 
             _mockTokenSource.Verify(service => service.SaveToken(It.IsAny<OAuthToken>()), Times.Never);
-            _mockErrorSource.Verify(service => service.ReportError(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
         }
 
         [Test]
@@ -143,14 +142,11 @@ namespace ClientApp.Core.Tests
             const string username = "email@example.com";
             const string password = "password";
 
-            var activityGuid = new Guid("e8bf96ca-7a63-4b7c-970c-2a24e200ab68");
-            _mockActivityManager.Setup(service => service.StartActivity(It.IsAny<CancellationToken>())).Returns(activityGuid);
-
             var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = await _sut.Authenticate(username, password, "Login");
 
-            _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Once);
-            _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Once);
+            _mockActivityManager.Verify(service => service.StartActivity(), Times.Once);
+            _mockActivityManager.Verify(service => service.StopActivity(), Times.Once);
         }
 
         [Test]
@@ -159,55 +155,46 @@ namespace ClientApp.Core.Tests
             const string username = "email@example.com";
             const string password = "password";
 
-            var activityGuid = new Guid("e8bf96ca-7a63-4b7c-970c-2a24e200ab68");
-            _mockActivityManager.Setup(service => service.StartActivity(It.IsAny<CancellationToken>())).Returns(activityGuid);
-
             var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = await _sut.Authenticate(username, password, "FailedLogin");
 
-            _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Once);
-            _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Once);
+            _mockActivityManager.Verify(service => service.StartActivity(), Times.Once);
+            _mockActivityManager.Verify(service => service.StopActivity(), Times.Once);
         }
 
         [Test]
         public async void Get_ShouldStartAndStopActivity_WhenSuccess()
         {
-            var activityGuid = new Guid("e8bf96ca-7a63-4b7c-970c-2a24e200ab68");
-            _mockActivityManager.Setup(service => service.StartActivity(It.IsAny<CancellationToken>())).Returns(activityGuid);
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
             var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = await _sut.Get<MyTestType>(null, "GetMyTestType");
 
-            _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Once);
-            _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Once);
+            _mockActivityManager.Verify(service => service.StartActivity(), Times.Once);
+            _mockActivityManager.Verify(service => service.StopActivity(), Times.Once);
         }
 
         [Test]
         public async void Get_ShouldDisplayAndBroadcastError_IfNoToken()
         {
-            var activityGuid = new Guid("e8bf96ca-7a63-4b7c-970c-2a24e200ab68");
-            _mockActivityManager.Setup(service => service.StartActivity(It.IsAny<CancellationToken>())).Returns(activityGuid);
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns((OAuthToken)null);
 
             var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = await _sut.Get<MyTestType>(null, "GetMyTestType");
 
-            _mockErrorSource.Verify(e => e.ReportError("TokenExpired", "Token has expired.", true), Times.Once);
+            _mockErrorSource.Verify(e => e.ReportError("TokenExpired", null, false), Times.Once);
         }
 
         [Test]
         public async void Post_ShouldStartAndStopActivity_WhenSuccess()
         {
-            var activityGuid = new Guid("e8bf96ca-7a63-4b7c-970c-2a24e200ab68");
-            _mockActivityManager.Setup(service => service.StartActivity(It.IsAny<CancellationToken>())).Returns(activityGuid);
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
             var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.Post(null, "MyTest");
 
-            _mockActivityManager.Verify(service => service.StartActivity(It.IsAny<CancellationToken>()), Times.Once);
-            _mockActivityManager.Verify(service => service.StopActivity(It.Is<Guid>(t => t == activityGuid)), Times.Once);
+            _mockActivityManager.Verify(service => service.StartActivity(), Times.Once);
+            _mockActivityManager.Verify(service => service.StopActivity(), Times.Once);
         }
 
         [Test]

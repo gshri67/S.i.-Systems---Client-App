@@ -41,9 +41,10 @@ namespace ClientApp.Core
 
         public async Task<ValidationResult> Authenticate(string username, string password, [CallerMemberName] string caller = null)
         {
-            var response = await this.ExecuteWithDefaultClient(async httpClient =>
+            try
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, GetRelativeUriFromAction(caller, null))
+                var url = GetRelativeUriFromAction(caller, null);
+                var request = new HttpRequestMessage(HttpMethod.Post, url)
                 {
                     Content = new FormUrlEncodedContent(new Dictionary<string, string> {
                         { "username", WebUtility.HtmlEncode (username) },
@@ -52,10 +53,8 @@ namespace ClientApp.Core
                     })
                 };
 
-                return await httpClient.SendAsync(request);
-            });
-            try
-            {
+                var response = await this.ExecuteWithDefaultClient(request, false);
+
                 string json = null;
                 if (response.Content != null)
                 {
@@ -74,7 +73,6 @@ namespace ClientApp.Core
                         { "Token Issued At", token.IssuedAt }
                     });
                     Insights.Track(TrackId.LoginSuccess, Insights.Traits.Email, username);
-
                     return new ValidationResult { IsValid = true };
                 }
 
@@ -102,35 +100,56 @@ namespace ClientApp.Core
         public async Task Deauthenticate([CallerMemberName] string caller = null)
         {
             this._tokenStore.DeleteDeviceToken();
-            await this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), null));
+            await this.Post(null, caller);
             this._token = null;
         }
 
-        public Task Post(HttpContent content, [CallerMemberName] string caller = null)
+        public Task Post(object content, [CallerMemberName] string caller = null)
         {
-            return this.ExecuteWithAuthenticatedClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), content));
-        }
-
-        public async Task<TResult> PostUnauthenticated<TResult>(HttpContent content, [CallerMemberName] string caller = null)
-        {
-            var response = await this.ExecuteWithDefaultClient(async httpClient => await httpClient.PostAsync(GetRelativeUriFromAction(caller, null), content));
-
-            if (response != null && response.Content != null)
+            var url = GetRelativeUriFromAction(caller, null);
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            if (content != null)
             {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TResult>(jsonString);
+                request.Content = content as HttpContent ?? 
+                    new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json");
             }
-            return default(TResult);
+            return this.ExecuteWithDefaultClient(request);
         }
 
-        public async Task<TResult> Get<TResult>([CallerMemberName] string caller = null)
+        public Task<TResult> PostUnauthenticated<TResult>(object content, [CallerMemberName] string caller = null)
         {
-            return await Get<TResult>(null, caller);
+            return this.Post<TResult>(content, caller, false);
         }
 
-        public async Task<TResult> Get<TResult>(object parameters, [CallerMemberName] string caller = null)
+        private Task<TResult> Post<TResult>(object content, string caller, bool authenticate)
         {
-            var response = await ExecuteWithAuthenticatedClient(async httpClient => await httpClient.GetAsync(GetRelativeUriFromAction(caller, parameters), HttpCompletionOption.ResponseHeadersRead));
+            var url = GetRelativeUriFromAction(caller, null);
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            if (content != null)
+            {
+                request.Content = content as HttpContent ??
+                    new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json");
+            }
+            return this.Execute<TResult>(request, authenticate);
+        }
+
+        public Task<TResult> Get<TResult>(object parameters = null, [CallerMemberName] string caller = null)
+        {
+            var url = GetRelativeUriFromAction(caller, parameters);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            return this.Execute<TResult>(request);
+        }
+
+        public Task<TResult> GetUnauthenticated<TResult>(object parameters = null, [CallerMemberName] string caller = null)
+        {
+            var url = GetRelativeUriFromAction(caller, parameters);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            return this.Execute<TResult>(request, false);
+        }
+
+        private async Task<TResult> Execute<TResult>(HttpRequestMessage request, bool authenticate = true)
+        {
+            var response = await this.ExecuteWithDefaultClient(request, authenticate);
             if (response != null && response.IsSuccessStatusCode)
             {
                 var jsonString = await response.Content.ReadAsStringAsync();
@@ -139,17 +158,38 @@ namespace ClientApp.Core
             return default(TResult);
         }
 
-        private async Task<HttpResponseMessage> ExecuteWithDefaultClient(Func<HttpClient, Task<HttpResponseMessage>> action)
+        private async Task<HttpResponseMessage> ExecuteWithDefaultClient(HttpRequestMessage request, bool authenticate = true)
         {
-            var activityId = this._activityManager.StartActivity(CancellationToken.None);
-
             try
             {
+                this._activityManager.StartActivity();
+
                 var httpClient = new HttpClient(this._handler) { BaseAddress = this.BaseAddress };
 
-                var response = await action(httpClient);
+                if (authenticate)
+                {
+                    if (this._token == null)
+                    {
+                        this._errorSource.ReportError("TokenExpired", null);
+                        return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                    }
+
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.AccessToken);
+                }
+
+                var response = await httpClient.SendAsync(request);
 
                 var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
+
+                if ((int)response.StatusCode >= 300)
+                {
+                    Insights.Track("UnexpectedStatusCode", new Dictionary<string, string>
+                    {
+                        {"Status Code", response.StatusCode.ToString()},
+                        {"Request URL", request.RequestUri.ToString()},
+                        {"Request Method", request.Method.Method}
+                    });
+                }
 
                 switch (response.StatusCode)
                 {
@@ -174,24 +214,8 @@ namespace ClientApp.Core
             }
             finally
             {
-                this._activityManager.StopActivity(activityId);
+                this._activityManager.StopActivity();
             }
-        }
-
-        private async Task<HttpResponseMessage> ExecuteWithAuthenticatedClient(Func<HttpClient, Task<HttpResponseMessage>> action)
-        {
-            return await this.ExecuteWithDefaultClient(async httpClient =>
-            {
-                if (this._token == null)
-                {
-                    return new HttpResponseMessage(HttpStatusCode.Unauthorized)
-                    {
-                        Content = new StringContent("{\"error\":\"no_token\",\"error_description\":\"Token has expired.\"}")
-                    };
-                }
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.AccessToken);
-                return await action(httpClient);
-            });
         }
 
         private Uri GetRelativeUriFromAction(string source, object values)

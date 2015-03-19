@@ -14,7 +14,10 @@ namespace ClientApp.Core.Tests
         [SetUp]
         public void RunBeforeAnyTest()
         {
-            Insights.Initialize(Insights.DebugModeKey, "1.0", "ClientApp.Core.Test");
+            if (!Insights.IsInitialized)
+            {
+                Insights.Initialize(Insights.DebugModeKey, "1.0", "ClientApp.Core.Test");
+            }
         }
     }
 }

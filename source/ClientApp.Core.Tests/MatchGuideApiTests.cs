@@ -59,7 +59,7 @@ namespace ClientApp.Core.Tests
         {
             var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
 
-            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+            var apiClient = new ApiClient<IMatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var _sut = new MatchGuideApi(apiClient);
             var result = await _sut.Login("email@example.com", "password");
 
@@ -73,7 +73,7 @@ namespace ClientApp.Core.Tests
             var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
 
-            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+            var apiClient = new ApiClient<IMatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var _sut = new MatchGuideApi(apiClient);
             await _sut.Logout();
 
@@ -87,7 +87,7 @@ namespace ClientApp.Core.Tests
 
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
 
-            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+            var apiClient = new ApiClient<IMatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var _sut = new MatchGuideApi(apiClient);
             var result = _sut.GetConsultant(1).Result;
 
@@ -102,7 +102,7 @@ namespace ClientApp.Core.Tests
 
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
 
-            var apiClient = new ApiClient<MatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+            var apiClient = new ApiClient<IMatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var _sut = new MatchGuideApi(apiClient);
             var result = _sut.GetAlumniConsultantGroups(string.Empty).Result;
 
