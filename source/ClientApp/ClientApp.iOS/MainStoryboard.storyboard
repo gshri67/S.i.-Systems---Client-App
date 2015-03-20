@@ -1685,7 +1685,7 @@
         <image name="app-button.png" width="40" height="22"/>
         <image name="button-green.png" width="11" height="11"/>
         <image name="goldstar.png" width="14" height="14"/>
-        <image name="icon-mail.png" width="31" height="20"/>
+        <image name="icon-mail.png" width="30" height="20"/>
         <image name="Si-app-icon-120.png" width="120" height="120"/>
         <image name="Si-app-icon-152.png" width="152" height="152"/>
         <image name="Si-app-icon-180.png" width="180" height="180"/>
