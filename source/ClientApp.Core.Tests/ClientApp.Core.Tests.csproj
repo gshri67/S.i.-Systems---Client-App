@@ -71,6 +71,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ApiClientTests.cs" />
+    <Compile Include="JsonBackedHttpHandler.cs" />
     <Compile Include="MatchGuideApiTests.cs" />
     <Compile Include="MatchGuideConstantsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="MatchGuideApiDataSource.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
