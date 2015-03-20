@@ -2,7 +2,6 @@
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,8 +45,6 @@ namespace ClientApp.Core.Tests
 
         class FakeHttpHandler : DelegatingHandler
         {
-            public static HttpStatusCode StatusCode = HttpStatusCode.OK;
-
             protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
             {
                 HttpResponseMessage response;
@@ -55,23 +52,23 @@ namespace ClientApp.Core.Tests
                 {
                     case "/api/login":
                         const string jsonToken = "{\"access_token\": \"V9QKCstvkJ3XNmhn3iNwPnMQe7ecMacJFlBwA5ncSMPSE_E08eynYAUBSsMo4EmCzBsivAO3H3aeKTDXAibW2IQQmxAbl2m8IQgS2RWq4gzIIxm9sZGdCgt8KhFuuhCYkmGJzx5aQPggimpLs1E8PXrY82vA9ht9GWbaoQwE54RLwKQ9cBMWLsWsEyxB7LVI5DkoHmlDYHkBwvEAbowk3bHIYxEb0A_cTcEuvUeuGjKq4VW82I6UApPApYj2WEy2w-a8X9ybTVuswZ_w0JeRUVqMApiL9MwIY17JQuOpmyXL_yAMWACE4AKhl5GG1XRwG9d94BMpawkFi37dKQ_dREgOXX6pHR9Ohlh_HSxzyS8ALmeLfyra9H-dHE552Be_NOxlVg\",\"token_type\": \"bearer\", \"expires_in\": 1209599,\"userName\": \"email@example.com\",\r\n    \".issued\": \"Tue, 03 Mar 2015 23:10:16 GMT\", \".expires\": \"Tue, 17 Mar 2015 23:10:16 GMT\"}";
-                        response = new HttpResponseMessage(StatusCode) { Content = new StringContent(jsonToken) };
+                        response = new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new StringContent(jsonToken) };
                         break;
                     case "/api/failedlogin":
                         const string errorResponseJson = "{\"error\":\"invalid_grant\",\"error_description\":\"The user name or password is incorrect.\"}";
-                        response = new HttpResponseMessage(StatusCode) { Content = new StringContent(errorResponseJson) };
+                        response = new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest) { Content = new StringContent(errorResponseJson) };
                         break;
                     case "/api/mytesttype":
                         const string json = "{\"description\":\"My Test Type\"}";
-                        response = new HttpResponseMessage(StatusCode) { Content = new StringContent(json) };
+                        response = new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new StringContent(json) };
                         break;
                     case "/api/mytest":
-                        response = new HttpResponseMessage(StatusCode);
+                        response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
                         break;
                     case "/api/mystringcontenttest":
                         var data = request.Content.ReadAsStringAsync().Result;
                         Assert.AreEqual("mydata", data);
-                        response = new HttpResponseMessage(StatusCode) { Content = new StringContent(data) };
+                        response = new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = new StringContent(data) };
                         break;
                     default:
                         throw new NotImplementedException("There is no fake data for this request");
@@ -83,7 +80,6 @@ namespace ClientApp.Core.Tests
         [SetUp]
         public void SetUp()
         {
-            FakeHttpHandler.StatusCode = HttpStatusCode.OK;
             _mockTokenSource = new Mock<ITokenStore>();
             _mockActivityManager = new Mock<IActivityManager>();
             _mockHttpHandlerHelper = new Mock<IHttpMessageHandlerFactory>();
@@ -133,7 +129,6 @@ namespace ClientApp.Core.Tests
             const string password = "password";
 
             _mockTokenSource.Setup(service => service.SaveToken(It.Is<OAuthToken>(token => token.Username == username)));
-            FakeHttpHandler.StatusCode = HttpStatusCode.BadRequest;
 
             var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = await _sut.Authenticate(username, password, "FailedLogin");
@@ -209,42 +204,6 @@ namespace ClientApp.Core.Tests
 
             var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.Post(new StringContent("mydata"), true, "MyDataTest");
-        }
-
-        [Test]
-        public async void Get_ShouldDeleteToken_HttpUnauthorized()
-        {
-            FakeHttpHandler.StatusCode = HttpStatusCode.Unauthorized;
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
-
-            var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-            var result = await _sut.Get<MyTestType>(null, "GetMyTestType");
-
-            _mockErrorSource.Verify(e => e.ReportError("TokenExpired", null, true), Times.Once);
-        }
-
-        [Test]
-        public async void Get_ShouldDeleteToken_HttpForbidden()
-        {
-            FakeHttpHandler.StatusCode = HttpStatusCode.Forbidden;
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
-
-            var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-            var result = await _sut.Get<MyTestType>(null, "GetMyTestType");
-
-            _mockErrorSource.Verify(e => e.ReportError("TokenExpired", null, true), Times.Once);
-        }
-
-        [Test]
-        public async void Get_ShouldDisplayError_OnServerError()
-        {
-            FakeHttpHandler.StatusCode = HttpStatusCode.InternalServerError;
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
-
-            var _sut = new ApiClient<IMockApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-            var result = await _sut.Get<MyTestType>(null, "GetMyTestType");
-
-            _mockErrorSource.Verify(e => e.ReportError(null, null, false), Times.Once);
         }
     }
 }
