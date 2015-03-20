@@ -162,6 +162,7 @@ namespace ClientApp.iOS
 	    private void SetupDatePicker(UIDatePicker picker, UILabel label, DateTime setDate, bool isStartDate)
 	    {
             label.Text = setDate.ToString("MMM dd, yyyy");
+            picker.TimeZone = new NSTimeZone("UTC");
             picker.SetDate(DateTimeToNSDate(setDate), false);
             picker.MinimumDate = DateTimeToNSDate(DateTime.Now.Date.AddDays(1));
             picker.ValueChanged += (sender, args) =>
@@ -335,8 +336,8 @@ namespace ClientApp.iOS
         #region Data Helpers
         private static DateTime NSDateToDateTime(NSDate date)
         {
-            DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(2001, 1, 1, 0, 0, 0));
-            return reference.AddSeconds(date.SecondsSinceReferenceDate);
+            DateTime reference = new DateTime(2001, 1, 1, 0, 0, 0);
+            return reference.AddSeconds(date.SecondsSinceReferenceDate).Date;
         }
 
         private static NSDate DateTimeToNSDate(DateTime date)
