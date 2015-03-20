@@ -62,8 +62,8 @@ namespace ClientApp.iOS
 	        NavigationItem.SetRightBarButtonItem(contactButton, false);
 
             OnboardButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
-            OnboardButton.BackgroundColor = StyleGuideConstants.RedUiColor;
-	        OnboardButton.TouchUpInside += (sender, args) =>
+            OnboardButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+            OnboardButton.TouchUpInside += (sender, args) =>
 	        {
 	            PerformSegue("OnboardSelected", OnboardButton);
 	        };

@@ -32,7 +32,7 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton OnboardButton { get; set; }
+		ClientApp.iOS.BorderedButton OnboardButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
