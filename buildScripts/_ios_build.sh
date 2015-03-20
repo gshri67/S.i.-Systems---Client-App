@@ -20,7 +20,7 @@ function CreateBuild {
 	done
 
 	mono ./source/.nuget/nuget.exe restore ./source/SiSystems.ClientApp.sln
-	/Applications/Xamarin\ Studio.app/Contents/MacOS/mdtool -v build "--configuration:${1}|iPhone" ./source/SiSystems.ClientApp.sln
+	/Applications/Xamarin\ Studio.app/Contents/MacOS/mdtool -v build "--configuration:${2}|iPhone" ./source/SiSystems.ClientApp.sln
 
 	find ./source -path "*/${1}/*" -name "*.ipa" | while read package; do
 		short_name=${package//*\///}
