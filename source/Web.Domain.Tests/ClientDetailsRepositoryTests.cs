@@ -26,12 +26,6 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         }
 
         [Test]
-        public void ShouldNotBeUsingConfiguredCompaniesOnceDatabaseIsReady()
-        {
-            Assert.IsTrue(DateTime.Today < ExpiryDate, "User repository is still using the company list from configuration. It should be removed by now.");
-        }
-
-        [Test]
         public void GetClientDetails_WhenInvalidId_ShouldGetEmptyDetails()
         {
             var emptyClientDetails = new ClientAccountDetails();
