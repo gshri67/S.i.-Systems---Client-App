@@ -203,6 +203,7 @@
     <Compile Include="ResetPasswordViewController.designer.cs">
       <DependentUpon>ResetPasswordViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Startup\EulaViewController.cs" />
     <Compile Include="Startup\EulaViewController.designer.cs">
       <DependentUpon>EulaViewController.cs</DependentUpon>
