@@ -1,5 +1,4 @@
 #!/bin/bash
-#NOTE: INSIGHTS_API_KEY_* and SI_SIGN_KEY are set up in the 'Client App - iOS App Jenkins' Configuration
 
 resultsDir=./buildResult
 
@@ -16,24 +15,23 @@ mkdir $resultsDir
 
 function CreateBuild {
 	find ./source -name 'Info.plist' | while read plist; do
-		/usr/libexec/PlistBuddy -c "Set :CFBundleVersion '${version}.${build_number}${3+.$3}'" $plist
+		/usr/libexec/PlistBuddy -c "Set :CFBundleVersion '${version}.${build_number}${2+.$2}'" $plist
 		/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString '${version}'" $plist
-		/usr/libexec/PlistBuddy -c "Set :SIAlumniXamarinInsightsAPIKey '${1}'" $plist
 	done
 
 	mono ./source/.nuget/nuget.exe restore ./source/SiSystems.ClientApp.sln
 	/Applications/Xamarin\ Studio.app/Contents/MacOS/mdtool -v build "--configuration:${1}|iPhone" ./source/SiSystems.ClientApp.sln
 
-	find ./source -path "*/${2}/*" -name "*.ipa" | while read package; do
+	find ./source -path "*/${1}/*" -name "*.ipa" | while read package; do
 		short_name=${package//*\///}
-		short_name=${short_name/%.ipa/-$2.ipa}
+		short_name=${short_name/%.ipa/-$1.ipa}
 
 		echo "Archiving ${package} to ${resultsDir}/${short_name}"
 		cp $package $resultsDir/$short_name
 	done
 }
 
-CreateBuild $INSIGHTS_API_KEY_TEST "Test" 0
-CreateBuild $INSIGHTS_API_KEY_RELEASE "Release"
+CreateBuild "Test" 0
+CreateBuild "Release"
 
 security default-keychain -s login.keychain
