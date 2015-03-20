@@ -24,7 +24,7 @@ namespace ClientApp.iOS
                     Insights.PurgePendingCrashReports().Wait();
                 }
             };
-            Insights.Initialize("c90a0adc1e1f70a66eef10b90869a1617266fb61");
+            Insights.Initialize(Settings.InsightsApiKey);
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
             UIApplication.Main(args, null, "AppDelegate");
