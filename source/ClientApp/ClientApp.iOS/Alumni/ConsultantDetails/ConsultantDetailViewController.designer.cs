@@ -16,6 +16,10 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		ClientApp.iOS.BorderedButton ContactButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel ContractsLabel { get; set; }
 
 		[Outlet]
@@ -60,6 +64,10 @@ namespace ClientApp.iOS
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (ContactButton != null) {
+				ContactButton.Dispose ();
+				ContactButton = null;
+			}
 			if (ContractsLabel != null) {
 				ContractsLabel.Dispose ();
 				ContractsLabel = null;

@@ -42,27 +42,25 @@ namespace ClientApp.iOS
                 View.Add(_overlay);
 	        }
 
-	        var contactButton = new UIBarButtonItem
-	                            {
-	                                Image = UIImage.FromBundle("icon-mail"),
-	                                TintColor = StyleGuideConstants.RedUiColor
-	                            };
-            contactButton.Clicked += (sender, args) =>
-	                                 {
-	                                     if (_detailViewModel.IsActiveConsultant)
-	                                     {
-	                                         _emailText = string.Empty;
-	                                         PerformSegue("ContactSelected", contactButton);
-	                                     }
-	                                     else
-	                                     {
-	                                         PopUpCannedMessageView();
-	                                     }
-	                                 };
-	        NavigationItem.SetRightBarButtonItem(contactButton, false);
+            ContactButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
+            ContactButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+            ContactButton.SetTitleColor(StyleGuideConstants.LightGrayUiColor, UIControlState.Highlighted);
+            ContactButton.TouchUpInside += (sender, args) =>
+            {
+                if (_detailViewModel.IsActiveConsultant)
+                {
+                    _emailText = string.Empty;
+                    PerformSegue("ContactSelected", ContactButton);
+                }
+                else
+                {
+                    PopUpCannedMessageView();
+                }
+            };
 
             OnboardButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
             OnboardButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+            OnboardButton.SetTitleColor(StyleGuideConstants.LightGrayUiColor, UIControlState.Highlighted);
             OnboardButton.TouchUpInside += (sender, args) =>
 	        {
 	            PerformSegue("OnboardSelected", OnboardButton);
