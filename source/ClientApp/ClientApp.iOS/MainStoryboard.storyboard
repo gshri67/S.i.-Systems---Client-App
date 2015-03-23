@@ -432,13 +432,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4113">
-                                                    <rect key="frame" x="20" y="8" width="280" height="34"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4113" numberOfLines="0">
+                                                    <rect key="frame" x="20" y="8" width="280" height="20"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="34" id="4394"/>
-                                                        <constraint firstAttribute="width" constant="100" id="5208"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
@@ -461,6 +457,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="5196" secondAttribute="bottom" constant="8" id="5409"/>
                                                 <constraint firstAttribute="trailing" secondItem="4113" secondAttribute="trailing" constant="20" id="6875"/>
                                                 <constraint firstItem="5196" firstAttribute="centerX" secondItem="4078" secondAttribute="centerX" id="6891"/>
+                                                <constraint firstItem="5196" firstAttribute="top" secondItem="4113" secondAttribute="bottom" constant="11" id="8224"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="calibratedRGB"/>

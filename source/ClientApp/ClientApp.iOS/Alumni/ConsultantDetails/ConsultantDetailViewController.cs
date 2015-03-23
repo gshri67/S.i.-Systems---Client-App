@@ -92,7 +92,8 @@ namespace ClientApp.iOS
 	        Title = consultant.FullName;
 	        var lastContract =
 	            consultant.Contracts.Where(c => !string.IsNullOrEmpty(c.Title)).OrderByDescending(c => c.EndDate).FirstOrDefault();
-	        TitleLabel.Text = lastContract != null ? lastContract.Title : "";
+            TitleLabel.Text = lastContract != null ? lastContract.Title : "";
+            TitleLabel.SizeToFit();
 	        if (_detailViewModel.IsActiveConsultant)
 	        {
 	            OnboardButton.SetTitle("Renew", UIControlState.Normal);
@@ -232,7 +233,7 @@ namespace ClientApp.iOS
 	        switch (indexPath.Row)
 	        {
 	            case (int)DetailsTableCells.TitleAndContact:
-	                return string.IsNullOrEmpty(TitleLabel.Text) ? 56 : 80;
+	                return string.IsNullOrEmpty(TitleLabel.Text) ? 56 : (60 + TitleLabel.Frame.Height);
 	            case (int)DetailsTableCells.SpecializationAndSkills:
 	                return SpecializationCell.Frame.Height;
 	        }
