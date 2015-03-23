@@ -1553,6 +1553,7 @@
                         <outlet property="TotalCell" destination="6777" id="name-outlet-6777"/>
                         <outlet property="TotalRateLabel" destination="6202" id="name-outlet-6202"/>
                         <outlet property="ContractorRateTypeLabel" destination="6191" id="name-outlet-6191"/>
+                        <outlet property="SubmitLabel" destination="6226" id="name-outlet-6226"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5599" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -44,6 +44,7 @@ namespace ClientApp.iOS
 	        if (ViewModel.IsActiveConsultant)
 	        {
 	            Title = "Confirm Renew";
+	            SubmitLabel.Text = "Submit Renewal";
 	        }
 
 	        if (ViewModel.IsFullySourced)

@@ -56,6 +56,10 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel SubmitLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel TimesheetApproverEmailLabel { get; set; }
 
 		[Outlet]
@@ -111,6 +115,10 @@ namespace ClientApp.iOS
 			if (StartDateLabel != null) {
 				StartDateLabel.Dispose ();
 				StartDateLabel = null;
+			}
+			if (SubmitLabel != null) {
+				SubmitLabel.Dispose ();
+				SubmitLabel = null;
 			}
 			if (TimesheetApproverEmailLabel != null) {
 				TimesheetApproverEmailLabel.Dispose ();
