@@ -1,4 +1,4 @@
-﻿namespace ClientApp.Core
+﻿namespace ClientApp.Core.Platform
 {
     public interface IErrorReporter
     {

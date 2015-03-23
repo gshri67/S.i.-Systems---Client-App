@@ -1,106 +1,123 @@
-﻿using ClientApp.Core.HttpAttributes;
-using SiSystems.ClientApp.SharedModels;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
+using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
+
+using ClientApp.Core.HttpAttributes;
+using ClientApp.Core.Platform;
 using Newtonsoft.Json;
+using SiSystems.ClientApp.SharedModels;
+using Xamarin;
 
 namespace ClientApp.Core
 {
     [Api(Settings.MatchGuideApiAddress)]
-    public interface IMatchGuideApi
+    public class MatchGuideApi : ApiClient, IMatchGuideApi
     {
-        [HttpPost("login")]
-        Task<ValidationResult> Login(string username, string password);
+        private readonly ITokenStore _tokenStore;
 
-        [HttpPost("logout")]
-        Task Logout();
-
-        [HttpGet("consultants/{id}")]
-        Task<Consultant> GetConsultant(int id);
-
-        [HttpGet("consultants/alumni")]
-        Task<IEnumerable<ConsultantGroup>> GetAlumniConsultantGroups(string query);
-
-        [HttpGet("consultants/active")]
-        Task<IEnumerable<ConsultantGroup>> GetActiveConsultantGroups(string query);
-
-        [HttpPost("contractproposal")]
-        Task Submit(ContractProposal proposal);
-
-        [HttpPost("consultantmessages")]
-        Task SendMessage(ConsultantMessage message);
-
-        [HttpGet("eula")]
-        Task<Eula> GetMostRecentEula();
-
-        [HttpGet("clientdetails")]
-        Task<ClientAccountDetails> GetClientDetails();
-
-        [HttpPost("forgotpassword")]
-        Task<ResetPasswordResult> ResetPassword(string emailAddress);
-    }
-
-    public class MatchGuideApi : IMatchGuideApi
-    {
-        private readonly ApiClient<IMatchGuideApi> _client;
-
-        public MatchGuideApi(ApiClient<IMatchGuideApi> client)
+        public MatchGuideApi(ITokenStore tokenStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory) 
+            : base(tokenStore, activityManager, errorSource, handlerFactory)
         {
-            this._client = client;
+            this._tokenStore = tokenStore;
         }
 
         public async Task<ValidationResult> Login(string username, string password)
         {
-            return await this._client.Authenticate(username, password);
+            try
+            {
+                var response = await ExecuteWithDefaultClient(new FormUrlEncodedContent(new Dictionary<string, string> {
+                        { "username", WebUtility.HtmlEncode (username) },
+                        { "password", WebUtility.HtmlEncode (password) },
+                        { "grant_type", "password" }
+                    }));
+                string json = null;
+                if (response.Content != null)
+                {
+                    json = await response.Content.ReadAsStringAsync();
+                }
+                if (response.IsSuccessStatusCode)
+                {
+                    var token = JsonConvert.DeserializeObject<OAuthToken>(json);
+                    _tokenStore.SaveToken(token);
+                    _tokenStore.SaveUserName(token.Username);
+
+                    Insights.Identify(token.Username, new Dictionary<string, string>
+                    {
+                        { "Token Expires At", token.ExpiresAt },
+                        { "Token Expires In", token.ExpiresIn.ToString() },
+                        { "Token Issued At", token.IssuedAt }
+                    });
+                    return new ValidationResult { IsValid = true };
+                }
+
+                var error = JsonConvert.DeserializeObject<ApiErrorResponse>(json);
+
+                return new ValidationResult { IsValid = false, Message = error.ErrorDescription };
+            }
+            catch (Exception e)
+            {
+                Insights.Report(e);
+                return new ValidationResult { IsValid = false, Message = e.Message };
+            }
         }
 
+        [HttpPost("logout")]
         public async Task Logout()
         {
-            await this._client.Deauthenticate();
+            this._tokenStore.DeleteDeviceToken();
+            await ExecuteWithDefaultClient();
         }
 
+        [HttpGet("consultants/{id}")]
         public async Task<Consultant> GetConsultant(int id)
         {
-            return await this._client.Get<Consultant>(new { id });
+            return await ExecuteWithDefaultClient<Consultant>(new { id });
         }
 
+        [HttpGet("consultants/alumni")]
         public async Task<IEnumerable<ConsultantGroup>> GetAlumniConsultantGroups(string query)
         {
-            return await this._client.Get<ConsultantGroup[]>(new { query });
+            return await ExecuteWithDefaultClient<ConsultantGroup[]>(new { query });
         }
 
+        [HttpGet("consultants/active")]
         public async Task<IEnumerable<ConsultantGroup>> GetActiveConsultantGroups(string query)
         {
-            return await this._client.Get<ConsultantGroup[]>(new { query });
+            return await ExecuteWithDefaultClient<ConsultantGroup[]>(new { query });
         }
 
+        [HttpGet("eula")]
         public async Task<Eula> GetMostRecentEula()
         {
-            return await this._client.Get<Eula>();
+            return await ExecuteWithDefaultClient<Eula>();
         }
 
+        [HttpPost("contractproposal")]
         public Task Submit(ContractProposal proposal)
         {
-            return this._client.Post(proposal);
+            return ExecuteWithDefaultClient(proposal);
         }
 
+        [HttpPost("consultantmessages")]
         public Task SendMessage(ConsultantMessage message)
         {
-            return this._client.Post(message);
+            return ExecuteWithDefaultClient(message);
         }
 
+        [HttpGet("clientdetails")]
         public Task<ClientAccountDetails> GetClientDetails()
         {
-            return this._client.Get<ClientAccountDetails>();
+            return ExecuteWithDefaultClient<ClientAccountDetails>();
         }
 
+        [HttpPost("forgotpassword")]
         public Task<ResetPasswordResult> ResetPassword(string emailAddress)
         {
             // Web API expects form url encoded payload with no key
             var payload = new FormUrlEncodedContent(new Dictionary<string, string> { { string.Empty, emailAddress } });
-            return this._client.Post<ResetPasswordResult>(payload, false);
+            return ExecuteWithDefaultClient<ResetPasswordResult>(payload);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using ModernHttpClient;
 using System.Net.Http;
 
-namespace ClientApp.Core
+namespace ClientApp.Core.Platform
 {
     public class HttpMessageHandlerFactory
     {

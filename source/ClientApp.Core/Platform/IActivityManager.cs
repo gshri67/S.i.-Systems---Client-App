@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-
-namespace ClientApp.Core
+﻿namespace ClientApp.Core.Platform
 {
     public interface IActivityManager
     {

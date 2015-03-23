@@ -1,4 +1,5 @@
 ﻿using ClientApp.Core.HttpAttributes;
+using ClientApp.Core.Platform;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,26 +8,23 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Text;
 using Xamarin;
 
 namespace ClientApp.Core
 {
-    public class ApiClient<TApi> : IApiClient
+    public abstract class ApiClient
     {
-        private readonly ITokenStore _tokenStore;
+        private readonly HttpMessageHandler _handler;
 
         private readonly IActivityManager _activityManager;
 
+        private readonly ITokenStore _tokenStore;
+
         private readonly IErrorSource _errorSource;
 
-        private readonly HttpMessageHandler _handler;
-
-        private OAuthToken _token;
-
-        public Uri BaseAddress { get; set; }
+        private readonly Uri BaseAddress;
 
         public ApiClient(ITokenStore tokenStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory)
         {
@@ -34,90 +32,20 @@ namespace ClientApp.Core
             this._handler = handlerFactory.Get();
             this._activityManager = activityManager;
             this._errorSource = errorSource;
-            this._token = this._tokenStore.GetDeviceToken();
 
-            this.BaseAddress = new Uri(typeof(TApi).GetTypeInfo().GetCustomAttribute<ApiAttribute>().BaseUrl);
+            this.BaseAddress = new Uri(this.GetType().GetTypeInfo().GetCustomAttribute<ApiAttribute>().BaseUrl);
         }
 
-        public async Task<ValidationResult> Authenticate(string username, string password, [CallerMemberName] string caller = null)
+        /// <summary>
+        /// Execute a request and deserialize the result into the given <see cref="TResult"/>.
+        /// </summary>
+        /// <typeparam name="TResult">The expected type returned in the response.</typeparam>
+        /// <param name="data">The data to send with the request. For a post, the data will be serialized to JSON unless it is passed in as HttpContent.</param>
+        /// <param name="caller">The source of the request.</param>
+        /// <returns>An object of type <see cref="TResult"/></returns>
+        protected async Task<TResult> ExecuteWithDefaultClient<TResult>(object data = null, [CallerMemberName] string caller = null)
         {
-            try
-            {
-                var content = new FormUrlEncodedContent(new Dictionary<string, string> {
-                        { "username", WebUtility.HtmlEncode (username) },
-                        { "password", WebUtility.HtmlEncode (password) },
-                        { "grant_type", "password" }
-                    });
-
-                var response = await this.ExecuteWithDefaultClient(HttpMethod.Post, content, caller, false);
-
-                string json = null;
-                if (response.Content != null)
-                {
-                    json = await response.Content.ReadAsStringAsync();
-                }
-                if (response.IsSuccessStatusCode)
-                {
-                    var token = JsonConvert.DeserializeObject<OAuthToken>(json);
-                    this._token = _tokenStore.SaveToken(token);
-                    _tokenStore.SaveUserName(token.Username);
-
-                    Insights.Identify(token.Username, new Dictionary<string, string>
-                    {
-                        { "Token Expires At", token.ExpiresAt },
-                        { "Token Expires In", token.ExpiresIn.ToString() },
-                        { "Token Issued At", token.IssuedAt }
-                    });
-                    Insights.Track(TrackId.LoginSuccess, Insights.Traits.Email, username);
-                    return new ValidationResult { IsValid = true };
-                }
-
-                var error = JsonConvert.DeserializeObject<ApiErrorResponse>(json);
-
-                Insights.Track(TrackId.LoginFailure, new Dictionary<string, string>
-                {
-                    {Insights.Traits.Email, username },
-                    {"Error", error.Error },
-                    {"Error Description", error.ErrorDescription }
-                });
-
-                return new ValidationResult { IsValid = false, Message = error.ErrorDescription };
-            }
-            catch (Exception e)
-            {
-                Insights.Report(e, new Dictionary<string, string>
-                {
-                    { Insights.Traits.Email, username }
-                });
-                return new ValidationResult { IsValid = false, Message = "Error executing login request. " + e.Message };
-            }
-        }
-
-        public async Task Deauthenticate([CallerMemberName] string caller = null)
-        {
-            this._tokenStore.DeleteDeviceToken();
-            await this.Post(null, true, caller);
-            this._token = null;
-        }
-
-        public Task Post(object content, bool authenticate = true, [CallerMemberName] string caller = null)
-        {
-            return this.ExecuteWithDefaultClient(HttpMethod.Post, content, caller, authenticate);
-        }
-
-        public Task<TResult> Post<TResult>(object content, bool authenticate = true, [CallerMemberName] string caller = null)
-        {
-            return this.Execute<TResult>(HttpMethod.Post, content, caller, authenticate);
-        }
-
-        public Task<TResult> Get<TResult>(object parameters = null, [CallerMemberName] string caller = null)
-        {
-            return this.Execute<TResult>(HttpMethod.Get, parameters, caller);
-        }
-
-        private async Task<TResult> Execute<TResult>(HttpMethod method, object content, string caller, bool authenticate = true)
-        {
-            var response = await this.ExecuteWithDefaultClient(method, content, caller, authenticate);
+            var response = await this.ExecuteWithDefaultClient(data, caller);
             if (response != null && response.IsSuccessStatusCode)
             {
                 var jsonString = await response.Content.ReadAsStringAsync();
@@ -126,7 +54,14 @@ namespace ClientApp.Core
             return default(TResult);
         }
 
-        private async Task<HttpResponseMessage> ExecuteWithDefaultClient(HttpMethod method, object content, string caller, bool authenticate = true)
+        /// <summary>
+        /// Execute a request using an http client with the authorization header pre-set (using the user's token if available). 
+        /// On a forbidden or unauthorized response, will broadcast a "TokenExpired" message to the client.
+        /// </summary>
+        /// <param name="data">The data to send with the request. For a post, the data will be serialized to JSON unless it is passed in as HttpContent.</param>
+        /// <param name="caller">The source of the request.</param>
+        /// <returns>An http response message.</returns>
+        protected async Task<HttpResponseMessage> ExecuteWithDefaultClient(object data = null, [CallerMemberName] string caller = null)
         {
             try
             {
@@ -134,32 +69,27 @@ namespace ClientApp.Core
 
                 var httpClient = new HttpClient(this._handler) { BaseAddress = this.BaseAddress };
 
-                if (authenticate)
+                var token = this._tokenStore.GetDeviceToken();
+                if (token == null)
                 {
-                    if (this._token == null)
-                    {
-                        this._errorSource.ReportError("TokenExpired", null);
-                        return new HttpResponseMessage(HttpStatusCode.Unauthorized);
-                    }
-
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.AccessToken);
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
                 }
 
-                var url = GetRelativeUriFromAction(caller, method == HttpMethod.Get ? content : null);
-                var request = new HttpRequestMessage(method, url);
-                if (method == HttpMethod.Post && content != null)
+                var request = BuildRequest(caller, data);
+                if (request.Method == HttpMethod.Post && data != null)
                 {
-                    request.Content = content as HttpContent ??
-                        new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json");
+                    request.Content = data as HttpContent ??
+                        new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
                 }
 
                 var response = await httpClient.SendAsync(request);
+                var responseContent = response.Content != null 
+                    ? await response.Content.ReadAsStringAsync() 
+                    : null;
 
-                var responseContent = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
-
-                if ((int)response.StatusCode >= 300)
+                if (!response.IsSuccessStatusCode)
                 {
-                    Insights.Track("UnexpectedStatusCode", new Dictionary<string, string>
+                    Insights.Track("Request Failed", new Dictionary<string, string>
                     {
                         {"Status Code", response.StatusCode.ToString()},
                         {"Request URL", request.RequestUri.ToString()},
@@ -194,12 +124,14 @@ namespace ClientApp.Core
             }
         }
 
-        private Uri GetRelativeUriFromAction(string source, object values)
+        private HttpRequestMessage BuildRequest(string source, object values)
         {
-            MethodInfo action = typeof(TApi).GetTypeInfo().GetDeclaredMethod(source);
+            MethodInfo action = this.GetType().GetTypeInfo().GetDeclaredMethod(source);
             HttpMethodAttribute httpMethodInfo = action.GetCustomAttribute<HttpMethodAttribute>(true);
             var relativeAddr = httpMethodInfo.BuildRelativeUrl(values);
-            return new Uri(relativeAddr, UriKind.Relative);
+            var url = new Uri(relativeAddr, UriKind.Relative);
+
+            return new HttpRequestMessage(httpMethodInfo.Type, url);
         }
     }
 }
