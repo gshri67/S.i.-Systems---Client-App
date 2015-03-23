@@ -249,20 +249,20 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         {
             _vm.MspPercent = 2;
             _vm.ServiceFee = 0;
-            Assert.AreEqual("+ MSP rate (2%) = $102", _vm.GetRateFooter());
+            Assert.AreEqual("+ MSP rate (2%) = $102/hr", _vm.GetRateFooter());
         }
 
         [Test]
         public void GetRateFooter_MspAndServiceWhenNotZero()
         {
             _vm.MspPercent = 2;
-            Assert.AreEqual("+ MSP rate (2%) + Service Fee ($3/hr) = $105", _vm.GetRateFooter());
+            Assert.AreEqual("+ MSP rate (2%) + Service Fee ($3/hr) = $105/hr", _vm.GetRateFooter());
         }
 
         [Test]
         public void GetRateFooter_NoMSPWhenZero()
         {
-            Assert.AreEqual("+ Service Fee ($3/hr) = $103", _vm.GetRateFooter());
+            Assert.AreEqual("+ Service Fee ($3/hr) = $103/hr", _vm.GetRateFooter());
         }
 
         [Test]
@@ -270,7 +270,7 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         {
             _vm.MspPercent = 2;
             _vm.ServiceFee = 0;
-            Assert.AreEqual("+ MSP rate (2%) = $102", _vm.GetRateFooter());
+            Assert.AreEqual("+ MSP rate (2%) = $102/hr", _vm.GetRateFooter());
         }
 
         [Test]
@@ -278,7 +278,7 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         {
             _vm.ContractorRate = 50;
             _vm.ServiceFee = 5;
-            Assert.AreEqual("+ Service Fee ($5/hr) = $55", _vm.GetRateFooter());
+            Assert.AreEqual("+ Service Fee ($5/hr) = $55/hr", _vm.GetRateFooter());
         }
 
         [Test]
@@ -286,21 +286,21 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
         {
             _vm.MspPercent = 3.3333m;
             _vm.ServiceFee = 0;
-            Assert.AreEqual("+ MSP rate (3.3333%) = $103.33", _vm.GetRateFooter());
+            Assert.AreEqual("+ MSP rate (3.3333%) = $103.33/hr", _vm.GetRateFooter());
         }
 
         [Test]
         public void GetRateFooter_HidesMspIfContractorPays()
         {
             RateTestSetup(false, true);
-            Assert.AreEqual("+ Service Fee ($3/hr) = $103", _vm.GetRateFooter());
+            Assert.AreEqual("+ Service Fee ($3/hr) = $103/hr", _vm.GetRateFooter());
         }
 
         [Test]
         public void GetRateFooter_HidesServiceIfContractorPays()
         {
             RateTestSetup(true, false);
-            Assert.AreEqual("+ MSP rate (2%) = $102", _vm.GetRateFooter());
+            Assert.AreEqual("+ MSP rate (2%) = $102/hr", _vm.GetRateFooter());
         }
 
         [Test]

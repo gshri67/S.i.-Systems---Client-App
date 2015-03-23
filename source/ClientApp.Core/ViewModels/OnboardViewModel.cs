@@ -167,7 +167,7 @@ namespace ClientApp.Core.ViewModels
             if (string.IsNullOrEmpty(serviceString) && string.IsNullOrEmpty(mspString)) 
                 return string.Empty;
                 
-            return string.Format("{0}{1}= ${2:0.##}", mspString, serviceString, TotalRate);
+            return string.Format("{0}{1}= ${2:0.##}/hr", mspString, serviceString, TotalRate);
         }
     }
 }
