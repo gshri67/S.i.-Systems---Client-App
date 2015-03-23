@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -157,17 +158,28 @@ namespace ClientApp.Core.ViewModels
             return string.Format("Last Contract: ${0:0.##}/hr", LastContractRate);
         }
 
-        public string GetRateFooter()
+        public IList<string> GetRateFooter()
         {
-            var serviceString = !ConsultantPaysServiceFee && ServiceFee > 0
-                ? string.Format("+ Service Fee (${0}/hr) ", ServiceFee)
-                : string.Empty;
-            var mspString = !ConsultantPaysMspPercent && MspPercent > 0 ? string.Format("+ MSP rate ({0}%) ", MspPercent) : string.Empty;
-                
-            if (string.IsNullOrEmpty(serviceString) && string.IsNullOrEmpty(mspString)) 
-                return string.Empty;
-                
-            return string.Format("{0}{1}= ${2:0.##}/hr", mspString, serviceString, TotalRate);
+            var strings = new List<string>();
+            if (MspPercent == 0 && ServiceFee == 0)
+            {
+                strings.Add(string.Empty);
+                return strings;
+            }
+
+            if (MspPercent > 0)
+            {
+                strings.Add(string.Format("+ {1}MSP rate ({0}%)", MspPercent, ConsultantPaysMspPercent ? "Contractor Pays " : string.Empty));
+            }
+            if (ServiceFee > 0)
+            {
+                strings.Add(string.Format("+ {1}Service Fee (${0}/hr)", ServiceFee, ConsultantPaysServiceFee ? "Contractor Pays " : string.Empty));
+            }
+            if ((MspPercent > 0 || ServiceFee > 0) && !ConsultantPaysMspPercent && !ConsultantPaysServiceFee)
+            {
+                strings.Add(string.Format("= ${0:0.##}/hr", TotalRate));
+            }
+            return strings;
         }
     }
 }

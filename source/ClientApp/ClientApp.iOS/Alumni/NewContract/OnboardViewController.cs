@@ -283,15 +283,21 @@ namespace ClientApp.iOS
 	        if (section == 1 && !_viewModel.IsFullySourced)
 	        {
 	            var view = new UIView();
-	            var label = new UILabel(new CGRect(20, 4, UIScreen.MainScreen.Bounds.Width - 40, 10))
-	                        {
-                                Font = UIFont.SystemFontOfSize(10f),
-                                TextColor = StyleGuideConstants.MediumGrayUiColor,
-                                TextAlignment = UITextAlignment.Right,
-                                Text = _viewModel.GetRateFooter()
-	                        };
-
-                view.Add(label);
+	            var footerStrings = _viewModel.GetRateFooter();
+	            var y = 4;
+	            foreach (var footerString in footerStrings)
+	            {
+                    var label = new UILabel(new CGRect(20, y, UIScreen.MainScreen.Bounds.Width - 40, 10))
+                    {
+                        Font = UIFont.SystemFontOfSize(10f),
+                        TextColor = StyleGuideConstants.MediumGrayUiColor,
+                        TextAlignment = UITextAlignment.Right,
+                        Text = footerString
+                    };
+	                y += 12;
+                    view.Add(label);
+	            }
+	            
 	            return view;
 	        }
             return base.GetViewForFooter(tableView, section);
