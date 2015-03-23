@@ -7,6 +7,7 @@ using UIKit;
 using ClientApp.Core;
 using Microsoft.Practices.Unity;
 using Xamarin;
+using ClientApp.Core.Platform;
 
 namespace ClientApp.iOS
 {

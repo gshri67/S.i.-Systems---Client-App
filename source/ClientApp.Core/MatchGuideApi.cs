@@ -4,11 +4,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+using Xamarin;
+
 using ClientApp.Core.HttpAttributes;
 using ClientApp.Core.Platform;
-using Newtonsoft.Json;
 using SiSystems.ClientApp.SharedModels;
-using Xamarin;
 
 namespace ClientApp.Core
 {
@@ -23,6 +24,7 @@ namespace ClientApp.Core
             this._tokenStore = tokenStore;
         }
 
+        [HttpPost("login")]
         public async Task<ValidationResult> Login(string username, string password)
         {
             try
@@ -37,6 +39,7 @@ namespace ClientApp.Core
                 {
                     json = await response.Content.ReadAsStringAsync();
                 }
+                var validationResult = new ValidationResult();
                 if (response.IsSuccessStatusCode)
                 {
                     var token = JsonConvert.DeserializeObject<OAuthToken>(json);
@@ -49,12 +52,23 @@ namespace ClientApp.Core
                         { "Token Expires In", token.ExpiresIn.ToString() },
                         { "Token Issued At", token.IssuedAt }
                     });
-                    return new ValidationResult { IsValid = true };
+
+                    validationResult.IsValid = true;
+                }
+                else
+                {
+                    if (json != null && json[0] == '{')
+                    {
+                        var apiMessage = JsonConvert.DeserializeObject<ApiErrorResponse>(json);
+                        validationResult.Message = apiMessage.ErrorDescription;
+                    }
+                    else
+                    {
+                        validationResult.Message = json;
+                    }
                 }
 
-                var error = JsonConvert.DeserializeObject<ApiErrorResponse>(json);
-
-                return new ValidationResult { IsValid = false, Message = error.ErrorDescription };
+                return validationResult;
             }
             catch (Exception e)
             {

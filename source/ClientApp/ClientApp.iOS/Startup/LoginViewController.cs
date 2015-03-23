@@ -7,6 +7,7 @@ using SiSystems.ClientApp.SharedModels;
 using UIKit;
 using ClientApp.Core.ViewModels;
 using ClientApp.Core;
+using ClientApp.Core.Platform;
 
 namespace ClientApp.iOS
 {

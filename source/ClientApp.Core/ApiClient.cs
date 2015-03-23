@@ -1,16 +1,18 @@
-﻿using ClientApp.Core.HttpAttributes;
-using ClientApp.Core.Platform;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Text;
+using System.Threading.Tasks;
+
+using Newtonsoft.Json;
 using Xamarin;
+
+using ClientApp.Core.HttpAttributes;
+using ClientApp.Core.Platform;
 
 namespace ClientApp.Core
 {
@@ -24,7 +26,9 @@ namespace ClientApp.Core
 
         private readonly IErrorSource _errorSource;
 
-        private readonly Uri BaseAddress;
+        public readonly Uri BaseAddress;
+
+        public TimeSpan Timeout = TimeSpan.FromSeconds(100);
 
         public ApiClient(ITokenStore tokenStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory)
         {
@@ -46,7 +50,7 @@ namespace ClientApp.Core
         protected async Task<TResult> ExecuteWithDefaultClient<TResult>(object data = null, [CallerMemberName] string caller = null)
         {
             var response = await this.ExecuteWithDefaultClient(data, caller);
-            if (response != null && response.IsSuccessStatusCode)
+            if (response != null && response.IsSuccessStatusCode && response.Content != null)
             {
                 var jsonString = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<TResult>(jsonString);
@@ -61,16 +65,16 @@ namespace ClientApp.Core
         /// <param name="data">The data to send with the request. For a post, the data will be serialized to JSON unless it is passed in as HttpContent.</param>
         /// <param name="caller">The source of the request.</param>
         /// <returns>An http response message.</returns>
-        protected async Task<HttpResponseMessage> ExecuteWithDefaultClient(object data = null, [CallerMemberName] string caller = null)
+        protected async Task<HttpResponseMessage> ExecuteWithDefaultClient(object data = null, [CallerMemberName] string caller = null, HttpMethod method = null)
         {
             try
             {
                 this._activityManager.StartActivity();
 
-                var httpClient = new HttpClient(this._handler) { BaseAddress = this.BaseAddress };
+                var httpClient = new HttpClient(this._handler) { BaseAddress = this.BaseAddress, Timeout = this.Timeout };
 
                 var token = this._tokenStore.GetDeviceToken();
-                if (token == null)
+                if (token != null)
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
                 }
@@ -113,6 +117,11 @@ namespace ClientApp.Core
                         return response;
                 }
             }
+            catch (OperationCanceledException exception)
+            {
+                this._errorSource.ReportError("Timeout", "The request timed out.", true);
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError) { Content = new StringContent(exception.Message) };
+            }
             catch (Exception exception)
             {
                 this._errorSource.ReportError(null, exception.Message);
@@ -124,10 +133,22 @@ namespace ClientApp.Core
             }
         }
 
-        private HttpRequestMessage BuildRequest(string source, object values)
+        private HttpRequestMessage BuildRequest(string source, object values, HttpMethod method = null)
         {
+            var request = new HttpRequestMessage();
+
             MethodInfo action = this.GetType().GetTypeInfo().GetDeclaredMethod(source);
-            HttpMethodAttribute httpMethodInfo = action.GetCustomAttribute<HttpMethodAttribute>(true);
+            if (action == null && method == null)
+            {
+                throw new ArgumentException("The request must be configured via a HttpMethodAttribute or specified explicitly.");
+            }
+
+            var httpMethodInfo = action != null
+                ? action.GetCustomAttribute<HttpMethodAttribute>(true)
+                : method == HttpMethod.Post
+                    ? (HttpMethodAttribute)(new HttpPostAttribute(source))
+                    : (HttpMethodAttribute)(new HttpGetAttribute(source));
+
             var relativeAddr = httpMethodInfo.BuildRelativeUrl(values);
             var url = new Uri(relativeAddr, UriKind.Relative);
 

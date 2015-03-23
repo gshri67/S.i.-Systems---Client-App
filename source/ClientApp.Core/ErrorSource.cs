@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClientApp.Core.Platform;
+using System;
 
 namespace ClientApp.Core
 {
@@ -27,20 +28,7 @@ namespace ClientApp.Core
 
     public class ErrorSource : IErrorSource
     {
-        public ErrorSource(IErrorReporter reporter)
-        {
-            this.ErrorReported += (s, e) =>
-            {
-                if (e.Broadcast && !string.IsNullOrEmpty(e.Name))
-                {
-                    reporter.Broadcast(e.Name, e.Message);
-                }
-                if (!string.IsNullOrEmpty(e.Message))
-                {
-                    reporter.Display(e.Name, e.Message);
-                }
-            };
-        }
+        public event EventHandler<ErrorEventArgs> ErrorReported;
 
         public void ReportError(string name, string message, bool broadcast = false)
         {
@@ -49,7 +37,5 @@ namespace ClientApp.Core
 
             ErrorReported(this, new ErrorEventArgs(name, message, broadcast));
         }
-
-        public event EventHandler<ErrorEventArgs> ErrorReported;
     }
 }

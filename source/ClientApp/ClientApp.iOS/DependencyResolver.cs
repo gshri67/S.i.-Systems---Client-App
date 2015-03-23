@@ -2,6 +2,7 @@ using System;
 using Microsoft.Practices.Unity;
 using ClientApp.Core;
 using ClientApp.iOS.Startup;
+using ClientApp.Core.Platform;
 
 namespace ClientApp.iOS
 {
@@ -26,10 +27,12 @@ namespace ClientApp.iOS
         {
             container.RegisterType<IHttpMessageHandlerFactory, NativeMessageHandlerFactory>();
             container.RegisterType<IErrorSource, ErrorSource>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IErrorReporter, ErrorReporter>();
             container.RegisterType<IMatchGuideApi, MatchGuideApi>();
             container.RegisterType<ITokenStore, TokenStore>();
             container.RegisterType<IActivityManager, ActivityManager>(new ContainerControlledLifetimeManager());
+
+            // instantiate the error reporter so that it registers itself with the error source
+            var errorReporter = new ErrorReporter(container.Resolve<IErrorSource>());
         }
     }
 }

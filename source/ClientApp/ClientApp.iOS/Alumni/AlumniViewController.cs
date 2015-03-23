@@ -16,7 +16,6 @@ namespace ClientApp.iOS
     public partial class AlumniViewController : UIViewController
 	{
 	    private readonly AlumniViewModel _alumniModel;
-        private readonly IActivityManager _activityManager;
         private LoadingOverlay _overlay;
         private const string DisciplineSegueIdentifier = "DisciplineSelected";
         private const int AlumniSelected = 0;
@@ -36,7 +35,6 @@ namespace ClientApp.iOS
             : base(handle)
         {
             _alumniModel = DependencyResolver.Current.Resolve<AlumniViewModel>();
-            _activityManager = DependencyResolver.Current.Resolve<IActivityManager>();
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
         }
 
@@ -268,8 +266,7 @@ namespace ClientApp.iOS
             {
                 _lastActiveSearch = AlumniSearch.Text;
                 IndicateLoading();
-                _lastActiveResults = await _alumniModel.GetActiveConsultantGroups(AlumniSearch.Text) ??
-                                   Enumerable.Empty<ConsultantGroup>();
+                _lastActiveResults = await _alumniModel.GetActiveConsultantGroups(AlumniSearch.Text);
             }
 
             if (_tableSelector.SelectedSegment != AlumniSelected)
@@ -282,11 +279,18 @@ namespace ClientApp.iOS
         {
             InvokeOnMainThread(delegate
             {
-                SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
+                if (consultantGroups != null)
+                {
+                    SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
 
-                SpecializationTable.ReloadData();
+                    SpecializationTable.ReloadData();
 
-                SetSearchbarVisibility();
+                    SetSearchbarVisibility();
+                }
+                else
+                {
+                    // Show refresh button
+                }
             });
             RemoveOverlay();
         }

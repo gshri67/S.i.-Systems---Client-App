@@ -3,6 +3,7 @@ using UIKit;
 using ClientApp.Core;
 using System.Threading;
 using System.Threading.Tasks;
+using ClientApp.Core.Platform;
 
 namespace ClientApp.iOS
 {

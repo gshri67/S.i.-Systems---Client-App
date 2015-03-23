@@ -1,4 +1,5 @@
 ﻿using ClientApp.Core;
+using ClientApp.Core.Platform;
 using Moq;
 using NUnit.Framework;
 using SiSystems.ClientApp.SharedModels;
@@ -17,6 +18,7 @@ namespace ClientApp.Core.Tests
         private Mock<IActivityManager> _mockActivityManager;
         private Mock<IHttpMessageHandlerFactory> _mockHttpHandlerHelper;
         private Mock<IErrorSource> _mockErrorSource;
+        private int NumRequests;
 
         class FakeHttpHandler : DelegatingHandler
         {
@@ -47,6 +49,7 @@ namespace ClientApp.Core.Tests
         [SetUp]
         public void SetUp()
         {
+            NumRequests = 1;
             _mockTokenSource = new Mock<ITokenStore>();
             _mockActivityManager = new Mock<IActivityManager>();
             _mockHttpHandlerHelper = new Mock<IHttpMessageHandlerFactory>();
@@ -54,17 +57,37 @@ namespace ClientApp.Core.Tests
             _mockHttpHandlerHelper.Setup(h => h.Get()).Returns(new FakeHttpHandler());
         }
 
+        [TearDown]
+        public void Verify()
+        {
+            _mockActivityManager.Verify(service => service.StartActivity(), Times.Exactly(NumRequests));
+            _mockActivityManager.Verify(service => service.StopActivity(), Times.Exactly(NumRequests));
+        }
+
+        [Test]
+        public void ApiClient_ShouldGetBaseAddressFromType()
+        {
+            NumRequests = 0;
+            var _sut = new MatchGuideApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+            Assert.AreEqual(Settings.MatchGuideApiAddress, _sut.BaseAddress.AbsoluteUri);
+        }
+
         [Test]
         public async void Login_ShouldGetAtAValidValidationResultFromLoginEndpoint()
         {
-            var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
+            const string username = "email@example.com";
+            const string password = "password";
 
-            var apiClient = new ApiClient<IMatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-            var _sut = new MatchGuideApi(apiClient);
-            var result = await _sut.Login("email@example.com", "password");
+            var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
+            _mockTokenSource.Setup(service => service.SaveUserName(username));
+            _mockTokenSource.Setup(service => service.SaveToken(It.Is<OAuthToken>(token => token.Username == username)));
+
+            var _sut = new MatchGuideApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+            var result = await _sut.Login(username, password);
 
             Assert.IsInstanceOf<ValidationResult>(result);
             Assert.IsTrue(result.IsValid);
+            _mockTokenSource.VerifyAll();
         }
 
         [Test]
@@ -73,8 +96,7 @@ namespace ClientApp.Core.Tests
             var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
 
-            var apiClient = new ApiClient<IMatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-            var _sut = new MatchGuideApi(apiClient);
+            var _sut = new MatchGuideApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.Logout();
 
             this._mockTokenSource.Verify(t => t.DeleteDeviceToken(), Times.Once);
@@ -87,8 +109,7 @@ namespace ClientApp.Core.Tests
 
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
 
-            var apiClient = new ApiClient<IMatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-            var _sut = new MatchGuideApi(apiClient);
+            var _sut = new MatchGuideApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = _sut.GetConsultant(1).Result;
 
             Assert.IsInstanceOf<Consultant>(result);
@@ -102,8 +123,7 @@ namespace ClientApp.Core.Tests
 
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
 
-            var apiClient = new ApiClient<IMatchGuideApi>(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-            var _sut = new MatchGuideApi(apiClient);
+            var _sut = new MatchGuideApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = _sut.GetAlumniConsultantGroups(string.Empty).Result;
 
             Assert.IsAssignableFrom<ConsultantGroup[]>(result);
