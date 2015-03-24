@@ -274,7 +274,7 @@ namespace ClientApp.iOS
                     _endDatePicker.Hidden = !shouldDisplayPicker;
                     NewContractTable.EndUpdates();
                 }
-
+                RateField.ResignFirstResponder();
             }
         }
 
