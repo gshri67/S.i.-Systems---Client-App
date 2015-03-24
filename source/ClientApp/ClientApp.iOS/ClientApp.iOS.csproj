@@ -249,8 +249,17 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PLCrashReporterUnifiedBinding">
+      <HintPath>..\..\packages\Xamarin.Insights.1.9.1.107\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime" />
     <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Core" />
@@ -258,6 +267,9 @@
       <HintPath>..\..\packages\Xamarin.Insights.1.9.1.107\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ClientApp.Core\ClientApp.Core.csproj">
