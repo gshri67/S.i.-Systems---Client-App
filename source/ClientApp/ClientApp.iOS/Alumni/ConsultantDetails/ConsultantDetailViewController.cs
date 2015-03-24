@@ -272,7 +272,7 @@ namespace ClientApp.iOS
                 var skillLabel = new UILabel
                 {
                     Text = GetSkillsString(spec.Skills),
-                    Frame = new CGRect(20, y, frame.Width - 40, skillFont.LineHeight),
+                    Frame = new CGRect(30, y, frame.Width - 50, skillFont.LineHeight),
                     Font = skillFont,
                     TextColor = StyleGuideConstants.DarkGrayUiColor,
                     Lines = 0,
