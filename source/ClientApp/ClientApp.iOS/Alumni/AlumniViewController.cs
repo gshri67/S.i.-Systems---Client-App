@@ -76,7 +76,7 @@ namespace ClientApp.iOS
             {
                 AlumniSearch.Text = string.Empty;
                 AlumniSearch.ResignFirstResponder();
-                InvokeOnMainThread(LoadConsultantGroups);
+                InvokeOnMainThread(() => LoadConsultantGroups());
             };
             AlumniSearch.OnEditingStarted += delegate
             {
@@ -106,7 +106,7 @@ namespace ClientApp.iOS
                     AlumniView.Frame.Y + offsetForSearchbar,
                     AlumniView.Frame.Width,
                     AlumniView.Frame.Height - offsetForSearchbar);
-                _overlay = new LoadingOverlay(frame);
+                _overlay = new LoadingOverlay(frame, () => this.LoadConsultantGroups(true));
                 View.Add(_overlay);
             });
 	    }
@@ -125,7 +125,7 @@ namespace ClientApp.iOS
 	            AutoReset = false,
 	            Enabled = false //we don't want to start the timer until we change search text
 	        };
-            timer.Elapsed += delegate { InvokeOnMainThread(LoadConsultantGroups); };
+            timer.Elapsed += delegate { InvokeOnMainThread(() => LoadConsultantGroups()); };
 	        return timer;
 	    }
 
@@ -229,28 +229,27 @@ namespace ClientApp.iOS
 
         #region Load Consultant Groups
 
-        private void LoadConsultantGroups()
+        private Task LoadConsultantGroups(bool force = false)
         {
             if (_tableSelector.SelectedSegment == AlumniSelected)
             {
                 Title = "Alumni";
-                LoadAlumniConsultantGroups();
+                return LoadAlumniConsultantGroups(force);
             }
             else
             {
                 Title = "Active";
-                LoadActiveConsultantGroups();
+                return LoadActiveConsultantGroups(force);
             }
         }
 
-        private async void LoadAlumniConsultantGroups()
+        private async Task LoadAlumniConsultantGroups(bool force)
         {
-            if (AlumniSearch.Text != _lastAlumniSearch)
+            if (force || AlumniSearch.Text != _lastAlumniSearch)
             {
                 _lastAlumniSearch = AlumniSearch.Text;
                 IndicateLoading();
-                _lastAlumniResults = await _alumniModel.GetAlumniConsultantGroups(AlumniSearch.Text) ??
-                                   Enumerable.Empty<ConsultantGroup>();
+                _lastAlumniResults = await _alumniModel.GetAlumniConsultantGroups(AlumniSearch.Text);
 
             }
 
@@ -260,9 +259,9 @@ namespace ClientApp.iOS
             }
 	    }
 
-        private async void LoadActiveConsultantGroups()
+        private async Task LoadActiveConsultantGroups(bool force)
         {
-            if (AlumniSearch.Text != _lastActiveSearch)
+            if (force || AlumniSearch.Text != _lastActiveSearch)
             {
                 _lastActiveSearch = AlumniSearch.Text;
                 IndicateLoading();
@@ -286,13 +285,15 @@ namespace ClientApp.iOS
                     SpecializationTable.ReloadData();
 
                     SetSearchbarVisibility();
+
+                    RemoveOverlay();
                 }
                 else
                 {
                     // Show refresh button
+                    this._overlay.SetFailedState();
                 }
             });
-            RemoveOverlay();
         }
 
         #endregion

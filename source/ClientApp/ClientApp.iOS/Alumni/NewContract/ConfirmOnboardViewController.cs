@@ -63,14 +63,14 @@ namespace ClientApp.iOS
                 _submissionDelegate = new ContractSubmissionDelegate(this);
                 try
                 {
-                    _overlay = new LoadingOverlay(UIScreen.MainScreen.ApplicationFrame);
+                    _overlay = new LoadingOverlay(UIScreen.MainScreen.ApplicationFrame, null);
                     ParentViewController.View.Add(_overlay);
                     await ViewModel.SubmitContract();
                     _overlay.Hide();
                     var view = new UIAlertView("Success", "Your contract proposal has been sent.", _submissionDelegate, "Ok");
                     view.Show();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _overlay.Hide();
                     var view = new UIAlertView("Error", "There was an error sending the contract proposal to the server. Please try again.", _submissionDelegate, "Ok");

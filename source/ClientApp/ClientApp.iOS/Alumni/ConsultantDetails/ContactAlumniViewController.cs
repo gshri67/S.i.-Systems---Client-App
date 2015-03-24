@@ -50,7 +50,7 @@ namespace ClientApp.iOS
                                 InvokeOnMainThread(() =>
                                     {
                                         _viewModel.Message = new ConsultantMessage() { ConsultantId = Consultant.Id, Text = _emailTextField.Text };
-                                        _overlay = new LoadingOverlay(UIScreen.MainScreen.Bounds);
+                                        _overlay = new LoadingOverlay(UIScreen.MainScreen.Bounds, null);
                                         View.Add(_overlay);
                                         Task.Factory.StartNew(() => SendMessage());
                                     });

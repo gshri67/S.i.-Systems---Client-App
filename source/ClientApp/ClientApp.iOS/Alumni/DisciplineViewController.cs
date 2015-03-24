@@ -86,7 +86,8 @@ namespace ClientApp.iOS
                 var source = DisciplineTable.Source as DisciplineTableViewSource;
                 var rowpath = DisciplineTable.IndexPathForSelectedRow;
                 var consultant = source.GetItem(rowpath.Row);
-                view.LoadConsultant(consultant.Id, _isActiveConsultants);
+
+                view.Initialize(consultant);
             }
         }
 	}
