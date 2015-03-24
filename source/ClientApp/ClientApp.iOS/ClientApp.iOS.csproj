@@ -302,9 +302,6 @@
     <BundleResource Include="Resources\Si-app-icon-180.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Si-app-store-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\sisystems_logo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -362,24 +359,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\goldstar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\icon-mail.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\icon-mail%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\icon-mail%403x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\button-green%403x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\button-green%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\button-green.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\app-button%403x.png" />
