@@ -8,6 +8,7 @@ using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 using ClientApp.Core.ViewModels;
+using System.Threading.Tasks;
 
 namespace ClientApp.iOS
 {
@@ -22,6 +23,8 @@ namespace ClientApp.iOS
             ContractHistory = 4
 		}
 
+        private Task _initializing;
+        private Func<Task> loadFn;
         private readonly ConsultantDetailViewModel _detailViewModel;
 	    private LoadingOverlay _overlay;
         private string _emailText;
@@ -32,22 +35,47 @@ namespace ClientApp.iOS
             _detailViewModel = DependencyResolver.Current.Resolve<ConsultantDetailViewModel>();
         }
 
-	    public override void LoadView()
+	    public override void ViewDidLoad()
 	    {
-	        base.LoadView();
+            base.ViewDidLoad();
 	        DetailsTable.Delegate = this;
-	        if (_detailViewModel.IsLoading)
-	        {
-	            _overlay = new LoadingOverlay(DetailsTable.Frame);
-                View.Add(_overlay);
-	        }
+            _overlay = new LoadingOverlay(DetailsTable.Frame, retryFn: async () =>
+            {
+                await loadFn();
+                InvokeOnMainThread(UpdateUI);
+            });
+            View.Add(_overlay);
 
             ContactButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
             ContactButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
             ContactButton.SetTitleColor(StyleGuideConstants.LightGrayUiColor, UIControlState.Highlighted);
+
+            OnboardButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
+            OnboardButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+            OnboardButton.SetTitleColor(StyleGuideConstants.LightGrayUiColor, UIControlState.Highlighted);
+            OnboardButton.TouchUpInside += (sender, args) =>
+	        {
+	            PerformSegue("OnboardSelected", OnboardButton);
+	        };
+
+            Title = _detailViewModel.Title;
+
+            _initializing.ContinueWith(_ => InvokeOnMainThread(UpdateUI), TaskContinuationOptions.OnlyOnRanToCompletion);
+            _initializing.ContinueWith(_ => InvokeOnMainThread(() => _overlay.SetFailedState()), TaskContinuationOptions.OnlyOnFaulted);
+	    }
+
+        public void Initialize(ConsultantSummary summary)
+        {
+            loadFn = () => this._detailViewModel.Initialize(summary);
+            _initializing = loadFn();
+        }
+
+        private void UpdateUI()
+        {
+            OnboardButton.SetTitle(_detailViewModel.ActionText, UIControlState.Normal);
             ContactButton.TouchUpInside += (sender, args) =>
             {
-                if (_detailViewModel.IsActiveConsultant)
+                if (_detailViewModel.IsActive)
                 {
                     _emailText = string.Empty;
                     PerformSegue("ContactSelected", ContactButton);
@@ -58,81 +86,35 @@ namespace ClientApp.iOS
                 }
             };
 
-            OnboardButton.Layer.CornerRadius = StyleGuideConstants.ButtonCornerRadius;
-            OnboardButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
-            OnboardButton.SetTitleColor(StyleGuideConstants.LightGrayUiColor, UIControlState.Highlighted);
-            OnboardButton.TouchUpInside += (sender, args) =>
-	        {
-	            PerformSegue("OnboardSelected", OnboardButton);
-	        };
-	    }
-
-	    public async void LoadConsultant(int id, bool isActiveConsultant)
-	    {
-	        _detailViewModel.IsActiveConsultant = isActiveConsultant;
-            var consultant = await _detailViewModel.GetConsultant(id);
-
-            InvokeOnMainThread(() =>
+            if (_detailViewModel.RatingAsInt == 0)
             {
-                if (consultant == null)
-                {
-                    this.NavigationController.PopViewController(true);
-                }
-                else
-                {
-                    UpdateUI(consultant);
-                }
-            });
-	    }
-
-	    private void UpdateUI(Consultant consultant)
-	    {
-	        Title = consultant.FullName;
-	        var lastContract =
-	            consultant.Contracts.Where(c => !string.IsNullOrEmpty(c.Title)).OrderByDescending(c => c.EndDate).FirstOrDefault();
-            TitleLabel.Text = lastContract != null ? lastContract.Title : "";
-            TitleLabel.SizeToFit();
-	        if (_detailViewModel.IsActiveConsultant)
-	        {
-	            OnboardButton.SetTitle("Renew", UIControlState.Normal);
-	        }
-
-	        SetRatingImagesOrText(consultant);
-	        ContractsLabel.Text = string.Format("{0} ({1})", consultant.Contracts.Count(),
-	            consultant.Contracts.OrderByDescending(c => c.EndDate).Select(c => c.RateWitheld ? RateWitheldText : string.Format("{0:c}/hr", c.Rate)).FirstOrDefault()).TrimEnd();
-	        AddSpecializationAndSkills(consultant.Specializations, SpecializationCell);
-
-	        if (string.IsNullOrEmpty(consultant.ResumeText))
-	        {
-	            ResumeLabel.Text = "No Resume";
-                ResumeCell.Accessory = UITableViewCellAccessory.None;
-	        }
-	        else
-	        {
-	            ResumeLabel.Text = "Resume";
-                ResumeCell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-	        }
-	        
-            DetailsTable.ReloadData();
-            
-            if (_overlay != null)
-	        {
-	            _overlay.Hide();
-	        }
-	    }
-
-	    private void SetRatingImagesOrText(Consultant consultant)
-	    {
-	        if (consultant.Rating == MatchGuideConstants.ResumeRating.NotChecked ||
-	            consultant.Rating == MatchGuideConstants.ResumeRating.AlsoNotChecked)
-	            RatingLabel.Text = consultant.Rating.ToString();
-            else { 
-	            var ratingImageFetcher = new RatingImage(consultant.Rating);
-                LeftStar.Image = ratingImageFetcher.GetFirstStar();
-                MiddleStar.Image = ratingImageFetcher.GetSecondStar();
-                RightStar.Image = ratingImageFetcher.GetThirdStar();
+                RatingLabel.Text = _detailViewModel.RatingAsString;
             }
-	    }
+            else
+            {
+                var starImageViews = new[] { LeftStar, MiddleStar, RightStar };
+
+                for (int i = 1; i <= starImageViews.Length; i++)
+                {
+                    var imageView = starImageViews[i - 1];
+                    imageView.Image = i <= _detailViewModel.RatingAsInt
+                        ? UIImage.FromBundle("goldstar")
+                        : UIImage.FromBundle("star");
+               }
+            }
+            TitleLabel.Text = _detailViewModel.TitleLabel;
+            TitleLabel.SizeToFit();
+            ResumeLabel.Text = _detailViewModel.ResumeLabel;
+            ResumeCell.Accessory = _detailViewModel.HasResume
+                ? UITableViewCellAccessory.DisclosureIndicator
+                : UITableViewCellAccessory.None;
+
+            AddSpecializationAndSkills(_detailViewModel.Specializations, SpecializationCell);
+
+            DetailsTable.ReloadData();
+
+            _overlay.Hide();
+        }
 
 	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
 	    {
@@ -141,23 +123,23 @@ namespace ClientApp.iOS
 	        if (segue.Identifier == "ResumeSelected")
 	        {
                 var view = (ResumeViewController)segue.DestinationViewController;
-	            view.Resume = _detailViewModel.GetConsultant().ResumeText;
+	            view.Resume = _detailViewModel.Consultant.ResumeText;
 	        } else if (segue.Identifier == "ContractsSelected")
 	        {
                 var view = (ContractsViewController)segue.DestinationViewController;
-                view.Contracts = _detailViewModel.GetConsultant().Contracts.ToList();
+                view.Contracts = _detailViewModel.Consultant.Contracts.ToList();
 	        } else if (segue.Identifier == "OnboardSelected")
 	        {
 	            var navController = (UINavigationController) segue.DestinationViewController;
 	            var view = (OnboardViewController) navController.ViewControllers[0];
-	            view.Consultant = _detailViewModel.GetConsultant();
-	            view.IsActiveConsultant = _detailViewModel.IsActiveConsultant;
+                view.Consultant = _detailViewModel.Consultant;
+	            view.IsActiveConsultant = _detailViewModel.IsActive;
 	        }
             else if (segue.Identifier == "ContactSelected")
             {
                 var navController = (UINavigationController)segue.DestinationViewController;
                 var view = (ContactAlumniViewController)navController.ViewControllers[0];
-                view.Consultant = _detailViewModel.GetConsultant();
+                view.Consultant = _detailViewModel.Consultant;
                 view.InitialEmailText = _emailText;
             }
 	    }
