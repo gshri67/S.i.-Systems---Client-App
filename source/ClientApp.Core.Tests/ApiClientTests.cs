@@ -163,7 +163,7 @@ namespace ClientApp.Core.Tests
             await _sut.PostMyTestType(new MyTestType { Description = "My Description" });
         }
 
-        [Test]
+        [Test, Ignore("The timeout is unreliable")]
         public async void Execute_ShouldBroadcastTimeoutError_OnTaskCancelled()
         {
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
