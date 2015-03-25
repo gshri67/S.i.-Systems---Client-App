@@ -10,7 +10,7 @@ namespace ClientApp.iOS
     {
         // control declarations
         UIActivityIndicatorView activitySpinner;
-        UIButton refreshButton;
+        BorderedButton refreshButton;
         UILabel errorLabel;
 
         public bool IsVisible { get; private set; }
@@ -65,20 +65,20 @@ namespace ClientApp.iOS
                 // TODO: Center these in the frame
                 var parentFrame = activitySpinner.Frame;
 
-                var labelFrame = new CGRect(0, 10, parentFrame.Height, parentFrame.Width);
-                errorLabel = new UILabel(labelFrame);
+                errorLabel = new UILabel();
                 errorLabel.Text = "Something went wrong!";
-                errorLabel.SizeToFit();
-                errorLabel.AutoresizingMask = UIViewAutoresizing.FlexibleDimensions | UIViewAutoresizing.FlexibleMargins;
-                errorLabel.Hidden = true;
                 errorLabel.TextAlignment = UITextAlignment.Center;
+                errorLabel.SizeToFit();
+                errorLabel.Center = new CGPoint(Center.X, 50);
 
-                var buttonFrame = new CGRect(Frame.Width/2, labelFrame.Height + 10, parentFrame.Height, parentFrame.Width);
-                refreshButton = new UIButton(buttonFrame);
+                refreshButton = new BorderedButton();
                 refreshButton.SetTitle("Retry", UIControlState.Normal);
                 refreshButton.SetTitleColor(StyleGuideConstants.DarkGrayUiColor, UIControlState.Normal);
+                refreshButton.ContentEdgeInsets = new UIEdgeInsets(5, 5, 5, 5);
                 refreshButton.SizeToFit();
-                refreshButton.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
+                refreshButton.Center = new CGPoint(Center.X, errorLabel.Center.Y + refreshButton.Frame.Height + 5);
+
+                errorLabel.Hidden = true;
                 refreshButton.Hidden = true;
 
                 AddSubview(errorLabel);
