@@ -367,5 +367,47 @@
   <ItemGroup>
     <BundleResource Include="Resources\app-button.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\2to4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\2to4%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\2to4%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\5to7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\5to7%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\5to7%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\8to10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\8to10%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\8to10%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\gt10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\gt10%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\lt2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\lt2%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\lt2%403x.png" />
+  </ItemGroup>
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
 </Project>

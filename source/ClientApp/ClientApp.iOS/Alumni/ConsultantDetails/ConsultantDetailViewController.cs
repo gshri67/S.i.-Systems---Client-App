@@ -13,8 +13,9 @@ using System.Threading.Tasks;
 namespace ClientApp.iOS
 {
     partial class ConsultantDetailViewController : UITableViewController, IUITableViewDelegate
-	{
-		private enum DetailsTableCells
+    {
+        private const int Margin = 20;
+        private enum DetailsTableCells
 		{
 		    TitleAndContact = 0,
             SpecializationAndSkills = 1,
@@ -243,33 +244,69 @@ namespace ClientApp.iOS
         private void AddSpecializationAndSkills(IEnumerable<Specialization> specs, UITableViewCell cell)
         {
             var specFont = UIFont.SystemFontOfSize(17f);
-            var skillFont = UIFont.SystemFontOfSize(14f);
+            var skillFont = UIFont.SystemFontOfSize(15f);
+            var skillIconFont = UIFont.SystemFontOfSize(8f);
             var frame = cell.Frame;
-            var y = specs.Any() ? (int)specFont.LineHeight : 0;
-            foreach (var spec in specs)
+            var specializations = specs as IList<Specialization> ?? specs.ToList();
+            var y = specializations.Any() ? (int)specFont.LineHeight : 0;
+            foreach (var spec in specializations)
 	        {
 	            var specLabel = new UILabel {Text = spec.Name, Frame = new CGRect(20, y, frame.Width - 40, specFont.LineHeight), Font = specFont};
 	            cell.Add(specLabel);
+                y += (int)specFont.LineHeight + 2;
+	            var sortedSkills = spec.Skills.OrderByDescending(s => (int) s.YearsOfExperience).ThenBy(s => s.Name);
+	            foreach (var skill in sortedSkills)
+	            {
+                    var skillIcon = new UIImageView(GetImageForSkill(skill))
+                    {
+                        Frame = new CGRect(Margin, y + 4, 40, 3)
+                    };
+	                var skillIconText = new UILabel
+	                {
+                        Text = skill.YearsOfExperience.ToString(),
+                        Font = skillIconFont,
+                        Frame = new CGRect(Margin, skillIcon.Frame.GetMaxY(), 40, skillIconFont.LineHeight)
+	                };
+                    var skillLabel = new UILabel
+                    {
+                        Text = skill.Name,
+                        Frame = new CGRect(skillIcon.Frame.GetMaxX() + 5, y, frame.Width - skillIcon.Frame.GetMaxX() - 5 - Margin, skillFont.LineHeight),
+                        Font = skillFont,
+                        TextColor = StyleGuideConstants.DarkGrayUiColor
+                    };
+                    skillLabel.SizeToFit();
+	                y += (int)skillLabel.Frame.Height + 2;
+                    cell.Add(skillIcon);
+                    cell.Add(skillIconText);
+                    cell.Add(skillLabel);
+	            }
                 y += (int)specFont.LineHeight;
-                var skillLabel = new UILabel
-                {
-                    Text = GetSkillsString(spec.Skills),
-                    Frame = new CGRect(30, y, frame.Width - 50, skillFont.LineHeight),
-                    Font = skillFont,
-                    TextColor = StyleGuideConstants.DarkGrayUiColor,
-                    Lines = 0,
-                    LineBreakMode = UILineBreakMode.WordWrap
-                };
-                skillLabel.SizeToFit();
-	            y += (int)skillLabel.Frame.Height;
-	            cell.Add(skillLabel);
-                y += (int)specFont.LineHeight;
+
 	        }
             frame.Height = y;
             cell.Frame = frame;
         }
 
-	    private static string GetSkillsString(IEnumerable<Skill> skills)
+        private static UIImage GetImageForSkill(Skill skill)
+        {
+            switch (skill.YearsOfExperience)
+            {
+                case MatchGuideConstants.YearsOfExperience.LessThanTwo:
+                    return UIImage.FromBundle("lt2.png");
+                case MatchGuideConstants.YearsOfExperience.TwoToFour:
+                    return UIImage.FromBundle("2to4.png");
+                case MatchGuideConstants.YearsOfExperience.FiveToSeven:
+                    return UIImage.FromBundle("5to7.png");
+                case MatchGuideConstants.YearsOfExperience.EightToTen:
+                    return UIImage.FromBundle("8to10.png");
+                case MatchGuideConstants.YearsOfExperience.MoreThanTen:
+                    return UIImage.FromBundle("gt10.png");
+                default:
+                    return UIImage.FromBundle("lt2.png");                    
+            }
+        }
+
+        private static string GetSkillsString(IEnumerable<Skill> skills)
 	    {
 	        var lines =
 	            skills.OrderByDescending(s => (int) s.YearsOfExperience)
