@@ -214,7 +214,7 @@ namespace ClientApp.iOS
 	        switch (indexPath.Row)
 	        {
 	            case (int)DetailsTableCells.TitleAndContact:
-	                return string.IsNullOrEmpty(TitleLabel.Text) ? 56 : (60 + TitleLabel.Frame.Height);
+	                return string.IsNullOrEmpty(TitleLabel.Text) ? 54 : (60 + TitleLabel.Frame.Height);
 	            case (int)DetailsTableCells.SpecializationAndSkills:
 	                return SpecializationCell.Frame.Height;
 	        }
@@ -305,16 +305,6 @@ namespace ClientApp.iOS
                     return UIImage.FromBundle("lt2.png");                    
             }
         }
-
-        private static string GetSkillsString(IEnumerable<Skill> skills)
-	    {
-	        var lines =
-	            skills.OrderByDescending(s => (int) s.YearsOfExperience)
-	                .ThenBy(s => s.Name)
-	                .Select(skill => string.Format("{0} {1}", skill.Name, skill.YearsOfExperience));
-
-	        return string.Join("\n", lines);
-	    }
         #endregion
 	}
 }
