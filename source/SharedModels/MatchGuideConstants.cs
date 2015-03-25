@@ -420,11 +420,11 @@ namespace SiSystems.ClientApp.SharedModels
 
             private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
             {
-                {LessThanTwo, "< 2 years"},
-                {TwoToFour, "2-4 years"},
-                {FiveToSeven, "5-7 years"},
-                {EightToTen, "8-10 years"},
-                {MoreThanTen, "> 10 years"}
+                {LessThanTwo, "(< 2 years)"},
+                {TwoToFour, "(2-4 years)"},
+                {FiveToSeven, "(5-7 years)"},
+                {EightToTen, "(8-10 years)"},
+                {MoreThanTen, "(> 10 years)"}
             };
 
             private YearsOfExperience(long value)
