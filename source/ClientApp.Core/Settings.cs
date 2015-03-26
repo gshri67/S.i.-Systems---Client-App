@@ -16,8 +16,6 @@ namespace ClientApp.Core
         public const string MatchGuideApiAddress = "https://clientapitest.azurewebsites.net/api/";
     #elif PROD
         public const string MatchGuideApiAddress = "https://clientapi.azurewebsites.net/api/";
-    #else
-         public const string MatchGuideApiAddress = "https://clientapi.test/api/";
     #endif
     }
 }
