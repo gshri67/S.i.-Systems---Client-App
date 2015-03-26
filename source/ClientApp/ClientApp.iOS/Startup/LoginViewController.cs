@@ -215,7 +215,7 @@ namespace ClientApp.iOS
             InvokeOnMainThread(delegate
                                {
                                    loginActivityIndicator.StopAnimating();
-                                   var view = new UIAlertView("Error", message, null, "Ok");
+                                   var view = new UIAlertView(message, null, null, "Ok");
                                    view.Show();
                                    EnableControls();
                                });
