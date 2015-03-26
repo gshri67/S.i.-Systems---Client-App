@@ -34,6 +34,6 @@ function CreateBuild {
 }
 
 CreateBuild $INSIGHTS_API_KEY_TEST "Test" 0
-CreateBuild $INSIGHTS_API_KEY_RELEASE "Release"
+CreateBuild $INSIGHTS_API_KEY_RELEASE "Release" 1
 
 security default-keychain -s login.keychain
