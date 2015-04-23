@@ -49,11 +49,6 @@ namespace ClientApp.iOS
             UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
         }
 
-        public override void TouchesBegan(NSSet touches, UIEvent evt)
-	    {
-	        base.TouchesBegan(touches, evt);
-	    }
-
         private void ConfigureSearchEvents()
         {
             var timer = CreateTimer();
@@ -203,26 +198,10 @@ namespace ClientApp.iOS
             , true);
         }
 
-        public override void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
-
-        }
-
-        public override void ViewDidAppear(bool animated)
-        {
-            base.ViewDidAppear(animated);
-        }
-
-	    public override void ViewWillDisappear(bool animated)
+        public override void ViewWillDisappear(bool animated)
         {
             AlumniSearch.ResignFirstResponder();
             base.ViewWillDisappear(animated);
-        }
-
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
         }
 
         #endregion

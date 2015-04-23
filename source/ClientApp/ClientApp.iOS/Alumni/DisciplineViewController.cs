@@ -31,11 +31,6 @@ namespace ClientApp.iOS
         
         #region View lifecycle
 
-        public override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
-        }
-
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
@@ -50,21 +45,6 @@ namespace ClientApp.iOS
             
             //set the source for our table's data
             //SpecializationTable.Source = new AlumniTableViewSource(this, consultantGroups);
-        }
-
-        public override void ViewDidAppear(bool animated)
-        {
-            base.ViewDidAppear(animated);
-        }
-
-        public override void ViewWillDisappear(bool animated)
-        {
-            base.ViewWillDisappear(animated);
-        }
-
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
         }
 
         #endregion
