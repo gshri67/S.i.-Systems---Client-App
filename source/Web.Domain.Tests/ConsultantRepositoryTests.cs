@@ -203,6 +203,22 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
             Assert.IsNull(consultant.ResumeText);
         }
 
+        [Test]
+        public void FindActive_ShouldReturnBillRate()
+        {
+            //sally.divisioner@email.com - Bill Rate: 201, Pay Rate: 191
+            var consultantGroups = _repo.Find("", new List<int>{_companyFourId}, true);
+            Assert.AreEqual(201, consultantGroups.First().Consultants.First().MostRecentContractRate);
+        }
+
+        [Test]
+        public void FindAlumni_ShouldReturnPayRate()
+        {
+            //Tommy Contractor - Bill Rate: 98, Pay Rate: 88
+            var consultantGroups = _repo.Find("", new List<int> { _companyOneId }, false);
+            Assert.AreEqual(88, consultantGroups.First().Consultants.First().MostRecentContractRate);
+        }
+
         private bool GroupSpecializationMatchesText(ConsultantGroup group, string text)
         {
             return group.Specialization.ToUpperInvariant().Contains(text.ToUpperInvariant());

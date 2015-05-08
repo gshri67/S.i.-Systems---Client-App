@@ -108,7 +108,7 @@ CREATE TABLE [dbo].[Agreement_ContractRateDetail](
 	[AgreementID] [int] NOT NULL,
 	--[StartDate] [smalldatetime] NULL,
 	--[EndDate] [smalldatetime] NOT NULL,
-	--[BillRate] [money] NULL,
+	[BillRate] [money] NULL,
 	[PayRate] [money] NULL,
 	--[MinSalary] [money] NULL,
 	--[MaxSalary] [money] NULL,

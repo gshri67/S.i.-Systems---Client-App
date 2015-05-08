@@ -149,7 +149,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 	                                    ,ISNULL(cri.ReferenceValue, @NOTCHECKED) as Rating
 	                                    ,mostRecentContract.StartDate MostRecentContractStartDate
 	                                    ,mostRecentContract.EndDate MostRecentContractEndDate
-	                                    ,mostRecentContract.PayRate MostRecentContractRate
+	                                    ,mostRecentContract.BillRate MostRecentContractRate
 	                                    ,mostRecentContract.SpecializationID Id, mostRecentContract.Name, mostRecentContract.Description
                                     FROM Users usr
 	                                    JOIN User_Email ue on ue.UserID = usr.UserID
@@ -157,7 +157,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 	                                    CROSS APPLY (SELECT	TOP 1	a.CandidateID,
 							                                    a.StartDate, 
 							                                    a.EndDate,
-							                                    crd.PayRate
+							                                    crd.BillRate
 							                                    ,spec.SpecializationID, spec.Name, spec.Description
 				                                    FROM [Agreement] a
 				                                    JOIN [Agreement_ContractDetail] cd on cd.AgreementID = a.AgreementID
