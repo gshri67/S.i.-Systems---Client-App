@@ -91,7 +91,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                                             agr.StartDate, 
                                             agr.EndDate,
                                             CAST(agr.StatusType AS INT) StatusType,
-                                            agrRateDetail.PayRate Rate,
+                                            agrRateDetail.BillRate Rate,
                                             spec.Name SpecializationName, 
                                             spec.Description SpecializationNameShort,
                                             contact.UserID Id,
@@ -190,7 +190,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 	                                    ,ISNULL(cri.ReferenceValue, @NOTCHECKED) as Rating
 	                                    ,mostRecentContract.StartDate MostRecentContractStartDate
 	                                    ,mostRecentContract.EndDate MostRecentContractEndDate
-	                                    ,mostRecentContract.PayRate MostRecentContractRate
+	                                    ,mostRecentContract.BillRate MostRecentContractRate
 	                                    ,spec.SpecializationID Id, spec.Name, spec.Description
                                     FROM Users usr
 	                                    JOIN User_Email ue on ue.UserID = usr.UserID
@@ -201,7 +201,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 	                                    CROSS APPLY (SELECT	TOP 1	a.CandidateID,
 							                                    a.StartDate, 
 							                                    a.EndDate,
-							                                    crd.PayRate
+							                                    crd.BillRate
 				                                    FROM [Agreement] a 
 				                                    LEFT JOIN [Agreement_ContractRateDetail] crd on crd.AgreementID = a.AgreementID
 				                                    WHERE a.CandidateID = usr.UserID 

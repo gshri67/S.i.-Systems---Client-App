@@ -212,11 +212,11 @@ namespace SiSystems.ClientApp.Web.Domain.Tests
         }
 
         [Test]
-        public void FindAlumni_ShouldReturnPayRate()
+        public void FindAlumni_ShouldReturnBillRate()
         {
             //Tommy Contractor - Bill Rate: 98, Pay Rate: 88
             var consultantGroups = _repo.Find("", new List<int> { _companyOneId }, false);
-            Assert.AreEqual(88, consultantGroups.First().Consultants.First().MostRecentContractRate);
+            Assert.AreEqual(98, consultantGroups.First().Consultants.First().MostRecentContractRate);
         }
 
         private bool GroupSpecializationMatchesText(ConsultantGroup group, string text)

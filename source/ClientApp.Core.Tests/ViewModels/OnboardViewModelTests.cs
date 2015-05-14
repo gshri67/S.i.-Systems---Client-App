@@ -333,5 +333,57 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
             Assert.AreEqual("+ Contractor Pays Service Fee ($3/hr)", footerStrings[1]);
         }
         #endregion
+
+        #region GetPayRateFromBillRate
+        [Test]
+        public void GetPayRateFromBillRate_ClientPaysBoth()
+        {
+            RateTestSetup(false, false);
+            Assert.AreEqual(100, _vm.GetPayRateFromBillRate(105));
+        }
+
+        [Test]
+        public void GetPayRateFromBillRate_ClientPaysService()
+        {
+            RateTestSetup(true, false);
+            Assert.AreEqual(100, _vm.GetPayRateFromBillRate(102));
+        }
+
+        [Test]
+        public void GetPayRateFromBillRate_ClientPaysMsp()
+        {
+            RateTestSetup(false, true);
+            Assert.AreEqual(100, _vm.GetPayRateFromBillRate(103));
+        }
+
+        [Test]
+        public void GetPayRateFromBillRate_ClientPaysNone()
+        {
+            RateTestSetup(true, true);
+            Assert.AreEqual(100, _vm.GetPayRateFromBillRate(100));
+        }
+
+        [Test]
+        public void GetPayRateFromBillRate_TotalRateOfNewRateGetsBackToOriginalValue()
+        {
+            const decimal rate = 100m;
+
+            RateTestSetup(false,false);
+            _vm.ContractorRate = _vm.GetPayRateFromBillRate(rate);
+            Assert.AreEqual(rate, _vm.TotalRate);
+
+            RateTestSetup(true, false);
+            _vm.ContractorRate = _vm.GetPayRateFromBillRate(rate);
+            Assert.AreEqual(rate, _vm.TotalRate);
+
+            RateTestSetup(false, true);
+            _vm.ContractorRate = _vm.GetPayRateFromBillRate(rate);
+            Assert.AreEqual(rate, _vm.TotalRate);
+
+            RateTestSetup(true, true);
+            _vm.ContractorRate = _vm.GetPayRateFromBillRate(rate);
+            Assert.AreEqual(rate, _vm.TotalRate);
+        }
+        #endregion
     }
 }

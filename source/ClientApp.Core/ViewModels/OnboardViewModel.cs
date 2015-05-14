@@ -70,6 +70,26 @@ namespace ClientApp.Core.ViewModels
             }
         }
 
+        public decimal GetPayRateFromBillRate(decimal billRate)
+        {
+            if (!ConsultantPaysMspPercent && !ConsultantPaysServiceFee)
+            {
+                return (billRate - ServiceFee)/(1 + MspPercent/100);
+            }
+            else if (ConsultantPaysServiceFee && !ConsultantPaysMspPercent)
+            {
+                return billRate / (1 + MspPercent / 100);
+            }
+            else if (!ConsultantPaysServiceFee && ConsultantPaysMspPercent)
+            {
+                return billRate - ServiceFee;
+            }
+            else
+            {
+                return billRate;
+            }
+        }
+
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string TimesheetApprovalEmail { get; set; }

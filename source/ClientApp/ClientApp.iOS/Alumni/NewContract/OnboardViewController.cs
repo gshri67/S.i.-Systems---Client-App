@@ -65,9 +65,18 @@ namespace ClientApp.iOS
                 SetupDatePicker(_startDatePicker, StartDateLabel, startdate, true);
                 SetupDatePicker(_endDatePicker, EndDateLabel, enddate, false);
 
-                RateField.Text = RateField.Text = string.Format("${0:N2}/hr", _viewModel.LastContractRate);
-                _viewModel.ContractorRate = _viewModel.LastContractRate;
                 TitleField.Text = _viewModel.LastContractTitle;
+                if (!_viewModel.IsFullySourced)
+                {
+                    RateField.Text = RateField.Text = string.Format("${0:N2}/hr", _viewModel.GetPayRateFromBillRate(_viewModel.LastContractRate));
+                    _viewModel.ContractorRate = _viewModel.GetPayRateFromBillRate(_viewModel.LastContractRate);
+                }
+                else
+                {
+                    RateField.Text = RateField.Text = string.Format("${0:N2}/hr", _viewModel.LastContractRate);
+                    _viewModel.ContractorRate = _viewModel.LastContractRate;
+                }
+                
             }
             else
             {
