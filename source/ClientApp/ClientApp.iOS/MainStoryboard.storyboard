@@ -550,7 +550,6 @@
                                                 <constraint firstItem="6283" firstAttribute="leading" secondItem="6284" secondAttribute="trailing" id="6300"/>
                                                 <constraint firstItem="6281" firstAttribute="trailing" secondItem="4301" secondAttribute="trailing" id="6303"/>
                                                 <constraint firstItem="4301" firstAttribute="trailing" secondItem="6281" secondAttribute="trailing" id="6317"/>
-                                                <constraint firstItem="4082" firstAttribute="centerY" secondItem="6281" secondAttribute="centerY" constant="1" id="8286"/>
                                                 <constraint firstItem="6281" firstAttribute="centerY" secondItem="4082" secondAttribute="centerY" constant="0.0" id="8304"/>
                                             </constraints>
                                         </tableViewCellContentView>
