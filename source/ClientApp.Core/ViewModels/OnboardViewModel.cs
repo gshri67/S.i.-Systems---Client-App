@@ -174,7 +174,11 @@ namespace ClientApp.Core.ViewModels
 
         public string GetRateHeader()
         {
-            return string.Format("Last Contract: ${0:0.##}/hr", LastContractRate);
+            if (MspPercent == 0 && ServiceFee == 0)
+            {
+                return string.Format("Last Contract: ${0:0.##}/hr", LastContractRate);
+            }
+            return string.Format("Last Contract: ${0:0.##}/hr", GetPayRateFromBillRate(LastContractRate));
         }
 
         public IList<string> GetRateFooter()

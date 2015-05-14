@@ -120,7 +120,7 @@ namespace ClientApp.iOS
 
         public override void ViewDidDisappear(bool animated)
         {
-            loginActivityIndicator.StopAnimating();
+            if (loginActivityIndicator != null) loginActivityIndicator.StopAnimating();
             base.ViewDidDisappear(animated);
         }
 
