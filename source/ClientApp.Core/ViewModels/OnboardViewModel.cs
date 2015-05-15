@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -176,9 +177,10 @@ namespace ClientApp.Core.ViewModels
         {
             if (MspPercent == 0 && ServiceFee == 0)
             {
-                return string.Format("Last Contract: ${0:0.##}/hr", LastContractRate);
+                //Culture to make sure if the app is used outside of north america, it won't show confusing numbers
+                return string.Format(new CultureInfo("en-us"),"Last Contract: {0:C}/hr", LastContractRate);
             }
-            return string.Format("Last Contract: ${0:0.##}/hr", GetPayRateFromBillRate(LastContractRate));
+            return string.Format(new CultureInfo("en-us"), "Last Contract: {0:C}/hr", GetPayRateFromBillRate(LastContractRate));
         }
 
         public IList<string> GetRateFooter()
@@ -196,11 +198,11 @@ namespace ClientApp.Core.ViewModels
             }
             if (ServiceFee > 0)
             {
-                strings.Add(string.Format("+ {1}Service Fee (${0}/hr)", ServiceFee, ConsultantPaysServiceFee ? "Contractor Pays " : string.Empty));
+                strings.Add(string.Format(new CultureInfo("en-us"), "+ {1}Service Fee ({0:C}/hr)", ServiceFee, ConsultantPaysServiceFee ? "Contractor Pays " : string.Empty));
             }
             if ((MspPercent > 0 || ServiceFee > 0) && !ConsultantPaysMspPercent && !ConsultantPaysServiceFee)
             {
-                strings.Add(string.Format("= ${0:0.##}/hr", TotalRate));
+                strings.Add(string.Format(new CultureInfo("en-us"), "= {0:C}/hr", TotalRate));
             }
             return strings;
         }
