@@ -255,7 +255,7 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
             _vm.ServiceFee = 0;
             var footerStrings = _vm.GetRateFooter();
             Assert.AreEqual("+ MSP rate (2%)", footerStrings[0]);
-            Assert.AreEqual("= $102/hr", footerStrings[1]);
+            Assert.AreEqual("= $102.00/hr", footerStrings[1]);
         }
 
         [Test]
@@ -264,16 +264,16 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
             _vm.MspPercent = 2;
             var footerStrings = _vm.GetRateFooter();
             Assert.AreEqual("+ MSP rate (2%)", footerStrings[0]);
-            Assert.AreEqual("+ Service Fee ($3/hr)", footerStrings[1]);
-            Assert.AreEqual("= $105/hr", footerStrings[2]);
+            Assert.AreEqual("+ Service Fee ($3.00/hr)", footerStrings[1]);
+            Assert.AreEqual("= $105.00/hr", footerStrings[2]);
         }
 
         [Test]
         public void GetRateFooter_NoMSPWhenZero()
         {
             var footerStrings = _vm.GetRateFooter(); 
-            Assert.AreEqual("+ Service Fee ($3/hr)", footerStrings[0]);
-            Assert.AreEqual("= $103/hr", footerStrings[1]);
+            Assert.AreEqual("+ Service Fee ($3.00/hr)", footerStrings[0]);
+            Assert.AreEqual("= $103.00/hr", footerStrings[1]);
         }
 
         [Test]
@@ -283,7 +283,7 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
             _vm.ServiceFee = 0;
             var footerStrings = _vm.GetRateFooter();
             Assert.AreEqual("+ MSP rate (2%)", footerStrings[0]);
-            Assert.AreEqual("= $102/hr", footerStrings[1]);
+            Assert.AreEqual("= $102.00/hr", footerStrings[1]);
         }
 
         [Test]
@@ -292,8 +292,8 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
             _vm.ContractorRate = 50;
             _vm.ServiceFee = 5;
             var footerStrings = _vm.GetRateFooter();
-            Assert.AreEqual("+ Service Fee ($5/hr)", footerStrings[0]);
-            Assert.AreEqual("= $55/hr", footerStrings[1]);
+            Assert.AreEqual("+ Service Fee ($5.00/hr)", footerStrings[0]);
+            Assert.AreEqual("= $55.00/hr", footerStrings[1]);
         }
 
         [Test]
@@ -312,7 +312,7 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
             RateTestSetup(false, true);
             var footerStrings = _vm.GetRateFooter();
             Assert.AreEqual("+ Contractor Pays MSP rate (2%)", footerStrings[0]);
-            Assert.AreEqual("+ Service Fee ($3/hr)", footerStrings[1]);
+            Assert.AreEqual("+ Service Fee ($3.00/hr)", footerStrings[1]);
         }
 
         [Test]
@@ -321,7 +321,7 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
             RateTestSetup(true, false);
             var footerStrings = _vm.GetRateFooter();
             Assert.AreEqual("+ MSP rate (2%)", footerStrings[0]);
-            Assert.AreEqual("+ Contractor Pays Service Fee ($3/hr)", footerStrings[1]);
+            Assert.AreEqual("+ Contractor Pays Service Fee ($3.00/hr)", footerStrings[1]);
         }
 
         [Test]
@@ -330,7 +330,7 @@ namespace SiSystems.ClientApp.Core.Tests.ViewModels
             RateTestSetup(true, true);
             var footerStrings = _vm.GetRateFooter();
             Assert.AreEqual("+ Contractor Pays MSP rate (2%)", footerStrings[0]);
-            Assert.AreEqual("+ Contractor Pays Service Fee ($3/hr)", footerStrings[1]);
+            Assert.AreEqual("+ Contractor Pays Service Fee ($3.00/hr)", footerStrings[1]);
         }
         #endregion
 
