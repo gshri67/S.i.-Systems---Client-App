@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,10 +36,6 @@
     <Reference Include="ExpectedObjects">
       <HintPath>..\packages\ExpectedObjects.1.2.1\lib\net40\ExpectedObjects.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -52,6 +49,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientDetailsRepositoryTests.cs" />
@@ -75,11 +75,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharedModels\SharedModels.csproj">
-      <Project>{a274548b-6cca-4841-b167-21625d1179b3}</Project>
+      <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
       <Name>SharedModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\Web.Domain\Web.Domain.csproj">
-      <Project>{d9fca4cd-8422-4e37-a55f-49e6a8170a7e}</Project>
+      <Project>{D9FCA4CD-8422-4E37-A55F-49E6A8170A7E}</Project>
       <Name>Web.Domain</Name>
     </ProjectReference>
   </ItemGroup>

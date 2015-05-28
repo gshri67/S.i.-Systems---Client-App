@@ -12,6 +12,7 @@
     <NuGetPackageImportStamp>16bf2ee3</NuGetPackageImportStamp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,8 +26,6 @@
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignEntitlements>
-    </CodesignEntitlements>
     <MtouchI18n>
     </MtouchI18n>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -101,20 +100,11 @@
     <MtouchLink>None</MtouchLink>
     <MtouchArch>i386, x86_64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignEntitlements>
-    </CodesignEntitlements>
     <DefineConstants>TEST</DefineConstants>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchSdkVersion>8.3</MtouchSdkVersion>
-    <MtouchDebug>True</MtouchDebug>
-    <MtouchProfiling>False</MtouchProfiling>
-    <MtouchFastDev>False</MtouchFastDev>
-    <MtouchUseLlvm>False</MtouchUseLlvm>
-    <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
-    <MtouchUseRefCounting>False</MtouchUseRefCounting>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Dev|iPhone' ">
@@ -152,14 +142,9 @@
     <MtouchI18n>
     </MtouchI18n>
     <MtouchSdkVersion>8.2</MtouchSdkVersion>
-    <MtouchProfiling>False</MtouchProfiling>
-    <MtouchExtraArgs />
-    <MtouchFastDev>False</MtouchFastDev>
-    <MtouchEnableGenericValueTypeSharing>True</MtouchEnableGenericValueTypeSharing>
+    <MtouchExtraArgs>
+    </MtouchExtraArgs>
     <MtouchUseLlvm>True</MtouchUseLlvm>
-    <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
-    <MtouchUseRefCounting>False</MtouchUseRefCounting>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
   </PropertyGroup>
   <ItemGroup>
@@ -263,7 +248,7 @@
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PLCrashReporterUnifiedBinding">
-      <HintPath>..\..\packages\Xamarin.Insights.1.9.1.107\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+      <HintPath>..\..\packages\Xamarin.Insights.1.10.1.109\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections" />
@@ -277,7 +262,7 @@
     <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.Insights">
-      <HintPath>..\..\packages\Xamarin.Insights.1.9.1.107\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
+      <HintPath>..\..\packages\Xamarin.Insights.1.10.1.109\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.iOS" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
@@ -286,7 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ClientApp.Core\ClientApp.Core.csproj">
-      <Project>{256e615c-7b6f-4477-b215-c00676f278e0}</Project>
+      <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
       <Name>ClientApp.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
