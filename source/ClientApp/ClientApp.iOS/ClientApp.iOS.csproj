@@ -141,11 +141,10 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchSdkVersion>8.2</MtouchSdkVersion>
-    <MtouchExtraArgs>
-    </MtouchExtraArgs>
+    <MtouchSdkVersion>8.3</MtouchSdkVersion>
     <MtouchUseLlvm>True</MtouchUseLlvm>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Alumni\ConsultantDetails\ConsultantDetailViewController.cs" />
@@ -248,15 +247,12 @@
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections" />
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Primitives">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime" />
-    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="Xamarin.Insights">
@@ -270,13 +266,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientApp.Core\ClientApp.Core.csproj">
-      <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
-      <Name>ClientApp.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
       <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
       <Name>SharedModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ClientApp.Core\ClientApp.Core.csproj">
+      <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
+      <Name>ClientApp.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
