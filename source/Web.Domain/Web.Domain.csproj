@@ -80,12 +80,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharedModels\SharedModels.csproj">
-      <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
-      <Name>SharedModels</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -110,4 +104,10 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <ProjectReference Include="..\SharedModels\SharedModels.csproj">
+      <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
+      <Name>SharedModels</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

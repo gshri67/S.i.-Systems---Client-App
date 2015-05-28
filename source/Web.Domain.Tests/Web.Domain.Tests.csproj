@@ -74,13 +74,13 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharedModels\SharedModels.csproj">
-      <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
-      <Name>SharedModels</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Web.Domain\Web.Domain.csproj">
       <Project>{D9FCA4CD-8422-4E37-A55F-49E6A8170A7E}</Project>
       <Name>Web.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharedModels\SharedModels.csproj">
+      <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
+      <Name>SharedModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

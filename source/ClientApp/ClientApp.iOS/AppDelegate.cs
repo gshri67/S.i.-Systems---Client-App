@@ -67,7 +67,7 @@ namespace ClientApp.iOS
             }
             catch (Exception e)
             {
-                Insights.Report(e, ReportSeverity.Error);
+				Insights.Report(e, Insights.Severity.Error);
                 return false;
             }
             return true;
