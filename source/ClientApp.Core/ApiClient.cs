@@ -27,6 +27,8 @@ namespace ClientApp.Core
         private readonly IErrorSource _errorSource;
 
         public readonly Uri BaseAddress;
+        public readonly Uri DemoBaseAddress;
+        public bool DemoMode;
 
         public TimeSpan Timeout = TimeSpan.FromSeconds(100);
 
@@ -38,6 +40,8 @@ namespace ClientApp.Core
             this._errorSource = errorSource;
 
             this.BaseAddress = new Uri(this.GetType().GetTypeInfo().GetCustomAttribute<ApiAttribute>().BaseUrl);
+            this.DemoBaseAddress = new Uri(Settings.DemoMatchGuideApiAddress);
+            this.DemoMode = false;
         }
 
         /// <summary>
@@ -71,7 +75,13 @@ namespace ClientApp.Core
             {
                 this._activityManager.StartActivity();
 
-                var httpClient = new HttpClient(this._handler) { BaseAddress = this.BaseAddress, Timeout = this.Timeout };
+                var httpClient = new HttpClient(this._handler)
+                {
+                    BaseAddress = this.DemoMode 
+                        ? this.DemoBaseAddress 
+                        : this.BaseAddress,
+                    Timeout = this.Timeout
+                };
 
                 var token = this._tokenStore.GetDeviceToken();
                 if (token != null)
