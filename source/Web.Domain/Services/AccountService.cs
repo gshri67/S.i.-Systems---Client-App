@@ -50,25 +50,33 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
             using (var httpClient = new HttpClient() { BaseAddress = new Uri(Settings.MatchGuideAccountServiceUrl) })
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, string.Format("ForgotPassword/User?userEmail={0}&portal={1}", emailAddress, PortalName));
-                request.Headers.Add("gatewayId", Settings.MatchGuideAccountServiceGatewayId);
-                request.Headers.Add("gatewayPwd", Settings.MatchGuideAccountServiceGatewayPwd);
-
-                var response = await httpClient.SendAsync(request);
-
-                var json = response != null && response.Content != null 
-                    ? await response.Content.ReadAsStringAsync() 
-                    : string.Empty;
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    var result = JsonConvert.DeserializeObject<ResetPasswordResult>(json);
-                    if (result.ResponseCode > 0)
+                    var request = new HttpRequestMessage(HttpMethod.Get, string.Format("ForgotPassword/User?userEmail={0}&portal={1}", emailAddress, PortalName));
+                    request.Headers.Add("gatewayId", Settings.MatchGuideAccountServiceGatewayId);
+                    request.Headers.Add("gatewayPwd", Settings.MatchGuideAccountServiceGatewayPwd);
+
+                    var response = await httpClient.SendAsync(request);
+
+                    var json = response != null && response.Content != null
+                        ? await response.Content.ReadAsStringAsync()
+                        : string.Empty;
+                    if (response.IsSuccessStatusCode)
                     {
-                        result.Description = result.Description.Substring(0, result.Description.IndexOf('<'));
+                        var result = JsonConvert.DeserializeObject<ResetPasswordResult>(json);
+                        if (result.ResponseCode > 0)
+                        {
+                            result.Description = result.Description.Substring(0, result.Description.IndexOf('<'));
+                        }
+                        return result;
                     }
-                    return result;
+                    errorResponse.Description = json;
                 }
-                errorResponse.Description = json;
+                catch (Exception e)
+                {
+                    errorResponse.Description = "An error has occurred while attempting to contact the server. Please try again.";
+                }
+                
             }
 
             return errorResponse;
