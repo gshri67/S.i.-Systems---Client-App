@@ -25,6 +25,10 @@ namespace ClientApp.Core.ViewModels
                 var resetResult = await this._api.ResetPassword(this.EmailAddress);
                 return resetResult.Description;
             }
+            catch(NullReferenceException e)
+            {
+                return "Could not communicate with the server, please try again";
+            }
             catch (Exception e)
             {
                 return e.Message;

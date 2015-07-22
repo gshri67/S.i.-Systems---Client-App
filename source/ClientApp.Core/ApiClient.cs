@@ -122,6 +122,7 @@ namespace ClientApp.Core
                     case HttpStatusCode.InternalServerError:
                         var serverError = JsonConvert.DeserializeObject<HttpError>(responseContent);
                         this._errorSource.ReportError(null, serverError.Message);
+                        //throw new Exception();
                         return response;
                     default:
                         return response;
