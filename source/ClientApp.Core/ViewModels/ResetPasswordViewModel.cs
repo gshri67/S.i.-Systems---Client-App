@@ -10,6 +10,7 @@ namespace ClientApp.Core.ViewModels
     public class ResetPasswordViewModel : ViewModelBase
     {
         private readonly IMatchGuideApi _api;
+        private const string ResetResultNullErrorMessage = "Unable to communicate with servers, please try again.";
 
         public string EmailAddress { get; set; }
 
@@ -24,6 +25,10 @@ namespace ClientApp.Core.ViewModels
             {
                 var resetResult = await this._api.ResetPassword(this.EmailAddress);
                 return resetResult.Description;
+            }
+            catch (NullReferenceException e)
+            {
+                return ResetResultNullErrorMessage;
             }
             catch (Exception e)
             {
