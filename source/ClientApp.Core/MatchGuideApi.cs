@@ -24,10 +24,9 @@ namespace ClientApp.Core
             this._tokenStore = tokenStore;
         }
 
-        private bool IsDemoUser(string username)
+        private static bool IsDemoUser(string username)
         {
-            return username.Trim().EndsWith("@batman.com");
-            return username.Trim().EndsWith("@demo.com");
+            return username.ToLower().Contains(Settings.DemoDomain.ToLower());
         }
 
         [HttpPost("login")]
