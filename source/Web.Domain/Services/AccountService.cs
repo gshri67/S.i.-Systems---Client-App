@@ -74,7 +74,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 }
                 catch (Exception e)
                 {
-                    errorResponse.Description = "An error has occurred while attempting to contact the server. Please try again.";
+                    errorResponse.Description = "An error has occurred while attempting to contact the Password Reset Service. Please try again.";
                 }
                 
             }
