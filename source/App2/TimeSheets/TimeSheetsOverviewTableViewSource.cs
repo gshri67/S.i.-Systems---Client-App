@@ -57,7 +57,11 @@ namespace App2
 		{
 			UIStoryboard storyboard = parentController.Storyboard;
 			CalendarTimeSheetViewController vc = (CalendarTimeSheetViewController)storyboard.InstantiateViewController( "CalendarTimeSheetViewController" );
-			parentController.PresentViewController(vc, true, null);
+
+            //UINavigationController NVC = parentController.NavigationController;
+            //parentController.NavigationController.PushViewController(vc, true);
+            
+            parentController.PresentViewController(vc, true, null);
 
 		}
     }
