@@ -96,9 +96,6 @@
       <DependentUpon>RootViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="RootViewController.cs" />
-    <InterfaceDefinition Include="MainStoryboard.storyboard">
-      <SubType>Designer</SubType>
-    </InterfaceDefinition>
     <BundleResource Include="Resources\Default-568h%402x.png" />
   </ItemGroup>
   <ItemGroup>
@@ -114,4 +111,7 @@
     <Folder Include="Startup\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <InterfaceDefinition Include="MainStoryboard.storyboard" />
+  </ItemGroup>
 </Project>
