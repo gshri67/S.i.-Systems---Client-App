@@ -13,17 +13,32 @@ namespace App2
         private const string CellIdentifier = "cell";
 
         public TimeSheetsOverviewTableViewSource(TimeSheetsOverviewViewController parentController) 
-        { 
+        {
         }
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return 1;
+            return 2;
+        }
+
+        public override string TitleForHeader(UITableView tableView, nint section)
+        {
+            if (section == 0)
+                return "Active";
+            else if (section == 1)
+                return "Submitted for Approval";
+            else
+                return "";
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return 5;
+            if (section == 0)
+                return 3;
+            else if( section == 1)
+                return 1;
+
+            return 1;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)

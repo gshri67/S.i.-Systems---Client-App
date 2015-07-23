@@ -23,12 +23,17 @@ namespace App2
 		{
 			base.ViewDidLoad ();
 
-			tableview = new UITableView(View.Bounds);
+			//tableview = new UITableView(View.Bounds);
+            
+            //EdgesForExtendedLayout = UIRectEdge.None;
+            //ExtendedLayoutIncludesOpaqueBars = false;
+            //AutomaticallyAdjustsScrollViewInsets = false;
+            
 
 			tableview.RegisterClassForCellReuse( typeof(UITableViewCell), @"cell");
 			tableview.Source = new TimeSheetsOverviewTableViewSource (this);
 			tableview.ReloadData ();
-			Add ( tableview );
+			//Add ( tableview );
 		}
 	}
 }
