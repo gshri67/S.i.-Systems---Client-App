@@ -90,8 +90,9 @@
     <None Include="GettingStarted.Xamarin" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimeSheetsOverviewViewController.cs" />
-    <Compile Include="TimeSheetsOverviewViewController.designer.cs">
+    <Compile Include="TimeSheets\TimeSheetsOverviewTableViewSource.cs" />
+    <Compile Include="TimeSheets\TimeSheetsOverviewViewController.cs" />
+    <Compile Include="TimeSheets\TimeSheetsOverviewViewController.designer.cs">
       <DependentUpon>TimeSheetsOverviewViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -113,6 +114,6 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
-    <InterfaceDefinition Include="TimeSheetsOverviewViewController.xib" />
+    <InterfaceDefinition Include="TimeSheets\TimeSheetsOverviewViewController.xib" />
   </ItemGroup>
 </Project>

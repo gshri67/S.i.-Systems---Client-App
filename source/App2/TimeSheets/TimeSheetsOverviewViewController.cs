@@ -10,6 +10,7 @@ namespace App2
 	{
 		public TimeSheetsOverviewViewController () : base ("TimeSheetsOverviewViewController", null)
 		{
+            int i;
 		}
 
 		public override void DidReceiveMemoryWarning ()
@@ -25,7 +26,14 @@ namespace App2
 			base.ViewDidLoad ();
 			
 			// Perform any additional setup after loading the view, typically from a nib.
+            //tableview.Delegate = new UITableViewDelegate();
+            //tableview.DataSource = new UITableViewDataSource();
+            //tableview.RegisterClassForCellReuse(typeof(UITableViewCell), "cell" );
+            
+            tableview.Source = new TimeSheetsOverviewTableViewSource( this );
 		}
+
+       
 	}
 }
 
