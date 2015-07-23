@@ -24,19 +24,12 @@ namespace ClientApp.Core
             this._tokenStore = tokenStore;
         }
 
-        private static bool IsDemoUser(string username)
-        {
-            return username.ToLower().Contains(Settings.DemoDomain.ToLower());
-        }
-
         [HttpPost("login")]
         public async Task<ValidationResult> Login(string username, string password)
         {
             try
             {
-                //set the client to demo mode if the user is a demo user. 
-                //Every call this device makes until a non-demo user logs in, goes through the demo uri
-                this.DemoMode = IsDemoUser(username);
+                this.Username = username;
 
                 var response = await ExecuteWithDefaultClient(new FormUrlEncodedContent(new Dictionary<string, string> {
                         { "username", WebUtility.HtmlEncode (username) },
