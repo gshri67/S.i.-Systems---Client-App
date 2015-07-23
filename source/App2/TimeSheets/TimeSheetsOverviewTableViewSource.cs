@@ -11,9 +11,11 @@ namespace App2
     internal class TimeSheetsOverviewTableViewSource : UITableViewSource
     {
         private const string CellIdentifier = "cell";
+		private UIViewController parentController;
 
         public TimeSheetsOverviewTableViewSource(TimeSheetsOverviewViewController parentController) 
         {
+			this.parentController = parentController;
         }
 
         public override nint NumberOfSections(UITableView tableView)
@@ -50,5 +52,13 @@ namespace App2
 
             return cell;
         }
+
+		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
+		{
+			UIStoryboard storyboard = parentController.Storyboard;
+			CalendarTimeSheetViewController vc = (CalendarTimeSheetViewController)storyboard.InstantiateViewController( "CalendarTimeSheetViewController" );
+			parentController.PresentViewController(vc, true, null);
+
+		}
     }
 }

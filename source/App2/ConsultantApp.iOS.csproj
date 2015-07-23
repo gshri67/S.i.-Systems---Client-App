@@ -95,6 +95,10 @@
     <Compile Include="TimeSheets\TimeSheetsOverviewViewController.designer.cs">
       <DependentUpon>TimeSheetsOverviewViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimeSheets\CalendarTimeSheetViewController.cs" />
+    <Compile Include="TimeSheets\CalendarTimeSheetViewController.designer.cs">
+      <DependentUpon>CalendarTimeSheetViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />

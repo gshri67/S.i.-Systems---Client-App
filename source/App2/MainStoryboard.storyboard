@@ -31,17 +31,26 @@
                     <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="100">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="XaB-WL-KOG">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gqd-TW-cfT">
+                                <rect key="frame" x="0.0" y="262" width="320" height="44"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="6sX-Ze-gUa" kind="push" id="2NL-bu-Sil"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="XaB-WL-KOG">
                                 <rect key="frame" x="0.0" y="20" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="XaB-WL-KOG" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" constant="-16" id="SeN-QG-6Yy"/>
-                            <constraint firstItem="71" firstAttribute="top" secondItem="XaB-WL-KOG" secondAttribute="bottom" constant="-20" id="dew-7H-3b9"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="XaB-WL-KOG" secondAttribute="trailing" constant="-16" id="oBC-V6-7e2"/>
-                            <constraint firstItem="XaB-WL-KOG" firstAttribute="top" secondItem="70" secondAttribute="bottom" constant="-44" id="y3E-Lz-QIZ"/>
+                            <constraint firstItem="XaB-WL-KOG" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" id="SeN-QG-6Yy"/>
+                            <constraint firstItem="71" firstAttribute="top" secondItem="XaB-WL-KOG" secondAttribute="bottom" id="dew-7H-3b9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XaB-WL-KOG" secondAttribute="trailing" id="oBC-V6-7e2"/>
+                            <constraint firstItem="XaB-WL-KOG" firstAttribute="top" secondItem="70" secondAttribute="bottom" id="y3E-Lz-QIZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Time Sheets" id="94"/>
@@ -53,10 +62,32 @@
             </objects>
             <point key="canvasLocation" x="414" y="633"/>
         </scene>
+        <!--Calendar Time Sheet-->
+        <scene sceneID="VtI-ek-cRV">
+            <objects>
+                <viewController id="6sX-Ze-gUa" sceneMemberID="viewController" customClass="CalendarTimeSheetViewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="41B-3C-Y0h"/>
+                        <viewControllerLayoutGuide type="bottom" id="UDw-uc-3kl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="78C-8u-SDR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Calendar Time Sheet" id="xQH-1K-HWZ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aeW-qa-hXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="793" y="634"/>
+        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <resources>
+        <image name="Default-568h.png" width="640" height="1136"/>
+    </resources>
 </document>
