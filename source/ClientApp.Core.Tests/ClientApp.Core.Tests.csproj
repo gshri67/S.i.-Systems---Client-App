@@ -55,8 +55,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Insights, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Xamarin.Insights">
       <HintPath>..\packages\Xamarin.Insights.1.10.2.110\lib\portable-win+net40\Xamarin.Insights.dll</HintPath>
     </Reference>
   </ItemGroup>
