@@ -11,9 +11,12 @@ using UIKit;
 
 namespace App2
 {
-	[Register ("RootViewController")]
-	partial class RootViewController
+	[Register ("TimeSheetsOverviewViewController")]
+	partial class TimeSheetsOverviewViewController
 	{
+		[Outlet]
+		UIKit.UITableView tableview { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 		}
