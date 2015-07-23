@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4443" systemVersion="13A451" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="28">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="73">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <scene sceneID="4">
-            <objects>
-                <viewController id="5" sceneMemberID="viewController" customClass="TimeSheetsOverviewViewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="2"/>
-                        <viewControllerLayoutGuide type="bottom" id="3"/>
-                    </layoutGuides>
-                    <navigationItem title="Time Sheets" id="57" key="navigationItem"/>
-                    <view contentMode="scaleToFill" id="63" translatesAutoresizingMaskIntoConstraints="NO" key="view">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="473" y="31"/>
-        </scene>
+        <!--Navigation Controller-->
         <scene sceneID="27">
             <objects>
                 <navigationController definesPresentationContext="YES" id="28" sceneMemberID="viewController">
@@ -28,12 +13,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
                     <connections>
-                        <segue id="58" destination="5" kind="relationship" relationship="rootViewController"/>
+                        <segue destination="73" kind="relationship" relationship="rootViewController" id="95"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="47" y="27"/>
+            <point key="canvasLocation" x="-30" y="627"/>
+        </scene>
+        <!--Time Sheets-->
+        <scene sceneID="72">
+            <objects>
+                <viewController id="73" customClass="TimeSheetsOverviewViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="70"/>
+                        <viewControllerLayoutGuide type="bottom" id="71"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="100">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="XaB-WL-KOG">
+                                <rect key="frame" x="0.0" y="20" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="XaB-WL-KOG" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" constant="-16" id="SeN-QG-6Yy"/>
+                            <constraint firstItem="71" firstAttribute="top" secondItem="XaB-WL-KOG" secondAttribute="bottom" constant="-20" id="dew-7H-3b9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XaB-WL-KOG" secondAttribute="trailing" constant="-16" id="oBC-V6-7e2"/>
+                            <constraint firstItem="XaB-WL-KOG" firstAttribute="top" secondItem="70" secondAttribute="bottom" constant="-44" id="y3E-Lz-QIZ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Time Sheets" id="94"/>
+                    <connections>
+                        <outlet property="tableview" destination="XaB-WL-KOG" id="fkO-UW-fSf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="75" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="414" y="633"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -41,7 +59,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <resources>
-        <image name="Default-568h.png" width="640" height="1136"/>
-    </resources>
 </document>

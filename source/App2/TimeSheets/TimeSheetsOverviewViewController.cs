@@ -1,39 +1,34 @@
-﻿
-using System;
-
 using Foundation;
+using System;
+using System.CodeDom.Compiler;
 using UIKit;
 
 namespace App2
 {
-	public partial class TimeSheetsOverviewViewController : UIViewController
+	partial class TimeSheetsOverviewViewController : UIViewController
 	{
-		public TimeSheetsOverviewViewController () : base ("TimeSheetsOverviewViewController", null)
+
+
+		public TimeSheetsOverviewViewController (IntPtr handle) : base (handle)
 		{
-            int i;
+
 		}
 
-		public override void DidReceiveMemoryWarning ()
+		public override void AwakeFromNib ()
 		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-			
-			// Release any cached data, images, etc that aren't in use.
+			base.AwakeFromNib ();
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			
-			// Perform any additional setup after loading the view, typically from a nib.
-            //tableview.Delegate = new UITableViewDelegate();
-            //tableview.DataSource = new UITableViewDataSource();
-            //tableview.RegisterClassForCellReuse(typeof(UITableViewCell), "cell" );
-            
-            tableview.Source = new TimeSheetsOverviewTableViewSource( this );
-		}
 
-       
+			tableview = new UITableView(View.Bounds);
+
+			tableview.RegisterClassForCellReuse( typeof(UITableViewCell), @"cell");
+			tableview.Source = new TimeSheetsOverviewTableViewSource (this);
+			tableview.ReloadData ();
+			Add ( tableview );
+		}
 	}
 }
-
