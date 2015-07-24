@@ -91,10 +91,6 @@
     <None Include="GettingStarted.Xamarin" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimeSheets\DayTimeSheetViewController.cs" />
-    <Compile Include="TimeSheets\DayTimeSheetViewController.designer.cs">
-      <DependentUpon>DayTimeSheetViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="TimeSheets\TimeSheetsOverviewTableViewSource.cs" />
     <Compile Include="TimeSheets\TimeSheetsOverviewViewController.cs" />
     <Compile Include="TimeSheets\TimeSheetsOverviewViewController.designer.cs">
@@ -103,6 +99,10 @@
     <Compile Include="TimeSheets\CalendarTimeSheetViewController.cs" />
     <Compile Include="TimeSheets\CalendarTimeSheetViewController.designer.cs">
       <DependentUpon>CalendarTimeSheetViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DayTimeSheetViewController.cs" />
+    <Compile Include="DayTimeSheetViewController.designer.cs">
+      <DependentUpon>DayTimeSheetViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -129,8 +129,8 @@
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="fmcalendar">
-      <Visible>False</Visible>
       <Version>1.5.2</Version>
+      <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
 </Project>

@@ -25,8 +25,7 @@ namespace App2
 
             fmCalendar.DateSelected = delegate( DateTime date )
             {
-                DayTimeSheetViewController dayTSVC = new DayTimeSheetViewController();
-
+				DayTimeSheetViewController dayTSVC = (DayTimeSheetViewController)Storyboard.InstantiateViewController("DayTimeSheetViewController");
                 PresentViewController( dayTSVC, true, null );
             };
 		}
