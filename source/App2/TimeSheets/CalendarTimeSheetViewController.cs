@@ -3,6 +3,8 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 
+using Factorymind.Components;
+
 namespace App2
 {
 	partial class CalendarTimeSheetViewController : UIViewController
@@ -11,10 +13,22 @@ namespace App2
 
 		public CalendarTimeSheetViewController (IntPtr handle) : base (handle)
 		{
-            UICollectionViewFlowLayout layout = new UICollectionViewFlowLayout();
-            collectionViewController = new UICollectionViewController(layout);
+            //UICollectionViewFlowLayout layout = new UICollectionViewFlowLayout();
+            //collectionViewController = new UICollectionViewController(layout);
 
-            Add(collectionViewController.CollectionView);
+            //Add(collectionViewController.CollectionView);
+
+            FMCalendar fmCalendar = new FMCalendar(View.Bounds);
+            View.AddSubview(fmCalendar);
+
+
+
+            fmCalendar.DateSelected = delegate( DateTime date )
+            {
+                DayTimeSheetViewController dayTSVC = new DayTimeSheetViewController();
+
+                PresentViewController( dayTSVC, true, null );
+            };
 		}
 	}
 }
