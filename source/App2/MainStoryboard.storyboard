@@ -132,6 +132,10 @@
                             <constraint firstItem="FPY-mn-kfJ" firstAttribute="top" secondItem="mle-jl-3u8" secondAttribute="bottom" id="wB6-qK-TKk"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="addEntryButton" destination="9Kn-HU-hEL" id="zi7-WN-RVl"/>
+                        <outlet property="tableview" destination="mle-jl-3u8" id="Bcq-mE-f30"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="111" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

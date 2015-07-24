@@ -62,7 +62,6 @@ namespace App2
             //parentController.NavigationController.PushViewController(vc, true);
             
             parentController.PresentViewController(vc, true, null);
-
 		}
     }
 }

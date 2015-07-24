@@ -104,6 +104,7 @@
     <Compile Include="DayTimeSheetViewController.designer.cs">
       <DependentUpon>DayTimeSheetViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimeEntryTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
