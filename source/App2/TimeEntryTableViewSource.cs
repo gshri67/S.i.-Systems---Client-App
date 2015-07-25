@@ -12,10 +12,20 @@ namespace App2
 	{
 		private const string CellIdentifier = "cell";
 		private UIViewController parentController;
+        private List<String> clientNames;
 
 		public TimeEntryTableViewSource( UIViewController parentController) 
 		{
 			this.parentController = parentController;
+            /*
+            clientNames = new NSMutableArray();
+            clientNames.Add( new NSString("Nexen") );
+            clientNames.Add( new NSString("Cenovus") );*/
+
+            clientNames = new List<String>();
+            clientNames.Add("Nexen");
+            clientNames.Add("Cenovus");
+           
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -25,7 +35,8 @@ namespace App2
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return 2;
+			//return (nint)clientNames.Count;
+            return clientNames.Count;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -33,7 +44,8 @@ namespace App2
 			// if there are no cells to reuse, create a new one
 			var cell = tableView.DequeueReusableCell(CellIdentifier);
 
-			cell.TextLabel.Text = "Timesheet";
+            cell.TextLabel.Text = clientNames.ElementAt((int)indexPath.Item);
+           
 
 			return cell;
 		}
@@ -48,5 +60,18 @@ namespace App2
 
 			parentController.PresentViewController(vc, true, null);*/
 		}
+        
+        public void addTimeEntry( String clientName ) 
+        {
+            /*
+            String[] newClients = new String[clientNames.Length + 1];
+
+            for (int i = 0; i < clientNames.Length; i++)
+                newClients[i] = clientNames[i];
+
+            newClients[clientNames.Length] = clientName;*/
+
+            clientNames.Add("new client");
+        }
 	}
 }

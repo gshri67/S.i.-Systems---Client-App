@@ -9,9 +9,20 @@ namespace App2
 	{
 		public DayTimeSheetViewController (IntPtr handle) : base (handle)
 		{
-			tableview.RegisterClassForCellReuse( typeof(UITableViewCell), @"cell");
-			tableview.Source = new TimeEntryTableViewSource(this);
-			tableview.ReloadData();
 		}
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
+            tableview.RegisterClassForCellReuse( typeof(UITableViewCell), @"cell");
+            tableview.Source = new TimeEntryTableViewSource(this);
+            tableview.ReloadData();
+
+            addEntryButton.TouchUpInside += delegate
+            {
+               
+            };
+        }
 	}
 }
