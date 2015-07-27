@@ -11,7 +11,8 @@ namespace App2
 {
 	internal class TimeEntryTableViewSource : UITableViewSource
 	{
-		private const string CellIdentifier = "cell";
+		//private const string CellIdentifier = "cell";
+        private const string CellIdentifier = "TimeEntryCell";
 		private UIViewController parentController;
         private List<TimeEntry> clientNames;
 
@@ -41,13 +42,19 @@ namespace App2
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			// if there are no cells to reuse, create a new one
-			var cell = tableView.DequeueReusableCell(CellIdentifier);
+			TimeEntryCell cell = (TimeEntryCell)tableView.DequeueReusableCell(CellIdentifier);
+
+            //if (cell == null)
+              //  cell = new TimeEntryCell();
 
             TimeEntry curEntry = clientNames.ElementAt((int)indexPath.Item);
             cell.TextLabel.Text = curEntry.clientName;
-           
 
-			return cell;
+            cell.clientLabel.Text = curEntry.clientName;
+            cell.projectCodeLabel.Text = curEntry.projectCode;
+            cell.hoursLabel.Text = curEntry.hours.ToString();
+
+            return cell;
 		}
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)

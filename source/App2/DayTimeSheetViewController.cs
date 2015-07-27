@@ -24,7 +24,8 @@ namespace App2
         {
             base.ViewDidLoad();
 
-            tableview.RegisterClassForCellReuse( typeof(UITableViewCell), @"cell");
+            //tableview.RegisterClassForCellReuse( typeof(UITableViewCell), @"cell");
+            tableview.RegisterClassForCellReuse(typeof(TimeEntryCell), @"TimeEntryCell");
             tableview.Source = new TimeEntryTableViewSource(this, clientNames );
             tableview.ReloadData();
 
