@@ -14,7 +14,7 @@ namespace App2
 		private UIViewController parentController;
         private List<String> clientNames;
 
-		public TimeEntryTableViewSource( UIViewController parentController) 
+		public TimeEntryTableViewSource( UIViewController parentController, List<String> clientNames ) 
 		{
 			this.parentController = parentController;
             /*
@@ -22,9 +22,7 @@ namespace App2
             clientNames.Add( new NSString("Nexen") );
             clientNames.Add( new NSString("Cenovus") );*/
 
-            clientNames = new List<String>();
-            clientNames.Add("Nexen");
-            clientNames.Add("Cenovus");
+            this.clientNames = clientNames;
            
 		}
 
@@ -35,8 +33,8 @@ namespace App2
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			//return (nint)clientNames.Count;
-            return clientNames.Count;
+			return clientNames.Count;
+            //return clientNames.Length;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -60,18 +58,5 @@ namespace App2
 
 			parentController.PresentViewController(vc, true, null);*/
 		}
-        
-        public void addTimeEntry( String clientName ) 
-        {
-            /*
-            String[] newClients = new String[clientNames.Length + 1];
-
-            for (int i = 0; i < clientNames.Length; i++)
-                newClients[i] = clientNames[i];
-
-            newClients[clientNames.Length] = clientName;*/
-
-            clientNames.Add("new client");
-        }
 	}
 }
