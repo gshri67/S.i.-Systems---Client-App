@@ -21,12 +21,13 @@ namespace App2
             FMCalendar fmCalendar = new FMCalendar(View.Bounds);
             View.AddSubview(fmCalendar);
 
-
+			EdgesForExtendedLayout = UIRectEdge.None;
 
             fmCalendar.DateSelected = delegate( DateTime date )
             {
 				DayTimeSheetViewController dayTSVC = (DayTimeSheetViewController)Storyboard.InstantiateViewController("DayTimeSheetViewController");
-                PresentViewController( dayTSVC, true, null );
+                //PresentViewController( dayTSVC, true, null );
+				NavigationController.PushViewController( dayTSVC, true );
             };
 		}
 	}

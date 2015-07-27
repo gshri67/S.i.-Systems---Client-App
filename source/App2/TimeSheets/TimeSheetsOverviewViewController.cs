@@ -34,6 +34,8 @@ namespace App2
 			tableview.Source = new TimeSheetsOverviewTableViewSource (this);
 			tableview.ReloadData ();
 			//Add ( tableview );
+
+			NavigationController.NavigationBar.Translucent = false;
 		}
 	}
 }

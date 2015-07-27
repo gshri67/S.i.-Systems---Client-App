@@ -18,6 +18,11 @@ namespace App2
             clientNames = new List<TimeEntry>();
             clientNames.Add( new TimeEntry("Nexen", "PC123", 4) );
             clientNames.Add( new TimeEntry("Cenovus", "PC456", 3) );
+
+			EdgesForExtendedLayout = UIRectEdge.None;
+			//NavigationController.ExtendedLayoutIncludesOpaqueBars = true;
+			//NavigationController.EdgesForExtendedLayout = UIRectEdge.None;
+
 		}
 
         public override void ViewDidLoad()
