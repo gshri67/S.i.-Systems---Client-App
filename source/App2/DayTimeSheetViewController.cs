@@ -5,19 +5,19 @@ using System.Text;
 using System;
 using System.CodeDom.Compiler;
 using UIKit;
+using ConsultantApp.Core;
 
 namespace App2
 {
 	partial class DayTimeSheetViewController : UIViewController
 	{
-        private List<String> clientNames;
+        private List<TimeEntry> clientNames;
 
 		public DayTimeSheetViewController (IntPtr handle) : base (handle)
 		{
-            clientNames = new List<String>();
-            clientNames.Add("Nexen");
-            clientNames.Add("Cenovus");
-
+            clientNames = new List<TimeEntry>();
+            clientNames.Add( new TimeEntry("Nexen", "PC123", 4) );
+            clientNames.Add( new TimeEntry("Cenovus", "PC456", 3) );
 		}
 
         public override void ViewDidLoad()
@@ -30,10 +30,10 @@ namespace App2
 
             addEntryButton.TouchUpInside += delegate
             {
-                clientNames.Add("New Client");
+                clientNames.Add( new TimeEntry("New Client", "New Project Code", 0) );
                 tableview.ReloadData();
-                tableview.BeginUpdates();
-                tableview.EndUpdates();
+                //tableview.BeginUpdates();
+                //tableview.EndUpdates();
             };
         }
 	}

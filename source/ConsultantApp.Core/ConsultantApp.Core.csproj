@@ -40,7 +40,7 @@
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="TimeEntry.cs" />
     <Compile Include="HttpAttributes\ApiAttribute.cs" />
     <Compile Include="HttpAttributes\HttpGetAttribute.cs" />
     <Compile Include="HttpAttributes\HttpMethodAttribute.cs" />

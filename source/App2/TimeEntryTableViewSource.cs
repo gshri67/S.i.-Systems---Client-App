@@ -5,6 +5,7 @@ using System.Text;
 
 using Foundation;
 using UIKit;
+using ConsultantApp.Core;
 
 namespace App2
 {
@@ -12,9 +13,9 @@ namespace App2
 	{
 		private const string CellIdentifier = "cell";
 		private UIViewController parentController;
-        private List<String> clientNames;
+        private List<TimeEntry> clientNames;
 
-		public TimeEntryTableViewSource( UIViewController parentController, List<String> clientNames ) 
+		public TimeEntryTableViewSource( UIViewController parentController, List<TimeEntry> clientNames ) 
 		{
 			this.parentController = parentController;
             /*
@@ -42,7 +43,8 @@ namespace App2
 			// if there are no cells to reuse, create a new one
 			var cell = tableView.DequeueReusableCell(CellIdentifier);
 
-            cell.TextLabel.Text = clientNames.ElementAt((int)indexPath.Item);
+            TimeEntry curEntry = clientNames.ElementAt((int)indexPath.Item);
+            cell.TextLabel.Text = curEntry.clientName;
            
 
 			return cell;
