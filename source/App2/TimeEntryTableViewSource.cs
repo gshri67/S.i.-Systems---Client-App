@@ -25,7 +25,6 @@ namespace App2
             clientNames.Add( new NSString("Cenovus") );*/
 
             this.clientNames = clientNames;
-           
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -48,11 +47,23 @@ namespace App2
               //  cell = new TimeEntryCell();
 
             TimeEntry curEntry = clientNames.ElementAt((int)indexPath.Item);
+
             cell.TextLabel.Text = curEntry.clientName;
 
-            cell.clientLabel.Text = curEntry.clientName;
-            cell.projectCodeLabel.Text = curEntry.projectCode;
-            cell.hoursLabel.Text = curEntry.hours.ToString();
+            cell.clientField.Text = curEntry.clientName;
+            cell.projectCodeField.Text = curEntry.projectCode;
+            cell.hoursField.Text = curEntry.hours.ToString();
+
+            cell.onHoursChanged = ( int newHours ) =>
+            {
+                curEntry.hours = newHours;
+            };
+
+            cell.onClientChanged = ( String newClient ) => 
+            {
+                UIPickerView picker = new UIPickerView();
+
+            };
 
             return cell;
 		}

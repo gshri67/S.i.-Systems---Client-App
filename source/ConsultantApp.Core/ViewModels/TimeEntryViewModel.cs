@@ -20,7 +20,21 @@ namespace ConsultantApp.Core.ViewModels
 
         public List<TimeEntry> getTimeEntries( DateTime date ) 
         {
-            return timeEntries;
+            List<TimeEntry> todayEntries = new List<TimeEntry>();
+
+            if (timeEntries.Count > 0)
+            {
+                foreach ( TimeEntry entry in timeEntries )
+                    if (entry.date.Equals(date))
+                        todayEntries.Add( entry );
+
+                return todayEntries;
+            }
+
+            if (todayEntries.Count > 0)
+                return todayEntries;
+            else
+               return timeEntries;
         }
 
         /*
