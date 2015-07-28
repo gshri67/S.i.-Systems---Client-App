@@ -9,6 +9,7 @@ namespace ConsultantApp.SharedModels
     {
         public String clientName, projectCode;
         public int hours;
+        public DateTime date;
 
         public TimeEntry()
         {

@@ -6,16 +6,21 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 using ConsultantApp.SharedModels;
+using ConsultantApp.Core;
+using ConsultantApp.Core.ViewModels;
 
 namespace App2
 {
 	partial class DayTimeSheetViewController : UIViewController
 	{
         private List<TimeEntry> clientNames;
+        public TimeEntryViewModel viewModel;
 
 		public DayTimeSheetViewController (IntPtr handle) : base (handle)
 		{
-            clientNames = new List<TimeEntry>();
+            viewModel = new TimeEntryViewModel();
+
+            clientNames = viewModel.getTimeEntries(new DateTime());
             clientNames.Add( new TimeEntry("Nexen", "PC123", 4) );
             clientNames.Add( new TimeEntry("Cenovus", "PC456", 3) );
 
