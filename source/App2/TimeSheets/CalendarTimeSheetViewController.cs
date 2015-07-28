@@ -19,7 +19,7 @@ namespace App2
             //collectionViewController = new UICollectionViewController(layout);
 
             //Add(collectionViewController.CollectionView);
-
+            
             FMCalendar fmCalendar = new FMCalendar(View.Bounds);
 
             View.AddSubview(fmCalendar);
@@ -38,9 +38,19 @@ namespace App2
            
             NavigationItem.SetRightBarButtonItem( sideBarButton, false );
 
-            sidebar = new SidebarController(this, new UIViewController(), new UIViewController()  );
-            sidebar.MenuLocation = SidebarController.MenuLocations.Right;
+            UIViewController contentAreaController = new UIViewController();// new CalendarTimeSheetContentViewController(handle);
+            UIViewController navigationAreaController = new UIViewController();
 
+            //contentAreaController.View.BackgroundColor = UIColor.Orange;
+            //navigationAreaController.View.BackgroundColor = UIColor.Blue;
+
+            contentAreaController.View.BackgroundColor = UIColor.FromRGBA(0.2f, 0.2f, 0.7f, 0.1f);
+            navigationAreaController.View.BackgroundColor = UIColor.FromRGBA(0.7f, 0.7f, 0.7f, 0.1f);
+
+            sidebar = new SidebarController(this, contentAreaController, navigationAreaController  );
+            sidebar.View.UserInteractionEnabled = false;
+            sidebar.MenuLocation = SidebarController.MenuLocations.Right;
+            sidebar.MenuWidth = 100;
            /* 
             sideBarButton.hand
             {

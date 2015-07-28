@@ -92,6 +92,10 @@
     <None Include="GettingStarted.Xamarin" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeSheets\CalendarTimeSheetContentViewController.cs" />
+    <Compile Include="TimeSheets\CalendarTimeSheetContentViewController.designer.cs">
+      <DependentUpon>CalendarTimeSheetContentViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="TimeSheets\TimeSheetsOverviewTableViewSource.cs" />
     <Compile Include="TimeSheets\TimeSheetsOverviewViewController.cs" />
     <Compile Include="TimeSheets\TimeSheetsOverviewViewController.designer.cs">
