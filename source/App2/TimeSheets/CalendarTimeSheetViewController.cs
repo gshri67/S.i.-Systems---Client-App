@@ -19,6 +19,7 @@ namespace App2
             //Add(collectionViewController.CollectionView);
 
             FMCalendar fmCalendar = new FMCalendar(View.Bounds);
+
             View.AddSubview(fmCalendar);
 
 			EdgesForExtendedLayout = UIRectEdge.None;
