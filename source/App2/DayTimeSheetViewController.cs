@@ -5,7 +5,7 @@ using System.Text;
 using System;
 using System.CodeDom.Compiler;
 using UIKit;
-using ConsultantApp.Core;
+using ConsultantApp.SharedModels;
 
 namespace App2
 {

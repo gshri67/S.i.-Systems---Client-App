@@ -140,5 +140,9 @@
       <Project>{f9277320-acde-484c-a289-bae056419d32}</Project>
       <Name>ConsultantApp.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ConsultantApp.SharedModels\ConsultantApp.SharedModels.csproj">
+      <Project>{57dffd00-f207-4353-b6c9-c9f5d4276c10}</Project>
+      <Name>ConsultantApp.SharedModels</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
