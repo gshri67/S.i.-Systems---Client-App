@@ -10,8 +10,8 @@ namespace App2
 {
     public class TimeEntryCell : UITableViewCell
     {
-        public UILabel clientField;
-        public UILabel projectCodeField;
+        public UITextField clientField;
+        public UITextField projectCodeField;
         public UITextField hoursField;
 
         //Blocks
@@ -32,20 +32,31 @@ namespace App2
             if (onClientChanged == null)
                 onClientChanged = (String newClient) => {};
 
-            clientField = new UILabel();
+            clientField = new UITextField();
             clientField.Text = "DevFacto";
             clientField.TranslatesAutoresizingMaskIntoConstraints = false;
             AddSubview( clientField );
+
+            //TESTING <<
+            clientField.EditingChanged += delegate
+            {
+                onClientChanged("test client");
+            };
 
             //Project Code
             if (onProjectCodeChanged == null)
                 onProjectCodeChanged = (String newProjectCode ) => { };
 
-            projectCodeField = new UILabel();
+            projectCodeField = new UITextField();
             projectCodeField.Text = "Project Code";
             projectCodeField.TranslatesAutoresizingMaskIntoConstraints = false;
             projectCodeField.TextAlignment = UITextAlignment.Center;
             AddSubview( projectCodeField );
+
+            projectCodeField.EditingChanged += delegate
+            {
+                onProjectCodeChanged("test code");
+            };
 
             //Hours
             if (onHoursChanged == null)
