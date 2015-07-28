@@ -4,12 +4,14 @@ using System.CodeDom.Compiler;
 using UIKit;
 
 using Factorymind.Components;
+using SidebarNavigation;
 
 namespace App2
 {
 	partial class CalendarTimeSheetViewController : UIViewController
 	{
         private UICollectionViewController collectionViewController;
+        private SidebarController sidebar;
 
 		public CalendarTimeSheetViewController (IntPtr handle) : base (handle)
 		{
@@ -30,6 +32,31 @@ namespace App2
                 //PresentViewController( dayTSVC, true, null );
 				NavigationController.PushViewController( dayTSVC, true );
             };
+
+            UIBarButtonItem sideBarButton = new UIBarButtonItem("=", UIBarButtonItemStyle.Plain, sideBarButtonTapped);
+            sideBarButton.Title = "=";
+           
+            NavigationItem.SetRightBarButtonItem( sideBarButton, false );
+
+            sidebar = new SidebarController(this, new UIViewController(), new UIViewController()  );
+            sidebar.MenuLocation = SidebarController.MenuLocations.Right;
+
+           /* 
+            sideBarButton.hand
+            {
+                if (!sidebar.IsOpen)
+                    sidebar.OpenMenu();
+                else
+                    sidebar.CloseMenu();
+            };*/
 		}
+
+        public void sideBarButtonTapped(object sender, EventArgs args)
+        {
+            if (!sidebar.IsOpen)
+                sidebar.OpenMenu();
+            else
+                sidebar.CloseMenu();
+        }
 	}
 }

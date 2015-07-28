@@ -1,45 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProjectGuid>{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{DF605F5E-C39C-44E1-9A61-7B7F66C8718A}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>App2</RootNamespace>
+    <RootNamespace>NavigationUnifiedSample</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>App2</AssemblyName>
-    <ReleaseVersion>0.2</ReleaseVersion>
+    <AssemblyName>NavigationUnifiedSample</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
-    <DefineConstants>DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>i386</MtouchArch>
     <MtouchLink>None</MtouchLink>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <MtouchLink>None</MtouchLink>
-    <MtouchArch>i386</MtouchArch>
     <ConsolePause>false</ConsolePause>
+    <MtouchArch>i386</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhone\Debug</OutputPath>
-    <DefineConstants>DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -49,7 +51,7 @@
     <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -60,96 +62,83 @@
     <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
-    <DebugType>none</DebugType>
-    <Optimize>True</Optimize>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <BuildIpa>True</BuildIpa>
-    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
     <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
+    <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
-    <DebugType>none</DebugType>
-    <Optimize>True</Optimize>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\AppStore</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>Automatic:AppStore</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CalendarTimeSheetCollectionViewSource.cs" />
-    <Compile Include="TimeEntryCell.cs" />
-    <Compile Include="Main.cs" />
-    <Compile Include="AppDelegate.cs" />
-    <None Include="GettingStarted.Xamarin" />
-    <None Include="Info.plist" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimeSheets\TimeSheetsOverviewTableViewSource.cs" />
-    <Compile Include="TimeSheets\TimeSheetsOverviewViewController.cs" />
-    <Compile Include="TimeSheets\TimeSheetsOverviewViewController.designer.cs">
-      <DependentUpon>TimeSheetsOverviewViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TimeSheets\CalendarTimeSheetViewController.cs" />
-    <Compile Include="TimeSheets\CalendarTimeSheetViewController.designer.cs">
-      <DependentUpon>CalendarTimeSheetViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DayTimeSheetViewController.cs" />
-    <Compile Include="DayTimeSheetViewController.designer.cs">
-      <DependentUpon>DayTimeSheetViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TimeEntryTableViewSource.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\Default-568h%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Factorymind.Components-Unified">
-      <HintPath>..\Components\fmcalendar-1.5.2\lib\ios-unified\Factorymind.Components-Unified.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Xamarin-Sidebar-Unified">
-      <HintPath>..\Components\SidebarNavigation-1.8\lib\ios-unified\Xamarin-Sidebar-Unified.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="Xamarin-Sidebar-Unified">
+      <HintPath>../../../lib\/ios-unified/Xamarin-Sidebar-Unified.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Entitlements.plist" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Startup\" />
+    <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+    <None Include="Entitlements.plist" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="RootViewController.cs" />
+    <Compile Include="RootViewController.designer.cs">
+      <DependentUpon>RootViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContentController.cs" />
+    <Compile Include="ContentController.designer.cs">
+      <DependentUpon>ContentController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseController.cs" />
+    <Compile Include="BaseController.designer.cs">
+      <DependentUpon>BaseController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NavController.cs" />
+    <Compile Include="NavController.designer.cs">
+      <DependentUpon>NavController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SideMenuController.cs" />
+    <Compile Include="SideMenuController.designer.cs">
+      <DependentUpon>SideMenuController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IntroController.cs" />
+    <Compile Include="IntroController.designer.cs">
+      <DependentUpon>IntroController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <InterfaceDefinition Include="MainStoryboard.storyboard" />
-  </ItemGroup>
-  <ItemGroup>
-    <XamarinComponentReference Include="fmcalendar">
-      <Version>1.5.2</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="SidebarNavigation">
-      <Visible>False</Visible>
-      <Version>1.8</Version>
-    </XamarinComponentReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ConsultantApp.Core\ConsultantApp.Core.csproj">
-      <Project>{f9277320-acde-484c-a289-bae056419d32}</Project>
-      <Name>ConsultantApp.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ConsultantApp.SharedModels\ConsultantApp.SharedModels.csproj">
-      <Project>{57dffd00-f207-4353-b6c9-c9f5d4276c10}</Project>
-      <Name>ConsultantApp.SharedModels</Name>
-    </ProjectReference>
+    <BundleResource Include="Resources\Entitlements.plist" />
+    <BundleResource Include="Resources\Info.plist" />
+    <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Resources\threelines.png" />
   </ItemGroup>
 </Project>
