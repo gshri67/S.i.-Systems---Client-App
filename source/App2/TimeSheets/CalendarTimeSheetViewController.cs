@@ -19,7 +19,7 @@ namespace App2
             //collectionViewController = new UICollectionViewController(layout);
 
             //Add(collectionViewController.CollectionView);
-            
+            /*
             FMCalendar fmCalendar = new FMCalendar(View.Bounds);
 
             View.AddSubview(fmCalendar);
@@ -31,14 +31,14 @@ namespace App2
 				DayTimeSheetViewController dayTSVC = (DayTimeSheetViewController)Storyboard.InstantiateViewController("DayTimeSheetViewController");
                 //PresentViewController( dayTSVC, true, null );
 				NavigationController.PushViewController( dayTSVC, true );
-            };
+            };*/
 
             UIBarButtonItem sideBarButton = new UIBarButtonItem("=", UIBarButtonItemStyle.Plain, sideBarButtonTapped);
             sideBarButton.Title = "=";
            
             NavigationItem.SetRightBarButtonItem( sideBarButton, false );
 
-            UIViewController contentAreaController = new UIViewController();// new CalendarTimeSheetContentViewController(handle);
+            UIViewController contentAreaController = new CalendarTimeSheetContentViewController(this);
             UIViewController navigationAreaController = new UIViewController();
 
             //contentAreaController.View.BackgroundColor = UIColor.Orange;
@@ -48,7 +48,7 @@ namespace App2
             navigationAreaController.View.BackgroundColor = UIColor.FromRGBA(0.7f, 0.7f, 0.7f, 0.1f);
 
             sidebar = new SidebarController(this, contentAreaController, navigationAreaController  );
-            sidebar.View.UserInteractionEnabled = false;
+            //sidebar.View.UserInteractionEnabled = false;
             sidebar.MenuLocation = SidebarController.MenuLocations.Right;
             sidebar.MenuWidth = 100;
            /* 

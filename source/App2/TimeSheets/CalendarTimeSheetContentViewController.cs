@@ -11,7 +11,40 @@ namespace App2
 {
     public partial class CalendarTimeSheetContentViewController : UIViewController
     {
+        UIViewController parentController;
 
+        public CalendarTimeSheetContentViewController() 
+        {
+            FMCalendar fmCalendar = new FMCalendar(View.Bounds);
+
+            View.AddSubview(fmCalendar);
+
+            fmCalendar.DateSelected = delegate(DateTime date)
+            {
+                DayTimeSheetViewController dayTSVC = (DayTimeSheetViewController)Storyboard.InstantiateViewController("DayTimeSheetViewController");
+                //PresentViewController( dayTSVC, true, null );
+                parentController.NavigationController.PushViewController(dayTSVC, true);
+            };
+        }
+
+        public CalendarTimeSheetContentViewController( UIViewController parentVC )
+        {
+            FMCalendar fmCalendar = new FMCalendar(View.Bounds);
+
+            View.AddSubview(fmCalendar);
+
+            parentController = parentVC;
+
+            fmCalendar.DateSelected = delegate(DateTime date)
+            {
+                DayTimeSheetViewController dayTSVC = (DayTimeSheetViewController)Storyboard.InstantiateViewController("DayTimeSheetViewController");
+                //PresentViewController( dayTSVC, true, null );
+
+                //DismissViewController(false, null);
+
+                parentController.NavigationController.PushViewController(dayTSVC, true);
+            };
+        }
 
         public CalendarTimeSheetContentViewController(IntPtr handle)
             : base(handle)
