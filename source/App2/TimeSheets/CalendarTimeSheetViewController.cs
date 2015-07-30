@@ -13,10 +13,29 @@ namespace App2
         private UICollectionViewController collectionViewController;
         private SidebarController sidebar;
 
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+			FMCalendar fmCalendar = new FMCalendar(View.Bounds);
+
+			View.AddSubview(fmCalendar);
+
+			EdgesForExtendedLayout = UIRectEdge.None;
+
+			fmCalendar.DateSelected = delegate( DateTime date )
+			{
+				DayTimeSheetViewController dayTSVC = (DayTimeSheetViewController)Storyboard.InstantiateViewController("DayTimeSheetViewController");
+				//PresentViewController( dayTSVC, true, null );
+				NavigationController.PushViewController( dayTSVC, true );
+			};
+		}
 		public CalendarTimeSheetViewController (IntPtr handle) : base (handle)
 		{
             //UICollectionViewFlowLayout layout = new UICollectionViewFlowLayout();
             //collectionViewController = new UICollectionViewController(layout);
+
+			View.BackgroundColor = UIColor.Orange;
 
             //Add(collectionViewController.CollectionView);
             /*
@@ -31,26 +50,25 @@ namespace App2
 				DayTimeSheetViewController dayTSVC = (DayTimeSheetViewController)Storyboard.InstantiateViewController("DayTimeSheetViewController");
                 //PresentViewController( dayTSVC, true, null );
 				NavigationController.PushViewController( dayTSVC, true );
-            };*/
-
-            UIBarButtonItem sideBarButton = new UIBarButtonItem("=", UIBarButtonItemStyle.Plain, sideBarButtonTapped);
-            sideBarButton.Title = "=";
+            };
+*/
+            //UIBarButtonItem sideBarButton = new UIBarButtonItem("=", UIBarButtonItemStyle.Plain, sideBarButtonTapped);
+            //sideBarButton.Title = "=";
            
-            NavigationItem.SetRightBarButtonItem( sideBarButton, false );
+            //NavigationItem.SetRightBarButtonItem( sideBarButton, false );
 
-            UIViewController contentAreaController = new CalendarTimeSheetContentViewController(this);
-            UIViewController navigationAreaController = new UIViewController();
+            //UIViewController contentAreaController = new CalendarTimeSheetContentViewController(this);
+            //UIViewController navigationAreaController = new UIViewController();
 
             //contentAreaController.View.BackgroundColor = UIColor.Orange;
             //navigationAreaController.View.BackgroundColor = UIColor.Blue;
 
-            contentAreaController.View.BackgroundColor = UIColor.FromRGBA(0.2f, 0.2f, 0.7f, 0.1f);
-            navigationAreaController.View.BackgroundColor = UIColor.FromRGBA(0.7f, 0.7f, 0.7f, 0.1f);
+            //contentAreaController.View.BackgroundColor = UIColor.FromRGBA(0.2f, 0.2f, 0.7f, 0.1f);
+            //navigationAreaController.View.BackgroundColor = UIColor.FromRGBA(0.7f, 0.7f, 0.7f, 0.1f);
 
-            sidebar = new SidebarController(this, contentAreaController, navigationAreaController  );
-            //sidebar.View.UserInteractionEnabled = false;
-            sidebar.MenuLocation = SidebarController.MenuLocations.Right;
-            sidebar.MenuWidth = 100;
+            //sidebar = new SidebarController(this, contentAreaController, navigationAreaController  );
+            //sidebar.MenuLocation = SidebarController.MenuLocations.Right;
+            //sidebar.MenuWidth = 100;
            /* 
             sideBarButton.hand
             {
