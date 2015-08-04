@@ -36,7 +36,7 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		ClientApp.iOS.BorderedButton SignUpButton { get; set; }
+		BorderedButton SignUpButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]

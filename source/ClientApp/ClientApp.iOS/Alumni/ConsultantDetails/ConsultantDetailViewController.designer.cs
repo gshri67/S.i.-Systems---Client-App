@@ -16,7 +16,7 @@ namespace ClientApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		ClientApp.iOS.BorderedButton ContactButton { get; set; }
+		BorderedButton ContactButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -36,7 +36,7 @@ namespace ClientApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		ClientApp.iOS.BorderedButton OnboardButton { get; set; }
+		BorderedButton OnboardButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
