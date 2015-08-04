@@ -113,9 +113,23 @@
     <Compile Include="TimeSheetEntryViewController.designer.cs">
       <DependentUpon>TimeSheetEntryViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReviewTimeSheetViewController.cs" />
+    <Compile Include="ReviewTimeSheetViewController.designer.cs">
+      <DependentUpon>ReviewTimeSheetViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CalendarTimeEntryView.cs" />
+    <Compile Include="BorderedButton.cs" />
+    <Compile Include="BorderedButton.designer.cs">
+      <DependentUpon>BorderedButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginViewController.cs" />
+    <Compile Include="LoginViewController.designer.cs">
+      <DependentUpon>LoginViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Resources\sisystems_logo.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Factorymind.Components-Unified">
