@@ -2,14 +2,15 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 using UIKit;
+using ConsultantApp.Core.ViewModels;
 
 namespace App2
 {
 	partial class LoginViewController : UIViewController
 	{
-		/*
-		private readonly LoginViewModel _loginModel;
-		private readonly ITokenStore _tokenStore;
+		
+		//private readonly LoginViewModel _loginModel;
+	/*  private readonly ITokenStore _tokenStore;
 		private CGRect _defaultFrame;
 */
 		public LoginViewController(){
@@ -19,7 +20,7 @@ namespace App2
 		{
 			HidesBottomBarWhenPushed = true;
 
-			//_loginModel = DependencyResolver.Current.Resolve<LoginViewModel>();
+            //_loginModel = DependencyResolver.Current.Resolve<LoginViewModel>();
 			//_tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
 		}
 
@@ -36,9 +37,56 @@ namespace App2
 			base.ViewDidLoad ();
 
 			login.TouchUpInside += delegate {
+
+                //var result = _loginModel.IsValidUserName(userName);
+                //if (!result.IsValid)
+                {
+                    var view = new UIAlertView("Error", "Almost couldn't log in", null, "Ok");
+                    view.Show();
+                    // return;
+                }
+
 				NavigationController.NavigationBar.Hidden = false;
 				NavigationController.PopViewController(true);
-			};
+
+
+
+                /*
+                    var userName = username.Text;
+			        var result = _loginModel.IsValidUserName(userName);
+			        if (!result.IsValid)
+			        {
+				        var view = new UIAlertView("Error", result.Message, null, "Ok");
+				        view.Show();
+				        return;
+			        }
+
+			        result = _loginModel.IsValidPassword(password.Text);
+			        if (!result.IsValid)
+			        {
+				        var view = new UIAlertView("Error", result.Message, null, "Ok");
+				        view.Show();
+				        return;
+			        }
+
+			        DisableControls();
+
+			        var loginTask = await _loginModel.LoginAsync(userName, password.Text);
+
+			        if (loginTask.IsValid)
+			        {
+				        CurrentUser.Email = _loginModel.UserName;
+				        CheckEulaService(userName);
+			        }
+			        else
+			        {
+				        DisplayInvalidCredentials(loginTask.Message);
+			        };
+                 */
+
+
+
+            };
 
 
 			/*

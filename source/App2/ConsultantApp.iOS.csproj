@@ -85,6 +85,7 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DependencyResolver.cs" />
     <Compile Include="TimeEntryCell.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
