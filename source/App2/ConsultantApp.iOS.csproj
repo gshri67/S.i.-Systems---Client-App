@@ -85,7 +85,6 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DependencyResolver.cs" />
     <Compile Include="TimeEntryCell.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -109,11 +108,6 @@
     <Compile Include="DayTimeSheetViewController.designer.cs">
       <DependentUpon>DayTimeSheetViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeEntryTableViewSource.cs" />
-    <Compile Include="TimeSheetEntryViewController.cs" />
-    <Compile Include="TimeSheetEntryViewController.designer.cs">
-      <DependentUpon>TimeSheetEntryViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="ReviewTimeSheetViewController.cs" />
     <Compile Include="ReviewTimeSheetViewController.designer.cs">
       <DependentUpon>ReviewTimeSheetViewController.cs</DependentUpon>
@@ -126,6 +120,15 @@
     <Compile Include="LoginViewController.cs" />
     <Compile Include="LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeEntryViewController\TimeEntryTableViewSource.cs" />
+    <Compile Include="TimeEntryViewController\TimeSheetEntryViewController.cs" />
+    <Compile Include="TimeEntryViewController\TimeSheetEntryViewController.designer.cs">
+      <DependentUpon>TimeSheetEntryViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DailyCalendarHeaderView.cs" />
+    <Compile Include="DailyCalendarHeaderView.designer.cs">
+      <DependentUpon>DailyCalendarHeaderView.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Startup\" />
+    <Folder Include="TimeEntryViewController\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
