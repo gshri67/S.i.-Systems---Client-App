@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="-31" y="629"/>
         </scene>
-        <!--Time Sheets-->
+        <!--Time Entry-->
         <scene sceneID="72">
             <objects>
                 <viewController id="73" customClass="TimeSheetEntryViewController" sceneMemberID="viewController">
@@ -65,22 +65,22 @@
                             <constraint firstItem="XIA-6r-ypa" firstAttribute="top" secondItem="70" secondAttribute="bottom" id="3kI-Y8-i81"/>
                             <constraint firstItem="XIA-6r-ypa" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" constant="-18" id="5SM-Is-elt"/>
                             <constraint firstItem="71" firstAttribute="top" secondItem="217" secondAttribute="bottom" constant="1" id="DIH-q4-AXy"/>
-                            <constraint firstItem="dJd-q8-BHg" firstAttribute="bottom" secondItem="71" secondAttribute="top" multiplier="0.7" id="EsS-GQ-gqm"/>
+                            <constraint firstItem="dJd-q8-BHg" firstAttribute="bottom" secondItem="71" secondAttribute="top" multiplier="0.8" id="EsS-GQ-gqm"/>
                             <constraint firstItem="217" firstAttribute="top" secondItem="71" secondAttribute="top" multiplier="0.9" id="INq-e6-0wF"/>
                             <constraint firstItem="dJd-q8-BHg" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" constant="-16" id="Vdz-B2-vNX"/>
-                            <constraint firstItem="XIA-6r-ypa" firstAttribute="bottom" secondItem="71" secondAttribute="top" multiplier="0.25" id="Vo2-aw-ug2"/>
+                            <constraint firstItem="XIA-6r-ypa" firstAttribute="bottom" secondItem="71" secondAttribute="top" multiplier="0.15" id="Vo2-aw-ug2"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dJd-q8-BHg" secondAttribute="trailing" constant="-16" id="XvM-96-ZAW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="217" secondAttribute="trailing" constant="-16" id="e6n-bW-z8j"/>
-                            <constraint firstItem="z9N-0T-bqT" firstAttribute="top" secondItem="71" secondAttribute="top" multiplier="0.7" id="fuR-cl-ONF"/>
+                            <constraint firstItem="z9N-0T-bqT" firstAttribute="top" secondItem="71" secondAttribute="top" multiplier="0.8" id="fuR-cl-ONF"/>
                             <constraint firstAttribute="trailingMargin" secondItem="XIA-6r-ypa" secondAttribute="trailing" constant="-19" id="gH5-jJ-Lc2"/>
-                            <constraint firstItem="dJd-q8-BHg" firstAttribute="top" secondItem="71" secondAttribute="top" multiplier="0.25" id="kMM-fz-kAr"/>
+                            <constraint firstItem="dJd-q8-BHg" firstAttribute="top" secondItem="71" secondAttribute="top" multiplier="0.15" id="kMM-fz-kAr"/>
                             <constraint firstAttribute="trailingMargin" secondItem="z9N-0T-bqT" secondAttribute="trailing" constant="-16" id="sjS-YH-Ql4"/>
                             <constraint firstItem="217" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" constant="-16" id="tnQ-QS-ycc"/>
-                            <constraint firstItem="z9N-0T-bqT" firstAttribute="bottom" secondItem="71" secondAttribute="top" multiplier="0.8" id="ywZ-oE-8Vd"/>
+                            <constraint firstItem="z9N-0T-bqT" firstAttribute="bottom" secondItem="71" secondAttribute="top" multiplier="0.9" id="ywZ-oE-8Vd"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Time Sheets" id="94"/>
+                    <navigationItem key="navigationItem" title="Time Entry" id="94"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="75" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
