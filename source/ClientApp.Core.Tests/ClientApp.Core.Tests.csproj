@@ -82,7 +82,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientApp.Core\Shared.Core.csproj">
+    <ProjectReference Include="..\Shared.Core\Shared.Core.csproj">
       <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
       <Name>Shared.Core</Name>
     </ProjectReference>
