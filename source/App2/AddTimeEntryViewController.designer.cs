@@ -11,12 +11,9 @@ using UIKit;
 
 namespace App2
 {
-	[Register ("ReviewTimeSheetViewController")]
-	partial class ReviewTimeSheetViewController
+	[Register ("AddTimeEntryViewController")]
+	partial class AddTimeEntryViewController
 	{
-		[Outlet]
-		UIKit.UITableView tableview { get; set; }
-
 		void ReleaseDesignerOutlets ()
 		{
 		}

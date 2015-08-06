@@ -132,6 +132,10 @@
       <DependentUpon>ReviewTimeSheetViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Review TimeSheets\ReviewTimeSheetCell.cs" />
+    <Compile Include="AddTimeEntryViewController.cs" />
+    <Compile Include="AddTimeEntryViewController.designer.cs">
+      <DependentUpon>AddTimeEntryViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -157,6 +161,7 @@
     <Folder Include="TimeEntryViewController\" />
     <Folder Include="Review TimeSheets\" />
     <Folder Include="Submit TimeSheet\" />
+    <Folder Include="TimeEntryViewController\AddTimeEntryViewController\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
