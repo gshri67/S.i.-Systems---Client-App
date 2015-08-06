@@ -1,4 +1,4 @@
-﻿namespace ClientApp.Core.Platform
+﻿namespace Shared.Core.Platform
 {
     public interface IActivityManager
     {

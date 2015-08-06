@@ -1,10 +1,10 @@
-using ClientApp.Core.ViewModels;
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
 using Microsoft.Practices.Unity;
 using UIKit;
 using System.Threading.Tasks;
+using Shared.Core.ViewModels;
 
 namespace ClientApp.iOS
 {

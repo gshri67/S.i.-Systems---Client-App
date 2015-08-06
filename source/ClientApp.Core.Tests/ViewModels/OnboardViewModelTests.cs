@@ -3,8 +3,9 @@ using Moq;
 using NUnit.Framework;
 using SiSystems.ClientApp.SharedModels;
 using ClientApp.Core;
-using ClientApp.Core.ViewModels;
 using System.Collections.Generic;
+using Shared.Core;
+using Shared.Core.ViewModels;
 
 namespace SiSystems.ClientApp.Core.Tests.ViewModels
 {

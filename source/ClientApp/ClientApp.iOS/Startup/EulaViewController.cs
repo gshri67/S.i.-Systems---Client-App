@@ -1,6 +1,6 @@
 using Foundation;
 using System;
-using ClientApp.Core.ViewModels;
+using Shared.Core.ViewModels;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 

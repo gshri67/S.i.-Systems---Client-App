@@ -1,8 +1,9 @@
 ﻿using System;
-using ClientApp.Core.ViewModels;
 using ClientApp.Core;
 using Moq;
 using NUnit.Framework;
+using Shared.Core;
+using Shared.Core.ViewModels;
 
 namespace SiSystems.ClientApp.Core.Tests.ViewModels
 {

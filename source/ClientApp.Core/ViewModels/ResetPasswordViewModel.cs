@@ -1,11 +1,7 @@
-﻿using SiSystems.ClientApp.SharedModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 
-namespace ClientApp.Core.ViewModels
+namespace Shared.Core.ViewModels
 {
     public class ResetPasswordViewModel : ViewModelBase
     {

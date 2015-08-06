@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SiSystems.ClientApp.SharedModels;
 
-namespace ClientApp.Core.ViewModels
+namespace Shared.Core.ViewModels
 {
     public class OnboardViewModel : ViewModelBase
     {

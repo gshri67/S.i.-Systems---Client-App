@@ -1,7 +1,6 @@
-﻿using ClientApp.Core.Platform;
-using System;
+﻿using System;
 
-namespace ClientApp.Core
+namespace Shared.Core
 {
     public class ErrorEventArgs : EventArgs
     {

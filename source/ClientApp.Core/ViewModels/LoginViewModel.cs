@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Threading.Tasks;
 using SiSystems.ClientApp.SharedModels;
 
-namespace ClientApp.Core.ViewModels
+namespace Shared.Core.ViewModels
 {
 
     public class LoginViewModel : ViewModelBase

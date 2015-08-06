@@ -1,6 +1,6 @@
 using SiSystems.ClientApp.SharedModels;
 
-namespace ClientApp.Core
+namespace Shared.Core
 {
     /// <summary>
     /// Stores details about the currently logged in user

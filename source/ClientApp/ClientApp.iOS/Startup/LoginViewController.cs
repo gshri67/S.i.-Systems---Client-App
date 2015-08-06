@@ -3,11 +3,11 @@ using System.Net;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
+using Shared.Core;
+using Shared.Core.Platform;
+using Shared.Core.ViewModels;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
-using ClientApp.Core.ViewModels;
-using ClientApp.Core;
-using ClientApp.Core.Platform;
 
 namespace ClientApp.iOS
 {

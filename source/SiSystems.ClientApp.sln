@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.MatchGuide", "Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.ClientApp", "Database.ClientApp\Database.ClientApp.csproj", "{09C5A0D6-F5B0-4AB1-99B0-87DC3839A62B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp.Core", "ClientApp.Core\ClientApp.Core.csproj", "{256E615C-7B6F-4477-B215-C00676F278E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Core", "ClientApp.Core\Shared.Core.csproj", "{256E615C-7B6F-4477-B215-C00676F278E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp.Core.Tests", "ClientApp.Core.Tests\ClientApp.Core.Tests.csproj", "{967B065C-37A7-4BBC-8AF1-A992D3F8AF2F}"
 EndProject

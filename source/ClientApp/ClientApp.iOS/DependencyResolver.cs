@@ -1,8 +1,8 @@
 using System;
 using Microsoft.Practices.Unity;
-using ClientApp.Core;
 using ClientApp.iOS.Startup;
-using ClientApp.Core.Platform;
+using Shared.Core;
+using Shared.Core.Platform;
 
 namespace ClientApp.iOS
 {

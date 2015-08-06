@@ -1,4 +1,4 @@
-﻿namespace ClientApp.Core
+﻿namespace Shared.Core
 {
     public static class TrackId
     {

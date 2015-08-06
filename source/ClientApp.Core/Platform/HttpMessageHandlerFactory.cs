@@ -1,7 +1,7 @@
-﻿using ModernHttpClient;
-using System.Net.Http;
+﻿using System.Net.Http;
+using ModernHttpClient;
 
-namespace ClientApp.Core.Platform
+namespace Shared.Core.Platform
 {
     public class HttpMessageHandlerFactory
     {

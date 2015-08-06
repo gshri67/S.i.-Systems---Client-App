@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ClientApp.Core.ViewModels
+﻿namespace Shared.Core.ViewModels
 {
     /// <summary>
     /// Base view model.  Might not actually be used.  We can get rid of it later if needed

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ClientApp.Core
+namespace Shared.Core
 {
     public class OAuthToken
     {

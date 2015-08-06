@@ -1,8 +1,8 @@
-﻿using SiSystems.ClientApp.SharedModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using SiSystems.ClientApp.SharedModels;
 
-namespace ClientApp.Core
+namespace Shared.Core
 {
     public interface IMatchGuideApi
     {

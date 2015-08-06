@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using SiSystems.ClientApp.SharedModels;
-using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
+using System.Threading.Tasks;
+using SiSystems.ClientApp.SharedModels;
 
-namespace ClientApp.Core.ViewModels
+namespace Shared.Core.ViewModels
 {
     public class ConsultantDetailViewModel : ViewModelBase
     {

@@ -1,12 +1,13 @@
-﻿using ClientApp.Core.HttpAttributes;
-using ClientApp.Core.Platform;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Shared.Core;
+using Shared.Core.HttpAttributes;
+using Shared.Core.Platform;
 
 namespace ClientApp.Core.Tests
 {

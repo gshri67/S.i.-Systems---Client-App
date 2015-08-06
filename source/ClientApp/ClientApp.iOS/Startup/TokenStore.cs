@@ -1,8 +1,8 @@
 using Foundation;
 using Newtonsoft.Json;
 using Security;
-using ClientApp.Core;
-using ClientApp.Core.Platform;
+using Shared.Core;
+using Shared.Core.Platform;
 
 namespace ClientApp.iOS.Startup
 {

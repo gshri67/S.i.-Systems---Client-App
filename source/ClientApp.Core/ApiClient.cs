@@ -7,14 +7,12 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-
 using Newtonsoft.Json;
+using Shared.Core.HttpAttributes;
+using Shared.Core.Platform;
 using Xamarin;
 
-using ClientApp.Core.HttpAttributes;
-using ClientApp.Core.Platform;
-
-namespace ClientApp.Core
+namespace Shared.Core
 {
     public abstract class ApiClient
     {

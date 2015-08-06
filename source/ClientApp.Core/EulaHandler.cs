@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SiSystems.ClientApp.SharedModels;
 
-namespace ClientApp.Core
+namespace Shared.Core
 {
     public static class EulaHandler
     {

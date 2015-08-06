@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
 using System.Net;
+using Newtonsoft.Json;
 
-namespace ClientApp.Core
+namespace Shared.Core
 {
     public class ApiErrorResponse
     {

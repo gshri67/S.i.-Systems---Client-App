@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
-using ClientApp.Core;
-using ClientApp.Core.ViewModels;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
+using Shared.Core;
+using Shared.Core.ViewModels;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 

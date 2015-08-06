@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace ClientApp.Core.HttpAttributes
+namespace Shared.Core.HttpAttributes
 {
     public class HttpPostAttribute : HttpMethodAttribute
     {

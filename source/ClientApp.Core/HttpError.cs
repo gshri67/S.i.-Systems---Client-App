@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ClientApp.Core
+﻿namespace Shared.Core
 {
     /// <summary>
     /// This is used to deserialize System.Web.Http.HttpErrors when

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
+using Shared.Core.ViewModels;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
-using ClientApp.Core.ViewModels;
 
 namespace ClientApp.iOS
 {

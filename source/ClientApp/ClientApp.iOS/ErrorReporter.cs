@@ -1,7 +1,7 @@
 using Foundation;
+using Shared.Core;
+using Shared.Core.Platform;
 using UIKit;
-using ClientApp.Core;
-using ClientApp.Core.Platform;
 
 namespace ClientApp.iOS
 {

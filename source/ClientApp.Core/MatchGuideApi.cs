@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-
 using Newtonsoft.Json;
+using Shared.Core.HttpAttributes;
+using Shared.Core.Platform;
+using SiSystems.ClientApp.SharedModels;
 using Xamarin;
 
-using ClientApp.Core.HttpAttributes;
-using ClientApp.Core.Platform;
-using SiSystems.ClientApp.SharedModels;
-
-namespace ClientApp.Core
+namespace Shared.Core
 {
     [Api(Settings.MatchGuideApiAddress)]
     public class MatchGuideApi : ApiClient, IMatchGuideApi
