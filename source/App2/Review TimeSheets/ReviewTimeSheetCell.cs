@@ -28,6 +28,7 @@ namespace App2
 			timePeriodField.TranslatesAutoresizingMaskIntoConstraints = false;
 			AddSubview( timePeriodField );
 
+			Accessory = UITableViewCellAccessory.DisclosureIndicator;
 
 			setupConstraints();
 		}
