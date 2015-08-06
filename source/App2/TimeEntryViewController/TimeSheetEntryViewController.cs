@@ -23,10 +23,12 @@ namespace App2
 			addButton.TouchUpInside += delegate {
 				
 				UIViewController vc = Storyboard.InstantiateViewController("AddTimeEntryViewController");
-
+				/*
 				vc.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
 
 				PresentModalViewController(vc, true);
+*/
+				NavigationController.PushViewController(vc, true);
 			};
 
 			NavigationController.PushViewController( NavigationController.Storyboard.InstantiateViewController("LoginViewController"), false );

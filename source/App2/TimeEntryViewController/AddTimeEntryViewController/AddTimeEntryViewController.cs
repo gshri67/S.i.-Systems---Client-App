@@ -16,7 +16,8 @@ namespace App2
 			base.ViewDidLoad ();
 
 			addButton.TouchUpInside += delegate {
-				DismissViewController(true, null);
+				//DismissViewController(true, null);
+				NavigationController.PopViewController(true);
 			};
 		}
 	}
