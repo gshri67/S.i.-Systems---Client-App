@@ -175,6 +175,10 @@
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared.Core\Shared.Core.csproj">
+      <Project>{256e615c-7b6f-4477-b215-c00676f278e0}</Project>
+      <Name>Shared.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
       <Project>{a274548b-6cca-4841-b167-21625d1179b3}</Project>
       <Name>SharedModels</Name>

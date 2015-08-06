@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ConsultantApp.SharedModels;
+using Shared.Core;
 
 namespace ConsultantApp.Core.ViewModels
 {
