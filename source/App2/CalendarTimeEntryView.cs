@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace App2
+﻿namespace ConsultantApp.iOS
 {
 	public class CalendarTimeEntryView
 	{

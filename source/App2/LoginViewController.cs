@@ -1,10 +1,8 @@
-using Foundation;
 using System;
-using System.CodeDom.Compiler;
+using Foundation;
 using UIKit;
-using ConsultantApp.Core.ViewModels;
 
-namespace App2
+namespace ConsultantApp.iOS
 {
 	partial class LoginViewController : UIViewController
 	{

@@ -4,12 +4,10 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-using Foundation;
-using System;
-using System.CodeDom.Compiler;
-using UIKit;
 
-namespace App2
+using Foundation;
+
+namespace ConsultantApp.iOS
 {
 	[Register ("LoginViewController")]
 	partial class LoginViewController
@@ -24,7 +22,7 @@ namespace App2
 		UIKit.UITextField password { get; set; }
 
 		[Outlet]
-		App2.BorderedButton signUpButton { get; set; }
+		BorderedButton signUpButton { get; set; }
 
 		[Outlet]
 		UIKit.UITextField username { get; set; }

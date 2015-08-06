@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
+using ConsultantApp.SharedModels;
 using Foundation;
 using UIKit;
-using ConsultantApp.SharedModels;
 
-namespace App2
+namespace ConsultantApp.iOS.TimeEntryViewController
 {
 	internal class TimeEntryTableViewSource : UITableViewSource
 	{

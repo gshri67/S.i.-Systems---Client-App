@@ -6,9 +6,9 @@
     <ProjectGuid>{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>App2</RootNamespace>
+    <RootNamespace>ConsultantApp.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>App2</AssemblyName>
+    <AssemblyName>ConsultantAppiOS</AssemblyName>
     <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">

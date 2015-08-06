@@ -1,9 +1,8 @@
-using Foundation;
 using System;
-using System.CodeDom.Compiler;
+using Foundation;
 using UIKit;
 
-namespace App2
+namespace ConsultantApp.iOS.TimeEntryViewController
 {
 	partial class TimeSheetEntryViewController : UIViewController
 	{

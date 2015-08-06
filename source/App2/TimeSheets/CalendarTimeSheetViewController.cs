@@ -1,12 +1,9 @@
-using Foundation;
 using System;
-using System.CodeDom.Compiler;
-using UIKit;
-
 using Factorymind.Components;
 using SidebarNavigation;
+using UIKit;
 
-namespace App2
+namespace ConsultantApp.iOS.TimeSheets
 {
 	partial class CalendarTimeSheetViewController : UIViewController
 	{

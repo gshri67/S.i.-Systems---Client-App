@@ -1,13 +1,8 @@
-
 using System;
-using System.Drawing;
-
-using Foundation;
+using Factorymind.Components;
 using UIKit;
 
-using Factorymind.Components;
-
-namespace App2
+namespace ConsultantApp.iOS.TimeSheets
 {
     public partial class CalendarTimeSheetContentViewController : UIViewController
     {

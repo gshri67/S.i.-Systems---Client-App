@@ -1,14 +1,12 @@
 ﻿using System;
-using UIKit;
-using Foundation;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 using ConsultantApp.Core.ViewModels;
 using ConsultantApp.SharedModels;
+using Foundation;
+using UIKit;
 
-namespace App2
+namespace ConsultantApp.iOS.Review_TimeSheets
 {
 	internal class ReviewTimeSheetsTableViewSource : UITableViewSource
 	{

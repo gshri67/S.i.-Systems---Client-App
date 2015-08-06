@@ -1,15 +1,11 @@
-using Foundation;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System;
-using System.CodeDom.Compiler;
-using UIKit;
-using ConsultantApp.SharedModels;
-using ConsultantApp.Core;
+using System.Collections.Generic;
 using ConsultantApp.Core.ViewModels;
+using ConsultantApp.iOS.TimeEntryViewController;
+using ConsultantApp.SharedModels;
+using UIKit;
 
-namespace App2
+namespace ConsultantApp.iOS
 {
 	partial class DayTimeSheetViewController : UIViewController
 	{
