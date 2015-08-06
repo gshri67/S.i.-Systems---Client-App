@@ -51,7 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsultantApp.iOS", "App2\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsultantApp.Core", "ConsultantApp.Core\ConsultantApp.Core.csproj", "{F9277320-ACDE-484C-A289-BAE056419D32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsultantApp.Core.Tests", "ClassLibrary3\ConsultantApp.Core.Tests.csproj", "{EE84A34F-9DD5-4988-83D9-A872331069AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsultantApp.Core.Tests", "ConsultantApp\ConsultantApp.Core.Tests\ConsultantApp.Core.Tests.csproj", "{EE84A34F-9DD5-4988-83D9-A872331069AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
