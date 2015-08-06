@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\SharedModels\SharedModels.csproj">
+    <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
       <Project>{a274548b-6cca-4841-b167-21625d1179b3}</Project>
       <Name>SharedModels</Name>
     </ProjectReference>

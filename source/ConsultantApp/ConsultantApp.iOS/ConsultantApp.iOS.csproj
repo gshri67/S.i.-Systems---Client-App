@@ -175,13 +175,13 @@
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ConsultantApp.Core\ConsultantApp.Core.csproj">
-      <Project>{F9277320-ACDE-484C-A289-BAE056419D32}</Project>
-      <Name>ConsultantApp.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
       <Project>{a274548b-6cca-4841-b167-21625d1179b3}</Project>
       <Name>SharedModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConsultantApp.Core\ConsultantApp.Core.csproj">
+      <Project>{f9277320-acde-484c-a289-bae056419d32}</Project>
+      <Name>ConsultantApp.Core</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
