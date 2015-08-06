@@ -9,6 +9,9 @@ namespace App2
 	{
 		public AddTimeEntryViewController (IntPtr handle) : base (handle)
 		{
+			addButton.TouchUpInside += delegate {
+				DismissViewController(true, null);
+			};
 		}
 	}
 }

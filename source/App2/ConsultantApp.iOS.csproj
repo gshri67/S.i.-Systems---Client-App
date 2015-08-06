@@ -132,8 +132,8 @@
       <DependentUpon>ReviewTimeSheetViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Review TimeSheets\ReviewTimeSheetCell.cs" />
-    <Compile Include="AddTimeEntryViewController.cs" />
-    <Compile Include="AddTimeEntryViewController.designer.cs">
+    <Compile Include="TimeEntryViewController\AddTimeEntryViewController\AddTimeEntryViewController.cs" />
+    <Compile Include="TimeEntryViewController\AddTimeEntryViewController\AddTimeEntryViewController.designer.cs">
       <DependentUpon>AddTimeEntryViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>

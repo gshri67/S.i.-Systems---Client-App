@@ -9,8 +9,8 @@ using System.CodeDom.Compiler;
 
 namespace App2
 {
-	[Register ("TimeSheetEntryViewController")]
-	partial class TimeSheetEntryViewController
+	[Register ("AddTimeEntryViewController")]
+	partial class AddTimeEntryViewController
 	{
 		[Outlet]
 		UIKit.UIButton addButton { get; set; }
