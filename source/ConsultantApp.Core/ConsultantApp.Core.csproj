@@ -36,6 +36,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\SharedModels\SharedModels.csproj">
+      <Project>{a274548b-6cca-4841-b167-21625d1179b3}</Project>
+      <Name>SharedModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpAttributes\ApiAttribute.cs" />
@@ -50,12 +54,6 @@
     <Compile Include="ViewModels\OAuthToken.cs" />
     <Compile Include="ViewModels\TimeEntryViewModel.cs" />
     <Compile Include="ViewModels\TimesheetViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ConsultantApp.SharedModels\ConsultantApp.SharedModels.csproj">
-      <Project>{57DFFD00-F207-4353-B6C9-C9F5D4276C10}</Project>
-      <Name>ConsultantApp.SharedModels</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

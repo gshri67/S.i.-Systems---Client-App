@@ -158,10 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Startup\" />
-    <Folder Include="TimeEntryViewController\" />
-    <Folder Include="Review TimeSheets\" />
     <Folder Include="Submit TimeSheet\" />
-    <Folder Include="TimeEntryViewController\AddTimeEntryViewController\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -182,9 +179,9 @@
       <Project>{F9277320-ACDE-484C-A289-BAE056419D32}</Project>
       <Name>ConsultantApp.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ConsultantApp.SharedModels\ConsultantApp.SharedModels.csproj">
-      <Project>{57DFFD00-F207-4353-B6C9-C9F5D4276C10}</Project>
-      <Name>ConsultantApp.SharedModels</Name>
+    <ProjectReference Include="..\SharedModels\SharedModels.csproj">
+      <Project>{a274548b-6cca-4841-b167-21625d1179b3}</Project>
+      <Name>SharedModels</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
