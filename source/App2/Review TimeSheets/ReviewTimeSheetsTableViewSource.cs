@@ -2,6 +2,11 @@
 using UIKit;
 using Foundation;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using ConsultantApp.Core.ViewModels;
+using ConsultantApp.SharedModels;
 
 namespace App2
 {
@@ -13,10 +18,34 @@ namespace App2
 		public List<string> clientNames;
 		public List<string> timePeriods;
 
+		private TimesheetViewModel timesheetViewModel;
+
+		public List<Timesheet> openTimesheets;
+		public List<Timesheet> rejectedTimesheets;
+		public List<Timesheet> pendingTimesheets;
+
 		public ReviewTimeSheetsTableViewSource(UIViewController parentController) 
 		{
 			this.parentController = parentController;
 
+			timesheetViewModel = new TimesheetViewModel ();
+
+			List<Timesheet> timesheets = timesheetViewModel.loadTimesheets ();
+
+			openTimesheets = new List<Timesheet> ();
+			rejectedTimesheets = new List<Timesheet> ();
+			pendingTimesheets = new List<Timesheet> ();
+
+			//loop through all timesheets and only get the active ones (not approved)
+			foreach( Timesheet timesheet in timesheets )
+			{
+				if (timesheet.status == Timesheet.TimesheetStatus.Open)
+					openTimesheets.Add ( timesheet );
+				else if (timesheet.status == Timesheet.TimesheetStatus.Rejected)
+					rejectedTimesheets.Add ( timesheet );
+				else if (timesheet.status == Timesheet.TimesheetStatus.Pending)
+					pendingTimesheets.Add ( timesheet );
+			}
 
 		}
 
@@ -40,11 +69,11 @@ namespace App2
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
 			if (section == 0)
-				return 3;
+				return openTimesheets.Count;
 			else if (section == 1)
-				return 1;
+				return rejectedTimesheets.Count;
 			else if (section == 2)
-				return 2;
+				return pendingTimesheets.Count;
 
 			return 1;
 		}
@@ -52,7 +81,22 @@ namespace App2
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			// if there are no cells to reuse, create a new one
-			var cell = tableView.DequeueReusableCell(CellIdentifier);
+			ReviewTimeSheetCell cell = (ReviewTimeSheetCell)tableView.DequeueReusableCell(CellIdentifier);
+
+			Timesheet curSheet = null;
+
+			if (indexPath.Section == 0)
+				curSheet = openTimesheets.ElementAt((int)indexPath.Item);
+			else if (indexPath.Section == 1)
+				curSheet = rejectedTimesheets.ElementAt((int)indexPath.Item);
+			else if (indexPath.Section == 2)
+				curSheet = pendingTimesheets.ElementAt((int)indexPath.Item);
+
+			if (curSheet == null)
+				throw new NullReferenceException ( "Time sheet was null because it did not fall under the status of open, rejected, or pending." );
+
+			cell.clientField.Text = curSheet.clientName;
+			cell.timePeriodField.Text = curSheet.timePeriod;
 
 			//cell.TextLabel.Text = "Timesheet";
 
