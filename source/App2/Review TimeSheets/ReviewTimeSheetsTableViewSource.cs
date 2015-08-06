@@ -63,7 +63,7 @@ namespace App2
 			else if (section == 2)
 				return "Pending";
 			else
-				return "";
+				return null;
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
@@ -116,6 +116,11 @@ namespace App2
 
 		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
 		{
+			if (section == 0 && openTimesheets.Count == 0
+				|| section == 1 && rejectedTimesheets.Count == 0
+				|| section == 2 && pendingTimesheets.Count == 0)
+					return 0;
+
 			return 30;
 		}
 	}
