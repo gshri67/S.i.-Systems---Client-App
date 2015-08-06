@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Shared.Core.ViewModels
+namespace ClientApp.Core.ViewModels
 {
     public class EulaViewModel : ViewModelBase
     {

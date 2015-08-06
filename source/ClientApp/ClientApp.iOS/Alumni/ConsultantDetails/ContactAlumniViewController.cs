@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using ClientApp.Core.ViewModels;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
-using Shared.Core.ViewModels;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 

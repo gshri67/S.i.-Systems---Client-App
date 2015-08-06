@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using ClientApp.Core.ViewModels;
 using NUnit.Framework;
-using Shared.Core.ViewModels;
 
 namespace SiSystems.ClientApp.Core.Tests.ViewModels
 {

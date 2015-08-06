@@ -82,8 +82,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClientApp\ClientApp.Core\ClientApp.Core.csproj">
+      <Project>{9d3cf60b-8f32-44c3-aee2-509b7137f2e8}</Project>
+      <Name>ClientApp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shared.Core\Shared.Core.csproj">
-      <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
+      <Project>{256e615c-7b6f-4477-b215-c00676f278e0}</Project>
       <Name>Shared.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharedModels\SharedModels.csproj">

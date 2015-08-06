@@ -1,4 +1,4 @@
-﻿namespace Shared.Core.ViewModels
+﻿namespace ClientApp.Core.ViewModels
 {
     /// <summary>
     /// Base view model.  Might not actually be used.  We can get rid of it later if needed

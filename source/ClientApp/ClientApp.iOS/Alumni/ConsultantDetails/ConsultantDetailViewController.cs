@@ -8,7 +8,7 @@ using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 using System.Threading.Tasks;
-using Shared.Core.ViewModels;
+using ClientApp.Core.ViewModels;
 
 namespace ClientApp.iOS
 {

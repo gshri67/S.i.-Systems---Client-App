@@ -1,7 +1,7 @@
 using System;
+using ClientApp.Core.ViewModels;
 using CoreGraphics;
 using Foundation;
-using Shared.Core.ViewModels;
 using UIKit;
 
 namespace ClientApp.iOS

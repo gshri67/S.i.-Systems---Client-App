@@ -1,11 +1,11 @@
 using System;
 using System.Net;
+using ClientApp.Core.ViewModels;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
 using Shared.Core;
 using Shared.Core.Platform;
-using Shared.Core.ViewModels;
 using SiSystems.ClientApp.SharedModels;
 using UIKit;
 

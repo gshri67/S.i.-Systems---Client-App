@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Shared.Core;
 
-namespace Shared.Core.ViewModels
+namespace ClientApp.Core.ViewModels
 {
     public class ResetPasswordViewModel : ViewModelBase
     {

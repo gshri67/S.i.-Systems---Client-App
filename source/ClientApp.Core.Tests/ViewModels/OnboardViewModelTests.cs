@@ -4,8 +4,8 @@ using NUnit.Framework;
 using SiSystems.ClientApp.SharedModels;
 using ClientApp.Core;
 using System.Collections.Generic;
+using ClientApp.Core.ViewModels;
 using Shared.Core;
-using Shared.Core.ViewModels;
 
 namespace SiSystems.ClientApp.Core.Tests.ViewModels
 {

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Shared.Core;
 using SiSystems.ClientApp.SharedModels;
 
-namespace Shared.Core.ViewModels
+namespace ClientApp.Core.ViewModels
 {
     public class AlumniViewModel : ViewModelBase
     {

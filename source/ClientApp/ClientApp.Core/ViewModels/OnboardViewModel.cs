@@ -4,9 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Shared.Core;
 using SiSystems.ClientApp.SharedModels;
 
-namespace Shared.Core.ViewModels
+namespace ClientApp.Core.ViewModels
 {
     public class OnboardViewModel : ViewModelBase
     {

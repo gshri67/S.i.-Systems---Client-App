@@ -266,13 +266,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared.Core\Shared.Core.csproj">
+      <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
+      <Name>Shared.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
       <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
       <Name>SharedModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Shared.Core\Shared.Core.csproj">
-      <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
-      <Name>Shared.Core</Name>
+    <ProjectReference Include="..\ClientApp.Core\ClientApp.Core.csproj">
+      <Project>{9d3cf60b-8f32-44c3-aee2-509b7137f2e8}</Project>
+      <Name>ClientApp.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
