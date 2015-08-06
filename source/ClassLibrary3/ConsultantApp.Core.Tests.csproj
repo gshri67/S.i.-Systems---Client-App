@@ -7,8 +7,8 @@
     <ProjectGuid>{EE84A34F-9DD5-4988-83D9-A872331069AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary3</RootNamespace>
-    <AssemblyName>ClassLibrary3</AssemblyName>
+    <RootNamespace>ConsultantApp.Core.Tests</RootNamespace>
+    <AssemblyName>ConsultantApp.Core.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ReleaseVersion>0.2</ReleaseVersion>
