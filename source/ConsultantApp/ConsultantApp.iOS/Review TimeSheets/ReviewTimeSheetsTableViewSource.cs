@@ -110,6 +110,8 @@ namespace ConsultantApp.iOS.Review_TimeSheets
 			parentController.NavigationController.PushViewController(vc, true);
 */
 			//parentController.PresentViewController(vc, true, null);
+
+			parentController.NavigationController.PushViewController ( parentController.Storyboard.InstantiateViewController("SubmitTimeSheetViewController"), true );
 		}
 
 		public override nfloat GetHeightForHeader (UITableView tableView, nint section)

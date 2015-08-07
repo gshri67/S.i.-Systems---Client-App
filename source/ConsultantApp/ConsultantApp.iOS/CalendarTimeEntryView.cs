@@ -1,6 +1,10 @@
-﻿namespace ConsultantApp.iOS
+﻿using UIKit;
+using Foundation;
+
+
+namespace ConsultantApp.iOS
 {
-	public class CalendarTimeEntryView
+	public class CalendarTimeEntryView : UIView
 	{
 		public CalendarTimeEntryView ()
 		{
