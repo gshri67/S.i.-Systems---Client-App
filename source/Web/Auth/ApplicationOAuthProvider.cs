@@ -36,9 +36,7 @@ namespace SiSystems.ClientApp.Web.Auth
             }
             if (!user.IsGrantedAccess && user.CompanyId != 0)
             {
-                string errorMessage = user.IsCompanyParticipating
-                    ? string.Format("{0} is configured in the application, but you have not been granted access.", user.CompanyName)
-                    : string.Format("{0} has not been configured for access to the application.", user.CompanyName);
+                var errorMessage = AccessErrorMessage(user);
                 context.SetError("invalid_access", errorMessage);
                 return;
             }
@@ -52,6 +50,24 @@ namespace SiSystems.ClientApp.Web.Auth
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
+        }
+
+        private static string AccessErrorMessage(ApplicationUser user)
+        {
+            var errorMessage = "";
+
+            if (string.IsNullOrEmpty(user.CompanyName))
+            {
+                errorMessage = "You do not have access to this application.";
+            }
+            else
+            {
+                errorMessage = user.IsCompanyParticipating
+                    ? string.Format("{0} is configured in the application, but you have not been granted access.",
+                        user.CompanyName)
+                    : string.Format("{0} has not been configured for access to the application.", user.CompanyName);
+            }
+            return errorMessage;
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
