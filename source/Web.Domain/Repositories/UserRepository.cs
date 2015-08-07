@@ -15,12 +15,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
     public class UserRepository : IUserRepository
     {
         const string UserQueryBase = @"SELECT U.[UserId] Id, U.[FirstName] FirstName, U.[LastName] LastName, 
-	                                    U.[UserType], U.[ClientPortalTypeID] ClientPortalType, U.ClientPortalFTAlumniTypeID FloThruAlumniAccess,
-	                                    UL.[Login], UL.[Password] PasswordHash,
-	                                    C.[CompanyID] CompanyId, C.[CompanyName],
-	                                    C.[MaxVisibleRatePerHour] as ClientsMaxVisibleRate, C.[IsHavingFTAlumni] IsCompanyParticipating
-                                    FROM [Users] as U, [User_Login] as UL, [Company] as C
-                                    WHERE U.UserID=UL.UserID AND U.CompanyID = C.CompanyID";
+	                                        U.[UserType], U.[ClientPortalTypeID] ClientPortalType, U.ClientPortalFTAlumniTypeID FloThruAlumniAccess,
+	                                        UL.[Login], UL.[Password] PasswordHash,
+	                                        C.[CompanyID] CompanyId, C.[CompanyName],
+	                                        C.[MaxVisibleRatePerHour] as ClientsMaxVisibleRate, C.[IsHavingFTAlumni] IsCompanyParticipating
+                                        FROM [Users] as U
+                                        JOIN [User_Login] as UL on U.UserID = UL.UserID
+                                        LEFT JOIN [Company] as C on U.CompanyID = C.CompanyID
+                                        WHERE U.UserID=UL.UserID";
 
         public User Find(int id)
         {

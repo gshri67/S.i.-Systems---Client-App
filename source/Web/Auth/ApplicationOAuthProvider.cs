@@ -34,7 +34,7 @@ namespace SiSystems.ClientApp.Web.Auth
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
             }
-            if (!user.IsGrantedAccess)
+            if (!user.IsGrantedAccess && user.CompanyId != 0)
             {
                 string errorMessage = user.IsCompanyParticipating
                     ? string.Format("{0} is configured in the application, but you have not been granted access.", user.CompanyName)
