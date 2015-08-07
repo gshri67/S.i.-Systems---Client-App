@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 
 using Foundation;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS

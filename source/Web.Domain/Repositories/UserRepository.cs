@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Dapper;
-using SiSystems.ClientApp.SharedModels;
 using System.Threading.Tasks;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Repositories
 {

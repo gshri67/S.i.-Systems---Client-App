@@ -1,11 +1,11 @@
 ﻿using System.Web;
 using Microsoft.AspNet.Identity;
-using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Services;
 using System.Web.Http;
 using System.Net;
 using System.Threading.Tasks;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Auth
 {

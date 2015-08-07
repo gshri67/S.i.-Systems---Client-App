@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
 
-namespace SiSystems.ClientApp.SharedModels
+namespace SiSystems.SharedModels
 {
     /// <summary>
     /// Constants are currently const ints over enums 

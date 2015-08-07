@@ -1,6 +1,6 @@
-﻿using SiSystems.ClientApp.SharedModels;
-using SiSystems.ClientApp.Web.Domain.Repositories;
+﻿using SiSystems.ClientApp.Web.Domain.Repositories;
 using System.Threading.Tasks;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Services
 {

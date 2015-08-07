@@ -5,10 +5,10 @@ using ClientApp.iOS.Alumni;
 using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
-using SiSystems.ClientApp.SharedModels;
 using UIKit;
 using System.Threading.Tasks;
 using ClientApp.Core.ViewModels;
+using SiSystems.SharedModels;
 
 namespace ClientApp.iOS
 {

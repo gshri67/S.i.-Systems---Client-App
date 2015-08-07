@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace ConsultantApp.SharedModels
+namespace SiSystems.SharedModels
 {
     public class TimeEntry
     {

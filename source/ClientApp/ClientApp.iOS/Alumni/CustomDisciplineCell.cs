@@ -3,7 +3,7 @@ using System;
 using System.CodeDom.Compiler;
 using ClientApp.iOS.Alumni;
 using CoreGraphics;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS

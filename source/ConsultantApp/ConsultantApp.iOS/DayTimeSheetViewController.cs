@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using ConsultantApp.Core.ViewModels;
 using ConsultantApp.iOS.TimeEntryViewController;
-using ConsultantApp.SharedModels;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace ConsultantApp.iOS
@@ -13,7 +13,7 @@ namespace ConsultantApp.iOS
         public TimeEntryViewModel viewModel;
 
 		public DayTimeSheetViewController (IntPtr handle) : base (handle)
-		{
+        {
             viewModel = new TimeEntryViewModel();
 
             clientNames = viewModel.getTimeEntries(new DateTime());

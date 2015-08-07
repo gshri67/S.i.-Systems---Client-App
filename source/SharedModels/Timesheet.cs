@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsultantApp.SharedModels
+namespace SiSystems.SharedModels
 {
 	public class Timesheet
 	{

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Core.Tests
 {

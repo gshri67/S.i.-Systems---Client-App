@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using CoreGraphics;
 using Foundation;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS

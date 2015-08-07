@@ -6,7 +6,6 @@ using Foundation;
 using Microsoft.Practices.Unity;
 using Shared.Core;
 using Shared.Core.Platform;
-using SiSystems.ClientApp.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS

@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 using System.Text;
-using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.ClientApp.Web.Domain.Services.EmailTemplates;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Services
 {

@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using SiSystems.ClientApp.Web.Domain.Repositories;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Tests
 {

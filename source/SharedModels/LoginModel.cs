@@ -1,4 +1,4 @@
-﻿namespace SiSystems.ClientApp.SharedModels
+﻿namespace SiSystems.SharedModels
 {
     public class LoginModel
     {

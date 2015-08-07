@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-using SiSystems.ClientApp.SharedModels;
 using System.Linq;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Auth
 {

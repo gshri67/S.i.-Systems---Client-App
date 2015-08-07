@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Shared.Core;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 
 namespace ClientApp.Core.ViewModels
 {

@@ -1,4 +1,4 @@
-﻿using SiSystems.ClientApp.SharedModels;
+﻿using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Context
 {

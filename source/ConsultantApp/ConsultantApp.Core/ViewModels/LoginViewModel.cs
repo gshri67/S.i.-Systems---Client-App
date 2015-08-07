@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ConsultantApp.SharedModels;
+using SiSystems.SharedModels;
 using Shared.Core;
 
 namespace ConsultantApp.Core.ViewModels

@@ -1,7 +1,6 @@
 ﻿using ClientApp.Core;
 using Moq;
 using NUnit.Framework;
-using SiSystems.ClientApp.SharedModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Shared.Core;
 using Shared.Core.Platform;
+using SiSystems.SharedModels;
 
 namespace ClientApp.Core.Tests
 {

@@ -6,7 +6,7 @@ using Foundation;
 using Microsoft.Practices.Unity;
 using ObjCRuntime;
 using Shared.Core;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS

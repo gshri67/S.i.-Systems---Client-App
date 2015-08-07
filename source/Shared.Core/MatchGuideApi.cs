@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Shared.Core.HttpAttributes;
 using Shared.Core.Platform;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 using Xamarin;
 
 namespace Shared.Core

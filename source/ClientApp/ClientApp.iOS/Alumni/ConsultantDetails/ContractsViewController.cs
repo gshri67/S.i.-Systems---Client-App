@@ -3,7 +3,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using ClientApp.iOS.Alumni.ConsultantDetails;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS

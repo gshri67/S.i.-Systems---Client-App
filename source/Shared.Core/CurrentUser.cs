@@ -1,4 +1,4 @@
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 
 namespace Shared.Core
 {

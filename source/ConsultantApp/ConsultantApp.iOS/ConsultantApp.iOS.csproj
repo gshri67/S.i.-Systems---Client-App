@@ -180,7 +180,7 @@
       <Name>Shared.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
-      <Project>{a274548b-6cca-4841-b167-21625d1179b3}</Project>
+      <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
       <Name>SharedModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\ConsultantApp.Core\ConsultantApp.Core.csproj">

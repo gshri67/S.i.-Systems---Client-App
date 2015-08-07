@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConsultantApp.SharedModels;
+using SiSystems.SharedModels;
 
 namespace ConsultantApp.Core.ViewModels
 {

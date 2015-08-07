@@ -1,7 +1,7 @@
 using Foundation;
 using System;
 using ClientApp.Core.ViewModels;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace ClientApp.iOS

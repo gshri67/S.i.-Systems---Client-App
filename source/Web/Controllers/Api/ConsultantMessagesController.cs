@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Services;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Controllers.Api
 {

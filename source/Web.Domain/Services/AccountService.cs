@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Services
 {

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using ConsultantApp.Core.ViewModels;
-using ConsultantApp.SharedModels;
 using Foundation;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace ConsultantApp.iOS.Review_TimeSheets

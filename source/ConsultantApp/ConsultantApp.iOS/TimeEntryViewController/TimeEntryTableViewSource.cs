@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ConsultantApp.SharedModels;
 using Foundation;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace ConsultantApp.iOS.TimeEntryViewController

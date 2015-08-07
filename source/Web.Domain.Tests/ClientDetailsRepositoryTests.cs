@@ -1,8 +1,8 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Repositories;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Tests
 {

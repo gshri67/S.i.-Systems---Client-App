@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 
 namespace Shared.Core
 {

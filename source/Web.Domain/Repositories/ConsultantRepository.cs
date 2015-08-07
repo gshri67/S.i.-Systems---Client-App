@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dapper;
-using SiSystems.ClientApp.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Repositories.Search;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
