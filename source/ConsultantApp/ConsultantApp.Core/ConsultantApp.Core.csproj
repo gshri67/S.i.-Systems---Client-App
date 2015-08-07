@@ -37,11 +37,11 @@
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <ProjectReference Include="..\..\Shared.Core\Shared.Core.csproj">
-      <Project>{256e615c-7b6f-4477-b215-c00676f278e0}</Project>
+      <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
       <Name>Shared.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
-      <Project>{a274548b-6cca-4841-b167-21625d1179b3}</Project>
+      <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
       <Name>SharedModels</Name>
     </ProjectReference>
   </ItemGroup>
@@ -50,6 +50,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\TimeEntryViewModel.cs" />
     <Compile Include="ViewModels\TimesheetViewModel.cs" />
+    <Compile Include="ViewModels\ClientViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
