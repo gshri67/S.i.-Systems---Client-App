@@ -490,6 +490,9 @@
                     <navigationItem key="navigationItem" id="5Il-UX-nQr"/>
                     <connections>
                         <outlet property="addButton" destination="RMf-aA-eIW" id="iwn-cB-jXe"/>
+                        <outlet property="clientTextField" destination="W0Q-cv-9SB" id="Te5-lz-wqL"/>
+                        <outlet property="hoursTextField" destination="OPd-IH-CLm" id="7wD-mr-VSb"/>
+                        <outlet property="projectCodeTextField" destination="Uy5-tt-L5P" id="KPh-Zg-w3w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0IJ-Al-ChW" userLabel="First Responder" sceneMemberID="firstResponder"/>
