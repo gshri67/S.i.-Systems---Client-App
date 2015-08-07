@@ -7,8 +7,15 @@ namespace ConsultantApp.iOS.TimeEntryViewController.AddTimeEntryViewController
 	{
 		public AddTimeEntryViewController (IntPtr handle) : base (handle)
 		{
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
 			addButton.TouchUpInside += delegate {
-				DismissViewController(true, null);
+				//DismissViewController(true, null);
+				NavigationController.PopViewController(true);
 			};
 		}
 	}

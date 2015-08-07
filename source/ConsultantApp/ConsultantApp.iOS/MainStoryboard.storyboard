@@ -397,13 +397,13 @@
         <!--Add Time Entry View Controller-->
         <scene sceneID="ItU-6o-eD4">
             <objects>
-                <viewController storyboardIdentifier="AddTimeEntryViewController" id="u1a-FJ-nV6" customClass="AddTimeEntryViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddTimeEntryViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="u1a-FJ-nV6" customClass="AddTimeEntryViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0iy-lt-SCy"/>
                         <viewControllerLayoutGuide type="bottom" id="7o8-n2-yU1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LDZ-Hv-jKW">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxA-Ki-6cL">
@@ -476,6 +476,8 @@
                             <constraint firstItem="eKZ-jV-n1w" firstAttribute="centerY" secondItem="OPd-IH-CLm" secondAttribute="centerY" constant="-9.5" id="y8J-Eb-2UB"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" id="5Il-UX-nQr"/>
                     <connections>
                         <outlet property="addButton" destination="RMf-aA-eIW" id="iwn-cB-jXe"/>
                     </connections>
