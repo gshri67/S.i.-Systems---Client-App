@@ -9,6 +9,7 @@ namespace ConsultantApp.iOS
 	{
 		private UIView editApproverView;
 		private UIButton submitButton;
+		private UIScrollView backgroundScrollLayer;
 		private UIView scrollView;
 		private CalendarTimeEntryView calendarView;
 		private ProjectCodeSummaryView projectCodesView;
@@ -38,15 +39,21 @@ namespace ConsultantApp.iOS
 			base.ViewDidLoad ();
 			View.BackgroundColor = UIColor.Blue;
 
-			scrollView = new UIView( new CoreGraphics.CGRect(0, 0, 100, 100));
+			backgroundScrollLayer = new UIScrollView( View.Bounds );
+			backgroundScrollLayer.TranslatesAutoresizingMaskIntoConstraints = false;
+			backgroundScrollLayer.BackgroundColor = UIColor.Purple;
+			//backgroundScrollLayer.ContentSize = new CoreGraphics.CGSize (300, 350 );
+			View.AddSubview (backgroundScrollLayer);
+
+			scrollView = new UIView (View.Bounds);//new CoreGraphics.CGRect(0, 0, 200, 300));
 			scrollView.TranslatesAutoresizingMaskIntoConstraints = false;
 			//scrollView = new UIScrollView ( new CoreGraphics.CGRect( 0, 0, View.Frame.Size.Width, View.Frame.Size.Height ));
 			scrollView.BackgroundColor = UIColor.Red;
 
-			View.AddSubview (scrollView);
+			backgroundScrollLayer.AddSubview (scrollView);
 			scrollView.AddSubview (editApproverView);
 			scrollView.AddSubview (submitButton);
-			scrollView.AddSubview ( calendarView );
+			scrollView.AddSubview (calendarView);
 			scrollView.AddSubview (projectCodesView);
 
 			//scrollView.Frame = new CoreGraphics.CGRect (0, 0, scrollView.Bounds.Width, 1000);
@@ -54,13 +61,26 @@ namespace ConsultantApp.iOS
 			setupConstraints();
 		}
 
+		public override void ViewDidLayoutSubviews ()
+		{
+			base.ViewDidLayoutSubviews ();
+
+			backgroundScrollLayer.ContentSize = new CoreGraphics.CGSize (View.Bounds.Width, View.Bounds.Height+100);
+		}
+
 		public void setupConstraints() 
 		{
 			//scroll view
-			View.AddConstraint(NSLayoutConstraint.Create(scrollView, NSLayoutAttribute.Left, NSLayoutRelation.Equal, View, NSLayoutAttribute.Left, 1.0f, 0f));
-			View.AddConstraint(NSLayoutConstraint.Create(scrollView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, View, NSLayoutAttribute.Top, 1.0f, 0f));
-			View.AddConstraint(NSLayoutConstraint.Create(scrollView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, View, NSLayoutAttribute.Bottom, 1.0f, 0f));
-			View.AddConstraint(NSLayoutConstraint.Create(scrollView, NSLayoutAttribute.Right, NSLayoutRelation.Equal, View, NSLayoutAttribute.Right, 1.0f, 0f));
+
+			View.AddConstraint(NSLayoutConstraint.Create(backgroundScrollLayer, NSLayoutAttribute.Left, NSLayoutRelation.Equal, View, NSLayoutAttribute.Left, 1.0f, 0f));
+			View.AddConstraint(NSLayoutConstraint.Create(backgroundScrollLayer, NSLayoutAttribute.Top, NSLayoutRelation.Equal, View, NSLayoutAttribute.Top, 1.0f, 0f));
+			View.AddConstraint(NSLayoutConstraint.Create(backgroundScrollLayer, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, View, NSLayoutAttribute.Bottom, 1.0f, 0f));
+			View.AddConstraint(NSLayoutConstraint.Create(backgroundScrollLayer, NSLayoutAttribute.Right, NSLayoutRelation.Equal, View, NSLayoutAttribute.Right, 1.0f, 0f));
+
+			backgroundScrollLayer.AddConstraint(NSLayoutConstraint.Create(scrollView, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal, backgroundScrollLayer, NSLayoutAttribute.CenterX, 1.0f, 0f));
+			backgroundScrollLayer.AddConstraint(NSLayoutConstraint.Create(scrollView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, backgroundScrollLayer, NSLayoutAttribute.Top, 1.0f, 0f));
+			backgroundScrollLayer.AddConstraint(NSLayoutConstraint.Create(scrollView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, backgroundScrollLayer, NSLayoutAttribute.Bottom, 1.0f, 0f));
+			backgroundScrollLayer.AddConstraint(NSLayoutConstraint.Create(scrollView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, backgroundScrollLayer, NSLayoutAttribute.Width, 1.0f, 0f));
 
 			//edit approver
 			scrollView.AddConstraint(NSLayoutConstraint.Create(editApproverView, NSLayoutAttribute.Left, NSLayoutRelation.Equal, scrollView, NSLayoutAttribute.Left, 1.0f, 0f));
@@ -85,7 +105,6 @@ namespace ConsultantApp.iOS
 			scrollView.AddConstraint(NSLayoutConstraint.Create(projectCodesView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, calendarView, NSLayoutAttribute.Bottom, 1.0f, 0f));
 			scrollView.AddConstraint(NSLayoutConstraint.Create(projectCodesView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, submitButton, NSLayoutAttribute.Top, 1.0f, 0f));
 			scrollView.AddConstraint(NSLayoutConstraint.Create(projectCodesView, NSLayoutAttribute.Right, NSLayoutRelation.Equal, scrollView, NSLayoutAttribute.Right, 1.0f, 0f));
-
 		}
 	}
 }
