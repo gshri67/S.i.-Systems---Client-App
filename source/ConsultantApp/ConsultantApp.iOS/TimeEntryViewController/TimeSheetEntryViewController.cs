@@ -7,15 +7,29 @@ using ConsultantApp.SharedModels;
 
 namespace ConsultantApp.iOS.TimeEntryViewController
 {
-	partial class TimeSheetEntryViewController : UIViewController
+	public partial class TimeSheetEntryViewController : UIViewController
 	{
+        private readonly NSObject _tokenExpiredObserver;
+
 		public TimeSheetEntryViewController (IntPtr handle) : base (handle)
 		{
 			//TabBarController.TabBar.TintColor = UIColor.Blue;
 
 			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
 			TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
+            this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 		}
+
+        public void OnTokenExpired(NSNotification notifcation)
+        {
+            // Unsubscribe from this event so that it won't be handled again
+            NSNotificationCenter.DefaultCenter.RemoveObserver(_tokenExpiredObserver);
+
+            var loginViewController = this.Storyboard.InstantiateViewController("LoginView");
+            var navigationController = new UINavigationController(loginViewController) { NavigationBarHidden = true };
+
+            UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
+        }
 
 		public override void ViewWillLayoutSubviews ()
 		{
@@ -45,8 +59,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 */
 				NavigationController.PushViewController(vc, true);
 			};
-	
-			NavigationController.PushViewController( NavigationController.Storyboard.InstantiateViewController("LoginViewController"), false );
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
