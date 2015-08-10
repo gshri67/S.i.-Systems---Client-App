@@ -309,6 +309,9 @@
                                     <color key="titleColor" red="0.19215686269999999" green="0.30588235289999999" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="login_TouchUpInside:" destination="289" id="940" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="The Alumni Knowledge Solution™" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="JOH-Sr-PaY">
                                 <rect key="frame" x="8" y="136" width="304" height="24"/>
@@ -353,6 +356,9 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="942" hidesWhenStopped="YES" hidden="YES" misplaced="YES">
+                                <rect key="frame" x="150" y="374" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -378,16 +384,20 @@
                             <constraint firstItem="287" firstAttribute="top" secondItem="SwL-8t-yqW" secondAttribute="bottom" constant="20" id="tKk-co-ivq"/>
                             <constraint firstItem="JOH-Sr-PaY" firstAttribute="width" secondItem="JOH-Sr-PaY" secondAttribute="height" multiplier="155:12" id="v3K-dR-MCx"/>
                             <constraint firstAttribute="centerX" secondItem="zeI-Ir-oYo" secondAttribute="centerX" id="xbi-3c-exc"/>
+                            <constraint firstItem="942" firstAttribute="top" secondItem="pKt-rR-iRq" secondAttribute="bottom" constant="8" id="943"/>
+                            <constraint firstItem="942" firstAttribute="centerX" secondItem="290" secondAttribute="centerX" constant="0.0" id="944"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="361"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="forgotPasswordButton" destination="SwL-8t-yqW" id="kK3-S6-3wM"/>
+                        <outlet property="ForgotPasswordButton" destination="SwL-8t-yqW" id="name-outlet-SwL-8t-yqW"/>
                         <outlet property="login" destination="pKt-rR-iRq" id="Hgr-0A-RIG"/>
                         <outlet property="password" destination="DnO-Dq-Vef" id="hIf-uo-rWI"/>
-                        <outlet property="signUpButton" destination="YZ9-gn-LPb" id="Lxp-7a-OIS"/>
+                        <outlet property="SignUpButton" destination="YZ9-gn-LPb" id="name-outlet-YZ9-gn-LPb"/>
                         <outlet property="username" destination="zeI-Ir-oYo" id="LYp-KU-L4d"/>
+                        <outlet property="LoginView" destination="290" id="name-outlet-290"/>
+                        <outlet property="loginActivityIndicator" destination="942" id="name-outlet-942"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="291" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -403,16 +413,16 @@
                         <viewControllerLayoutGuide type="bottom" id="7o8-n2-yU1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LDZ-Hv-jKW">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxA-Ki-6cL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxA-Ki-6cL" misplaced="YES">
                                 <rect key="frame" x="16" y="28" width="136" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4By-en-5hr">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4By-en-5hr" misplaced="YES">
                                 <rect key="frame" x="16" y="114" width="136" height="28"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -501,6 +511,7 @@
     </scenes>
     <resources>
         <image name="sisystems_logo.jpg" width="730" height="253"/>
+        <image name="Default-568h.png" width="640" height="1136"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
