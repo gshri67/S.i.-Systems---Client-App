@@ -8,6 +8,15 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	{
 		public TimeSheetEntryViewController (IntPtr handle) : base (handle)
 		{
+			//TabBarController.TabBar.TintColor = UIColor.Blue;
+
+			TabBarController.TabBar.Items [0].Image = (new UIImage ("ios7-clock-outline.png")).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+			TabBarController.TabBar.Items [1].Image = (new UIImage ("social-usd.png")).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+			//TabBarItem.Image = (new UIImage ("ios7-clock-outline.png")).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+			/*
+			TabBarController.TabBar.TintColor = UIColor.White;
+			TabBarController.TabBar.BarTintColor = UIColor.White;
+			TabBarController.TabBar.BackgroundColor = UIColor.White;*/
 		}
 
 		public override void ViewWillLayoutSubviews ()
