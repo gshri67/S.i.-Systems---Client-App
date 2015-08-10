@@ -12,17 +12,17 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		//private const string CellIdentifier = "cell";
         private const string CellIdentifier = "TimeEntryCell";
 		private UIViewController parentController;
-        private List<TimeEntry> clientNames;
+        private List<TimeEntry> timeEntries;
 
-		public TimeEntryTableViewSource( UIViewController parentController, List<TimeEntry> clientNames ) 
+		public TimeEntryTableViewSource( UIViewController parentController, List<TimeEntry> timeEntries ) 
 		{
 			this.parentController = parentController;
             /*
-            clientNames = new NSMutableArray();
-            clientNames.Add( new NSString("Nexen") );
-            clientNames.Add( new NSString("Cenovus") );*/
+            timeEntries = new NSMutableArray();
+            timeEntries.Add( new NSString("Nexen") );
+            timeEntries.Add( new NSString("Cenovus") );*/
 
-            this.clientNames = clientNames;
+            this.timeEntries = timeEntries;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -31,9 +31,12 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
-		{
-			return clientNames.Count;
-            //return clientNames.Length;
+		{/*
+			if (timeEntries.Count > 0)
+				return timeEntries.Count;
+			else*/
+				return 1;
+			//return timeEntries.Length;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -44,7 +47,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             //if (cell == null)
               //  cell = new TimeEntryCell();
 
-            TimeEntry curEntry = clientNames.ElementAt((int)indexPath.Item);
+            TimeEntry curEntry = timeEntries.ElementAt((int)indexPath.Item);
 
             cell.TextLabel.Text = curEntry.clientName;
 

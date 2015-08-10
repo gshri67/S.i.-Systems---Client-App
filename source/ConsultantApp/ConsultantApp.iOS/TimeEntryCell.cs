@@ -5,8 +5,8 @@ namespace ConsultantApp.iOS
 {
     public class TimeEntryCell : UITableViewCell
     {
-        public UITextField clientField;
-        public UITextField projectCodeField;
+		public UILabel clientField;
+        public UILabel projectCodeField;
         public UITextField hoursField;
 
         //Blocks
@@ -23,14 +23,26 @@ namespace ConsultantApp.iOS
         {
             TextLabel.Hidden = true;
 
+			clientField = new UILabel();
+			clientField.Text = "DevFacto";
+			clientField.TranslatesAutoresizingMaskIntoConstraints = false;
+			AddSubview( clientField );
+
+			projectCodeField = new UILabel();
+			projectCodeField.Text = "Project Code";
+			projectCodeField.TranslatesAutoresizingMaskIntoConstraints = false;
+			projectCodeField.TextAlignment = UITextAlignment.Left;
+			projectCodeField.Font =  UIFont.FromName("Helvetica", 12f);
+			AddSubview( projectCodeField );
+
+			projectCodeField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
+			clientField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
+			/*
             //Client
             if (onClientChanged == null)
                 onClientChanged = (String newClient) => {};
 
-            clientField = new UITextField();
-            clientField.Text = "DevFacto";
-            clientField.TranslatesAutoresizingMaskIntoConstraints = false;
-            AddSubview( clientField );
+
 
             //TESTING <<
             clientField.EditingChanged += delegate
@@ -42,17 +54,13 @@ namespace ConsultantApp.iOS
             if (onProjectCodeChanged == null)
                 onProjectCodeChanged = (String newProjectCode ) => { };
 
-            projectCodeField = new UITextField();
-            projectCodeField.Text = "Project Code";
-            projectCodeField.TranslatesAutoresizingMaskIntoConstraints = false;
-            projectCodeField.TextAlignment = UITextAlignment.Center;
-            AddSubview( projectCodeField );
+            
 
             projectCodeField.EditingChanged += delegate
             {
                 onProjectCodeChanged("test code");
             };
-
+			*/
             //Hours
             if (onHoursChanged == null)
                 onHoursChanged = (int newHours) => { };
@@ -84,20 +92,20 @@ namespace ConsultantApp.iOS
 
         public void setupConstraints() 
         {
-            AddConstraint( NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Left, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.33f, 0f));
+			AddConstraint( NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.35f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.35f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.5f, 0f));
 
-            AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, clientField, NSLayoutAttribute.Right, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, clientField, NSLayoutAttribute.Right, 0.5f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.8f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.25f, 0f));
             AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.66f, 0f));
 
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, projectCodeField, NSLayoutAttribute.Right, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.95f, 0f));
         }
 
     }

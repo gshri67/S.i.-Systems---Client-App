@@ -1,6 +1,9 @@
 using System;
 using Foundation;
 using UIKit;
+using System.Collections.Generic;
+using Shared.Core;
+using ConsultantApp.SharedModels;
 
 namespace ConsultantApp.iOS.TimeEntryViewController
 {
@@ -11,13 +14,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			//TabBarController.TabBar.TintColor = UIColor.Blue;
 
 			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
-			//TabBarController.TabBar.Items [0].Image = (new UIImage ("test3.png"));
 			TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
-			//TabBarItem.Image = (new UIImage ("ios7-clock-outline.png")).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
-			/*
-			TabBarController.TabBar.TintColor = UIColor.White;
-			TabBarController.TabBar.BarTintColor = UIColor.White;
-			TabBarController.TabBar.BackgroundColor = UIColor.White;*/
 		}
 
 		public override void ViewWillLayoutSubviews ()
@@ -28,6 +25,15 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		{
 			base.ViewDidLoad ();
 
+			List<TimeEntry> timeEntries = new List<TimeEntry>();
+			TimeEntry t1 = new TimeEntry();
+			t1.clientName = "Cenovus";
+			t1.projectCode = "P-336";
+			timeEntries.Add ( t1 );
+
+			tableview.RegisterClassForCellReuse( typeof(TimeEntryCell), @"TimeEntryCell");
+			tableview.Source = new TimeEntryTableViewSource (this, timeEntries);
+			tableview.ReloadData ();
 
 			addButton.TouchUpInside += delegate {
 				
@@ -39,7 +45,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 */
 				NavigationController.PushViewController(vc, true);
 			};
-
+	
 			NavigationController.PushViewController( NavigationController.Storyboard.InstantiateViewController("LoginViewController"), false );
 		}
 
