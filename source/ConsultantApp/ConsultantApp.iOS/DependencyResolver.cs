@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-//using Microsoft.Practices.Unity;
-using Foundation;
-using UIKit;
+using Microsoft.Practices.Unity;
+using ConsultantApp.iOS.Startup;
+using Shared.Core;
+using Shared.Core.Platform;
 
-namespace App2
+namespace ConsultantApp.iOS
 {
-    class DependencyResolver
-    {/*
+    public class DependencyResolver
+    {
         private static readonly Lazy<IUnityContainer> Container = new Lazy<IUnityContainer>(CreateContainer);
 
         public static IUnityContainer Current { get { return Container.Value; } }
@@ -17,7 +15,7 @@ namespace App2
         private DependencyResolver()
         {
         }
-
+        
         private static UnityContainer CreateContainer()
         {
             var container = new UnityContainer();
@@ -35,6 +33,6 @@ namespace App2
 
             // instantiate the error reporter so that it registers itself with the error source
             var errorReporter = new ErrorReporter(container.Resolve<IErrorSource>());
-        }*/
+        }
     }
 }
