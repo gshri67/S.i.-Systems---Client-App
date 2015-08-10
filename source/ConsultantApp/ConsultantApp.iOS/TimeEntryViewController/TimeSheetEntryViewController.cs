@@ -35,6 +35,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		{
 			base.ViewDidLoad ();
 
+			//Test data, normally we would load all the timeentries for this day from API
 			List<TimeEntry> timeEntries = new List<TimeEntry>();
 			TimeEntry t1 = new TimeEntry();
 			t1.clientName = "Cenovus";
@@ -57,6 +58,17 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			};
             NavigationController.PushViewController(NavigationController.Storyboard.InstantiateViewController("LoginViewController"), false);
 		}
+
+		//dismiss keyboard when tapping outside of text fields
+		public override void TouchesBegan(NSSet touches, UIEvent evt)
+		{
+			base.TouchesBegan(touches, evt);
+			/*
+			TimeEntryCell currentCell = (TimeEntryCell)(tableview.CellAt(tableview.IndexPathForSelectedRow));
+			if( currentCell != null )
+				currentCell.hoursField.ResignFirstResponder();*/
+		}
+
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{

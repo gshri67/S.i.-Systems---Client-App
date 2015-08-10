@@ -1,5 +1,6 @@
 using System;
 using UIKit;
+using Foundation;
 
 namespace ConsultantApp.iOS
 {
@@ -89,6 +90,14 @@ namespace ConsultantApp.iOS
 
             setupConstraints();
         }
+
+		//dismiss keyboard when tapping outside of text fields
+		public override void TouchesBegan(NSSet touches, UIEvent evt)
+		{
+			base.TouchesBegan(touches, evt);
+
+			hoursField.ResignFirstResponder();
+		}
 
         public void setupConstraints() 
         {
