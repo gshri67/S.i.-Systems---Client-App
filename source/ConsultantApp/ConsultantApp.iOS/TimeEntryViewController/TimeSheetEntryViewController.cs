@@ -3,7 +3,7 @@ using Foundation;
 using UIKit;
 using System.Collections.Generic;
 using Shared.Core;
-using ConsultantApp.SharedModels;
+using SiSystems.SharedModels;
 
 namespace ConsultantApp.iOS.TimeEntryViewController
 {
@@ -15,8 +15,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		{
 			//TabBarController.TabBar.TintColor = UIColor.Blue;
 
-			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
-			TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
+            //TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
+            //TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 		}
 
@@ -45,9 +45,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			t1.projectCode = "P-336";
 			timeEntries.Add ( t1 );
 
-			tableview.RegisterClassForCellReuse( typeof(TimeEntryCell), @"TimeEntryCell");
-			tableview.Source = new TimeEntryTableViewSource (this, timeEntries);
-			tableview.ReloadData ();
+            //tableview.RegisterClassForCellReuse( typeof(TimeEntryCell), @"TimeEntryCell");
+            //tableview.Source = new TimeEntryTableViewSource (this, timeEntries);
+            //tableview.ReloadData ();
 
 			addButton.TouchUpInside += delegate {
 				
@@ -59,6 +59,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 */
 				NavigationController.PushViewController(vc, true);
 			};
+            NavigationController.PushViewController(NavigationController.Storyboard.InstantiateViewController("LoginViewController"), false);
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SiSystems.ClientApp.SharedModels
+namespace SiSystems.SharedModels
 {
 	public class Client
 	{

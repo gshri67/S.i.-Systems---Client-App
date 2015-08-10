@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 
 namespace ConsultantApp.Core.ViewModels
 {
@@ -10,8 +9,7 @@ namespace ConsultantApp.Core.ViewModels
 		public ClientViewModel ()
 		{
 		}
-
-		public List<Client> loadClientsForConsultant( Consultant consultant )
+		public List<Client> LoadClientsForConsultant( Consultant consultant )
 		{
 			List<Client> clients = new List<Client>();
 

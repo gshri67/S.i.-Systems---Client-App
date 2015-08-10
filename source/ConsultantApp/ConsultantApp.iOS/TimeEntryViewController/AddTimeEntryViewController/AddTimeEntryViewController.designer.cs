@@ -17,8 +17,32 @@ namespace ConsultantApp.iOS.TimeEntryViewController.AddTimeEntryViewController
 		[Outlet]
 		UIKit.UIButton addButton { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField clientTextField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField hoursTextField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField projectCodeTextField { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
+			if (clientTextField != null) {
+				clientTextField.Dispose ();
+				clientTextField = null;
+			}
+			if (hoursTextField != null) {
+				hoursTextField.Dispose ();
+				hoursTextField = null;
+			}
+			if (projectCodeTextField != null) {
+				projectCodeTextField.Dispose ();
+				projectCodeTextField = null;
+			}
 		}
 	}
 }

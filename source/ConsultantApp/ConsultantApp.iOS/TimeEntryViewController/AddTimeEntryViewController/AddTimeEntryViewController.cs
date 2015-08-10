@@ -3,7 +3,7 @@ using UIKit;
 using Foundation;
 using System.Collections.Generic;
 using ConsultantApp.Core.ViewModels;
-using SiSystems.ClientApp.SharedModels;
+using SiSystems.SharedModels;
 using System.Linq;
 
 namespace ConsultantApp.iOS.TimeEntryViewController.AddTimeEntryViewController
@@ -24,8 +24,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController.AddTimeEntryViewController
 
 		public AddTimeEntryViewController (IntPtr handle) : base (handle)
 		{
-			clientViewModel = new ClientViewModel ();
-			clients = clientViewModel.loadClientsForConsultant (null);
+			clientViewModel = new ClientViewModel();
+			clients = clientViewModel.LoadClientsForConsultant (null);
 
 			clientPickerView = new UIPickerView (new CoreGraphics.CGRect(0, 0, 300, 300));
 			projectCodePickerView = new UIPickerView (new CoreGraphics.CGRect(0, 0, 300, 300));
