@@ -43,22 +43,18 @@ namespace ConsultantApp.Core.ViewModels
         }
 
         public async Task<ValidationResult> LoginAsync(string username, string password)
-        {/*
+        {
             var result = await this._api.Login(username, password);
             if (result.IsValid)
             {
                 UserName = username;
             }
-            return result;*/
-
-
-
-            return null;
+            return result;
         }
-        /*
+        
         public async Task<Eula> GetCurrentEulaAsync()
         {
             return await _api.GetMostRecentEula();
-        }*/
+        }
     }
 }
