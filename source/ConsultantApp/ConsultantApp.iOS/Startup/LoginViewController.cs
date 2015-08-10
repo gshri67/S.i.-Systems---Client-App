@@ -2,7 +2,7 @@ using System;
 using Foundation;
 using UIKit;
 
-namespace ConsultantApp.iOS
+namespace ConsultantApp.iOS.Startup
 {
 	partial class LoginViewController : UIViewController
 	{
