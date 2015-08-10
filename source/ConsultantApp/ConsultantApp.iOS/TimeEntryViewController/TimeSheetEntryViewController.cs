@@ -30,11 +30,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
             UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
         }
-
-		public override void ViewWillLayoutSubviews ()
-		{
-		}
-
+			
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -45,9 +41,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			t1.projectCode = "P-336";
 			timeEntries.Add ( t1 );
 
-            //tableview.RegisterClassForCellReuse( typeof(TimeEntryCell), @"TimeEntryCell");
-            //tableview.Source = new TimeEntryTableViewSource (this, timeEntries);
-            //tableview.ReloadData ();
+			tableview.RegisterClassForCellReuse( typeof(TimeEntryCell), @"TimeEntryCell");
+			tableview.Source = new TimeEntryTableViewSource (this, timeEntries);
+			tableview.ReloadData ();
 
 			addButton.TouchUpInside += delegate {
 				

@@ -22,9 +22,19 @@ namespace ConsultantApp.iOS
         public LoginViewController(IntPtr handle)
             : base(handle)
         {
+			HidesBottomBarWhenPushed = true;
+
             _loginModel = DependencyResolver.Current.Resolve<LoginViewModel>();
             _tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
         }
+
+		public override void ViewWillLayoutSubviews ()
+		{
+			base.ViewWillLayoutSubviews ();
+
+			NavigationController.NavigationBar.Hidden = true;
+
+		}
 
         public override void DidReceiveMemoryWarning()
         {
@@ -126,6 +136,10 @@ namespace ConsultantApp.iOS
 
         async partial void login_TouchUpInside(UIButton sender)
         {
+			//add navigation bar back and dismiss view controller when finished
+			NavigationController.NavigationBar.Hidden = false;
+			NavigationController.PopViewController(true);
+
             var userName = username.Text;
             var result = _loginModel.IsValidUserName(userName);
             if (!result.IsValid)

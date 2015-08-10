@@ -31,10 +31,10 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
-		{/*
-			if (timeEntries.Count > 0)
+		{
+			if (timeEntries != null && timeEntries.Count > 0)
 				return timeEntries.Count;
-			else*/
+			else
 				return 1;
 			//return timeEntries.Length;
 		}
@@ -47,26 +47,26 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             //if (cell == null)
               //  cell = new TimeEntryCell();
 
-            TimeEntry curEntry = timeEntries.ElementAt((int)indexPath.Item);
+			if ( timeEntries != null && timeEntries.Count > 0) {
+				TimeEntry curEntry = timeEntries.ElementAt ((int)indexPath.Item);
 
-            cell.TextLabel.Text = curEntry.clientName;
+				cell.TextLabel.Text = curEntry.clientName;
 
-            cell.clientField.Text = curEntry.clientName;
-            cell.projectCodeField.Text = curEntry.projectCode;
-            cell.hoursField.Text = curEntry.hours.ToString();
+				cell.clientField.Text = curEntry.clientName;
+				cell.projectCodeField.Text = curEntry.projectCode;
+				cell.hoursField.Text = curEntry.hours.ToString ();
 
-            cell.onHoursChanged = ( int newHours ) =>
-            {
-                curEntry.hours = newHours;
-            };
+				cell.onHoursChanged = ( int newHours) => {
+					curEntry.hours = newHours;
+				};
 
-            cell.onClientChanged = ( String newClient ) => 
-            {
-                UIPickerView picker = new UIPickerView( );
-                picker.Model = new TimeEntryClientPickerModel( parentController );
-                //cell.clientField.InputView = picker;
-                //parentController.View.AddSubview( picker );
-            };
+				cell.onClientChanged = ( String newClient) => {
+					UIPickerView picker = new UIPickerView ();
+					picker.Model = new TimeEntryClientPickerModel (parentController);
+					//cell.clientField.InputView = picker;
+					//parentController.View.AddSubview( picker );
+				};
+			}
 
             return cell;
 		}
