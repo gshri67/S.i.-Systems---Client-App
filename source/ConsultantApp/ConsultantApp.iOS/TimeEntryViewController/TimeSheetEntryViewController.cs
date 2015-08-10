@@ -10,8 +10,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		{
 			//TabBarController.TabBar.TintColor = UIColor.Blue;
 
-			TabBarController.TabBar.Items [0].Image = (new UIImage ("ios7-clock-outline.png")).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
-			TabBarController.TabBar.Items [1].Image = (new UIImage ("social-usd.png")).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
+			//TabBarController.TabBar.Items [0].Image = (new UIImage ("test3.png"));
+			TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
 			//TabBarItem.Image = (new UIImage ("ios7-clock-outline.png")).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
 			/*
 			TabBarController.TabBar.TintColor = UIColor.White;
