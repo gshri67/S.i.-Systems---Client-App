@@ -138,7 +138,9 @@ namespace ConsultantApp.iOS
         {
 			//add navigation bar back and dismiss view controller when finished
 			NavigationController.NavigationBar.Hidden = false;
+			NavigationController.TabBarController.SelectedIndex = 0;
 			NavigationController.PopViewController(true);
+
 
             var userName = username.Text;
             var result = _loginModel.IsValidUserName(userName);

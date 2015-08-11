@@ -16,20 +16,7 @@ namespace ConsultantApp.iOS
 			base.ViewDidLoad ();
 
 
-			CreateNavBarLeftButton ();
-		}
-
-		private void CreateNavBarLeftButton()
-		{
-			var buttonImage = UIImage.FromBundle("app-button").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
-			NavigationItem.SetLeftBarButtonItem(
-				new UIBarButtonItem(buttonImage
-					, UIBarButtonItemStyle.Plain
-					, (sender, args) =>
-					{
-						//AdditionalActions_Pressed();
-					})
-				, true);
+			LogoutManager.CreateNavBarLeftButton(this);
 		}
 	}
 }

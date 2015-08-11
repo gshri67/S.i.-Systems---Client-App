@@ -12,7 +12,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	public partial class TimeSheetEntryViewController : UIViewController
 	{
         private readonly NSObject _tokenExpiredObserver;
-		private LogoutViewModel logoutViewModel;
 
 		public TimeSheetEntryViewController (IntPtr handle) : base (handle)
 		{
@@ -21,76 +20,10 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
             TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
 
-			CreateNavBarLeftButton ();
-
-			logoutViewModel = DependencyResolver.Current.Resolve<LogoutViewModel> ();
+			LogoutManager.CreateNavBarLeftButton (this);
 
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 		}
-
-
-		private void CreateNavBarLeftButton()
-		{
-			var buttonImage = UIImage.FromBundle("app-button").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
-			NavigationItem.SetLeftBarButtonItem(
-				new UIBarButtonItem(buttonImage
-					, UIBarButtonItemStyle.Plain
-					, (sender, args) =>
-					{
-						AdditionalActions_Pressed();
-					})
-				, true);
-		}
-
-		private void AdditionalActions_Pressed()
-		{
-			if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
-			{
-				var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
-				var logoutAction = UIAlertAction.Create("Logout", UIAlertActionStyle.Destructive, LogoutDelegate);
-				var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
-				controller.AddAction(logoutAction);
-				controller.AddAction(cancelAction);
-				PresentViewController(controller, true, null);
-			}
-			else
-			{
-				var sheet = new UIActionSheet();
-				sheet.AddButton("Logout");
-				sheet.AddButton("Cancel");
-				sheet.DestructiveButtonIndex = 0;
-				sheet.CancelButtonIndex = 1;
-				sheet.Clicked += LogoutDelegate;
-				sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);// ShowInView(View);
-			}
-		}
-
-		private void LogoutDelegate(UIAlertAction action)
-		{
-			logoutViewModel.Logout();
-			//_alumniModel.Logout();
-			/*
-			var rootController =
-				UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle)
-					.InstantiateViewController("LoginView");
-			var navigationController = new UINavigationController(rootController)
-			{
-				NavigationBarHidden = true
-			};
-			UIApplication.SharedApplication.Windows[0].RootViewController =
-				navigationController;*/
-
-			NavigationController.PushViewController(NavigationController.Storyboard.InstantiateViewController("LoginViewController"), false);
-		}
-
-		private void LogoutDelegate(object sender, UIButtonEventArgs args)
-		{
-			if (args.ButtonIndex == 0)
-			{
-				LogoutDelegate(null);
-			}
-		}
-
 
         public void OnTokenExpired(NSNotification notifcation)
         {
