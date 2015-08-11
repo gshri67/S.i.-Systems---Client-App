@@ -50,14 +50,14 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			if ( timeEntries != null && timeEntries.Count > 0) {
 				TimeEntry curEntry = timeEntries.ElementAt ((int)indexPath.Item);
 
-				cell.TextLabel.Text = curEntry.clientName;
+            cell.TextLabel.Text = curEntry.ClientName;
 
-				cell.clientField.Text = curEntry.clientName;
-				cell.projectCodeField.Text = curEntry.projectCode;
-				cell.hoursField.Text = curEntry.hours.ToString ();
+            cell.clientField.Text = curEntry.ClientName;
+            cell.projectCodeField.Text = curEntry.ProjectCode;
+            cell.hoursField.Text = curEntry.Hours.ToString();
 
 				cell.onHoursChanged = ( int newHours) => {
-					curEntry.hours = newHours;
+                curEntry.Hours = newHours;
 				};
 
 				cell.onClientChanged = ( String newClient) => {

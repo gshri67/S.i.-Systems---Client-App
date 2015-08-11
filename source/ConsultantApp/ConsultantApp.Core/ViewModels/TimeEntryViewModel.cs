@@ -3,37 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.Core;
 using SiSystems.SharedModels;
 
 namespace ConsultantApp.Core.ViewModels
 {
     public class TimeEntryViewModel
     {
+        private readonly IMatchGuideApi _api;
+        
         //Local data: should be connected to back-end later
         public List<TimeEntry> timeEntries; //should be a list of lists or something.. 
         
-        public TimeEntryViewModel() 
+        public TimeEntryViewModel(IMatchGuideApi api)
         {
+            _api = api;
             timeEntries = new List<TimeEntry>();
         }
 
-        public List<TimeEntry> getTimeEntries( DateTime date ) 
+        public Task<IEnumerable<TimeEntry>> GetTimeEntries( DateTime date )
         {
-            List<TimeEntry> todayEntries = new List<TimeEntry>();
-
-            if (timeEntries.Count > 0)
-            {
-                foreach ( TimeEntry entry in timeEntries )
-                    if (entry.date.Equals(date))
-                        todayEntries.Add( entry );
-
-                return todayEntries;
-            }
-
-            if (todayEntries.Count > 0)
-                return todayEntries;
-            else
-               return timeEntries;
+            return _api.GetTimesheetEntries(date);
         }
 
         /*

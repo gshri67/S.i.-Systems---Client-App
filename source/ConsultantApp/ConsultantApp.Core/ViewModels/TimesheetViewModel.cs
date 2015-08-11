@@ -1,37 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Shared.Core;
 using SiSystems.SharedModels;
 
 namespace ConsultantApp.Core.ViewModels
 {
 	public class TimesheetViewModel
 	{
-		public TimesheetViewModel ()
-		{
-		}
+        private readonly IMatchGuideApi _api;
 
-		public List<Timesheet> loadTimesheets()
-		{
-			List<Timesheet> timesheets = new List<Timesheet> ();
+	    public TimesheetViewModel(IMatchGuideApi matchGuideApi)
+	    {
+	        _api = matchGuideApi;
+	    }
 
-			for (int i = 0; i < 8; i++) 
-			{
-				Timesheet newTimesheet = new Timesheet ();
-				newTimesheet.startDate = DateTime.Today.AddDays(-15);
-				newTimesheet.endDate = DateTime.Today;
-				newTimesheet.status = Timesheet.TimesheetStatus.Open;
-				newTimesheet.clientName = "Cenovus";
-
-				if (i == 7) {
-					newTimesheet.clientName = "Nexen";
-					newTimesheet.status = Timesheet.TimesheetStatus.Pending;
-				}
-
-				timesheets.Add( newTimesheet );
-			}
-
-			return timesheets;
-		}
+	    public Task<IEnumerable<Timesheet>> GetTimesheets(DateTime date)
+        {
+            return _api.GetTimesheets(date);
+        }
 	}
 }
 

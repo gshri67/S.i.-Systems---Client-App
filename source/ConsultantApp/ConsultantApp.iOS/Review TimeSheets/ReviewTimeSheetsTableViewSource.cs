@@ -25,27 +25,13 @@ namespace ConsultantApp.iOS.Review_TimeSheets
 		public ReviewTimeSheetsTableViewSource(UIViewController parentController) 
 		{
 			this.parentController = parentController;
+            
+            List<Timesheet> timesheets = new List<Timesheet>();
 
-			timesheetViewModel = new TimesheetViewModel ();
-
-			List<Timesheet> timesheets = timesheetViewModel.loadTimesheets ();
-
-			openTimesheets = new List<Timesheet> ();
-			rejectedTimesheets = new List<Timesheet> ();
-			pendingTimesheets = new List<Timesheet> ();
-
-			//loop through all timesheets and only get the active ones (not approved)
-			foreach( Timesheet timesheet in timesheets )
-			{
-				if (timesheet.status == Timesheet.TimesheetStatus.Open)
-					openTimesheets.Add ( timesheet );
-				else if (timesheet.status == Timesheet.TimesheetStatus.Rejected)
-					rejectedTimesheets.Add ( timesheet );
-				else if (timesheet.status == Timesheet.TimesheetStatus.Pending)
-					pendingTimesheets.Add ( timesheet );
-			}
-
-		}
+			openTimesheets = timesheets.Where(t=>t.Status.Equals(TimesheetStatus.Open)).ToList();
+            rejectedTimesheets = timesheets.Where(t => t.Status.Equals(TimesheetStatus.Rejected)).ToList();
+            pendingTimesheets = timesheets.Where(t => t.Status.Equals(TimesheetStatus.Pending)).ToList();
+	    }
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
@@ -93,8 +79,8 @@ namespace ConsultantApp.iOS.Review_TimeSheets
 			if (curSheet == null)
 				throw new NullReferenceException ( "Time sheet was null because it did not fall under the status of open, rejected, or pending." );
 
-			cell.clientField.Text = curSheet.clientName;
-			cell.timePeriodField.Text = curSheet.timePeriod;
+			cell.clientField.Text = curSheet.ClientName;
+			cell.timePeriodField.Text = curSheet.TimePeriod;
 
 			//cell.TextLabel.Text = "Timesheet";
 

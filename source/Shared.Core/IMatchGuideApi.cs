@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SiSystems.SharedModels;
 
@@ -25,5 +26,9 @@ namespace Shared.Core
         Task<ClientAccountDetails> GetClientDetails();
 
         Task<ResetPasswordResult> ResetPassword(string emailAddress);
+        
+        Task<IEnumerable<TimeEntry>> GetTimesheetEntries(DateTime date);
+        
+        Task<IEnumerable<Timesheet>> GetTimesheets(DateTime date);
     }
 }

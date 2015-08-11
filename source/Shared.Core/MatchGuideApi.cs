@@ -141,5 +141,17 @@ namespace Shared.Core
             var payload = new FormUrlEncodedContent(new Dictionary<string, string> { { string.Empty, emailAddress } });
             return ExecuteWithDefaultClient<ResetPasswordResult>(payload);
         }
+
+        [HttpGet("Timesheets/Entries")]
+        public async Task<IEnumerable<TimeEntry>> GetTimesheetEntries(DateTime date)
+        {
+            return await ExecuteWithDefaultClient<TimeEntry[]>(new { date });
+        }
+
+        [HttpGet("Timesheets")]
+        public async Task<IEnumerable<Timesheet>> GetTimesheets(DateTime date)
+        {
+            return await ExecuteWithDefaultClient<Timesheet[]>(new { date });
+        }
     }
 }

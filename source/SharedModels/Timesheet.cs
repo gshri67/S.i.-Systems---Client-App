@@ -1,35 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SiSystems.SharedModels
 {
+    public enum TimesheetStatus
+	{
+		Open,
+		Approved,
+		Rejected,
+		Pending
+	};
+
 	public class Timesheet
 	{
-		public DateTime startDate;
-		public DateTime endDate;
-		public TimesheetStatus status;
-		public string clientName;
+		public DateTime StartDate;
+		public DateTime EndDate;
+		public TimesheetStatus Status;
+		public string ClientName;
 
-		public string timePeriod
-		{
-			get
-			{ 
-					return startDate.ToString("MMM dd") + "-" + endDate.ToString("MMM dd");
-			}
-		}
+		public string TimePeriod { get { return string.Format("{0:MMM dd}-{1:MMM dd}", StartDate, EndDate); } }
 
-		public enum TimesheetStatus
-		{
-			Open,
-			Approved,
-			Rejected,
-			Pending
-		};
-
-		public Timesheet ()
-		{
-		}
-
-
+	    public IEnumerable<TimeEntry> TimeEntries;
 	}
 }
 

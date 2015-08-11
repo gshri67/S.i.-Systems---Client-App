@@ -4,19 +4,9 @@ namespace SiSystems.SharedModels
 {
     public class TimeEntry
     {
-        public String clientName, projectCode;
-        public int hours;
-        public DateTime date;
-
-        public TimeEntry()
-        {
-        }
-
-        public TimeEntry(String clientName, String projectCode, int hours)
-        {
-            this.clientName = clientName;
-            this.projectCode = projectCode;
-            this.hours = hours;
-        }
+        public String ClientName { get; set; }
+        public string ProjectCode { get; set; }
+        public int Hours { get; set; }
+        public DateTime Date { get; set; }
     }
 }

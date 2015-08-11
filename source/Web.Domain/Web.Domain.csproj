@@ -54,9 +54,11 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\TimesheetRepository.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\ConsultantMessageService.cs" />
     <Compile Include="Services\ClientDetailsService.cs" />
+    <Compile Include="Services\TimesheetService.cs" />
     <Compile Include="Services\ConsultantService.cs" />
     <Compile Include="Services\ContractProposalService.cs" />
     <Compile Include="Services\EmailTemplates\ContractProposalEmail.cs" />
