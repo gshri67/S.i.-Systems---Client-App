@@ -6,7 +6,7 @@ using UIKit;
 namespace ConsultantApp.iOS.TimeSheets
 {
 	partial class CalendarTimeSheetViewController : UIViewController
-	{
+	{/*
         private UICollectionViewController collectionViewController;
         private SidebarController sidebar;
 
@@ -35,20 +35,20 @@ namespace ConsultantApp.iOS.TimeSheets
 			View.BackgroundColor = UIColor.Orange;
 
             //Add(collectionViewController.CollectionView);
-            /*
-            FMCalendar fmCalendar = new FMCalendar(View.Bounds);
-
-            View.AddSubview(fmCalendar);
-
-			EdgesForExtendedLayout = UIRectEdge.None;
-
-            fmCalendar.DateSelected = delegate( DateTime date )
-            {
-				DayTimeSheetViewController dayTSVC = (DayTimeSheetViewController)Storyboard.InstantiateViewController("DayTimeSheetViewController");
-                //PresentViewController( dayTSVC, true, null );
-				NavigationController.PushViewController( dayTSVC, true );
-            };
-*/
+//            
+//            FMCalendar fmCalendar = new FMCalendar(View.Bounds);
+//
+//            View.AddSubview(fmCalendar);
+//
+//			EdgesForExtendedLayout = UIRectEdge.None;
+//
+//            fmCalendar.DateSelected = delegate( DateTime date )
+//            {
+//				DayTimeSheetViewController dayTSVC = (DayTimeSheetViewController)Storyboard.InstantiateViewController("DayTimeSheetViewController");
+//                //PresentViewController( dayTSVC, true, null );
+//				NavigationController.PushViewController( dayTSVC, true );
+//            };
+//
             //UIBarButtonItem sideBarButton = new UIBarButtonItem("=", UIBarButtonItemStyle.Plain, sideBarButtonTapped);
             //sideBarButton.Title = "=";
            
@@ -66,14 +66,14 @@ namespace ConsultantApp.iOS.TimeSheets
             //sidebar = new SidebarController(this, contentAreaController, navigationAreaController  );
             //sidebar.MenuLocation = SidebarController.MenuLocations.Right;
             //sidebar.MenuWidth = 100;
-           /* 
-            sideBarButton.hand
-            {
-                if (!sidebar.IsOpen)
-                    sidebar.OpenMenu();
-                else
-                    sidebar.CloseMenu();
-            };*/
+           
+//            sideBarButton.hand
+//            {
+//                if (!sidebar.IsOpen)
+//                    sidebar.OpenMenu();
+//                else
+//                    sidebar.CloseMenu();
+//            };
 		}
 
         public void sideBarButtonTapped(object sender, EventArgs args)
@@ -82,6 +82,6 @@ namespace ConsultantApp.iOS.TimeSheets
                 sidebar.OpenMenu();
             else
                 sidebar.CloseMenu();
-        }
+        }*/
 	}
 }

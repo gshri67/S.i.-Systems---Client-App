@@ -15,8 +15,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		{
 			//TabBarController.TabBar.TintColor = UIColor.Blue;
 
-            //TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
-            //TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
+            TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
+            TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 		}
 

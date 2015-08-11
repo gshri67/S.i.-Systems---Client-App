@@ -6,6 +6,7 @@ namespace ConsultantApp.iOS.TimeSheets
 {
     public partial class CalendarTimeSheetContentViewController : UIViewController
     {
+		/*
         UIViewController parentController;
 
         public CalendarTimeSheetContentViewController() 
@@ -97,5 +98,7 @@ namespace ConsultantApp.iOS.TimeSheets
         }
 
         #endregion
-    }
+
+	*/
+	}
 }

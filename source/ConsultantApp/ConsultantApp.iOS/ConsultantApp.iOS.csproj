@@ -106,18 +106,9 @@
     <Compile Include="TimeSheets\CalendarTimeSheetContentViewController.designer.cs">
       <DependentUpon>CalendarTimeSheetContentViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeSheets\TimeSheetsOverviewTableViewSource.cs" />
-    <Compile Include="TimeSheets\TimeSheetsOverviewViewController.cs" />
-    <Compile Include="TimeSheets\TimeSheetsOverviewViewController.designer.cs">
-      <DependentUpon>TimeSheetsOverviewViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="TimeSheets\CalendarTimeSheetViewController.cs" />
     <Compile Include="TimeSheets\CalendarTimeSheetViewController.designer.cs">
       <DependentUpon>CalendarTimeSheetViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DayTimeSheetViewController.cs" />
-    <Compile Include="DayTimeSheetViewController.designer.cs">
-      <DependentUpon>DayTimeSheetViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="CalendarTimeEntryView.cs" />
     <Compile Include="BorderedButton.cs" />
@@ -144,6 +135,11 @@
       <DependentUpon>AddTimeEntryViewController.cs</DependentUpon>
     </Compile>
     <None Include="packages.config" />
+    <Compile Include="Submit TimeSheet\SubmitTimeSheetViewController.cs" />
+    <Compile Include="Submit TimeSheet\SubmitTimeSheetViewController.designer.cs">
+      <DependentUpon>SubmitTimeSheetViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Submit TimeSheet\ProjectCodeSummaryView.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -155,15 +151,6 @@
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\packages\CommonServiceLocation.1.0.0\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Unity.3.5.1404.0\lib\portable-net45+wp80+win8+MonoAndroid10+MonoTouch10\Microsoft.Practices.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -171,11 +158,16 @@
     <Reference Include="Xamarin-Sidebar-Unified">
       <HintPath>..\..\Components\SidebarNavigation-1.8\lib\ios-unified\Xamarin-Sidebar-Unified.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Insights, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\packages\Unity.3.5.1404.0\lib\portable-net45+wp80+win8+MonoAndroid10+MonoTouch10\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Insights">
       <HintPath>..\..\packages\Xamarin.Insights.1.10.2.110\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
@@ -199,7 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared.Core\Shared.Core.csproj">
-      <Project>{256e615c-7b6f-4477-b215-c00676f278e0}</Project>
+      <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
       <Name>Shared.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
@@ -207,7 +199,7 @@
       <Name>SharedModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\ConsultantApp.Core\ConsultantApp.Core.csproj">
-      <Project>{f9277320-acde-484c-a289-bae056419d32}</Project>
+      <Project>{F9277320-ACDE-484C-A289-BAE056419D32}</Project>
       <Name>ConsultantApp.Core</Name>
     </ProjectReference>
   </ItemGroup>

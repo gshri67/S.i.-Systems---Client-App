@@ -226,7 +226,7 @@
         <!--Submit Time Sheet-->
         <scene sceneID="m2T-UN-XTq">
             <objects>
-                <viewController storyboardIdentifier="SubmitTimeSheetViewController" automaticallyAdjustsScrollViewInsets="NO" id="quK-Pc-xEr" customClass="SubmitTimeSheetViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SubmitTimeSheetViewController" automaticallyAdjustsScrollViewInsets="NO" id="quK-Pc-xEr" sceneMemberID="viewController" customClass="SubmitTimeSheetViewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5jy-HC-yF5"/>
                         <viewControllerLayoutGuide type="bottom" id="snr-cU-q74"/>
@@ -387,13 +387,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxA-Ki-6cL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxA-Ki-6cL" misplaced="YES">
                                 <rect key="frame" x="16" y="28" width="136" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4By-en-5hr">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4By-en-5hr" misplaced="YES">
                                 <rect key="frame" x="16" y="114" width="136" height="28"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -485,6 +485,7 @@
     </scenes>
     <resources>
         <image name="sisystems_logo.jpg" width="730" height="253"/>
+        <image name="Default-568h.png" width="640" height="1136"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
