@@ -3,7 +3,7 @@ using Microsoft.Practices.Unity;
 using SiSystems.ClientApp.Web.Auth;
 using SiSystems.ClientApp.Web.Caching;
 using SiSystems.ClientApp.Web.Domain.Caching;
-using SiSystems.ClientApp.Web.Domain.Context;
+using SiSystems.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using System.Net.Http;
 

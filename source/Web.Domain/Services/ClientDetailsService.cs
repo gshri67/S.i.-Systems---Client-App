@@ -1,4 +1,4 @@
-﻿using SiSystems.ClientApp.Web.Domain.Context;
+﻿using SiSystems.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.SharedModels;
 

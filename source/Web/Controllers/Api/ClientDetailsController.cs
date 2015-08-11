@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Web.Http;
 using SiSystems.ClientApp.Web.Domain.Services;
 using SiSystems.ClientApp.Web.Auth;
-using SiSystems.ClientApp.Web.Domain.Context;
+using SiSystems.Web.Domain.Context;
 
 namespace SiSystems.ClientApp.Web.Controllers.Api
 {

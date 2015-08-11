@@ -1,6 +1,6 @@
 ﻿using SiSystems.SharedModels;
 
-namespace SiSystems.ClientApp.Web.Domain.Context
+namespace SiSystems.Web.Domain.Context
 {
     /// <summary>
     /// Represents state of the current request,

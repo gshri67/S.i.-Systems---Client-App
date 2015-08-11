@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
-using SiSystems.ClientApp.Web.Domain.Context;
+using SiSystems.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.ClientApp.Web.Domain.Services.EmailTemplates;
 using SiSystems.SharedModels;

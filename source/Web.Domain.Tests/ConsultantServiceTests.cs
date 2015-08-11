@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using SiSystems.ClientApp.Web.Domain.Context;
+using SiSystems.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.ClientApp.Web.Domain.Services;
 using SiSystems.SharedModels;
