@@ -4,12 +4,15 @@ using UIKit;
 using System.Collections.Generic;
 using Shared.Core;
 using SiSystems.SharedModels;
+using ConsultantApp.Core.ViewModels;
+using Microsoft.Practices.Unity;
 
 namespace ConsultantApp.iOS.TimeEntryViewController
 {
 	public partial class TimeSheetEntryViewController : UIViewController
 	{
         private readonly NSObject _tokenExpiredObserver;
+		private LogoutViewModel logoutViewModel;
 
 		public TimeSheetEntryViewController (IntPtr handle) : base (handle)
 		{
@@ -19,6 +22,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
 
 			CreateNavBarLeftButton ();
+
+			logoutViewModel = DependencyResolver.Current.Resolve<LogoutViewModel> ();
 
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 		}
@@ -62,6 +67,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 		private void LogoutDelegate(UIAlertAction action)
 		{
+			logoutViewModel.Logout();
 			//_alumniModel.Logout();
 			/*
 			var rootController =
