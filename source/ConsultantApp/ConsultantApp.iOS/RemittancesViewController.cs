@@ -9,7 +9,27 @@ namespace ConsultantApp.iOS
 	{
 		public RemittancesViewController (IntPtr handle) : base (handle)
 		{
-			TabBarItem.Image = (new UIImage ("social-usd.png")).ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+
+			CreateNavBarLeftButton ();
+		}
+
+		private void CreateNavBarLeftButton()
+		{
+			var buttonImage = UIImage.FromBundle("app-button").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+			NavigationItem.SetLeftBarButtonItem(
+				new UIBarButtonItem(buttonImage
+					, UIBarButtonItemStyle.Plain
+					, (sender, args) =>
+					{
+						//AdditionalActions_Pressed();
+					})
+				, true);
 		}
 	}
 }

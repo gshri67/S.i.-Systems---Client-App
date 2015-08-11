@@ -140,14 +140,21 @@
       <DependentUpon>SubmitTimeSheetViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Submit TimeSheet\ProjectCodeSummaryView.cs" />
+    <Compile Include="RemittancesViewController.cs" />
+    <Compile Include="RemittancesViewController.designer.cs">
+      <DependentUpon>RemittancesViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\sisystems_logo.jpg" />
+    <BundleResource Include="Resources\app-button.png" />
+    <BundleResource Include="Resources\app-button%402x.png" />
+    <BundleResource Include="Resources\app-button%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Factorymind.Components-Unified">
-      <HintPath>..\..\Components\fmcalendar-1.5.2\lib\ios-unified\Factorymind.Components-Unified.dll</HintPath>
+      <HintPath>Components\fmcalendar-1.5.2\lib\ios-unified\Factorymind.Components-Unified.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\packages\CommonServiceLocation.1.0.0\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -156,7 +163,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin-Sidebar-Unified">
-      <HintPath>..\..\Components\SidebarNavigation-1.8\lib\ios-unified\Xamarin-Sidebar-Unified.dll</HintPath>
+      <HintPath>Components\SidebarNavigation-1.8\lib\ios-unified\Xamarin-Sidebar-Unified.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.iOS" />
     <Reference Include="Microsoft.Practices.Unity">
@@ -189,6 +196,13 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared.Core\Shared.Core.csproj">
       <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
@@ -203,11 +217,4 @@
       <Name>ConsultantApp.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
 </Project>

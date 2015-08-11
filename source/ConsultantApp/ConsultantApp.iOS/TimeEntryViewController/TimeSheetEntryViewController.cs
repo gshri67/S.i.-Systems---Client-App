@@ -17,7 +17,24 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
             TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
             TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
+
+			CreateNavBarLeftButton ();
+
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
+		}
+
+
+		private void CreateNavBarLeftButton()
+		{
+			var buttonImage = UIImage.FromBundle("app-button").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+			NavigationItem.SetLeftBarButtonItem(
+				new UIBarButtonItem(buttonImage
+					, UIBarButtonItemStyle.Plain
+					, (sender, args) =>
+					{
+						//AdditionalActions_Pressed();
+					})
+				, true);
 		}
 
         public void OnTokenExpired(NSNotification notifcation)

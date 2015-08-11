@@ -139,7 +139,7 @@
         <!--Remittances-->
         <scene sceneID="195">
             <objects>
-                <viewController id="192" sceneMemberID="viewController">
+                <viewController id="192" sceneMemberID="viewController" customClass="RemittancesViewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="187"/>
                         <viewControllerLayoutGuide type="bottom" id="188"/>
@@ -486,6 +486,7 @@
     <resources>
         <image name="sisystems_logo.jpg" width="730" height="253"/>
         <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="app-button.png" width="40" height="22"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
