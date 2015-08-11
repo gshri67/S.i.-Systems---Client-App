@@ -32,10 +32,59 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 					, UIBarButtonItemStyle.Plain
 					, (sender, args) =>
 					{
-						//AdditionalActions_Pressed();
+						AdditionalActions_Pressed();
 					})
 				, true);
 		}
+
+		private void AdditionalActions_Pressed()
+		{
+			if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+			{
+				var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
+				var logoutAction = UIAlertAction.Create("Logout", UIAlertActionStyle.Destructive, LogoutDelegate);
+				var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+				controller.AddAction(logoutAction);
+				controller.AddAction(cancelAction);
+				PresentViewController(controller, true, null);
+			}
+			else
+			{
+				var sheet = new UIActionSheet();
+				sheet.AddButton("Logout");
+				sheet.AddButton("Cancel");
+				sheet.DestructiveButtonIndex = 0;
+				sheet.CancelButtonIndex = 1;
+				sheet.Clicked += LogoutDelegate;
+				sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);// ShowInView(View);
+			}
+		}
+
+		private void LogoutDelegate(UIAlertAction action)
+		{
+			//_alumniModel.Logout();
+			/*
+			var rootController =
+				UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle)
+					.InstantiateViewController("LoginView");
+			var navigationController = new UINavigationController(rootController)
+			{
+				NavigationBarHidden = true
+			};
+			UIApplication.SharedApplication.Windows[0].RootViewController =
+				navigationController;*/
+
+			NavigationController.PushViewController(NavigationController.Storyboard.InstantiateViewController("LoginViewController"), false);
+		}
+
+		private void LogoutDelegate(object sender, UIButtonEventArgs args)
+		{
+			if (args.ButtonIndex == 0)
+			{
+				LogoutDelegate(null);
+			}
+		}
+
 
         public void OnTokenExpired(NSNotification notifcation)
         {
