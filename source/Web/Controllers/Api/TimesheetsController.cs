@@ -16,10 +16,9 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             _service = service;
         }
 
-        [Route("Entries")]
-        public HttpResponseMessage GetTimesheets(DateTime date)
+        public HttpResponseMessage GetTimesheets()
         {
-            var timesheets = _service.GetOpenTimesheets(date);
+            var timesheets = _service.GetOpenTimesheets(DateTime.Now);
             return Request.CreateResponse(HttpStatusCode.OK, timesheets);
         }
 

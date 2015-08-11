@@ -80,6 +80,7 @@
             <li role="presentation"><a id="detailsTabButton" href="#details" role="tab" data-toggle="tab">Consultant Details</a></li>
             <li role="presentation"><a id="contactTabButton" href="#contact" role="tab" data-toggle="tab">Contact</a></li>
             <li role="presentation"><a id="specializationTabButton" href="#specialization" role="tab" data-toggle="tab">Specializations</a></li>
+            <li role="presentation"><a id="timesheetsTabButton" href="#timesheets" role="tab" data-toggle="tab">Timesheets</a></li>
         </ul>
 
         <div class="tab-content">
@@ -134,6 +135,18 @@
                 <div id="specializationResults" class="code json well">
                 </div>
             </div>
+
+            <div id="timesheets" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="timesheetsId" type="text" class="form-control" placeholder="Enter a date" />
+                    <div class="input-group-btn">
+                        <button id="getTimesheetsButton" type="button" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <div id="timesheetsResults" class="code json well">
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
@@ -299,6 +312,29 @@
 
 
                     }).fail(function (err) { showError(err, 'specializationResults') });
+                },
+                getTimesheets: function () {
+                    $('#timesheetsResults').html('Sending...');
+                    var date = $('#timesheetsId').val();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Timesheets/',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#timesheetsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'timesheetsResults') });
                 }
             };
 
@@ -311,6 +347,7 @@
             $('#getDetailsButton').click(page.getDetails);
             $('#sendMessageButton').click(page.sendContactMessage);
             $('#getSpecializationsButton').click(page.getSpecializations);
+            $('#getTimesheetsButton').click(page.getTimesheets);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {
