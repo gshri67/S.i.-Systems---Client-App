@@ -2,6 +2,9 @@ using System;
 using Foundation;
 using UIKit;
 using System.Collections.Generic;
+using System.Linq;
+using ConsultantApp.Core.ViewModels;
+using Microsoft.Practices.Unity;
 using Shared.Core;
 using SiSystems.SharedModels;
 using ConsultantApp.Core.ViewModels;
@@ -12,6 +15,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	public partial class TimeSheetEntryViewController : UIViewController
 	{
         private readonly NSObject _tokenExpiredObserver;
+	    private readonly TimesheetViewModel _timesheetModel;
+
+	    private IEnumerable<Timesheet> timesheets;
 
 		public TimeSheetEntryViewController (IntPtr handle) : base (handle)
 		{
@@ -22,6 +28,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			LogoutManager.CreateNavBarLeftButton (this);
 
+            _timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 		}
 
@@ -36,20 +43,23 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
         }
 			
+	    public async void LoadTimesheets()
+	    {
+            timesheets = await _timesheetModel.GetTimesheets(DateTime.Now);
+            
+            var timeEntries = timesheets.SelectMany(timesheet => timesheet.TimeEntries);
+            
+
+            tableview.RegisterClassForCellReuse( typeof(TimeEntryCell), @"TimeEntryCell");
+            tableview.Source = new TimeEntryTableViewSource(this, timeEntries);
+            tableview.ReloadData ();
+	    }
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
-			//Test data, normally we would load all the timeentries for this day from API
-			List<TimeEntry> timeEntries = new List<TimeEntry>();
-			TimeEntry t1 = new TimeEntry();
-			t1.ClientName = "Cenovus";
-			t1.ProjectCode = "P-336";
-			timeEntries.Add ( t1 );
-
-			tableview.RegisterClassForCellReuse( typeof(TimeEntryCell), @"TimeEntryCell");
-			tableview.Source = new TimeEntryTableViewSource (this, timeEntries);
-			tableview.ReloadData ();
+		    
+            LoadTimesheets();
 
 			addButton.TouchUpInside += delegate {
 				
