@@ -32,8 +32,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			if (timeEntries != null && timeEntries.Count > 0)
-				return timeEntries.Count;
+            if (_timeEntries != null && _timeEntries.Any())
+                return _timeEntries.Count();
 			else
 				return 1;
 			//return timeEntries.Length;
@@ -47,8 +47,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             //if (cell == null)
               //  cell = new TimeEntryCell();
 
-			if ( timeEntries != null && timeEntries.Count > 0) {
-s				TimeEntry curEntry = timeEntries.ElementAt ((int)indexPath.Item);
+            if (_timeEntries != null && _timeEntries.Any())
+            {
+                TimeEntry curEntry = _timeEntries.ElementAt((int)indexPath.Item);
 
             cell.TextLabel.Text = curEntry.ClientName;
 
