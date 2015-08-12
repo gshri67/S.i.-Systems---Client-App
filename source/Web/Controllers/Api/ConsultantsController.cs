@@ -3,10 +3,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using SiSystems.ClientApp.Web.Domain.Services;
+using SiSystems.ClientApp.Web.Filters;
 
 namespace SiSystems.ClientApp.Web.Controllers.Api
 {
-    [Authorize]
+    [ClientAccessAuthorization]
     [RoutePrefix("api/Consultants")]
     public class ConsultantsController: ApiController
     {

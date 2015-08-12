@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace SiSystems.ClientApp.Web.Filters
 {
-    public class AccessAuthorizationAttribute : AuthorizeAttribute
+    public class ClientAccessAuthorizationAttribute : AuthorizeAttribute
     {
 
         protected override bool IsAuthorized(HttpActionContext actionContext)

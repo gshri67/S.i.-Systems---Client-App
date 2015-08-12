@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Web.Http;
 using SiSystems.ClientApp.Web.Domain.Services;
 using SiSystems.ClientApp.Web.Auth;
+using SiSystems.ClientApp.Web.Filters;
 using SiSystems.Web.Domain.Context;
 
 namespace SiSystems.ClientApp.Web.Controllers.Api
@@ -16,7 +17,7 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
             _service = service;
         }
 
-        [Authorize]
+        [ClientAccessAuthorization]
         public IHttpActionResult Get()
         {
             var details = _service.GetClientDetails();

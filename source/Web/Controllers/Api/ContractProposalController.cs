@@ -2,11 +2,12 @@
 using System.Net.Http;
 using System.Web.Http;
 using SiSystems.ClientApp.Web.Domain.Services;
+using SiSystems.ClientApp.Web.Filters;
 using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Controllers.Api
 {
-    [Authorize]
+    [ClientAccessAuthorization]
     public class ContractProposalController: ApiController
     {
         private readonly ContractProposalService _service;
