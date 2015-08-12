@@ -12,9 +12,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		//private const string CellIdentifier = "cell";
         private const string CellIdentifier = "TimeEntryCell";
 		private UIViewController parentController;
-        private List<TimeEntry> timeEntries;
+        private readonly IEnumerable<TimeEntry> _timeEntries;
 
-		public TimeEntryTableViewSource( UIViewController parentController, List<TimeEntry> timeEntries ) 
+		public TimeEntryTableViewSource( UIViewController parentController, IEnumerable<TimeEntry> timeEntries ) 
 		{
 			this.parentController = parentController;
             /*
@@ -22,7 +22,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             timeEntries.Add( new NSString("Nexen") );
             timeEntries.Add( new NSString("Cenovus") );*/
 
-            this.timeEntries = timeEntries;
+            this._timeEntries = timeEntries;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -48,7 +48,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
               //  cell = new TimeEntryCell();
 
 			if ( timeEntries != null && timeEntries.Count > 0) {
-				TimeEntry curEntry = timeEntries.ElementAt ((int)indexPath.Item);
+s				TimeEntry curEntry = timeEntries.ElementAt ((int)indexPath.Item);
 
             cell.TextLabel.Text = curEntry.ClientName;
 
