@@ -18,12 +18,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="73" kind="relationship" relationship="rootViewController" id="927"/>
+                        <segue id="1024" destination="254" kind="relationship" relationship="rootViewController"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-31" y="629"/>
+            <point key="canvasLocation" x="-347" y="646"/>
         </scene>
         <!--Time Entry-->
         <scene sceneID="72">
@@ -37,7 +37,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dJd-q8-BHg">
-                                <rect key="frame" x="0.0" y="134" width="320" height="284"/>
+                                <rect key="frame" x="43" y="254" width="320" height="284"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z9N-0T-bqT" userLabel="SummationView">
@@ -54,9 +54,7 @@
                                 <state key="normal" title="Review and Submit">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <segue destination="254" kind="push" id="273"/>
-                                </connections>
+                                <connections/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.23637462072354054" blue="0.16359405721478271" alpha="1" colorSpace="calibratedRGB"/>
@@ -83,7 +81,7 @@
                     <navigationItem key="navigationItem" title="Time Entry" id="94">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="O0h-70-SNX">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="tsT-ua-wdt">
-                                <rect key="frame" x="0.0" y="0.0" width="71" height="30"/>
+                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="+">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -98,7 +96,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="75" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="414" y="633"/>
+            <point key="canvasLocation" x="525" y="649"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="122">
@@ -134,7 +132,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="194" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-338" y="1333"/>
+            <point key="canvasLocation" x="-337" y="1340"/>
         </scene>
         <!--Remittances-->
         <scene sceneID="195">
@@ -153,7 +151,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="198" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="161" y="1332"/>
+            <point key="canvasLocation" x="78" y="1353"/>
         </scene>
         <!--Review Time Sheets-->
         <scene sceneID="253">
@@ -172,9 +170,7 @@
                                 <state key="normal" title="Button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <segue destination="quK-Pc-xEr" kind="push" id="Y6K-Aw-GaV"/>
-                                </connections>
+                                <connections/>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="275">
                                 <rect key="frame" x="0.0" y="64" width="320" height="449"/>
@@ -217,32 +213,15 @@
                     </view>
                     <connections>
                         <outlet property="tableview" destination="275" id="AaF-YQ-ms7"/>
+                        <segue id="1394" destination="73" kind="push"/>
                     </connections>
+                    <navigationItem title="Title" id="1023" key="navigationItem"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="256" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="848" y="1020"/>
+            <point key="canvasLocation" x="86" y="649"/>
         </scene>
         <!--Submit Time Sheet-->
-        <scene sceneID="m2T-UN-XTq">
-            <objects>
-                <viewController storyboardIdentifier="SubmitTimeSheetViewController" automaticallyAdjustsScrollViewInsets="NO" id="quK-Pc-xEr" sceneMemberID="viewController" customClass="SubmitTimeSheetViewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="5jy-HC-yF5"/>
-                        <viewControllerLayoutGuide type="bottom" id="snr-cU-q74"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="GD7-oK-J5v">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Submit Time Sheet" id="7k7-yp-hIH"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TOh-b9-5KQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1228" y="1020"/>
-        </scene>
         <!--LoginViewController-->
         <scene sceneID="288">
             <objects>
@@ -373,7 +352,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="291" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="83" y="-24"/>
+            <point key="canvasLocation" x="-797" y="4"/>
         </scene>
         <!--Add Time Entry View Controller-->
         <scene sceneID="ItU-6o-eD4">
@@ -468,7 +447,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0IJ-Al-ChW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="848" y="350"/>
+            <point key="canvasLocation" x="939" y="641"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="334">
