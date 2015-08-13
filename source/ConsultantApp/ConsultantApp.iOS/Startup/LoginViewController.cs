@@ -136,13 +136,7 @@ namespace ConsultantApp.iOS
 
         async partial void login_TouchUpInside(UIButton sender)
         {
-			//add navigation bar back and dismiss view controller when finished
-			NavigationController.NavigationBar.Hidden = false;
-			NavigationController.TabBarController.SelectedIndex = 0;
-			NavigationController.PopViewController(true);
-
-
-            var userName = username.Text;
+			var userName = username.Text;
             var result = _loginModel.IsValidUserName(userName);
             if (!result.IsValid)
             {
@@ -197,6 +191,7 @@ namespace ConsultantApp.iOS
             //{
             //    PerformSegue("eulaSegue", this);
             //}
+            UIApplication.SharedApplication.Windows[0].RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -243,7 +238,6 @@ namespace ConsultantApp.iOS
             password.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
             login.Enabled = false;
             ForgotPasswordButton.Enabled = false;
-            SignUpButton.Enabled = false;
             loginActivityIndicator.StartAnimating();
         }
 
@@ -255,7 +249,6 @@ namespace ConsultantApp.iOS
             password.BackgroundColor = UIColor.White;
             login.Enabled = true;
             ForgotPasswordButton.Enabled = true;
-            SignUpButton.Enabled = true;
             loginActivityIndicator.StopAnimating();
         }
     }

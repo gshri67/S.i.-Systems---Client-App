@@ -391,7 +391,7 @@
                                     <action selector="login_TouchUpInside:" destination="289" eventType="touchUpInside" id="940"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="The Alumni Knowledge Solution™" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="JOH-Sr-PaY">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="The Contractor Action Solution™" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="JOH-Sr-PaY">
                                 <rect key="frame" x="8" y="136" width="304" height="24"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -424,16 +424,6 @@
                                     <constraint firstAttribute="height" constant="95" id="mzl-wH-Duh"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YZ9-gn-LPb" customClass="BorderedButton">
-                                <rect key="frame" x="203" y="470" width="70" height="29"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="HCN-hV-0r3"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="Sign Up">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="942">
                                 <rect key="frame" x="150" y="374" width="20" height="20"/>
                             </activityIndicatorView>
@@ -450,10 +440,8 @@
                             <constraint firstItem="mIj-d6-ubE" firstAttribute="top" secondItem="286" secondAttribute="bottom" constant="33" id="MAY-AK-LAR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zeI-Ir-oYo" secondAttribute="trailing" constant="32" id="RvP-P2-nvy"/>
                             <constraint firstItem="mIj-d6-ubE" firstAttribute="leading" secondItem="290" secondAttribute="leadingMargin" id="SCp-jg-MNh"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="YZ9-gn-LPb" secondAttribute="trailing" constant="31" id="WlN-KV-GAu"/>
                             <constraint firstItem="DnO-Dq-Vef" firstAttribute="width" secondItem="zeI-Ir-oYo" secondAttribute="width" id="YQ0-q8-6JC"/>
                             <constraint firstItem="JOH-Sr-PaY" firstAttribute="top" secondItem="mIj-d6-ubE" secondAttribute="bottom" constant="8" id="ZDw-sS-yWY"/>
-                            <constraint firstItem="287" firstAttribute="top" secondItem="YZ9-gn-LPb" secondAttribute="bottom" constant="20" id="aRj-ox-drA"/>
                             <constraint firstItem="pKt-rR-iRq" firstAttribute="width" secondItem="DnO-Dq-Vef" secondAttribute="width" id="atx-aB-QnF"/>
                             <constraint firstItem="zeI-Ir-oYo" firstAttribute="top" secondItem="smS-If-hgZ" secondAttribute="bottom" constant="20" id="f5h-NT-j66"/>
                             <constraint firstItem="DnO-Dq-Vef" firstAttribute="height" secondItem="zeI-Ir-oYo" secondAttribute="height" id="hUq-c1-Gro"/>
@@ -471,7 +459,6 @@
                     <connections>
                         <outlet property="ForgotPasswordButton" destination="SwL-8t-yqW" id="name-outlet-SwL-8t-yqW"/>
                         <outlet property="LoginView" destination="290" id="name-outlet-290"/>
-                        <outlet property="SignUpButton" destination="YZ9-gn-LPb" id="name-outlet-YZ9-gn-LPb"/>
                         <outlet property="login" destination="pKt-rR-iRq" id="Hgr-0A-RIG"/>
                         <outlet property="loginActivityIndicator" destination="942" id="name-outlet-942"/>
                         <outlet property="password" destination="DnO-Dq-Vef" id="hIf-uo-rWI"/>
