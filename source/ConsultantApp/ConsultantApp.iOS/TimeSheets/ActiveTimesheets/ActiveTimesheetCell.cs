@@ -1,46 +1,26 @@
-﻿using System;
+using System;
 using UIKit;
 
-namespace ConsultantApp.iOS.Review_TimeSheets
+namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 {
-	public class ActiveTimesheetCell : UITableViewCell
+	partial class ActiveTimesheetCell : UITableViewCell
 	{
-		public UILabel clientField;
-		public UILabel timePeriodField;
-
 		public ActiveTimesheetCell (IntPtr handle) : base (handle)
 		{
-			TextLabel.Hidden = true;
-
-			clientField = new UILabel();
-			clientField.Text = "DevFacto";
-			clientField.TranslatesAutoresizingMaskIntoConstraints = false;
-			AddSubview( clientField );
-
-			timePeriodField = new UILabel();
-			timePeriodField.Text = "Oct 16-Oct 31";
-			timePeriodField.TextAlignment = UITextAlignment.Left;
-			timePeriodField.TranslatesAutoresizingMaskIntoConstraints = false;
-			AddSubview( timePeriodField );
-
-			Accessory = UITableViewCellAccessory.DisclosureIndicator;
-
-			setupConstraints();
 		}
 
-		public void setupConstraints() 
-		{
-			AddConstraint( NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.1f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.45f, 0f));
+        public ActiveTimesheetCell(string cellId)
+            : base(UITableViewCellStyle.Default, cellId)
+        {
 
-			AddConstraint(NSLayoutConstraint.Create(timePeriodField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, clientField, NSLayoutAttribute.Right, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(timePeriodField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(timePeriodField, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(timePeriodField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.9f, 0f));
+        }
 
-		}
-
+        public void UpdateCell(string company, string timesheetApprover, string hours, string status)
+        {
+            //Company.Text = company;
+            TimesheetApprover.Text = timesheetApprover;
+            Hours.Text = string.Format("{0} hrs", hours);
+            Status.Text = status;
+        }
 	}
 }

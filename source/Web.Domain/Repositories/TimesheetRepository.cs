@@ -11,14 +11,33 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     {
         IEnumerable<Timesheet> GetTimesheetsForDate(DateTime date);
         IEnumerable<TimeEntry> GetTimeEntries(DateTime date);
+        IEnumerable<Timesheet> GetActiveTimesheetsForDate(DateTime date);
     }
 
     public class TimesheetRepository : ITimesheetRepository
     {
         public IEnumerable<Timesheet> GetTimesheetsForDate(DateTime date)
         {
-            return 
-                new List<Timesheet>
+            return UserTimesheets;
+        }
+
+        public IEnumerable<TimeEntry> GetTimeEntries(DateTime date)
+        {
+            return CenovusTimeEntries.Union(NexenTimeEntries);
+        }
+
+        public IEnumerable<Timesheet> GetActiveTimesheetsForDate(DateTime date)
+        {
+            return UserTimesheets;
+        }
+
+        //mocked out data for now
+        //todo: connect this to the DB using the connection and retrieve the proper data. 
+        private static List<Timesheet> UserTimesheets
+        {
+            get
+            {
+                return new List<Timesheet>
                 {
                     new Timesheet
                     {
@@ -37,15 +56,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         TimeEntries = NexenTimeEntries
                     }
                 };
-        }
-        
-        public IEnumerable<TimeEntry> GetTimeEntries(DateTime date)
-        {
-            return CenovusTimeEntries.Union(NexenTimeEntries);
+            }
         }
 
-        //mocked out data for now
-        //todo: connect this to the DB using the connection and retrieve the proper data. 
         private static List<TimeEntry> NexenTimeEntries
         {
             get

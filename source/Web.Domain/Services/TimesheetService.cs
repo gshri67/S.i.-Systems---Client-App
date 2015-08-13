@@ -30,6 +30,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return _timeSheetRepository.GetTimesheetsForDate(date);
         }
 
+        public IEnumerable<Timesheet> GetActiveTimesheets(DateTime date)
+        {
+            return _timeSheetRepository.GetActiveTimesheetsForDate(date);
+        }
+
         public IEnumerable<TimeEntry> GetTimeEntries(DateTime date)
         {
             return _timeSheetRepository.GetTimeEntries(date);

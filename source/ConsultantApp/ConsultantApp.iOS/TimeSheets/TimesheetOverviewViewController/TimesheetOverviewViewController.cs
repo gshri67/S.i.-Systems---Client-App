@@ -13,7 +13,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 {
 	public partial class TimesheetOverviewViewController : UIViewController
 	{
-        private readonly NSObject _tokenExpiredObserver;
 	    private readonly TimesheetViewModel _timesheetModel;
 
 	    private IEnumerable<Timesheet> timesheets;
@@ -29,19 +28,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			LogoutManager.CreateNavBarLeftButton (this);
 
             _timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
-            this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 		}
-
-        public void OnTokenExpired(NSNotification notifcation)
-        {
-            // Unsubscribe from this event so that it won't be handled again
-            NSNotificationCenter.DefaultCenter.RemoveObserver(_tokenExpiredObserver);
-
-            var loginViewController = this.Storyboard.InstantiateViewController("LoginView");
-            var navigationController = new UINavigationController(loginViewController) { NavigationBarHidden = true };
-
-            UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
-        }
 			
 	    public async void LoadTimesheets()
 	    {

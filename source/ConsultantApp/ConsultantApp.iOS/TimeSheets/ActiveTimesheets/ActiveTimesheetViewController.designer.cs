@@ -9,7 +9,7 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 
-namespace ConsultantApp.iOS.Review_TimeSheets
+namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 {
 	[Register ("ActiveTimesheetViewController")]
 	partial class ActiveTimesheetViewController
@@ -17,8 +17,16 @@ namespace ConsultantApp.iOS.Review_TimeSheets
 		[Outlet]
 		UIKit.UITableView tableview { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITableView ActiveTimesheetsTable { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
+			if (ActiveTimesheetsTable != null) {
+				ActiveTimesheetsTable.Dispose ();
+				ActiveTimesheetsTable = null;
+			}
 		}
 	}
 }
