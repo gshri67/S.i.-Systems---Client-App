@@ -7,14 +7,14 @@ using UIKit;
 
 namespace ConsultantApp.iOS.TimeEntryViewController
 {
-	internal class TimeEntryTableViewSource : UITableViewSource
+	internal class TimesheetOverviewTableViewSource : UITableViewSource
 	{
 		//private const string CellIdentifier = "cell";
         private const string CellIdentifier = "TimeEntryCell";
 		private UIViewController parentController;
         private readonly IEnumerable<TimeEntry> _timeEntries;
 
-		public TimeEntryTableViewSource( UIViewController parentController, IEnumerable<TimeEntry> timeEntries ) 
+		public TimesheetOverviewTableViewSource( UIViewController parentController, IEnumerable<TimeEntry> timeEntries ) 
 		{
 			this.parentController = parentController;
             /*

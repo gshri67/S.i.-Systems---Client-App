@@ -11,12 +11,9 @@ using UIKit;
 
 namespace ConsultantApp.iOS.Review_TimeSheets
 {
-	[Register ("ReviewTimeSheetViewController")]
-	partial class ReviewTimeSheetViewController
+	[Register ("ActiveTimesheetViewController")]
+	partial class ActiveTimesheetViewController
 	{
-		[Outlet]
-		UIKit.UITableView tableview { get; set; }
-
 		void ReleaseDesignerOutlets ()
 		{
 		}

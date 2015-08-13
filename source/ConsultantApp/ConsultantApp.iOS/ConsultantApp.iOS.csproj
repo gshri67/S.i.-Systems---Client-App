@@ -115,23 +115,23 @@
     <Compile Include="BorderedButton.designer.cs">
       <DependentUpon>BorderedButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeEntryViewController\TimeEntryTableViewSource.cs" />
-    <Compile Include="TimeEntryViewController\TimeSheetEntryViewController.cs" />
-    <Compile Include="TimeEntryViewController\TimeSheetEntryViewController.designer.cs">
-      <DependentUpon>TimeSheetEntryViewController.cs</DependentUpon>
+    <Compile Include="TimesheetOverviewViewController\TimesheetOverviewTableViewSource.cs" />
+    <Compile Include="TimesheetOverviewViewController\TimesheetOverviewViewController.cs" />
+    <Compile Include="TimesheetOverviewViewController\TimesheetOverviewViewController.designer.cs">
+      <DependentUpon>TimesheetOverviewViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="DailyCalendarHeaderView.cs" />
     <Compile Include="DailyCalendarHeaderView.designer.cs">
       <DependentUpon>DailyCalendarHeaderView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Review TimeSheets\ReviewTimeSheetsTableViewSource.cs" />
-    <Compile Include="Review TimeSheets\ReviewTimeSheetViewController.cs" />
-    <Compile Include="Review TimeSheets\ReviewTimeSheetViewController.designer.cs">
-      <DependentUpon>ReviewTimeSheetViewController.cs</DependentUpon>
+    <Compile Include="ActiveTimesheets\ActiveTimesheetTableViewSource.cs" />
+    <Compile Include="ActiveTimesheets\ActiveTimesheetViewController.cs" />
+    <Compile Include="ActiveTimesheets\ActiveTimesheetViewController.designer.cs">
+      <DependentUpon>ActiveTimesheetViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Review TimeSheets\ReviewTimeSheetCell.cs" />
-    <Compile Include="TimeEntryViewController\AddTimeEntryViewController\AddTimeEntryViewController.cs" />
-    <Compile Include="TimeEntryViewController\AddTimeEntryViewController\AddTimeEntryViewController.designer.cs">
+    <Compile Include="ActiveTimesheets\ActiveTimesheetCell.cs" />
+    <Compile Include="TimesheetOverviewViewController\AddTimeEntryViewController\AddTimeEntryViewController.cs" />
+    <Compile Include="TimesheetOverviewViewController\AddTimeEntryViewController\AddTimeEntryViewController.designer.cs">
       <DependentUpon>AddTimeEntryViewController.cs</DependentUpon>
     </Compile>
     <None Include="packages.config" />
@@ -180,9 +180,7 @@
   <ItemGroup>
     <Content Include="Entitlements.plist" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Submit TimeSheet\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

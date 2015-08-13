@@ -9,17 +9,11 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 
-namespace ConsultantApp.iOS.TimeEntryViewController
+namespace ConsultantApp.iOS.Review_TimeSheets
 {
-	[Register ("TimeSheetEntryViewController")]
-	partial class TimeSheetEntryViewController
+	[Register ("ReviewTimeSheetViewController")]
+	partial class ReviewTimeSheetViewController
 	{
-		[Outlet]
-		UIKit.UIButton addButton { get; set; }
-
-		[Outlet]
-		UIKit.UITableView tableview { get; set; }
-
 		void ReleaseDesignerOutlets ()
 		{
 		}

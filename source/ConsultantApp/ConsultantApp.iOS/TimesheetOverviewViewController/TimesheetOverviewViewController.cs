@@ -12,14 +12,14 @@ using Microsoft.Practices.Unity;
 
 namespace ConsultantApp.iOS.TimeEntryViewController
 {
-	public partial class TimeSheetEntryViewController : UIViewController
+	public partial class TimesheetOverviewViewController : UIViewController
 	{
         private readonly NSObject _tokenExpiredObserver;
 	    private readonly TimesheetViewModel _timesheetModel;
 
 	    private IEnumerable<Timesheet> timesheets;
 
-		public TimeSheetEntryViewController (IntPtr handle) : base (handle)
+		public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
 			//TabBarController.TabBar.TintColor = UIColor.Blue;
 
@@ -51,7 +51,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             
 
             tableview.RegisterClassForCellReuse( typeof(TimeEntryCell), @"TimeEntryCell");
-            tableview.Source = new TimeEntryTableViewSource(this, timeEntries);
+            tableview.Source = new TimesheetOverviewTableViewSource(this, timeEntries);
             tableview.ReloadData ();
 	    }
 

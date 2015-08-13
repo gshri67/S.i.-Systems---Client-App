@@ -28,7 +28,7 @@
         <!--Time Entry-->
         <scene sceneID="72">
             <objects>
-                <viewController id="73" customClass="TimeSheetEntryViewController" sceneMemberID="viewController">
+                <viewController id="73" customClass="TimesheetOverviewViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="70"/>
                         <viewControllerLayoutGuide type="bottom" id="71"/>
@@ -78,7 +78,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Time Entry" id="94">
+                    <navigationItem key="navigationItem" title="Time Overview" id="94">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="O0h-70-SNX">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="tsT-ua-wdt">
                                 <rect key="frame" x="0.0" y="0.0" width="0.0" height="0.0"/>
@@ -156,7 +156,7 @@
         <!--Review Time Sheets-->
         <scene sceneID="253">
             <objects>
-                <viewController title="Review Time Sheets" id="254" customClass="ReviewTimeSheetViewController" sceneMemberID="viewController">
+                <viewController title="Review Time Sheets" id="254" customClass="ActiveTimesheetViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="251"/>
                         <viewControllerLayoutGuide type="bottom" id="252"/>
@@ -215,7 +215,7 @@
                         <outlet property="tableview" destination="275" id="AaF-YQ-ms7"/>
                         <segue id="1394" destination="73" kind="push"/>
                     </connections>
-                    <navigationItem title="Title" id="1023" key="navigationItem"/>
+                    <navigationItem title="Active Timesheets" id="1023" key="navigationItem"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="256" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -447,7 +447,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0IJ-Al-ChW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="939" y="641"/>
+            <point key="canvasLocation" x="945" y="647"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="334">

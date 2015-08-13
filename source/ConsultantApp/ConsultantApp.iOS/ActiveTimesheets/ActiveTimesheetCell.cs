@@ -3,12 +3,12 @@ using UIKit;
 
 namespace ConsultantApp.iOS.Review_TimeSheets
 {
-	public class ReviewTimeSheetCell : UITableViewCell
+	public class ActiveTimesheetCell : UITableViewCell
 	{
 		public UILabel clientField;
 		public UILabel timePeriodField;
 
-		public ReviewTimeSheetCell (IntPtr handle) : base (handle)
+		public ActiveTimesheetCell (IntPtr handle) : base (handle)
 		{
 			TextLabel.Hidden = true;
 

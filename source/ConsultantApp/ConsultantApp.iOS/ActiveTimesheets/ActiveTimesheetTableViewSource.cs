@@ -8,7 +8,7 @@ using UIKit;
 
 namespace ConsultantApp.iOS.Review_TimeSheets
 {
-	internal class ReviewTimeSheetsTableViewSource : UITableViewSource
+	internal class ActiveTimesheetTableViewSource : UITableViewSource
 	{
 		private const string CellIdentifier = "reviewTimeSheetCell";
 		private UIViewController parentController;
@@ -22,7 +22,7 @@ namespace ConsultantApp.iOS.Review_TimeSheets
 		public List<Timesheet> rejectedTimesheets;
 		public List<Timesheet> pendingTimesheets;
 
-		public ReviewTimeSheetsTableViewSource(UIViewController parentController) 
+		public ActiveTimesheetTableViewSource(UIViewController parentController) 
 		{
 			this.parentController = parentController;
             
@@ -65,7 +65,7 @@ namespace ConsultantApp.iOS.Review_TimeSheets
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			// if there are no cells to reuse, create a new one
-			ReviewTimeSheetCell cell = (ReviewTimeSheetCell)tableView.DequeueReusableCell(CellIdentifier);
+			ActiveTimesheetCell cell = (ActiveTimesheetCell)tableView.DequeueReusableCell(CellIdentifier);
 
 			Timesheet curSheet = null;
 

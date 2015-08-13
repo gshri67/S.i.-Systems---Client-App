@@ -3,9 +3,9 @@ using UIKit;
 
 namespace ConsultantApp.iOS.Review_TimeSheets
 {
-	partial class ReviewTimeSheetViewController : UIViewController
+	partial class ActiveTimesheetViewController : UIViewController
 	{
-		public ReviewTimeSheetViewController (IntPtr handle) : base (handle)
+		public ActiveTimesheetViewController (IntPtr handle) : base (handle)
 		{
 		}
 
@@ -20,8 +20,8 @@ namespace ConsultantApp.iOS.Review_TimeSheets
 			//AutomaticallyAdjustsScrollViewInsets = false;
 
 
-			tableview.RegisterClassForCellReuse( typeof(ReviewTimeSheetCell), @"reviewTimeSheetCell");
-			tableview.Source = new ReviewTimeSheetsTableViewSource (this);
+			tableview.RegisterClassForCellReuse( typeof(ActiveTimesheetCell), @"reviewTimeSheetCell");
+			tableview.Source = new ActiveTimesheetTableViewSource (this);
 			tableview.ReloadData ();
 			//Add ( tableview );
 

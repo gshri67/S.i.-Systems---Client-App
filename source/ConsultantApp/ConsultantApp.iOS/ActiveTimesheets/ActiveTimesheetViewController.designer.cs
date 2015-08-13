@@ -9,11 +9,14 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 
-namespace ConsultantApp.iOS
+namespace ConsultantApp.iOS.Review_TimeSheets
 {
-	[Register ("SubmitTimeSheetViewController")]
-	partial class SubmitTimeSheetViewController
+	[Register ("ActiveTimesheetViewController")]
+	partial class ActiveTimesheetViewController
 	{
+		[Outlet]
+		UIKit.UITableView tableview { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 		}
