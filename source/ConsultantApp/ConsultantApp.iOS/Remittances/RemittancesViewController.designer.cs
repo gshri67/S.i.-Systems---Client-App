@@ -4,13 +4,15 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-
 using Foundation;
+using System;
+using System.CodeDom.Compiler;
+using UIKit;
 
-namespace ConsultantApp.iOS.TimeSheets
+namespace ConsultantApp.iOS
 {
-	[Register ("CalendarTimeSheetViewController")]
-	partial class CalendarTimeSheetViewController
+	[Register ("RemittancesViewController")]
+	partial class RemittancesViewController
 	{
 		void ReleaseDesignerOutlets ()
 		{

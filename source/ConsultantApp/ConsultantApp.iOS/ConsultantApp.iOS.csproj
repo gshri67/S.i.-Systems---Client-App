@@ -96,52 +96,34 @@
     </Compile>
     <Compile Include="Startup\TokenStore.cs" />
     <Compile Include="StyleGuideConstants.cs" />
-    <Compile Include="TimeEntryCell.cs" />
+    <Compile Include="TimeSheets\TimesheetOverviewViewController\AddTimeEntryViewController\TimeEntryCell.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="app.config" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimeSheets\CalendarTimeSheetContentViewController.cs" />
-    <Compile Include="TimeSheets\CalendarTimeSheetContentViewController.designer.cs">
-      <DependentUpon>CalendarTimeSheetContentViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TimeSheets\CalendarTimeSheetViewController.cs" />
-    <Compile Include="TimeSheets\CalendarTimeSheetViewController.designer.cs">
-      <DependentUpon>CalendarTimeSheetViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CalendarTimeEntryView.cs" />
     <Compile Include="BorderedButton.cs" />
     <Compile Include="BorderedButton.designer.cs">
       <DependentUpon>BorderedButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimesheetOverviewViewController\TimesheetOverviewTableViewSource.cs" />
-    <Compile Include="TimesheetOverviewViewController\TimesheetOverviewViewController.cs" />
-    <Compile Include="TimesheetOverviewViewController\TimesheetOverviewViewController.designer.cs">
+    <Compile Include="TimeSheets\TimesheetOverviewViewController\TimesheetOverviewTableViewSource.cs" />
+    <Compile Include="TimeSheets\TimesheetOverviewViewController\TimesheetOverviewViewController.cs" />
+    <Compile Include="TimeSheets\TimesheetOverviewViewController\TimesheetOverviewViewController.designer.cs">
       <DependentUpon>TimesheetOverviewViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="DailyCalendarHeaderView.cs" />
-    <Compile Include="DailyCalendarHeaderView.designer.cs">
-      <DependentUpon>DailyCalendarHeaderView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ActiveTimesheets\ActiveTimesheetTableViewSource.cs" />
-    <Compile Include="ActiveTimesheets\ActiveTimesheetViewController.cs" />
-    <Compile Include="ActiveTimesheets\ActiveTimesheetViewController.designer.cs">
+    <Compile Include="TimeSheets\ActiveTimesheets\ActiveTimesheetTableViewSource.cs" />
+    <Compile Include="TimeSheets\ActiveTimesheets\ActiveTimesheetViewController.cs" />
+    <Compile Include="TimeSheets\ActiveTimesheets\ActiveTimesheetViewController.designer.cs">
       <DependentUpon>ActiveTimesheetViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ActiveTimesheets\ActiveTimesheetCell.cs" />
-    <Compile Include="TimesheetOverviewViewController\AddTimeEntryViewController\AddTimeEntryViewController.cs" />
-    <Compile Include="TimesheetOverviewViewController\AddTimeEntryViewController\AddTimeEntryViewController.designer.cs">
+    <Compile Include="TimeSheets\ActiveTimesheets\ActiveTimesheetCell.cs" />
+    <Compile Include="TimeSheets\TimesheetOverviewViewController\AddTimeEntryViewController\AddTimeEntryViewController.cs" />
+    <Compile Include="TimeSheets\TimesheetOverviewViewController\AddTimeEntryViewController\AddTimeEntryViewController.designer.cs">
       <DependentUpon>AddTimeEntryViewController.cs</DependentUpon>
     </Compile>
     <None Include="packages.config" />
-    <Compile Include="Submit TimeSheet\SubmitTimeSheetViewController.cs" />
-    <Compile Include="Submit TimeSheet\SubmitTimeSheetViewController.designer.cs">
-      <DependentUpon>SubmitTimeSheetViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Submit TimeSheet\ProjectCodeSummaryView.cs" />
-    <Compile Include="RemittancesViewController.cs" />
-    <Compile Include="RemittancesViewController.designer.cs">
+    <Compile Include="Remittances\RemittancesViewController.cs" />
+    <Compile Include="Remittances\RemittancesViewController.designer.cs">
       <DependentUpon>RemittancesViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="LogoutManager.cs" />
