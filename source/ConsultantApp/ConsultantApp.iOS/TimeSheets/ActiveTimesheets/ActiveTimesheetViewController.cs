@@ -1,5 +1,6 @@
 using System;
 using UIKit;
+using ConsultantApp.iOS.TimeEntryViewController;
 
 namespace ConsultantApp.iOS.Review_TimeSheets
 {
@@ -26,6 +27,11 @@ namespace ConsultantApp.iOS.Review_TimeSheets
 			//Add ( tableview );
 
 			NavigationController.NavigationBar.Translucent = false;
+
+			//TimesheetOverviewViewController vc = (TimesheetOverviewViewController)Storyboard.InstantiateViewController ("TimesheetOverviewViewController");
+
+			//if( vc != null )
+			//	NavigationController.PushViewController ( vc, true );
 		}
 	}
 }

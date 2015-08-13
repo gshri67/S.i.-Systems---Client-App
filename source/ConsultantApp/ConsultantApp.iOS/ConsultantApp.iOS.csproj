@@ -134,6 +134,8 @@
     <BundleResource Include="Resources\app-button.png" />
     <BundleResource Include="Resources\app-button%402x.png" />
     <BundleResource Include="Resources\app-button%403x.png" />
+    <BundleResource Include="Resources\ios7-clock-outline%402x.png" />
+    <BundleResource Include="Resources\social-usd%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Factorymind.Components-Unified">

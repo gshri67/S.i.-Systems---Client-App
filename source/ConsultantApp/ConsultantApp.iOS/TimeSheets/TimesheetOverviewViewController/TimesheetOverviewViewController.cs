@@ -7,8 +7,7 @@ using ConsultantApp.Core.ViewModels;
 using Microsoft.Practices.Unity;
 using Shared.Core;
 using SiSystems.SharedModels;
-using ConsultantApp.Core.ViewModels;
-using Microsoft.Practices.Unity;
+using Factorymind.Components;
 
 namespace ConsultantApp.iOS.TimeEntryViewController
 {
@@ -23,8 +22,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		{
 			//TabBarController.TabBar.TintColor = UIColor.Blue;
 
-            TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
-            TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
+            //TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
+            //TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
 
 			LogoutManager.CreateNavBarLeftButton (this);
 
@@ -59,17 +58,20 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		{
 			base.ViewDidLoad ();
 		    
-            LoadTimesheets();
+            //LoadTimesheets();
 
 			addButton.TouchUpInside += delegate {
 				
 				UIViewController vc = Storyboard.InstantiateViewController("AddTimeEntryViewController");
-				/*
-				vc.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
 
-				PresentModalViewController(vc, true);
-*/
 				NavigationController.PushViewController(vc, true);
+			};
+
+			FMCalendar calendar = new FMCalendar (calendarContainerView.Bounds, new CoreGraphics.CGRect() );
+			calendarContainerView.AddSubview (calendar);
+
+			calendar.DateSelected = delegate(DateTime date) {
+				//PUSH
 			};
 		}
 
