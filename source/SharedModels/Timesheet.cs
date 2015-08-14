@@ -1,4 +1,4 @@
-﻿using System;
+﻿	using System;
 using System.Collections.Generic;
 
 namespace SiSystems.SharedModels
@@ -23,6 +23,7 @@ namespace SiSystems.SharedModels
 
 	    public IEnumerable<TimeEntry> TimeEntries;
 
+		//dont forget to move this to Timesheet Model!!
 		public int totalHours( DateTime date )
 		{
 			int total = 0;

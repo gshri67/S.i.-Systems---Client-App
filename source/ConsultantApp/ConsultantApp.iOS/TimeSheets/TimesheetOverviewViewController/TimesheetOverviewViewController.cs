@@ -60,7 +60,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			calendarRightButton.SetImage( new UIImage("rightArrow.png"), UIControlState.Normal );
 
 
-			submitContainerView.BackgroundColor = StyleGuideConstants.LightGreenUiColor;
+			submitContainerView.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
 			approverContainerView.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
 			calendarHeaderView.BackgroundColor = StyleGuideConstants.MediumGrayUiColor;
 		}

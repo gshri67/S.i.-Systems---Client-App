@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 #if __UNIFIED__
 using Foundation;
@@ -188,7 +189,7 @@ namespace ConsultantApp.iOS
 				};
 				dayView.Date = viewDay;
 				dayView.totalHours = timesheet.totalHours (viewDay).ToString();
-
+				//dayView.totalHours = timesheet.TimeEntries.Sum(t => t.Hours).ToString();
 				if (viewDay.Date.CompareTo (timesheet.EndDate) == 1)
 					dayView.BackgroundColor = outsidePeriodColor;
 

@@ -43,7 +43,6 @@
                                 </state>
                                 <connections>
                                     <segue destination="kfI-I6-4fa" kind="push" id="y6L-l5-o7a"/>
-                                    <segue destination="4gm-g4-lkZ" kind="push" id="5gN-xQ-Lev"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jKD-L4-frb" userLabel="ApproverContainer">
@@ -75,8 +74,13 @@
                                     <constraint firstItem="CtX-uq-FU5" firstAttribute="trailing" secondItem="jKD-L4-frb" secondAttribute="trailing" constant="-8" id="xWH-Jf-lgJ"/>
                                 </constraints>
                             </view>
+<<<<<<< HEAD
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcq-tm-ZVP" userLabel="SubmitContainer" misplaced="YES">
+                                <rect key="frame" x="-2" y="0.0" width="325" height="68"/>
+=======
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcq-tm-ZVP" userLabel="SubmitContainer">
                                 <rect key="frame" x="-2" y="0.0" width="325" height="73"/>
+>>>>>>> TimesheetOverview Review
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="217" customClass="BorderedButton">
                                         <rect key="frame" x="106" y="16" width="113" height="36"/>
@@ -325,8 +329,13 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="1411">
                                                     <rect key="frame" x="-6" y="28" width="42" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+<<<<<<< HEAD
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
+=======
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+>>>>>>> TimesheetOverview Review
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="1422">
@@ -343,7 +352,11 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+<<<<<<< HEAD
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="1536" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO">
+=======
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="1536">
+>>>>>>> TimesheetOverview Review
                                                     <rect key="frame" x="0.0" y="0.0" width="126" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -352,6 +365,16 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+<<<<<<< HEAD
+                                                <constraint firstItem="1422" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" constant="0.0" id="1426"/>
+                                                <constraint firstItem="zow-OQ-99l" firstAttribute="trailing" secondItem="1422" secondAttribute="trailing" constant="5" id="1427"/>
+                                                <constraint firstItem="1429" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" constant="0.0" id="1430"/>
+                                                <constraint firstItem="1422" firstAttribute="leading" secondItem="1429" secondAttribute="trailing" constant="15" id="1431"/>
+                                                <constraint firstItem="1536" firstAttribute="top" secondItem="zow-OQ-99l" secondAttribute="top" constant="5" id="1547"/>
+                                                <constraint firstItem="1536" firstAttribute="leading" secondItem="1411" secondAttribute="leading" constant="0.0" id="1548"/>
+                                                <constraint firstItem="1429" firstAttribute="leading" secondItem="1536" secondAttribute="trailing" constant="15" id="1549" relation="greaterThanOrEqual"/>
+                                                <constraint firstItem="1411" firstAttribute="top" secondItem="1536" secondAttribute="bottom" constant="0.0" id="1551"/>
+=======
                                                 <constraint firstItem="1422" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" id="1426"/>
                                                 <constraint firstAttribute="trailing" secondItem="1422" secondAttribute="trailing" constant="24" id="1427"/>
                                                 <constraint firstItem="1429" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" id="1430"/>
@@ -360,6 +383,7 @@
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="1411" secondAttribute="leading" id="1548"/>
                                                 <constraint firstItem="1429" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1536" secondAttribute="trailing" constant="15" id="1549"/>
                                                 <constraint firstItem="1411" firstAttribute="top" secondItem="1536" secondAttribute="bottom" constant="5" id="1551"/>
+>>>>>>> TimesheetOverview Review
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="zow-OQ-99l" secondAttribute="leading" constant="10" id="1552"/>
                                                 <constraint firstAttribute="bottom" secondItem="1411" secondAttribute="bottom" constant="-5" id="1563"/>
                                             </constraints>
@@ -609,6 +633,15 @@
     </scenes>
     <resources>
         <image name="sisystems_logo.jpg" width="730" height="253"/>
+<<<<<<< HEAD
+        <image name="app-button.png" width="40" height="22"/>
+        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="ios7-clock-outline.png" width="50" height="50"/>
+        <image name="social-usd.png" width="50" height="50"/>
+        <image name="leftArrow.png" width="32" height="32"/>
+        <image name="rightArrow.png" width="32" height="32"/>
+=======
+>>>>>>> TimesheetOverview Review
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
