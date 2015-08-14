@@ -59,12 +59,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
             LoadTimesheets();
 
-			NavigationController.NavigationBar.Translucent = false;
-
-			//TimesheetOverviewViewController vc = (TimesheetOverviewViewController)Storyboard.InstantiateViewController ("TimesheetOverviewViewController");
-
-			//if( vc != null )
-			//	NavigationController.PushViewController ( vc, true );
+            LogoutManager.CreateNavBarRightButton(this);
 		}
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)

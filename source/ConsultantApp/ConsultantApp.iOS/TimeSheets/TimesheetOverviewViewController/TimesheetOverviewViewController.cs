@@ -25,9 +25,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             //TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
             //TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
 
-			LogoutManager.CreateNavBarLeftButton (this);
-
-            _timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
+			_timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
 		}
 			
 	    public async void LoadTimesheets()

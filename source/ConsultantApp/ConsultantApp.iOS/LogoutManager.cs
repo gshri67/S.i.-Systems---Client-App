@@ -1,30 +1,66 @@
 ﻿using System;
 using UIKit;
 using ConsultantApp.Core.ViewModels;
+using Foundation;
 using Microsoft.Practices.Unity;
 
 namespace ConsultantApp.iOS
 {
 	public class LogoutManager
 	{
-		public LogoutManager ()
-		{
-		}
+	    private readonly LogoutViewModel _logoutViewModel;
+	    public LogoutManager()
+	    {
+            _logoutViewModel = DependencyResolver.Current.Resolve<LogoutViewModel>();
+	    }
 
-		public static void CreateNavBarLeftButton ( UIViewController vc)
+		public static void CreateNavBarLeftButton ( UIViewController viewController)
 		{
 			var buttonImage = UIImage.FromBundle("app-button").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
-			vc.NavigationItem.SetLeftBarButtonItem(
+			viewController.NavigationItem.SetLeftBarButtonItem(
 				new UIBarButtonItem(buttonImage
 					, UIBarButtonItemStyle.Plain
 					, (sender, args) =>
 					{
-						AdditionalActions_Pressed( vc );
+						AdditionalActions_Pressed( viewController );
 					})
 				, true);
 		}
 
-		delegate void LogoutDelegate();
+        public static void CreateNavBarRightButton(UIViewController viewController)
+        {
+            var buttonImage = UIImage.FromBundle("app-button").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+            viewController.NavigationItem.SetRightBarButtonItem(
+                new UIBarButtonItem(buttonImage
+                , UIBarButtonItemStyle.Plain
+                , (sender, args) =>
+                {
+                    AdditionalActions_Pressed(viewController);
+                })
+            , true);
+        }
+
+        private void LogoutDelegate(UIAlertAction action)
+        {
+            _logoutViewModel.Logout();
+            var rootController =
+                UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle)
+                    .InstantiateViewController("LoginView");
+            var navigationController = new UINavigationController(rootController)
+            {
+                NavigationBarHidden = true
+            };
+            UIApplication.SharedApplication.Windows[0].RootViewController =
+                navigationController;
+        }
+
+        private void LogoutDelegate(object sender, UIButtonEventArgs args)
+        {
+            if (args.ButtonIndex == 0)
+            {
+                LogoutDelegate(null);
+            }
+        }
 
 		private static void AdditionalActions_Pressed( UIViewController vc )
 		{
@@ -32,7 +68,7 @@ namespace ConsultantApp.iOS
 				LogoutViewModel logoutViewModel = DependencyResolver.Current.Resolve<LogoutViewModel> ();
 				logoutViewModel.Logout();
 
-				vc.NavigationController.PushViewController(vc.NavigationController.Storyboard.InstantiateViewController("LoginViewController"), false);
+                vc.NavigationController.PushViewController(vc.NavigationController.Storyboard.InstantiateViewController("LoginView"), false);
 			};
 
 			if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
@@ -59,7 +95,7 @@ namespace ConsultantApp.iOS
 						LogoutViewModel logoutViewModel = DependencyResolver.Current.Resolve<LogoutViewModel> ();
 						logoutViewModel.Logout();
 
-						vc.NavigationController.PushViewController(vc.NavigationController.Storyboard.InstantiateViewController("LoginViewController"), false);
+                        vc.NavigationController.PushViewController(vc.NavigationController.Storyboard.InstantiateViewController("LoginView"), false);
 					}
 				};
 				sheet.ShowFromTabBar(vc.NavigationController.TabBarController.TabBar);// ShowInView(View);

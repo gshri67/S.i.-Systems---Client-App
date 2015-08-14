@@ -16,7 +16,7 @@ namespace ConsultantApp.iOS
 			base.ViewDidLoad ();
 
 
-			LogoutManager.CreateNavBarLeftButton(this);
+            LogoutManager.CreateNavBarRightButton(this);
 		}
 	}
 }
