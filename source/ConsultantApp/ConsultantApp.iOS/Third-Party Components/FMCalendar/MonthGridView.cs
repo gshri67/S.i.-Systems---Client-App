@@ -123,6 +123,8 @@ namespace ConsultantApp.iOS
 
 		public void BuildGrid()
 		{
+			UIColor outsidePeriodColor = UIColor.Gray;
+
 			DateTime previousMonth = _currentMonth.AddMonths(-1);
 			DateTime nextMonth = _currentMonth.AddMonths(1);
 			var daysInPreviousMonth = DateTime.DaysInMonth(previousMonth.Year, previousMonth.Month);
@@ -148,6 +150,7 @@ namespace ConsultantApp.iOS
 
 				dayView.Date = viewDay;
 				dayView.Text = lead.ToString();
+				dayView.BackgroundColor = outsidePeriodColor;
 
 				AddSubview(dayView);
 				_dayTiles.Add(dayView);
@@ -187,7 +190,7 @@ namespace ConsultantApp.iOS
 				dayView.totalHours = timesheet.totalHours (viewDay).ToString();
 
 				if (viewDay.Date.CompareTo (timesheet.EndDate) == 1)
-					dayView.BackgroundColor = UIColor.Gray;
+					dayView.BackgroundColor = outsidePeriodColor;
 
 				UpdateDayView(dayView);
 
@@ -230,6 +233,7 @@ namespace ConsultantApp.iOS
 						BackgroundColor = _calendarMonthView.MonthBackgroundColor,
 					};
 					dayView.Date = viewDay;
+					dayView.BackgroundColor = outsidePeriodColor;
 					UpdateDayView(dayView);
 
 					AddSubview(dayView);

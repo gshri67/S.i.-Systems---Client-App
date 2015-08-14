@@ -71,8 +71,11 @@ namespace ConsultantApp.iOS
 		public CalendarDayView()
 		{
 			this.BackgroundColor = UIColor.White;
-			this.TodayCircleColor = UIColor.Red;
-			this.SelectionColor = UIColor.Red;
+			this.TodayCircleColor = UIColor.FromRGBA(1.0f, 0.3f, 0.0f, 0.5f);
+			this.SelectionColor = UIColor.FromRGBA(255, 50, 0, 125);
+
+			Layer.BorderWidth = 0.5f;
+			Layer.BorderColor = UIColor.FromWhiteAlpha(0.8f, 1.0f).CGColor;
 		}
 
 		#if __UNIFIED__
@@ -142,14 +145,14 @@ namespace ConsultantApp.iOS
 
 			int hoursFontSize = 16;
 
-			Text.DrawString (new CoreGraphics.CGRect (0, (Bounds.Height / 2) - (hoursFontSize / 2), Bounds.Width, Bounds.Height),
-				UIFont.SystemFontOfSize (hoursFontSize), UILineBreakMode.WordWrap,
-				UITextAlignment.Center);
+			if( totalHours != null && !totalHours.Equals("0") )
+				totalHours.DrawString (new CoreGraphics.CGRect (0, (Bounds.Height / 2) - (hoursFontSize / 2), Bounds.Width, Bounds.Height),
+					UIFont.SystemFontOfSize (hoursFontSize), UILineBreakMode.WordWrap,
+					UITextAlignment.Center);
 
 			UIColor.FromWhiteAlpha(0.8f, 1.0f).SetColor();
 
-			if( totalHours != null && !totalHours.Equals("0") )
-				totalHours.DrawString (new CoreGraphics.CGRect (Bounds.Width*1.3/10, Bounds.Height*1.3/10, Bounds.Width, Bounds.Height/3),
+			Text.DrawString (new CoreGraphics.CGRect (Bounds.Width*1.2/10, Bounds.Height*1.2/10, Bounds.Width, Bounds.Height/3),
 				UIFont.SystemFontOfSize (fontSize), UILineBreakMode.WordWrap,
 				UITextAlignment.Left);
 
