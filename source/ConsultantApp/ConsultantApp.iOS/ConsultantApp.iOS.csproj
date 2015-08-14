@@ -127,6 +127,9 @@
       <DependentUpon>RemittancesViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="LogoutManager.cs" />
+    <Compile Include="Third-Party Components\FMCalendar\CalendarDayView.cs" />
+    <Compile Include="Third-Party Components\FMCalendar\FMCalendar.cs" />
+    <Compile Include="Third-Party Components\FMCalendar\MonthGridView.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -170,10 +173,6 @@
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="fmcalendar">
-      <Version>1.5.2</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="SidebarNavigation">
       <Version>1.8</Version>
       <Visible>False</Visible>
@@ -199,5 +198,10 @@
       <Project>{F9277320-ACDE-484C-A289-BAE056419D32}</Project>
       <Name>ConsultantApp.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Third-Party Components\" />
+    <Folder Include="Third-Party Components\FMCalendar\" />
+    <Folder Include="Third-Party Components\FMCalendar\Resources\" />
   </ItemGroup>
 </Project>

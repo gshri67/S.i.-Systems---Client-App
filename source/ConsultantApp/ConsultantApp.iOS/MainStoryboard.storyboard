@@ -51,10 +51,17 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Oq-Ia-jom" userLabel="Right Arrow">
+                                        <rect key="frame" x="287" y="15" width="30" height="30"/>
+                                        <state key="normal" title="&gt;">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.84493371212121215" green="0.83495114519826785" blue="0.8347520723431916" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="centerY" secondItem="wu5-aW-y3u" secondAttribute="centerY" id="MN7-OL-s1b"/>
+                                    <constraint firstAttribute="centerY" secondItem="0Oq-Ia-jom" secondAttribute="centerY" constant="-0.5" id="Uqb-1B-F7d"/>
                                     <constraint firstAttribute="centerY" secondItem="kPr-nW-sBH" secondAttribute="centerY" id="iuS-Pc-bZS"/>
                                 </constraints>
                             </view>
@@ -85,7 +92,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcq-tm-ZVP" userLabel="SubmitContainer">
                                 <rect key="frame" x="-2" y="0.0" width="325" height="68"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="217">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="217" customClass="BorderedButton">
                                         <rect key="frame" x="106" y="16" width="113" height="36"/>
                                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Submit">
@@ -104,7 +111,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="1-31, 2014" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPO-qv-T5Y">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="1-31, 2014" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPO-qv-T5Y">
                                         <rect key="frame" x="248" y="39" width="69" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -141,12 +148,6 @@
                                     <constraint firstItem="GN6-aO-NOx" firstAttribute="top" relation="lessThanOrEqual" secondItem="jcq-tm-ZVP" secondAttribute="bottom" multiplier="0.05" id="suN-YA-eit"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Oq-Ia-jom" userLabel="Right Arrow">
-                                <rect key="frame" x="293" y="95" width="30" height="30"/>
-                                <state key="normal" title="&gt;">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i8a-Yi-wTP" userLabel="CalendarView">
                                 <rect key="frame" x="-3" y="189" width="323" height="266"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -157,7 +158,7 @@
                             <constraint firstItem="jcq-tm-ZVP" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" constant="-18" id="3iN-h9-5ZO"/>
                             <constraint firstItem="XIA-6r-ypa" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" constant="-18" id="5SM-Is-elt"/>
                             <constraint firstItem="jKD-L4-frb" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" constant="-19" id="9QM-l2-huz"/>
-                            <constraint firstItem="i8a-Yi-wTP" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" constant="-19" id="Cmn-qK-bcC"/>
+                            <constraint firstItem="i8a-Yi-wTP" firstAttribute="leading" secondItem="100" secondAttribute="leadingMargin" id="Cmn-qK-bcC"/>
                             <constraint firstItem="jcq-tm-ZVP" firstAttribute="top" secondItem="70" secondAttribute="bottom" id="E0C-32-Z6k"/>
                             <constraint firstItem="XIA-6r-ypa" firstAttribute="top" secondItem="71" secondAttribute="top" multiplier="0.28" id="O6o-uf-CvU"/>
                             <constraint firstItem="i8a-Yi-wTP" firstAttribute="top" secondItem="71" secondAttribute="top" multiplier="0.37" id="VDV-Q5-ZQH"/>
@@ -167,9 +168,8 @@
                             <constraint firstItem="jKD-L4-frb" firstAttribute="top" secondItem="71" secondAttribute="top" multiplier="0.18" id="dkF-cN-69e"/>
                             <constraint firstAttribute="trailingMargin" secondItem="XIA-6r-ypa" secondAttribute="trailing" constant="-19" id="gH5-jJ-Lc2"/>
                             <constraint firstItem="jcq-tm-ZVP" firstAttribute="bottom" secondItem="71" secondAttribute="top" multiplier="0.15" id="mAb-0T-b2A"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="i8a-Yi-wTP" secondAttribute="trailing" constant="-16" id="pON-3u-U9f"/>
+                            <constraint firstItem="i8a-Yi-wTP" firstAttribute="trailing" secondItem="100" secondAttribute="trailingMargin" id="pON-3u-U9f"/>
                             <constraint firstItem="jKD-L4-frb" firstAttribute="bottom" secondItem="71" secondAttribute="top" multiplier="0.25" id="rfs-94-6dh"/>
-                            <constraint firstItem="0Oq-Ia-jom" firstAttribute="centerY" secondItem="jcq-tm-ZVP" secondAttribute="centerY" id="z4C-fb-gqj"/>
                             <constraint firstItem="71" firstAttribute="top" secondItem="i8a-Yi-wTP" secondAttribute="bottom" id="zYE-vB-NgQ"/>
                         </constraints>
                     </view>

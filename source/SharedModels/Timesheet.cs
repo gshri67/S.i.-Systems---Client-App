@@ -21,6 +21,17 @@ namespace SiSystems.SharedModels
 		public string TimePeriod { get { return string.Format("{0:MMM dd}-{1:MMM dd}", StartDate, EndDate); } }
 
 	    public IEnumerable<TimeEntry> TimeEntries;
+
+		public int totalHours( DateTime date )
+		{
+			int total = 0;
+
+			foreach( TimeEntry entry in TimeEntries )
+				if (entry.Date == date)
+					total += entry.Hours;		
+
+			return total;
+		}
 	}
 }
 
