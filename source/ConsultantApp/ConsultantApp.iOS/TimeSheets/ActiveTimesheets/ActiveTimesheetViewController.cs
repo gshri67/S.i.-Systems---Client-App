@@ -77,7 +77,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                     var rowpath = ActiveTimesheetsTable.IndexPathForSelectedRow;
                     var timesheet = source.GetItem(rowpath);
                     navCtrl.SetTimesheet(timesheet);
-                    //navCtrl.SetSpecialization(this, consultantGroup, _tableSelector.SelectedSegment != AlumniSelected);
                 }
             }
         }

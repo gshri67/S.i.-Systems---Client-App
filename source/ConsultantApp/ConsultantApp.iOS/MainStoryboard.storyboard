@@ -74,7 +74,7 @@
                                     <constraint firstAttribute="centerY" secondItem="kPr-nW-sBH" secondAttribute="centerY" id="iuS-Pc-bZS"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcq-tm-ZVP" userLabel="SubmitContainer">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcq-tm-ZVP" userLabel="SubmitContainer" misplaced="YES">
                                 <rect key="frame" x="-2" y="0.0" width="325" height="68"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="217" customClass="BorderedButton">
@@ -306,8 +306,8 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="1411" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
                                                     <rect key="frame" x="-6" y="28" width="42" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" colorSpace="calibratedRGB" red="0.15294117647058825" green="0.15294117647058825" blue="0.15294117647058825" alpha="1"/>
                                                     <nil key="highlightedColor"/>
                                                     <constraints/>
                                                 </label>
@@ -325,7 +325,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="1536" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" id="1536" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES" adjustsFontSizeToFit="NO">
                                                     <rect key="frame" x="0.0" y="0.0" width="126" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -335,13 +335,13 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="1422" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" constant="0.0" id="1426"/>
-                                                <constraint firstItem="zow-OQ-99l" firstAttribute="trailing" secondItem="1422" secondAttribute="trailing" constant="24" id="1427"/>
+                                                <constraint firstItem="zow-OQ-99l" firstAttribute="trailing" secondItem="1422" secondAttribute="trailing" constant="5" id="1427"/>
                                                 <constraint firstItem="1429" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" constant="0.0" id="1430"/>
-                                                <constraint firstItem="1422" firstAttribute="leading" secondItem="1429" secondAttribute="trailing" constant="28" id="1431"/>
+                                                <constraint firstItem="1422" firstAttribute="leading" secondItem="1429" secondAttribute="trailing" constant="15" id="1431"/>
                                                 <constraint firstItem="1536" firstAttribute="top" secondItem="zow-OQ-99l" secondAttribute="top" constant="5" id="1547"/>
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="1411" secondAttribute="leading" constant="0.0" id="1548"/>
                                                 <constraint firstItem="1429" firstAttribute="leading" secondItem="1536" secondAttribute="trailing" constant="15" id="1549" relation="greaterThanOrEqual"/>
-                                                <constraint firstItem="1411" firstAttribute="top" secondItem="1536" secondAttribute="bottom" constant="5" id="1551"/>
+                                                <constraint firstItem="1411" firstAttribute="top" secondItem="1536" secondAttribute="bottom" constant="0.0" id="1551"/>
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="zow-OQ-99l" secondAttribute="leading" constant="10" id="1552"/>
                                                 <constraint firstItem="zow-OQ-99l" firstAttribute="bottom" secondItem="1411" secondAttribute="bottom" constant="-5" id="1563"/>
                                             </constraints>
@@ -359,7 +359,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="275" firstAttribute="top" secondItem="255" secondAttribute="top" constant="0.0" id="1574"/>
-                            <constraint firstItem="275" firstAttribute="centerX" secondItem="255" secondAttribute="centerX" constant="0.0" id="1575"/>
                             <constraint firstItem="255" firstAttribute="bottom" secondItem="275" secondAttribute="bottom" constant="0.0" id="1576"/>
                             <constraint firstItem="275" firstAttribute="trailing" secondItem="255" secondAttribute="trailing" constant="0.0" id="1577"/>
                             <constraint firstItem="275" firstAttribute="leading" secondItem="255" secondAttribute="leading" constant="0.0" id="1578"/>
@@ -632,6 +631,8 @@
         <image name="Default-568h.png" width="640" height="1136"/>
         <image name="ios7-clock-outline.png" width="50" height="50"/>
         <image name="social-usd.png" width="50" height="50"/>
+        <image name="leftArrow.png" width="32" height="32"/>
+        <image name="rightArrow.png" width="32" height="32"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
