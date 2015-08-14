@@ -265,7 +265,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="449"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="276" customClass="CustomActiveTimesheetCell" accessoryType="disclosureIndicator">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="276" customClass="ActiveTimesheetCell" accessoryType="disclosureIndicator" reuseIdentifier="activeTimesheetCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="276" id="zow-OQ-99l">
@@ -315,10 +315,10 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="TimesheetApprover" destination="1411" id="name-outlet-1411"/>
-                                            <outlet property="Status" destination="1422" id="name-outlet-1422"/>
-                                            <outlet property="Hours" destination="1429" id="name-outlet-1429"/>
-                                            <outlet property="Company" destination="1536" id="name-outlet-1536"/>
+                                            <outlet property="timesheetApproverLabel" destination="1411" id="name-outlet-1411"/>
+                                            <outlet property="statusLabel" destination="1422" id="name-outlet-1422"/>
+                                            <outlet property="hoursLabel" destination="1429" id="name-outlet-1429"/>
+                                            <outlet property="companyLabel" destination="1536" id="name-outlet-1536"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -344,6 +344,7 @@
                     <navigationItem key="navigationItem" title="Active Timesheets" id="1023"/>
                     <connections>
                         <outlet property="ActiveTimesheetsTable" destination="275" id="name-outlet-275"/>
+                        <segue id="1394" destination="73" kind="push" identifier="TimesheetSelected"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="256" userLabel="First Responder" sceneMemberID="firstResponder"/>

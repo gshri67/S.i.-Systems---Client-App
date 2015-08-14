@@ -25,6 +25,11 @@ namespace ConsultantApp.Core.ViewModels
         {
             return _api.GetTimesheets(DateTime.UtcNow);
         }
+
+        public Task<IEnumerable<PayPeriod>> GetPayPeriods()
+        {
+            return _api.GetPayPeriods();
+        }
 	}
 }
 

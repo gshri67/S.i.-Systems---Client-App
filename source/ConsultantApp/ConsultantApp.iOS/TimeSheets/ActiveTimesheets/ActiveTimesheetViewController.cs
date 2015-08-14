@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ConsultantApp.Core.ViewModels;
+using ConsultantApp.iOS.TimeEntryViewController;
 using Foundation;
 using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
@@ -14,6 +15,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	{
         private readonly NSObject _tokenExpiredObserver;
 	    private readonly ActiveTimesheetViewModel _activeTimesheetModel;
+        public const string TimesheetSelectedSegue = "TimesheetSelected";
 
 		public ActiveTimesheetViewController (IntPtr handle) : base (handle)
 		{
@@ -35,19 +37,19 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    public async void LoadTimesheets()
 	    {
-            var timesheets = await _activeTimesheetModel.GetCurrentActiveTimesheets();
+            var payPeriods = await _activeTimesheetModel.GetPayPeriods();
 
-            UpdateTableSource(timesheets);
+            UpdateTableSource(payPeriods);
 	    }
 
-	    private void UpdateTableSource(IEnumerable<Timesheet> timesheets)
+	    private void UpdateTableSource(IEnumerable<PayPeriod> payPeriods)
 	    {
 	        InvokeOnMainThread(delegate
 	        {
-	            if (timesheets == null) return;
+	            if (payPeriods == null) return;
 
-	            tableview.Source = new ActiveTimesheetTableViewSource(this, timesheets);
-	            tableview.ReloadData();
+                ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, payPeriods);
+                ActiveTimesheetsTable.ReloadData();
 	        });
 	    }
 
@@ -64,5 +66,23 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 			//if( vc != null )
 			//	NavigationController.PushViewController ( vc, true );
 		}
+
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        {
+            base.PrepareForSegue(segue, sender);
+
+            if (segue.Identifier == TimesheetSelectedSegue)
+            {
+                var navCtrl = segue.DestinationViewController as TimesheetOverviewViewController;
+
+                if (navCtrl != null)
+                {
+                    //var source = SpecializationTable.Source as AlumniTableViewSource;
+                    //var rowpath = SpecializationTable.IndexPathForSelectedRow;
+                    //var consultantGroup = source.GetItem(rowpath.Row);
+                    //navCtrl.SetSpecialization(this, consultantGroup, _tableSelector.SelectedSegment != AlumniSelected);
+                }
+            }
+        }
 	}
 }

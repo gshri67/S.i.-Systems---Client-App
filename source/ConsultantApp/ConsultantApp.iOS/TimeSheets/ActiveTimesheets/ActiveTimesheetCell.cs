@@ -17,10 +17,10 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
         public void UpdateCell(string company, string timesheetApprover, string hours, string status)
         {
-            //Company.Text = company;
-            TimesheetApprover.Text = timesheetApprover;
-            Hours.Text = string.Format("{0} hrs", hours);
-            Status.Text = status;
+            companyLabel.Text = company;
+            timesheetApproverLabel.Text = timesheetApprover;
+            hoursLabel.Text = string.Format("{0} hrs", hours);
+            statusLabel.Text = status;
         }
 	}
 }

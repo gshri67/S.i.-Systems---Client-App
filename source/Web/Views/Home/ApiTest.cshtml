@@ -81,6 +81,7 @@
             <li role="presentation"><a id="contactTabButton" href="#contact" role="tab" data-toggle="tab">Contact</a></li>
             <li role="presentation"><a id="specializationTabButton" href="#specialization" role="tab" data-toggle="tab">Specializations</a></li>
             <li role="presentation"><a id="timesheetsTabButton" href="#timesheets" role="tab" data-toggle="tab">Timesheets</a></li>
+            <li role="presentation"><a id="payPeriodsTabButton" href="#payPeriods" role="tab" data-toggle="tab">PayPeriods</a></li>
         </ul>
 
         <div class="tab-content">
@@ -138,7 +139,7 @@
 
             <div id="timesheets" role="details" class="tab-pane">
                 <div class="input-group">
-                    <input id="timesheetsId" type="text" class="form-control" placeholder="Enter a date" />
+                    <input id="timesheetsId" type="text" class="form-control" placeholder="Enter a date"/>
                     <div class="input-group-btn">
                         <button id="getTimesheetsButton" type="button" class="btn btn-primary">Search</button>
                     </div>
@@ -146,7 +147,18 @@
                 <div id="timesheetsResults" class="code json well">
                 </div>
             </div>
-            
+
+            <div id="payPeriods" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="payPeriodsId" type="text" class="form-control" placeholder="" />
+                    <div class="input-group-btn">
+                        <button id="getPayPeriodsButton" type="button" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <div id="payPeriodsResults" class="code json well">
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -335,6 +347,29 @@
 
 
                     }).fail(function (err) { showError(err, 'timesheetsResults') });
+                },
+                getPayPeriods: function () {
+                    $('#payPeriodsResults').html('Sending...');
+                    var date = $('#payPeriodsId').val();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/PayPeriods/',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#payPeriodsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'payPeriodsResults') });
                 }
             };
 
@@ -348,6 +383,7 @@
             $('#sendMessageButton').click(page.sendContactMessage);
             $('#getSpecializationsButton').click(page.getSpecializations);
             $('#getTimesheetsButton').click(page.getTimesheets);
+            $('#getPayPeriodsButton').click(page.getPayPeriods);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {

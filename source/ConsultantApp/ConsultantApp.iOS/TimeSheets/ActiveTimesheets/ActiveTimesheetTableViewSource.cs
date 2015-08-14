@@ -9,34 +9,34 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 {
 	internal class ActiveTimesheetTableViewSource : UITableViewSource
 	{
-		private const string CellIdentifier = "reviewTimeSheetCell";
+		private const string CellIdentifier = "activeTimesheetCell";
         private readonly ActiveTimesheetViewController _parentController;
 
-	    private readonly List<IGrouping<string, Timesheet>> _timesheets;
+	    private readonly List<PayPeriod> _payPeriods;
 
-        public ActiveTimesheetTableViewSource(ActiveTimesheetViewController parentController, IEnumerable<Timesheet> timesheets) 
+        public ActiveTimesheetTableViewSource(ActiveTimesheetViewController parentController, IEnumerable<PayPeriod> payPeriods) 
 		{
 			this._parentController = parentController;
 
-		    _timesheets = timesheets.GroupBy(timesheet => timesheet.TimePeriod).ToList();
+		    _payPeriods = payPeriods.OrderBy(pp=>pp.EndDate).ToList();
 	    }
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
-			return _timesheets.Count;
+			return _payPeriods.Count;
 		}
 
 		public override string TitleForHeader(UITableView tableView, nint section)
 		{
-		    return _timesheets.ElementAt((int) section) != null 
-                ? _timesheets.ElementAt((int) section).Key 
+		    return _payPeriods[(int)section] != null
+                ? _payPeriods[(int)section].TimePeriod
                 : "Unknown Pay Period";
 		}
 
 	    public override nint RowsInSection(UITableView tableview, nint section)
 	    {
-			return _timesheets.ElementAt((int) section) != null
-                ? _timesheets.ElementAt((int) section).Count()
+            return _payPeriods.ElementAt((int)section) != null
+                ? _payPeriods.ElementAt((int)section).Timesheets.Count()
                 : 0;
 		}
 
@@ -45,25 +45,23 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 			// if there are no cells to reuse, create a new one
             var cell = tableView.DequeueReusableCell(CellIdentifier) as ActiveTimesheetCell ??
                        new ActiveTimesheetCell(CellIdentifier);
-
-		    SetCellLabels(_timesheets[indexPath.Section].ElementAt(indexPath.Row), cell);
+		    var timesheet = _payPeriods.ElementAt(indexPath.Section).Timesheets.ElementAt(indexPath.Row);
+            cell.UpdateCell(
+                company: timesheet.ClientName,
+                timesheetApprover: "Bob Smith",
+                hours: timesheet.TimeEntries.Sum(t => t.Hours).ToString(),
+                status: timesheet.Status.ToString()
+            );
 
 			return cell;
 		}
 
-	    private void SetCellLabels(Timesheet timesheet, ActiveTimesheetCell cell)
-	    {
-            cell.UpdateCell(
-                company: timesheet.ClientName, 
-                timesheetApprover: "Bob Smith", 
-                hours: timesheet.TimeEntries.Sum(t=>t.Hours).ToString(), 
-                status: timesheet.Status.ToString()
-            );
-	    }
-
 	    public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			_parentController.NavigationController.PushViewController ( _parentController.Storyboard.InstantiateViewController("SubmitTimeSheetViewController"), true );
+            _parentController.PerformSegue(ActiveTimesheetViewController.TimesheetSelectedSegue, indexPath);
+
+            //normal iOS behaviour is to remove the selection
+            tableView.DeselectRow(indexPath, true);
 		}
 	}
 }

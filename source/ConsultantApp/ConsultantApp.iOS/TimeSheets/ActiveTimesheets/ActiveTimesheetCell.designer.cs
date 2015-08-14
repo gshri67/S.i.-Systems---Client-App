@@ -4,9 +4,9 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-
-using System.CodeDom.Compiler;
 using Foundation;
+using System;
+using System.CodeDom.Compiler;
 using UIKit;
 
 namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
@@ -16,38 +16,37 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel Hours { get; set; }
-
-        [Outlet]
-        [GeneratedCode("iOS Designer", "1.0")]
-        UILabel Company { get; set; }
+		UILabel companyLabel { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel Status { get; set; }
+		UILabel hoursLabel { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel TimesheetApprover { get; set; }
+		UILabel statusLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel timesheetApproverLabel { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (Hours != null) {
-				Hours.Dispose ();
-				Hours = null;
+			if (companyLabel != null) {
+				companyLabel.Dispose ();
+				companyLabel = null;
 			}
-            if (Company != null)
-            {
-                Company.Dispose();
-                Company = null;
-            }
-			if (Status != null) {
-				Status.Dispose ();
-				Status = null;
+			if (hoursLabel != null) {
+				hoursLabel.Dispose ();
+				hoursLabel = null;
 			}
-			if (TimesheetApprover != null) {
-				TimesheetApprover.Dispose ();
-				TimesheetApprover = null;
+			if (statusLabel != null) {
+				statusLabel.Dispose ();
+				statusLabel = null;
+			}
+			if (timesheetApproverLabel != null) {
+				timesheetApproverLabel.Dispose ();
+				timesheetApproverLabel = null;
 			}
 		}
 	}
