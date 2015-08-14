@@ -63,6 +63,11 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
             //normal iOS behaviour is to remove the selection
             tableView.DeselectRow(indexPath, true);
 		}
+
+        public Timesheet GetItem(NSIndexPath indexPath)
+        {
+            return _payPeriods.ElementAt(indexPath.Section).Timesheets.ElementAt(indexPath.Row);
+        }
 	}
 }
 

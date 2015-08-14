@@ -72,9 +72,11 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
                 if (navCtrl != null)
                 {
-                    //var source = SpecializationTable.Source as AlumniTableViewSource;
-                    //var rowpath = SpecializationTable.IndexPathForSelectedRow;
-                    //var consultantGroup = source.GetItem(rowpath.Row);
+                    //pass the selected item into the Overview Controller
+                    var source = ActiveTimesheetsTable.Source as ActiveTimesheetTableViewSource;
+                    var rowpath = ActiveTimesheetsTable.IndexPathForSelectedRow;
+                    var timesheet = source.GetItem(rowpath);
+                    navCtrl.SetTimesheet(timesheet);
                     //navCtrl.SetSpecialization(this, consultantGroup, _tableSelector.SelectedSegment != AlumniSelected);
                 }
             }

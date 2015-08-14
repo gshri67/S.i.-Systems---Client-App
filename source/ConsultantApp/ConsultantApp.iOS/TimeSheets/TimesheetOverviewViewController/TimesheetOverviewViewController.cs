@@ -14,8 +14,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	public partial class TimesheetOverviewViewController : UIViewController
 	{
 	    private readonly TimesheetViewModel _timesheetModel;
-
-	    private IEnumerable<Timesheet> timesheets;
 		private Timesheet _curTimesheet;
 
 		public TimesheetOverviewViewController (IntPtr handle) : base (handle)
@@ -27,24 +25,15 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			_timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
 		}
-			
-	    public async void LoadTimesheets()
-	    {
-            timesheets = await _timesheetModel.GetTimesheets(DateTime.Now);
-
-            var timeEntries = timesheets.SelectMany(timesheet => timesheet.TimeEntries);
-            
-			/*
-            tableview.RegisterClassForCellReuse( typeof(TimeEntryCell), @"TimeEntryCell");
-            tableview.Source = new TimesheetOverviewTableViewSource(this, timeEntries);
-            tableview.ReloadData ();*/
-	    }
+        
+        public void SetTimesheet(Timesheet timesheet)
+        {
+            _curTimesheet = timesheet;
+        }
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-		    
-            //LoadTimesheets();
 
 			addButton.TouchUpInside += delegate {
 				
@@ -52,29 +41,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 				NavigationController.PushViewController(vc, true);
 			};
-
-			//_curTimesheet = timesheets.First ();
-
-			_curTimesheet = new Timesheet ();
-			_curTimesheet.ClientName = "Nexen";
-			_curTimesheet.StartDate = new DateTime (2015, 8, 1);
-			_curTimesheet.EndDate = new DateTime (2015, 8, 15);
-
-			List<TimeEntry> timeEntries = new List<TimeEntry> ();
-			TimeEntry te1 = new TimeEntry();
-			te1.Date = new DateTime (2015, 8, 12);
-			te1.Hours = 5;
-			timeEntries.Add (te1);
-
-			for (int i = 3; i < 11; i++) 
-			{
-				TimeEntry te2 = new TimeEntry();
-				te2.Date = new DateTime (2015, 8, i);
-				te2.Hours = 8;
-				timeEntries.Add (te2);
-			}
-
-			_curTimesheet.TimeEntries = timeEntries;
 
 			FMCalendar calendar = new FMCalendar (calendarContainerView.Bounds, new CoreGraphics.CGRect(), _curTimesheet );
 			calendarContainerView.AddSubview (calendar);
