@@ -134,6 +134,10 @@
     <Compile Include="Third-Party Components\FMCalendar\CalendarDayView.cs" />
     <Compile Include="Third-Party Components\FMCalendar\FMCalendar.cs" />
     <Compile Include="Third-Party Components\FMCalendar\MonthGridView.cs" />
+    <Compile Include="TimeSheets\AddTimeViewController\AddTimeViewController.cs" />
+    <Compile Include="TimeSheets\AddTimeViewController\AddTimeViewController.designer.cs">
+      <DependentUpon>AddTimeViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -143,6 +147,10 @@
     <BundleResource Include="Resources\app-button%403x.png" />
     <BundleResource Include="Resources\ios7-clock-outline%402x.png" />
     <BundleResource Include="Resources\social-usd%402x.png" />
+    <BundleResource Include="Resources\leftArrow.png" />
+    <BundleResource Include="Resources\leftArrow%402x.png" />
+    <BundleResource Include="Resources\rightArrow.png" />
+    <BundleResource Include="Resources\rightArrow%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Factorymind.Components-Unified">
@@ -208,5 +216,6 @@
     <Folder Include="Third-Party Components\" />
     <Folder Include="Third-Party Components\FMCalendar\" />
     <Folder Include="Third-Party Components\FMCalendar\Resources\" />
+    <Folder Include="TimeSheets\AddTimeViewController\" />
   </ItemGroup>
 </Project>

@@ -149,7 +149,7 @@ namespace ConsultantApp.iOS
 			UIColor.FromWhiteAlpha(0.8f, 1.0f).SetColor();
 
 			if( totalHours != null && !totalHours.Equals("0") )
-				totalHours.DrawString (new CoreGraphics.CGRect (Bounds.Width/10, Bounds.Height/10, Bounds.Width, Bounds.Height/3),
+				totalHours.DrawString (new CoreGraphics.CGRect (Bounds.Width*1.3/10, Bounds.Height*1.3/10, Bounds.Width, Bounds.Height/3),
 				UIFont.SystemFontOfSize (fontSize), UILineBreakMode.WordWrap,
 				UITextAlignment.Left);
 

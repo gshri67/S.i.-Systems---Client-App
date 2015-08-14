@@ -82,8 +82,23 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			calendarContainerView.AddSubview (calendar);
 
 			calendar.DateSelected = delegate(DateTime date) {
-				//PUSH
+				AddTimeViewController vc = (AddTimeViewController)Storyboard.InstantiateViewController( "AddTimeViewController" );
+				NavigationController.PushViewController(vc, true);
 			};
+
+			calendarLeftButton.SetTitle("", UIControlState.Normal);
+			calendarLeftButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
+			calendarLeftButton.SetImage( new UIImage("leftArrow.png"), UIControlState.Normal );
+
+
+			calendarRightButton.SetTitle("", UIControlState.Normal);
+			calendarRightButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
+			calendarRightButton.SetImage( new UIImage("rightArrow.png"), UIControlState.Normal );
+
+
+			submitContainerView.BackgroundColor = StyleGuideConstants.LightGreenUiColor;
+			approverContainerView.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
+			calendarHeaderView.BackgroundColor = StyleGuideConstants.MediumGrayUiColor;
 		}
 
 		//dismiss keyboard when tapping outside of text fields
