@@ -17,6 +17,7 @@ namespace SiSystems.SharedModels
 		public DateTime EndDate;
 		public TimesheetStatus Status;
 		public string ClientName;
+	    public string TimesheetApprover;
 
 		public string TimePeriod { get { return string.Format("{0:MMM d} - {1:MMM d}", StartDate, EndDate); } }
 

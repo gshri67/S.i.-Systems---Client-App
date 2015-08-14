@@ -48,7 +48,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 		    var timesheet = _payPeriods.ElementAt(indexPath.Section).Timesheets.ElementAt(indexPath.Row);
             cell.UpdateCell(
                 company: timesheet.ClientName,
-                timesheetApprover: "Bob Smith",
+                timesheetApprover: timesheet.TimesheetApprover,
                 hours: timesheet.TimeEntries.Sum(t => t.Hours).ToString(),
                 status: timesheet.Status.ToString()
             );

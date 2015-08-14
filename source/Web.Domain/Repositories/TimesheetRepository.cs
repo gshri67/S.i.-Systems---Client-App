@@ -48,6 +48,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     new Timesheet
                     {
                         ClientName = "Cenovus",
+                        TimesheetApprover= "bob.smith@email.com",
                         Status = TimesheetStatus.Open,
                         StartDate = new DateTime(2015, 08, 01),
                         EndDate = new DateTime(2015, 08, 31),
@@ -56,6 +57,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     new Timesheet
                     {
                         ClientName = "Nexen",
+                        TimesheetApprover= "sally.abbott@email.com",
                         Status = TimesheetStatus.Open,
                         StartDate = new DateTime(2015, 08, 01),
                         EndDate = new DateTime(2015, 08, 15),
@@ -140,20 +142,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     new TimeEntry
                     {
                         ClientName = "Cenovus",
-                        Date = new DateTime(2015, 8, 1),
-                        Hours = 4,
-                        ProjectCode = "PC0001"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Cenovus",
-                        Date = new DateTime(2015, 8, 2),
-                        Hours = 4,
-                        ProjectCode = "PC0001"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Cenovus",
                         Date = new DateTime(2015, 8, 3),
                         Hours = 4,
                         ProjectCode = "PC0001"
@@ -163,6 +151,48 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         ClientName = "Cenovus",
                         Date = new DateTime(2015, 8, 4),
                         Hours = 4,
+                        ProjectCode = "PC0001"
+                    },
+                    new TimeEntry
+                    {
+                        ClientName = "Cenovus",
+                        Date = new DateTime(2015, 8, 5),
+                        Hours = 4,
+                        ProjectCode = "PC0001"
+                    },
+                    new TimeEntry
+                    {
+                        ClientName = "Cenovus",
+                        Date = new DateTime(2015, 8, 6),
+                        Hours = 4,
+                        ProjectCode = "PC0001"
+                    },
+                    new TimeEntry
+                    {
+                        ClientName = "Cenovus",
+                        Date = new DateTime(2015, 8, 7),
+                        Hours = 4,
+                        ProjectCode = "PC0001"
+                    },
+                    new TimeEntry
+                    {
+                        ClientName = "Cenovus",
+                        Date = new DateTime(2015, 8, 10),
+                        Hours = 8,
+                        ProjectCode = "PC0001"
+                    },
+                    new TimeEntry
+                    {
+                        ClientName = "Cenovus",
+                        Date = new DateTime(2015, 8, 11),
+                        Hours = 8,
+                        ProjectCode = "PC0001"
+                    },
+                    new TimeEntry
+                    {
+                        ClientName = "Cenovus",
+                        Date = new DateTime(2015, 8, 12),
+                        Hours = 8,
                         ProjectCode = "PC0001"
                     }
                 };
