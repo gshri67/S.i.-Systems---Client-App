@@ -12,6 +12,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<Timesheet> GetTimesheetsForDate(DateTime date);
         IEnumerable<TimeEntry> GetTimeEntries(DateTime date);
         IEnumerable<Timesheet> GetActiveTimesheetsForDate(DateTime date);
+        IEnumerable<Timesheet> GetTimesheetsForUser(int id);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -27,6 +28,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         }
 
         public IEnumerable<Timesheet> GetActiveTimesheetsForDate(DateTime date)
+        {
+            return UserTimesheets;
+        }
+
+        public IEnumerable<Timesheet> GetTimesheetsForUser(int id)
         {
             return UserTimesheets;
         }
@@ -49,10 +55,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     },
                     new Timesheet
                     {
-                        ClientName = "NexenTimeEntries",
+                        ClientName = "Nexen",
                         Status = TimesheetStatus.Open,
                         StartDate = new DateTime(2015, 08, 01),
-                        EndDate = new DateTime(2015, 08, 31),
+                        EndDate = new DateTime(2015, 08, 15),
                         TimeEntries = NexenTimeEntries
                     }
                 };
@@ -67,56 +73,56 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 {
                     new TimeEntry
                     {
-                        ClientName = "NexenTimeEntries",
+                        ClientName = "Nexen",
                         Date = new DateTime(2015, 8, 1),
                         Hours = 2,
                         ProjectCode = "PC1111"
                     },
                     new TimeEntry
                     {
-                        ClientName = "NexenTimeEntries",
+                        ClientName = "Nexen",
                         Date = new DateTime(2015, 8, 2),
                         Hours = 2,
                         ProjectCode = "PC1111"
                     },
                     new TimeEntry
                     {
-                        ClientName = "NexenTimeEntries",
+                        ClientName = "Nexen",
                         Date = new DateTime(2015, 8, 3),
                         Hours = 2,
                         ProjectCode = "PC1111"
                     },
                     new TimeEntry
                     {
-                        ClientName = "NexenTimeEntries",
+                        ClientName = "Nexen",
                         Date = new DateTime(2015, 8, 4),
                         Hours = 2,
                         ProjectCode = "PC1111"
                     },
                     new TimeEntry
                     {
-                        ClientName = "NexenTimeEntries",
+                        ClientName = "Nexen",
                         Date = new DateTime(2015, 8, 1),
                         Hours = 2,
                         ProjectCode = "PC1112"
                     },
                     new TimeEntry
                     {
-                        ClientName = "NexenTimeEntries",
+                        ClientName = "Nexen",
                         Date = new DateTime(2015, 8, 2),
                         Hours = 2,
                         ProjectCode = "PC1112"
                     },
                     new TimeEntry
                     {
-                        ClientName = "NexenTimeEntries",
+                        ClientName = "Nexen",
                         Date = new DateTime(2015, 8, 3),
                         Hours = 2,
                         ProjectCode = "PC1112"
                     },
                     new TimeEntry
                     {
-                        ClientName = "NexenTimeEntries",
+                        ClientName = "Nexen",
                         Date = new DateTime(2015, 8, 4),
                         Hours = 2,
                         ProjectCode = "PC1112"

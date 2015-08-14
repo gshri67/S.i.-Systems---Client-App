@@ -18,7 +18,7 @@ namespace SiSystems.SharedModels
 		public TimesheetStatus Status;
 		public string ClientName;
 
-		public string TimePeriod { get { return string.Format("{0:MMM dd}-{1:MMM dd}", StartDate, EndDate); } }
+		public string TimePeriod { get { return string.Format("{0:MMM d} - {1:MMM d}", StartDate, EndDate); } }
 
 	    public IEnumerable<TimeEntry> TimeEntries;
 
@@ -33,5 +33,14 @@ namespace SiSystems.SharedModels
 			return total;
 		}
 	}
+
+    public class PayPeriod
+    {
+        public DateTime StartDate;
+        public DateTime EndDate;
+        public string TimePeriod { get { return string.Format("{0:MMM d} - {1:MMM d}", StartDate, EndDate); } }
+        
+        public IEnumerable<Timesheet> Timesheets;
+    }
 }
 

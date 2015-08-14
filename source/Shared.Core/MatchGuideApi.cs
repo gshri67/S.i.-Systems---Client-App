@@ -153,5 +153,11 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<Timesheet[]>(new { date });
         }
+
+        [HttpGet("PayPeriods")]
+        public async Task<IEnumerable<PayPeriod>> GetPayPeriods()
+        {
+            return await ExecuteWithDefaultClient<PayPeriod[]>();
+        }
     }
 }

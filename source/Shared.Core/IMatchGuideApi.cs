@@ -30,5 +30,7 @@ namespace Shared.Core
         Task<IEnumerable<TimeEntry>> GetTimesheetEntries(DateTime date);
         
         Task<IEnumerable<Timesheet>> GetTimesheets(DateTime date);
+        
+        Task<IEnumerable<PayPeriod>> GetPayPeriods();
     }
 }
