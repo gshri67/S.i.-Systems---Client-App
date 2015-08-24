@@ -188,8 +188,8 @@ namespace ConsultantApp.iOS
 					BackgroundColor = _calendarMonthView.MonthBackgroundColor,
 				};
 				dayView.Date = viewDay;
-				dayView.totalHours = timesheet.totalHours (viewDay).ToString();
-				//dayView.totalHours = timesheet.TimeEntries.Sum(t => t.Hours).ToString();
+
+				dayView.totalHours = timesheet.TimeEntries.Where(e => e.Date.Equals(viewDay) ).Sum( t => t.Hours ).ToString();
 				if ( !insideTimePeriod(viewDay.Date) )
 					dayView.BackgroundColor = outsidePeriodColor;
 

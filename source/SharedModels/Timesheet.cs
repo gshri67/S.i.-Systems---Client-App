@@ -22,18 +22,6 @@ namespace SiSystems.SharedModels
 		public string TimePeriod { get { return string.Format("{0:MMM d} - {1:MMM d}", StartDate, EndDate); } }
 
 	    public IEnumerable<TimeEntry> TimeEntries;
-
-		//dont forget to move this to Timesheet Model!!
-		public int totalHours( DateTime date )
-		{
-			int total = 0;
-
-			foreach( TimeEntry entry in TimeEntries )
-				if (entry.Date == date)
-					total += entry.Hours;		
-
-			return total;
-		}
 	}
 
     public class PayPeriod
