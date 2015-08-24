@@ -234,7 +234,7 @@ namespace ConsultantApp.iOS
 
 			MonthBackgroundColor = UIColor.White;
 			SelectionColor = UIColor.Red;
-			TodayCircleColor = UIColor.Red;
+			TodayCircleColor = UIColor.FromRGBA(1.0f, 0.2f, 0.0f, 1.0f);
 
 			LeftArrow = UIImage.FromFile ("leftArrow.png");
 			RightArrow = UIImage.FromFile ("rightArrow.png");

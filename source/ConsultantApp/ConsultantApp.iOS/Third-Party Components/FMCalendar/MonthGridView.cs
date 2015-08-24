@@ -304,8 +304,8 @@ namespace ConsultantApp.iOS
 			if(index<0 || index >= _dayTiles.Count) return false;
 
 			var newSelectedDayView = _dayTiles[index];
-			if (newSelectedDayView == SelectedDayView) 
-				return false;
+			//if (newSelectedDayView == SelectedDayView) 
+			//	return false;
 
 			if (!newSelectedDayView.Active && touch.Phase!=UITouchPhase.Moved){
 				var day = int.Parse(newSelectedDayView.Text);
