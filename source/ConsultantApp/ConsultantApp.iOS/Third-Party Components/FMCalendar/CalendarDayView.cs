@@ -74,8 +74,7 @@ namespace ConsultantApp.iOS
 			this.TodayCircleColor = UIColor.FromRGBA(1.0f, 0.3f, 0.0f, 0.5f);
 			this.SelectionColor = UIColor.FromRGBA(0.7f, 0.7f, 0.9f, 1.0f);
 
-			Layer.BorderWidth = 0.5f;
-			Layer.BorderColor = UIColor.FromWhiteAlpha(0.8f, 1.0f).CGColor;
+			unselect ();//apply normal borders to the cell
 		}
 
 		#if __UNIFIED__
@@ -100,9 +99,8 @@ namespace ConsultantApp.iOS
 
 			if (Selected) 
 			{
-			//	BackgroundColor = SelectionColor;
-				Layer.BorderWidth = 2f;
-				Layer.BorderColor = UIColor.FromRGB(0.4f, 0.5f, 0.9f).CGColor;
+				//Layer.BorderWidth = 2f;
+				//Layer.BorderColor = UIColor.FromRGB(0.4f, 0.5f, 0.9f).CGColor;
 			}
 
 			if (!Active || !Available)
@@ -121,8 +119,13 @@ namespace ConsultantApp.iOS
 				color = SelectionColor;
 			}
 
+			int hoursFontSize = 16;
 
-			if (Today)
+			//CoreGraphics.CGRect dayTextRect = new CoreGraphics.CGRect (Bounds.Width * 1.2 / 10, Bounds.Height * 1.2 / 10, Bounds.Width, Bounds.Height / 3);
+			CoreGraphics.CGRect dayTextRect = new CoreGraphics.CGRect (Bounds.Width * 1.1 / 10, Bounds.Height * 1.1 / 10, Bounds.Width/3, Bounds.Width/3);
+
+
+			if (Selected || Today )
 			{
 				var context = UIGraphics.GetCurrentContext();
 				var todaySize = (float) Math.Min (Bounds.Height, Bounds.Width);
@@ -130,18 +133,24 @@ namespace ConsultantApp.iOS
 					todaySize = 50;
 				todaySize = Math.Min (fontSize * 2, todaySize)*0.75f;
 
-				TodayCircleColor.SetColor ();
+				if (Selected && Today)
+					TodayCircleColor.SetColor ();
+				else if (Today)
+					UIColor.FromWhiteAlpha ( 0.9f, 0.5f ).SetColor();
+				else //if selected and not today
+					UIColor.FromWhiteAlpha (0.3f, 1.0f).SetColor();
 
 				context.SetLineWidth(0);
 
 				#if __UNIFIED__
 
-				todaySize = (float) Math.Min (Bounds.Height, Bounds.Width)*0.9f;
-				CoreGraphics.CGRect todayCircleRect = new CoreGraphics.CGRect ((Bounds.Width-todaySize)/2, (Bounds.Height-todaySize)/2, todaySize, todaySize);
+				todaySize = (float) Math.Min (Bounds.Height, Bounds.Width)*0.25f;
+				//CoreGraphics.CGRect todayCircleRect = new CoreGraphics.CGRect ((Bounds.Width-todaySize)/2, (Bounds.Height-todaySize*1.2f), todaySize, todaySize);
 
-
+				CoreGraphics.CGRect todayCircleRect = new CoreGraphics.CGRect (dayTextRect.X, dayTextRect.Y, dayTextRect.Width, dayTextRect.Height);
+				
 				context.AddEllipseInRect( todayCircleRect );//(new CoreGraphics.CGRect((Bounds.Width / 2) - (todaySize / 2), (Bounds.Height / 2) - (todaySize / 2), todaySize, todaySize));
-
+				
 				#else
 
 				context.AddEllipseInRect(new RectangleF((Bounds.Width / 2) - (todaySize / 2), (Bounds.Height / 2) - (todaySize / 2), todaySize, todaySize));
@@ -152,11 +161,7 @@ namespace ConsultantApp.iOS
 			}
 
 
-			color.SetColor ();
-
-			int hoursFontSize = 16;
-
-			CoreGraphics.CGRect dayTextRect = new CoreGraphics.CGRect (0, (Bounds.Height / 2) - (hoursFontSize / 2), Bounds.Width, Bounds.Height);
+			UIColor.Black.SetColor();
 
 			#if __UNIFIED__
 
@@ -165,11 +170,16 @@ namespace ConsultantApp.iOS
 					UIFont.SystemFontOfSize (hoursFontSize), UILineBreakMode.WordWrap,
 					UITextAlignment.Center);
 
-			UIColor.FromWhiteAlpha(0.8f, 1.0f).SetColor();
-
-			Text.DrawString (new CoreGraphics.CGRect (Bounds.Width*1.2/10, Bounds.Height*1.2/10, Bounds.Width, Bounds.Height/3),
+			if( Selected )
+				UIColor.White.SetColor();				
+			else if( !Selected && !Today )		
+				UIColor.FromWhiteAlpha(0.8f, 1.0f).SetColor();
+			else //if it is today and not selected
+				TodayCircleColor.SetColor();
+			
+			Text.DrawString (dayTextRect,
 				UIFont.SystemFontOfSize (fontSize), UILineBreakMode.WordWrap,
-				UITextAlignment.Left);
+				UITextAlignment.Center);
 
 			color.SetColor();
 
@@ -215,6 +225,14 @@ namespace ConsultantApp.iOS
 				context.FillPath();
 
 			}
+		}
+
+		public void unselect()
+		{
+			Selected = false;
+
+			Layer.BorderWidth = 0.5f;
+			Layer.BorderColor = UIColor.FromWhiteAlpha(0.8f, 1.0f).CGColor;
 		}
 	}
 }

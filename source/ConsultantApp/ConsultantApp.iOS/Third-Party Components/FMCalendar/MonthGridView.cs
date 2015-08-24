@@ -190,7 +190,7 @@ namespace ConsultantApp.iOS
 				dayView.Date = viewDay;
 				dayView.totalHours = timesheet.totalHours (viewDay).ToString();
 				//dayView.totalHours = timesheet.TimeEntries.Sum(t => t.Hours).ToString();
-				if (viewDay.Date.CompareTo (timesheet.EndDate) == 1)
+				if ( !insideTimePeriod(viewDay.Date) )
 					dayView.BackgroundColor = outsidePeriodColor;
 
 				UpdateDayView(dayView);
@@ -259,6 +259,13 @@ namespace ConsultantApp.iOS
 				this.BringSubviewToFront(SelectedDayView);
 		}
 
+		public bool insideTimePeriod ( DateTime date )
+		{
+			if (date.CompareTo (timesheet.EndDate) == 1 || date.CompareTo (timesheet.StartDate) == -1 )
+				return false;
+			return true;
+		}
+
 		public override void TouchesBegan (NSSet touches, UIEvent evt)
 		{
 			base.TouchesBegan (touches, evt);
@@ -304,8 +311,9 @@ namespace ConsultantApp.iOS
 			if(index<0 || index >= _dayTiles.Count) return false;
 
 			var newSelectedDayView = _dayTiles[index];
-			//if (newSelectedDayView == SelectedDayView) 
-			//	return false;
+
+			if ( !insideTimePeriod(newSelectedDayView.Date) ) 
+				return false;
 
 			if (!newSelectedDayView.Active && touch.Phase!=UITouchPhase.Moved){
 				var day = int.Parse(newSelectedDayView.Text);
@@ -322,8 +330,8 @@ namespace ConsultantApp.iOS
 				return false;
 			}
 
-			if (SelectedDayView!=null)
-				SelectedDayView.Selected = false;
+			if (SelectedDayView != null)
+				SelectedDayView.unselect();
 
 			this.BringSubviewToFront(newSelectedDayView);
 			newSelectedDayView.Selected = true;
