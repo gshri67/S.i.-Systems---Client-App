@@ -15,6 +15,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	{
 	    private readonly TimesheetViewModel _timesheetModel;
 		private Timesheet _curTimesheet;
+		private FMCalendar calendar;
 
 		public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
@@ -29,6 +30,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         public void SetTimesheet(Timesheet timesheet)
         {
             _curTimesheet = timesheet;
+
+			//calendarDateLabel.Text = curMonthDate.ToString("MMMMM yyyy");
         }
 
 		public override void ViewDidLoad ()
@@ -42,7 +45,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 				NavigationController.PushViewController(vc, true);
 			};
 
-			FMCalendar calendar = new FMCalendar (calendarContainerView.Bounds, new CoreGraphics.CGRect(), _curTimesheet );
+			calendar = new FMCalendar (calendarContainerView.Bounds, new CoreGraphics.CGRect(), _curTimesheet );
 			calendarContainerView.AddSubview (calendar);
 
 			calendar.DateSelected = delegate(DateTime date) {
@@ -63,6 +66,28 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			submitContainerView.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
 			approverContainerView.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
 			calendarHeaderView.BackgroundColor = StyleGuideConstants.MediumGrayUiColor;
+
+			DateTime curMonthDate;
+
+			if (_curTimesheet != null)
+				curMonthDate = _curTimesheet.StartDate;
+			else
+				curMonthDate = DateTime.Now;
+			
+			calendarDateLabel.Text = curMonthDate.ToString("MMMMM yyyy");
+
+			calendarLeftButton.TouchUpInside += delegate 
+			{
+				calendar.MoveCalendarMonths(false, true);
+				curMonthDate = curMonthDate.AddMonths(-1);
+				calendarDateLabel.Text = curMonthDate.ToString("MMMMM yyyy");
+			};
+			calendarRightButton.TouchUpInside += delegate 
+			{ 
+				calendar.MoveCalendarMonths(true, true);
+				curMonthDate = curMonthDate.AddMonths(1);
+				calendarDateLabel.Text = curMonthDate.ToString("MMMMM yyyy");
+			};
 		}
 
 		//dismiss keyboard when tapping outside of text fields
