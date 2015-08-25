@@ -73,6 +73,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			calendar.DateSelected = delegate(DateTime date) {
 				AddTimeViewController vc = (AddTimeViewController)Storyboard.InstantiateViewController( "AddTimeViewController" );
+				vc.SetDate( date );
+				vc.SetTimesheet( _curTimesheet );
 				NavigationController.PushViewController(vc, true);
 			};
 

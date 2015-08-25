@@ -1,21 +1,82 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace ConsultantApp.iOS
 {
 	[Register ("AddTimeViewController")]
 	partial class AddTimeViewController
 	{
+		[Outlet]
+		UIKit.UIButton addButton { get; set; }
+
+		[Outlet]
+		UIKit.UIView headerContainer { get; set; }
+
+		[Outlet]
+		UIKit.UILabel headerDateLabel { get; set; }
+
+		[Outlet]
+		UIKit.UILabel headerHoursLabel { get; set; }
+
+		[Outlet]
+		UIKit.UIView headerLabelsContainer { get; set; }
+
+		[Outlet]
+		UIKit.UIButton leftArrowButton { get; set; }
+
+		[Outlet]
+		UIKit.UIButton rightArrowButton { get; set; }
+
+		[Outlet]
+		UIKit.UITableView tableview { get; set; }
+		
 		void ReleaseDesignerOutlets ()
 		{
+			if (headerDateLabel != null) {
+				headerDateLabel.Dispose ();
+				headerDateLabel = null;
+			}
+
+			if (headerHoursLabel != null) {
+				headerHoursLabel.Dispose ();
+				headerHoursLabel = null;
+			}
+
+			if (headerLabelsContainer != null) {
+				headerLabelsContainer.Dispose ();
+				headerLabelsContainer = null;
+			}
+
+			if (headerContainer != null) {
+				headerContainer.Dispose ();
+				headerContainer = null;
+			}
+
+			if (leftArrowButton != null) {
+				leftArrowButton.Dispose ();
+				leftArrowButton = null;
+			}
+
+			if (rightArrowButton != null) {
+				rightArrowButton.Dispose ();
+				rightArrowButton = null;
+			}
+
+			if (tableview != null) {
+				tableview.Dispose ();
+				tableview = null;
+			}
+
+			if (addButton != null) {
+				addButton.Dispose ();
+				addButton = null;
+			}
 		}
 	}
 }
