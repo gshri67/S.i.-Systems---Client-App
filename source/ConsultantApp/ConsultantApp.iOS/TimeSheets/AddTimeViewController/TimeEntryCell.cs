@@ -36,8 +36,10 @@ namespace ConsultantApp.iOS
 			projectCodeField.Font =  UIFont.FromName("Helvetica", 12f);
 			AddSubview( projectCodeField );
 
-			projectCodeField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
+			//projectCodeField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
 			clientField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
+
+			clientField.Hidden = true;
 			/*
             //Client
             if (onClientChanged == null)
@@ -101,16 +103,16 @@ namespace ConsultantApp.iOS
 
         public void setupConstraints() 
         {
-			AddConstraint( NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.35f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.35f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(clientField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.5f, 0f));
-
+			AddConstraint( NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.5f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.7f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.5f, 0f));
+			/*
 			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, clientField, NSLayoutAttribute.Right, 0.5f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.8f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.25f, 0f));
             AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.66f, 0f));
-
+*/
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, projectCodeField, NSLayoutAttribute.Right, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, 0f));

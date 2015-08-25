@@ -36,11 +36,18 @@ namespace ConsultantApp.iOS
 		//if the timesheet changes this should be called
 		public void updateUI()
 		{
-			if (_curTimesheet != null) 
+			if (_curTimesheet != null ) 
 			{
 				if (headerHoursLabel != null && date != null ) 
 				{
 					headerHoursLabel.Text = "Daily Hours: " + _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString (); 
+				}
+
+				if (tableview != null && date != null ) 
+				{
+					tableview.RegisterClassForCellReuse (typeof(TimeEntryCell), "TimeEntryCell");
+					tableview.Source = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)));
+					tableview.ReloadData();
 				}
 			}
 

@@ -101,7 +101,6 @@
     <Compile Include="TimeSheets\ActiveTimesheets\ActiveTimesheetCell.designer.cs">
       <DependentUpon>ActiveTimesheetCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeSheets\TimesheetOverviewViewController\AddTimeEntryViewController\TimeEntryCell.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="app.config" />
@@ -138,6 +137,8 @@
     <Compile Include="TimeSheets\AddTimeViewController\AddTimeViewController.designer.cs">
       <DependentUpon>AddTimeViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimeSheets\AddTimeViewController\TimeEntryCell.cs" />
+    <Compile Include="TimeSheets\AddTimeViewController\AddTimeTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
