@@ -31,8 +31,31 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         {
             _curTimesheet = timesheet;
 
-			//calendarDateLabel.Text = curMonthDate.ToString("MMMMM yyyy");
+			updateUI ();
+
         }
+
+		//if the timesheet changes this should be called
+		public void updateUI()
+		{
+			if (_curTimesheet != null) 
+			{
+				DateTime curMonthDate = _curTimesheet.StartDate;
+
+				if (calendarDateLabel != null)
+					calendarDateLabel.Text = curMonthDate.ToString ("MMMMM yyyy");
+
+				//sum up timsheet hours
+				if (totalHoursLabel != null)
+					totalHoursLabel.Text = _curTimesheet.TimeEntries.Sum (t => t.Hours).ToString ();
+
+				if( submitMonthLabel != null )
+					submitMonthLabel.Text = curMonthDate.ToString ("MMM");
+
+				if (submitDayYearLabel != null) 
+					submitDayYearLabel.Text = _curTimesheet.StartDate.ToString("dd").TrimStart('0') + "-" + _curTimesheet.EndDate.ToString("dd").TrimStart('0') + ", " + curMonthDate.ToString ("yyyy");
+			}
+		}
 
 		public override void ViewDidLoad ()
 		{
@@ -94,6 +117,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			submitContainerView.Layer.BorderWidth = 0.5f;
 			submitContainerView.Layer.BorderColor = StyleGuideConstants.LightGrayUiColor.CGColor;
+
+			updateUI();
 		}
 
 		//dismiss keyboard when tapping outside of text fields
