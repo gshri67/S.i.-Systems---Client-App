@@ -232,7 +232,7 @@ namespace ConsultantApp.iOS
 			Selected = false;
 
 			Layer.BorderWidth = 0.5f;
-			Layer.BorderColor = UIColor.FromWhiteAlpha(0.8f, 1.0f).CGColor;
+			Layer.BorderColor = StyleGuideConstants.LightGrayUiColor.CGColor;//UIColor.FromWhiteAlpha(0.8f, 1.0f).CGColor;
 		}
 	}
 }

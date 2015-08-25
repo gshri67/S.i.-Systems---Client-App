@@ -63,9 +63,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			calendarRightButton.SetImage( new UIImage("rightArrow.png"), UIControlState.Normal );
 
 
-			submitContainerView.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
-			approverContainerView.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
-			calendarHeaderView.BackgroundColor = StyleGuideConstants.MediumGrayUiColor;
+			submitContainerView.BackgroundColor = UIColor.White;// StyleGuideConstants.LightGrayUiColor;
+			approverContainerView.BackgroundColor = UIColor.White;//StyleGuideConstants.LightGrayUiColor;
+			calendarHeaderView.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
 
 			DateTime curMonthDate;
 
@@ -88,6 +88,12 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 				curMonthDate = curMonthDate.AddMonths(1);
 				calendarDateLabel.Text = curMonthDate.ToString("MMMMM yyyy");
 			};
+
+			calendarLeftButton.Hidden = true;
+			calendarRightButton.Hidden = true;
+
+			submitContainerView.Layer.BorderWidth = 0.5f;
+			submitContainerView.Layer.BorderColor = StyleGuideConstants.LightGrayUiColor.CGColor;
 		}
 
 		//dismiss keyboard when tapping outside of text fields
