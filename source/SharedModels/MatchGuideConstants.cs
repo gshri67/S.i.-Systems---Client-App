@@ -93,13 +93,6 @@ namespace SiSystems.SharedModels
             public const int PortalAdministrator = 834;
             public const int NoPortalAccess = 835;
 
-            /// <summary>
-            /// this value appears as an incorrect default in the database
-            /// which normally is used as a lookup for UserType = 'Contact'
-            /// consider this equivalent to NotChecked
-            /// </summary>
-            public const int AlsoNotChecked = 5;
-
             private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
             {
                 {PortalContact, "Portal Contact"},
