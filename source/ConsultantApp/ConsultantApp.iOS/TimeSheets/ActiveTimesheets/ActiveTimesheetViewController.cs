@@ -8,13 +8,15 @@ using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using UIKit;
 using ConsultantApp.iOS.TimeEntryViewController;
+using CoreGraphics;
 
 namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 {
 	partial class ActiveTimesheetViewController : UIViewController
 	{
         private readonly NSObject _tokenExpiredObserver;
-	    private readonly ActiveTimesheetViewModel _activeTimesheetModel;
+        private readonly ActiveTimesheetViewModel _activeTimesheetModel;
+        private LoadingOverlay _overlay;
         public const string TimesheetSelectedSegue = "TimesheetSelected";
 
 		public ActiveTimesheetViewController (IntPtr handle) : base (handle)
@@ -37,6 +39,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    public async void LoadTimesheets()
 	    {
+	        IndicateLoading();
             var payPeriods = await _activeTimesheetModel.GetPayPeriods();
 
             UpdateTableSource(payPeriods);
@@ -44,6 +47,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    private void UpdateTableSource(IEnumerable<PayPeriod> payPeriods)
 	    {
+            RemoveOverlay();
 	        InvokeOnMainThread(delegate
 	        {
 	            if (payPeriods == null) return;
@@ -55,7 +59,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		public override void ViewDidLoad ()
 		{
-			base.ViewDidLoad ();
+			base.ViewDidLoad();
 
             LoadTimesheets();
 
@@ -80,5 +84,29 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                 }
             }
         }
-	}
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(ActiveTimesheets.Frame.X, ActiveTimesheets.Frame.Y, ActiveTimesheets.Frame.Width, ActiveTimesheets.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+        
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
+    }
 }

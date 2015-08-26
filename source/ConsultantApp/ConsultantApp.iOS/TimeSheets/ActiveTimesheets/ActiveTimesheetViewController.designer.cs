@@ -19,10 +19,18 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIView ActiveTimesheets { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UITableView ActiveTimesheetsTable { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (ActiveTimesheets != null) {
+				ActiveTimesheets.Dispose ();
+				ActiveTimesheets = null;
+			}
 			if (ActiveTimesheetsTable != null) {
 				ActiveTimesheetsTable.Dispose ();
 				ActiveTimesheetsTable = null;

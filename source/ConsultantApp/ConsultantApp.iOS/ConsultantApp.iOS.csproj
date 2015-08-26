@@ -90,6 +90,7 @@
     <Compile Include="ActivityManager.cs" />
     <Compile Include="DependencyResolver.cs" />
     <Compile Include="ErrorReporter.cs" />
+    <Compile Include="LoadingOverlay.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Startup\LoginViewController.cs" />
     <Compile Include="Startup\LoginViewController.designer.cs">
