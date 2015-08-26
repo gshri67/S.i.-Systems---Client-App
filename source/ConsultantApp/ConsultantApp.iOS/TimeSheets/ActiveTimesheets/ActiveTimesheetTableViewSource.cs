@@ -18,7 +18,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 		{
 			this._parentController = parentController;
 
-		    _payPeriods = payPeriods.OrderBy(pp=>pp.EndDate).ToList();
+            _payPeriods = payPeriods.OrderByDescending(pp => pp.EndDate).ToList();
 	    }
 
 		public override nint NumberOfSections(UITableView tableView)

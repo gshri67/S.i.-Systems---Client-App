@@ -184,7 +184,9 @@
   <ItemGroup>
     <Content Include="Entitlements.plist" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Third-Party Components\FMCalendar\Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
@@ -216,10 +218,5 @@
       <Name>ConsultantApp.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Third-Party Components\" />
-    <Folder Include="Third-Party Components\FMCalendar\" />
-    <Folder Include="Third-Party Components\FMCalendar\Resources\" />
-    <Folder Include="TimeSheets\AddTimeViewController\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

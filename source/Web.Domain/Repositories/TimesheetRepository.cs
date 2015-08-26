@@ -60,9 +60,28 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         TimesheetApprover= "sally.abbott@email.com",
                         Status = TimesheetStatus.Open,
                         StartDate = new DateTime(2015, 08, 01),
-                        EndDate = new DateTime(2015, 08, 15),
+                        //EndDate = new DateTime(2015, 08, 15),
+                        EndDate = new DateTime(2015, 08, 31),
+                        TimeEntries = NexenTimeEntries
+                    },new Timesheet
+                    {
+                        ClientName = "Cenovus",
+                        TimesheetApprover= "bob.smith@email.com",
+                        Status = TimesheetStatus.Pending,
+                        StartDate = new DateTime(2015, 07, 01),
+                        EndDate = new DateTime(2015, 07, 31),
+                        TimeEntries = CenovusTimeEntries
+                    },
+                    new Timesheet
+                    {
+                        ClientName = "Nexen",
+                        TimesheetApprover= "sally.abbott@email.com",
+                        Status = TimesheetStatus.Approved,
+                        StartDate = new DateTime(2015, 07, 01),
+                        EndDate = new DateTime(2015, 07, 31),
                         TimeEntries = NexenTimeEntries
                     }
+
                 };
             }
         }
