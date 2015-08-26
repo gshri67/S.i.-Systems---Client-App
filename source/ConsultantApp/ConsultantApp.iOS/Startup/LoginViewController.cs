@@ -205,12 +205,13 @@ namespace ConsultantApp.iOS
             //    view.UserName = username.Text;
             //    view.EulaModel = new EulaViewModel(EulaHandler.EulaVersions);
             //}
-            //else if (segue.Identifier == "forgotPasswordSegue")
-            //{
-            //    UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;
-            //    ResetPasswordViewController viewController = (ResetPasswordViewController)navigationController.TopViewController;
-            //    viewController.Initialize("Reset Password", username.Text);
-            //}
+            //else 
+            if (segue.Identifier == "forgotPasswordSegue")
+            {
+                UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;
+                ResetPasswordViewController viewController = (ResetPasswordViewController)navigationController.TopViewController;
+                viewController.Initialize("Reset Password", username.Text);
+            }
             //else if (segue.Identifier == "signUpSegue")
             //{
             //    UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;

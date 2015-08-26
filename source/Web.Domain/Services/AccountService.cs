@@ -3,7 +3,9 @@ using SiSystems.ClientApp.Web.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 using SiSystems.SharedModels;
@@ -24,29 +26,85 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         public async Task<ResetPasswordResult> ForgotPassword(string emailAddress)
         {
+            if (!UserCanResetPassword(emailAddress))
+            {
+                return new ResetPasswordResult
+                {
+                    ResponseCode = -1,
+                    Description =
+                        "Your Client Portal account may not be activated. Please contact your Account Executive to resolve this issue."
+                };
+            }
+
+            try
+            {
+                var response = await RequestResetPassword(emailAddress);
+                return await ResetPasswordResult(response);
+            }
+            catch (HttpRequestException)
+            {
+                return new ResetPasswordResult
+                {
+                    ResponseCode = -1,
+                    Description =
+                        "There was a problem communicating with the system. Please use the online portal to reset your password."
+                };
+            }
+        }
+
+        private bool UserCanResetPassword(string emailAddress)
+        {
+            var clientContact = this._userRepository.FindByName(emailAddress);
+
+            if (clientContact == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static void EnsureAccountsServiceIsConfigured()
+        {
             if (string.IsNullOrWhiteSpace(Settings.MatchGuideAccountServiceUrl) ||
                 string.IsNullOrWhiteSpace(Settings.MatchGuideAccountServiceGatewayId) ||
                 string.IsNullOrWhiteSpace(Settings.MatchGuideAccountServiceGatewayPwd))
             {
                 throw new NotImplementedException("No account service portal has been specified for this environment.");
             }
+        }
 
-            var errorResponse = new ResetPasswordResult
-            {
-                ResponseCode = -1,
-                Description = "Your Client Portal account may not be activated. Please contact your Account Executive to resolve this issue."
-            };
+        private static async Task<ResetPasswordResult> ResetPasswordResult(HttpResponseMessage response)
+        {
+            var json = await ParseResponse(response);
 
-            var clientContact = this._userRepository.FindByName(emailAddress);
-            if (clientContact == null)
+            if (!response.IsSuccessStatusCode)
             {
-                return errorResponse;
+                return new ResetPasswordResult
+                {
+                    ResponseCode = -1,
+                    Description = json
+                };
             }
-            if (!(clientContact.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalContact 
-                || clientContact.ClientPortalType == MatchGuideConstants.ClientPortalType.PortalAdministrator))
+
+            var result = JsonConvert.DeserializeObject<ResetPasswordResult>(json);
+            if (result.ResponseCode > 0)
             {
-                return errorResponse;
+                result.Description = result.Description.Substring(0, result.Description.IndexOf('<'));
             }
+            return result;
+        }
+
+        private static async Task<string> ParseResponse(HttpResponseMessage response)
+        {
+            return response != null && response.Content != null
+                ? await response.Content.ReadAsStringAsync()
+                : string.Empty;
+        }
+
+        private static async Task<HttpResponseMessage> RequestResetPassword(string emailAddress)
+        {
+            EnsureAccountsServiceIsConfigured();
 
             using (var httpClient = new HttpClient() { BaseAddress = new Uri(Settings.MatchGuideAccountServiceUrl) })
             {
@@ -56,22 +114,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
                 var response = await httpClient.SendAsync(request);
 
-                var json = response != null && response.Content != null 
-                    ? await response.Content.ReadAsStringAsync() 
-                    : string.Empty;
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = JsonConvert.DeserializeObject<ResetPasswordResult>(json);
-                    if (result.ResponseCode > 0)
-                    {
-                        result.Description = result.Description.Substring(0, result.Description.IndexOf('<'));
-                    }
-                    return result;
-                }
-                errorResponse.Description = json;
+                return response;
             }
-
-            return errorResponse;
         }
     }
 }

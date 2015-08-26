@@ -95,6 +95,10 @@
     <Compile Include="Startup\LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Startup\ResetPasswordViewController.cs" />
+    <Compile Include="Startup\ResetPasswordViewController.designer.cs">
+      <DependentUpon>ResetPasswordViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Startup\TokenStore.cs" />
     <Compile Include="StyleGuideConstants.cs" />
     <Compile Include="TimeSheets\ActiveTimesheets\ActiveTimesheetCell.cs" />
