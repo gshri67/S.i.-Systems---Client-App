@@ -20,6 +20,10 @@ namespace ConsultantApp.Core.ViewModels
         {
             return _api.GetTimesheets(date);
         }
+
+		public void saveTimesheet(Timesheet timesheet)
+		{
+		}
 	}
 }
 

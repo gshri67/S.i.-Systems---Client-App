@@ -12,7 +12,7 @@ namespace ConsultantApp.iOS
 
 		private const string CellIdentifier = "TimeEntryCell";
 		private UIViewController parentController;
-		private readonly IEnumerable<TimeEntry> _timeEntries;
+		public IEnumerable<TimeEntry> _timeEntries;
 
 		public AddTimeTableViewSource( UIViewController parentController, IEnumerable<TimeEntry> timeEntries ) 
 		{

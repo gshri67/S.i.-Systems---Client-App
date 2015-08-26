@@ -5,6 +5,8 @@ using UIKit;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using ConsultantApp.Core.ViewModels;
+using Microsoft.Practices.Unity;
 
 namespace ConsultantApp.iOS
 {
@@ -14,9 +16,12 @@ namespace ConsultantApp.iOS
 		public DateTime date;
 
 		private Timesheet _curTimesheet;
+		private TimesheetViewModel _timesheetModel;
+		private AddTimeTableViewSource addTimeTableViewSource;
 
 		public AddTimeViewController (IntPtr handle) : base (handle)
 		{
+			_timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
 		}
 
 		public void SetTimesheet(Timesheet timesheet)
@@ -46,7 +51,8 @@ namespace ConsultantApp.iOS
 				if (tableview != null && date != null ) 
 				{
 					tableview.RegisterClassForCellReuse (typeof(TimeEntryCell), "TimeEntryCell");
-					tableview.Source = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)));
+					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)));
+					tableview.Source = addTimeTableViewSource;
 					tableview.ReloadData();
 				}
 			}
@@ -108,6 +114,26 @@ namespace ConsultantApp.iOS
 				leftArrowButton.Hidden = true;
 			else if(date.CompareTo (_curTimesheet.EndDate) == 0)
 				rightArrowButton.Hidden = true;
+
+			addButton.TouchUpInside += delegate 
+			{
+				TimeEntry newEntry = new TimeEntry();
+				newEntry.Date = date;
+				newEntry.ProjectCode = "P777-7777";
+
+				IEnumerable<TimeEntry> newEnumerableEntry = new List<TimeEntry>(){ newEntry };
+
+				Console.WriteLine(_curTimesheet.TimeEntries.Count());
+
+				_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat( newEnumerableEntry );
+				addTimeTableViewSource._timeEntries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date));
+
+				Console.WriteLine(_curTimesheet.TimeEntries.Count());
+				tableview.ReloadData();
+
+				//save timeentry to timesheet
+				_timesheetModel.saveTimesheet(_curTimesheet);
+			};
 
 			updateUI ();
 		}

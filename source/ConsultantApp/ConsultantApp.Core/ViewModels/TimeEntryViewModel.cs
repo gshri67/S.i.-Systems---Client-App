@@ -30,7 +30,7 @@ namespace ConsultantApp.Core.ViewModels
          * if the entry is already in our list, update it.
          * Otherwise add it to the list
          */
-        public void saveTimeEntry(TimeEntry entry) 
+		public void saveTimeEntry(TimeEntry entry) //Timesheet timesheet, 
         {
             //should we assume change by reference or add an ID?
             /*
