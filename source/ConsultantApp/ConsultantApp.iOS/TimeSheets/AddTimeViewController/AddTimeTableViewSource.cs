@@ -32,7 +32,7 @@ namespace ConsultantApp.iOS
 			this._timeEntries = timeEntries;
 
 			normalCellHeight = 44;
-			expandedCellHeight = 132;
+			expandedCellHeight = 44*5;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
