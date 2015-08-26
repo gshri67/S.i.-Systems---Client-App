@@ -11,8 +11,15 @@ namespace ConsultantApp.iOS
 	{
 
 		private const string CellIdentifier = "TimeEntryCell";
+		private const string expandedCellIdentifier = "AddProjectCodeCell";
 		private UIViewController parentController;
 		public IEnumerable<TimeEntry> _timeEntries;
+
+		private int normalCellHeight;
+		private int expandedCellHeight;
+		private int expandedCellIndex = -1;
+		private int prevSelectedRow = -1;
+		private bool addingProjectCode;//if there is an extra cell expanded for picker etc..
 
 		public AddTimeTableViewSource( UIViewController parentController, IEnumerable<TimeEntry> timeEntries ) 
 		{
@@ -23,6 +30,9 @@ namespace ConsultantApp.iOS
             timeEntries.Add( new NSString("Cenovus") );*/
 
 			this._timeEntries = timeEntries;
+
+			normalCellHeight = 44;
+			expandedCellHeight = 132;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -32,51 +42,125 @@ namespace ConsultantApp.iOS
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			if (_timeEntries != null && _timeEntries.Any())
-				return _timeEntries.Count();
+			if (_timeEntries != null && _timeEntries.Any ()) 
+			{
+				if (addingProjectCode) {		
+					return _timeEntries.Count () + 1;
+				} else 
+				{
+					return _timeEntries.Count ();
+				}
+			}
 			else
 				return 0;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			// if there are no cells to reuse, create a new one
-			TimeEntryCell cell = (TimeEntryCell)tableView.DequeueReusableCell(CellIdentifier);
-			/*
-			//if (cell == null)
-			//  cell = new TimeEntryCell();
-
-			if (_timeEntries != null && _timeEntries.Any())
+			
+			if ((int)indexPath.Item == expandedCellIndex) 
 			{
-				TimeEntry curEntry = _timeEntries.ElementAt((int)indexPath.Item);
+				AddProjectCodeCell cell = (AddProjectCodeCell)tableView.DequeueReusableCell (expandedCellIdentifier);
 
-				cell.TextLabel.Text = curEntry.ClientName;
+				//cell.Hidden = true;
 
-				cell.clientField.Text = curEntry.ClientName;
-				cell.projectCodeField.Text = curEntry.ProjectCode;
-				cell.hoursField.Text = curEntry.Hours.ToString();
+				return cell;
+			} else 
+			{
+				TimeEntryCell cell = (TimeEntryCell)tableView.DequeueReusableCell (CellIdentifier);
+				/*
+				//if (cell == null)
+				//  cell = new TimeEntryCell();
 
-				cell.onHoursChanged = ( int newHours) => {
-					curEntry.Hours = newHours;
-				};
+				if (_timeEntries != null && _timeEntries.Any())
+				{
+					TimeEntry curEntry = _timeEntries.ElementAt((int)indexPath.Item);
 
-				cell.onClientChanged = ( String newClient) => {
-					UIPickerView picker = new UIPickerView ();
-					picker.Model = new TimeEntryClientPickerModel (parentController);
-					//cell.clientField.InputView = picker;
-					//parentController.View.AddSubview( picker );
-				};
-			}*/
+					cell.TextLabel.Text = curEntry.ClientName;
 
-			if (_timeEntries != null && _timeEntries.Count () > (int)indexPath.Item) {
-				TimeEntry curEntry = _timeEntries.ElementAt ((int)indexPath.Item);
+					cell.clientField.Text = curEntry.ClientName;
+					cell.projectCodeField.Text = curEntry.ProjectCode;
+					cell.hoursField.Text = curEntry.Hours.ToString();
 
-				cell.projectCodeField.Text = curEntry.ProjectCode;
-				cell.hoursField.Text = curEntry.Hours.ToString ();
-			} 
+					cell.onHoursChanged = ( int newHours) => {
+						curEntry.Hours = newHours;
+					};
 
-			return cell;
+					cell.onClientChanged = ( String newClient) => {
+						UIPickerView picker = new UIPickerView ();
+						picker.Model = new TimeEntryClientPickerModel (parentController);
+						//cell.clientField.InputView = picker;
+						//parentController.View.AddSubview( picker );
+					};
+				}*/
+
+				if (_timeEntries != null && _timeEntries.Count () > (int)indexPath.Item) {
+					TimeEntry curEntry = _timeEntries.ElementAt( entryIndex(indexPath) );//((int)indexPath.Item);
+
+					cell.projectCodeField.Text = curEntry.ProjectCode;
+					cell.hoursField.Text = curEntry.Hours.ToString ();
+				} 
+
+				return cell;
+			}
 		}
 
+		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
+		{
+			int realSelectedIndex = entryIndex (indexPath);
+
+			if ( (int)indexPath.Item == prevSelectedRow )
+				addingProjectCode = !addingProjectCode;
+			else
+				addingProjectCode = true;
+	
+			if (addingProjectCode)
+				expandedCellIndex =  realSelectedIndex+1;
+			else
+				expandedCellIndex = -1;
+
+			tableView.ReloadData ();
+
+			prevSelectedRow = (int)indexPath.Item;
+
+			//tableView.ReloadRows (tableView.IndexPathsForVisibleRows, UITableViewRowAnimation.Automatic);
+			/*
+			NSIndexPath[] paths = new NSIndexPath[]{ NSIndexPath.FromIndex((nuint)_timeEntries.Count() ) };
+			GetCell (tableView, NSIndexPath.FromIndex ((nuint)_timeEntries.Count ())).Hidden = false;
+
+			tableView.ReloadRows ( paths, UITableViewRowAnimation.Automatic);
+*/
+			//[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousSelectedIndexPath]
+			//	withRowAnimation:UITableViewRowAnimationAutomatic];
+		}
+
+		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		{
+			if( (int)indexPath.Item != expandedCellIndex )
+				return normalCellHeight;
+			return expandedCellHeight;
+			/*			
+			 if ([expandedCells containsObject:indexPath])
+			{
+				return kExpandedCellHeight; //It's not necessary a constant, though
+			}
+			else
+			{
+				return kNormalCellHeigh; //Again not necessary a constant
+			}
+			*/	
+		}
+
+		//return the time entry at the index
+		public int entryIndex (NSIndexPath indexPath )
+		{
+			//there is no expanded cell or the index is before the expanded cell
+			if (!addingProjectCode || expandedCellIndex > (int)indexPath.Item )
+				return (int)indexPath.Item;
+			else if( expandedCellIndex == (int)indexPath.Item )//this function should not be called on this index, but we return -1 for safety
+				return -1;
+			else //if the cell is after the expanded cell
+				return (int)indexPath.Item-1;
+		}
 	}
 }

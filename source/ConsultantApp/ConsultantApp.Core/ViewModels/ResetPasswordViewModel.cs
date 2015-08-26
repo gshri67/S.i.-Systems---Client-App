@@ -22,7 +22,7 @@ namespace ConsultantApp.Core.ViewModels
         {
             try
             {
-                var resetResult = await this._api.ResetPassword(this.EmailAddress, "ConsultantApplication");
+				var resetResult = await this._api.ResetPassword(this.EmailAddress);//, "ConsultantApplication");
                 return resetResult.Description;
             }
             catch(NullReferenceException e)

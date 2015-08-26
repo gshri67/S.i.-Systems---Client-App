@@ -51,6 +51,8 @@ namespace ConsultantApp.iOS
 				if (tableview != null && date != null ) 
 				{
 					tableview.RegisterClassForCellReuse (typeof(TimeEntryCell), "TimeEntryCell");
+					tableview.RegisterClassForCellReuse (typeof(AddProjectCodeCell), "AddProjectCodeCell");
+
 					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)));
 					tableview.Source = addTimeTableViewSource;
 					tableview.ReloadData();
