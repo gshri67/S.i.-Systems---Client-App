@@ -21,11 +21,6 @@ namespace ConsultantApp.Core.ViewModels
             timeEntries = new List<TimeEntry>();
         }
 
-        public Task<IEnumerable<TimeEntry>> GetTimeEntries( DateTime date )
-        {
-            return _api.GetTimesheetEntries(date);
-        }
-
         /*
          * if the entry is already in our list, update it.
          * Otherwise add it to the list

@@ -17,24 +17,24 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             _service = service;
         }
 
-        public HttpResponseMessage GetTimesheets()
-        {
-            var timesheets = _service.GetOpenTimesheets(DateTime.Now);
-            return Request.CreateResponse(HttpStatusCode.OK, timesheets);
-        }
+        //public HttpResponseMessage GetTimesheets()
+        //{
+        //    var timesheets = _service.GetOpenTimesheets(DateTime.Now);
+        //    return Request.CreateResponse(HttpStatusCode.OK, timesheets);
+        //}
 
-        [Route("Active")]
-        public HttpResponseMessage GetActiveTimesheets(DateTime date)
-        {
-            var timesheets = _service.GetActiveTimesheets(date);
-            return Request.CreateResponse(HttpStatusCode.OK, timesheets);
-        }
+        //[Route("Active")]
+        //public HttpResponseMessage GetActiveTimesheets(DateTime date)
+        //{
+        //    var timesheets = _service.GetActiveTimesheets(date);
+        //    return Request.CreateResponse(HttpStatusCode.OK, timesheets);
+        //}
 
-        [Route("Entries")]
-        public HttpResponseMessage GetTimeEntries(DateTime date)
-        {
-            var timesheets= _service.GetTimeEntries(date);
-            return Request.CreateResponse(HttpStatusCode.OK, timesheets);
-        }
+        //[Route("Entries")]
+        //public HttpResponseMessage GetTimeEntries(DateTime date)
+        //{
+        //    var timesheets= _service.GetTimeEntries(date);
+        //    return Request.CreateResponse(HttpStatusCode.OK, timesheets);
+        //}
     }
 }

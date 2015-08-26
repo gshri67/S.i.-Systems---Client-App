@@ -16,16 +16,6 @@ namespace ConsultantApp.Core.ViewModels
 	        _api = matchGuideApi;
 	    }
 
-	    public Task<IEnumerable<Timesheet>> GetActiveTimesheets(DateTime date)
-        {
-            return _api.GetTimesheets(date);
-        }
-
-        public Task<IEnumerable<Timesheet>> GetCurrentActiveTimesheets()
-        {
-            return _api.GetTimesheets(DateTime.UtcNow);
-        }
-
         public Task<IEnumerable<PayPeriod>> GetPayPeriods()
         {
             return _api.GetPayPeriods();
