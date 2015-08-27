@@ -24,6 +24,16 @@ namespace ConsultantApp.Core.ViewModels
 		public void saveTimesheet(Timesheet timesheet)
 		{
 		}
+
+		public Task<IEnumerable<string>> GetProjectCodes()
+		{
+			return _api.GetProjectCodes();
+		}
+
+		public Task<IEnumerable<string>> GetPayRates()
+		{
+			return _api.GetPayRates();
+		}
 	}
 }
 

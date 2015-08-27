@@ -159,5 +159,38 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<PayPeriod[]>();
         }
+
+		[HttpGet("Timesheets/ProjectCodes")]
+		public async Task<IEnumerable<string>> GetProjectCodes()
+		{
+
+			List<String> list = new List<string> ();
+			list.Add ("PC123");
+			list.Add ("PC124");
+			list.Add ("PC125");
+			list.Add ("PC126");
+			list.Add ("PC127");
+			list.Add ("PC128");
+
+			IEnumerable<string> enumerableList = list;
+			return list;
+
+			//return await ExecuteWithDefaultClient<string[]>();
+		}
+
+		[HttpGet("Timesheets/PayRates")]
+		public async Task<IEnumerable<string>> GetPayRates()
+		{
+
+			List<String> list = new List<string> ();
+			list.Add ("Regular");
+			list.Add ("Overtime");
+			list.Add ("Special Rate");
+
+			IEnumerable<string> enumerableList = list;
+			return list;
+
+			//return await ExecuteWithDefaultClient<string[]>();
+		}
     }
 }

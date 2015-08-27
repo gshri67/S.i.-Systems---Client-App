@@ -24,6 +24,8 @@ namespace ConsultantApp.iOS
 		private UIButton subtractButton;
 		private UIButton addButton;
 		private PickerViewModel pickerModel;
+		private List<string> projectCodes;
+		private List<string> payRates;
 
 		public AddProjectCodeCell (IntPtr handle) : base (handle)
 		{
@@ -45,7 +47,8 @@ namespace ConsultantApp.iOS
 			saveButton.TranslatesAutoresizingMaskIntoConstraints = false;
 			saveButton.TouchUpInside += delegate 
 			{
-				timeEntry.ProjectCode = pickerModel.items[ pickerModel.selectedItemIndex ];
+				timeEntry.ProjectCode = pickerModel.items.ElementAt(0).ElementAt( pickerModel.selectedItemIndex.ElementAt(0) );
+				timeEntry.PayRate = pickerModel.items.ElementAt(1).ElementAt( pickerModel.selectedItemIndex.ElementAt(1) );
 				timeEntry.Hours = float.Parse(hoursTextField.Text);
 				onSave();
 			};
@@ -103,11 +106,37 @@ namespace ConsultantApp.iOS
 			timeEntry = entry;
 			updateUI ();
 		}
+		public void setProjectCodes( IEnumerable<string> projectCodes )//list of project codes to pick from
+		{
+			this.projectCodes = projectCodes.ToList();
+			updateUI ();
+		}
+		public void setPayRates( IEnumerable<string> payRates )//list of project codes to pick from
+		{
+			this.payRates = payRates.ToList();
+			updateUI ();
+		}
+
+		public void setData( TimeEntry entry, IEnumerable<string> projectCodes, IEnumerable<string> payRates )
+		{
+			timeEntry = entry;
+			this.projectCodes = projectCodes.ToList();
+			this.payRates = payRates.ToList();
+			updateUI ();
+		}
+
 		public void updateUI()
 		{
-			hoursTextField.Text = timeEntry.Hours.ToString();	
+			if( timeEntry != null )
+				hoursTextField.Text = timeEntry.Hours.ToString();	
+	
 			pickerModel = new PickerViewModel ();
-			pickerModel.items = new String[]{"PC123", "PC777", "PC456"};//entry.getAllProjectCodes ();
+			if (projectCodes != null && payRates != null) 
+			{
+				pickerModel.items = new List<List<string>> ();
+				pickerModel.items.Add( projectCodes );
+				pickerModel.items.Add( payRates );
+			}
 			picker.Model = pickerModel;
 		}
 
@@ -163,18 +192,26 @@ namespace ConsultantApp.iOS
 		{
 			public delegate void pickerViewDelegate( string item );
 			public pickerViewDelegate onSelected;
-			public string[] items;
-			public int selectedItemIndex;
+			public List<List<string>> items;
+			public List<int> selectedItemIndex;
+
+			public PickerViewModel()
+			{
+				selectedItemIndex = new List<int>();
+			}
 
 			public override nint GetComponentCount (UIPickerView picker)
 			{
-				return 1;
+				if (items == null)
+					return 1;
+				else
+					return items.Count ();
 			}
 
 			public override nint GetRowsInComponent (UIPickerView picker, nint component)
 			{
 				if (items != null)
-					return items.Length;
+					return items.ElementAt((int)component).Count();
 				else
 					return 0;
 			}
@@ -182,9 +219,9 @@ namespace ConsultantApp.iOS
 			public override string GetTitle (UIPickerView pickerView, nint row, nint component)
 			{
 				if (items == null)
-					return "PC777-7777";
+					return "";
 				else
-					return items [row];
+					return items.ElementAt((int)component).ElementAt((int)row);
 			}
 
 			public override void Selected (UIPickerView pickerView, nint row, nint component)
@@ -199,7 +236,10 @@ namespace ConsultantApp.iOS
 
 				onSelected(pickerView, row);*/
 
-				selectedItemIndex = (int)row;
+				if (selectedItemIndex.Count () <= component)
+					selectedItemIndex.Add (0);
+
+				selectedItemIndex[(int)component] = (int)row;
 			}
 		}
 	}

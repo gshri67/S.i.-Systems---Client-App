@@ -53,7 +53,7 @@ namespace ConsultantApp.iOS
 					tableview.RegisterClassForCellReuse (typeof(TimeEntryCell), "TimeEntryCell");
 					tableview.RegisterClassForCellReuse (typeof(AddProjectCodeCell), "AddProjectCodeCell");
 
-					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)));
+					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)), _timesheetModel.GetProjectCodes().Result, _timesheetModel.GetPayRates().Result);
 					tableview.Source = addTimeTableViewSource;
 					tableview.ReloadData();
 				}

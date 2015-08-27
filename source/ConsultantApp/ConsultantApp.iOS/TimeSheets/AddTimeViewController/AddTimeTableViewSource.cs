@@ -14,6 +14,8 @@ namespace ConsultantApp.iOS
 		private const string expandedCellIdentifier = "AddProjectCodeCell";
 		private UIViewController parentController;
 		public IEnumerable<TimeEntry> _timeEntries;
+		public IEnumerable<string> _projectCodes;
+		public IEnumerable<string> _payRates;
 
 		private int normalCellHeight;
 		private int expandedCellHeight;
@@ -21,7 +23,7 @@ namespace ConsultantApp.iOS
 		private int prevSelectedRow = -1;
 		private bool addingProjectCode;//if there is an extra cell expanded for picker etc..
 
-		public AddTimeTableViewSource( UIViewController parentController, IEnumerable<TimeEntry> timeEntries ) 
+		public AddTimeTableViewSource( UIViewController parentController, IEnumerable<TimeEntry> timeEntries, IEnumerable<string> projectCodes, IEnumerable<string> payRates ) 
 		{
 			this.parentController = parentController;
 			/*
@@ -30,6 +32,8 @@ namespace ConsultantApp.iOS
             timeEntries.Add( new NSString("Cenovus") );*/
 
 			this._timeEntries = timeEntries;
+			this._projectCodes = projectCodes;
+			this._payRates = payRates;
 
 			normalCellHeight = 44;
 			expandedCellHeight = 44*5;
@@ -65,7 +69,7 @@ namespace ConsultantApp.iOS
 				if (_timeEntries != null) 
 				{
 					TimeEntry curEntry = _timeEntries.ElementAt( prevSelectedRow );//((int)indexPath.Item);
-					cell.setTimeEntry (curEntry);
+					cell.setData ( curEntry, _projectCodes, _payRates );
 
 					cell.onSave += delegate
 					{
