@@ -13,6 +13,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<TimeEntry> GetTimeEntries(DateTime date);
         IEnumerable<Timesheet> GetActiveTimesheetsForDate(DateTime date);
         IEnumerable<Timesheet> GetTimesheetsForUser(int id);
+        Timesheet CreateTimesheet(Timesheet timesheet);
+        Timesheet UpdateTimesheet(Timesheet timesheet);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -35,6 +37,16 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         public IEnumerable<Timesheet> GetTimesheetsForUser(int id)
         {
             return UserTimesheets;
+        }
+
+        public Timesheet CreateTimesheet(Timesheet timesheet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Timesheet UpdateTimesheet(Timesheet timesheet)
+        {
+            throw new NotImplementedException();
         }
 
         //mocked out data for now

@@ -39,5 +39,16 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         {
             return _timeSheetRepository.GetTimeEntries(date);
         }
+
+        public Timesheet SaveTimesheet(Timesheet timesheet)
+        {
+            //do we want to do something with the user's Id?
+            var userId = _sessionContext.CurrentUser.Id;
+
+            var savedTimesheet = timesheet.Id == 0 ? 
+                _timeSheetRepository.CreateTimesheet(timesheet) : 
+                _timeSheetRepository.UpdateTimesheet(timesheet);
+            return savedTimesheet;
+        }
     }
 }
