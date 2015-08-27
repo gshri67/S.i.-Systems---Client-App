@@ -25,21 +25,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _sessionContext = sessionContext;
         }
 
-        public IEnumerable<Timesheet> GetOpenTimesheets(DateTime date)
-        {
-            return _timeSheetRepository.GetTimesheetsForDate(date);
-        }
-
-        public IEnumerable<Timesheet> GetActiveTimesheets(DateTime date)
-        {
-            return _timeSheetRepository.GetActiveTimesheetsForDate(date);
-        }
-
-        public IEnumerable<TimeEntry> GetTimeEntries(DateTime date)
-        {
-            return _timeSheetRepository.GetTimeEntries(date);
-        }
-
         public Timesheet SaveTimesheet(Timesheet timesheet)
         {
             //do we want to do something with the user's Id?

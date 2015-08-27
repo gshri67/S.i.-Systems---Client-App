@@ -9,9 +9,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 {
     public interface ITimesheetRepository
     {
-        IEnumerable<Timesheet> GetTimesheetsForDate(DateTime date);
-        IEnumerable<TimeEntry> GetTimeEntries(DateTime date);
-        IEnumerable<Timesheet> GetActiveTimesheetsForDate(DateTime date);
         IEnumerable<Timesheet> GetTimesheetsForUser(int id);
         Timesheet CreateTimesheet(Timesheet timesheet);
         Timesheet UpdateTimesheet(Timesheet timesheet);
@@ -20,16 +17,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     public class TimesheetRepository : ITimesheetRepository
     {
         public IEnumerable<Timesheet> GetTimesheetsForDate(DateTime date)
-        {
-            return UserTimesheets;
-        }
-
-        public IEnumerable<TimeEntry> GetTimeEntries(DateTime date)
-        {
-            return CenovusTimeEntries.Union(NexenTimeEntries);
-        }
-
-        public IEnumerable<Timesheet> GetActiveTimesheetsForDate(DateTime date)
         {
             return UserTimesheets;
         }
