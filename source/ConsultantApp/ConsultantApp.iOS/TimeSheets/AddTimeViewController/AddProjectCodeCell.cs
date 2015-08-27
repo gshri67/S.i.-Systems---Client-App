@@ -156,8 +156,8 @@ namespace ConsultantApp.iOS
 		
 			int pickerHeight = 162;
 
-			AddConstraint (NSLayoutConstraint.Create (picker, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.2f, 0f));
-			AddConstraint (NSLayoutConstraint.Create (picker, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.8f, 0f));
+			AddConstraint (NSLayoutConstraint.Create (picker, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.15f, 0f));
+			AddConstraint (NSLayoutConstraint.Create (picker, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.85f, 0f));
 			AddConstraint (NSLayoutConstraint.Create (picker, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
 			AddConstraint (NSLayoutConstraint.Create (picker, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, pickerHeight));
 
@@ -198,14 +198,21 @@ namespace ConsultantApp.iOS
 			public PickerViewModel()
 			{
 				selectedItemIndex = new List<int>();
+				selectedItemIndex.Add(0);
 			}
 
 			public override nint GetComponentCount (UIPickerView picker)
 			{
 				if (items == null)
 					return 1;
-				else
+				else 
+				{
+					//the picker does not automatically select the first row. As such we need to make sure everything is covered right away, such as having all the selected Indicies preset to 0.
+					while( selectedItemIndex.Count() < items.Count() )
+						selectedItemIndex.Add (0);
+					
 					return items.Count ();
+				}
 			}
 
 			public override nint GetRowsInComponent (UIPickerView picker, nint component)
@@ -236,10 +243,20 @@ namespace ConsultantApp.iOS
 
 				onSelected(pickerView, row);*/
 
-				if (selectedItemIndex.Count () <= component)
-					selectedItemIndex.Add (0);
-
 				selectedItemIndex[(int)component] = (int)row;
+			}
+
+			public override UIView GetView (UIPickerView pickerView, nint row, nint component, UIView view)
+			{
+				UILabel lbl = new UILabel(new CoreGraphics.CGRect(0, 0, 130f, 40f));
+				lbl.TextColor = UIColor.Black;
+				lbl.Font = UIFont.SystemFontOfSize(12f);
+				lbl.TextAlignment = UITextAlignment.Center;
+
+				if (items != null )
+					lbl.Text = items.ElementAt((int)component).ElementAt((int)row);
+	
+				return lbl;
 			}
 		}
 	}

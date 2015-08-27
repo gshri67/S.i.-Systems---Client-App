@@ -76,6 +76,13 @@ namespace ConsultantApp.iOS
 						RowSelected(tableView, NSIndexPath.FromIndex((nuint)prevSelectedRow));
 						tableView.ReloadData();
 					};
+					/*
+					cell.onDelete += delegate
+					{
+						RowSelected(tableView, NSIndexPath.FromIndex((nuint)prevSelectedRow));
+						_timeEntries.ToList().RemoveAt(prevSelectedRow);
+						tableView.ReloadData();
+					};*/
 				}
 
 				return cell;
