@@ -57,12 +57,22 @@ namespace ConsultantApp.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			
+			//Console.WriteLine ( indexPath.Item + " " + expandedCellIndex );
 			if ((int)indexPath.Item == expandedCellIndex) 
 			{
 				AddProjectCodeCell cell = (AddProjectCodeCell)tableView.DequeueReusableCell (expandedCellIdentifier);
 
-				//cell.Hidden = true;
+				if (_timeEntries != null) 
+				{
+					TimeEntry curEntry = _timeEntries.ElementAt( prevSelectedRow );//((int)indexPath.Item);
+					cell.setTimeEntry (curEntry);
+
+					cell.onSave += delegate
+					{
+						RowSelected(tableView, NSIndexPath.FromIndex((nuint)prevSelectedRow));
+						tableView.ReloadData();
+					};
+				}
 
 				return cell;
 			} else 
@@ -107,22 +117,26 @@ namespace ConsultantApp.iOS
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			int realSelectedIndex = entryIndex (indexPath);
+			//Console.WriteLine ( "selected: " + indexPath.Item + " " + expandedCellIndex );
 
-			if ( (int)indexPath.Item == prevSelectedRow )
-				addingProjectCode = !addingProjectCode;
-			else
-				addingProjectCode = true;
+			//Nothing happens if expanded cell is tapped
+			if ((int)indexPath.Item != expandedCellIndex) {
+				int realSelectedIndex = entryIndex (indexPath);
+
+				if (realSelectedIndex == prevSelectedRow)
+					addingProjectCode = !addingProjectCode;
+				else
+					addingProjectCode = true;
 	
-			if (addingProjectCode)
-				expandedCellIndex =  realSelectedIndex+1;
-			else
-				expandedCellIndex = -1;
+				if (addingProjectCode)
+					expandedCellIndex = realSelectedIndex + 1;
+				else
+					expandedCellIndex = -1;
 
-			tableView.ReloadData ();
+				tableView.ReloadData ();
 
-			prevSelectedRow = (int)indexPath.Item;
-
+				prevSelectedRow = realSelectedIndex;
+			}
 			//tableView.ReloadRows (tableView.IndexPathsForVisibleRows, UITableViewRowAnimation.Automatic);
 			/*
 			NSIndexPath[] paths = new NSIndexPath[]{ NSIndexPath.FromIndex((nuint)_timeEntries.Count() ) };
