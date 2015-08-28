@@ -69,6 +69,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			};
 
 			calendar = new FMCalendar (calendarContainerView.Bounds, new CoreGraphics.CGRect(), _curTimesheet );
+			calendar.SundayFirst = true;
 			calendarContainerView.AddSubview (calendar);
 
 			calendar.DateSelected = delegate(DateTime date) {

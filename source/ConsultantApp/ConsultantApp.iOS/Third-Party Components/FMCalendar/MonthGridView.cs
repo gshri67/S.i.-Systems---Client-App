@@ -76,6 +76,8 @@ namespace ConsultantApp.iOS
 
 		private Timesheet timesheet;
 
+		public bool showDayHeader = true;//header above the dayTiles which shows which day of week it is (S M T W.. )
+
 		public MonthGridView(FMCalendar calendarMonthView, DateTime month)
 		{
 			_calendarMonthView = calendarMonthView;
