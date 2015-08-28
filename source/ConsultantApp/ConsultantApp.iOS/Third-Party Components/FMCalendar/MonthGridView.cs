@@ -76,8 +76,6 @@ namespace ConsultantApp.iOS
 
 		private Timesheet timesheet;
 
-		public bool showDayHeader = true;//header above the dayTiles which shows which day of week it is (S M T W.. )
-
 		public MonthGridView(FMCalendar calendarMonthView, DateTime month)
 		{
 			_calendarMonthView = calendarMonthView;
@@ -126,7 +124,7 @@ namespace ConsultantApp.iOS
 
 		public void BuildGrid()
 		{
-			UIColor outsidePeriodColor = UIColor.Gray;
+			UIColor outsidePeriodColor = UIColor.FromWhiteAlpha (0.7f, 1.0f);//UIColor.Gray;
 
 			DateTime previousMonth = _currentMonth.AddMonths(-1);
 			DateTime nextMonth = _currentMonth.AddMonths(1);

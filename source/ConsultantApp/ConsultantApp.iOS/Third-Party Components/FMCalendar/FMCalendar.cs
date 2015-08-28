@@ -171,6 +171,10 @@ namespace ConsultantApp.iOS
 		internal int DayCellWidth { get { return (int) MainViewSize.Width / 7; } }
 		internal int DayCellHeight { get { return (int) MainViewSize.Height / 7; } }
 
+		public bool showDayHeader = true;//header above the dayTiles which shows which day of week it is (S M T W.. )
+		private float dayHeaderHeight = 20.0f;
+		private DayHeader dayHeader;
+
 		#if __UNIFIED__
 
 		public FMCalendar() : this(new CoreGraphics.CGRect(0, 0, 320, 400))
@@ -257,13 +261,21 @@ namespace ConsultantApp.iOS
 
 			if (calendarIsLoaded) return;
 
+			if (showDayHeader) 
+			{
+				dayHeader = new DayHeader(new CoreGraphics.CGRect (0.0f, 0.0f, (float)MainViewSize.Width, (float)dayHeaderHeight));
+				AddSubview (dayHeader);
+
+				MainViewSize = new CoreGraphics.CGRect (MainViewSize.X, MainViewSize.Y, (float)MainViewSize.Width, (float)MainViewSize.Height-dayHeaderHeight);
+			}
+
 			#if __UNIFIED__
 
-			_scrollView = new UIScrollView(new CoreGraphics.CGRect(0, HeaderViewSize.Height, MainViewSize.Width, MainViewSize.Height - HeaderViewSize.Height))
+			_scrollView = new UIScrollView(new CoreGraphics.CGRect(0, HeaderViewSize.Height + dayHeaderHeight, MainViewSize.Width, MainViewSize.Height - HeaderViewSize.Height))
 			{
 				ContentSize = new CoreGraphics.CGSize(MainViewSize.Width, MainViewSize.Height),
 				ScrollEnabled = false,
-				Frame = new CoreGraphics.CGRect(0, HeaderViewSize.Height, MainViewSize.Width, MainViewSize.Height),
+				Frame = new CoreGraphics.CGRect(0, HeaderViewSize.Height + dayHeaderHeight, MainViewSize.Width, MainViewSize.Height),
 				BackgroundColor = MonthBackgroundColor,
 			};
 
@@ -541,6 +553,11 @@ namespace ConsultantApp.iOS
 		{
 			if(TopBar != null)
 				TopBar.Draw(new CoreGraphics.CGPoint(0,0));
+
+			if (showDayHeader) 
+			{
+				//DrawDayHeader ( new CGRect(0, 0, rect.Width, dayHeaderHeight) );
+			}
 
 			DrawDayLabels(rect);
 			//DrawMonthLabel(rect);

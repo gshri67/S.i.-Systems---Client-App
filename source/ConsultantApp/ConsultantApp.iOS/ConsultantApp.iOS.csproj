@@ -145,6 +145,7 @@
     <Compile Include="TimeSheets\AddTimeViewController\TimeEntryCell.cs" />
     <Compile Include="TimeSheets\AddTimeViewController\AddTimeTableViewSource.cs" />
     <Compile Include="TimeSheets\AddTimeViewController\AddProjectCodeCell.cs" />
+    <Compile Include="Third-Party Components\FMCalendar\DayHeader.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
