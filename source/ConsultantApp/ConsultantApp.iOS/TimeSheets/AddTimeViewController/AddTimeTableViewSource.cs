@@ -73,16 +73,28 @@ namespace ConsultantApp.iOS
 
 					cell.onSave += delegate
 					{
-						RowSelected(tableView, NSIndexPath.FromIndex((nuint)prevSelectedRow));
+						Console.WriteLine("onsave: prevSelectedRow: " + prevSelectedRow);
+						nuint nuintIndex = (nuint)prevSelectedRow;
+						Console.WriteLine("onsave: Nuint prevSelectedRow: " + nuintIndex);
+
+						//NSIndexPath path = NSIndexPath.FromIndex(nuintIndex);
+						NSIndexPath path = NSIndexPath.Create( new int[]{prevSelectedRow});
+						Console.WriteLine("Path item: " + path.Item);
+
+
+						RowSelected(tableView, NSIndexPath.FromIndex(nuintIndex));
 						tableView.ReloadData();
 					};
-					/*
+
 					cell.onDelete += delegate
 					{
 						RowSelected(tableView, NSIndexPath.FromIndex((nuint)prevSelectedRow));
+						Console.WriteLine("num time entries" + _timeEntries.ToList().Count() + " prevIndex " + prevSelectedRow);
 						_timeEntries.ToList().RemoveAt(prevSelectedRow);
+				
 						tableView.ReloadData();
-					};*/
+					
+					};
 				}
 
 				return cell;
@@ -116,11 +128,17 @@ namespace ConsultantApp.iOS
 				}*/
 
 				if (_timeEntries != null && _timeEntries.Count () > (int)indexPath.Item) {
-					TimeEntry curEntry = _timeEntries.ElementAt( entryIndex(indexPath) );//((int)indexPath.Item);
+					TimeEntry curEntry = _timeEntries.ElementAt (entryIndex (indexPath));//((int)indexPath.Item);
 
 					cell.projectCodeField.Text = curEntry.ProjectCode;
+					cell.payRateLabel.Text = curEntry.PayRate;
 					cell.hoursField.Text = curEntry.Hours.ToString ();
-				} 
+				} else 
+				{
+					cell.projectCodeField.Text = "";
+					cell.payRateLabel.Text = "";
+					cell.hoursField.Text = "";
+				}
 
 				return cell;
 			}
@@ -128,11 +146,13 @@ namespace ConsultantApp.iOS
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			//Console.WriteLine ( "selected: " + indexPath.Item + " " + expandedCellIndex );
+			Console.WriteLine ( "selected: " + indexPath.Item + " " + expandedCellIndex );
 
 			//Nothing happens if expanded cell is tapped
 			if ((int)indexPath.Item != expandedCellIndex) {
 				int realSelectedIndex = entryIndex (indexPath);
+
+
 
 				if (realSelectedIndex == prevSelectedRow)
 					addingProjectCode = !addingProjectCode;
@@ -147,7 +167,11 @@ namespace ConsultantApp.iOS
 				tableView.ReloadData ();
 
 				prevSelectedRow = realSelectedIndex;
+
+				Console.WriteLine ("prev selected row: " + prevSelectedRow);
 			}
+
+			Console.WriteLine ("After row selected");
 			//tableView.ReloadRows (tableView.IndexPathsForVisibleRows, UITableViewRowAnimation.Automatic);
 			/*
 			NSIndexPath[] paths = new NSIndexPath[]{ NSIndexPath.FromIndex((nuint)_timeEntries.Count() ) };

@@ -9,6 +9,7 @@ namespace ConsultantApp.iOS
 		public UILabel clientField;
         public UILabel projectCodeField;
         public UITextField hoursField;
+		public UILabel payRateLabel;
 
         //Blocks
         public delegate void hoursFieldDelegate( int newHours );
@@ -35,6 +36,12 @@ namespace ConsultantApp.iOS
 			projectCodeField.TextAlignment = UITextAlignment.Left;
 			projectCodeField.Font =  UIFont.FromName("Helvetica", 12f);
 			AddSubview( projectCodeField );
+
+			payRateLabel = new UILabel();
+			payRateLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+			payRateLabel.TextAlignment = UITextAlignment.Center;
+			payRateLabel.Font =  UIFont.FromName("Helvetica", 10f);
+			AddSubview( payRateLabel );
 
 			//projectCodeField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
 			clientField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
@@ -72,6 +79,7 @@ namespace ConsultantApp.iOS
             hoursField.Text = "5";
             hoursField.TranslatesAutoresizingMaskIntoConstraints = false;
             hoursField.TextAlignment = UITextAlignment.Right;
+			hoursField.UserInteractionEnabled = false;
             hoursField.EditingChanged += delegate 
             {
                 if (hoursField.Text.Length > 0)
@@ -106,14 +114,19 @@ namespace ConsultantApp.iOS
 			AddConstraint( NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.5f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.7f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.6f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.5f, 0f));
+
+			AddConstraint( NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, projectCodeField, NSLayoutAttribute.Right, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.5f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.7f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.75f, 0f));
 			/*
 			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, clientField, NSLayoutAttribute.Right, 0.5f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.8f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.25f, 0f));
             AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.66f, 0f));
 */
-            AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, projectCodeField, NSLayoutAttribute.Right, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, payRateLabel, NSLayoutAttribute.Right, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.95f, 0f));

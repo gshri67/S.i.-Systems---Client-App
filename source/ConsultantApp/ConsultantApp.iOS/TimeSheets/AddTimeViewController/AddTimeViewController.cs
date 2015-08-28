@@ -55,6 +55,7 @@ namespace ConsultantApp.iOS
 
 					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)), _timesheetModel.GetProjectCodes().Result, _timesheetModel.GetPayRates().Result);
 					tableview.Source = addTimeTableViewSource;
+
 					tableview.ReloadData();
 				}
 			}
@@ -63,7 +64,7 @@ namespace ConsultantApp.iOS
 			{
 				if (headerDateLabel != null) 
 				{
-					headerDateLabel.Text = "Date: " + date.ToString("MMM") + " " + date.ToString("dd").TrimStart('0');
+					headerDateLabel.Text = date.ToString("MMM") + " " + date.ToString("dd").TrimStart('0');
 				}
 			}
 		}
@@ -121,7 +122,8 @@ namespace ConsultantApp.iOS
 			{
 				TimeEntry newEntry = new TimeEntry();
 				newEntry.Date = date;
-				newEntry.ProjectCode = "P777-7777";
+				newEntry.ProjectCode = "Project Code";
+				newEntry.Hours = 8;
 
 				IEnumerable<TimeEntry> newEnumerableEntry = new List<TimeEntry>(){ newEntry };
 

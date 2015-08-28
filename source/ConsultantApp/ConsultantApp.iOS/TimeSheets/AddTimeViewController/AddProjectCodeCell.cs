@@ -59,6 +59,11 @@ namespace ConsultantApp.iOS
 			//deleteButton.Layer.BorderWidth = 1;
 			//deleteButton.Layer.BorderColor = UIColor.Black.CGColor;
 			deleteButton.TranslatesAutoresizingMaskIntoConstraints = false;
+			deleteButton.TouchUpInside += delegate 
+			{
+				//onDelete();
+			};
+			deleteButton.Enabled = false;
 			AddSubview (deleteButton);
 
 			hoursLabel = new UILabel ();
@@ -70,8 +75,8 @@ namespace ConsultantApp.iOS
 			//hoursTextField.BackgroundColor = UIColor.Cyan;
 			hoursTextField.TextAlignment = UITextAlignment.Center;
 			hoursTextField.UserInteractionEnabled = false;
-			hoursTextField.Layer.BorderWidth = 1;
-			hoursTextField.Layer.BorderColor = UIColor.Black.CGColor;
+			//hoursTextField.Layer.BorderWidth = 1;
+			//hoursTextField.Layer.BorderColor = UIColor.Black.CGColor;
 			hoursTextField.TranslatesAutoresizingMaskIntoConstraints = false;
 			AddSubview (hoursTextField);
 
