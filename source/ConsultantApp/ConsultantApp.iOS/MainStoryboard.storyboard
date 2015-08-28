@@ -462,21 +462,21 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="1411">
                                                     <rect key="frame" x="0.0" y="29" width="42" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" colorSpace="calibratedWhite" white="0.333333333333333" alpha="1"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="1422">
                                                     <rect key="frame" x="225" y="11" width="42" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="1429">
                                                     <rect key="frame" x="159" y="11" width="42" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -487,12 +487,18 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="|" lineBreakMode="tailTruncation" minimumFontSize="10" id="8489" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                                    <rect key="frame" x="209" y="14" width="5" height="21"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="1422" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" id="1426"/>
                                                 <constraint firstAttribute="trailing" secondItem="1422" secondAttribute="trailing" constant="5" id="1427"/>
                                                 <constraint firstItem="1429" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" id="1430"/>
-                                                <constraint firstItem="1422" firstAttribute="leading" secondItem="1429" secondAttribute="trailing" constant="10" id="1431"/>
                                                 <constraint firstItem="1536" firstAttribute="top" secondItem="zow-OQ-99l" secondAttribute="top" constant="5" id="1547"/>
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="1411" secondAttribute="leading" id="1548"/>
                                                 <constraint firstItem="1429" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1536" secondAttribute="trailing" constant="15" id="1549"/>
@@ -500,6 +506,9 @@
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="zow-OQ-99l" secondAttribute="leading" constant="13" id="1552"/>
                                                 <constraint firstAttribute="bottom" secondItem="1411" secondAttribute="bottom" constant="5" id="1563"/>
                                                 <constraint firstItem="1536" firstAttribute="trailing" secondItem="1411" secondAttribute="trailing" constant="0.0" id="1596"/>
+                                                <constraint firstItem="8489" firstAttribute="bottom" secondItem="1422" secondAttribute="bottom" constant="0.0" id="8490"/>
+                                                <constraint firstItem="1422" firstAttribute="leading" secondItem="8489" secondAttribute="trailing" constant="5" id="8491"/>
+                                                <constraint firstItem="8489" firstAttribute="leading" secondItem="1429" secondAttribute="trailing" constant="5" id="8492"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -507,6 +516,7 @@
                                             <outlet property="hoursLabel" destination="1429" id="name-outlet-1429"/>
                                             <outlet property="statusLabel" destination="1422" id="name-outlet-1422"/>
                                             <outlet property="timesheetApproverLabel" destination="1411" id="name-outlet-1411"/>
+                                            <outlet property="separator" destination="8489" id="name-outlet-8489"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

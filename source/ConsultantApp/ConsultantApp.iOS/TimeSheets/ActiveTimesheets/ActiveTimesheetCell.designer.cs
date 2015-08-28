@@ -24,6 +24,10 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel separator { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel statusLabel { get; set; }
 
 		[Outlet]
@@ -39,6 +43,10 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 			if (hoursLabel != null) {
 				hoursLabel.Dispose ();
 				hoursLabel = null;
+			}
+			if (separator != null) {
+				separator.Dispose ();
+				separator = null;
 			}
 			if (statusLabel != null) {
 				statusLabel.Dispose ();
