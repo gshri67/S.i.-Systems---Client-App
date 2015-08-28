@@ -272,10 +272,10 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Bk-0n-2PX" userLabel="Header">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Bk-0n-2PX" userLabel="Header" misplaced="YES">
                                 <rect key="frame" x="-2" y="0.0" width="324" height="68"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIl-8U-qfk" userLabel="Left Arrow">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIl-8U-qfk" userLabel="Left Arrow" misplaced="YES">
                                         <rect key="frame" x="16" y="20" width="16" height="28"/>
                                         <state key="normal" title="&lt;">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -461,7 +461,7 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="1411">
                                                     <rect key="frame" x="0.0" y="29" width="42" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -496,15 +496,19 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="1422" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" id="1426"/>
-                                                <constraint firstAttribute="trailing" secondItem="1422" secondAttribute="trailing" constant="5" id="1427"/>
                                                 <constraint firstItem="1429" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" id="1430"/>
                                                 <constraint firstItem="1536" firstAttribute="top" secondItem="zow-OQ-99l" secondAttribute="top" constant="5" id="1547"/>
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="1411" secondAttribute="leading" id="1548"/>
                                                 <constraint firstItem="1429" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1536" secondAttribute="trailing" constant="15" id="1549"/>
-                                                <constraint firstItem="1411" firstAttribute="top" secondItem="1536" secondAttribute="bottom" constant="5" id="1551"/>
+                                                <constraint firstItem="1411" firstAttribute="top" secondItem="1536" secondAttribute="bottom" constant="3" id="1551"/>
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="zow-OQ-99l" secondAttribute="leading" constant="13" id="1552"/>
                                                 <constraint firstAttribute="bottom" secondItem="1411" secondAttribute="bottom" constant="5" id="1563"/>
                                                 <constraint firstItem="1536" firstAttribute="trailing" secondItem="1411" secondAttribute="trailing" id="1596"/>
+                                                <constraint firstItem="zow-OQ-99l" firstAttribute="trailing" secondItem="1422" secondAttribute="trailing" constant="5" id="8503"/>
+                                                <constraint firstItem="1422" firstAttribute="leading" secondItem="8489" secondAttribute="trailing" constant="5" id="8504"/>
+                                                <constraint firstItem="8489" firstAttribute="bottom" secondItem="1422" secondAttribute="bottom" constant="0.0" id="8505"/>
+                                                <constraint firstItem="1429" firstAttribute="bottom" secondItem="1422" secondAttribute="bottom" constant="0.0" id="8506"/>
+                                                <constraint firstItem="8489" firstAttribute="leading" secondItem="1429" secondAttribute="trailing" constant="5" id="8507"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -783,7 +787,7 @@
                                     <action selector="SubmitButton_TouchUpInside:" destination="7347" eventType="touchUpInside" id="7711"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7729">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7729" misplaced="YES">
                                 <rect key="frame" x="142" y="186" width="37" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="37" id="7732"/>
@@ -840,6 +844,12 @@
     </scenes>
     <resources>
         <image name="sisystems_logo.jpg" width="730" height="253"/>
+        <image name="app-button.png" width="40" height="22"/>
+        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="ios7-clock-outline.png" width="50" height="50"/>
+        <image name="leftArrow.png" width="32" height="32"/>
+        <image name="rightArrow.png" width="32" height="32"/>
+        <image name="social-usd.png" width="50" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
