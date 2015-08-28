@@ -123,6 +123,7 @@ namespace ConsultantApp.iOS
 				newEntry.Date = date;
 				newEntry.ProjectCode = "Project Code";
 				newEntry.Hours = 8;
+				newEntry.PayRate = "Pay Rate";
 
 				IEnumerable<TimeEntry> newEnumerableEntry = new List<TimeEntry>(){ newEntry };
 

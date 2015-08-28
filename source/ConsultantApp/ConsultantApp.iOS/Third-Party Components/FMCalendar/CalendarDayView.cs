@@ -71,7 +71,7 @@ namespace ConsultantApp.iOS
 		public CalendarDayView()
 		{
 			this.BackgroundColor = UIColor.White;
-			this.TodayCircleColor = UIColor.FromRGBA(1.0f, 0.3f, 0.0f, 0.5f);
+			this.TodayCircleColor = StyleGuideConstants.RedUiColor;//UIColor.FromRGBA(1.0f, 0.3f, 0.0f, 0.5f);
 			this.SelectionColor = UIColor.FromRGBA(0.7f, 0.7f, 0.9f, 1.0f);
 
 			unselect ();//apply normal borders to the cell

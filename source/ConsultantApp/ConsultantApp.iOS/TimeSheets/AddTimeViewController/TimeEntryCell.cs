@@ -34,13 +34,14 @@ namespace ConsultantApp.iOS
 			projectCodeField.Text = "Project Code";
 			projectCodeField.TranslatesAutoresizingMaskIntoConstraints = false;
 			projectCodeField.TextAlignment = UITextAlignment.Left;
-			projectCodeField.Font =  UIFont.FromName("Helvetica", 12f);
+			projectCodeField.Font =  UIFont.FromName("Helvetica-Bold", 12f);
 			AddSubview( projectCodeField );
 
 			payRateLabel = new UILabel();
 			payRateLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-			payRateLabel.TextAlignment = UITextAlignment.Center;
+			payRateLabel.TextAlignment = UITextAlignment.Left;
 			payRateLabel.Font =  UIFont.FromName("Helvetica", 10f);
+			payRateLabel.TextColor = StyleGuideConstants.MediumGrayUiColor;
 			AddSubview( payRateLabel );
 
 			//projectCodeField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
@@ -89,14 +90,14 @@ namespace ConsultantApp.iOS
         public void setupConstraints() 
         {
 			AddConstraint( NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.5f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.7f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.5f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.05f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.65f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.7f, 0f));
 
-			AddConstraint( NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, projectCodeField, NSLayoutAttribute.Right, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.5f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.7f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.75f, 0f));
+			AddConstraint( NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, projectCodeField, NSLayoutAttribute.Left, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, projectCodeField, NSLayoutAttribute.Bottom, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.95f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.7f, 0f));
 
 			AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, payRateLabel, NSLayoutAttribute.Right, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
