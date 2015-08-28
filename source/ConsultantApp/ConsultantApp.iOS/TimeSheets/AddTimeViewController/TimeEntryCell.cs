@@ -47,30 +47,7 @@ namespace ConsultantApp.iOS
 			clientField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
 
 			clientField.Hidden = true;
-			/*
-            //Client
-            if (onClientChanged == null)
-                onClientChanged = (String newClient) => {};
 
-
-
-            //TESTING <<
-            clientField.EditingChanged += delegate
-            {
-                onClientChanged("test client");
-            };
-
-            //Project Code
-            if (onProjectCodeChanged == null)
-                onProjectCodeChanged = (String newProjectCode ) => { };
-
-            
-
-            projectCodeField.EditingChanged += delegate
-            {
-                onProjectCodeChanged("test code");
-            };
-			*/
             //Hours
             if (onHoursChanged == null)
                 onHoursChanged = (int newHours) => { };
@@ -120,12 +97,7 @@ namespace ConsultantApp.iOS
 			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.5f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.7f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.75f, 0f));
-			/*
-			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, clientField, NSLayoutAttribute.Right, 0.5f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.8f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.25f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(projectCodeField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.66f, 0f));
-*/
+
 			AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, payRateLabel, NSLayoutAttribute.Right, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, 0f));

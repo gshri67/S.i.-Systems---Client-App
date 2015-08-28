@@ -74,15 +74,14 @@ namespace ConsultantApp.iOS
 			base.ViewDidLoad ();
 
 			headerContainer.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
-			headerLabelsContainer.BackgroundColor = headerContainer.BackgroundColor;
 
 			leftArrowButton.SetTitle("", UIControlState.Normal);
-			leftArrowButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
 			leftArrowButton.SetImage( new UIImage("leftArrow.png"), UIControlState.Normal );
+            leftArrowButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
 
 			rightArrowButton.SetTitle("", UIControlState.Normal);
-			rightArrowButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
 			rightArrowButton.SetImage( new UIImage("rightArrow.png"), UIControlState.Normal );
+            rightArrowButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
 
 			leftArrowButton.TouchUpInside += delegate 
 			{
