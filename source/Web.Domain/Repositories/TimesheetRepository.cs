@@ -47,7 +47,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     new Timesheet
                     {
                         ClientName = "Cenovus",
-                        TimesheetApprover= "bob.smith@email.com",
+                        TimesheetApprover= "Bob Smith",
                         Status = TimesheetStatus.Open,
                         StartDate = new DateTime(2015, 08, 01),
                         EndDate = new DateTime(2015, 08, 31),
@@ -56,7 +56,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     new Timesheet
                     {
                         ClientName = "Nexen",
-                        TimesheetApprover= "sally.abbott@email.com",
+                        TimesheetApprover= "Sally Abbott",
                         Status = TimesheetStatus.Open,
                         StartDate = new DateTime(2015, 08, 01),
                         //EndDate = new DateTime(2015, 08, 15),
@@ -65,22 +65,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     },new Timesheet
                     {
                         ClientName = "Cenovus",
-                        TimesheetApprover= "bob.smith@email.com",
+                        TimesheetApprover= "Bob Smith",
                         Status = TimesheetStatus.Pending,
                         StartDate = new DateTime(2015, 07, 01),
                         EndDate = new DateTime(2015, 07, 31),
                         TimeEntries = CenovusTimeEntries
-                    },
-                    new Timesheet
-                    {
-                        ClientName = "Nexen",
-                        TimesheetApprover= "sally.abbott@email.com",
-                        Status = TimesheetStatus.Approved,
-                        StartDate = new DateTime(2015, 07, 01),
-                        EndDate = new DateTime(2015, 07, 31),
-                        TimeEntries = NexenTimeEntries
                     }
-
                 };
             }
         }
