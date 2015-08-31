@@ -50,10 +50,15 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 					totalHoursLabel.Text = _curTimesheet.TimeEntries.Sum (t => t.Hours).ToString ();
 
 				if( submitMonthLabel != null )
-					submitMonthLabel.Text = curMonthDate.ToString ("MMM");
+					submitMonthLabel.Text = curMonthDate.ToString("MMM").ToUpper();
 
 				if (submitDayYearLabel != null) 
 					submitDayYearLabel.Text = _curTimesheet.StartDate.ToString("dd").TrimStart('0') + "-" + _curTimesheet.EndDate.ToString("dd").TrimStart('0') + ", " + curMonthDate.ToString ("yyyy");
+
+			    if (approverNameTextField != null)
+			    {
+			        approverNameTextField.Text = _curTimesheet.TimesheetApprover;
+			    }
 			}
 		}
 
