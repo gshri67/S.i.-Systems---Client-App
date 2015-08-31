@@ -121,6 +121,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			submitContainerView.Layer.BorderWidth = 0.5f;
 			submitContainerView.Layer.BorderColor = StyleGuideConstants.LightGrayUiColor.CGColor;
 
+		    this.Title = string.Format(_curTimesheet.ClientName);
+
 			updateUI();
 		}
 
