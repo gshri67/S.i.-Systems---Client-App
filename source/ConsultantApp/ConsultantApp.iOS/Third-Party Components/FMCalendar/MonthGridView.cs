@@ -124,7 +124,8 @@ namespace ConsultantApp.iOS
 
 		public void BuildGrid()
 		{
-			UIColor outsidePeriodColor = UIColor.FromWhiteAlpha (0.7f, 1.0f);//UIColor.Gray;
+			//UIColor outsidePeriodColor = UIColor.FromWhiteAlpha (0.7f, 1.0f);//UIColor.Gray;
+		    UIColor outsidePeriodColor = StyleGuideConstants.LighterGrayUiColor;
 
 			DateTime previousMonth = _currentMonth.AddMonths(-1);
 			DateTime nextMonth = _currentMonth.AddMonths(1);

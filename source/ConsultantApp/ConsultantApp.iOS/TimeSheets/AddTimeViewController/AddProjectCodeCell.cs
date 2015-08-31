@@ -29,7 +29,7 @@ namespace ConsultantApp.iOS
 
 		public AddProjectCodeCell (IntPtr handle) : base (handle)
 		{
-			BackgroundColor = StyleGuideConstants.LightGrayUiColor;
+			BackgroundColor = StyleGuideConstants.LighterGrayUiColor;
 
 			picker = new UIPickerView ();//(new CoreGraphics.CGRect(0, 0, Frame.Size.Width, 162.0));
 			pickerModel = new PickerViewModel ();
@@ -80,6 +80,7 @@ namespace ConsultantApp.iOS
 
 			subtractButton = new UIButton ();
 			subtractButton.SetTitle ("-", UIControlState.Normal);
+            subtractButton.SetTitleColor(new UIColor(UIColor.Black.CGColor), UIControlState.Normal);
 			subtractButton.Layer.BorderWidth = 1;
 			subtractButton.Layer.BorderColor = UIColor.Black.CGColor;
 			subtractButton.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -91,6 +92,7 @@ namespace ConsultantApp.iOS
 
 			addButton = new UIButton ();
 			addButton.SetTitle ("+", UIControlState.Normal);
+            addButton.SetTitleColor(new UIColor(UIColor.Black.CGColor), UIControlState.Normal);
 			addButton.Layer.BorderWidth = 1;
 			addButton.Layer.BorderColor = UIColor.Black.CGColor;
 			addButton.TranslatesAutoresizingMaskIntoConstraints = false;
