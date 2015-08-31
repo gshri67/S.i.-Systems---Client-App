@@ -42,8 +42,8 @@ namespace ConsultantApp.iOS
 
 			saveButton = new BorderedButton ();
 			saveButton.SetTitle ("Save", UIControlState.Normal);
-			//saveButton.Layer.BorderWidth = 1;
-			//saveButton.Layer.BorderColor = UIColor.Black.CGColor;
+            saveButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+            saveButton.TintColor = StyleGuideConstants.RedUiColor;
 			saveButton.TranslatesAutoresizingMaskIntoConstraints = false;
 			saveButton.TouchUpInside += delegate 
 			{
@@ -56,8 +56,8 @@ namespace ConsultantApp.iOS
 
 			deleteButton = new BorderedButton ();
 			deleteButton.SetTitle ("Delete", UIControlState.Normal);
-			//deleteButton.Layer.BorderWidth = 1;
-			//deleteButton.Layer.BorderColor = UIColor.Black.CGColor;
+            deleteButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+            deleteButton.TintColor = StyleGuideConstants.RedUiColor;
 			deleteButton.TranslatesAutoresizingMaskIntoConstraints = false;
 			deleteButton.TouchUpInside += delegate 
 			{
@@ -72,11 +72,9 @@ namespace ConsultantApp.iOS
 
 			hoursTextField = new UITextField ();
 			hoursTextField.Text = "7.5";
-			//hoursTextField.BackgroundColor = UIColor.Cyan;
+		    hoursTextField.Font = UIFont.SystemFontOfSize(17f);
 			hoursTextField.TextAlignment = UITextAlignment.Center;
 			hoursTextField.UserInteractionEnabled = false;
-			//hoursTextField.Layer.BorderWidth = 1;
-			//hoursTextField.Layer.BorderColor = UIColor.Black.CGColor;
 			hoursTextField.TranslatesAutoresizingMaskIntoConstraints = false;
 			AddSubview (hoursTextField);
 
