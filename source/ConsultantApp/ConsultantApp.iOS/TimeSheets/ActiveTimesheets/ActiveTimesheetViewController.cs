@@ -19,6 +19,8 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
         private LoadingOverlay _overlay;
         public const string TimesheetSelectedSegue = "TimesheetSelected";
 
+	    private IEnumerable<PayPeriod> _payPeriods;
+
 		public ActiveTimesheetViewController (IntPtr handle) : base (handle)
 		{
             _activeTimesheetModel = DependencyResolver.Current.Resolve<ActiveTimesheetViewModel>();
@@ -40,19 +42,20 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    public async void LoadTimesheets()
 	    {
 	        IndicateLoading();
-            var payPeriods = await _activeTimesheetModel.GetPayPeriods();
+            if (_payPeriods == null)
+                _payPeriods = await _activeTimesheetModel.GetPayPeriods();
 
-            UpdateTableSource(payPeriods);
+            UpdateTableSource();
 	    }
 
-	    private void UpdateTableSource(IEnumerable<PayPeriod> payPeriods)
+	    private void UpdateTableSource()
 	    {
             RemoveOverlay();
 	        InvokeOnMainThread(delegate
 	        {
-	            if (payPeriods == null) return;
+                if (_payPeriods == null) return;
 
-                ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, payPeriods);
+                ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _payPeriods);
                 ActiveTimesheetsTable.ReloadData();
 	        });
 	    }
@@ -65,6 +68,13 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
             LogoutManager.CreateNavBarRightButton(this);
 		}
+
+	    public override void ViewWillAppear(bool animated)
+	    {
+	        base.ViewWillAppear(animated);
+
+	        LoadTimesheets();
+	    }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
         {

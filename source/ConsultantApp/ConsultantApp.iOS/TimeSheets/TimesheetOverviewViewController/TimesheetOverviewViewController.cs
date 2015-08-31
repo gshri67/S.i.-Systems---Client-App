@@ -57,6 +57,36 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			}
 		}
 
+	    public override void ViewWillAppear(bool animated)
+	    {
+            SetupCalendar();
+            updateUI();
+	    }
+
+	    private void SetupCalendar()
+	    {
+            calendar = new FMCalendar(calendarContainerView.Bounds, new CoreGraphics.CGRect(), _curTimesheet);
+            calendar.SundayFirst = true;
+            calendarContainerView.AddSubview(calendar);
+
+            calendar.DateSelected = delegate(DateTime date)
+            {
+                AddTimeViewController vc = (AddTimeViewController)Storyboard.InstantiateViewController("AddTimeViewController");
+                vc.SetDate(date);
+                vc.SetTimesheet(_curTimesheet);
+                NavigationController.PushViewController(vc, true);
+            };
+
+            calendarLeftButton.SetTitle("", UIControlState.Normal);
+            calendarLeftButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
+            calendarLeftButton.SetImage(new UIImage("leftArrow.png"), UIControlState.Normal);
+
+
+            calendarRightButton.SetTitle("", UIControlState.Normal);
+            calendarRightButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
+            calendarRightButton.SetImage(new UIImage("rightArrow.png"), UIControlState.Normal);
+	    }
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -68,25 +98,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 				NavigationController.PushViewController(vc, true);
 			};
 
-			calendar = new FMCalendar (calendarContainerView.Bounds, new CoreGraphics.CGRect(), _curTimesheet );
-			calendar.SundayFirst = true;
-			calendarContainerView.AddSubview (calendar);
-
-			calendar.DateSelected = delegate(DateTime date) {
-				AddTimeViewController vc = (AddTimeViewController)Storyboard.InstantiateViewController( "AddTimeViewController" );
-				vc.SetDate( date );
-				vc.SetTimesheet( _curTimesheet );
-				NavigationController.PushViewController(vc, true);
-			};
-
-			calendarLeftButton.SetTitle("", UIControlState.Normal);
-			calendarLeftButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
-			calendarLeftButton.SetImage( new UIImage("leftArrow.png"), UIControlState.Normal );
-
-
-			calendarRightButton.SetTitle("", UIControlState.Normal);
-			calendarRightButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
-			calendarRightButton.SetImage( new UIImage("rightArrow.png"), UIControlState.Normal );
+			SetupCalendar();
 
 
 			submitContainerView.BackgroundColor = UIColor.White;// StyleGuideConstants.LightGrayUiColor;
