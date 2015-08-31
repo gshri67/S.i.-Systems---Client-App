@@ -6,6 +6,7 @@ using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
 using ConsultantApp.Core.ViewModels;
+using CoreGraphics;
 using Microsoft.Practices.Unity;
 
 namespace ConsultantApp.iOS
@@ -72,16 +73,18 @@ namespace ConsultantApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
-			headerContainer.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
+            
+		    headerContainer.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
 
 			leftArrowButton.SetTitle("", UIControlState.Normal);
 			leftArrowButton.SetImage( new UIImage("leftArrow.png"), UIControlState.Normal );
             leftArrowButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+		    leftArrowButton.TintColor = StyleGuideConstants.RedUiColor;
 
 			rightArrowButton.SetTitle("", UIControlState.Normal);
 			rightArrowButton.SetImage( new UIImage("rightArrow.png"), UIControlState.Normal );
             rightArrowButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+            rightArrowButton.TintColor = StyleGuideConstants.RedUiColor;
 
 			leftArrowButton.TouchUpInside += delegate 
 			{
@@ -138,8 +141,20 @@ namespace ConsultantApp.iOS
 				//save timeentry to timesheet
 				_timesheetModel.saveTimesheet(_curTimesheet);
 			};
+		    addButton.TintColor = StyleGuideConstants.RedUiColor;
 
 			updateUI ();
 		}
+
+        //public override void ViewDidLayoutSubviews()
+        //{
+        //    base.ViewDidLayoutSubviews();
+	        
+        //    var x = tableview.Frame.X;
+        //    var y = tableview.Frame.Y;
+        //    var width = tableview.Frame.Width;
+        //    var height = 0;
+        //    tableview.TableHeaderView = new UIView(new CGRect(x, y, width, height));
+        //}
 	}
 }
