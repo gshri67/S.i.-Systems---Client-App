@@ -61,9 +61,8 @@ namespace ConsultantApp.iOS
 			deleteButton.TranslatesAutoresizingMaskIntoConstraints = false;
 			deleteButton.TouchUpInside += delegate 
 			{
-				//onDelete();
+				onDelete();
 			};
-			deleteButton.Enabled = false;
 			AddSubview (deleteButton);
 
 			hoursLabel = new UILabel ();

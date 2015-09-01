@@ -48,6 +48,7 @@ namespace ConsultantApp.iOS
 		{
 			if (_timeEntries != null && _timeEntries.Any ()) 
 			{
+				Console.WriteLine ( "number of time entries " + _timeEntries.Count() );
 				if (addingProjectCode) {		
 					return _timeEntries.Count () + 1;
 				} else 
@@ -61,7 +62,7 @@ namespace ConsultantApp.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			//Console.WriteLine ( indexPath.Item + " " + expandedCellIndex );
+			Console.WriteLine ( indexPath.Item + " " + expandedCellIndex );
 			if ((int)indexPath.Item == expandedCellIndex) 
 			{
 				AddProjectCodeCell cell = (AddProjectCodeCell)tableView.DequeueReusableCell (expandedCellIdentifier);
@@ -80,10 +81,31 @@ namespace ConsultantApp.iOS
 
 					cell.onDelete += delegate
 					{
-						RowSelected(tableView, NSIndexPath.FromIndex((nuint)prevSelectedRow));
-						Console.WriteLine("num time entries" + _timeEntries.ToList().Count() + " prevIndex " + prevSelectedRow);
-						_timeEntries.ToList().RemoveAt(prevSelectedRow);
-				
+						Console.WriteLine(_timeEntries.Count());
+						//closeExpandedCell();
+						Console.WriteLine("Finished Closing Expanded Cell");
+
+						Console.WriteLine("Prev selected row " + prevSelectedRow);
+
+						//if( prevSelectedRow >= 0 && prevSelectedRow < _timeEntries.Count() && 
+							if( _timeEntries.ElementAt(prevSelectedRow) != null ){
+
+
+//							Console.WriteLine(_timeEntries.Count());
+//							var timeEntryToRemove = _timeEntries.ElementAtOrDefault(prevSelectedRow);
+//							Console.WriteLine(timeEntryToRemove);
+//							var timeEntriesList = _timeEntries.ToList();
+//							timeEntriesList.Remove(timeEntryToRemove);
+//
+//							_timeEntries = timeEntriesList.AsEnumerable();
+							var elemToRemove = _timeEntries.ElementAt(prevSelectedRow);
+
+							if( elemToRemove != null )
+								_timeEntries = _timeEntries.Where( e => e != elemToRemove );
+	
+							Console.WriteLine("Finished Removing the timeentry");
+						}
+						Console.WriteLine(_timeEntries.Count());
 						tableView.ReloadData();
 					};
 				}
@@ -117,7 +139,6 @@ namespace ConsultantApp.iOS
 						//parentController.View.AddSubview( picker );
 					};
 				}*/
-
 				if (_timeEntries != null && _timeEntries.Count () > entryIndex(indexPath)) {
 					TimeEntry curEntry = _timeEntries.ElementAt (entryIndex (indexPath));//((int)indexPath.Item);
 

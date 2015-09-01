@@ -132,7 +132,7 @@ namespace ConsultantApp.iOS
 
 				Console.WriteLine(_curTimesheet.TimeEntries.Count());
 
-				_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat( newEnumerableEntry );
+				_curTimesheet.TimeEntries = addTimeTableViewSource._timeEntries.Concat( newEnumerableEntry );// _curTimesheet.TimeEntries
 				addTimeTableViewSource._timeEntries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date));
 
 				Console.WriteLine(_curTimesheet.TimeEntries.Count());
