@@ -73,16 +73,8 @@ namespace ConsultantApp.iOS
 
 					cell.onSave += delegate
 					{
-						Console.WriteLine("onsave: prevSelectedRow: " + prevSelectedRow);
-						nuint nuintIndex = (nuint)prevSelectedRow;
-						Console.WriteLine("onsave: Nuint prevSelectedRow: " + nuintIndex);
+						closeExpandedCell();
 
-						//NSIndexPath path = NSIndexPath.FromIndex(nuintIndex);
-						NSIndexPath path = NSIndexPath.Create( new int[]{prevSelectedRow});
-						Console.WriteLine("Path item: " + path.Item);
-
-
-						RowSelected(tableView, NSIndexPath.FromIndex(nuintIndex));
 						tableView.ReloadData();
 					};
 
@@ -93,7 +85,6 @@ namespace ConsultantApp.iOS
 						_timeEntries.ToList().RemoveAt(prevSelectedRow);
 				
 						tableView.ReloadData();
-					
 					};
 				}
 
@@ -127,7 +118,7 @@ namespace ConsultantApp.iOS
 					};
 				}*/
 
-				if (_timeEntries != null && _timeEntries.Count () > (int)indexPath.Item) {
+				if (_timeEntries != null && _timeEntries.Count () > entryIndex(indexPath)) {
 					TimeEntry curEntry = _timeEntries.ElementAt (entryIndex (indexPath));//((int)indexPath.Item);
 
 					cell.projectCodeField.Text = curEntry.ProjectCode;
@@ -151,8 +142,6 @@ namespace ConsultantApp.iOS
 			//Nothing happens if expanded cell is tapped
 			if ((int)indexPath.Item != expandedCellIndex) {
 				int realSelectedIndex = entryIndex (indexPath);
-
-
 
 				if (realSelectedIndex == prevSelectedRow)
 					addingProjectCode = !addingProjectCode;
@@ -181,6 +170,31 @@ namespace ConsultantApp.iOS
 */
 			//[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousSelectedIndexPath]
 			//	withRowAnimation:UITableViewRowAnimationAutomatic];
+		}
+			
+		//if a cell was added
+		public void handleNewCell()
+		{
+			if (!addingProjectCode)
+				openExpandedCell ( _timeEntries.Count()-1 );
+		}
+
+		public void openExpandedCell( int index )
+		{
+			addingProjectCode = true;
+			expandedCellIndex = index + 1;
+
+			prevSelectedRow = index;
+
+			//tableView.ReloadData();
+		}
+
+		public void closeExpandedCell()
+		{
+			expandedCellIndex = -1;
+			addingProjectCode = false;
+
+			//tableView.ReloadData();
 		}
 
 		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)

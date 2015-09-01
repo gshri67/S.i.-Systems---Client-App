@@ -136,6 +136,9 @@ namespace ConsultantApp.iOS
 				addTimeTableViewSource._timeEntries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date));
 
 				Console.WriteLine(_curTimesheet.TimeEntries.Count());
+
+				addTimeTableViewSource.handleNewCell();
+
 				tableview.ReloadData();
 
 				//save timeentry to timesheet

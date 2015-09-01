@@ -199,6 +199,8 @@ namespace ConsultantApp.iOS
 			this.HeaderViewSize = headerViewSize;
 			this.timesheet = timesheet;
 
+			CurrentDate = timesheet.StartDate;
+
 			Initialize ();
 		}
 
@@ -226,7 +228,9 @@ namespace ConsultantApp.iOS
 
 		private void Initialize()
 		{
-			CurrentDate = DateTime.Now.Date;
+			if( CurrentDate == null )
+				CurrentDate = DateTime.Now.Date;
+	
 			SelectedDate = CurrentDate;
 			CurrentMonthYear = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
 
