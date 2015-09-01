@@ -49,10 +49,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
-    <Compile Include="ViewModels\TimeEntryViewModel.cs" />
     <Compile Include="ViewModels\ActiveTimesheetViewModel.cs" />
     <Compile Include="ViewModels\TimesheetViewModel.cs" />
-    <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\LogoutViewModel.cs" />
     <Compile Include="ViewModels\RemittanceViewModel.cs" />
   </ItemGroup>

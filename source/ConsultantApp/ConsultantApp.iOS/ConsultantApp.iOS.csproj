@@ -124,10 +124,6 @@
     <Compile Include="TimeSheets\ActiveTimesheets\ActiveTimesheetViewController.designer.cs">
       <DependentUpon>ActiveTimesheetViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeSheets\TimesheetOverviewViewController\AddTimeEntryViewController\AddTimeEntryViewController.cs" />
-    <Compile Include="TimeSheets\TimesheetOverviewViewController\AddTimeEntryViewController\AddTimeEntryViewController.designer.cs">
-      <DependentUpon>AddTimeEntryViewController.cs</DependentUpon>
-    </Compile>
     <None Include="packages.config" />
     <Compile Include="Remittances\RemittancesViewController.cs" />
     <Compile Include="Remittances\RemittancesViewController.designer.cs">
