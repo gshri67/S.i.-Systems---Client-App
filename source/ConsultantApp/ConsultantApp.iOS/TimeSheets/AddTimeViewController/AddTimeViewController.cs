@@ -8,6 +8,7 @@ using System.Linq;
 using ConsultantApp.Core.ViewModels;
 using CoreGraphics;
 using Microsoft.Practices.Unity;
+//using ConsultantApp.SharedModels;
 
 namespace ConsultantApp.iOS
 {
@@ -55,6 +56,13 @@ namespace ConsultantApp.iOS
 					tableview.RegisterClassForCellReuse (typeof(AddProjectCodeCell), "AddProjectCodeCell");
 
 					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)), _timesheetModel.GetProjectCodes().Result, _timesheetModel.GetPayRates().Result);
+					addTimeTableViewSource.onDataChanged += delegate(IEnumerable<TimeEntry> timeEntries)
+					{
+						_curTimesheet.TimeEntries = timeEntries;
+						headerHoursLabel.Text = "Daily Hours: " + _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString ();
+
+						//updateUI();
+					};
 					tableview.Source = addTimeTableViewSource;
 
 					tableview.ReloadData();
@@ -145,6 +153,8 @@ namespace ConsultantApp.iOS
 				_timesheetModel.saveTimesheet(_curTimesheet);
 			};
 		    addButton.TintColor = StyleGuideConstants.RedUiColor;
+
+		
 
 			updateUI ();
 		}

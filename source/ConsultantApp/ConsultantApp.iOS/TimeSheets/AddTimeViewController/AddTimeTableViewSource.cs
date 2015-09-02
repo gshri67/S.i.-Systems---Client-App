@@ -17,6 +17,9 @@ namespace ConsultantApp.iOS
 		public IEnumerable<string> _projectCodes;
 		public IEnumerable<string> _payRates;
 
+		public delegate void TableDelegate(IEnumerable<TimeEntry> timeEntries);
+		public  TableDelegate onDataChanged;
+
 		private int normalCellHeight;
 		private int expandedCellHeight;
 		private int expandedCellIndex = -1;
@@ -78,6 +81,8 @@ namespace ConsultantApp.iOS
 						    closeExpandedCell();
 
 						    tableView.ReloadData();
+
+							onDataChanged( _timeEntries);
 					    };
                    
                     if( cell.onDelete == null )
@@ -112,6 +117,8 @@ namespace ConsultantApp.iOS
 						    }
 						Console.WriteLine(_timeEntries.Count());
 						tableView.ReloadData();
+
+						onDataChanged( _timeEntries);
 					};
 				}
 
