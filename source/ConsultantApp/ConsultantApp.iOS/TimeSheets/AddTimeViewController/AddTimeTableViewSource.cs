@@ -91,17 +91,18 @@ namespace ConsultantApp.iOS
 							if( _timeEntries.ElementAt(prevSelectedRow) != null ){
 
 
-//							Console.WriteLine(_timeEntries.Count());
-//							var timeEntryToRemove = _timeEntries.ElementAtOrDefault(prevSelectedRow);
-//							Console.WriteLine(timeEntryToRemove);
-//							var timeEntriesList = _timeEntries.ToList();
-//							timeEntriesList.Remove(timeEntryToRemove);
-//
-//							_timeEntries = timeEntriesList.AsEnumerable();
-							var elemToRemove = _timeEntries.ElementAt(prevSelectedRow);
+							Console.WriteLine(_timeEntries.Count());
+							var timeEntryToRemove = _timeEntries.ElementAtOrDefault(prevSelectedRow);
+							Console.WriteLine(timeEntryToRemove);
+							var timeEntriesList = _timeEntries.ToList();
+							timeEntriesList.Remove(timeEntryToRemove);
 
-							if( elemToRemove != null )
-								_timeEntries = _timeEntries.Where( e => e != elemToRemove );
+							_timeEntries = timeEntriesList.AsEnumerable();
+//							Console.WriteLine(_timeEntries.ElementAt(prevSelectedRow));
+//							var elemToRemove = _timeEntries.ElementAt(prevSelectedRow);
+
+//							if( elemToRemove != null )
+//								_timeEntries = _timeEntries.Where( e => e != elemToRemove );
 	
 							Console.WriteLine("Finished Removing the timeentry");
 						}
