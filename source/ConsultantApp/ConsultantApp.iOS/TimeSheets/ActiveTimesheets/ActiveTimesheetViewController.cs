@@ -25,6 +25,9 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 		{
             _activeTimesheetModel = DependencyResolver.Current.Resolve<ActiveTimesheetViewModel>();
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
+
+			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
+			TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
 		}
 
 

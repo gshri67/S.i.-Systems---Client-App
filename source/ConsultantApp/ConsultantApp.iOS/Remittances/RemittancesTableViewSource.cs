@@ -53,10 +53,11 @@ namespace ConsultantApp.iOS
 			{
 				Remittance remittance = _remittances.ElementAt ((int)indexPath.Item);
 				cell.UpdateCell (
-					depositDate: remittance.DepositDate.ToString("MM/dd/yyyy"),
+					depositDate: remittance.DepositDate.ToString("MMM ") + remittance.DepositDate.ToString("dd, yyyy").Trim('0'),
 					documentNumber: remittance.DocumentNumber,
 					amount: remittance.Amount,
-					period: remittance.StartDate.ToString("MM/").Trim('0') + remittance.StartDate.ToString("dd").Trim('0') + "-" + remittance.EndDate.ToString("MM/").Trim('0') + remittance.EndDate.ToString("dd").Trim('0')
+					period: remittance.StartDate.ToString("MMM ") + remittance.StartDate.ToString("dd").Trim('0') + "-" + remittance.EndDate.ToString("dd").Trim('0')
+					//remittance.StartDate.ToString("MM/").Trim('0') + remittance.StartDate.ToString("dd").Trim('0') + "-" + remittance.EndDate.ToString("MM/").Trim('0') + remittance.EndDate.ToString("dd").Trim('0')
 				);
 			}
 
