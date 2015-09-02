@@ -32,5 +32,7 @@ namespace Shared.Core
 		Task<IEnumerable<string>> GetProjectCodes();
 
 		Task<IEnumerable<string>> GetPayRates();
+
+		Task<IEnumerable<Remittance>> GetRemittances();
     }
 }

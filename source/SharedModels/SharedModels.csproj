@@ -61,6 +61,7 @@
     <Compile Include="User.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="ProjectCode.cs" />
+    <Compile Include="Remittance.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

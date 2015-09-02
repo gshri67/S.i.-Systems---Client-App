@@ -146,6 +146,11 @@
     <Compile Include="TimeSheets\AddTimeViewController\AddTimeTableViewSource.cs" />
     <Compile Include="TimeSheets\AddTimeViewController\AddProjectCodeCell.cs" />
     <Compile Include="Third-Party Components\FMCalendar\DayHeader.cs" />
+    <Compile Include="Remittances\RemittancesTableViewSource.cs" />
+    <Compile Include="Remittances\RemittanceCell.cs" />
+    <Compile Include="Remittances\RemittanceCell.designer.cs">
+      <DependentUpon>RemittanceCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
