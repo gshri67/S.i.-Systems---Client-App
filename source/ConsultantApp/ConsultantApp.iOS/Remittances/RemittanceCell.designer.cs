@@ -18,23 +18,31 @@ namespace ConsultantApp.iOS
 		UIKit.UILabel depositDateLabel { get; set; }
 
 		[Outlet]
+		UIKit.UILabel documentNumberLabel { get; set; }
+
+		[Outlet]
 		UIKit.UILabel periodLabel { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (depositDateLabel != null) {
-				depositDateLabel.Dispose ();
-				depositDateLabel = null;
-			}
-
 			if (amountLabel != null) {
 				amountLabel.Dispose ();
 				amountLabel = null;
 			}
 
+			if (depositDateLabel != null) {
+				depositDateLabel.Dispose ();
+				depositDateLabel = null;
+			}
+
 			if (periodLabel != null) {
 				periodLabel.Dispose ();
 				periodLabel = null;
+			}
+
+			if (documentNumberLabel != null) {
+				documentNumberLabel.Dispose ();
+				documentNumberLabel = null;
 			}
 		}
 	}

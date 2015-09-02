@@ -19,7 +19,10 @@ namespace ConsultantApp.iOS
 
 		public void UpdateCell(string depositDate, string documentNumber, float amount, string period)
 		{
-			amountLabel.Text = amount.ToString ();
+			depositDateLabel.Text = depositDate;
+			documentNumberLabel.Text = documentNumber;
+			amountLabel.Text = "$" + amount.ToString ();
+			periodLabel.Text = period;
 		}
 	}
 }

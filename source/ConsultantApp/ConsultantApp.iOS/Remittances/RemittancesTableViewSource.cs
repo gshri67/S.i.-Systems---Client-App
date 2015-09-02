@@ -49,14 +49,16 @@ namespace ConsultantApp.iOS
 			var cell = tableView.DequeueReusableCell(CellIdentifier) as RemittanceCell ??
 				new RemittanceCell(CellIdentifier);
 			
-			if( _remittances != null )
-				cell.UpdateCell(
-					depositDate: "",
-					documentNumber: "",
-					amount: 1520.77f,
-					period: ""
+			if (_remittances != null) 
+			{
+				Remittance remittance = _remittances.ElementAt ((int)indexPath.Item);
+				cell.UpdateCell (
+					depositDate: remittance.DepositDate.ToString("MM/dd/yyyy"),
+					documentNumber: remittance.DocumentNumber,
+					amount: remittance.Amount,
+					period: remittance.StartDate.ToString("MM/").Trim('0') + remittance.StartDate.ToString("dd").Trim('0') + "-" + remittance.EndDate.ToString("MM/").Trim('0') + remittance.EndDate.ToString("dd").Trim('0')
 				);
-
+			}
 
 
 			return cell;
