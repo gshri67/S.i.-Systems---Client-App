@@ -72,40 +72,44 @@ namespace ConsultantApp.iOS
 					TimeEntry curEntry = _timeEntries.ElementAt( prevSelectedRow );//((int)indexPath.Item);
 					cell.setData ( curEntry, _projectCodes, _payRates );
 
-					cell.onSave += delegate
-					{
-						closeExpandedCell();
+                    if( cell.onSave == null )
+					    cell.onSave += delegate
+					    {
+						    closeExpandedCell();
 
-						tableView.ReloadData();
-					};
+						    tableView.ReloadData();
+					    };
+                   
+                    if( cell.onDelete == null )
+					    cell.onDelete += delegate
+					    {
+						    Console.WriteLine(_timeEntries.Count());
+						    closeExpandedCell();
+						    Console.WriteLine("Finished Closing Expanded Cell");
 
-					cell.onDelete += delegate
-					{
-						Console.WriteLine(_timeEntries.Count());
-						//closeExpandedCell();
-						Console.WriteLine("Finished Closing Expanded Cell");
+						    Console.WriteLine("Prev selected row " + prevSelectedRow);
 
-						Console.WriteLine("Prev selected row " + prevSelectedRow);
-
-						//if( prevSelectedRow >= 0 && prevSelectedRow < _timeEntries.Count() && 
-							if( _timeEntries.ElementAt(prevSelectedRow) != null ){
+						    //if( prevSelectedRow >= 0 && prevSelectedRow < _timeEntries.Count() && 
+                            var elem = _timeEntries.ElementAtOrDefault(prevSelectedRow);
+                                if (elem != null)
+                                {
 
 
-							Console.WriteLine(_timeEntries.Count());
-							var timeEntryToRemove = _timeEntries.ElementAtOrDefault(prevSelectedRow);
-							Console.WriteLine(timeEntryToRemove);
-							var timeEntriesList = _timeEntries.ToList();
-							timeEntriesList.Remove(timeEntryToRemove);
+							    Console.WriteLine(_timeEntries.Count());
+							    var timeEntryToRemove = _timeEntries.ElementAtOrDefault(prevSelectedRow);
+							    Console.WriteLine(timeEntryToRemove);
+							    var timeEntriesList = _timeEntries.ToList();
+							    timeEntriesList.Remove(timeEntryToRemove);
 
-							_timeEntries = timeEntriesList.AsEnumerable();
-//							Console.WriteLine(_timeEntries.ElementAt(prevSelectedRow));
-//							var elemToRemove = _timeEntries.ElementAt(prevSelectedRow);
+							    _timeEntries = timeEntriesList.AsEnumerable();
+    //							Console.WriteLine(_timeEntries.ElementAt(prevSelectedRow));
+    //							var elemToRemove = _timeEntries.ElementAt(prevSelectedRow);
 
-//							if( elemToRemove != null )
-//								_timeEntries = _timeEntries.Where( e => e != elemToRemove );
+    //							if( elemToRemove != null )
+    //								_timeEntries = _timeEntries.Where( e => e != elemToRemove );
 	
-							Console.WriteLine("Finished Removing the timeentry");
-						}
+							    Console.WriteLine("Finished Removing the timeentry");
+						    }
 						Console.WriteLine(_timeEntries.Count());
 						tableView.ReloadData();
 					};
