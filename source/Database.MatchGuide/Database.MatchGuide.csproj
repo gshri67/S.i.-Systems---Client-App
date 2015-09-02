@@ -95,9 +95,6 @@
     <EmbeddedResource Include="Scripts\014 - Add Candidate Resumes.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\016 - Add Consultant Users.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Scripts\006 - Create Timesheet Tables.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -14,9 +14,19 @@ VALUES
 -- Active With Comp Three And Alumni With One
 (12, 'Candice', 'J.','Consulty', 490, 0),
 -- Alumni with division of company one
-(13, 'Sally', 'P', 'Divisioner', 490, 0);
+(13, 'Sally', 'P', 'Divisioner', 490, 0),
+-- Active for Contractor Application
+(14, 'Fred', 'W', 'Flintstone', 490, 0);
 
 SET IDENTITY_INSERT [dbo].[Users] OFF;
+
+INSERT INTO [dbo].[User_Login]
+(
+	[UserID], [Login], [Password]
+)
+VALUES
+(12, 'candice.consulty@email.com', '5F4DCC3B5AA765D61D8327DEB882CF99'),
+(14, 'fred.flintstone@email.com', '5F4DCC3B5AA765D61D8327DEB882CF99');
 
 
 
@@ -28,4 +38,5 @@ VALUES
 (10, 'tommy.contractor@email.com'),
 (11, 'bill.contractasaurus@email.com'),
 (12, 'candice.consulty@email.com'),
-(13, 'sally.divisioner@email.com');
+(13, 'sally.divisioner@email.com'),
+(14, 'fred.flintstone@email.com');
