@@ -58,9 +58,9 @@ namespace ConsultantApp.iOS
 					tableview.RegisterClassForCellReuse (typeof(AddProjectCodeCell), "AddProjectCodeCell");
 
 					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)), _timesheetModel.GetProjectCodes().Result, _timesheetModel.GetPayRates().Result);
-					addTimeTableViewSource.onDataChanged += delegate(IEnumerable<TimeEntry> timeEntries)
+					addTimeTableViewSource.onDataChanged += delegate(IEnumerable<TimeEntry> timeEntries )
 					{
-						_curTimesheet.TimeEntries = timeEntries;
+						_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(date) ).Concat(timeEntries);
 						headerHoursLabel.Text = "Daily Hours: " + _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString ();
 
 						//updateUI();
@@ -142,7 +142,7 @@ namespace ConsultantApp.iOS
 
 				Console.WriteLine(_curTimesheet.TimeEntries.Count());
 
-				_curTimesheet.TimeEntries = addTimeTableViewSource._timeEntries.Concat( newEnumerableEntry );// _curTimesheet.TimeEntries
+				_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat( newEnumerableEntry );// _curTimesheet.TimeEntries
 				addTimeTableViewSource._timeEntries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date));
 
 				Console.WriteLine(_curTimesheet.TimeEntries.Count());

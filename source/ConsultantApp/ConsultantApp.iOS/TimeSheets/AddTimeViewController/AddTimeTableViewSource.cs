@@ -160,12 +160,6 @@ namespace ConsultantApp.iOS
 
 					cell.onHoursChanged = ( float newHours) => {
 						curEntry.Hours = newHours;
-
-						List<TimeEntry> list = _timeEntries.ToList();
-
-						//list[entryIndex(indexPath)] = curEntry;
-						//_timeEntries = list.AsEnumerable();
-
 						onDataChanged( _timeEntries);
 					};
 				} else 
