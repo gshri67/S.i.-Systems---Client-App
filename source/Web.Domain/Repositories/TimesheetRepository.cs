@@ -62,7 +62,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         //EndDate = new DateTime(2015, 08, 15),
                         EndDate = new DateTime(2015, 08, 31),
                         TimeEntries = NexenTimeEntries
-                    },new Timesheet
+                    },
+                    new Timesheet
                     {
                         ClientName = "Cenovus",
                         TimesheetApprover= "Bob Smith",
@@ -70,7 +71,16 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         StartDate = new DateTime(2015, 07, 01),
                         EndDate = new DateTime(2015, 07, 31),
                         TimeEntries = CenovusTimeEntries
-                    }
+                    },
+                    new Timesheet
+                    {
+                        ClientName = "Nexen",
+                        TimesheetApprover= "Sally Abbott",
+                        Status = TimesheetStatus.Open,
+                        StartDate = new DateTime(2015, 07, 01),
+                        EndDate = new DateTime(2015, 07, 31),
+                        TimeEntries = NexenTimeEntries
+                    },
                 };
             }
         }
