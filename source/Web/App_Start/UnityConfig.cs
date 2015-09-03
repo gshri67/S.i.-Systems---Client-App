@@ -44,6 +44,7 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<IClientDetailsRepository, ClientDetailsRepository>();
             container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<ITimesheetRepository, TimesheetRepository>();
+            container.RegisterType<ITimeEntryRepository, TimeEntryRepository>();
             container.RegisterType<IObjectCache, ObjectCache>();
             container.RegisterType<HttpMessageHandler, HttpClientHandler>();
         }

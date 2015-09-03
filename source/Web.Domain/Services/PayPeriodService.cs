@@ -10,18 +10,25 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 {
     public class PayPeriodService
     {
-        private readonly ITimesheetRepository _timeSheetRepository;
         private readonly ISessionContext _sessionContext;
+        private readonly ITimesheetRepository _timeSheetRepository;
+        private readonly ITimeEntryRepository _timeEntryRepository;
 
-        public PayPeriodService(ITimesheetRepository timesheetRepository, ISessionContext sessionContext)
+        public PayPeriodService(ISessionContext sessionContext, ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository)
         {
-            _timeSheetRepository = timesheetRepository;
             _sessionContext = sessionContext;
+            _timeSheetRepository = timesheetRepository;
+            _timeEntryRepository = timeEntryRepository;
         }
 
         public IEnumerable<PayPeriod> GetRecentPayPeriods()
         {
             var timesheets = _timeSheetRepository.GetTimesheetsForUser(_sessionContext.CurrentUser.Id).ToList();
+            foreach (var timesheet in timesheets)
+            {
+                timesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesByTimesheetId(timesheet.Id);
+            }
+
             return (from @group in timesheets.GroupBy(t => t.TimePeriod)
                 let period = @group.Key
                 select new PayPeriod

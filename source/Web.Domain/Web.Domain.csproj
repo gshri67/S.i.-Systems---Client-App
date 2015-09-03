@@ -54,6 +54,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\TimeEntryRepository.cs" />
     <Compile Include="Repositories\TimesheetRepository.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\ConsultantMessageService.cs" />
