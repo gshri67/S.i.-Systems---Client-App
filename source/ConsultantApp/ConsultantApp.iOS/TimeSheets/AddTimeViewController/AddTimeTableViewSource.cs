@@ -39,7 +39,7 @@ namespace ConsultantApp.iOS
 			this._payRates = payRates;
 
 			normalCellHeight = 44;
-			expandedCellHeight = 44*5;
+			expandedCellHeight = 200;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -157,6 +157,11 @@ namespace ConsultantApp.iOS
 					cell.projectCodeField.Text = curEntry.ProjectCode;
 					cell.payRateLabel.Text = curEntry.PayRate;
 					cell.hoursField.Text = curEntry.Hours.ToString ();
+
+					cell.onHoursChanged = ( float newHours) => {
+						curEntry.Hours = newHours;
+						onDataChanged( _timeEntries);
+					};
 				} else 
 				{
 					cell.projectCodeField.Text = "";

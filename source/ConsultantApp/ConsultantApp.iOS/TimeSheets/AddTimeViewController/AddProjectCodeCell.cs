@@ -19,7 +19,6 @@ namespace ConsultantApp.iOS
 		private UIPickerView picker;
 		private UIButton saveButton;
 		private UIButton deleteButton;
-		private UILabel hoursLabel;
 		private UITextField hoursTextField;
 		private UIButton subtractButton;
 		private UIButton addButton;
@@ -49,7 +48,7 @@ namespace ConsultantApp.iOS
 			{
 				timeEntry.ProjectCode = pickerModel.items.ElementAt(0).ElementAt( pickerModel.selectedItemIndex.ElementAt(0) );
 				timeEntry.PayRate = pickerModel.items.ElementAt(1).ElementAt( pickerModel.selectedItemIndex.ElementAt(1) );
-				timeEntry.Hours = float.Parse(hoursTextField.Text);
+				//timeEntry.Hours = float.Parse(hoursTextField.Text);
 				onSave();
 			};
 			AddSubview (saveButton);
@@ -64,10 +63,6 @@ namespace ConsultantApp.iOS
 				onDelete();
 			};
 			AddSubview (deleteButton);
-
-			hoursLabel = new UILabel ();
-			hoursLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-			AddSubview (hoursLabel);
 
 			hoursTextField = new UITextField ();
 			hoursTextField.Text = "7.5";
@@ -101,6 +96,10 @@ namespace ConsultantApp.iOS
 			};
 			AddSubview (addButton);
 
+
+			addButton.Hidden = true;
+			subtractButton.Hidden = true;
+			hoursTextField.Hidden = true;
 
 			setupConstraints();
 		}
@@ -165,30 +164,15 @@ namespace ConsultantApp.iOS
 			AddConstraint (NSLayoutConstraint.Create (picker, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
 			AddConstraint (NSLayoutConstraint.Create (picker, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, pickerHeight));
 
-			AddConstraint (NSLayoutConstraint.Create (hoursTextField, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterX, 1.0f, 0f));
-			AddConstraint (NSLayoutConstraint.Create (hoursTextField, NSLayoutAttribute.Top, NSLayoutRelation.Equal, picker, NSLayoutAttribute.Bottom, 1.0f, 0f));
-			AddConstraint (NSLayoutConstraint.Create (hoursTextField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.1f, 0f));
-			AddConstraint (NSLayoutConstraint.Create (hoursTextField, NSLayoutAttribute.Width, NSLayoutRelation.Equal, this, NSLayoutAttribute.Width, 0.15f, 0f));
-
-			AddConstraint (NSLayoutConstraint.Create (subtractButton, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, hoursTextField, NSLayoutAttribute.CenterY, 1.0f, 0f));
-			AddConstraint (NSLayoutConstraint.Create (subtractButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, hoursTextField, NSLayoutAttribute.Height, 0.66f, 0f));
-			AddConstraint (NSLayoutConstraint.Create (subtractButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, hoursTextField, NSLayoutAttribute.Width, 0.5f, 0f));
-			AddConstraint (NSLayoutConstraint.Create (subtractButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, hoursTextField, NSLayoutAttribute.Left, 1.0f, -15f));
-
-			AddConstraint (NSLayoutConstraint.Create (addButton, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, hoursTextField, NSLayoutAttribute.CenterY, 1.0f, 0f));
-			AddConstraint (NSLayoutConstraint.Create (addButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, hoursTextField, NSLayoutAttribute.Height, 0.66f, 0f));
-			AddConstraint (NSLayoutConstraint.Create (addButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, hoursTextField, NSLayoutAttribute.Width, 0.5f, 0f));
-			AddConstraint (NSLayoutConstraint.Create (addButton, NSLayoutAttribute.Left, NSLayoutRelation.Equal, hoursTextField, NSLayoutAttribute.Right, 1.0f, 15f));
-
-			AddConstraint (NSLayoutConstraint.Create (saveButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.88f, 0.0f));
+			AddConstraint (NSLayoutConstraint.Create (saveButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, picker, NSLayoutAttribute.Bottom, 1.0f, 0.0f));
 			AddConstraint (NSLayoutConstraint.Create (saveButton, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.2f, 0.0f));
 			AddConstraint (NSLayoutConstraint.Create (saveButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.45f, 0.0f));
-			AddConstraint (NSLayoutConstraint.Create (saveButton, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.98f, 0.0f));
+			AddConstraint (NSLayoutConstraint.Create (saveButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 30f));
 
-			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.88f, 0.0f));
+			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, picker, NSLayoutAttribute.Bottom, 1.0f, 0.0f));
 			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.55f, 0.0f));
 			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.8f, 0.0f));
-			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.98f, 0.0f));
+			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, saveButton, NSLayoutAttribute.Height, 1.0f, 0.0f));
 		}
 
 

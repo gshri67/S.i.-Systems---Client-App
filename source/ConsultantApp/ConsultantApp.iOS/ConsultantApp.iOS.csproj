@@ -115,7 +115,6 @@
     <Compile Include="BorderedButton.designer.cs">
       <DependentUpon>BorderedButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeSheets\TimesheetOverviewViewController\TimesheetOverviewTableViewSource.cs" />
     <Compile Include="TimeSheets\TimesheetOverviewViewController\TimesheetOverviewViewController.cs" />
     <Compile Include="TimeSheets\TimesheetOverviewViewController\TimesheetOverviewViewController.designer.cs">
       <DependentUpon>TimesheetOverviewViewController.cs</DependentUpon>

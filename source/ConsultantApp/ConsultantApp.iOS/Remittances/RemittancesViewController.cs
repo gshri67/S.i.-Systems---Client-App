@@ -18,6 +18,8 @@ namespace ConsultantApp.iOS
 		public RemittancesViewController (IntPtr handle) : base (handle)
 		{
 			_remittanceModel = DependencyResolver.Current.Resolve<RemittanceViewModel>();
+
+			EdgesForExtendedLayout = UIRectEdge.None;
 		}
 
 		public async void LoadRemittances()

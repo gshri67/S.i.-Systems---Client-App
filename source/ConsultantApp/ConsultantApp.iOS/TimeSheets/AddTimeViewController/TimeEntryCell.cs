@@ -12,7 +12,7 @@ namespace ConsultantApp.iOS
 		public UILabel payRateLabel;
 
         //Blocks
-        public delegate void hoursFieldDelegate( int newHours );
+        public delegate void hoursFieldDelegate( float newHours );
         public hoursFieldDelegate onHoursChanged;
 
         public delegate void clientFieldDelegate( String newClient );
@@ -51,20 +51,20 @@ namespace ConsultantApp.iOS
 
             //Hours
             if (onHoursChanged == null)
-                onHoursChanged = (int newHours) => { };
+                onHoursChanged = (float newHours) => { };
 
             hoursField = new UITextField();
             hoursField.Text = "5";
             hoursField.TranslatesAutoresizingMaskIntoConstraints = false;
             hoursField.TextAlignment = UITextAlignment.Right;
-			hoursField.UserInteractionEnabled = false;
+			//hoursField.UserInteractionEnabled = false;
             hoursField.EditingChanged += delegate 
             {
                 if (hoursField.Text.Length > 0)
                 {
                     try
                     {
-                        onHoursChanged(Int32.Parse(hoursField.Text));
+                        onHoursChanged(float.Parse(hoursField.Text));
                     }
                     catch //if an invalid string is typed, just default to 0
                     {

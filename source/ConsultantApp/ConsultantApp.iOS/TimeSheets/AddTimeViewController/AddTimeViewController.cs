@@ -24,6 +24,8 @@ namespace ConsultantApp.iOS
 		public AddTimeViewController (IntPtr handle) : base (handle)
 		{
 			_timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
+
+			EdgesForExtendedLayout = UIRectEdge.None;
 		}
 
 		public void SetTimesheet(Timesheet timesheet)
@@ -154,7 +156,7 @@ namespace ConsultantApp.iOS
 			};
 		    addButton.TintColor = StyleGuideConstants.RedUiColor;
 
-		
+			tableview.ContentInset = new UIEdgeInsets (-35, 0, 0, 0);
 
 			updateUI ();
 		}

@@ -57,7 +57,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             cell.projectCodeField.Text = curEntry.ProjectCode;
             cell.hoursField.Text = curEntry.Hours.ToString();
 
-				cell.onHoursChanged = ( int newHours) => {
+				cell.onHoursChanged = ( float newHours) => {
                 curEntry.Hours = newHours;
 				};
 
