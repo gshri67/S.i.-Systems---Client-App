@@ -54,7 +54,7 @@ namespace ConsultantApp.iOS
                 onHoursChanged = (float newHours) => { };
 
             hoursField = new UITextField();
-            hoursField.Text = "5";
+            hoursField.Text = "8";
             hoursField.TranslatesAutoresizingMaskIntoConstraints = false;
             hoursField.TextAlignment = UITextAlignment.Right;
 			//hoursField.UserInteractionEnabled = false;
@@ -74,10 +74,44 @@ namespace ConsultantApp.iOS
                 else
                     onHoursChanged(0);
             };
+
+			//hoursField.ReturnKeyType = UIReturnKeyType.Done;
+			hoursField.KeyboardType = UIKeyboardType.DecimalPad;
+
+			var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, Frame.Size.Width, 44.0f));
+
+			toolbar.Items = new[]
+			{
+				new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace),
+				new UIBarButtonItem(UIBarButtonSystemItem.Done, doneButtonTapped)
+			};
+
+			hoursField.InputAccessoryView = toolbar;
+
+			/*
+			UIToolbar toolbar = new UIToolbar ( new CoreGraphics.CGRect(0, 0, Frame.Width, 44) );
+			UIBarButtonItem doneButton = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Bordered,  doneButtonTapped );
+
+			toolbar.Items = new UIBarButtonItem[]{ doneButton };
+			hoursField.InputAccessoryView = toolbar;*/
+			/*
+			UIToolbar *toolBar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,320,44)];
+			[toolBar setBarStyle:UIBarStyleBlackOpaque];
+			UIBarButtonItem *barButtonDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" 
+				style:UIBarButtonItemStyleBordered target:self action:@selector(changeDateFromLabel:)];
+			toolBar.items = @[barButtonDone];
+			barButtonDone.tintColor=[UIColor blackColor];
+			[pickerView addSubview:toolBar];
+*/
             AddSubview( hoursField );
 
             setupConstraints();
         }
+
+		public void doneButtonTapped(object sender, EventArgs args)
+		{
+			hoursField.ResignFirstResponder ();
+		}
 
 		//dismiss keyboard when tapping outside of text fields
 		public override void TouchesBegan(NSSet touches, UIEvent evt)
