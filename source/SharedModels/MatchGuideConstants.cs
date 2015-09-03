@@ -702,5 +702,69 @@ namespace SiSystems.SharedModels
                 return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultDisplayString;
             }
         }
+
+        /// Consider any unanticipated values as the default, NotChecked
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
+        public struct TimesheetStatus: IMatchGuideConstant
+        {
+            [DataMember(Name = "backingValue")]
+            private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
+            public const int Open = 621;
+            public const int Submitted = 622;
+            public const int Rejected = 623;
+            public const int Approved = 624;
+            public const int Cancelled = 852;
+            public const int Batched = 853;
+            public const int Moved = 854;
+            public const int Accepted = 1079;
+
+            private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
+            {
+                {Open, "Open"},
+                {Submitted, "Submitted"},
+                {Rejected, "Rejected"},
+                {Approved, "Approved"},
+                {Cancelled, "Cancelled"},
+                {Batched, "Batched"},
+                {Moved, "Moved"},
+                {Accepted, "Accepted"}
+            };
+
+            private const string DefaultDisplayString = "Open";
+
+            private TimesheetStatus(long value)
+            {
+                m_value = value;
+            }
+
+            public static implicit operator TimesheetStatus(long val)
+            {
+                return new TimesheetStatus(val);
+            }
+
+            public static implicit operator TimesheetStatus(int val)
+            {
+                return new TimesheetStatus(val);
+            }
+
+            public static implicit operator long(TimesheetStatus status)
+            {
+                return status.m_value;
+            }
+           
+            public override string ToString()
+            {
+                string description;
+                return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultDisplayString;
+            }
+        }
     }
 }

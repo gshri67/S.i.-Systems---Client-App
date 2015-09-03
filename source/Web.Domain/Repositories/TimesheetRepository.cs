@@ -48,7 +48,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     {
                         ClientName = "Cenovus",
                         TimesheetApprover= "Bob Smith",
-                        Status = TimesheetStatus.Open,
+                        Status = MatchGuideConstants.TimesheetStatus.Open,
                         StartDate = new DateTime(2015, 08, 01),
                         EndDate = new DateTime(2015, 08, 31),
                         TimeEntries = CenovusTimeEntries
@@ -57,9 +57,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     {
                         ClientName = "Nexen",
                         TimesheetApprover= "Sally Abbott",
-                        Status = TimesheetStatus.Open,
+                        Status = MatchGuideConstants.TimesheetStatus.Open,
                         StartDate = new DateTime(2015, 08, 01),
-                        //EndDate = new DateTime(2015, 08, 15),
                         EndDate = new DateTime(2015, 08, 31),
                         TimeEntries = NexenTimeEntries
                     },
@@ -67,7 +66,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     {
                         ClientName = "Cenovus",
                         TimesheetApprover= "Bob Smith",
-                        Status = TimesheetStatus.Pending,
+                        Status = MatchGuideConstants.TimesheetStatus.Submitted,
                         StartDate = new DateTime(2015, 07, 01),
                         EndDate = new DateTime(2015, 07, 31),
                         TimeEntries = CenovusTimeEntries
@@ -76,7 +75,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     {
                         ClientName = "Nexen",
                         TimesheetApprover= "Sally Abbott",
-                        Status = TimesheetStatus.Open,
+                        Status = MatchGuideConstants.TimesheetStatus.Approved,
                         StartDate = new DateTime(2015, 07, 01),
                         EndDate = new DateTime(2015, 07, 31),
                         TimeEntries = NexenTimeEntries
