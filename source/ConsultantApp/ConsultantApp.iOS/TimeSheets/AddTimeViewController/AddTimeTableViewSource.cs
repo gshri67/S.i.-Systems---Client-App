@@ -26,6 +26,10 @@ namespace ConsultantApp.iOS
 		private int prevSelectedRow = -1;
 		private bool addingProjectCode;//if there is an extra cell expanded for picker etc..
 
+
+		private bool mustSave;//if this is true, the save or delete button must be tapped before the cell can be minimized.
+		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
+
 		public AddTimeTableViewSource( UIViewController parentController, IEnumerable<TimeEntry> timeEntries, IEnumerable<string> projectCodes, IEnumerable<string> payRates ) 
 		{
 			this.parentController = parentController;
@@ -83,6 +87,8 @@ namespace ConsultantApp.iOS
 						    tableView.ReloadData();
 
 							onDataChanged( _timeEntries);
+
+							mustSave = false;
 					    };
                    
                     if( cell.onDelete == null )
@@ -114,6 +120,8 @@ namespace ConsultantApp.iOS
     //								_timeEntries = _timeEntries.Where( e => e != elemToRemove );
 	
 							    Console.WriteLine("Finished Removing the timeentry");
+
+								mustSave = false;
 						    }
 						Console.WriteLine(_timeEntries.Count());
 						tableView.ReloadData();
@@ -178,7 +186,7 @@ namespace ConsultantApp.iOS
 			Console.WriteLine ( "selected: " + indexPath.Item + " " + expandedCellIndex );
 
 			//Nothing happens if expanded cell is tapped
-			if ((int)indexPath.Item != expandedCellIndex) {
+			if ((int)indexPath.Item != expandedCellIndex && !mustSave ) {
 				int realSelectedIndex = entryIndex (indexPath);
 
 				if (realSelectedIndex == prevSelectedRow)
@@ -213,8 +221,11 @@ namespace ConsultantApp.iOS
 		//if a cell was added
 		public void handleNewCell()
 		{
-			if (!addingProjectCode)
-				openExpandedCell ( _timeEntries.Count()-1 );
+			if (!addingProjectCode) 
+			{
+				openExpandedCell (_timeEntries.Count () - 1);
+				mustSave = true;
+			}
 		}
 
 		public void openExpandedCell( int index )
