@@ -20,6 +20,7 @@ namespace ConsultantApp.iOS
 		private Timesheet _curTimesheet;
 		private TimesheetViewModel _timesheetModel;
 		private AddTimeTableViewSource addTimeTableViewSource;
+        private IEnumerable<string> _approvers;
 
 		public AddTimeViewController (IntPtr handle) : base (handle)
 		{
@@ -42,6 +43,14 @@ namespace ConsultantApp.iOS
 			updateUI ();
 		}
 
+        public async void LoadTimesheetApprovers()
+        {
+            if (_approvers == null) { 
+                _approvers = await _timesheetModel.GetPayRates();
+                updateUI();
+            }
+        }
+
 		//if the timesheet changes this should be called
 		public void updateUI()
 		{
@@ -52,12 +61,12 @@ namespace ConsultantApp.iOS
 					headerHoursLabel.Text = "Daily Hours: " + _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString (); 
 				}
 
-				if (tableview != null && date != null ) 
+				if (tableview != null && date != null && _approvers != null ) 
 				{
 					tableview.RegisterClassForCellReuse (typeof(TimeEntryCell), "TimeEntryCell");
 					tableview.RegisterClassForCellReuse (typeof(AddProjectCodeCell), "AddProjectCodeCell");
 
-					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)), _timesheetModel.GetProjectCodes().Result, _timesheetModel.GetPayRates().Result);
+					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)), _timesheetModel.GetProjectCodes().Result, _approvers);
 					addTimeTableViewSource.onDataChanged += delegate(IEnumerable<TimeEntry> timeEntries )
 					{
 						_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(date) ).Concat(timeEntries);
@@ -83,8 +92,10 @@ namespace ConsultantApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-            
+
 		    headerContainer.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
+
+            LoadTimesheetApprovers();
 
 			leftArrowButton.SetTitle("", UIControlState.Normal);
 			leftArrowButton.SetImage( new UIImage("leftArrow.png"), UIControlState.Normal );

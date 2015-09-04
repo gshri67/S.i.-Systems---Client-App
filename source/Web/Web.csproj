@@ -192,6 +192,7 @@
     <Compile Include="Controllers\Api\ClientDetailsController.cs" />
     <Compile Include="Controllers\Api\ConsultantMessagesController.cs" />
     <Compile Include="Controllers\Api\PayPeriodsController.cs" />
+    <Compile Include="Controllers\Api\TimesheetApproversController.cs" />
     <Compile Include="Controllers\Api\TimesheetsController.cs" />
     <Compile Include="Controllers\Api\ContractProposalController.cs" />
     <Compile Include="Controllers\Api\EulaController.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Controllers\Api\LogoutController.cs" />
     <Compile Include="Controllers\Api\ConsultantsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Api\PayRatesController.cs" />
     <Compile Include="Filters\ConsultantAccessAuthorizationAttribute.cs" />
     <Compile Include="Filters\ClientAccessAuthorizationAttribute.cs" />
     <Compile Include="Filters\RequireHttpsAttribute.cs" />

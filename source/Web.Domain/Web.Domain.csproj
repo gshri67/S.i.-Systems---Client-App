@@ -54,12 +54,15 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\ITimesheetApproverRepository.cs" />
     <Compile Include="Repositories\TimeEntryRepository.cs" />
     <Compile Include="Repositories\TimesheetRepository.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\ConsultantMessageService.cs" />
     <Compile Include="Services\ClientDetailsService.cs" />
+    <Compile Include="Services\PayRateService.cs" />
     <Compile Include="Services\PayPeriodService.cs" />
+    <Compile Include="Services\TimesheetApproverService.cs" />
     <Compile Include="Services\TimesheetService.cs" />
     <Compile Include="Services\ConsultantService.cs" />
     <Compile Include="Services\ContractProposalService.cs" />

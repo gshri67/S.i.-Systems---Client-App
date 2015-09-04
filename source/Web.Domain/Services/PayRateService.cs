@@ -19,13 +19,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         public IEnumerable<string> GetPayRates()
         {
-            List<String> list = new List<string>();
+            List<string> list = new List<string>();
             list.Add("Regular");
             list.Add("Overtime");
             list.Add("Special Rate");
+            list.Add("Unpaid");
 
-            IEnumerable<string> enumerableList = list.AsEnumerable();
-            return enumerableList;
+            return list;
         }
     }
 }

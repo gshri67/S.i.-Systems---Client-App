@@ -166,19 +166,21 @@ namespace Shared.Core
 			//return await ExecuteWithDefaultClient<string[]>();
 		}
 
-		[HttpGet("Timesheets/PayRates")]
+		[HttpGet("PayRates")]
 		public async Task<IEnumerable<string>> GetPayRates()
 		{
+            /*
+            List<String> list = new List<string>();
+            list.Add("Regular");
+            list.Add("Overtime");
+            list.Add("Special Rate");
 
-			List<String> list = new List<string> ();
-			list.Add ("Regular");
-			list.Add ("Overtime");
-			list.Add ("Special Rate");
 
-			IEnumerable<string> enumerableList = list;
-			return list;
-
-			//return await ExecuteWithDefaultClient<string[]>();
+            //IEnumerable<string> enumerableList = list.AsEnumerable();
+            
+            return list;
+            */
+			return await ExecuteWithDefaultClient<IEnumerable<string>>();
 		}
 
 		[HttpGet("Remittances")]
