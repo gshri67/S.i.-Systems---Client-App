@@ -228,7 +228,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="XIA-6r-ypa" secondAttribute="trailing" constant="-18" id="gH5-jJ-Lc2"/>
                             <constraint firstItem="jcq-tm-ZVP" firstAttribute="bottom" secondItem="71" secondAttribute="top" multiplier="0.16" id="mAb-0T-b2A"/>
                             <constraint firstItem="jKD-L4-frb" firstAttribute="bottom" secondItem="71" secondAttribute="top" multiplier="0.25" id="rfs-94-6dh"/>
-                            <constraint firstItem="71" firstAttribute="top" secondItem="i8a-Yi-wTP" secondAttribute="bottom" id="zYE-vB-NgQ"/>
+                            <constraint firstItem="71" firstAttribute="bottom" secondItem="i8a-Yi-wTP" secondAttribute="bottom" id="zYE-vB-NgQ"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>

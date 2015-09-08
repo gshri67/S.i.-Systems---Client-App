@@ -178,7 +178,7 @@ namespace ConsultantApp.iOS
 
 					#endif
 
-					Today = (CurrentDate.Date==viewDay.Date),
+					Today = ( DateTime.Now==viewDay.Date),
 					Text = i.ToString(),
 
 					Active = true,

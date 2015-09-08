@@ -84,9 +84,12 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 	    private void SetupCalendar()
 	    {
-			if( calendar != null )
-				calendar = new FMCalendar(calendar.Bounds, new CoreGraphics.CGRect(), _curTimesheet);
-
+			if (calendar != null) 
+			{
+				DateTime selectedDate = calendar.SelectedDate;
+				calendar = new FMCalendar (calendar.Bounds, new CoreGraphics.CGRect (), _curTimesheet);
+				calendar.SelectedDate = selectedDate;
+			}
 			else
 				calendar = new FMCalendar(calendarContainerView.Bounds, new CoreGraphics.CGRect(), _curTimesheet);
 			
@@ -114,6 +117,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			EdgesForExtendedLayout = UIRectEdge.Bottom;
 
 			addButton.TouchUpInside += delegate {
 				
