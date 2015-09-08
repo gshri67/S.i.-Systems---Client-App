@@ -335,8 +335,8 @@
                             <constraint firstItem="7Bk-0n-2PX" firstAttribute="leading" secondItem="SY1-su-YnR" secondAttribute="leading" id="8545"/>
                             <constraint firstItem="7Bk-0n-2PX" firstAttribute="top" secondItem="SY1-su-YnR" secondAttribute="top" id="8546"/>
                             <constraint firstItem="0ug-BX-l6C" firstAttribute="bottom" secondItem="rNA-5B-utH" secondAttribute="top" multiplier="0.9" id="K1h-6o-TY5"/>
-                            <constraint firstItem="0ug-BX-l6C" firstAttribute="leading" secondItem="SY1-su-YnR" secondAttribute="leadingMargin" constant="-16" id="MKa-2U-Lbc"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="0ug-BX-l6C" secondAttribute="trailing" constant="-16" id="bEt-2E-1Zk"/>
+                            <constraint firstItem="0ug-BX-l6C" firstAttribute="leading" secondItem="SY1-su-YnR" secondAttribute="leadingMargin" constant="-8" id="MKa-2U-Lbc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0ug-BX-l6C" secondAttribute="trailing" constant="-8" id="bEt-2E-1Zk"/>
                             <constraint firstItem="0ug-BX-l6C" firstAttribute="top" secondItem="s5c-oB-rwM" secondAttribute="bottom" constant="68" id="t58-w6-mRy"/>
                             <constraint firstItem="oxO-U1-p7Y" firstAttribute="top" secondItem="rNA-5B-utH" secondAttribute="top" multiplier="0.9" id="xjc-pH-wHi"/>
                         </constraints>

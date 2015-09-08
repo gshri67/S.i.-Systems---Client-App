@@ -144,8 +144,46 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			updateUI();
 
+			UILabel titleLabel = new UILabel ( new CoreGraphics.CGRect(0, 0, 0, 0) );
+			titleLabel.BackgroundColor = UIColor.Clear;
+			titleLabel.TextColor = UIColor.DarkGray;
+			titleLabel.Text = "Timesheet Overview";
+			titleLabel.Font = UIFont.FromName ("Arial", 20);
+			//titleLabel.Font = UIFont.BoldSystemFontOfSize (17);
+			titleLabel.SizeToFit ();
+			titleLabel.TextAlignment = UITextAlignment.Center;
 
 
+			UILabel subtitleLabel = new UILabel ( new CoreGraphics.CGRect(0, 22, 0, 0) );
+			subtitleLabel.BackgroundColor = UIColor.Clear;
+			subtitleLabel.TextColor = UIColor.DarkGray;
+			subtitleLabel.Text = "Cenovus Energy";
+			subtitleLabel.Font = UIFont.SystemFontOfSize (12);
+			subtitleLabel.TextAlignment = UITextAlignment.Center;
+			subtitleLabel.SizeToFit ();
+
+			float maxWidth;
+
+			if (titleLabel.Frame.Width >= subtitleLabel.Frame.Width) 
+			{
+				maxWidth = (float)titleLabel.Frame.Width;
+
+				subtitleLabel.Frame = new CoreGraphics.CGRect ( subtitleLabel.Frame.X, subtitleLabel.Frame.Y, maxWidth, subtitleLabel.Frame.Height );
+			} 
+			else 
+			{
+				maxWidth = (float)subtitleLabel.Frame.Width;
+
+				titleLabel.Frame = new CoreGraphics.CGRect ( titleLabel.Frame.X, titleLabel.Frame.Y, maxWidth, titleLabel.Frame.Height );
+			}
+
+
+			UIView subtitleHeaderView = new UIView( new CoreGraphics.CGRect( 0, 0, maxWidth, 30 ));
+			subtitleHeaderView.BackgroundColor = UIColor.Clear;
+			NavigationItem.TitleView = subtitleHeaderView;
+
+			subtitleHeaderView.AddSubview (titleLabel);
+			subtitleHeaderView.AddSubview (subtitleLabel);
 
 			/*
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
