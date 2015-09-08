@@ -17,6 +17,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		private Timesheet _curTimesheet;
 		private FMCalendar calendar;
 		private SubtitleHeaderView subtitleHeaderView;
+		private UIPickerView approverPicker;
+		private PickerViewModel approverPickerModel;
 
 		public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
@@ -167,44 +169,15 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 		    this.Title = string.Format(_curTimesheet.ClientName);
 
+			approverPicker = new UIPickerView ();
+			approverPickerModel = new PickerViewModel ();
+			approverPicker.Model = approverPickerModel;
+			approverNameTextField.InputView = approverPicker;
+
 			updateUI();
 
 			subtitleHeaderView = new SubtitleHeaderView ();
 			NavigationItem.TitleView = subtitleHeaderView;
-
-			/*
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.font = [UIFont boldSystemFontOfSize:20];
-    titleLabel.text = @"Your Title";
-    [titleLabel sizeToFit];
-
-    UILabel *subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, 0, 0)];
-    subTitleLabel.backgroundColor = [UIColor clearColor];
-    subTitleLabel.textColor = [UIColor whiteColor];
-    subTitleLabel.font = [UIFont systemFontOfSize:12];
-    subTitleLabel.text = @"Your subtitle";
-    [subTitleLabel sizeToFit];
-
-    UIView *twoLineTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAX(subTitleLabel.frame.size.width, titleLabel.frame.size.width), 30)];
-    [twoLineTitleView addSubview:titleLabel];
-    [twoLineTitleView addSubview:subTitleLabel];
-
-    float widthDiff = subTitleLabel.frame.size.width - titleLabel.frame.size.width;
-
-    if (widthDiff > 0) {
-        CGRect frame = titleLabel.frame;
-        frame.origin.x = widthDiff / 2;
-        titleLabel.frame = CGRectIntegral(frame);
-    }else{
-        CGRect frame = subTitleLabel.frame;
-        frame.origin.x = abs(widthDiff) / 2;
-        subTitleLabel.frame = CGRectIntegral(frame);
-    }
-
-    self.navigationItem.titleView = twoLineTitleView;
-			*/
 		}
 
 
@@ -222,6 +195,71 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
 			base.PrepareForSegue (segue, sender);
+		}
+
+		public class PickerViewModel : UIPickerViewModel
+		{
+			public delegate void pickerViewDelegate( string item );
+			public pickerViewDelegate onSelected;
+			public List<string> items;
+			public int selectedItemIndex;
+
+			public PickerViewModel()
+			{
+				selectedItemIndex = 0;
+			}
+
+			public override nint GetComponentCount (UIPickerView picker)
+			{
+				if (items == null)
+					return 1;
+				else 
+					return items.Count ();
+			}
+
+			public override nint GetRowsInComponent (UIPickerView picker, nint component)
+			{
+				if (items != null)
+					return items.Count();
+				else
+					return 0;
+			}
+
+			public override string GetTitle (UIPickerView pickerView, nint row, nint component)
+			{
+				if (items == null)
+					return "";
+				else
+					return items.ElementAt((int)row);
+			}
+
+			public override void Selected (UIPickerView pickerView, nint row, nint component)
+			{
+				/*
+				//projectcodes should be updated for selected client
+				if (pickerView == clientPickerView) 
+				{
+					projectCodes = clients.ElementAt ((int)row).projectCodes;
+					projectCodePickerView.ReloadAllComponents ();
+				}
+
+				onSelected(pickerView, row);*/
+
+				selectedItemIndex = (int)row;
+			}
+
+			public override UIView GetView (UIPickerView pickerView, nint row, nint component, UIView view)
+			{
+				UILabel lbl = new UILabel(new CoreGraphics.CGRect(0, 0, 130f, 40f));
+				lbl.TextColor = UIColor.Black;
+				lbl.Font = UIFont.SystemFontOfSize(12f);
+				lbl.TextAlignment = UITextAlignment.Center;
+
+				if (items != null )
+					lbl.Text = items.ElementAt((int)row);
+
+				return lbl;
+			}
 		}
 	}
 }
