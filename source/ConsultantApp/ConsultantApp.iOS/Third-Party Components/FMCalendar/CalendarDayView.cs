@@ -119,7 +119,7 @@ namespace ConsultantApp.iOS
 				color = SelectionColor;
 			}
 
-			int hoursFontSize = 16;
+			int hoursFontSize = 15;
 
 			//CoreGraphics.CGRect dayTextRect = new CoreGraphics.CGRect (Bounds.Width * 1.2 / 10, Bounds.Height * 1.2 / 10, Bounds.Width, Bounds.Height / 3);
 			CoreGraphics.CGRect dayTextRect = new CoreGraphics.CGRect (Bounds.Width * 1.1 / 10, Bounds.Height * 1.1 / 10, Bounds.Width/3, Bounds.Width/3);
@@ -136,9 +136,9 @@ namespace ConsultantApp.iOS
 				if (Selected && Today)
 					TodayCircleColor.SetColor ();
 				else if (Today)
-					UIColor.FromWhiteAlpha ( 0.9f, 0.5f ).SetColor();
+					UIColor.FromRGBA (1.0f, 0.8f, 0.8f, 0.5f).SetColor ();
 				else //if selected and not today
-					UIColor.FromWhiteAlpha (0.3f, 1.0f).SetColor();
+					UIColor.FromWhiteAlpha (0.3f, 0.5f).SetColor();
 
 				context.SetLineWidth(0);
 
@@ -166,10 +166,12 @@ namespace ConsultantApp.iOS
 			#if __UNIFIED__
 
 			if( totalHours != null && !totalHours.Equals("0") )
-				totalHours.DrawString (new CoreGraphics.CGRect (0, (Bounds.Height / 2) - (hoursFontSize / 2), Bounds.Width, Bounds.Height),
+			{
+				float offset = (float)Bounds.Width/10.0f;//offset hours a little to the right
+				totalHours.DrawString (new CoreGraphics.CGRect (0 + offset, (Bounds.Height / 2) - (hoursFontSize / 2), Bounds.Width - offset, Bounds.Height),
 					UIFont.SystemFontOfSize (hoursFontSize), UILineBreakMode.WordWrap,
 					UITextAlignment.Center);
-
+			}
 			if( Selected )
 				UIColor.White.SetColor();				
 			else if( !Selected && !Today )		
