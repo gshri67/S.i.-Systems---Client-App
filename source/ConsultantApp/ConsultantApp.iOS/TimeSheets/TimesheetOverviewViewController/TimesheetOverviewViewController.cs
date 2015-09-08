@@ -66,21 +66,31 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 					subtitleHeaderView.TitleText = "Timesheet Overview";
 					subtitleHeaderView.SubtitleText = _curTimesheet.ClientName;
 				}
+
+				if( calendarContainerView != null )
+					SetupCalendar ();
 			}
+
+			View.SetNeedsLayout ();
 		}
 
 	    public override void ViewWillAppear(bool animated)
 	    {
 			base.ViewWillAppear (animated);
 
-            SetupCalendar();
+            //SetupCalendar();
             updateUI();
 	    }
 
 	    private void SetupCalendar()
 	    {
-            calendar = new FMCalendar(calendarContainerView.Bounds, new CoreGraphics.CGRect(), _curTimesheet);
-            calendar.SundayFirst = true;
+			if( calendar != null )
+				calendar = new FMCalendar(calendar.Bounds, new CoreGraphics.CGRect(), _curTimesheet);
+
+			else
+				calendar = new FMCalendar(calendarContainerView.Bounds, new CoreGraphics.CGRect(), _curTimesheet);
+			
+			calendar.SundayFirst = true;
             calendarContainerView.AddSubview(calendar);
 
             calendar.DateSelected = delegate(DateTime date)
@@ -111,9 +121,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 				NavigationController.PushViewController(vc, true);
 			};
-
-			SetupCalendar();
-
 
 			submitContainerView.BackgroundColor = UIColor.White;// StyleGuideConstants.LightGrayUiColor;
 			approverContainerView.BackgroundColor = UIColor.White;//StyleGuideConstants.LightGrayUiColor;
