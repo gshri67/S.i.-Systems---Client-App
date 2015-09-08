@@ -190,6 +190,8 @@ namespace ConsultantApp.iOS
 			this.MainViewSize = mainViewSize;
 			this.HeaderViewSize = headerViewSize;
 
+			dayHeaderHeight = (float)mainViewSize.Width / 14.0f;
+
 			Initialize ();
 		}
 

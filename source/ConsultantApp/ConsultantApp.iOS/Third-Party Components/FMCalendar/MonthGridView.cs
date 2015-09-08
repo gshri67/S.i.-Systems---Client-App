@@ -89,7 +89,7 @@ namespace ConsultantApp.iOS
 			_calendarMonthView = calendarMonthView;
 			_currentMonth = month.Date;
 
-			BackgroundColor = StyleGuideConstants.LightGrayUiColor;// _calendarMonthView.MonthBackgroundColor;
+			BackgroundColor = UIColor.White;//StyleGuideConstants.LightGrayUiColor;// _calendarMonthView.MonthBackgroundColor;
 
 			this.timesheet = timesheet;
 		}

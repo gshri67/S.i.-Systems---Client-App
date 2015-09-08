@@ -131,9 +131,15 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			approverContainerView.BackgroundColor = UIColor.White;//StyleGuideConstants.LightGrayUiColor;
 			calendarHeaderView.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
 
+			approverContainerView.Layer.ShadowColor = UIColor.Black.CGColor;
+			approverContainerView.Layer.ShadowOffset = new CoreGraphics.CGSize(1, 1);
+			approverContainerView.Layer.ShadowOpacity = 0.2f;
+			approverContainerView.Layer.ShadowRadius = 0.1f;
+
+
 			DateTime curMonthDate;
 
-			if (_curTimesheet != null)
+			if (_curTimesheet != null )
 				curMonthDate = _curTimesheet.StartDate;
 			else
 				curMonthDate = DateTime.Now;
