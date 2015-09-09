@@ -72,6 +72,27 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 */
 				if( calendarContainerView != null )
 					SetupCalendar ();
+
+				if (submitButton != null && approverNameTextField != null) 
+				{
+					//if timesheet is submitted we change the name of submit to cancel
+					if (_curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted) {
+						submitButton.SetTitle ("Cancel", UIControlState.Normal);
+						submitButton.Enabled = true;
+					} else if (_curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Approved) {
+						submitButton.SetTitle ("Submit", UIControlState.Normal);
+						submitButton.Enabled = false;
+					}
+
+					if (_curTimesheet.Status != MatchGuideConstants.TimesheetStatus.Open)
+						approverNameTextField.Enabled = false;
+					else {
+						approverNameTextField.Enabled = true;
+
+						submitButton.SetTitle ("Submit", UIControlState.Normal);
+						submitButton.Enabled = true;
+					}
+				}
 			}
 
 			View.SetNeedsLayout ();
@@ -119,18 +140,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
         public async void LoadTimesheetApprovers()
         {
-
-                _approvers = await _timesheetModel.GetTimesheetApprovers(1);
-            /*
-			List<string> list = new List<string>();
-			list.Add("bob.smith@email.com");
-			list.Add("fred.smith@email.com");
-			list.Add("joe.smith@email.com");
-			list.Add("jessica.li@email.com");
-
-			_approvers = list;*/
-
-                int a;
+             _approvers = await _timesheetModel.GetTimesheetApprovers(1);
 
             if( _approvers != null )
                 approverPickerModel.items = _approvers.ToList();

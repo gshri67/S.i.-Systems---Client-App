@@ -202,7 +202,7 @@
                                 <constraints>
                                     <constraint firstItem="wu5-aW-y3u" firstAttribute="trailing" secondItem="jKD-L4-frb" secondAttribute="trailing" multiplier="0.5" id="C6C-ta-Wp4"/>
                                     <constraint firstItem="wu5-aW-y3u" firstAttribute="top" secondItem="jKD-L4-frb" secondAttribute="top" id="UtY-Da-FCe"/>
-                                    <constraint firstItem="CtX-uq-FU5" firstAttribute="leading" secondItem="jKD-L4-frb" secondAttribute="trailing" multiplier="0.6" id="bML-uc-ad4"/>
+                                    <constraint firstItem="CtX-uq-FU5" firstAttribute="leading" secondItem="jKD-L4-frb" secondAttribute="trailing" multiplier="0.35" id="bML-uc-ad4"/>
                                     <constraint firstAttribute="bottom" secondItem="wu5-aW-y3u" secondAttribute="bottom" id="l8x-to-6TI"/>
                                     <constraint firstItem="CtX-uq-FU5" firstAttribute="top" secondItem="jKD-L4-frb" secondAttribute="bottom" multiplier="0.15" id="oPY-Ql-9Tn"/>
                                     <constraint firstItem="CtX-uq-FU5" firstAttribute="bottom" secondItem="jKD-L4-frb" secondAttribute="bottom" multiplier="0.85" id="qM9-hl-Hl2"/>
