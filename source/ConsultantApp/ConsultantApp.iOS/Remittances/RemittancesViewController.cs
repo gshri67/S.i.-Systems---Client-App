@@ -54,6 +54,8 @@ namespace ConsultantApp.iOS
 			subtitleHeaderView.TitleText = "Remittances";
 			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
 			LoadRemittances ();
+
+			NavigationItem.Title = "";
 		}
 
         private static IEnumerable<Remittance> tempRemittances

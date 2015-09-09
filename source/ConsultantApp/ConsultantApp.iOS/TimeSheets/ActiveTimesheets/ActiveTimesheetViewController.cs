@@ -77,6 +77,8 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 			subtitleHeaderView.TitleText = "Timesheets";
 			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
+
+			NavigationItem.Title = "";
 		}
 
 	    public override void ViewWillAppear(bool animated)

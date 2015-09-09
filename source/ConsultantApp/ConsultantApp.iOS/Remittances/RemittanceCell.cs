@@ -21,7 +21,7 @@ namespace ConsultantApp.iOS
 		{
 			depositDateLabel.Text = depositDate;
 			documentNumberLabel.Text = documentNumber;
-			amountLabel.Text = "$" + amount.ToString ();
+			amountLabel.Text = "$" + amount.ToString ("0.00");
 			periodLabel.Text = period;
 		}
 	}

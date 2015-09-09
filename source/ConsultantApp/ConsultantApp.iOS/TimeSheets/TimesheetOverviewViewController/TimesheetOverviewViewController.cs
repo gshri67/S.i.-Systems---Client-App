@@ -215,6 +215,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			subtitleHeaderView.TitleText = "Timesheet Overview";
 			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
+
+			NavigationItem.Title = "";
 		}
 
 		public void doneButtonTapped(object sender, EventArgs args)
