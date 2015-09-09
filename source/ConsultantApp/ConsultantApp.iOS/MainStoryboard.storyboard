@@ -47,7 +47,7 @@
                                     <segue destination="kfI-I6-4fa" kind="push" id="y6L-l5-o7a"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcq-tm-ZVP" userLabel="SubmitContainer" misplaced="YES">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcq-tm-ZVP" userLabel="SubmitContainer">
                                 <rect key="frame" x="-2" y="0.0" width="324" height="73"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="217" customClass="BorderedButton">
@@ -386,6 +386,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="193">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <color key="barTintColor" white="0.96999999999999997" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <connections>
                         <segue destination="192" kind="relationship" relationship="rootViewController" id="191"/>
@@ -435,7 +436,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="9/15-9/30" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="00K-ec-4cW">
                                                     <rect key="frame" x="8" y="17" width="74" height="24"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="KwQ-TJ-7iw"/>
+                                                        <constraint firstAttribute="width" constant="100" id="KwQ-TJ-7iw"/>
                                                         <constraint firstAttribute="height" constant="24" id="wF5-ih-duy"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -485,7 +486,7 @@
                                 <sections/>
                             </tableView>
                             <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9MP-VD-Eed" userLabel="tableColumnHeader">
-                                <rect key="frame" x="0.0" y="64" width="320" height="5126"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="500"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Deposit Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WTs-44-ZvY">
                                         <rect key="frame" x="19" y="16" width="100" height="21"/>
@@ -608,12 +609,12 @@
                                             <constraints>
                                                 <constraint firstItem="1422" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" id="1426"/>
                                                 <constraint firstItem="1429" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" id="1430"/>
-                                                <constraint firstItem="1536" firstAttribute="top" secondItem="zow-OQ-99l" secondAttribute="top" constant="5" id="1547" relation="greaterThanOrEqual"/>
+                                                <constraint firstItem="1536" firstAttribute="top" relation="greaterThanOrEqual" secondItem="zow-OQ-99l" secondAttribute="top" constant="5" id="1547"/>
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="1411" secondAttribute="leading" id="1548"/>
                                                 <constraint firstItem="1429" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1536" secondAttribute="trailing" constant="15" id="1549"/>
                                                 <constraint firstItem="1411" firstAttribute="top" secondItem="1536" secondAttribute="bottom" constant="3" id="1551"/>
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="zow-OQ-99l" secondAttribute="leading" constant="13" id="1552"/>
-                                                <constraint firstAttribute="bottom" secondItem="1411" secondAttribute="bottom" constant="5" id="1563" relation="greaterThanOrEqual"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="1411" secondAttribute="bottom" constant="5" id="1563"/>
                                                 <constraint firstItem="1536" firstAttribute="trailing" secondItem="1411" secondAttribute="trailing" id="1596"/>
                                                 <constraint firstAttribute="trailing" secondItem="1422" secondAttribute="trailing" constant="5" id="8503"/>
                                                 <constraint firstItem="1422" firstAttribute="leading" secondItem="8489" secondAttribute="trailing" constant="5" id="8504"/>
@@ -786,13 +787,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxA-Ki-6cL" misplaced="YES">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxA-Ki-6cL">
                                 <rect key="frame" x="16" y="28" width="136" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4By-en-5hr" misplaced="YES">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4By-en-5hr">
                                 <rect key="frame" x="16" y="114" width="136" height="28"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -898,7 +899,7 @@
                                     <action selector="SubmitButton_TouchUpInside:" destination="7347" eventType="touchUpInside" id="7711"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7729" misplaced="YES">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7729">
                                 <rect key="frame" x="142" y="186" width="37" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="37" id="7732"/>
@@ -955,12 +956,6 @@
     </scenes>
     <resources>
         <image name="sisystems_logo.jpg" width="730" height="253"/>
-        <image name="app-button.png" width="40" height="22"/>
-        <image name="Default-568h.png" width="640" height="1136"/>
-        <image name="ios7-clock-outline.png" width="50" height="50"/>
-        <image name="leftArrow.png" width="32" height="32"/>
-        <image name="rightArrow.png" width="32" height="32"/>
-        <image name="social-usd.png" width="50" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
