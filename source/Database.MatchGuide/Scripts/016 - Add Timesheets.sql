@@ -29,9 +29,9 @@ INSERT INTO [dbo].[TimeSheet]
 		   --Tommy, Jul 1 - 31, Approved, Bob Smith (Direct Report)
 		   ,(10, 1, 3, 624, 1)
 		   --Candice, June 1 - 15, Approved, Bob Smith (Direct Report)
-		   ,(12, 1, 3, 624, 1)
+		   ,(12, 1, 7, 624, 1)
 		   --Candice, Jul 16 - 30, Approved, Bob Smith (Direct Report)
-		   ,(12, 1, 3, 624, 1);
+		   ,(12, 1, 8, 624, 1);
 
 INSERT INTO [dbo].[TimeSheetDetail]
            ([ContractRateID]

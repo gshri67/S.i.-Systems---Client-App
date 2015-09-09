@@ -175,22 +175,7 @@ namespace Shared.Core
 		[HttpGet("Remittances")]
 		public async Task<IEnumerable<Remittance>> GetRemittances()
 		{
-			List<Remittance> list = new List<Remittance> ();
-
-			for( int i = 0; i < 5; i ++ )
-			{
-				Remittance r = new Remittance();
-				r.Amount = 2000.22f;
-				r.DepositDate = DateTime.Now;
-				r.StartDate = new DateTime (2015, 8, 1);
-				r.EndDate = new DateTime (2015, 8, 31);
-				r.DocumentNumber = "876543";
-
-				list.Add (r);
-			}
-
-			IEnumerable<Remittance> enumerableList = list;
-			return list;
+		    return await ExecuteWithDefaultClient<IEnumerable<Remittance>>();
 		}
 
 

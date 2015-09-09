@@ -191,6 +191,7 @@
     <Compile Include="Caching\ObjectCache.cs" />
     <Compile Include="Controllers\Api\ClientDetailsController.cs" />
     <Compile Include="Controllers\Api\ConsultantMessagesController.cs" />
+    <Compile Include="Controllers\Api\RemittancesController .cs" />
     <Compile Include="Controllers\Api\PayPeriodsController.cs" />
     <Compile Include="Controllers\Api\TimesheetApproversController.cs" />
     <Compile Include="Controllers\Api\TimesheetsController.cs" />
