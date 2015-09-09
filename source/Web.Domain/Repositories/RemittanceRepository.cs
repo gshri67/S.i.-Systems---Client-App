@@ -54,14 +54,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         Amount = (float) 2653.50,
                         DocumentNumber = "6D23490"
                     }
-                    ,new Remittance
-                    {
-                        StartDate = Convert.ToDateTime("2015-06-16"),
-                        EndDate =  Convert.ToDateTime("2015-06-30"),
-                        DepositDate = Convert.ToDateTime("2015-07-03"),
-                        Amount = (float) 2653.50,
-                        DocumentNumber = "6D23490"
-                    }
                 };
             }
         }
