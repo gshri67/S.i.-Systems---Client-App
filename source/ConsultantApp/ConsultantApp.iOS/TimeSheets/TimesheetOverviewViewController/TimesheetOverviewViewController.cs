@@ -19,6 +19,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		private SubtitleHeaderView subtitleHeaderView;
 		private UIPickerView approverPicker;
 		private PickerViewModel approverPickerModel;
+		IEnumerable<string> _approvers;
 
 		public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
@@ -119,10 +120,15 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         public async void LoadTimesheetApprovers()
         {
 
-                IEnumerable<string> _approvers = await _timesheetModel.GetTimesheetApprovers(1);
+                //_approvers = await _timesheetModel.GetTimesheetApprovers(1);
 
-                if (_approvers != null)
-                    Console.WriteLine("approvers is not null");
+			List<string> list = new List<string>();
+			list.Add("bob.smith@email.com");
+			list.Add("fred.smith@email.com");
+			list.Add("joe.smith@email.com");
+			list.Add("jessica.li@email.com");
+
+			_approvers = list;
         }
 
 		public override void ViewDidLoad ()
@@ -180,10 +186,27 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 		    this.Title = string.Format(_curTimesheet.ClientName);
 
+			//add picker in keyboard when approverTextField tapped
 			approverPicker = new UIPickerView ();
+			approverPicker.BackgroundColor = UIColor.White;
 			approverPickerModel = new PickerViewModel ();
+			approverPickerModel.items = _approvers.ToList();
 			approverPicker.Model = approverPickerModel;
 			approverNameTextField.InputView = approverPicker;
+
+			approverPicker.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
+
+			//add toolbar with done button on top of picker
+			var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, View.Frame.Size.Width, 44.0f));
+
+			toolbar.Items = new[]
+			{
+				new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace),
+				new UIBarButtonItem(UIBarButtonSystemItem.Done, doneButtonTapped)
+			};
+
+			approverNameTextField.InputAccessoryView = toolbar;
+
 
 			updateUI();
 
@@ -191,6 +214,12 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			NavigationItem.TitleView = subtitleHeaderView;
 		}
 
+		public void doneButtonTapped(object sender, EventArgs args)
+		{
+			approverNameTextField.Text = _approvers.ElementAt(approverPickerModel.selectedItemIndex);
+
+			approverNameTextField.ResignFirstResponder ();
+		}
 
 		//dismiss keyboard when tapping outside of text fields
 		public override void TouchesBegan(NSSet touches, UIEvent evt)
@@ -222,10 +251,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			public override nint GetComponentCount (UIPickerView picker)
 			{
-				if (items == null)
-					return 1;
-				else 
-					return items.Count ();
+				return 1;
 			}
 
 			public override nint GetRowsInComponent (UIPickerView picker, nint component)
