@@ -221,6 +221,44 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			approverNameTextField.InputAccessoryView = toolbar;
 
+			submitButton.TouchUpInside += delegate(object sender, EventArgs e) {
+
+				if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
+				{
+					bool allZeros = _curTimesheet.TimeEntries.Sum(t => t.Hours) == 0;
+					bool permissionToSubmit = true;
+
+					if( allZeros )
+					{
+						var sheet = new UIActionSheet();
+						sheet.Title = "Are you sure you want to submit a timesheet with zero entries?";
+						sheet.AddButton("Submit");
+						sheet.AddButton("Cancel");
+						sheet.DestructiveButtonIndex = 0;
+						sheet.CancelButtonIndex = 1;
+						sheet.Clicked += delegate (object sender2, UIButtonEventArgs args)
+						{
+							//if logout button tapped
+							if (args.ButtonIndex == 1)
+								permissionToSubmit = false;
+
+							if( permissionToSubmit )
+							{
+								_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Submitted;
+								updateUI();
+							}
+						};
+						sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);// ShowInView(View);
+					}
+					//if( permissionToSubmit )
+					else
+						_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Submitted;
+				}
+				else if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted )
+					_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Open;
+
+				updateUI();
+			};
 
 			updateUI();
 
