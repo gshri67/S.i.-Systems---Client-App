@@ -44,10 +44,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                 }).ToList();*/
 
             List<string> list = new List<string>();
-            list.Add("Bob");
-            list.Add("Joe");
-            list.Add("Antony");
-            list.Add("Jessica");
+            list.Add("bob.smith@email.com");
+            list.Add("fred.flintstone@email.com");
+            list.Add("joe.johnson@email.com");
+            list.Add("jessica.li@email.com");
 
             return list;
         }
