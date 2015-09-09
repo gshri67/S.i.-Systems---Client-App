@@ -20,7 +20,7 @@ namespace ConsultantApp.iOS
 		{
 			depositDateLabel.Text = depositDate;
 			documentNumberLabel.Text = documentNumber;
-           		amountLabel.Text = string.Format("{0:c}", amount);
+           	amountLabel.Text = string.Format("{0:c}", amount);
 			periodLabel.Text = period;
 		}
 	}
