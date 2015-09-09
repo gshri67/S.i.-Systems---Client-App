@@ -641,7 +641,7 @@
                             <constraint firstItem="275" firstAttribute="leading" secondItem="255" secondAttribute="leading" id="1578"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Active Timesheets" id="1023"/>
+                    <navigationItem key="navigationItem" title="Timesheets" id="1023"/>
                     <connections>
                         <outlet property="ActiveTimesheets" destination="255" id="name-outlet-255"/>
                         <outlet property="ActiveTimesheetsTable" destination="275" id="name-outlet-275"/>
