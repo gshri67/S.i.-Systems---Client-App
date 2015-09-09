@@ -79,6 +79,24 @@ namespace ConsultantApp.iOS
 
 					tableview.ReloadData();
 				}
+
+				//if timesheet is submitted or approved etc.. we cannot add or edit the project codes
+				if (_curTimesheet.Status != MatchGuideConstants.TimesheetStatus.Open) 
+				{
+					if (addButton != null)
+						addButton.Enabled = false;
+
+					if (tableview != null)
+						tableview.UserInteractionEnabled = false;
+				}
+				else
+				{
+					if (addButton != null)
+						addButton.Enabled = true;
+
+					if (tableview != null)
+						tableview.UserInteractionEnabled = true;
+				}
 			}
 
 			if (date != null) 
