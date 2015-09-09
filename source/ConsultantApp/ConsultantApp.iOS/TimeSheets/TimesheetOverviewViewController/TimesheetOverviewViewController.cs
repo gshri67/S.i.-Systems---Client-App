@@ -219,9 +219,15 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 		public void doneButtonTapped(object sender, EventArgs args)
 		{
-			approverNameTextField.Text = _approvers.ElementAt(approverPickerModel.selectedItemIndex);
+			string selectedApprover = _approvers.ElementAt (approverPickerModel.selectedItemIndex);
+			approverNameTextField.Text = selectedApprover;
+
+			//save approver
+			_curTimesheet.TimesheetApprover = selectedApprover;
 
 			approverNameTextField.ResignFirstResponder ();
+
+			updateUI ();
 		}
 
 		//dismiss keyboard when tapping outside of text fields
