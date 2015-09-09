@@ -103,7 +103,7 @@ namespace ConsultantApp.iOS
 			{
 				if (headerDateLabel != null) 
 				{
-					headerDateLabel.Text = date.ToString("MMM") + " " + date.ToString("dd").TrimStart('0');
+					headerDateLabel.Text = date.ToString("ddd") + " " + date.ToString("MMM") + " " + date.ToString("dd").TrimStart('0');
 				}
 			}
 		}
@@ -145,8 +145,22 @@ namespace ConsultantApp.iOS
 				int inPeriodComparison = date.AddDays(1).CompareTo(_curTimesheet.EndDate);
 
 				if( inPeriodComparison <= 0 )
+				{
+					DateTime oldDate = date;
 					SetDate(this.date.AddDays(1));
 
+					//copy over
+					if( _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)).Count() == 0 )
+					{
+						/*
+						List<TimeEntry> entries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate));
+						//copy over the previous days time entries by copying them, changing the dates, and concatenating
+						foreach( TimeEntry e in entries )
+						{
+							
+						}*/
+					}
+				}
 				if( inPeriodComparison >= 0 )
 					rightArrowButton.Hidden = true;
 				else
