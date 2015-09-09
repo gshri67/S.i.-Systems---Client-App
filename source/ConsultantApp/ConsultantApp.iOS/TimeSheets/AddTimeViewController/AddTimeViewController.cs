@@ -21,6 +21,7 @@ namespace ConsultantApp.iOS
 		private TimesheetViewModel _timesheetModel;
 		private AddTimeTableViewSource addTimeTableViewSource;
         private IEnumerable<string> _approvers;
+		private SubtitleHeaderView subtitleHeaderView;
 
 		public AddTimeViewController (IntPtr handle) : base (handle)
 		{
@@ -170,6 +171,12 @@ namespace ConsultantApp.iOS
 			tableview.ContentInset = new UIEdgeInsets (-35, 0, 0, 0);
 
 			updateUI ();
+
+			subtitleHeaderView = new SubtitleHeaderView ();
+			NavigationItem.TitleView = subtitleHeaderView;
+
+			subtitleHeaderView.TitleText = "Add/Edit Time";
+			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
 		}
 
         //public override void ViewDidLayoutSubviews()

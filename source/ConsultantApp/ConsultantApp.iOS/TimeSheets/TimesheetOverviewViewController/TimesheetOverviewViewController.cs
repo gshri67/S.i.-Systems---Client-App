@@ -63,13 +63,13 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			    {
 			        approverNameTextField.Text = _curTimesheet.TimesheetApprover;
 			    }
-
+				/*
 				if (subtitleHeaderView != null) 
 				{
 					subtitleHeaderView.TitleText = "Timesheet Overview";
 					subtitleHeaderView.SubtitleText = _curTimesheet.ClientName;
 				}
-
+*/
 				if( calendarContainerView != null )
 					SetupCalendar ();
 			}
@@ -212,6 +212,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			subtitleHeaderView = new SubtitleHeaderView ();
 			NavigationItem.TitleView = subtitleHeaderView;
+
+			subtitleHeaderView.TitleText = "Timesheet Overview";
+			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
 		}
 
 		public void doneButtonTapped(object sender, EventArgs args)

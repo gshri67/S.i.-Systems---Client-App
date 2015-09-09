@@ -18,6 +18,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
         private readonly ActiveTimesheetViewModel _activeTimesheetModel;
         private LoadingOverlay _overlay;
         public const string TimesheetSelectedSegue = "TimesheetSelected";
+		private SubtitleHeaderView subtitleHeaderView;
 
 	    private IEnumerable<PayPeriod> _payPeriods;
 
@@ -70,6 +71,12 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
             LoadTimesheets();
 
             LogoutManager.CreateNavBarRightButton(this);
+
+			subtitleHeaderView = new SubtitleHeaderView ();
+			NavigationItem.TitleView = subtitleHeaderView;
+
+			subtitleHeaderView.TitleText = "Timesheets";
+			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
 		}
 
 	    public override void ViewWillAppear(bool animated)

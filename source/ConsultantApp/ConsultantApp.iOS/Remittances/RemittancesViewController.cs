@@ -14,6 +14,7 @@ namespace ConsultantApp.iOS
 	{
 		private RemittanceViewModel _remittanceModel;
 		private IEnumerable<Remittance> _remittances;
+		private SubtitleHeaderView subtitleHeaderView;
 
 		public RemittancesViewController (IntPtr handle) : base (handle)
 		{
@@ -38,6 +39,12 @@ namespace ConsultantApp.iOS
 
 			tableview.Source = new RemittancesTableViewSource (this, _remittances);
 			tableview.ReloadData();
+
+			subtitleHeaderView = new SubtitleHeaderView ();
+			NavigationItem.TitleView = subtitleHeaderView;
+
+			subtitleHeaderView.TitleText = "Remittances";
+			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
 		}
 	}
 }
