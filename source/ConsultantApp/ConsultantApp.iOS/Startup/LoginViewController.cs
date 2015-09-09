@@ -32,8 +32,6 @@ namespace ConsultantApp.iOS
 		{
 			base.ViewWillLayoutSubviews ();
 
-			NavigationController.NavigationBar.Hidden = true;
-
 		}
 
         public override void DidReceiveMemoryWarning()
@@ -114,6 +112,8 @@ namespace ConsultantApp.iOS
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
+
+			NavigationController.NavigationBar.Hidden = true;
         }
 
         public override void ViewDidAppear(bool animated)
