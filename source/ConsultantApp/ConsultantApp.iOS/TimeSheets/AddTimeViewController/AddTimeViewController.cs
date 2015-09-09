@@ -20,7 +20,7 @@ namespace ConsultantApp.iOS
 		private Timesheet _curTimesheet;
 		private TimesheetViewModel _timesheetModel;
 		private AddTimeTableViewSource addTimeTableViewSource;
-        private IEnumerable<string> _approvers;
+        private IEnumerable<string> _payRates;
 		private SubtitleHeaderView subtitleHeaderView;
 
 		public AddTimeViewController (IntPtr handle) : base (handle)
@@ -44,10 +44,10 @@ namespace ConsultantApp.iOS
 			updateUI ();
 		}
 
-        public async void LoadTimesheetApprovers()
+        public async void LoadPayRates()
         {
-            if (_approvers == null) { 
-                _approvers = await _timesheetModel.GetPayRates();
+            if (_payRates == null) { 
+                _payRates = await _timesheetModel.GetPayRates();
                 updateUI();
             }
         }
@@ -62,12 +62,12 @@ namespace ConsultantApp.iOS
 					headerHoursLabel.Text = "Daily Hours: " + _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString (); 
 				}
 
-				if (tableview != null && date != null && _approvers != null ) 
+                if (tableview != null && date != null && _payRates != null) 
 				{
 					tableview.RegisterClassForCellReuse (typeof(TimeEntryCell), "TimeEntryCell");
 					tableview.RegisterClassForCellReuse (typeof(AddProjectCodeCell), "AddProjectCodeCell");
 
-					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)), _timesheetModel.GetProjectCodes().Result, _approvers);
+					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)), _timesheetModel.GetProjectCodes().Result, _payRates);
 					addTimeTableViewSource.onDataChanged += delegate(IEnumerable<TimeEntry> timeEntries )
 					{
 						_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(date) ).Concat(timeEntries);
@@ -114,7 +114,7 @@ namespace ConsultantApp.iOS
 
 		    headerContainer.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
 
-            LoadTimesheetApprovers();
+            LoadPayRates();
 
 			leftArrowButton.SetTitle("", UIControlState.Normal);
 			leftArrowButton.SetImage( new UIImage("leftArrow.png"), UIControlState.Normal );

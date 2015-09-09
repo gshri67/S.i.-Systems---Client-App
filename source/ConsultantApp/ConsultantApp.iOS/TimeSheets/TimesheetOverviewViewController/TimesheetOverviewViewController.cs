@@ -120,15 +120,20 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         public async void LoadTimesheetApprovers()
         {
 
-                //_approvers = await _timesheetModel.GetTimesheetApprovers(1);
-
+                _approvers = await _timesheetModel.GetTimesheetApprovers(1);
+            /*
 			List<string> list = new List<string>();
 			list.Add("bob.smith@email.com");
 			list.Add("fred.smith@email.com");
 			list.Add("joe.smith@email.com");
 			list.Add("jessica.li@email.com");
 
-			_approvers = list;
+			_approvers = list;*/
+
+                int a;
+
+            if( _approvers != null )
+                approverPickerModel.items = _approvers.ToList();
         }
 
 		public override void ViewDidLoad ()
@@ -190,7 +195,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			approverPicker = new UIPickerView ();
 			approverPicker.BackgroundColor = UIColor.White;
 			approverPickerModel = new PickerViewModel ();
-			approverPickerModel.items = _approvers.ToList();
 			approverPicker.Model = approverPickerModel;
 			approverNameTextField.InputView = approverPicker;
 

@@ -179,10 +179,10 @@ namespace Shared.Core
 		}
 
 
-        [HttpGet("api/TimesheetApprovers")]
-        public async Task<IEnumerable<string>> GetTimesheetApprovers(int clientID)
+        [HttpGet("TimesheetApprovers/{id}")]
+        public async Task<IEnumerable<string>> GetTimesheetApprovers(int id)
         {
-            return await ExecuteWithDefaultClient<IEnumerable<string>>(clientID);
+            return await ExecuteWithDefaultClient<IEnumerable<string>>(new { id });
         }
     }
 }
