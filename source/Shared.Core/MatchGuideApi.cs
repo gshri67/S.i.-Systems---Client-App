@@ -169,17 +169,6 @@ namespace Shared.Core
 		[HttpGet("PayRates")]
 		public async Task<IEnumerable<string>> GetPayRates()
 		{
-            /*
-            List<String> list = new List<string>();
-            list.Add("Regular");
-            list.Add("Overtime");
-            list.Add("Special Rate");
-
-
-            //IEnumerable<string> enumerableList = list.AsEnumerable();
-            
-            return list;
-            */
 			return await ExecuteWithDefaultClient<IEnumerable<string>>();
 		}
 
@@ -203,5 +192,12 @@ namespace Shared.Core
 			IEnumerable<Remittance> enumerableList = list;
 			return list;
 		}
+
+
+        [HttpGet("api/TimesheetApprovers")]
+        public async Task<IEnumerable<string>> GetTimesheetApprovers(int clientID)
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<string>>(clientID);
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _timeSheetApproverRepository = timesheetApproverRepository;
         }
 
-        public IEnumerable<string> GetTimesheetApprovers()
+        public IEnumerable<string> GetTimesheetApprovers( int clientID )
         {/*
             var timesheets = _timeSheetRepository.GetTimesheetsForUser(_sessionContext.CurrentUser.Id).ToList();
             foreach (var timesheet in timesheets)
@@ -43,7 +43,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                     EndDate = @group.First().EndDate
                 }).ToList();*/
 
-            return null;
+            List<string> list = new List<string>();
+            list.Add("Bob");
+            list.Add("Joe");
+            list.Add("Antony");
+            list.Add("Jessica");
+
+            return list;
         }
     }
 }

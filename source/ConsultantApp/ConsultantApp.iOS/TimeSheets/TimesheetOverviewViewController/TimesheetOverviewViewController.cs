@@ -116,9 +116,20 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             calendarRightButton.SetImage(new UIImage("rightArrow.png"), UIControlState.Normal);
 	    }
 
+        public async void LoadTimesheetApprovers()
+        {
+
+                IEnumerable<string> _approvers = await _timesheetModel.GetTimesheetApprovers(1);
+
+                if (_approvers != null)
+                    Console.WriteLine("approvers is not null");
+        }
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+            LoadTimesheetApprovers();
 
 			EdgesForExtendedLayout = UIRectEdge.Bottom;
 

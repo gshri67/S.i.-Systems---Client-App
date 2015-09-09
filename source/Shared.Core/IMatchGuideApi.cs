@@ -34,5 +34,7 @@ namespace Shared.Core
 		Task<IEnumerable<string>> GetPayRates();
 
 		Task<IEnumerable<Remittance>> GetRemittances();
+
+        Task<IEnumerable<string>> GetTimesheetApprovers( int clientID );
     }
 }

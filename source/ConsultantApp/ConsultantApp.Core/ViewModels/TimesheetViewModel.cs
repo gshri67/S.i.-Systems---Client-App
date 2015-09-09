@@ -29,6 +29,11 @@ namespace ConsultantApp.Core.ViewModels
 		{
 			return _api.GetPayRates();
 		}
+
+        public Task<IEnumerable<string>> GetTimesheetApprovers(int clientID)
+        {
+            return _api.GetTimesheetApprovers(clientID);
+        }
 	}
 }
 
