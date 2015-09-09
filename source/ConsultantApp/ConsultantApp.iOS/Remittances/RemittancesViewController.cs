@@ -6,6 +6,7 @@ using ConsultantApp.Core.ViewModels;
 using Microsoft.Practices.Unity;
 using System.Collections;
 using System.Collections.Generic;
+using CoreGraphics;
 using SiSystems.SharedModels;
 using System.Linq;
 
@@ -13,9 +14,10 @@ namespace ConsultantApp.iOS
 {
 	partial class RemittancesViewController : UIViewController
 	{
-		private RemittanceViewModel _remittanceModel;
+		private readonly RemittanceViewModel _remittanceModel;
 		private IEnumerable<Remittance> _remittances;
-		private SubtitleHeaderView subtitleHeaderView;
+        private LoadingOverlay _overlay;
+		private SubtitleHeaderView _subtitleHeaderView;
 
 		public RemittancesViewController (IntPtr handle) : base (handle)
 		{
@@ -24,13 +26,11 @@ namespace ConsultantApp.iOS
 			EdgesForExtendedLayout = UIRectEdge.None;
 		}
 
-		//public async void LoadRemittances()
-        public void LoadRemittances()
+		public async void LoadRemittances()
 		{
-			//IndicateLoading();
-            //if (_remittances == null)
-            //    _remittances = await _remittanceModel.GetRemittances();
-			_remittances = tempRemittances;
+			IndicateLoading();
+            if (_remittances == null)
+                _remittances = await _remittanceModel.GetRemittances();
 
 			UpdateTableSource();
 
@@ -42,6 +42,7 @@ namespace ConsultantApp.iOS
 
 	    private void UpdateTableSource()
 	    {
+            RemoveOverlay();
 	        InvokeOnMainThread(() =>
 	        {
                 tableview.Source = new RemittancesTableViewSource(this, _remittances);
@@ -54,11 +55,11 @@ namespace ConsultantApp.iOS
 			base.ViewDidLoad ();
 			
 
-			subtitleHeaderView = new SubtitleHeaderView ();
-			NavigationItem.TitleView = subtitleHeaderView;
+			_subtitleHeaderView = new SubtitleHeaderView ();
+			NavigationItem.TitleView = _subtitleHeaderView;
 
-			subtitleHeaderView.TitleText = "Remittances";
-			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
+			_subtitleHeaderView.TitleText = "Remittances";
+			_subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
 			LoadRemittances ();
 
 			NavigationItem.Title = "";
@@ -66,30 +67,28 @@ namespace ConsultantApp.iOS
 			LogoutManager.CreateNavBarRightButton(this);
 		}
 
-        private static IEnumerable<Remittance> tempRemittances
+        #region Overlay
+
+        private void IndicateLoading()
         {
-            get
+            InvokeOnMainThread(delegate
             {
-                return new List<Remittance>
-                {
-                    new Remittance
-                    {
-                        StartDate = Convert.ToDateTime("2015-06-01"),
-                        EndDate =  Convert.ToDateTime("2015-06-15"),
-                        DepositDate = Convert.ToDateTime("2015-06-17"),
-                        Amount = (float) 2653.50,
-                        DocumentNumber = "6C94239"
-                    }
-                    ,new Remittance
-                    {
-                        StartDate = Convert.ToDateTime("2015-06-16"),
-                        EndDate =  Convert.ToDateTime("2015-06-30"),
-                        DepositDate = Convert.ToDateTime("2015-07-03"),
-                        Amount = (float) 2653.50,
-                        DocumentNumber = "6D23490"
-                    }
-                };
-            }
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(RemitanceView.Frame.X, RemitanceView.Frame.Y, RemitanceView.Frame.Width, RemitanceView.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
         }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }

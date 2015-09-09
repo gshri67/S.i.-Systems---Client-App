@@ -172,7 +172,7 @@ namespace Shared.Core
 			return await ExecuteWithDefaultClient<IEnumerable<string>>();
 		}
 
-		[HttpGet("Remittances")]
+        [HttpGet("Remittances")]
 		public async Task<IEnumerable<Remittance>> GetRemittances()
 		{
 		    return await ExecuteWithDefaultClient<IEnumerable<Remittance>>();

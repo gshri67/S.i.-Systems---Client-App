@@ -498,6 +498,7 @@
                     <connections>
                         <outlet property="noRemittancesLabel" destination="Lrn-Nv-x2v" id="tzj-Ys-ADf"/>
                         <outlet property="tableview" destination="bsZ-z0-C7B" id="a4Y-Gy-xDw"/>
+                        <outlet property="RemitanceView" destination="197" id="name-outlet-197"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="198" userLabel="First Responder" sceneMemberID="firstResponder"/>

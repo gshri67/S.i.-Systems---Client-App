@@ -21,11 +21,15 @@ namespace ConsultantApp.iOS
 		[Outlet]
 		UIKit.UITableView tableview { get; set; }
 		
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIView RemitanceView { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
-			if (tableColumnHeaderView != null) {
-				tableColumnHeaderView.Dispose ();
-				tableColumnHeaderView = null;
+			if (RemitanceView != null) {
+				RemitanceView.Dispose ();
+				RemitanceView = null;
 			}
 
 			if (tableview != null) {

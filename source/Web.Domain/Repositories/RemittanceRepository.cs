@@ -26,7 +26,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 
                 //var remittances = db.Connection.Query<Remittance>(query, new { UserId = userId});
 
-
+                
 
                 return tempRemittances;
             }
