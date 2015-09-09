@@ -11,6 +11,7 @@ using UIKit;
 
 namespace ConsultantApp.iOS
 {
+	[Register ("RemittanceCell")]
 	partial class RemittanceCell
 	{
 		[Outlet]

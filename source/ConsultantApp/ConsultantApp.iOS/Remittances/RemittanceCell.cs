@@ -4,7 +4,6 @@ using Foundation;
 
 namespace ConsultantApp.iOS
 {
-	[Foundation.Register ("RemittanceCell")]
 	partial class RemittanceCell : UITableViewCell
 	{
 		public RemittanceCell (IntPtr handle) : base (handle)
@@ -21,7 +20,7 @@ namespace ConsultantApp.iOS
 		{
 			depositDateLabel.Text = depositDate;
 			documentNumberLabel.Text = documentNumber;
-			amountLabel.Text = "$" + amount.ToString ("0.00");
+           		amountLabel.Text = string.Format("{0:c}", amount);
 			periodLabel.Text = period;
 		}
 	}
