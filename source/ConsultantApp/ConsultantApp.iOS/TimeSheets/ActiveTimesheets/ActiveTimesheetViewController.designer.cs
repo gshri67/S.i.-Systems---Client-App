@@ -1,13 +1,11 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 {
@@ -15,25 +13,37 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	partial class ActiveTimesheetViewController
 	{
 		[Outlet]
+		UIKit.UIView ActiveTimesheets { get; set; }
+
+		[Outlet]
+		UIKit.UITableView ActiveTimesheetsTable { get; set; }
+
+		[Outlet]
+		UIKit.UILabel noTimesheetsLabel { get; set; }
+
+		[Outlet]
 		UIKit.UITableView tableview { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIView ActiveTimesheets { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView ActiveTimesheetsTable { get; set; }
-
+		
 		void ReleaseDesignerOutlets ()
 		{
+			if (tableview != null) {
+				tableview.Dispose ();
+				tableview = null;
+			}
+
 			if (ActiveTimesheets != null) {
 				ActiveTimesheets.Dispose ();
 				ActiveTimesheets = null;
 			}
+
 			if (ActiveTimesheetsTable != null) {
 				ActiveTimesheetsTable.Dispose ();
 				ActiveTimesheetsTable = null;
+			}
+
+			if (noTimesheetsLabel != null) {
+				noTimesheetsLabel.Dispose ();
+				noTimesheetsLabel = null;
 			}
 		}
 	}

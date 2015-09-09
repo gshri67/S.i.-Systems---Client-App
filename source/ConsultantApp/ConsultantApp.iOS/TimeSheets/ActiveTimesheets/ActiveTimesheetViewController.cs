@@ -9,6 +9,8 @@ using SiSystems.SharedModels;
 using UIKit;
 using ConsultantApp.iOS.TimeEntryViewController;
 using CoreGraphics;
+using System.Linq;
+
 
 namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 {
@@ -50,6 +52,11 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                 _payPeriods = await _activeTimesheetModel.GetPayPeriods();
 
             UpdateTableSource();
+
+			if (_payPeriods == null || _payPeriods.Count() <= 0 )
+				noTimesheetsLabel.Hidden = false;
+			else
+				noTimesheetsLabel.Hidden = true;
 	    }
 
 	    private void UpdateTableSource()

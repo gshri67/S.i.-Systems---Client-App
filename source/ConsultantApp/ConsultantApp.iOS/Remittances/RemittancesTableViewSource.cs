@@ -40,7 +40,7 @@ namespace ConsultantApp.iOS
 		{
 			if( _remittances != null )
 				return _remittances.Count();
-			return 1;
+			return 0;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)

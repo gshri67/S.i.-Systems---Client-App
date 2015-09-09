@@ -7,6 +7,7 @@ using Microsoft.Practices.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using SiSystems.SharedModels;
+using System.Linq;
 
 namespace ConsultantApp.iOS
 {
@@ -29,9 +30,14 @@ namespace ConsultantApp.iOS
 			//IndicateLoading();
             //if (_remittances == null)
             //    _remittances = await _remittanceModel.GetRemittances();
-		    _remittances = tempRemittances;
+			_remittances = tempRemittances;
 
 			UpdateTableSource();
+
+			if (_remittances == null || _remittances.Count () <= 0)
+				noRemittancesLabel.Hidden = false;
+			else
+				noRemittancesLabel.Hidden = true;
 		}
 
 	    private void UpdateTableSource()
@@ -56,6 +62,8 @@ namespace ConsultantApp.iOS
 			LoadRemittances ();
 
 			NavigationItem.Title = "";
+
+			LogoutManager.CreateNavBarRightButton(this);
 		}
 
         private static IEnumerable<Remittance> tempRemittances
