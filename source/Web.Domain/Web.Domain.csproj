@@ -55,10 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Repositories\ITimesheetApproverRepository.cs" />
+    <Compile Include="Repositories\ConsultantDetailsRepository.cs" />
     <Compile Include="Repositories\TimeEntryRepository.cs" />
     <Compile Include="Repositories\RemittanceRepository.cs" />
     <Compile Include="Repositories\TimesheetRepository.cs" />
     <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\ConsultantDetailsService.cs" />
     <Compile Include="Services\ConsultantMessageService.cs" />
     <Compile Include="Services\ClientDetailsService.cs" />
     <Compile Include="Services\RemittanceService.cs" />

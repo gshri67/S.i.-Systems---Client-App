@@ -20,6 +20,11 @@ namespace ConsultantApp.Core.ViewModels
         {
             return _api.GetPayPeriods();
         }
+
+	    public Task<ConsultantDetails> GetConsultantDetails()
+	    {
+	        return _api.GetCurrentUserConsultantDetails();
+	    }
 	}
 }
 

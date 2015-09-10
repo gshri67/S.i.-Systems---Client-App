@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ConsultantApp.Core.ViewModels;
 using ConsultantApp.iOS.TimeEntryViewController;
 using Foundation;
@@ -10,6 +11,7 @@ using UIKit;
 using ConsultantApp.iOS.TimeEntryViewController;
 using CoreGraphics;
 using System.Linq;
+using Shared.Core;
 
 
 namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
@@ -20,6 +22,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
         private readonly ActiveTimesheetViewModel _activeTimesheetModel;
         private LoadingOverlay _overlay;
         public const string TimesheetSelectedSegue = "TimesheetSelected";
+	    private const string ScreenTitle = "Timesheets";
 		private SubtitleHeaderView subtitleHeaderView;
 
 	    private IEnumerable<PayPeriod> _payPeriods;
@@ -71,22 +74,44 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	        });
 	    }
 
+        private void CreateCustomTitleBar()
+	    {
+	        InvokeOnMainThread(() =>
+	        {
+                subtitleHeaderView = new SubtitleHeaderView();
+                NavigationItem.TitleView = subtitleHeaderView;
+                subtitleHeaderView.TitleText = ScreenTitle;
+	            subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
+                NavigationItem.Title = "";
+	        });
+	    }
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad();
 
             LoadTimesheets();
 
-            LogoutManager.CreateNavBarRightButton(this);
+            CreateCustomTitleBar();
 
-			subtitleHeaderView = new SubtitleHeaderView ();
-			NavigationItem.TitleView = subtitleHeaderView;
+            RetrieveConsultantDetails();
 
-			subtitleHeaderView.TitleText = "Timesheets";
-			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
-
-			NavigationItem.Title = "";
+		    LogoutManager.CreateNavBarRightButton(this);
 		}
+
+	    private async void RetrieveConsultantDetails()
+	    {
+	        var details = await _activeTimesheetModel.GetConsultantDetails();
+            SetCurrentConsultantDetails(details);
+            CreateCustomTitleBar();
+	    }
+
+
+        private static void SetCurrentConsultantDetails(ConsultantDetails details)
+        {
+            if (details != null)
+                CurrentConsultantDetails.CorporationName = details.CorporationName;
+        }
 
 	    public override void ViewWillAppear(bool animated)
 	    {

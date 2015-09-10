@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountExecutive.cs" />
+    <Compile Include="ConsultantDetails.cs" />
     <Compile Include="ClientAccountDetails.cs" />
     <Compile Include="Consultant.cs" />
     <Compile Include="ConsultantGroup.cs" />

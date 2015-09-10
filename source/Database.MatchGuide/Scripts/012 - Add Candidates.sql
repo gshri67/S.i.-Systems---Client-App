@@ -40,3 +40,10 @@ VALUES
 (12, 'candice.consulty@email.com'),
 (13, 'sally.divisioner@email.com'),
 (14, 'fred.flintstone@email.com');
+
+INSERT INTO [dbo].[Candidate_Corporation]
+(
+	[UserID], [CorpName]
+)
+VALUES
+(12, 'Candice Consulty Ltd.');

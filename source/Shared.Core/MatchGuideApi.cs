@@ -178,11 +178,16 @@ namespace Shared.Core
 		    return await ExecuteWithDefaultClient<IEnumerable<Remittance>>();
 		}
 
-
         [HttpGet("TimesheetApprovers/{id}")]
         public async Task<IEnumerable<string>> GetTimesheetApprovers(int id)
         {
             return await ExecuteWithDefaultClient<IEnumerable<string>>(new { id });
+        }
+
+        [HttpGet("ConsultantDetails")]
+        public async Task<ConsultantDetails> GetCurrentUserConsultantDetails()
+        {
+            return await ExecuteWithDefaultClient<ConsultantDetails>();
         }
     }
 }

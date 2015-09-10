@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
     <Compile Include="ApiErrorResponse.cs" />
+    <Compile Include="CurrentConsultantDetails.cs" />
     <Compile Include="CurrentUser.cs" />
     <Compile Include="EulaHandler.cs" />
     <Compile Include="HttpError.cs" />
