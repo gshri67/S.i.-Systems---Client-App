@@ -83,9 +83,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 					subtitleHeaderView.TitleText = ScreenTitle;
 					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
 					NavigationItem.Title = "";
-
-					if( subtitleHeaderView.SubtitleText.Equals( string.Empty ) )
-						RetrieveConsultantDetails();
 				});
 		}
 
@@ -96,6 +93,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
             LoadTimesheets();
 
             CreateCustomTitleBar();
+			RetrieveConsultantDetails ();
 
 		    LogoutManager.CreateNavBarRightButton(this);
 		}
@@ -104,7 +102,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    {
 	        var details = await _activeTimesheetModel.GetConsultantDetails();
             SetCurrentConsultantDetails(details);
-			subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
+			CreateCustomTitleBar ();
 	    }
 
 

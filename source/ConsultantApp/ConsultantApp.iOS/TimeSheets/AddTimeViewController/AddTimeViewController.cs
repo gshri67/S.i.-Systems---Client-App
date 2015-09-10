@@ -259,23 +259,7 @@ namespace ConsultantApp.iOS
 					subtitleHeaderView.TitleText = ScreenTitle;
 					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
 					NavigationItem.Title = "";
-
-					if( subtitleHeaderView.SubtitleText.Equals( string.Empty ) )
-						RetrieveConsultantDetails();
 				});
-		}
-
-		private async void RetrieveConsultantDetails()
-		{
-			var details = await _activeTimesheetModel.GetConsultantDetails();
-			SetCurrentConsultantDetails(details);
-			subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
-		}
-
-		private static void SetCurrentConsultantDetails(ConsultantDetails details)
-		{
-			if (details != null)
-				CurrentConsultantDetails.CorporationName = details.CorporationName;
 		}
 
         //public override void ViewDidLayoutSubviews()
