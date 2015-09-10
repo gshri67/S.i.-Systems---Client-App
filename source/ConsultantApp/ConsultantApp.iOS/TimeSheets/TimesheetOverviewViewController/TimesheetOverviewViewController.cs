@@ -105,31 +105,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			View.SetNeedsLayout ();
 		}
 
-		private void CreateCustomTitleBar()
-		{
-			InvokeOnMainThread(() =>
-				{
-					subtitleHeaderView = new SubtitleHeaderView();
-					NavigationItem.TitleView = subtitleHeaderView;
-					subtitleHeaderView.TitleText = ScreenTitle;
-					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
-					NavigationItem.Title = "";
-				});
-		}
-
-		private async void RetrieveConsultantDetails()
-		{
-			var details = await _activeTimesheetModel.GetConsultantDetails();
-			SetCurrentConsultantDetails(details);
-			CreateCustomTitleBar();
-		}
-
-		private static void SetCurrentConsultantDetails(ConsultantDetails details)
-		{
-			if (details != null)
-				CurrentConsultantDetails.CorporationName = details.CorporationName;
-		}
-
 	    public override void ViewWillAppear(bool animated)
 	    {
 			base.ViewWillAppear (animated);
@@ -295,8 +270,34 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			updateUI();
 
 			CreateCustomTitleBar();
+		}
 
-			RetrieveConsultantDetails();
+		private void CreateCustomTitleBar()
+		{
+			InvokeOnMainThread(() =>
+				{
+					subtitleHeaderView = new SubtitleHeaderView();
+					NavigationItem.TitleView = subtitleHeaderView;
+					subtitleHeaderView.TitleText = ScreenTitle;
+					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
+					NavigationItem.Title = "";
+
+					if( subtitleHeaderView.SubtitleText.Equals( string.Empty ) )
+						RetrieveConsultantDetails();
+				});
+		}
+
+		private async void RetrieveConsultantDetails()
+		{
+			var details = await _activeTimesheetModel.GetConsultantDetails();
+			SetCurrentConsultantDetails(details);
+			subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
+		}
+
+		private static void SetCurrentConsultantDetails(ConsultantDetails details)
+		{
+			if (details != null)
+				CurrentConsultantDetails.CorporationName = details.CorporationName;
 		}
 
 		public void doneButtonTapped(object sender, EventArgs args)

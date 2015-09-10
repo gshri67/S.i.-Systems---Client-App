@@ -223,8 +223,6 @@ namespace ConsultantApp.iOS
 			};
 
 			CreateCustomTitleBar();
-
-			RetrieveConsultantDetails();
 		}
 
 		//copies over time entries from previous day
@@ -261,6 +259,9 @@ namespace ConsultantApp.iOS
 					subtitleHeaderView.TitleText = ScreenTitle;
 					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
 					NavigationItem.Title = "";
+
+					if( subtitleHeaderView.SubtitleText.Equals( string.Empty ) )
+						RetrieveConsultantDetails();
 				});
 		}
 
@@ -268,7 +269,7 @@ namespace ConsultantApp.iOS
 		{
 			var details = await _activeTimesheetModel.GetConsultantDetails();
 			SetCurrentConsultantDetails(details);
-			CreateCustomTitleBar();
+			subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
 		}
 
 		private static void SetCurrentConsultantDetails(ConsultantDetails details)

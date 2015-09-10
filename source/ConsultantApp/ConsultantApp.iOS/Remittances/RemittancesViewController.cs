@@ -66,8 +66,6 @@ namespace ConsultantApp.iOS
 			LogoutManager.CreateNavBarRightButton(this);
 
 			CreateCustomTitleBar();
-
-			RetrieveConsultantDetails();
 		}
 
 		private void CreateCustomTitleBar()
@@ -79,6 +77,9 @@ namespace ConsultantApp.iOS
 					subtitleHeaderView.TitleText = ScreenTitle;
 					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
 					NavigationItem.Title = "";
+
+					if( subtitleHeaderView.SubtitleText.Equals( string.Empty ) )
+						RetrieveConsultantDetails();
 				});
 		}
 
@@ -87,6 +88,13 @@ namespace ConsultantApp.iOS
 			if (details != null)
 				CurrentConsultantDetails.CorporationName = details.CorporationName;
 		}
+		private async void RetrieveConsultantDetails()
+		{
+			var details = await _activeTimesheetModel.GetConsultantDetails();
+			SetCurrentConsultantDetails(details);
+			subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
+		}
+
 
         #region Overlay
 
@@ -110,14 +118,6 @@ namespace ConsultantApp.iOS
             InvokeOnMainThread(_overlay.Hide);
             _overlay = null;
         }
-
-		private async void RetrieveConsultantDetails()
-		{
-			var details = await _activeTimesheetModel.GetConsultantDetails();
-			SetCurrentConsultantDetails(details);
-			CreateCustomTitleBar();
-		}
-
 
         #endregion
 	}

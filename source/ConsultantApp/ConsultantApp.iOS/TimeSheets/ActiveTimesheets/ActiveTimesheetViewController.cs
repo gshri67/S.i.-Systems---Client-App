@@ -74,17 +74,20 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	        });
 	    }
 
-        private void CreateCustomTitleBar()
-	    {
-	        InvokeOnMainThread(() =>
-	        {
-                subtitleHeaderView = new SubtitleHeaderView();
-                NavigationItem.TitleView = subtitleHeaderView;
-                subtitleHeaderView.TitleText = ScreenTitle;
-	            subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
-                NavigationItem.Title = "";
-	        });
-	    }
+		private void CreateCustomTitleBar()
+		{
+			InvokeOnMainThread(() =>
+				{
+					subtitleHeaderView = new SubtitleHeaderView();
+					NavigationItem.TitleView = subtitleHeaderView;
+					subtitleHeaderView.TitleText = ScreenTitle;
+					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
+					NavigationItem.Title = "";
+
+					if( subtitleHeaderView.SubtitleText.Equals( string.Empty ) )
+						RetrieveConsultantDetails();
+				});
+		}
 
 		public override void ViewDidLoad ()
 		{
@@ -94,8 +97,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
             CreateCustomTitleBar();
 
-            RetrieveConsultantDetails();
-
 		    LogoutManager.CreateNavBarRightButton(this);
 		}
 
@@ -103,7 +104,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    {
 	        var details = await _activeTimesheetModel.GetConsultantDetails();
             SetCurrentConsultantDetails(details);
-            CreateCustomTitleBar();
+			subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
 	    }
 
 
