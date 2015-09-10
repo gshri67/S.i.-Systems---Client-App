@@ -35,7 +35,7 @@ namespace Shared.Core
 
 		Task<IEnumerable<Remittance>> GetRemittances();
 
-        Task<IEnumerable<string>> GetTimesheetApprovers( int clientID );
+        Task<IEnumerable<string>> GetTimesheetApproversByTimesheetId( int clientID );
         
         Task<ConsultantDetails> GetCurrentUserConsultantDetails();
     }

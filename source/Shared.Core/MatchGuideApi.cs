@@ -179,7 +179,7 @@ namespace Shared.Core
 		}
 
         [HttpGet("TimesheetApprovers/{id}")]
-        public async Task<IEnumerable<string>> GetTimesheetApprovers(int id)
+        public async Task<IEnumerable<string>> GetTimesheetApproversByTimesheetId(int id)
         {
             return await ExecuteWithDefaultClient<IEnumerable<string>>(new { id });
         }

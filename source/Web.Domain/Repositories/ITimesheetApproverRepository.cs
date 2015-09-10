@@ -11,32 +11,27 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 {
     public interface ITimesheetApproverRepository
     {
-        IEnumerable<string> GetApproversForUser(int userId);
+        IEnumerable<string> GetPossibleApproversByTimesheetId(int timesheetId);
     }
 
     public class TimesheetApproverRepository : ITimesheetApproverRepository
     {
-        public IEnumerable<string> GetApproversForUser(int clientId)
+        public IEnumerable<string> GetPossibleApproversByTimesheetId(int timesheetId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-//                const string query = 
-//                        @"SELECT TOP 6 TimeSheetID AS Id
-//                            ,Company.CompanyName AS ClientName
-//                            ,StatusID AS Status
-//                            ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
-//	                        ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
-//                            ,User_Email.PrimaryEmail AS TimeSheetApprover
-//                        FROM TimeSheet Times
-//                        LEFT JOIN Agreement ON Agreement.AgreementID = Times.AgreementID
-//                        LEFT JOIN Company ON Agreement.CompanyID = Company.CompanyID
-//                        LEFT JOIN TimeSheetAvailablePeriod Periods ON Times.TimeSheetAvailablePeriodID = Periods.TimeSheetAvailablePeriodID
-//                        LEFT JOIN User_Email ON Times.DirectReportUserId = User_Email.UserID
-//                        WHERE CandidateUserID = @UserId
-//                        ORDER BY EndDate DESC, CompanyName";
+                const string query =
+                        @"SELECT UE.PrimaryEmail
+                            FROM Users U
+                            LEFT JOIN User_Email UE ON UE.UserID = U.UserID
+                            LEFT JOIN Timesheet ON Timesheet.TimesheetId = @TimesheetId
+                            LEFT JOIN Agreement ON Timesheet.AgreementId = Agreement.AgreementId
+                            WHERE UserType = @UserTypeConstant
+                            AND U.CompanyID = Agreement.CompanyID";
                 
-//                var timesheets = db.Connection.Query<Timesheet>(query, new { UserId = userId});
-                var approvers = new List<string>() { "fred.flinstone@email.com", "greg.flinstone@email.com", "bambam.flinstone@email.com" };
+                var approvers = db.Connection.Query<string>(query
+                    , new { UserTypeConstant = MatchGuideConstants.UserType.ClientContact, TimesheetId = timesheetId });
+
                 return approvers;
             }
         }

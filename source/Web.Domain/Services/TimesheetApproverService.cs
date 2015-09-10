@@ -26,30 +26,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _timeSheetApproverRepository = timesheetApproverRepository;
         }
 
-        public IEnumerable<string> GetTimesheetApprovers( int clientID )
-        {/*
-            var timesheets = _timeSheetRepository.GetTimesheetsForUser(_sessionContext.CurrentUser.Id).ToList();
-            foreach (var timesheet in timesheets)
-            {
-                timesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesByTimesheetId(timesheet.Id);
-            }
-
-            return (from @group in timesheets.GroupBy(t => t.TimePeriod)
-                let period = @group.Key
-                select new PayPeriod
-                {
-                    Timesheets = timesheets.Where(t => t.TimePeriod.Equals(period)), 
-                    StartDate = @group.First().StartDate, 
-                    EndDate = @group.First().EndDate
-                }).ToList();*/
-
-            List<string> list = new List<string>();
-            list.Add("bob.smith@email.com");
-            list.Add("fred.flintstone@email.com");
-            list.Add("joe.johnson@email.com");
-            list.Add("jessica.li@email.com");
-
-            return list;
+        public IEnumerable<string> GetTimesheetApproversByTimesheetId( int timesheetId )
+        {
+            return _timeSheetApproverRepository.GetPossibleApproversByTimesheetId(timesheetId);
         }
     }
 }

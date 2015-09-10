@@ -22,7 +22,7 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         [Route("{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var approvers = _service.GetTimesheetApprovers(id);
+            var approvers = _service.GetTimesheetApproversByTimesheetId(id);
             return Request.CreateResponse(HttpStatusCode.OK, approvers);
         }
     }
