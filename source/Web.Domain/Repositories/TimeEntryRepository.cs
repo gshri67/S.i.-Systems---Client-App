@@ -25,7 +25,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 	                          ,Company.CompanyName AS ClientName
                               ,RateDetail.PayRate
                               ,PONumber AS ProjectCode
-	                          ,DATEADD(day, CAST(dets.Day AS INT) - 1, Period.TimeSheetAvailablePeriodStartDate) AS Date
+	                          ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), day, 0, 0, 0, 0) AS Date
                               ,CAST(UnitValue AS FLOAT) AS Hours
                           FROM TimeSheetDetail Dets
                           LEFT JOIN Agreement_ContractRateDetail RateDetail ON RateDetail.ContractRateID = Dets.ContractRateID
