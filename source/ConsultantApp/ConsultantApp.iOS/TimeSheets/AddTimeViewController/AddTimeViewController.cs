@@ -139,6 +139,8 @@ namespace ConsultantApp.iOS
 					leftArrowButton.Hidden = false;
 
 				rightArrowButton.Hidden = false;//assuming everything goes well and a date outside period is not selected
+
+				copyOverButton.Hidden = true;
 			};
 			rightArrowButton.TouchUpInside += delegate 
 			{ 
@@ -150,16 +152,10 @@ namespace ConsultantApp.iOS
 					SetDate(this.date.AddDays(1));
 
 					//copy over
-					if( _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)).Count() == 0 )
-					{
-						/*
-						List<TimeEntry> entries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate));
-						//copy over the previous days time entries by copying them, changing the dates, and concatenating
-						foreach( TimeEntry e in entries )
-						{
-							
-						}*/
-					}
+					if( _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)).Count() == 0 && _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate)).Count() > 0)
+						copyOverButton.Hidden = false;
+					else
+						copyOverButton.Hidden = true;
 				}
 				if( inPeriodComparison >= 0 )
 					rightArrowButton.Hidden = true;
@@ -209,6 +205,37 @@ namespace ConsultantApp.iOS
 
 			subtitleHeaderView.TitleText = "Add/Edit Time";
 			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
+
+			copyOverButton.TouchUpInside += (object sender, EventArgs e) => 
+			{
+				copyOverTime();
+				copyOverButton.Hidden = true;
+			};
+		}
+
+		//copies over time entries from previous day
+		public void copyOverTime()
+		{
+			DateTime oldDate = date.AddDays(-1);
+
+			List<TimeEntry> entries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate)).ToList();
+			TimeEntry[] eCopy = new TimeEntry[entries.Count()];
+			entries.CopyTo( eCopy );
+
+			List<TimeEntry> newEntries = new List<TimeEntry>();
+
+			//copy over the previous days time entries by copying them, changing the dates, and concatenating
+			for( int i = 0; i < entries.Count(); i ++ )
+			{
+				TimeEntry newEntry = entries[i].clone();
+
+				newEntry.Date = date;
+				newEntries.Add(newEntry);
+				Console.WriteLine("Changed hours to 3.5");
+			}
+
+			_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat( newEntries.AsEnumerable() );
+			updateUI();
 		}
 
         //public override void ViewDidLayoutSubviews()

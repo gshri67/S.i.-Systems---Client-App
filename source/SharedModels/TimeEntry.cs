@@ -10,5 +10,19 @@ namespace SiSystems.SharedModels
 		public string PayRate { get; set; }
         public float Hours { get; set; }
         public DateTime Date { get; set; }
+
+		public TimeEntry clone()
+		{
+			TimeEntry newEntry = new TimeEntry ();
+
+			newEntry.Id = Id;
+			newEntry.ClientName = ClientName;
+			newEntry.ProjectCode = ProjectCode;
+			newEntry.PayRate = PayRate;
+			newEntry.Hours = Hours;
+			newEntry.Date = Date;
+
+			return newEntry;
+		}
     }
 }
