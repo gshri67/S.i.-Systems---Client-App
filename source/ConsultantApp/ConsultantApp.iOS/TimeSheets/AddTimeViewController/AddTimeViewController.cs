@@ -9,6 +9,7 @@ using ConsultantApp.Core.ViewModels;
 using CoreGraphics;
 using Microsoft.Practices.Unity;
 //using ConsultantApp.SharedModels;
+using Shared.Core;
 
 namespace ConsultantApp.iOS
 {
@@ -22,12 +23,15 @@ namespace ConsultantApp.iOS
 		private AddTimeTableViewSource addTimeTableViewSource;
         private IEnumerable<string> _payRates;
 		private SubtitleHeaderView subtitleHeaderView;
+		private const string ScreenTitle = "Add/Edit Time";
+		private readonly ActiveTimesheetViewModel _activeTimesheetModel;
 
 		public AddTimeViewController (IntPtr handle) : base (handle)
 		{
 			_timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
 
 			EdgesForExtendedLayout = UIRectEdge.None;
+			_activeTimesheetModel = DependencyResolver.Current.Resolve<ActiveTimesheetViewModel>();
 		}
 
 		public void SetTimesheet(Timesheet timesheet)
@@ -212,17 +216,15 @@ namespace ConsultantApp.iOS
 
 			updateUI ();
 
-			subtitleHeaderView = new SubtitleHeaderView ();
-			NavigationItem.TitleView = subtitleHeaderView;
-
-			subtitleHeaderView.TitleText = "Add/Edit Time";
-			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
-
 			copyOverButton.TouchUpInside += (object sender, EventArgs e) => 
 			{
 				copyOverTime();
 				copyOverButton.Hidden = true;
 			};
+
+			CreateCustomTitleBar();
+
+			RetrieveConsultantDetails();
 		}
 
 		//copies over time entries from previous day
@@ -248,6 +250,31 @@ namespace ConsultantApp.iOS
 
 			_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat( newEntries.AsEnumerable() );
 			updateUI();
+		}
+
+		private void CreateCustomTitleBar()
+		{
+			InvokeOnMainThread(() =>
+				{
+					subtitleHeaderView = new SubtitleHeaderView();
+					NavigationItem.TitleView = subtitleHeaderView;
+					subtitleHeaderView.TitleText = ScreenTitle;
+					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
+					NavigationItem.Title = "";
+				});
+		}
+
+		private async void RetrieveConsultantDetails()
+		{
+			var details = await _activeTimesheetModel.GetConsultantDetails();
+			SetCurrentConsultantDetails(details);
+			CreateCustomTitleBar();
+		}
+
+		private static void SetCurrentConsultantDetails(ConsultantDetails details)
+		{
+			if (details != null)
+				CurrentConsultantDetails.CorporationName = details.CorporationName;
 		}
 
         //public override void ViewDidLayoutSubviews()

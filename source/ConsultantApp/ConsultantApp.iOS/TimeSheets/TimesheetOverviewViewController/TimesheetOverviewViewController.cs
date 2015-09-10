@@ -8,18 +8,22 @@ using Microsoft.Practices.Unity;
 using Shared.Core;
 using SiSystems.SharedModels;
 using System.Threading.Tasks;
+using Shared.Core;
 
 namespace ConsultantApp.iOS.TimeEntryViewController
 {
 	public partial class TimesheetOverviewViewController : UIViewController
 	{
 	    private readonly TimesheetViewModel _timesheetModel;
+		private readonly ActiveTimesheetViewModel _activeTimesheetModel;
 		private Timesheet _curTimesheet;
 		private FMCalendar calendar;
 		private SubtitleHeaderView subtitleHeaderView;
 		private UIPickerView approverPicker;
 		private PickerViewModel approverPickerModel;
 		IEnumerable<string> _approvers;
+		private const string ScreenTitle = "Timesheet Overview";
+
 
 		public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
@@ -29,6 +33,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             //TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
 
 			_timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
+			_activeTimesheetModel = DependencyResolver.Current.Resolve<ActiveTimesheetViewModel>();
 		}
         
         public void SetTimesheet(Timesheet timesheet)
@@ -98,6 +103,31 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			}
 
 			View.SetNeedsLayout ();
+		}
+
+		private void CreateCustomTitleBar()
+		{
+			InvokeOnMainThread(() =>
+				{
+					subtitleHeaderView = new SubtitleHeaderView();
+					NavigationItem.TitleView = subtitleHeaderView;
+					subtitleHeaderView.TitleText = ScreenTitle;
+					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
+					NavigationItem.Title = "";
+				});
+		}
+
+		private async void RetrieveConsultantDetails()
+		{
+			var details = await _activeTimesheetModel.GetConsultantDetails();
+			SetCurrentConsultantDetails(details);
+			CreateCustomTitleBar();
+		}
+
+		private static void SetCurrentConsultantDetails(ConsultantDetails details)
+		{
+			if (details != null)
+				CurrentConsultantDetails.CorporationName = details.CorporationName;
 		}
 
 	    public override void ViewWillAppear(bool animated)
@@ -264,13 +294,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			updateUI();
 
-			subtitleHeaderView = new SubtitleHeaderView ();
-			NavigationItem.TitleView = subtitleHeaderView;
+			CreateCustomTitleBar();
 
-			subtitleHeaderView.TitleText = "Timesheet Overview";
-			subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
-
-			NavigationItem.Title = "";
+			RetrieveConsultantDetails();
 		}
 
 		public void doneButtonTapped(object sender, EventArgs args)

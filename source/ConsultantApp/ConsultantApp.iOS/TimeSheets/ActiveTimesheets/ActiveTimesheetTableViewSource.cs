@@ -68,6 +68,17 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
         {
             return _payPeriods.ElementAt(indexPath.Section).Timesheets.ElementAt(indexPath.Row);
         }
+
+
+		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		{
+			return 50;
+		}
+
+		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
+		{
+			return 32;
+		}
 	}
 }
 

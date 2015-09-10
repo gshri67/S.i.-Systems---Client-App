@@ -9,20 +9,23 @@ using System.Collections.Generic;
 using CoreGraphics;
 using SiSystems.SharedModels;
 using System.Linq;
+using Shared.Core;
 
 namespace ConsultantApp.iOS
 {
 	partial class RemittancesViewController : UIViewController
 	{
 		private readonly RemittanceViewModel _remittanceModel;
+		private readonly ActiveTimesheetViewModel _activeTimesheetModel;
 		private IEnumerable<Remittance> _remittances;
         private LoadingOverlay _overlay;
-		private SubtitleHeaderView _subtitleHeaderView;
+		private SubtitleHeaderView subtitleHeaderView;
+		private const string ScreenTitle = "eRemittances";
 
 		public RemittancesViewController (IntPtr handle) : base (handle)
 		{
 			_remittanceModel = DependencyResolver.Current.Resolve<RemittanceViewModel>();
-
+			_activeTimesheetModel = DependencyResolver.Current.Resolve<ActiveTimesheetViewModel>();
 			EdgesForExtendedLayout = UIRectEdge.None;
 		}
 
@@ -53,13 +56,7 @@ namespace ConsultantApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			
 
-			_subtitleHeaderView = new SubtitleHeaderView ();
-			NavigationItem.TitleView = _subtitleHeaderView;
-
-			_subtitleHeaderView.TitleText = "Remittances";
-			_subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
 			LoadRemittances ();
 
 			tableview.ContentInset = new UIEdgeInsets (-35, 0, 0, 0);
@@ -67,6 +64,28 @@ namespace ConsultantApp.iOS
 			NavigationItem.Title = "";
 
 			LogoutManager.CreateNavBarRightButton(this);
+
+			CreateCustomTitleBar();
+
+			RetrieveConsultantDetails();
+		}
+
+		private void CreateCustomTitleBar()
+		{
+			InvokeOnMainThread(() =>
+				{
+					subtitleHeaderView = new SubtitleHeaderView();
+					NavigationItem.TitleView = subtitleHeaderView;
+					subtitleHeaderView.TitleText = ScreenTitle;
+					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
+					NavigationItem.Title = "";
+				});
+		}
+
+		private static void SetCurrentConsultantDetails(ConsultantDetails details)
+		{
+			if (details != null)
+				CurrentConsultantDetails.CorporationName = details.CorporationName;
 		}
 
         #region Overlay
@@ -91,6 +110,15 @@ namespace ConsultantApp.iOS
             InvokeOnMainThread(_overlay.Hide);
             _overlay = null;
         }
+
+		private async void RetrieveConsultantDetails()
+		{
+			var details = await _activeTimesheetModel.GetConsultantDetails();
+			SetCurrentConsultantDetails(details);
+			CreateCustomTitleBar();
+		}
+
+
         #endregion
 	}
 }

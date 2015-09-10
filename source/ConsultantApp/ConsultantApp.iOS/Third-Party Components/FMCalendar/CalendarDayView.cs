@@ -125,7 +125,8 @@ namespace ConsultantApp.iOS
 			CoreGraphics.CGRect dayTextRect = new CoreGraphics.CGRect (Bounds.Width * 1.1 / 10, Bounds.Height * 1.1 / 10, Bounds.Width/3, Bounds.Width/3);
 
 
-			if (Selected || Today )
+			//if (Selected || Today )
+			if( Today )
 			{
 				var context = UIGraphics.GetCurrentContext();
 				var todaySize = (float) Math.Min (Bounds.Height, Bounds.Width);
@@ -133,12 +134,18 @@ namespace ConsultantApp.iOS
 					todaySize = 50;
 				todaySize = Math.Min (fontSize * 2, todaySize)*0.75f;
 
+				/*
 				if (Selected && Today)
 					TodayCircleColor.SetColor ();
 				else if (Today)
 					UIColor.FromRGBA (1.0f, 0.8f, 0.8f, 0.5f).SetColor ();
 				else //if selected and not today
 					UIColor.FromWhiteAlpha (0.3f, 0.5f).SetColor();
+				*/
+
+				if (Today)
+					UIColor.FromRGBA (1.0f, 0.8f, 0.8f, 0.5f).SetColor ();
+
 
 				context.SetLineWidth(0);
 
@@ -172,9 +179,11 @@ namespace ConsultantApp.iOS
 					UIFont.SystemFontOfSize (hoursFontSize), UILineBreakMode.WordWrap,
 					UITextAlignment.Center);
 			}
-			if( Selected )
+
+
+			if( Selected && Today )
 				UIColor.White.SetColor();				
-			else if( !Selected && !Today )		
+			else if( !Today )		
 				UIColor.FromWhiteAlpha(0.8f, 1.0f).SetColor();
 			else //if it is today and not selected
 				TodayCircleColor.SetColor();
