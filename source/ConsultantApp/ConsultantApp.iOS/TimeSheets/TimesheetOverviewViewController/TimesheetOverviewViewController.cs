@@ -214,7 +214,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			approverPickerModel = new PickerViewModel ();
 			approverPicker.Model = approverPickerModel;
 			approverNameTextField.InputView = approverPicker;
-
 			approverPicker.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
 
 			//add toolbar with done button on top of picker
@@ -363,13 +362,13 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			public override UIView GetView (UIPickerView pickerView, nint row, nint component, UIView view)
 			{
-				UILabel lbl = new UILabel(new CoreGraphics.CGRect(0, 0, 130f, 40f));
+				UILabel lbl = new UILabel (new CoreGraphics.CGRect (0, 0, pickerView.Frame.Width, 40f));
 				lbl.TextColor = UIColor.Black;
-				lbl.Font = UIFont.SystemFontOfSize(12f);
+				lbl.Font = UIFont.SystemFontOfSize (12f);
 				lbl.TextAlignment = UITextAlignment.Center;
 
-				if (items != null )
-					lbl.Text = items.ElementAt((int)row);
+				if (items != null)
+					lbl.Text = items.ElementAt ((int)row);
 
 				return lbl;
 			}
