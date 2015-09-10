@@ -27,7 +27,7 @@ namespace ConsultantApp.iOS
 		private bool addingProjectCode;//if there is an extra cell expanded for picker etc..
 
 
-		private bool mustSave;//if this is true, the save or delete button must be tapped before the cell can be minimized.
+		public bool mustSave;//if this is true, the save or delete button must be tapped before the cell can be minimized.
 		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
 
 		public AddTimeTableViewSource( UIViewController parentController, IEnumerable<TimeEntry> timeEntries, IEnumerable<string> projectCodes, IEnumerable<string> payRates ) 

@@ -62,6 +62,8 @@ namespace ConsultantApp.iOS
 			_subtitleHeaderView.SubtitleText = "4449993 Alberta Co";
 			LoadRemittances ();
 
+			tableview.ContentInset = new UIEdgeInsets (-35, 0, 0, 0);
+
 			NavigationItem.Title = "";
 
 			LogoutManager.CreateNavBarRightButton(this);

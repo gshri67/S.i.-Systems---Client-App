@@ -80,8 +80,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 						submitButton.SetTitle ("Cancel", UIControlState.Normal);
 						submitButton.Enabled = true;
 					} else if (_curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Approved) {
-						submitButton.SetTitle ("Submit", UIControlState.Normal);
-						submitButton.Enabled = false;
+						submitButton.Hidden = true;
 					}
 
 					if (_curTimesheet.Status != MatchGuideConstants.TimesheetStatus.Open)
@@ -92,6 +91,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 						submitButton.SetTitle ("Submit", UIControlState.Normal);
 						submitButton.Enabled = true;
 					}
+
+					if (_curTimesheet.Status != MatchGuideConstants.TimesheetStatus.Approved)
+						submitButton.Hidden = false;
 				}
 			}
 

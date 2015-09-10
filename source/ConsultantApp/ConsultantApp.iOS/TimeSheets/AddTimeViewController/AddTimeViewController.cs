@@ -130,39 +130,49 @@ namespace ConsultantApp.iOS
 			{
 				int inPeriodComparison = date.AddDays(-1).CompareTo(_curTimesheet.StartDate);
 
-				if( inPeriodComparison >= 0 )	
-					SetDate(this.date.AddDays(-1));
+				//if( !addTimeTableViewSource.mustSave )
+				{
+					if( inPeriodComparison >= 0 )	
+						SetDate(this.date.AddDays(-1));
 
-				if( inPeriodComparison <= 0 )
-					leftArrowButton.Hidden = true;
-				else
-					leftArrowButton.Hidden = false;
+					if( inPeriodComparison <= 0 )
+						leftArrowButton.Hidden = true;
+					else
+						leftArrowButton.Hidden = false;
 
-				rightArrowButton.Hidden = false;//assuming everything goes well and a date outside period is not selected
+					rightArrowButton.Hidden = false;//assuming everything goes well and a date outside period is not selected
 
-				copyOverButton.Hidden = true;
+					copyOverButton.Hidden = true;
+
+					updateUI();
+				}
 			};
 			rightArrowButton.TouchUpInside += delegate 
 			{ 
 				int inPeriodComparison = date.AddDays(1).CompareTo(_curTimesheet.EndDate);
 
-				if( inPeriodComparison <= 0 )
+				//if( !addTimeTableViewSource.mustSave )
 				{
-					DateTime oldDate = date;
-					SetDate(this.date.AddDays(1));
+					if( inPeriodComparison <= 0 )
+					{
+						DateTime oldDate = date;
+						SetDate(this.date.AddDays(1));
 
-					//copy over
-					if( _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)).Count() == 0 && _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate)).Count() > 0)
-						copyOverButton.Hidden = false;
+						//copy over
+						if( _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)).Count() == 0 && _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate)).Count() > 0)
+							copyOverButton.Hidden = false;
+						else
+							copyOverButton.Hidden = true;
+					}
+					if( inPeriodComparison >= 0 )
+						rightArrowButton.Hidden = true;
 					else
-						copyOverButton.Hidden = true;
-				}
-				if( inPeriodComparison >= 0 )
-					rightArrowButton.Hidden = true;
-				else
-					rightArrowButton.Hidden = false;
+						rightArrowButton.Hidden = false;
 
-				leftArrowButton.Hidden = false;
+					leftArrowButton.Hidden = false;
+
+					updateUI();
+				}
 			};
 
 			if (date.CompareTo (_curTimesheet.StartDate) == 0)
