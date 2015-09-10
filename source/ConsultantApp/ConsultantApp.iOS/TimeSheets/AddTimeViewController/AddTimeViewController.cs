@@ -193,6 +193,8 @@ namespace ConsultantApp.iOS
 
 				//save timeentry to timesheet
 				_timesheetModel.saveTimesheet(_curTimesheet);
+
+				copyOverButton.Hidden = true;
 			};
 		    addButton.TintColor = StyleGuideConstants.RedUiColor;
 
