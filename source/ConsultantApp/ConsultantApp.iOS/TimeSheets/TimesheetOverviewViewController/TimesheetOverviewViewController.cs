@@ -147,6 +147,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
         public async void LoadTimesheetApprovers()
         {
+            if(_curTimesheet == null) return;
+
              _approvers = await _timesheetModel.GetTimesheetApproversByTimesheetId(_curTimesheet.Id) ?? new List<string>
              {
                  _curTimesheet.TimesheetApprover
