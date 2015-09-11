@@ -25,8 +25,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         @"";
                 
                 //var remittances = db.Connection.Query<Remittance>(query, new { UserId = userId});
-
-                
+                //todo actually get the remittances from the DB
+                if (userId != 12)
+                {
+                    return new List<Remittance>();
+                }
 
                 return TempRemittances;
             }
