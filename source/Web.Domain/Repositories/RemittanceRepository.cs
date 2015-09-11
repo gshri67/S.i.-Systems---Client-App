@@ -28,11 +28,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 
 
-                return tempRemittances;
+                return TempRemittances;
             }
         }
 
-        private static IEnumerable<Remittance> tempRemittances
+        private static IEnumerable<Remittance> TempRemittances
         {
             get
             {
@@ -40,18 +40,18 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 {
                     new Remittance
                     {
-                        StartDate = Convert.ToDateTime("2015-06-01"),
-                        EndDate =  Convert.ToDateTime("2015-06-15"),
-                        DepositDate = Convert.ToDateTime("2015-06-17"),
+                        StartDate = Convert.ToDateTime("2015-07-01"),
+                        EndDate =  Convert.ToDateTime("2015-07-15"),
+                        DepositDate = Convert.ToDateTime("2015-07-17"),
                         Amount = (float) 2653.50,
                         DocumentNumber = "6C94239"
                     }
                     ,new Remittance
                     {
-                        StartDate = Convert.ToDateTime("2015-06-16"),
-                        EndDate =  Convert.ToDateTime("2015-06-30"),
-                        DepositDate = Convert.ToDateTime("2015-07-03"),
-                        Amount = (float) 2653.50,
+                        StartDate = Convert.ToDateTime("2015-07-16"),
+                        EndDate =  Convert.ToDateTime("2015-07-31"),
+                        DepositDate = Convert.ToDateTime("2015-08-03"),
+                        Amount = (float) 2340.00,
                         DocumentNumber = "6D23490"
                     }
                 };

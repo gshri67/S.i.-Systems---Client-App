@@ -23,7 +23,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 const string query =
                         @"SELECT TimeSheetDetailID
 	                          ,Company.CompanyName AS ClientName
-                              ,RateDetail.PayRate
+                              ,RateDetail.RateDescription as PayRate
                               ,PONumber AS ProjectCode
 	                          ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), day, 0, 0, 0, 0) AS Date
                               ,CAST(UnitValue AS FLOAT) AS Hours

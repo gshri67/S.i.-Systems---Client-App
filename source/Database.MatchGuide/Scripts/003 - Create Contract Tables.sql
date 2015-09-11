@@ -103,7 +103,7 @@ GO
 
 CREATE TABLE [dbo].[Agreement_ContractRateDetail](
 	[ContractRateID] [int] IDENTITY(1,1) NOT NULL,
-	--[RateDescription] [varchar](255) NULL,
+	[RateDescription] [varchar](255) NULL,
 	--[RateTermType] [int] NULL,
 	[AgreementID] [int] NOT NULL,
 	[StartDate] [smalldatetime] NULL,
