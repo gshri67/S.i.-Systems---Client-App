@@ -74,6 +74,13 @@ namespace ConsultantApp.iOS
                 else
                     onHoursChanged(0);
             };
+			//hoursField.ClearsOnBeginEditing = true;
+
+			hoursField.EditingDidBegin += delegate {
+				this.BeginInvokeOnMainThread ( delegate {
+					hoursField.SelectedTextRange = hoursField.GetTextRange(hoursField.BeginningOfDocument, hoursField.EndOfDocument);
+				});
+			};
 
 			//hoursField.ReturnKeyType = UIReturnKeyType.Done;
 			hoursField.KeyboardType = UIKeyboardType.DecimalPad;

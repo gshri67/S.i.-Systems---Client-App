@@ -178,7 +178,6 @@ namespace ConsultantApp.iOS
 
 					#endif
 
-					Today = ( DateTime.Now==viewDay.Date),
 					Text = i.ToString(),
 
 					Active = true,
@@ -188,6 +187,10 @@ namespace ConsultantApp.iOS
 					TodayCircleColor = _calendarMonthView.TodayCircleColor,
 					BackgroundColor = _calendarMonthView.MonthBackgroundColor,
 				};
+
+				if (DateTime.Now.ToString ("MMM dd yyyy").Equals (viewDay.Date.ToString ("MMM dd yyyy")))
+					dayView.Today = true;
+
 				dayView.Date = viewDay;
 
 				dayView.totalHours = timesheet.TimeEntries.Where(e => e.Date.Equals(viewDay) ).Sum( t => t.Hours ).ToString();

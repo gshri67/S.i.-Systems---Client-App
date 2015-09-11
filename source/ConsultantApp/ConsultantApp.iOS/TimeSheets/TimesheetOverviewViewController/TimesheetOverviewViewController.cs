@@ -80,9 +80,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 				if (submitButton != null && approverNameTextField != null) 
 				{
-					//if timesheet is submitted we change the name of submit to cancel
+					//if timesheet is submitted we change the name of submit to Withdraw
 					if (_curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted) {
-						submitButton.SetTitle ("Cancel", UIControlState.Normal);
+						submitButton.SetTitle ("Withdraw", UIControlState.Normal);
 						submitButton.Enabled = true;
 					} else if (_curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Approved) {
 						submitButton.Hidden = true;
@@ -257,17 +257,26 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 							{
 								_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Submitted;
 								updateUI();
+								var view = new UIAlertView("Successfully submitted timesheet", "", null, "Ok");
+								view.Show();
 							}
 						};
 						sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);// ShowInView(View);
 					}
 					//if( permissionToSubmit )
 					else
+					{
 						_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Submitted;
+						var view = new UIAlertView("Successfully submitted timesheet", "", null, "Ok");
+						view.Show();
+					}
 				}
 				else if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted )
+				{
 					_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Open;
-
+					var view = new UIAlertView("Successfully withdrew timesheet", "", null, "Ok");
+					view.Show();
+				}
 				updateUI();
 			};
 
