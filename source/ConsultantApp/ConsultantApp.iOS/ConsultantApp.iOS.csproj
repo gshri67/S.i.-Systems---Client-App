@@ -151,6 +151,10 @@
       <DependentUpon>AddTimeEntryViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="SubtitleHeaderView.cs" />
+    <Compile Include="Remittances\RemittanceSummaryViewController.designer.cs">
+      <DependentUpon>RemittanceSummaryViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Remittances\RemittanceSummaryViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -164,6 +168,7 @@
     <BundleResource Include="Resources\leftArrow%402x.png" />
     <BundleResource Include="Resources\rightArrow.png" />
     <BundleResource Include="Resources\rightArrow%402x.png" />
+    <BundleResource Include="Resources\Sprint2_SS_1.0.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Factorymind.Components-Unified">

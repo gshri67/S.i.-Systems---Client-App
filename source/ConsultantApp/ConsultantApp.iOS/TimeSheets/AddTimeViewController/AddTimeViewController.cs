@@ -25,6 +25,7 @@ namespace ConsultantApp.iOS
 		private SubtitleHeaderView subtitleHeaderView;
 		private const string ScreenTitle = "Add/Edit Time";
 		private readonly ActiveTimesheetViewModel _activeTimesheetModel;
+		private bool usingCopyOver = false;//do we support the functionality to copy over?
 
 		public AddTimeViewController (IntPtr handle) : base (handle)
 		{
@@ -163,7 +164,7 @@ namespace ConsultantApp.iOS
 						SetDate(this.date.AddDays(1));
 
 						//copy over
-						if( _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)).Count() == 0 && _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate)).Count() > 0)
+						if( usingCopyOver && _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)).Count() == 0 && _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate)).Count() > 0)
 							copyOverButton.Hidden = false;
 						else
 							copyOverButton.Hidden = true;
