@@ -431,8 +431,8 @@ Global
 		{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}.Release|Mixed Platforms.Build.0 = Release|iPhone
 		{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}.Release|Server.ActiveCfg = Release|iPhone
 		{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}.Test|Any CPU.ActiveCfg = Release|iPhoneSimulator
-		{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}.Test|iPhone.ActiveCfg = Release|iPhone
-		{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}.Test|iPhone.Build.0 = Release|iPhone
+		{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}.Test|iPhone.ActiveCfg = Test|iPhone
+		{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}.Test|iPhone.Build.0 = Test|iPhone
 		{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}.Test|iPhoneSimulator.ActiveCfg = Test|iPhoneSimulator
 		{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}.Test|iPhoneSimulator.Build.0 = Test|iPhoneSimulator
 		{43D1C0E1-E5F1-4543-8D81-B1A770A03AAA}.Test|Mixed Platforms.ActiveCfg = Release|iPhoneSimulator
