@@ -25,7 +25,6 @@ namespace ConsultantApp.iOS
 		private SubtitleHeaderView subtitleHeaderView;
 		private const string ScreenTitle = "Add/Edit Time";
 		private readonly ActiveTimesheetViewModel _activeTimesheetModel;
-		private bool usingCopyOver = false;//do we support the functionality to copy over?
 
 		public AddTimeViewController (IntPtr handle) : base (handle)
 		{
@@ -153,8 +152,6 @@ namespace ConsultantApp.iOS
 
 					rightArrowButton.Hidden = false;//assuming everything goes well and a date outside period is not selected
 
-					copyOverButton.Hidden = true;
-
 					updateUI();
 				}
 			};
@@ -168,12 +165,6 @@ namespace ConsultantApp.iOS
 					{
 						DateTime oldDate = date;
 						SetDate(this.date.AddDays(1));
-
-						//copy over
-						if( usingCopyOver && _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)).Count() == 0 && _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate)).Count() > 0)
-							copyOverButton.Hidden = false;
-						else
-							copyOverButton.Hidden = true;
 					}
 					if( inPeriodComparison >= 0 )
 						rightArrowButton.Hidden = true;
@@ -214,8 +205,6 @@ namespace ConsultantApp.iOS
 
 				//save timeentry to timesheet
 				_timesheetModel.saveTimesheet(_curTimesheet);
-
-				copyOverButton.Hidden = true;
 			};
 		    addButton.TintColor = StyleGuideConstants.RedUiColor;
 
@@ -223,38 +212,7 @@ namespace ConsultantApp.iOS
 
 			updateUI ();
 
-			copyOverButton.TouchUpInside += (object sender, EventArgs e) => 
-			{
-				copyOverTime();
-				copyOverButton.Hidden = true;
-			};
-
 			CreateCustomTitleBar();
-		}
-
-		//copies over time entries from previous day
-		public void copyOverTime()
-		{
-			DateTime oldDate = date.AddDays(-1);
-
-			List<TimeEntry> entries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate)).ToList();
-			TimeEntry[] eCopy = new TimeEntry[entries.Count()];
-			entries.CopyTo( eCopy );
-
-			List<TimeEntry> newEntries = new List<TimeEntry>();
-
-			//copy over the previous days time entries by copying them, changing the dates, and concatenating
-			for( int i = 0; i < entries.Count(); i ++ )
-			{
-				TimeEntry newEntry = entries[i].clone();
-
-				newEntry.Date = date;
-				newEntries.Add(newEntry);
-				Console.WriteLine("Changed hours to 3.5");
-			}
-
-			_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat( newEntries.AsEnumerable() );
-			updateUI();
 		}
 
 		private void CreateCustomTitleBar()
