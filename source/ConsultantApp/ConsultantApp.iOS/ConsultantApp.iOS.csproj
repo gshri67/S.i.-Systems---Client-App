@@ -86,6 +86,8 @@
     <OutputPath>bin\iPhone\Test\</OutputPath>
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;TEST</DefineConstants>
     <Optimize>true</Optimize>
+    <BuildIpa>True</BuildIpa>
+    <IpaIncludeArtwork>True</IpaIncludeArtwork>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ActivityManager.cs" />
@@ -155,7 +157,6 @@
       <DependentUpon>AddTimeEntryViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="SubtitleHeaderView.cs" />
-    <None Include="_ios_publish.sh" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
