@@ -25,7 +25,8 @@ namespace ConsultantApp.iOS
 		private int expandedCellIndex = -1;
 		private int prevSelectedRow = -1;
 		private bool addingProjectCode;//if there is an extra cell expanded for picker etc..
-
+		private bool _isEnabled = true;
+		private bool _isChangingEnabledState = false;
 
 		public bool mustSave;//if this is true, the save or delete button must be tapped before the cell can be minimized.
 		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
@@ -102,10 +103,8 @@ namespace ConsultantApp.iOS
 
 						    //if( prevSelectedRow >= 0 && prevSelectedRow < _timeEntries.Count() && 
                             var elem = _timeEntries.ElementAtOrDefault(prevSelectedRow);
-                                if (elem != null)
-                                {
-
-
+                            if (elem != null)
+							{
 							    Console.WriteLine(_timeEntries.Count());
 							    var timeEntryToRemove = _timeEntries.ElementAtOrDefault(prevSelectedRow);
 							    Console.WriteLine(timeEntryToRemove);
@@ -123,6 +122,7 @@ namespace ConsultantApp.iOS
 
 								mustSave = false;
 						    }
+
 						Console.WriteLine(_timeEntries.Count());
 						tableView.ReloadData();
 
@@ -175,6 +175,12 @@ namespace ConsultantApp.iOS
 					cell.projectCodeField.Text = "";
 					cell.payRateLabel.Text = "";
 					cell.hoursField.Text = "";
+				}
+
+				if (_isChangingEnabledState) 
+				{
+					cell.enable (_isEnabled);
+					_isChangingEnabledState = false;
 				}
 
 				return cell;
@@ -273,6 +279,12 @@ namespace ConsultantApp.iOS
 				return -1;
 			else //if the cell is after the expanded cell
 				return (int)indexPath.Item-1;
+		}
+
+		public void enable(bool shouldEnable )
+		{
+			_isEnabled = shouldEnable;
+			_isChangingEnabledState = true;
 		}
 	}
 }

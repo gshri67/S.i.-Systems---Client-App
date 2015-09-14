@@ -152,6 +152,10 @@ namespace ConsultantApp.iOS
 			Transform.Scale (0.2f, 0.1f);
 			Transform.Translate (0, -picker.Bounds.Size.Height / 2);
 			picker.Transform = transform;*/
+
+
+			picker.Select (0, 0, false);
+			picker.Select (0, 1, false); 
 		}
 
 		public void setupConstraints()

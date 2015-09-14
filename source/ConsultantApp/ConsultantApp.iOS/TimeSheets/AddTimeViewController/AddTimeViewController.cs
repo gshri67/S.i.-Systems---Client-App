@@ -91,16 +91,22 @@ namespace ConsultantApp.iOS
 					if (addButton != null)
 						addButton.Enabled = false;
 
-					if (tableview != null)
+					if (tableview != null && addTimeTableViewSource != null ) 
+					{
 						tableview.UserInteractionEnabled = false;
+						addTimeTableViewSource.enable (false);
+					}
 				}
 				else
 				{
 					if (addButton != null)
 						addButton.Enabled = true;
 
-					if (tableview != null)
+					if (tableview != null && addTimeTableViewSource != null ) 
+					{
 						tableview.UserInteractionEnabled = true;
+						addTimeTableViewSource.enable (true);
+					}
 				}
 			}
 

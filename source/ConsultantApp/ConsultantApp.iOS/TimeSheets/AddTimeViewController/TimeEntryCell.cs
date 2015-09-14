@@ -116,7 +116,6 @@ namespace ConsultantApp.iOS
 
             setupConstraints();
         }
-
 		public void doneButtonTapped(object sender, EventArgs args)
 		{
 			hoursField.ResignFirstResponder ();
@@ -148,5 +147,18 @@ namespace ConsultantApp.iOS
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.95f, 0f));
         }
 
+
+		public void enable(bool shouldEnable )
+		{
+			if (shouldEnable) 
+			{
+				hoursField.BorderStyle = UITextBorderStyle.RoundedRect;
+				hoursField.Enabled = true;
+			} else 
+			{
+				hoursField.BorderStyle = UITextBorderStyle.None;
+				hoursField.Enabled = false;
+			}
+		}
     }
 }
