@@ -28,5 +28,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+  <key>SIAlumniXamarinInsightsAPIKey</key>
+  <string></string>
 </dict>
 </plist>
