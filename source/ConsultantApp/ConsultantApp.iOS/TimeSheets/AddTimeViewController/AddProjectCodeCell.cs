@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using SiSystems.SharedModels;
+using ConsultantApp.Core.ViewModels;
 
 namespace ConsultantApp.iOS
 {
@@ -49,6 +50,14 @@ namespace ConsultantApp.iOS
 				timeEntry.ProjectCode = pickerModel.items.ElementAt(0).ElementAt( pickerModel.selectedItemIndex.ElementAt(0) );
 				timeEntry.PayRate = pickerModel.items.ElementAt(1).ElementAt( pickerModel.selectedItemIndex.ElementAt(1) );
 				//timeEntry.Hours = float.Parse(hoursTextField.Text);
+
+				if( !TimesheetViewModel.projectCodeDict.Keys.Contains(timeEntry.ProjectCode) )
+					TimesheetViewModel.projectCodeDict.Add(timeEntry.ProjectCode, 1);
+				else
+					TimesheetViewModel.projectCodeDict[timeEntry.ProjectCode] ++;
+
+				Console.WriteLine( timeEntry.ProjectCode + " " + TimesheetViewModel.projectCodeDict[timeEntry.ProjectCode]);
+
 				onSave();
 			};
 			AddSubview (saveButton);
@@ -136,6 +145,16 @@ namespace ConsultantApp.iOS
 			pickerModel = new PickerViewModel ();
 			if (projectCodes != null && payRates != null) 
 			{
+				projectCodes.Sort ();
+				projectCodes.Sort (new Comparison<string> ( (string pc1, string pc2) => 
+					{
+						if( !TimesheetViewModel.projectCodeDict.ContainsKey(pc1) || TimesheetViewModel.projectCodeDict.ContainsKey(pc2) && TimesheetViewModel.projectCodeDict[pc2] >= TimesheetViewModel.projectCodeDict[pc1] )
+							return 1;
+						else if( !TimesheetViewModel.projectCodeDict.ContainsKey(pc2) || TimesheetViewModel.projectCodeDict.ContainsKey(pc1) && TimesheetViewModel.projectCodeDict[pc1] >= TimesheetViewModel.projectCodeDict[pc2] )
+							return -1;
+						return 0;
+					} ));
+
 				pickerModel.items = new List<List<string>> ();
 				pickerModel.items.Add( projectCodes );
 				pickerModel.items.Add( payRates );

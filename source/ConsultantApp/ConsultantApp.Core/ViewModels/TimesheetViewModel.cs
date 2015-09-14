@@ -11,9 +11,15 @@ namespace ConsultantApp.Core.ViewModels
 	{
         private readonly IMatchGuideApi _api;
 
+		public static Dictionary<string, int> projectCodeDict;
+		public static Dictionary<string, int> approverDict;//approvers are more likely to not be unique. handle this?
+
 	    public TimesheetViewModel(IMatchGuideApi matchGuideApi)
 	    {
 	        _api = matchGuideApi;
+
+			if (projectCodeDict == null)
+				projectCodeDict = new Dictionary<string, int> ();
 	    }
 
 		public void saveTimesheet(Timesheet timesheet)
