@@ -190,7 +190,18 @@ namespace ConsultantApp.iOS
 						}
 					}
 				}
-				
+
+				//find out how many frequently used items there are, and if it is higher than our limit
+				int numFrequentItems = 0;
+				for (int i = 0; i < projectCodes.Count; i++)
+					if (TimesheetViewModel.projectCodeDict.ContainsKey (projectCodes [i]))
+						numFrequentItems++;
+
+				if (numFrequentItems > maxFrequentlyUsed)
+					numFrequentItems = maxFrequentlyUsed;
+
+				pickerModel.numFrequentItems[0] = numFrequentItems;
+
 
 				pickerModel.items = new List<List<string>> ();
 				pickerModel.items.Add( projectCodes );
@@ -233,90 +244,6 @@ namespace ConsultantApp.iOS
 			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.55f, 0.0f));
 			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.8f, 0.0f));
 			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, saveButton, NSLayoutAttribute.Height, 1.0f, 0.0f));
-		}
-
-
-		public class PickerViewModel : UIPickerViewModel
-		{
-			public delegate void pickerViewDelegate( string item );
-			public pickerViewDelegate onSelected;
-			public List<List<string>> items;
-			public List<int> selectedItemIndex;
-
-			public PickerViewModel()
-			{
-				selectedItemIndex = new List<int>();
-				selectedItemIndex.Add(0);
-			}
-
-			public override nint GetComponentCount (UIPickerView picker)
-			{
-				if (items == null)
-					return 1;
-				else 
-				{
-					//the picker does not automatically select the first row. As such we need to make sure everything is covered right away, such as having all the selected Indicies preset to 0.
-					while( selectedItemIndex.Count() < items.Count() )
-						selectedItemIndex.Add (0);
-					
-					return items.Count ();
-				}
-			}
-
-			public override nint GetRowsInComponent (UIPickerView picker, nint component)
-			{
-				if (items != null)
-					return items.ElementAt((int)component).Count();
-				else
-					return 0;
-			}
-
-			public override string GetTitle (UIPickerView pickerView, nint row, nint component)
-			{
-				if (items == null)
-					return "";
-				else
-					return items.ElementAt((int)component).ElementAt((int)row);
-			}
-
-			public override void Selected (UIPickerView pickerView, nint row, nint component)
-			{
-				/*
-				//projectcodes should be updated for selected client
-				if (pickerView == clientPickerView) 
-				{
-					projectCodes = clients.ElementAt ((int)row).projectCodes;
-					projectCodePickerView.ReloadAllComponents ();
-				}
-
-				onSelected(pickerView, row);*/
-
-				selectedItemIndex[(int)component] = (int)row;
-			}
-
-			public override UIView GetView (UIPickerView pickerView, nint row, nint component, UIView view)
-			{
-				UILabel lbl = new UILabel(new CoreGraphics.CGRect(0, 0, 130f, 40f));
-				lbl.TextColor = UIColor.Black;
-				lbl.Font = UIFont.SystemFontOfSize(12f);
-				lbl.TextAlignment = UITextAlignment.Center;
-
-				if (items != null )
-					lbl.Text = items.ElementAt((int)component).ElementAt((int)row);
-	
-				if (TimesheetViewModel.projectCodeDict.ContainsKey (items.ElementAt ((int)component).ElementAt ((int)row)) && row < maxFrequentlyUsed) {
-					lbl.BackgroundColor = UIColor.FromWhiteAlpha (1.0f, 1.0f);
-					lbl.TextColor = UIColor.Blue;
-				} 
-				else if (row > 0 && row < maxFrequentlyUsed + 1 && TimesheetViewModel.projectCodeDict.ContainsKey (items.ElementAt ((int)component).ElementAt ((int)row - 1))) 
-				{
-					UILabel lineLabel = new UILabel (new CoreGraphics.CGRect(0, 5, lbl.Frame.Width, 4));
-					lineLabel.BackgroundColor = UIColor.Black;
-					lbl.AddSubview (lineLabel);
-				}
-
-				return lbl;
-			}
 		}
 	}
 }
