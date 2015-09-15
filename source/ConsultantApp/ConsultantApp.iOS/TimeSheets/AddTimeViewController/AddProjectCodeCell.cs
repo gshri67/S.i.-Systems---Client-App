@@ -220,8 +220,11 @@ namespace ConsultantApp.iOS
 			Transform.Translate (0, -picker.Bounds.Size.Height / 2);
 			picker.Transform = transform;*/
 
-
-			picker.Select (0, 0, false);
+			if ( pickerModel == null || (!pickerModel.usingFrequentlyUsedSection[0] || pickerModel.numFrequentItems [0] == 0))
+				picker.Select (0, 0, false);
+			else
+				picker.Select (1, 0, false);
+			
 			picker.Select (0, 1, false); 
 		}
 
