@@ -1,5 +1,5 @@
 #!/bin/bash
-#NOTE: INSIGHTS_API_KEY_* and SI_SIGN_KEY are set up in the 'Client App - iOS App Jenkins' Configuration
+#NOTE: INSIGHTS_API_KEY_* and SI_SIGN_KEY are set up in the 'Consultant App - iOS App Jenkins' Configuration
 
 resultsDir=./buildResult
 
