@@ -304,11 +304,17 @@ namespace ConsultantApp.iOS
 				if (items != null )
 					lbl.Text = items.ElementAt((int)component).ElementAt((int)row);
 	
-				if (TimesheetViewModel.projectCodeDict.ContainsKey (items.ElementAt ((int)component).ElementAt ((int)row)) && row < maxFrequentlyUsed ) 
-				{
-					lbl.BackgroundColor = UIColor.FromWhiteAlpha(1.0f, 1.0f);
+				if (TimesheetViewModel.projectCodeDict.ContainsKey (items.ElementAt ((int)component).ElementAt ((int)row)) && row < maxFrequentlyUsed) {
+					lbl.BackgroundColor = UIColor.FromWhiteAlpha (1.0f, 1.0f);
 					lbl.TextColor = UIColor.Blue;
+				} 
+				else if (row > 0 && row < maxFrequentlyUsed + 1 && TimesheetViewModel.projectCodeDict.ContainsKey (items.ElementAt ((int)component).ElementAt ((int)row - 1))) 
+				{
+					UILabel lineLabel = new UILabel (new CoreGraphics.CGRect(0, 5, lbl.Frame.Width, 4));
+					lineLabel.BackgroundColor = UIColor.Black;
+					lbl.AddSubview (lineLabel);
 				}
+
 				return lbl;
 			}
 		}
