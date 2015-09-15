@@ -112,7 +112,6 @@ namespace ConsultantApp.iOS
 
 				//if (TimesheetViewModel.projectCodeDict.ContainsKey (items.ElementAt ((int)component).ElementAt ((int)row)) && row < maxFrequentlyUsed) 
 				if (usingFrequentlyUsedSection [(int)component] && row < numFrequentItems [(int)component]) {
-					lbl.BackgroundColor = UIColor.FromWhiteAlpha (1.0f, 1.0f);
 					lbl.TextColor = UIColor.Blue;
 					lbl.Font = UIFont.SystemFontOfSize (14f);
 				} 
@@ -128,24 +127,24 @@ namespace ConsultantApp.iOS
 			}
 			else if (oldRow == 0)  //add top separator
 			{
-				UILabel lineLabel1 = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.1f, lbl.Frame.Height/2, lbl.Frame.Width*0.1f, 2));
-				lineLabel1.BackgroundColor = UIColor.Black;
+				UILabel lineLabel1 = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.1f, lbl.Frame.Height*0.88f, lbl.Frame.Width*0.8f, 1));
+				lineLabel1.BackgroundColor = UIColor.LightGray;
 				lbl.AddSubview (lineLabel1);	
 
-				UILabel lineLabel2 = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.8f, lbl.Frame.Height/2, lbl.Frame.Width*0.1f, 2));
+				UILabel lineLabel2 = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.8f, lbl.Frame.Height/2, lbl.Frame.Width*0.1f, 1));
 				lineLabel2.BackgroundColor = UIColor.Black;
-				lbl.AddSubview (lineLabel2);	
+				//lbl.AddSubview (lineLabel2);	
 
 				lbl.TextColor = UIColor.Black;
-				lbl.Font = UIFont.SystemFontOfSize (16f);
+				lbl.Font = UIFont.SystemFontOfSize (11f);
 				lbl.TextAlignment = UITextAlignment.Center;
 
-				lbl.Text = "Frequent";
+				lbl.Text = "Frequently Used";
 			}
 			else //add the separator view
 			{
-				UILabel lineLabel = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.1f, lbl.Frame.Height/2, lbl.Frame.Width*0.8f, 2));
-				lineLabel.BackgroundColor = UIColor.Black;
+				UILabel lineLabel = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.1f, lbl.Frame.Height/2, lbl.Frame.Width*0.8f, 1.5f));
+				lineLabel.BackgroundColor = UIColor.LightGray;
 				lbl.AddSubview (lineLabel);				
 			}
 			return lbl;
