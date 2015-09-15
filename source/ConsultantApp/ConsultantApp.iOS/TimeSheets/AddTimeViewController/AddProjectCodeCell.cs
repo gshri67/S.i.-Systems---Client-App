@@ -27,6 +27,8 @@ namespace ConsultantApp.iOS
 		private List<string> projectCodes;
 		private List<string> payRates;
 
+		private static int maxFrequentlyUsed = 5;
+
 		public AddProjectCodeCell (IntPtr handle) : base (handle)
 		{
 			BackgroundColor = StyleGuideConstants.LighterGrayUiColor;
@@ -37,8 +39,6 @@ namespace ConsultantApp.iOS
 			//picker.BackgroundColor = UIColor.Blue;
 			picker.TranslatesAutoresizingMaskIntoConstraints = false;
 			AddSubview(picker);
-
-
 
 			saveButton = new BorderedButton ();
 			saveButton.SetTitle ("Save", UIControlState.Normal);
@@ -146,14 +146,51 @@ namespace ConsultantApp.iOS
 			if (projectCodes != null && payRates != null) 
 			{
 				projectCodes.Sort ();
-				projectCodes.Sort (new Comparison<string> ( (string pc1, string pc2) => 
-					{
-						if( !TimesheetViewModel.projectCodeDict.ContainsKey(pc1) || TimesheetViewModel.projectCodeDict.ContainsKey(pc2) && TimesheetViewModel.projectCodeDict[pc2] >= TimesheetViewModel.projectCodeDict[pc1] )
+
+				if (projectCodes.Count < maxFrequentlyUsed)
+					projectCodes.Sort (new Comparison<string> ((string pc1, string pc2) => {
+						if (!TimesheetViewModel.projectCodeDict.ContainsKey (pc1) || TimesheetViewModel.projectCodeDict.ContainsKey (pc2) && TimesheetViewModel.projectCodeDict [pc2] >= TimesheetViewModel.projectCodeDict [pc1])
 							return 1;
-						else if( !TimesheetViewModel.projectCodeDict.ContainsKey(pc2) || TimesheetViewModel.projectCodeDict.ContainsKey(pc1) && TimesheetViewModel.projectCodeDict[pc1] >= TimesheetViewModel.projectCodeDict[pc2] )
+						else if (!TimesheetViewModel.projectCodeDict.ContainsKey (pc2) || TimesheetViewModel.projectCodeDict.ContainsKey (pc1) && TimesheetViewModel.projectCodeDict [pc1] >= TimesheetViewModel.projectCodeDict [pc2])
 							return -1;
 						return 0;
-					} ));
+					}));
+				else 
+				{
+					int highest = 0, highestIndex = 0;
+					//can make this linear time if need be.
+					for (int i = 0; i < maxFrequentlyUsed; i++) 
+					{
+						if (!TimesheetViewModel.projectCodeDict.ContainsKey (projectCodes [i])) {
+							highest = -1;
+							highestIndex = -1;
+						} else 
+						{
+							highest = TimesheetViewModel.projectCodeDict [projectCodes [i]];
+							highestIndex = i;
+						}
+
+						for (int j = i+1; j < projectCodes.Count; j++) 
+						{
+							if (TimesheetViewModel.projectCodeDict.ContainsKey (projectCodes [j]) && TimesheetViewModel.projectCodeDict [projectCodes [j]] > highest) 
+							{
+								highest = TimesheetViewModel.projectCodeDict [projectCodes [j]];
+								highestIndex = j;
+							}
+						}
+
+						if (highestIndex > -1) 
+						{
+							List<string> list = projectCodes.ToList ();
+							string temp = list [i];
+							list [i] = list [highestIndex];
+							list [highestIndex] = temp;
+
+							projectCodes = list;
+						}
+					}
+				}
+				
 
 				pickerModel.items = new List<List<string>> ();
 				pickerModel.items.Add( projectCodes );
@@ -267,6 +304,11 @@ namespace ConsultantApp.iOS
 				if (items != null )
 					lbl.Text = items.ElementAt((int)component).ElementAt((int)row);
 	
+				if (TimesheetViewModel.projectCodeDict.ContainsKey (items.ElementAt ((int)component).ElementAt ((int)row)) && row < maxFrequentlyUsed ) 
+				{
+					lbl.BackgroundColor = UIColor.FromWhiteAlpha(1.0f, 1.0f);
+					lbl.TextColor = UIColor.Blue;
+				}
 				return lbl;
 			}
 		}
