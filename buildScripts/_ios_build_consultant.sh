@@ -15,7 +15,7 @@ security unlock-keychain -p $SI_SIGN_KEY si-systems-xcode.keychain
 mkdir $resultsDir
 
 function CreateBuild {
-	find ./source -name 'Info.plist' | while read plist; do
+	find ./source -name 'Info.plist' -not -path '*/bin/*' | while read plist; do
 		/usr/libexec/PlistBuddy -c "Set :CFBundleVersion '${version}.${build_number}${3+.$3}'" $plist
 		/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString '${version}'" $plist
 		/usr/libexec/PlistBuddy -c "Set :SIAlumniXamarinInsightsAPIKey '${1}'" $plist
