@@ -50,8 +50,13 @@ namespace ConsultantApp.iOS
 
 		public override nint GetRowsInComponent (UIPickerView picker, nint component)
 		{
-			if (items != null)
-				return items.ElementAt((int)component).Count();
+			if (items != null) 
+			{
+				if( !usingFrequentlyUsedSection[(int)component] || numFrequentItems [(int)component] == 0 )
+					return items.ElementAt ((int)component).Count ();
+				else
+					return items.ElementAt ((int)component).Count () + 2; 
+			}
 			else
 				return 0;
 		}
@@ -60,8 +65,10 @@ namespace ConsultantApp.iOS
 		{
 			if (items == null)
 				return "";
-			else
-				return items.ElementAt((int)component).ElementAt((int)row);
+			else 
+			{
+				return items.ElementAt ((int)component).ElementAt ((int)row);
+			}
 		}
 
 		public override void Selected (UIPickerView pickerView, nint row, nint component)
@@ -100,7 +107,18 @@ namespace ConsultantApp.iOS
 		{
 			int oldRow = (int)row;
 			row = getIndex ( (int)row, (int)component );
-			UILabel lbl = new UILabel (new CoreGraphics.CGRect (0, 0, 130f, 20f));
+
+			float width, height;
+			if (items != null && items.Count () == 1) {
+				width = (float)pickerView.Frame.Width;
+				height = 40f;
+			} else 
+			{
+				width = 130f;
+				height = 20f;
+			}
+
+			UILabel lbl = new UILabel (new CoreGraphics.CGRect (0, 0, width, height));
 
 			if (row >= 0) {
 				lbl.TextColor = UIColor.Black;
@@ -112,8 +130,8 @@ namespace ConsultantApp.iOS
 
 				//if (TimesheetViewModel.projectCodeDict.ContainsKey (items.ElementAt ((int)component).ElementAt ((int)row)) && row < maxFrequentlyUsed) 
 				if (usingFrequentlyUsedSection [(int)component] && row < numFrequentItems [(int)component]) {
-					lbl.TextColor = UIColor.Blue;
-					lbl.Font = UIFont.SystemFontOfSize (14f);
+					//lbl.TextColor = UIColor.Blue;
+					//lbl.Font = UIFont.SystemFontOfSize (14f);
 				} 
 				/*
 			else if (row > 0 && row < maxFrequentlyUsed + 1 && TimesheetViewModel.projectCodeDict.ContainsKey (items.ElementAt ((int)component).ElementAt ((int)row - 1))) 
@@ -127,7 +145,7 @@ namespace ConsultantApp.iOS
 			}
 			else if (oldRow == 0)  //add top separator
 			{
-				UILabel lineLabel1 = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.1f, lbl.Frame.Height*0.88f, lbl.Frame.Width*0.8f, 1));
+				UILabel lineLabel1 = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.1f, lbl.Frame.Height*0.87f, lbl.Frame.Width*0.8f, 1));
 				lineLabel1.BackgroundColor = UIColor.LightGray;
 				lbl.AddSubview (lineLabel1);	
 
@@ -143,7 +161,7 @@ namespace ConsultantApp.iOS
 			}
 			else //add the separator view
 			{
-				UILabel lineLabel = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.1f, lbl.Frame.Height/2, lbl.Frame.Width*0.8f, 1.5f));
+				UILabel lineLabel = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.1f, lbl.Frame.Height/2, lbl.Frame.Width*0.8f, 1f));
 				lineLabel.BackgroundColor = UIColor.LightGray;
 				lbl.AddSubview (lineLabel);				
 			}
@@ -153,7 +171,7 @@ namespace ConsultantApp.iOS
 		//one section at the top and one separating frequent items
 		public int getIndex( int row, int component )
 		{
-			if (numFrequentItems [component] == 0)
+			if ( !usingFrequentlyUsedSection[component] || numFrequentItems [component] == 0)
 				return row;
 			else if (usingFrequentlyUsedSection [component] && row < numFrequentItems [component] + 1 )
 				return row-1;

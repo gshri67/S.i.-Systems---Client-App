@@ -154,10 +154,12 @@ namespace ConsultantApp.iOS
 			{
 				hoursField.BorderStyle = UITextBorderStyle.RoundedRect;
 				hoursField.Enabled = true;
+				hoursField.TextColor = UIColor.Black;
 			} else 
 			{
 				hoursField.BorderStyle = UITextBorderStyle.None;
 				hoursField.Enabled = false;
+				hoursField.TextColor = UIColor.LightGray;
 			}
 		}
     }

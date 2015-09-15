@@ -154,8 +154,13 @@ namespace ConsultantApp.iOS.TimeEntryViewController
                  _curTimesheet.TimesheetApprover
              };
 
-            if( _approvers != null )
-                approverPickerModel.items = _approvers.ToList();
+			if (_approvers != null) 
+			{
+				if( approverPickerModel.items.Count > 0 )
+					approverPickerModel.items [0] = _approvers.ToList ();
+				else
+					approverPickerModel.items.Add( _approvers.ToList () );
+			}
         }
 
 		public override void ViewDidLoad ()
@@ -217,6 +222,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			approverPicker = new UIPickerView ();
 			approverPicker.BackgroundColor = UIColor.White;
 			approverPickerModel = new PickerViewModel ();
+			approverPickerModel.items = new List<List<string>> ();
 			approverPicker.Model = approverPickerModel;
 			approverNameTextField.InputView = approverPicker;
 			approverPicker.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
@@ -299,7 +305,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	
 		public void doneButtonTapped(object sender, EventArgs args)
 		{
-			string selectedApprover = _approvers.ElementAt (approverPickerModel.selectedItemIndex);
+			string selectedApprover = _approvers.ElementAt (approverPickerModel.selectedItemIndex[0]);
 			approverNameTextField.Text = selectedApprover;
 
 			//save approver
@@ -324,68 +330,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
 			base.PrepareForSegue (segue, sender);
-		}
-
-		public class PickerViewModel : UIPickerViewModel
-		{
-			public delegate void pickerViewDelegate( string item );
-			public pickerViewDelegate onSelected;
-			public List<string> items;
-			public int selectedItemIndex;
-
-			public PickerViewModel()
-			{
-				selectedItemIndex = 0;
-			}
-
-			public override nint GetComponentCount (UIPickerView picker)
-			{
-				return 1;
-			}
-
-			public override nint GetRowsInComponent (UIPickerView picker, nint component)
-			{
-				if (items != null)
-					return items.Count();
-				else
-					return 0;
-			}
-
-			public override string GetTitle (UIPickerView pickerView, nint row, nint component)
-			{
-				if (items == null)
-					return "";
-				else
-					return items.ElementAt((int)row);
-			}
-
-			public override void Selected (UIPickerView pickerView, nint row, nint component)
-			{
-				/*
-				//projectcodes should be updated for selected client
-				if (pickerView == clientPickerView) 
-				{
-					projectCodes = clients.ElementAt ((int)row).projectCodes;
-					projectCodePickerView.ReloadAllComponents ();
-				}
-
-				onSelected(pickerView, row);*/
-
-				selectedItemIndex = (int)row;
-			}
-
-			public override UIView GetView (UIPickerView pickerView, nint row, nint component, UIView view)
-			{
-				UILabel lbl = new UILabel (new CoreGraphics.CGRect (0, 0, pickerView.Frame.Width, 40f));
-				lbl.TextColor = UIColor.Black;
-				lbl.Font = UIFont.SystemFontOfSize (12f);
-				lbl.TextAlignment = UITextAlignment.Center;
-
-				if (items != null)
-					lbl.Text = items.ElementAt ((int)row);
-
-				return lbl;
-			}
 		}
 	}
 }
