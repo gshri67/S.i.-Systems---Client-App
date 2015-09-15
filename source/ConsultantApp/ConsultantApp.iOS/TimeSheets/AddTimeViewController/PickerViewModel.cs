@@ -66,6 +66,7 @@ namespace ConsultantApp.iOS
 
 		public override void Selected (UIPickerView pickerView, nint row, nint component)
 		{
+			int oldRow = (int)row;
 			row = getIndex ( (int)row, (int)component );
 
 			/*
@@ -78,13 +79,28 @@ namespace ConsultantApp.iOS
 
 			onSelected(pickerView, row);*/
 
-			selectedItemIndex[(int)component] = (int)row;
+			if (row >= 0)
+				selectedItemIndex [(int)component] = (int)row;
+			else 
+			{
+				if (oldRow - 1 > 0 && getIndex ((int)oldRow - 1, (int)component) >= 0) {
+					row = getIndex ((int)oldRow - 1, (int)component);
+					oldRow--;
+				} else 
+				{
+					row = getIndex ((int)oldRow + 1, (int)component);
+					oldRow++;
+				}
+				selectedItemIndex [(int)component] = (int)row;
+				pickerView.Select ( oldRow, component, true );
+			}
 		}
 
 		public override UIView GetView (UIPickerView pickerView, nint row, nint component, UIView view)
 		{
+			int oldRow = (int)row;
 			row = getIndex ( (int)row, (int)component );
-			UILabel lbl = new UILabel (new CoreGraphics.CGRect (0, 0, 130f, 40f));
+			UILabel lbl = new UILabel (new CoreGraphics.CGRect (0, 0, 130f, 20f));
 
 			if (row >= 0) {
 				lbl.TextColor = UIColor.Black;
@@ -95,7 +111,7 @@ namespace ConsultantApp.iOS
 					lbl.Text = items.ElementAt ((int)component).ElementAt ((int)row);
 
 				//if (TimesheetViewModel.projectCodeDict.ContainsKey (items.ElementAt ((int)component).ElementAt ((int)row)) && row < maxFrequentlyUsed) 
-				if (usingFrequentlyUsedSection [(int)component] && row < numFrequentItems[(int)component]) {
+				if (usingFrequentlyUsedSection [(int)component] && row < numFrequentItems [(int)component]) {
 					lbl.BackgroundColor = UIColor.FromWhiteAlpha (1.0f, 1.0f);
 					lbl.TextColor = UIColor.Blue;
 					lbl.Font = UIFont.SystemFontOfSize (14f);
@@ -109,21 +125,41 @@ namespace ConsultantApp.iOS
 			}
 */
 
-			} else //add the separator view
+			}
+			else if (oldRow == 0)  //add top separator
 			{
-				UILabel lineLabel = new UILabel (new CoreGraphics.CGRect(0, lbl.Frame.Height/2, lbl.Frame.Width, 5));
+				UILabel lineLabel1 = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.1f, lbl.Frame.Height/2, lbl.Frame.Width*0.1f, 2));
+				lineLabel1.BackgroundColor = UIColor.Black;
+				lbl.AddSubview (lineLabel1);	
+
+				UILabel lineLabel2 = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.8f, lbl.Frame.Height/2, lbl.Frame.Width*0.1f, 2));
+				lineLabel2.BackgroundColor = UIColor.Black;
+				lbl.AddSubview (lineLabel2);	
+
+				lbl.TextColor = UIColor.Black;
+				lbl.Font = UIFont.SystemFontOfSize (16f);
+				lbl.TextAlignment = UITextAlignment.Center;
+
+				lbl.Text = "Frequent";
+			}
+			else //add the separator view
+			{
+				UILabel lineLabel = new UILabel (new CoreGraphics.CGRect(lbl.Frame.Width*0.1f, lbl.Frame.Height/2, lbl.Frame.Width*0.8f, 2));
 				lineLabel.BackgroundColor = UIColor.Black;
 				lbl.AddSubview (lineLabel);				
 			}
 			return lbl;
 		}
 
+		//one section at the top and one separating frequent items
 		public int getIndex( int row, int component )
 		{
-			if (usingFrequentlyUsedSection [component] && row < numFrequentItems [component] || numFrequentItems[component] == 0 )
+			if (numFrequentItems [component] == 0)
 				return row;
-			else if( row > numFrequentItems [component] )
-				return row - 1;
+			else if (usingFrequentlyUsedSection [component] && row < numFrequentItems [component] + 1 )
+				return row-1;
+			else if( row > numFrequentItems [component] + 1 )
+				return row-2;
 			return -1;
 		}
 	}
