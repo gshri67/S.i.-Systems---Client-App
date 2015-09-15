@@ -189,5 +189,11 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<ConsultantDetails>();
         }
+
+        [HttpGet("Remittances/pdf/{docNumber}")]
+        public async Task<HttpResponseMessage> GetPDF(string docNumber) 
+        {
+            return await ExecuteWithDefaultClient<HttpResponseMessage>(new { docNumber });
+        }
     }
 }
