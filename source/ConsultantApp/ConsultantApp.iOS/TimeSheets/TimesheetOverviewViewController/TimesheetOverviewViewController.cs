@@ -311,49 +311,53 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			submitButton.TouchUpInside += delegate(object sender, EventArgs e) {
 
+				var sheet = new UIActionSheet();
+				sheet.Title = "Are you sure you want to submit this timesheet?";
+				sheet.DestructiveButtonIndex = 0;
+				sheet.CancelButtonIndex = 1;
+
+				var confirmationAlertView = new UIAlertView("Successfully submitted timesheet", "", null, "Ok");
+				MatchGuideConstants.TimesheetStatus newStatus = 0;
+				bool permissionToSubmit = true;
+
 				if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
 				{
 					bool allZeros = _curTimesheet.TimeEntries.Sum(t => t.Hours) == 0;
-					bool permissionToSubmit = true;
-
+						
 					if( allZeros )
-					{
-						var sheet = new UIActionSheet();
 						sheet.Title = "Are you sure you want to submit a timesheet with zero entries?";
-						sheet.AddButton("Submit");
-						sheet.AddButton("Cancel");
-						sheet.DestructiveButtonIndex = 0;
-						sheet.CancelButtonIndex = 1;
-						sheet.Clicked += delegate (object sender2, UIButtonEventArgs args)
-						{
-							//if logout button tapped
-							if (args.ButtonIndex == 1)
-								permissionToSubmit = false;
 
-							if( permissionToSubmit )
-							{
-								_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Submitted;
-								updateUI();
-								var view = new UIAlertView("Successfully submitted timesheet", "", null, "Ok");
-								view.Show();
-							}
-						};
-						sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);// ShowInView(View);
-					}
-					//if( permissionToSubmit )
-					else
-					{
-						_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Submitted;
-						var view = new UIAlertView("Successfully submitted timesheet", "", null, "Ok");
-						view.Show();
-					}
+					newStatus = MatchGuideConstants.TimesheetStatus.Submitted;
+
+					sheet.AddButton("Submit");
 				}
 				else if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted )
 				{
-					_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Open;
-					var view = new UIAlertView("Successfully withdrew timesheet", "", null, "Ok");
-					view.Show();
+					newStatus = MatchGuideConstants.TimesheetStatus.Open;
+					confirmationAlertView = new UIAlertView("Successfully withdrew timesheet", "", null, "Ok");
+					sheet.Title = "Are you sure you want to withdraw this timesheet?";
+
+					sheet.AddButton("Withdraw");
 				}
+					
+				sheet.Clicked += delegate (object sender2, UIButtonEventArgs args)
+				{
+					if (args.ButtonIndex == 1)
+						permissionToSubmit = false;
+
+					if( permissionToSubmit )
+					{
+						_curTimesheet.Status = newStatus;
+						updateUI();
+						confirmationAlertView.Show();
+					}
+				};
+
+
+				sheet.AddButton("Cancel");
+				sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);// ShowInView(View);
+
+
 				updateUI();
 			};
 
