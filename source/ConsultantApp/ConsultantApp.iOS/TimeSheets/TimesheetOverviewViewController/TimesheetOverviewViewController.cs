@@ -2,6 +2,7 @@ using System;
 using Foundation;
 using UIKit;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using ConsultantApp.Core.ViewModels;
 using Microsoft.Practices.Unity;
@@ -23,7 +24,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		private PickerViewModel approverPickerModel;
 		IEnumerable<string> _approvers;
 		private const string ScreenTitle = "Timesheet Overview";
-
+		private int maxFrequentlyUsed = 2;
 
 		public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
@@ -68,6 +69,74 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			    {
 			        approverNameTextField.Text = _curTimesheet.TimesheetApprover;
 			    }
+
+				approverPickerModel = new PickerViewModel ();
+
+				if (approverPickerModel != null && _approvers != null ) 
+				{
+					List<string> approverList = _approvers.ToList ();
+
+					approverList.Sort ();
+
+					if (approverList.Count < maxFrequentlyUsed)
+						approverList.Sort (new Comparison<string> ((string pc1, string pc2) => {
+							if (!TimesheetViewModel.approverDict.ContainsKey (pc1) || TimesheetViewModel.approverDict.ContainsKey (pc2) && TimesheetViewModel.approverDict [pc2] >= TimesheetViewModel.approverDict [pc1])
+								return 1;
+							else if (!TimesheetViewModel.approverDict.ContainsKey (pc2) || TimesheetViewModel.approverDict.ContainsKey (pc1) && TimesheetViewModel.approverDict [pc1] >= TimesheetViewModel.approverDict [pc2])
+								return -1;
+							return 0;
+						}));
+					else 
+					{
+						int highest = 0, highestIndex = 0;
+						//can make this linear time if need be.
+						for (int i = 0; i < maxFrequentlyUsed; i++) 
+						{
+							if (!TimesheetViewModel.approverDict.ContainsKey (approverList [i])) {
+								highest = -1;
+								highestIndex = -1;
+							} else 
+							{
+								highest = TimesheetViewModel.approverDict [approverList [i]];
+								highestIndex = i;
+							}
+
+							for (int j = i+1; j < approverList.Count; j++) 
+							{
+								if (TimesheetViewModel.approverDict.ContainsKey (approverList [j]) && TimesheetViewModel.approverDict [approverList [j]] > highest) 
+								{
+									highest = TimesheetViewModel.approverDict [approverList [j]];
+									highestIndex = j;
+								}
+							}
+
+							if (highestIndex > -1) 
+							{
+								string temp = approverList [i];
+								approverList [i] = approverList [highestIndex];
+								approverList [highestIndex] = temp;
+							}
+						}
+					}
+
+					//find out how many frequently used items there are, and if it is higher than our limit
+					int numFrequentItems = 0;
+					for (int i = 0; i < approverList.Count; i++)
+						if (TimesheetViewModel.approverDict.ContainsKey (approverList [i]))
+							numFrequentItems++;
+
+					if (numFrequentItems > maxFrequentlyUsed)
+						numFrequentItems = maxFrequentlyUsed;
+					
+					_approvers = approverList;
+
+					approverPickerModel.items = new List<List<string>> ();
+					approverPickerModel.items.Add (approverList);
+					approverPickerModel.numFrequentItems[0] = numFrequentItems;
+				}
+				if( approverPicker != null )
+					approverPicker.Model = approverPickerModel;
+
 				/*
 				if (subtitleHeaderView != null) 
 				{
@@ -153,14 +222,16 @@ namespace ConsultantApp.iOS.TimeEntryViewController
              {
                  _curTimesheet.TimesheetApprover
              };
-
+			/*
 			if (_approvers != null) 
 			{
 				if( approverPickerModel.items.Count > 0 )
 					approverPickerModel.items [0] = _approvers.ToList ();
 				else
 					approverPickerModel.items.Add( _approvers.ToList () );
-			}
+			}*/
+
+			updateUI ();
         }
 
 		public override void ViewDidLoad ()
@@ -312,6 +383,12 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			_curTimesheet.TimesheetApprover = selectedApprover;
 
 			approverNameTextField.ResignFirstResponder ();
+
+			if( !TimesheetViewModel.approverDict.Keys.Contains(selectedApprover) )
+				TimesheetViewModel.approverDict.Add(selectedApprover, 1);
+			else
+				TimesheetViewModel.approverDict[selectedApprover] ++;
+			
 
 			updateUI ();
 		}
