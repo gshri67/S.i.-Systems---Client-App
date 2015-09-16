@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shared.Core;
 using SiSystems.SharedModels;
+using System.Collections;
+using ConsultantApp.Core.ViewModels;
 
 namespace ConsultantApp.Core.ViewModels
 {
@@ -11,17 +13,9 @@ namespace ConsultantApp.Core.ViewModels
 	{
         private readonly IMatchGuideApi _api;
 
-		public static Dictionary<string, int> projectCodeDict;
-		public static Dictionary<string, int> approverDict;
-
 	    public TimesheetViewModel(IMatchGuideApi matchGuideApi)
 	    {
 	        _api = matchGuideApi;
-
-			if (projectCodeDict == null)
-				projectCodeDict = new Dictionary<string, int> ();
-			if (approverDict == null)
-				approverDict = new Dictionary<string, int> ();
 	    }
 
 		public void saveTimesheet(Timesheet timesheet)
