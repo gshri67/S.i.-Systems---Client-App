@@ -51,6 +51,11 @@ namespace ConsultantApp.Core.ViewModels
 							else
 								projectCodeDict.Add (entry.ProjectCode, 1);
 						}
+
+						if (approverDict.ContainsKey (timesheet.TimesheetApprover))
+							approverDict [timesheet.TimesheetApprover]++;
+						else
+							approverDict.Add (timesheet.TimesheetApprover, 1);
 					}
 				}
 			}
