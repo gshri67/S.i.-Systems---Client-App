@@ -17,7 +17,7 @@
     <TestProjectType>UnitTest</TestProjectType>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>058cf931</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>b018f1b9</NuGetPackageImportStamp>
     <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -55,7 +55,8 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Insights">
+    <Reference Include="Xamarin.Insights, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Xamarin.Insights.1.10.2.110\lib\portable-win+net40\Xamarin.Insights.dll</HintPath>
     </Reference>
   </ItemGroup>
