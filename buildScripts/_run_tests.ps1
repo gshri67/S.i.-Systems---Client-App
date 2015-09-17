@@ -21,12 +21,13 @@ $nunitArgs = "/xml:..\nunitResults.xml /framework:net-4.0 /exclude:Database"
 Get-ChildItem -Recurse -Include *.Tests.dll source\ |
     Where { $_.FullName -notlike "*\obj\*" } |
     ForEach-Object {
-        $nunitArgs += " $($_.Name)"
+        $testPathExt = "$($_.Name)" -replace ".Tests.dll", ""
+        $nunitArgs += " {0}\{1}" -f "$testPathExt", "$($_.Name)"
         split-path $_.FullName
     } |
     Select-Object -unique |
     ForEach-Object {
-        copy-item -force "$_\*" "$testPath"
+        copy-item -force "$_\*" "{0}\{1}" -f "$testPath", "$testPathExt"
     }
 
 
