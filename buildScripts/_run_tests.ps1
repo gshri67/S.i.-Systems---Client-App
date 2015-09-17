@@ -27,7 +27,8 @@ Get-ChildItem -Recurse -Include *.Tests.dll source\ |
     } |
     Select-Object -unique |
     ForEach-Object {
-        copy-item -force "$_\*" {"{0}\{1}" -f "$testPath", "$testPathExt"}
+        $destination = "{0}\{1}" -f "$testPath", "$testPathExt"
+        copy-item -force "$_\*" $destination
     }
 
 
