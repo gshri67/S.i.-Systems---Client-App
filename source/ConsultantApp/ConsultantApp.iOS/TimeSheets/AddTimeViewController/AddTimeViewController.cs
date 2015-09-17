@@ -63,7 +63,7 @@ namespace ConsultantApp.iOS
 			{
 				if (headerHoursLabel != null && date != null ) 
 				{
-					headerHoursLabel.Text = "Daily Hours: " + _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString (); 
+					headerHoursLabel.Text = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString (); 
 				}
 
                 if (tableview != null && date != null && _payRates != null) 
@@ -75,7 +75,7 @@ namespace ConsultantApp.iOS
 					addTimeTableViewSource.onDataChanged += delegate(IEnumerable<TimeEntry> timeEntries )
 					{
 						_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(date) ).Concat(timeEntries);
-						headerHoursLabel.Text = "Daily Hours: " + _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString ();
+						headerHoursLabel.Text = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString ();
 
 						//updateUI();
 					};
@@ -111,10 +111,10 @@ namespace ConsultantApp.iOS
 
 			if (date != null) 
 			{
-				if (headerDateLabel != null) 
-				{
-					headerDateLabel.Text = date.ToString("ddd") + " " + date.ToString("MMM") + " " + date.ToString("dd").TrimStart('0');
-				}
+				if (headerDateLabel != null)
+					headerDateLabel.Text = date.ToString("MMM") + " " + date.ToString("dd").TrimStart('0');
+				if (headerDayOfWeekLabel != null)
+					headerDayOfWeekLabel.Text = date.ToString ("ddd");
 			}
 		}
 
