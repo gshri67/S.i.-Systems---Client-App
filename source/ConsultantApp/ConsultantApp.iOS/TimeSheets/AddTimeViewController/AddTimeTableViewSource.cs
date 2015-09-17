@@ -28,6 +28,7 @@ namespace ConsultantApp.iOS
 		private bool _isEnabled = true;
 		private bool _isChangingEnabledState = false;
 
+		//This functionality is likely going to be removed
 		public bool mustSave;//if this is true, the save or delete button must be tapped before the cell can be minimized.
 		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
 
@@ -205,8 +206,12 @@ namespace ConsultantApp.iOS
 	
 				if (addingProjectCode)
 					expandedCellIndex = realSelectedIndex + 1;
-				else
+				else 
+				{
+					AddProjectCodeCell expandedCell = (AddProjectCodeCell)tableView.CellAt ( NSIndexPath.FromItemSection(expandedCellIndex, 0) );
+					expandedCell.saveChanges ();
 					expandedCellIndex = -1;
+				}
 
 				tableView.ReloadData ();
 
@@ -233,7 +238,7 @@ namespace ConsultantApp.iOS
 			if (!addingProjectCode) 
 			{
 				openExpandedCell (_timeEntries.Count () - 1);
-				mustSave = true;
+				//mustSave = true;
 			}
 		}
 

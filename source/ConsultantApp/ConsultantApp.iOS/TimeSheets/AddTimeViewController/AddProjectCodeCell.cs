@@ -41,24 +41,13 @@ namespace ConsultantApp.iOS
 			AddSubview(picker);
 
 			saveButton = new BorderedButton ();
-			saveButton.SetTitle ("Save", UIControlState.Normal);
+			saveButton.SetTitle ("Done", UIControlState.Normal);
             saveButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
             saveButton.TintColor = StyleGuideConstants.RedUiColor;
 			saveButton.TranslatesAutoresizingMaskIntoConstraints = false;
 			saveButton.TouchUpInside += delegate 
 			{
-				timeEntry.ProjectCode = pickerModel.items.ElementAt(0).ElementAt( pickerModel.selectedItemIndex.ElementAt(0) );
-				timeEntry.PayRate = pickerModel.items.ElementAt(1).ElementAt( pickerModel.selectedItemIndex.ElementAt(1) );
-				//timeEntry.Hours = float.Parse(hoursTextField.Text);
-
-				if( !ActiveTimesheetViewModel.projectCodeDict.Keys.Contains(timeEntry.ProjectCode) )
-					ActiveTimesheetViewModel.projectCodeDict.Add(timeEntry.ProjectCode, 1);
-				else
-					ActiveTimesheetViewModel.projectCodeDict[timeEntry.ProjectCode] ++;
-
-				Console.WriteLine( timeEntry.ProjectCode + " " + ActiveTimesheetViewModel.projectCodeDict[timeEntry.ProjectCode]);
-
-				onSave();
+				saveChanges();
 			};
 			AddSubview (saveButton);
 
@@ -247,6 +236,22 @@ namespace ConsultantApp.iOS
 			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.55f, 0.0f));
 			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.8f, 0.0f));
 			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, saveButton, NSLayoutAttribute.Height, 1.0f, 0.0f));
+		}
+
+		public void saveChanges()
+		{
+			timeEntry.ProjectCode = pickerModel.items.ElementAt(0).ElementAt( pickerModel.selectedItemIndex.ElementAt(0) );
+			timeEntry.PayRate = pickerModel.items.ElementAt(1).ElementAt( pickerModel.selectedItemIndex.ElementAt(1) );
+			//timeEntry.Hours = float.Parse(hoursTextField.Text);
+
+			if( !ActiveTimesheetViewModel.projectCodeDict.Keys.Contains(timeEntry.ProjectCode) )
+				ActiveTimesheetViewModel.projectCodeDict.Add(timeEntry.ProjectCode, 1);
+			else
+				ActiveTimesheetViewModel.projectCodeDict[timeEntry.ProjectCode] ++;
+
+			Console.WriteLine( timeEntry.ProjectCode + " " + ActiveTimesheetViewModel.projectCodeDict[timeEntry.ProjectCode]);
+
+			onSave();
 		}
 	}
 }
