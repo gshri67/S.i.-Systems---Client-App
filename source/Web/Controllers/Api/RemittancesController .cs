@@ -26,7 +26,7 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         [Route("pdf/{docNumber}")]
         public HttpResponseMessage GetPDF( string docNumber )
         {
-            var pdf = _service.GetPDF();
+            var pdf = _service.GetPDF(docNumber);
             return Request.CreateResponse(HttpStatusCode.OK, pdf);
         }
     }

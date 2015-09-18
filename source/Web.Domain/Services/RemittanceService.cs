@@ -25,7 +25,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return _remittanceRepository.GetRemittancesForUser(_sessionContext.CurrentUser.Id);
         }
 
-        public HttpResponseMessage getPDF(string docNumber)
+        public HttpResponseMessage GetPDF(string docNumber)
         {
             return null; 
         }
