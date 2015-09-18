@@ -18,8 +18,9 @@ namespace ConsultantApp.Core.ViewModels
 	        _api = matchGuideApi;
 	    }
 
-		public void saveTimesheet(Timesheet timesheet)
+		public void SaveTimesheet(Timesheet timesheet)
 		{
+
 		}
 
 		public Task<IEnumerable<string>> GetProjectCodes()
