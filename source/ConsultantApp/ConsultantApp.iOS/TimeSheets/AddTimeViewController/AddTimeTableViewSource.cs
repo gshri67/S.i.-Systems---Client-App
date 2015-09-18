@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Foundation;
 using SiSystems.SharedModels;
@@ -11,41 +12,34 @@ namespace ConsultantApp.iOS
 	{
 
 		private const string CellIdentifier = "TimeEntryCell";
-		private const string expandedCellIdentifier = "AddProjectCodeCell";
-		private UIViewController parentController;
-		public IEnumerable<TimeEntry> _timeEntries;
-		public IEnumerable<string> _projectCodes;
-		public IEnumerable<string> _payRates;
+		private const string ExpandedCellIdentifier = "AddProjectCodeCell";
+		public IEnumerable<TimeEntry> TimeEntries;
+		public IEnumerable<string> ProjectCodes;
+		public IEnumerable<string> PayRates;
 
 		public delegate void TableDelegate(IEnumerable<TimeEntry> timeEntries);
-		public  TableDelegate onDataChanged;
+		public  TableDelegate OnDataChanged;
 
-		private int normalCellHeight;
-		private int expandedCellHeight;
-		private int expandedCellIndex = -1;
-		private int prevSelectedRow = -1;
-		private bool addingProjectCode;//if there is an extra cell expanded for picker etc..
+		private readonly int _normalCellHeight;
+		private readonly int _expandedCellHeight;
+		private int _expandedCellIndex = -1;
+		private int _prevSelectedRow = -1;
+		private bool _addingProjectCode;//if there is an extra cell expanded for picker etc..
 		private bool _isEnabled = true;
 		private bool _isChangingEnabledState = false;
 
 		//This functionality is likely going to be removed
-		public bool mustSave;//if this is true, the save or delete button must be tapped before the cell can be minimized.
+		public bool MustSave;//if this is true, the save or delete button must be tapped before the cell can be minimized.
 		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
 
-		public AddTimeTableViewSource( UIViewController parentController, IEnumerable<TimeEntry> timeEntries, IEnumerable<string> projectCodes, IEnumerable<string> payRates ) 
+		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries, IEnumerable<string> projectCodes, IEnumerable<string> payRates ) 
 		{
-			this.parentController = parentController;
-			/*
-            timeEntries = new NSMutableArray();
-            timeEntries.Add( new NSString("Nexen") );
-            timeEntries.Add( new NSString("Cenovus") );*/
+			this.TimeEntries = timeEntries;
+			this.ProjectCodes = projectCodes;
+			this.PayRates = payRates;
 
-			this._timeEntries = timeEntries;
-			this._projectCodes = projectCodes;
-			this._payRates = payRates;
-
-			normalCellHeight = 44;
-			expandedCellHeight = 200;
+			_normalCellHeight = 44;
+			_expandedCellHeight = 200;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -55,124 +49,86 @@ namespace ConsultantApp.iOS
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			if (_timeEntries != null && _timeEntries.Any ()) 
-			{
-				Console.WriteLine ( "number of time entries " + _timeEntries.Count() );
-				if (addingProjectCode) {		
-					return _timeEntries.Count () + 1;
-				} else 
-				{
-					return _timeEntries.Count ();
-				}
-			}
-			else
-				return 0;
+		    if (TimeEntries == null || !TimeEntries.Any()) return 0;
+
+		    if (_addingProjectCode) {		
+		        return TimeEntries.Count () + 1;
+		    }
+		    return TimeEntries.Count ();
 		}
 
-		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+	    public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			Console.WriteLine ( indexPath.Item + " " + expandedCellIndex );
-			if ((int)indexPath.Item == expandedCellIndex) 
+			if ((int)indexPath.Item == _expandedCellIndex) 
 			{
-				AddProjectCodeCell cell = (AddProjectCodeCell)tableView.DequeueReusableCell (expandedCellIdentifier);
+				var cell = (AddProjectCodeCell)tableView.DequeueReusableCell (ExpandedCellIdentifier);
 
-				if (_timeEntries != null) 
-				{
-					TimeEntry curEntry = _timeEntries.ElementAt( prevSelectedRow );//((int)indexPath.Item);
-					cell.setData ( curEntry, _projectCodes, _payRates );
+			    if (TimeEntries == null) return cell;
 
-                    if( cell.onSave == null )
-					    cell.onSave += delegate
-					    {
-						    closeExpandedCell();
+			    var curEntry = TimeEntries.ElementAt( _prevSelectedRow );//((int)indexPath.Item);
+			    cell.setData ( curEntry, ProjectCodes, PayRates );
 
-						    tableView.ReloadData();
+			    if( cell.onSave == null )
+			        cell.onSave += delegate
+			        {
+			            CloseExpandedCell();
 
-							onDataChanged( _timeEntries);
+			            tableView.ReloadData();
 
-							mustSave = false;
-							TimeEntryCell tc = (TimeEntryCell)tableView.CellAt( NSIndexPath.FromItemSection( prevSelectedRow, 0) );
-							if( tc != null )
-								tc.activateSave();
-					    };
+			            OnDataChanged( TimeEntries);
+
+			            MustSave = false;
+			            var tc = (TimeEntryCell)tableView.CellAt( NSIndexPath.FromItemSection( _prevSelectedRow, 0) );
+			            if( tc != null )
+			                tc.activateSave();
+			        };
                    
-                    if( cell.onDelete == null )
-					    cell.onDelete += delegate
-					    {
-						    Console.WriteLine(_timeEntries.Count());
-						    closeExpandedCell();
-						    Console.WriteLine("Finished Closing Expanded Cell");
+			    if( cell.onDelete == null )
+			        cell.onDelete += delegate
+			        {
+			            Console.WriteLine(TimeEntries.Count());
+			            CloseExpandedCell();
+			            Console.WriteLine("Finished Closing Expanded Cell");
 
-						    Console.WriteLine("Prev selected row " + prevSelectedRow);
+			            Console.WriteLine("Prev selected row " + _prevSelectedRow);
 
-						    //if( prevSelectedRow >= 0 && prevSelectedRow < _timeEntries.Count() && 
-                            var elem = _timeEntries.ElementAtOrDefault(prevSelectedRow);
-                            if (elem != null)
-							{
-							    Console.WriteLine(_timeEntries.Count());
-							    var timeEntryToRemove = _timeEntries.ElementAtOrDefault(prevSelectedRow);
-							    Console.WriteLine(timeEntryToRemove);
-							    var timeEntriesList = _timeEntries.ToList();
-							    timeEntriesList.Remove(timeEntryToRemove);
+			            var elem = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
+			            if (elem != null)
+			            {
+			                Console.WriteLine(TimeEntries.Count());
+			                var timeEntryToRemove = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
+			                Console.WriteLine(timeEntryToRemove);
+			                var timeEntriesList = TimeEntries.ToList();
+			                timeEntriesList.Remove(timeEntryToRemove);
 
-							    _timeEntries = timeEntriesList.AsEnumerable();
-    //							Console.WriteLine(_timeEntries.ElementAt(prevSelectedRow));
-    //							var elemToRemove = _timeEntries.ElementAt(prevSelectedRow);
-
-    //							if( elemToRemove != null )
-    //								_timeEntries = _timeEntries.Where( e => e != elemToRemove );
+			                TimeEntries = timeEntriesList.AsEnumerable();
 	
-							    Console.WriteLine("Finished Removing the timeentry");
+			                Console.WriteLine("Finished Removing the timeentry");
 
-								mustSave = false;
-						    }
+			                MustSave = false;
+			            }
 
-						Console.WriteLine(_timeEntries.Count());
-						tableView.ReloadData();
+			            Console.WriteLine(TimeEntries.Count());
+			            tableView.ReloadData();
 
-						onDataChanged( _timeEntries);
-					};
-				}
+			            OnDataChanged(TimeEntries);
+			        };
 
-				return cell;
+			    return cell;
 			} else 
 			{
-				TimeEntryCell cell = (TimeEntryCell)tableView.DequeueReusableCell (CellIdentifier);
-				/*
-				//if (cell == null)
-				//  cell = new TimeEntryCell();
-
-				if (_timeEntries != null && _timeEntries.Any())
-				{
-					TimeEntry curEntry = _timeEntries.ElementAt((int)indexPath.Item);
-
-					cell.TextLabel.Text = curEntry.ClientName;
-
-					cell.clientField.Text = curEntry.ClientName;
-					cell.projectCodeField.Text = curEntry.ProjectCode;
-					cell.hoursField.Text = curEntry.Hours.ToString();
-
-					cell.onHoursChanged = ( int newHours) => {
-						curEntry.Hours = newHours;
-					};
-
-					cell.onClientChanged = ( String newClient) => {
-						UIPickerView picker = new UIPickerView ();
-						picker.Model = new TimeEntryClientPickerModel (parentController);
-						//cell.clientField.InputView = picker;
-						//parentController.View.AddSubview( picker );
-					};
-				}*/
-				if (_timeEntries != null && _timeEntries.Count () > entryIndex(indexPath)) {
-					TimeEntry curEntry = _timeEntries.ElementAt (entryIndex (indexPath));//((int)indexPath.Item);
+				var cell = (TimeEntryCell)tableView.DequeueReusableCell (CellIdentifier);
+				
+				if (TimeEntries != null && TimeEntries.Count () > EntryIndex(indexPath)) {
+					var curEntry = TimeEntries.ElementAt(EntryIndex(indexPath));
 
 					cell.projectCodeField.Text = curEntry.ProjectCode;
 					cell.payRateLabel.Text = curEntry.PayRate;
-					cell.hoursField.Text = curEntry.Hours.ToString ();
+					cell.hoursField.Text = curEntry.Hours.ToString(CultureInfo.InvariantCulture);
 
 					cell.onHoursChanged = ( float newHours) => {
 						curEntry.Hours = newHours;
-						onDataChanged( _timeEntries);
+						OnDataChanged( TimeEntries);
 					};
 				} else 
 				{
@@ -181,115 +137,87 @@ namespace ConsultantApp.iOS
 					cell.hoursField.Text = "";
 				}
 
-				if (_isChangingEnabledState) 
-				{
-					cell.enable (_isEnabled);
-					_isChangingEnabledState = false;
-				}
+			    if (!_isChangingEnabledState) return cell;
 
-				return cell;
+			    cell.enable (_isEnabled);
+			    _isChangingEnabledState = false;
+
+			    return cell;
 			}
 		}
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			Console.WriteLine ( "selected: " + indexPath.Item + " " + expandedCellIndex );
+			Console.WriteLine ( "selected: " + indexPath.Item + " " + _expandedCellIndex );
 
 			//Nothing happens if expanded cell is tapped
-			if ((int)indexPath.Item != expandedCellIndex && !mustSave ) {
-				int realSelectedIndex = entryIndex (indexPath);
+		    if ((int) indexPath.Item == _expandedCellIndex || MustSave) return;
 
-				if (realSelectedIndex == prevSelectedRow)
-					addingProjectCode = !addingProjectCode;
-				else
-					addingProjectCode = true;
+		    var realSelectedIndex = EntryIndex (indexPath);
+
+		    if (realSelectedIndex == _prevSelectedRow)
+		        _addingProjectCode = !_addingProjectCode;
+		    else
+		        _addingProjectCode = true;
 	
-				if (addingProjectCode)
-					expandedCellIndex = realSelectedIndex + 1;
-				else 
-				{
-					AddProjectCodeCell expandedCell = (AddProjectCodeCell)tableView.CellAt ( NSIndexPath.FromItemSection(expandedCellIndex, 0) );
-					expandedCell.saveChanges ();
-					expandedCellIndex = -1;
-				}
+		    if (_addingProjectCode)
+		        _expandedCellIndex = realSelectedIndex + 1;
+		    else 
+		    {
+		        var expandedCell = (AddProjectCodeCell)tableView.CellAt ( NSIndexPath.FromItemSection(_expandedCellIndex, 0) );
+		        expandedCell.saveChanges ();
+		        _expandedCellIndex = -1;
+		    }
 
-				tableView.ReloadData ();
+		    tableView.ReloadData ();
 
-				prevSelectedRow = realSelectedIndex;
-
-				Console.WriteLine ("prev selected row: " + prevSelectedRow);
-			}
-
-			Console.WriteLine ("After row selected");
-			//tableView.ReloadRows (tableView.IndexPathsForVisibleRows, UITableViewRowAnimation.Automatic);
-			/*
-			NSIndexPath[] paths = new NSIndexPath[]{ NSIndexPath.FromIndex((nuint)_timeEntries.Count() ) };
-			GetCell (tableView, NSIndexPath.FromIndex ((nuint)_timeEntries.Count ())).Hidden = false;
-
-			tableView.ReloadRows ( paths, UITableViewRowAnimation.Automatic);
-*/
-			//[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousSelectedIndexPath]
-			//	withRowAnimation:UITableViewRowAnimationAutomatic];
+		    _prevSelectedRow = realSelectedIndex;
 		}
 			
 		//if a cell was added
-		public void handleNewCell()
+		public void HandleNewCell()
 		{
-			if (!addingProjectCode) 
+			if (!_addingProjectCode) 
 			{
-				openExpandedCell (_timeEntries.Count () - 1);
-				//mustSave = true;
+				OpenExpandedCell (TimeEntries.Count () - 1);
 			}
 		}
 
-		public void openExpandedCell( int index )
+		public void OpenExpandedCell( int index )
 		{
-			addingProjectCode = true;
-			expandedCellIndex = index + 1;
+			_addingProjectCode = true;
+			_expandedCellIndex = index + 1;
 
-			prevSelectedRow = index;
-
-			//tableView.ReloadData();
+			_prevSelectedRow = index;
 		}
 
-		public void closeExpandedCell()
+		public void CloseExpandedCell()
 		{
-			expandedCellIndex = -1;
-			addingProjectCode = false;
-
-			//tableView.ReloadData();
+			_expandedCellIndex = -1;
+			_addingProjectCode = false;
 		}
 
 		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
-			if( (int)indexPath.Item != expandedCellIndex )
-				return normalCellHeight;
-			return expandedCellHeight;
-			/*			
-			 if ([expandedCells containsObject:indexPath])
-			{
-				return kExpandedCellHeight; //It's not necessary a constant, though
-			}
-			else
-			{
-				return kNormalCellHeigh; //Again not necessary a constant
-			}
-			*/	
+		    return (int)indexPath.Item != _expandedCellIndex 
+                ? _normalCellHeight 
+                : _expandedCellHeight;
 		}
 
-		//return the time entry at the index
-		public int entryIndex (NSIndexPath indexPath )
+	    //return the time entry at the index
+		public int EntryIndex (NSIndexPath indexPath )
 		{
-			//there is no expanded cell or the index is before the expanded cell
-			if (!addingProjectCode || expandedCellIndex > (int)indexPath.Item )
+		    //there is no expanded cell or the index is before the expanded cell
+			if (!_addingProjectCode || _expandedCellIndex > (int)indexPath.Item )
 				return (int)indexPath.Item;
-			else if( expandedCellIndex == (int)indexPath.Item )//this function should not be called on this index, but we return -1 for safety
-				return -1;
-			else //if the cell is after the expanded cell
-				return (int)indexPath.Item-1;
+
+		    if( _expandedCellIndex == (int)indexPath.Item )//this function should not be called on this index, but we return -1 for safety
+		        return -1;
+
+		    return (int)indexPath.Item-1;
 		}
 
-		public void enable(bool shouldEnable )
+	    public void Enable(bool shouldEnable )
 		{
 			_isEnabled = shouldEnable;
 			_isChangingEnabledState = true;

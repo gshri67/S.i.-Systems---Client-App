@@ -71,8 +71,8 @@ namespace ConsultantApp.iOS
 					tableview.RegisterClassForCellReuse (typeof(TimeEntryCell), "TimeEntryCell");
 					tableview.RegisterClassForCellReuse (typeof(AddProjectCodeCell), "AddProjectCodeCell");
 
-					addTimeTableViewSource = new AddTimeTableViewSource(this, _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)), _timesheetModel.GetProjectCodes().Result, _payRates);
-					addTimeTableViewSource.onDataChanged += delegate(IEnumerable<TimeEntry> timeEntries )
+					addTimeTableViewSource = new AddTimeTableViewSource(_curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)), _timesheetModel.GetProjectCodes().Result, _payRates);
+					addTimeTableViewSource.OnDataChanged += delegate(IEnumerable<TimeEntry> timeEntries )
 					{
 						_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(date) ).Concat(timeEntries);
 						headerHoursLabel.Text = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString ();
@@ -93,7 +93,7 @@ namespace ConsultantApp.iOS
 					if (tableview != null && addTimeTableViewSource != null ) 
 					{
 						tableview.UserInteractionEnabled = false;
-						addTimeTableViewSource.enable (false);
+						addTimeTableViewSource.Enable (false);
 					}
 				}
 				else
@@ -104,7 +104,7 @@ namespace ConsultantApp.iOS
 					if (tableview != null && addTimeTableViewSource != null ) 
 					{
 						tableview.UserInteractionEnabled = true;
-						addTimeTableViewSource.enable (true);
+						addTimeTableViewSource.Enable (true);
 					}
 				}
 			}
@@ -195,11 +195,11 @@ namespace ConsultantApp.iOS
 				Console.WriteLine(_curTimesheet.TimeEntries.Count());
 
 				_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat( newEnumerableEntry );// _curTimesheet.TimeEntries
-				addTimeTableViewSource._timeEntries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date));
+				addTimeTableViewSource.TimeEntries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date));
 
 				Console.WriteLine(_curTimesheet.TimeEntries.Count());
 
-				addTimeTableViewSource.handleNewCell();
+				addTimeTableViewSource.HandleNewCell();
 
 				tableview.ReloadData();
 
