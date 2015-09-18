@@ -26,7 +26,7 @@ namespace Shared.Core
 
         public readonly Uri BaseAddress;
         public readonly Uri DemoBaseAddress;
-        public bool DemoMode;
+        public string Username;
 
         public TimeSpan Timeout = TimeSpan.FromSeconds(100);
 
@@ -39,7 +39,6 @@ namespace Shared.Core
 
             this.BaseAddress = new Uri(this.GetType().GetTypeInfo().GetCustomAttribute<ApiAttribute>().BaseUrl);
             this.DemoBaseAddress = new Uri(Settings.DemoMatchGuideApiAddress);
-            this.DemoMode = false;
         }
 
         /// <summary>
@@ -60,6 +59,19 @@ namespace Shared.Core
             return default(TResult);
         }
 
+        private static bool IsDemoUser(string username)
+        {
+            return username != null 
+                && username.ToLower().Contains(Settings.DemoDomain.ToLower());
+        }
+
+        private Uri BaseAddressForUsername(string username)
+        {
+            return IsDemoUser(username)
+                ? this.DemoBaseAddress
+                : this.BaseAddress;
+        }
+
         /// <summary>
         /// Execute a request using an http client with the authorization header pre-set (using the user's token if available). 
         /// On a forbidden or unauthorized response, will broadcast a "TokenExpired" message to the client.
@@ -75,9 +87,7 @@ namespace Shared.Core
 
                 var httpClient = new HttpClient(this._handler)
                 {
-                    BaseAddress = this.DemoMode 
-                        ? this.DemoBaseAddress 
-                        : this.BaseAddress,
+                    BaseAddress = BaseAddressForUsername(this.Username),
                     Timeout = this.Timeout
                 };
 
@@ -85,6 +95,7 @@ namespace Shared.Core
                 if (token != null)
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
+                    httpClient.BaseAddress = BaseAddressForUsername(token.Username);
                 }
 
                 var request = BuildRequest(caller, data);

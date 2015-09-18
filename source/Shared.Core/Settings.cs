@@ -2,6 +2,7 @@
 {
     public static class Settings
     {
+        public const string DemoDomain = "@siAKSdemo.com";
         public const string DemoMatchGuideApiAddress = "https://clientapitest.azurewebsites.net/api/";
     #if LOCAL
         public const string MatchGuideApiAddress = "http://clientapi.local:50021/api/";

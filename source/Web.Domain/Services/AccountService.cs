@@ -74,6 +74,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             }
         }
 
+
         private static async Task<ResetPasswordResult> ResetPasswordResult(HttpResponseMessage response)
         {
             var json = await ParseResponse(response);
@@ -81,7 +82,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             if (!response.IsSuccessStatusCode)
             {
                 return new ResetPasswordResult
-                {
+                    {
                     ResponseCode = -1,
                     Description = json
                 };
@@ -94,13 +95,13 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             }
             return result;
         }
-
         private static async Task<string> ParseResponse(HttpResponseMessage response)
         {
             return response != null && response.Content != null
                 ? await response.Content.ReadAsStringAsync()
                 : string.Empty;
         }
+
 
         private static async Task<HttpResponseMessage> RequestResetPassword(string emailAddress)
         {
