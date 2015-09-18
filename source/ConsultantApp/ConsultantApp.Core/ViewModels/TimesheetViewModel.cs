@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shared.Core;
 using SiSystems.SharedModels;
+using System.Collections;
+using ConsultantApp.Core.ViewModels;
 
 namespace ConsultantApp.Core.ViewModels
 {

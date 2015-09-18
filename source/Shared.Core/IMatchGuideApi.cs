@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SiSystems.SharedModels;
+using System.Net.Http;
 
 namespace Shared.Core
 {
@@ -38,5 +39,7 @@ namespace Shared.Core
         Task<IEnumerable<string>> GetTimesheetApproversByTimesheetId( int clientID );
         
         Task<ConsultantDetails> GetCurrentUserConsultantDetails();
+
+        Task<HttpResponseMessage> GetPDF(string docNumber);
     }
 }

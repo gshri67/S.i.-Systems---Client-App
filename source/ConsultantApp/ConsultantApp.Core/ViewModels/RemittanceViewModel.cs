@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shared.Core;
 using SiSystems.SharedModels;
+using System.Net.Http;
 
 namespace ConsultantApp.Core.ViewModels
 {
@@ -20,6 +21,11 @@ namespace ConsultantApp.Core.ViewModels
 		{
 			return _api.GetRemittances();
 		}
+
+        public Task< HttpResponseMessage > GetPDF( string docNumber )
+        {
+            return _api.GetPDF( docNumber );
+        }
 	}
 }
 

@@ -63,7 +63,7 @@ namespace ConsultantApp.iOS
 			{
 				if (headerHoursLabel != null && date != null ) 
 				{
-					headerHoursLabel.Text = "Daily Hours: " + _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString (); 
+					headerHoursLabel.Text = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString (); 
 				}
 
                 if (tableview != null && date != null && _payRates != null) 
@@ -75,7 +75,7 @@ namespace ConsultantApp.iOS
 					addTimeTableViewSource.onDataChanged += delegate(IEnumerable<TimeEntry> timeEntries )
 					{
 						_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(date) ).Concat(timeEntries);
-						headerHoursLabel.Text = "Daily Hours: " + _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString ();
+						headerHoursLabel.Text = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date) ).Sum (t => t.Hours).ToString ();
 
 						//updateUI();
 					};
@@ -90,25 +90,31 @@ namespace ConsultantApp.iOS
 					if (addButton != null)
 						addButton.Enabled = false;
 
-					if (tableview != null)
+					if (tableview != null && addTimeTableViewSource != null ) 
+					{
 						tableview.UserInteractionEnabled = false;
+						addTimeTableViewSource.enable (false);
+					}
 				}
 				else
 				{
 					if (addButton != null)
 						addButton.Enabled = true;
 
-					if (tableview != null)
+					if (tableview != null && addTimeTableViewSource != null ) 
+					{
 						tableview.UserInteractionEnabled = true;
+						addTimeTableViewSource.enable (true);
+					}
 				}
 			}
 
 			if (date != null) 
 			{
-				if (headerDateLabel != null) 
-				{
-					headerDateLabel.Text = date.ToString("ddd") + " " + date.ToString("MMM") + " " + date.ToString("dd").TrimStart('0');
-				}
+				if (headerDateLabel != null)
+					headerDateLabel.Text = date.ToString("MMM") + " " + date.ToString("dd").TrimStart('0');
+				if (headerDayOfWeekLabel != null)
+					headerDayOfWeekLabel.Text = date.ToString ("ddd");
 			}
 		}
 
@@ -146,8 +152,6 @@ namespace ConsultantApp.iOS
 
 					rightArrowButton.Hidden = false;//assuming everything goes well and a date outside period is not selected
 
-					copyOverButton.Hidden = true;
-
 					updateUI();
 				}
 			};
@@ -161,12 +165,6 @@ namespace ConsultantApp.iOS
 					{
 						DateTime oldDate = date;
 						SetDate(this.date.AddDays(1));
-
-						//copy over
-						if( _curTimesheet.TimeEntries.Where(e => e.Date.Equals(date)).Count() == 0 && _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate)).Count() > 0)
-							copyOverButton.Hidden = false;
-						else
-							copyOverButton.Hidden = true;
 					}
 					if( inPeriodComparison >= 0 )
 						rightArrowButton.Hidden = true;
@@ -207,8 +205,6 @@ namespace ConsultantApp.iOS
 
 				//save timeentry to timesheet
 				_timesheetModel.saveTimesheet(_curTimesheet);
-
-				copyOverButton.Hidden = true;
 			};
 		    addButton.TintColor = StyleGuideConstants.RedUiColor;
 
@@ -216,38 +212,7 @@ namespace ConsultantApp.iOS
 
 			updateUI ();
 
-			copyOverButton.TouchUpInside += (object sender, EventArgs e) => 
-			{
-				copyOverTime();
-				copyOverButton.Hidden = true;
-			};
-
 			CreateCustomTitleBar();
-		}
-
-		//copies over time entries from previous day
-		public void copyOverTime()
-		{
-			DateTime oldDate = date.AddDays(-1);
-
-			List<TimeEntry> entries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(oldDate)).ToList();
-			TimeEntry[] eCopy = new TimeEntry[entries.Count()];
-			entries.CopyTo( eCopy );
-
-			List<TimeEntry> newEntries = new List<TimeEntry>();
-
-			//copy over the previous days time entries by copying them, changing the dates, and concatenating
-			for( int i = 0; i < entries.Count(); i ++ )
-			{
-				TimeEntry newEntry = entries[i].clone();
-
-				newEntry.Date = date;
-				newEntries.Add(newEntry);
-				Console.WriteLine("Changed hours to 3.5");
-			}
-
-			_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat( newEntries.AsEnumerable() );
-			updateUI();
 		}
 
 		private void CreateCustomTitleBar()

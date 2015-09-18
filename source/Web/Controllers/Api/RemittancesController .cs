@@ -22,5 +22,12 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             var remittances = _service.GetRemittances();
             return Request.CreateResponse(HttpStatusCode.OK, remittances);
         }
+
+        [Route("pdf/{docNumber}")]
+        public HttpResponseMessage GetPDF( string docNumber )
+        {
+            var pdf = _service.GetPDF(docNumber);
+            return Request.CreateResponse(HttpStatusCode.OK, pdf);
+        }
     }
 }

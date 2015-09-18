@@ -21,6 +21,10 @@ namespace ConsultantApp.iOS
         public delegate void projectCodeFieldDelegate(String newProjectCode);
         public projectCodeFieldDelegate onProjectCodeChanged;
 
+		//indication of saving the field
+		public UILabel savingLabel;
+		public UIActivityIndicatorView savingIndicatorView;
+
         public TimeEntryCell (IntPtr handle) : base (handle)
         {
             TextLabel.Hidden = true;
@@ -94,7 +98,6 @@ namespace ConsultantApp.iOS
 			};
 
 			hoursField.InputAccessoryView = toolbar;
-
 			hoursField.BorderStyle = UITextBorderStyle.RoundedRect;
 
 			/*
@@ -114,9 +117,22 @@ namespace ConsultantApp.iOS
 */
             AddSubview( hoursField );
 
+			savingLabel = new UILabel();
+			savingLabel.Text = "Saving...";
+			savingLabel.TextAlignment = UITextAlignment.Left;
+			savingLabel.TextColor = UIColor.Black;
+			savingLabel.Font = UIFont.SystemFontOfSize(10);
+			savingLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+			AddSubview (savingLabel);
+
+			savingIndicatorView = new UIActivityIndicatorView ();
+			savingIndicatorView.TranslatesAutoresizingMaskIntoConstraints = false;
+			savingIndicatorView.StartAnimating ();
+			savingIndicatorView.Color = StyleGuideConstants.DarkGrayUiColor;
+			AddSubview (savingIndicatorView);
+
             setupConstraints();
         }
-
 		public void doneButtonTapped(object sender, EventArgs args)
 		{
 			hoursField.ResignFirstResponder ();
@@ -140,13 +156,63 @@ namespace ConsultantApp.iOS
 			AddConstraint( NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, projectCodeField, NSLayoutAttribute.Left, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, projectCodeField, NSLayoutAttribute.Bottom, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.95f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.75f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(payRateLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.5f, 0f));
 
-			AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, payRateLabel, NSLayoutAttribute.Right, 1.0f, 0f));
+			//setup saving indicator before saving label
+			AddConstraint(NSLayoutConstraint.Create(savingIndicatorView, NSLayoutAttribute.Left, NSLayoutRelation.Equal, payRateLabel, NSLayoutAttribute.Right, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(savingIndicatorView, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, payRateLabel, NSLayoutAttribute.CenterY, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(savingIndicatorView, NSLayoutAttribute.Height, NSLayoutRelation.Equal, payRateLabel, NSLayoutAttribute.Height, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(savingIndicatorView, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.6f, 0f));
+
+			//setup saving label to the right of the indicator
+			AddConstraint(NSLayoutConstraint.Create(savingLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, savingIndicatorView, NSLayoutAttribute.Right, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(savingLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, savingIndicatorView, NSLayoutAttribute.CenterY, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(savingLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, savingIndicatorView, NSLayoutAttribute.Height, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(savingLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.75f, 0f));
+
+			AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, savingLabel, NSLayoutAttribute.Right, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.6f, 0f));
             AddConstraint(NSLayoutConstraint.Create(hoursField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.95f, 0f));
         }
 
+		//animates saving functionality
+		public void activateSave()
+		{
+			savingLabel.Text = "Saved";
+			savingLabel.TextColor = UIColor.Gray;
+			savingIndicatorView.StopAnimating ();
+			/*
+			UIView.Animate ( 5f, () => 
+				{
+					savingLabel.Alpha = 1.0f;
+				}, () => 
+				{
+					UIView.Animate(2f, ()=>
+						{
+							savingLabel.Text = "Saved";
+							savingLabel.TextColor = UIColor.Gray;
+						});	
+				} );*/
+		}
+		public void activateUnsave()
+		{
+			savingLabel.Text = "Unsaved";
+		}
+
+		public void enable(bool shouldEnable )
+		{
+			if (shouldEnable) 
+			{
+				hoursField.BorderStyle = UITextBorderStyle.RoundedRect;
+				hoursField.Enabled = true;
+				hoursField.TextColor = UIColor.Black;
+			} else 
+			{
+				hoursField.BorderStyle = UITextBorderStyle.None;
+				hoursField.Enabled = false;
+				hoursField.TextColor = UIColor.LightGray;
+			}
+		}
     }
 }

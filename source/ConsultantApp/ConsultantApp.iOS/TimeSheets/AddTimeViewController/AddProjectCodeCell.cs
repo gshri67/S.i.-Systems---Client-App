@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using SiSystems.SharedModels;
+using ConsultantApp.Core.ViewModels;
 
 namespace ConsultantApp.iOS
 {
@@ -26,6 +27,8 @@ namespace ConsultantApp.iOS
 		private List<string> projectCodes;
 		private List<string> payRates;
 
+		private static int maxFrequentlyUsed = 5;
+
 		public AddProjectCodeCell (IntPtr handle) : base (handle)
 		{
 			BackgroundColor = StyleGuideConstants.LighterGrayUiColor;
@@ -37,19 +40,14 @@ namespace ConsultantApp.iOS
 			picker.TranslatesAutoresizingMaskIntoConstraints = false;
 			AddSubview(picker);
 
-
-
 			saveButton = new BorderedButton ();
-			saveButton.SetTitle ("Save", UIControlState.Normal);
+			saveButton.SetTitle ("Done", UIControlState.Normal);
             saveButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
             saveButton.TintColor = StyleGuideConstants.RedUiColor;
 			saveButton.TranslatesAutoresizingMaskIntoConstraints = false;
 			saveButton.TouchUpInside += delegate 
 			{
-				timeEntry.ProjectCode = pickerModel.items.ElementAt(0).ElementAt( pickerModel.selectedItemIndex.ElementAt(0) );
-				timeEntry.PayRate = pickerModel.items.ElementAt(1).ElementAt( pickerModel.selectedItemIndex.ElementAt(1) );
-				//timeEntry.Hours = float.Parse(hoursTextField.Text);
-				onSave();
+				saveChanges();
 			};
 			AddSubview (saveButton);
 
@@ -136,6 +134,64 @@ namespace ConsultantApp.iOS
 			pickerModel = new PickerViewModel ();
 			if (projectCodes != null && payRates != null) 
 			{
+				projectCodes.Sort ();
+
+				if (projectCodes.Count < maxFrequentlyUsed)
+					projectCodes.Sort (new Comparison<string> ((string pc1, string pc2) => {
+						if (!ActiveTimesheetViewModel.projectCodeDict.ContainsKey (pc1) || ActiveTimesheetViewModel.projectCodeDict.ContainsKey (pc2) && ActiveTimesheetViewModel.projectCodeDict [pc2] >= ActiveTimesheetViewModel.projectCodeDict [pc1])
+							return 1;
+						else if (!ActiveTimesheetViewModel.projectCodeDict.ContainsKey (pc2) || ActiveTimesheetViewModel.projectCodeDict.ContainsKey (pc1) && ActiveTimesheetViewModel.projectCodeDict [pc1] >= ActiveTimesheetViewModel.projectCodeDict [pc2])
+							return -1;
+						return 0;
+					}));
+				else 
+				{
+					int highest = 0, highestIndex = 0;
+					//can make this linear time if need be.
+					for (int i = 0; i < maxFrequentlyUsed; i++) 
+					{
+						if (!ActiveTimesheetViewModel.projectCodeDict.ContainsKey (projectCodes [i])) {
+							highest = -1;
+							highestIndex = -1;
+						} else 
+						{
+							highest = ActiveTimesheetViewModel.projectCodeDict [projectCodes [i]];
+							highestIndex = i;
+						}
+
+						for (int j = i+1; j < projectCodes.Count; j++) 
+						{
+							if (ActiveTimesheetViewModel.projectCodeDict.ContainsKey (projectCodes [j]) && ActiveTimesheetViewModel.projectCodeDict [projectCodes [j]] > highest) 
+							{
+								highest = ActiveTimesheetViewModel.projectCodeDict [projectCodes [j]];
+								highestIndex = j;
+							}
+						}
+
+						if (highestIndex > -1) 
+						{
+							List<string> list = projectCodes.ToList ();
+							string temp = list [i];
+							list [i] = list [highestIndex];
+							list [highestIndex] = temp;
+
+							projectCodes = list;
+						}
+					}
+				}
+
+				//find out how many frequently used items there are, and if it is higher than our limit
+				int numFrequentItems = 0;
+				for (int i = 0; i < projectCodes.Count; i++)
+					if (ActiveTimesheetViewModel.projectCodeDict.ContainsKey (projectCodes [i]))
+						numFrequentItems++;
+
+				if (numFrequentItems > maxFrequentlyUsed)
+					numFrequentItems = maxFrequentlyUsed;
+
+				pickerModel.numFrequentItems[0] = numFrequentItems;
+
+
 				pickerModel.items = new List<List<string>> ();
 				pickerModel.items.Add( projectCodes );
 				pickerModel.items.Add( payRates );
@@ -152,6 +208,13 @@ namespace ConsultantApp.iOS
 			Transform.Scale (0.2f, 0.1f);
 			Transform.Translate (0, -picker.Bounds.Size.Height / 2);
 			picker.Transform = transform;*/
+
+			if ( pickerModel == null || (!pickerModel.usingFrequentlyUsedSection[0] || pickerModel.numFrequentItems [0] == 0))
+				picker.Select (0, 0, false);
+			else
+				picker.Select (1, 0, false);
+			
+			picker.Select (0, 1, false); 
 		}
 
 		public void setupConstraints()
@@ -175,77 +238,20 @@ namespace ConsultantApp.iOS
 			AddConstraint (NSLayoutConstraint.Create (deleteButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, saveButton, NSLayoutAttribute.Height, 1.0f, 0.0f));
 		}
 
-
-		public class PickerViewModel : UIPickerViewModel
+		public void saveChanges()
 		{
-			public delegate void pickerViewDelegate( string item );
-			public pickerViewDelegate onSelected;
-			public List<List<string>> items;
-			public List<int> selectedItemIndex;
+			timeEntry.ProjectCode = pickerModel.items.ElementAt(0).ElementAt( pickerModel.selectedItemIndex.ElementAt(0) );
+			timeEntry.PayRate = pickerModel.items.ElementAt(1).ElementAt( pickerModel.selectedItemIndex.ElementAt(1) );
+			//timeEntry.Hours = float.Parse(hoursTextField.Text);
 
-			public PickerViewModel()
-			{
-				selectedItemIndex = new List<int>();
-				selectedItemIndex.Add(0);
-			}
+			if( !ActiveTimesheetViewModel.projectCodeDict.Keys.Contains(timeEntry.ProjectCode) )
+				ActiveTimesheetViewModel.projectCodeDict.Add(timeEntry.ProjectCode, 1);
+			else
+				ActiveTimesheetViewModel.projectCodeDict[timeEntry.ProjectCode] ++;
 
-			public override nint GetComponentCount (UIPickerView picker)
-			{
-				if (items == null)
-					return 1;
-				else 
-				{
-					//the picker does not automatically select the first row. As such we need to make sure everything is covered right away, such as having all the selected Indicies preset to 0.
-					while( selectedItemIndex.Count() < items.Count() )
-						selectedItemIndex.Add (0);
-					
-					return items.Count ();
-				}
-			}
+			Console.WriteLine( timeEntry.ProjectCode + " " + ActiveTimesheetViewModel.projectCodeDict[timeEntry.ProjectCode]);
 
-			public override nint GetRowsInComponent (UIPickerView picker, nint component)
-			{
-				if (items != null)
-					return items.ElementAt((int)component).Count();
-				else
-					return 0;
-			}
-
-			public override string GetTitle (UIPickerView pickerView, nint row, nint component)
-			{
-				if (items == null)
-					return "";
-				else
-					return items.ElementAt((int)component).ElementAt((int)row);
-			}
-
-			public override void Selected (UIPickerView pickerView, nint row, nint component)
-			{
-				/*
-				//projectcodes should be updated for selected client
-				if (pickerView == clientPickerView) 
-				{
-					projectCodes = clients.ElementAt ((int)row).projectCodes;
-					projectCodePickerView.ReloadAllComponents ();
-				}
-
-				onSelected(pickerView, row);*/
-
-				selectedItemIndex[(int)component] = (int)row;
-			}
-
-			public override UIView GetView (UIPickerView pickerView, nint row, nint component, UIView view)
-			{
-				UILabel lbl = new UILabel(new CoreGraphics.CGRect(0, 0, 130f, 40f));
-				lbl.TextColor = UIColor.Black;
-				lbl.Font = UIFont.SystemFontOfSize(12f);
-				lbl.TextAlignment = UITextAlignment.Center;
-
-				if (items != null )
-					lbl.Text = items.ElementAt((int)component).ElementAt((int)row);
-	
-				return lbl;
-			}
+			onSave();
 		}
 	}
 }

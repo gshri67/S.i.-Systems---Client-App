@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using ConsultantApp.Core.ViewModels;
 using CoreGraphics;
@@ -22,7 +23,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		private PickerViewModel approverPickerModel;
 		IEnumerable<string> _approvers;
 		private const string ScreenTitle = "Timesheet Overview";
-
+		private int maxFrequentlyUsed = 2;
 
 		public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
@@ -67,6 +68,74 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			    {
 			        approverNameTextField.Text = _curTimesheet.TimesheetApprover;
 			    }
+
+				approverPickerModel = new PickerViewModel ();
+
+				if (approverPickerModel != null && _approvers != null ) 
+				{
+					List<string> approverList = _approvers.ToList ();
+
+					approverList.Sort ();
+
+					if (approverList.Count < maxFrequentlyUsed)
+						approverList.Sort (new Comparison<string> ((string pc1, string pc2) => {
+							if (!ActiveTimesheetViewModel.approverDict.ContainsKey (pc1) || ActiveTimesheetViewModel.approverDict.ContainsKey (pc2) && ActiveTimesheetViewModel.approverDict [pc2] >= ActiveTimesheetViewModel.approverDict [pc1])
+								return 1;
+							else if (!ActiveTimesheetViewModel.approverDict.ContainsKey (pc2) || ActiveTimesheetViewModel.approverDict.ContainsKey (pc1) && ActiveTimesheetViewModel.approverDict [pc1] >= ActiveTimesheetViewModel.approverDict [pc2])
+								return -1;
+							return 0;
+						}));
+					else 
+					{
+						int highest = 0, highestIndex = 0;
+						//can make this linear time if need be.
+						for (int i = 0; i < maxFrequentlyUsed; i++) 
+						{
+							if (!ActiveTimesheetViewModel.approverDict.ContainsKey (approverList [i])) {
+								highest = -1;
+								highestIndex = -1;
+							} else 
+							{
+								highest = ActiveTimesheetViewModel.approverDict [approverList [i]];
+								highestIndex = i;
+							}
+
+							for (int j = i+1; j < approverList.Count; j++) 
+							{
+								if (ActiveTimesheetViewModel.approverDict.ContainsKey (approverList [j]) && ActiveTimesheetViewModel.approverDict [approverList [j]] > highest) 
+								{
+									highest = ActiveTimesheetViewModel.approverDict [approverList [j]];
+									highestIndex = j;
+								}
+							}
+
+							if (highestIndex > -1) 
+							{
+								string temp = approverList [i];
+								approverList [i] = approverList [highestIndex];
+								approverList [highestIndex] = temp;
+							}
+						}
+					}
+
+					//find out how many frequently used items there are, and if it is higher than our limit
+					int numFrequentItems = 0;
+					for (int i = 0; i < approverList.Count; i++)
+						if (ActiveTimesheetViewModel.approverDict.ContainsKey (approverList [i]))
+							numFrequentItems++;
+
+					if (numFrequentItems > maxFrequentlyUsed)
+						numFrequentItems = maxFrequentlyUsed;
+					
+					_approvers = approverList;
+
+					approverPickerModel.items = new List<List<string>> ();
+					approverPickerModel.items.Add (approverList);
+					approverPickerModel.numFrequentItems[0] = numFrequentItems;
+				}
+				if( approverPicker != null )
+					approverPicker.Model = approverPickerModel;
+
 				/*
 				if (subtitleHeaderView != null) 
 				{
@@ -152,9 +221,16 @@ namespace ConsultantApp.iOS.TimeEntryViewController
              {
                  _curTimesheet.TimesheetApprover
              };
+			/*
+			if (_approvers != null) 
+			{
+				if( approverPickerModel.items.Count > 0 )
+					approverPickerModel.items [0] = _approvers.ToList ();
+				else
+					approverPickerModel.items.Add( _approvers.ToList () );
+			}*/
 
-            if( _approvers != null )
-                approverPickerModel.items = _approvers.ToList();
+			updateUI ();
         }
 
 		public override void ViewDidLoad ()
@@ -216,6 +292,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			approverPicker = new UIPickerView ();
 			approverPicker.BackgroundColor = UIColor.White;
 			approverPickerModel = new PickerViewModel ();
+			approverPickerModel.items = new List<List<string>> ();
 			approverPicker.Model = approverPickerModel;
 			approverNameTextField.InputView = approverPicker;
 			approverPicker.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
@@ -233,49 +310,53 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			submitButton.TouchUpInside += delegate(object sender, EventArgs e) {
 
+				var sheet = new UIActionSheet();
+				sheet.Title = "Are you sure you want to submit this timesheet?";
+				sheet.DestructiveButtonIndex = 0;
+				sheet.CancelButtonIndex = 1;
+
+				var confirmationAlertView = new UIAlertView("Successfully submitted timesheet", "", null, "Ok");
+				MatchGuideConstants.TimesheetStatus newStatus = 0;
+				bool permissionToSubmit = true;
+
 				if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
 				{
 					bool allZeros = _curTimesheet.TimeEntries.Sum(t => t.Hours) == 0;
-					bool permissionToSubmit = true;
-
+						
 					if( allZeros )
-					{
-						var sheet = new UIActionSheet();
 						sheet.Title = "Are you sure you want to submit a timesheet with zero entries?";
-						sheet.AddButton("Submit");
-						sheet.AddButton("Cancel");
-						sheet.DestructiveButtonIndex = 0;
-						sheet.CancelButtonIndex = 1;
-						sheet.Clicked += delegate (object sender2, UIButtonEventArgs args)
-						{
-							//if logout button tapped
-							if (args.ButtonIndex == 1)
-								permissionToSubmit = false;
 
-							if( permissionToSubmit )
-							{
-								_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Submitted;
-								updateUI();
-								var view = new UIAlertView("Successfully submitted timesheet", "", null, "Ok");
-								view.Show();
-							}
-						};
-						sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);// ShowInView(View);
-					}
-					//if( permissionToSubmit )
-					else
-					{
-						_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Submitted;
-						var view = new UIAlertView("Successfully submitted timesheet", "", null, "Ok");
-						view.Show();
-					}
+					newStatus = MatchGuideConstants.TimesheetStatus.Submitted;
+
+					sheet.AddButton("Submit");
 				}
 				else if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted )
 				{
-					_curTimesheet.Status = MatchGuideConstants.TimesheetStatus.Open;
-					var view = new UIAlertView("Successfully withdrew timesheet", "", null, "Ok");
-					view.Show();
+					newStatus = MatchGuideConstants.TimesheetStatus.Open;
+					confirmationAlertView = new UIAlertView("Successfully withdrew timesheet", "", null, "Ok");
+					sheet.Title = "Are you sure you want to withdraw this timesheet?";
+
+					sheet.AddButton("Withdraw");
 				}
+					
+				sheet.Clicked += delegate (object sender2, UIButtonEventArgs args)
+				{
+					if (args.ButtonIndex == 1)
+						permissionToSubmit = false;
+
+					if( permissionToSubmit )
+					{
+						_curTimesheet.Status = newStatus;
+						updateUI();
+						confirmationAlertView.Show();
+					}
+				};
+
+
+				sheet.AddButton("Cancel");
+				sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);// ShowInView(View);
+
+
 				updateUI();
 			};
 
@@ -298,13 +379,19 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	
 		public void doneButtonTapped(object sender, EventArgs args)
 		{
-			string selectedApprover = _approvers.ElementAt (approverPickerModel.selectedItemIndex);
+			string selectedApprover = _approvers.ElementAt (approverPickerModel.selectedItemIndex[0]);
 			approverNameTextField.Text = selectedApprover;
 
 			//save approver
 			_curTimesheet.TimesheetApprover = selectedApprover;
 
 			approverNameTextField.ResignFirstResponder ();
+
+			if( !ActiveTimesheetViewModel.approverDict.Keys.Contains(selectedApprover) )
+				ActiveTimesheetViewModel.approverDict.Add(selectedApprover, 1);
+			else
+				ActiveTimesheetViewModel.approverDict[selectedApprover] ++;
+			
 
 			updateUI ();
 		}
@@ -323,68 +410,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
 			base.PrepareForSegue (segue, sender);
-		}
-
-		public class PickerViewModel : UIPickerViewModel
-		{
-			public delegate void pickerViewDelegate( string item );
-			public pickerViewDelegate onSelected;
-			public List<string> items;
-			public int selectedItemIndex;
-
-			public PickerViewModel()
-			{
-				selectedItemIndex = 0;
-			}
-
-			public override nint GetComponentCount (UIPickerView picker)
-			{
-				return 1;
-			}
-
-			public override nint GetRowsInComponent (UIPickerView picker, nint component)
-			{
-				if (items != null)
-					return items.Count();
-				else
-					return 0;
-			}
-
-			public override string GetTitle (UIPickerView pickerView, nint row, nint component)
-			{
-				if (items == null)
-					return "";
-				else
-					return items.ElementAt((int)row);
-			}
-
-			public override void Selected (UIPickerView pickerView, nint row, nint component)
-			{
-				/*
-				//projectcodes should be updated for selected client
-				if (pickerView == clientPickerView) 
-				{
-					projectCodes = clients.ElementAt ((int)row).projectCodes;
-					projectCodePickerView.ReloadAllComponents ();
-				}
-
-				onSelected(pickerView, row);*/
-
-				selectedItemIndex = (int)row;
-			}
-
-			public override UIView GetView (UIPickerView pickerView, nint row, nint component, UIView view)
-			{
-				UILabel lbl = new UILabel (new CGRect (0, 0, pickerView.Frame.Width, 40f));
-				lbl.TextColor = UIColor.Black;
-				lbl.Font = UIFont.SystemFontOfSize (12f);
-				lbl.TextAlignment = UITextAlignment.Center;
-
-				if (items != null)
-					lbl.Text = items.ElementAt ((int)row);
-
-				return lbl;
-			}
 		}
 	}
 }

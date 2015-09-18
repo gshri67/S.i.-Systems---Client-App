@@ -25,10 +25,10 @@ namespace ConsultantApp.iOS
 		UIKit.UILabel headerDateLabel { get; set; }
 
 		[Outlet]
-		UIKit.UILabel headerHoursLabel { get; set; }
+		UIKit.UILabel headerDayOfWeekLabel { get; set; }
 
 		[Outlet]
-		UIKit.UIView headerLabelsContainer { get; set; }
+		UIKit.UILabel headerHoursLabel { get; set; }
 
 		[Outlet]
 		UIKit.UIButton leftArrowButton { get; set; }
@@ -46,6 +46,11 @@ namespace ConsultantApp.iOS
 				addButton = null;
 			}
 
+			if (copyOverButton != null) {
+				copyOverButton.Dispose ();
+				copyOverButton = null;
+			}
+
 			if (headerContainer != null) {
 				headerContainer.Dispose ();
 				headerContainer = null;
@@ -56,14 +61,14 @@ namespace ConsultantApp.iOS
 				headerDateLabel = null;
 			}
 
+			if (headerDayOfWeekLabel != null) {
+				headerDayOfWeekLabel.Dispose ();
+				headerDayOfWeekLabel = null;
+			}
+
 			if (headerHoursLabel != null) {
 				headerHoursLabel.Dispose ();
 				headerHoursLabel = null;
-			}
-
-			if (headerLabelsContainer != null) {
-				headerLabelsContainer.Dispose ();
-				headerLabelsContainer = null;
 			}
 
 			if (leftArrowButton != null) {
@@ -79,11 +84,6 @@ namespace ConsultantApp.iOS
 			if (tableview != null) {
 				tableview.Dispose ();
 				tableview = null;
-			}
-
-			if (copyOverButton != null) {
-				copyOverButton.Dispose ();
-				copyOverButton = null;
 			}
 		}
 	}
