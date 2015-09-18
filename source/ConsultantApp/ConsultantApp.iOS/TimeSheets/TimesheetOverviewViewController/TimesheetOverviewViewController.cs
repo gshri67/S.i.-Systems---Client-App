@@ -1,14 +1,13 @@
 using System;
-using Foundation;
-using UIKit;
 using System.Collections.Generic;
 using System.Linq;
 using ConsultantApp.Core.ViewModels;
+using CoreGraphics;
+using Foundation;
 using Microsoft.Practices.Unity;
 using Shared.Core;
 using SiSystems.SharedModels;
-using System.Threading.Tasks;
-using Shared.Core;
+using UIKit;
 
 namespace ConsultantApp.iOS.TimeEntryViewController
 {
@@ -118,11 +117,11 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			if (calendar != null) 
 			{
 				DateTime selectedDate = calendar.SelectedDate;
-				calendar = new FMCalendar (calendar.Bounds, new CoreGraphics.CGRect (), _curTimesheet);
+				calendar = new FMCalendar (calendar.Bounds, new CGRect (), _curTimesheet);
 				calendar.SelectedDate = selectedDate;
 			}
 			else
-				calendar = new FMCalendar(calendarContainerView.Bounds, new CoreGraphics.CGRect(), _curTimesheet);
+				calendar = new FMCalendar(calendarContainerView.Bounds, new CGRect(), _curTimesheet);
 			
 			calendar.SundayFirst = true;
             calendarContainerView.AddSubview(calendar);
@@ -178,7 +177,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			calendarHeaderView.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
 
 			approverContainerView.Layer.ShadowColor = UIColor.Black.CGColor;
-			approverContainerView.Layer.ShadowOffset = new CoreGraphics.CGSize(1, 1);
+			approverContainerView.Layer.ShadowOffset = new CGSize(1, 1);
 			approverContainerView.Layer.ShadowOpacity = 0.2f;
 			approverContainerView.Layer.ShadowRadius = 0.1f;
 
@@ -222,7 +221,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			approverPicker.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
 
 			//add toolbar with done button on top of picker
-			var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, View.Frame.Size.Width, 44.0f));
+			var toolbar = new UIToolbar(new CGRect(0.0f, 0.0f, View.Frame.Size.Width, 44.0f));
 
 			toolbar.Items = new[]
 			{
@@ -376,7 +375,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			public override UIView GetView (UIPickerView pickerView, nint row, nint component, UIView view)
 			{
-				UILabel lbl = new UILabel (new CoreGraphics.CGRect (0, 0, pickerView.Frame.Width, 40f));
+				UILabel lbl = new UILabel (new CGRect (0, 0, pickerView.Frame.Width, 40f));
 				lbl.TextColor = UIColor.Black;
 				lbl.Font = UIFont.SystemFontOfSize (12f);
 				lbl.TextAlignment = UITextAlignment.Center;

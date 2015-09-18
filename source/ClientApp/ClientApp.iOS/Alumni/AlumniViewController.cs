@@ -366,7 +366,7 @@ namespace ClientApp.iOS
             }
         }
 
-        private async Task GetClientDetails()
+        private async void GetClientDetails()
         {
             var clientDetails = await _alumniModel.GetClientDetailsAsync() ?? new ClientAccountDetails();
             CurrentUser.ServiceFee = clientDetails.FloThruFee;

@@ -1,7 +1,4 @@
-﻿using System;
-
-using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using SiSystems.ConsultantApp.Web.Domain.Services;
@@ -9,7 +6,7 @@ using SiSystems.ConsultantApp.Web.Filters;
 
 namespace SiSystems.ConsultantApp.Web.Controllers.Api
 {
-    [ConsultantAccessAuthorizationAttribute]
+    [ConsultantAccessAuthorization]
     [RoutePrefix("api/TimesheetApprovers")]
     public class TimesheetApproversController: ApiController
     {

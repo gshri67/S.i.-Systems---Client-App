@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Dapper;
-using SiSystems.ClientApp.Web.Domain;
 using SiSystems.ClientApp.Web.Domain.Repositories;
-using SiSystems.ClientApp.Web.Domain.Repositories.Search;
 using SiSystems.SharedModels;
 
 namespace SiSystems.ConsultantApp.Web.Domain.Repositories
@@ -21,8 +16,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string query = 
-                        @"";
+                //const string query = 
+                //        @"";
                 
                 //var remittances = db.Connection.Query<Remittance>(query, new { UserId = userId});
                 //todo actually get the remittances from the DB

@@ -160,7 +160,7 @@ namespace ConsultantApp.iOS
             if (loginTask.IsValid)
             {
                 CurrentUser.Email = _loginModel.UserName;
-                CheckEulaService(userName);
+                RunMainStoryboard();
             }
             else
             {
@@ -168,29 +168,8 @@ namespace ConsultantApp.iOS
             };
         }
 
-        private async void CheckEulaService(string userName)
+        private static void RunMainStoryboard()
         {
-            //EulaHandler.Eula = await _loginModel.GetCurrentEulaAsync();
-            //if (EulaHandler.Eula == null)
-            //{
-            //    // Something went wrong
-            //    // Could mean an exception was handled in an unexpected way
-            //    password.Text = "";
-            //    EnableControls();
-            //    return;
-            //}
-
-            //var storageString = NSUserDefaults.StandardUserDefaults.StringForKey("eulaVersions");
-            //var hasReadEula = EulaHandler.UserHasReadLatestEula(userName, EulaHandler.Eula.Version, storageString);
-
-            //if (hasReadEula)
-            //{
-            //    UIApplication.SharedApplication.Windows[0].RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
-            //}
-            //else
-            //{
-            //    PerformSegue("eulaSegue", this);
-            //}
             UIApplication.SharedApplication.Windows[0].RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
         }
 
@@ -198,26 +177,12 @@ namespace ConsultantApp.iOS
         {
             base.PrepareForSegue(segue, sender);
 
-            //if (segue.Identifier == "eulaSegue")
-            //{
-            //    var view = (EulaViewController)segue.DestinationViewController;
-            //    view.CurrentEula = EulaHandler.Eula;
-            //    view.UserName = username.Text;
-            //    view.EulaModel = new EulaViewModel(EulaHandler.EulaVersions);
-            //}
-            //else 
             if (segue.Identifier == "forgotPasswordSegue")
             {
                 UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;
                 ResetPasswordViewController viewController = (ResetPasswordViewController)navigationController.TopViewController;
                 viewController.Initialize("Reset Password", username.Text);
             }
-            //else if (segue.Identifier == "signUpSegue")
-            //{
-            //    UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;
-            //    ResetPasswordViewController viewController = (ResetPasswordViewController)navigationController.TopViewController;
-            //    viewController.Initialize("Sign Up", username.Text);
-            //}
         }
 
         private void DisplayInvalidCredentials(string message)

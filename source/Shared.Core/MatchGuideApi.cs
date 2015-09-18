@@ -25,7 +25,6 @@ namespace Shared.Core
         private bool IsDemoUser(string username)
         {
             return username.Trim().EndsWith("@batman.com");
-            return username.Trim().EndsWith("@demo.com");
         }
 
         [HttpPost("login")]
