@@ -37,6 +37,15 @@ namespace ConsultantApp.iOS
 		UIKit.UIButton rightArrowButton { get; set; }
 
 		[Outlet]
+		ConsultantApp.iOS.BorderedButton saveButton { get; set; }
+
+		[Outlet]
+		UIKit.UIActivityIndicatorView savingIndicator { get; set; }
+
+		[Outlet]
+		UIKit.UILabel savingLabel { get; set; }
+
+		[Outlet]
 		UIKit.UITableView tableview { get; set; }
 		
 		void ReleaseDesignerOutlets ()
@@ -81,9 +90,24 @@ namespace ConsultantApp.iOS
 				rightArrowButton = null;
 			}
 
+			if (saveButton != null) {
+				saveButton.Dispose ();
+				saveButton = null;
+			}
+
 			if (tableview != null) {
 				tableview.Dispose ();
 				tableview = null;
+			}
+
+			if (savingIndicator != null) {
+				savingIndicator.Dispose ();
+				savingIndicator = null;
+			}
+
+			if (savingLabel != null) {
+				savingLabel.Dispose ();
+				savingLabel = null;
 			}
 		}
 	}

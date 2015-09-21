@@ -208,6 +208,46 @@ namespace ConsultantApp.iOS
 			};
 		    addButton.TintColor = StyleGuideConstants.RedUiColor;
 
+			savingLabel.Alpha = 0;
+			savingIndicator.Alpha = 0;
+
+			saveButton.TouchUpInside += delegate {
+
+				savingLabel.Text = "Saving";
+
+				UIView.Animate(1, 0, UIViewAnimationOptions.TransitionNone, () => 
+					{
+						saveButton.Alpha = 0;
+						savingLabel.Alpha = 1;
+						savingIndicator.Alpha = 1;
+						savingIndicator.StartAnimating();
+					}, () => 
+					{
+						UIView.Animate(1, 3, UIViewAnimationOptions.TransitionNone, () => 
+							{
+								savingIndicator.Alpha = 0;
+								savingLabel.Alpha = 0.5f;
+							}, () => 
+							{
+								savingLabel.Text = "Saved";
+								savingIndicator.StopAnimating();
+
+								UIView.Animate(1, 0, UIViewAnimationOptions.TransitionNone, () => 
+									{
+										savingLabel.Alpha = 1;
+									}, () => 
+									{
+										UIView.Animate(2, 2, UIViewAnimationOptions.TransitionNone, () => 
+											{
+												savingLabel.Alpha = 0;
+												saveButton.Alpha = 1;
+											}, () => {});	
+									});					
+							});						
+					});
+
+			};
+
 			tableview.ContentInset = new UIEdgeInsets (-35, 0, 0, 0);
 
 			updateUI ();

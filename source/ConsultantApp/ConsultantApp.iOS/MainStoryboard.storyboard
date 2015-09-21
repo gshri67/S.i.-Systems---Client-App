@@ -266,7 +266,7 @@
         <!--Add/Edit Time-->
         <scene sceneID="4cY-Kh-WlJ">
             <objects>
-                <viewController storyboardIdentifier="AddTimeViewController" automaticallyAdjustsScrollViewInsets="NO" id="kfI-I6-4fa" customClass="AddTimeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddTimeViewController" id="kfI-I6-4fa" customClass="AddTimeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="s5c-oB-rwM"/>
                         <viewControllerLayoutGuide type="bottom" id="rNA-5B-utH"/>
@@ -366,6 +366,15 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VNf-5b-6Yy" userLabel="saving indicator">
+                                        <rect key="frame" x="128" y="30" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Saving" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpD-8l-nBo" userLabel="SavingLabel">
+                                        <rect key="frame" x="151" y="33" width="44" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.84493371210000001" green="0.83495114520000002" blue="0.83475207230000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -432,6 +441,9 @@
                         <outlet property="headerHoursLabel" destination="5mp-pa-Rzq" id="Uxv-4b-bht"/>
                         <outlet property="leftArrowButton" destination="uIl-8U-qfk" id="JOI-oH-piK"/>
                         <outlet property="rightArrowButton" destination="300-OZ-VCj" id="KbW-wz-Clb"/>
+                        <outlet property="saveButton" destination="R89-T3-XDZ" id="Rpb-Vn-MMU"/>
+                        <outlet property="savingIndicator" destination="VNf-5b-6Yy" id="0DC-6w-GCe"/>
+                        <outlet property="savingLabel" destination="LpD-8l-nBo" id="JIG-VB-Qyx"/>
                         <outlet property="tableview" destination="0ug-BX-l6C" id="XOQ-Lf-FLR"/>
                     </connections>
                 </viewController>
