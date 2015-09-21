@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Repositories\ITimesheetApproverRepository.cs" />
     <Compile Include="Repositories\ConsultantDetailsRepository.cs" />
+    <Compile Include="Repositories\PayRateRepository.cs" />
     <Compile Include="Repositories\TimeEntryRepository.cs" />
     <Compile Include="Repositories\RemittanceRepository.cs" />
     <Compile Include="Repositories\TimesheetRepository.cs" />
