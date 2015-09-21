@@ -215,7 +215,9 @@ namespace ConsultantApp.iOS
 
 				savingLabel.Text = "Saving";
 
-				UIView.Animate(1, 0, UIViewAnimationOptions.TransitionNone, () => 
+				_timesheetModel.saveTimesheet( _curTimesheet );
+
+				UIView.Animate(0.7f, 0, UIViewAnimationOptions.TransitionNone, () => 
 					{
 						saveButton.Alpha = 0;
 						savingLabel.Alpha = 1;
@@ -223,7 +225,7 @@ namespace ConsultantApp.iOS
 						savingIndicator.StartAnimating();
 					}, () => 
 					{
-						UIView.Animate(0.5f, 1.5f, UIViewAnimationOptions.TransitionNone, () => 
+						UIView.Animate(0.5f, 0.7f, UIViewAnimationOptions.TransitionNone, () => 
 							{
 								savingIndicator.Alpha = 0;
 								savingLabel.Alpha = 0.5f;
@@ -237,11 +239,16 @@ namespace ConsultantApp.iOS
 										savingLabel.Alpha = 1;
 									}, () => 
 									{
-										UIView.Animate(1, 1, UIViewAnimationOptions.TransitionNone, () => 
+										UIView.Animate(0.5f, 0.5f, UIViewAnimationOptions.TransitionNone, () => 
 											{
 												savingLabel.Alpha = 0;
-												saveButton.Alpha = 1;
-											}, () => {});	
+											}, () => 
+											{	
+												UIView.Animate(0.5f, 0, UIViewAnimationOptions.TransitionNone, () => 
+													{
+														saveButton.Alpha = 1;
+													}, () => {});	
+											});
 									});					
 							});						
 					});
