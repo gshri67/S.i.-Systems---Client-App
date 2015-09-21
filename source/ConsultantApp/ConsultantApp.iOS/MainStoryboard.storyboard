@@ -278,7 +278,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r58-Cv-gN7" userLabel="SubmitContainer">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="73"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
                                 <subviews>
                                     <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R89-T3-XDZ" customClass="BorderedButton">
                                         <rect key="frame" x="123" y="22" width="78" height="36"/>
@@ -426,6 +426,8 @@
                             <constraint firstItem="oxO-U1-p7Y" firstAttribute="leading" secondItem="SY1-su-YnR" secondAttribute="leading" constant="5" id="8530"/>
                             <constraint firstItem="oxO-U1-p7Y" firstAttribute="trailing" secondItem="0ug-BX-l6C" secondAttribute="trailing" id="8531"/>
                             <constraint firstItem="0ug-BX-l6C" firstAttribute="top" secondItem="dJf-nh-jtY" secondAttribute="top" id="5HI-bT-nVA"/>
+                            <constraint firstItem="0ug-BX-l6C" firstAttribute="top" secondItem="r58-Cv-gN7" secondAttribute="bottom" id="5Tt-4l-wEb"/>
+                            <constraint firstItem="r58-Cv-gN7" firstAttribute="top" secondItem="SY1-su-YnR" secondAttribute="top" id="7iH-90-3xT"/>
                             <constraint firstItem="dJf-nh-jtY" firstAttribute="leading" secondItem="SY1-su-YnR" secondAttribute="leadingMargin" constant="-16" id="Eb6-tL-bxb"/>
                             <constraint firstItem="oxO-U1-p7Y" firstAttribute="top" secondItem="0ug-BX-l6C" secondAttribute="bottom" id="Ha3-SK-V4e"/>
                             <constraint firstAttribute="right" secondItem="r58-Cv-gN7" secondAttribute="right" id="IaR-Uc-gVy"/>
@@ -433,11 +435,9 @@
                             <constraint firstAttribute="trailingMargin" secondItem="dJf-nh-jtY" secondAttribute="trailing" constant="-16" id="Y1t-Yx-Xem"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0ug-BX-l6C" secondAttribute="trailing" constant="-8" id="bEt-2E-1Zk"/>
                             <constraint firstAttribute="bottom" secondItem="oxO-U1-p7Y" secondAttribute="bottom" id="mmX-Ez-0A3"/>
-                            <constraint firstItem="r58-Cv-gN7" firstAttribute="top" secondItem="s5c-oB-rwM" secondAttribute="bottom" id="pLD-Xw-HRS"/>
                             <constraint firstItem="r58-Cv-gN7" firstAttribute="left" secondItem="SY1-su-YnR" secondAttribute="left" id="qPx-ks-G2x"/>
                             <constraint firstItem="dJf-nh-jtY" firstAttribute="bottom" secondItem="0ug-BX-l6C" secondAttribute="bottom" multiplier="0.5" id="rkw-ma-Tkc"/>
                             <constraint firstItem="0ug-BX-l6C" firstAttribute="top" secondItem="rNA-5B-utH" secondAttribute="top" multiplier="0.16" id="v47-0q-Vvx"/>
-                            <constraint firstItem="r58-Cv-gN7" firstAttribute="bottom" secondItem="rNA-5B-utH" secondAttribute="top" multiplier="0.16" id="yJ3-GT-NlZ"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -465,6 +465,7 @@
         <scene sceneID="122">
             <objects>
                 <tabBarController definesPresentationContext="YES" id="123" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="128">
                         <rect key="frame" x="0.0" y="519" width="320" height="49"/>
