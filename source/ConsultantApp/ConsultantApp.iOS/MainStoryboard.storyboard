@@ -281,6 +281,9 @@
                                     <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R89-T3-XDZ" customClass="BorderedButton">
                                         <rect key="frame" x="123" y="22" width="78" height="36"/>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="qqf-k9-4eJ"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="tintColor" red="0.97254901959999995" green="0.2274509804" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Save">
@@ -378,13 +381,12 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.84493371210000001" green="0.83495114520000002" blue="0.83475207230000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="R89-T3-XDZ" firstAttribute="top" secondItem="r58-Cv-gN7" secondAttribute="bottom" multiplier="0.3" id="Dtq-v5-abo"/>
                                     <constraint firstItem="Xm9-QC-xaI" firstAttribute="leading" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.65" id="EyS-RV-RbQ"/>
                                     <constraint firstAttribute="trailing" secondItem="300-OZ-VCj" secondAttribute="trailing" constant="5" id="Gk2-dB-oQl"/>
                                     <constraint firstItem="R89-T3-XDZ" firstAttribute="trailing" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.62" id="HbI-Ne-lLi"/>
                                     <constraint firstAttribute="centerY" secondItem="Xm9-QC-xaI" secondAttribute="centerY" id="L09-OF-Rgq"/>
                                     <constraint firstItem="jg2-Ui-V17" firstAttribute="leading" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.1" id="OJD-1g-Xaz"/>
-                                    <constraint firstItem="R89-T3-XDZ" firstAttribute="bottom" secondItem="r58-Cv-gN7" secondAttribute="bottom" multiplier="0.7" id="QBs-Nu-ReA"/>
+                                    <constraint firstAttribute="centerY" secondItem="R89-T3-XDZ" secondAttribute="centerY" constant="-3.5" id="SRW-wM-uWJ"/>
                                     <constraint firstItem="jg2-Ui-V17" firstAttribute="trailing" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.35" id="U8l-bg-07Z"/>
                                     <constraint firstItem="R89-T3-XDZ" firstAttribute="leading" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.38" id="jlv-PW-qnT"/>
                                     <constraint firstItem="uIl-8U-qfk" firstAttribute="leading" secondItem="r58-Cv-gN7" secondAttribute="leading" constant="5" id="ksI-rt-Xze"/>
@@ -403,6 +405,9 @@
                             </button>
                             <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oxO-U1-p7Y" userLabel="Add Button">
                                 <rect key="frame" x="0.0" y="410" width="322" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ezj-Cx-SkK"/>
+                                </constraints>
                                 <state key="normal" title=" + Add Time"/>
                             </button>
                             <tableView autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="50" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="0ug-BX-l6C">
@@ -414,19 +419,18 @@
                         <constraints>
                             <constraint firstItem="oxO-U1-p7Y" firstAttribute="leading" secondItem="SY1-su-YnR" secondAttribute="leading" constant="5" id="8530"/>
                             <constraint firstItem="oxO-U1-p7Y" firstAttribute="trailing" secondItem="0ug-BX-l6C" secondAttribute="trailing" id="8531"/>
-                            <constraint firstItem="oxO-U1-p7Y" firstAttribute="bottom" secondItem="rNA-5B-utH" secondAttribute="top" id="8539"/>
                             <constraint firstItem="0ug-BX-l6C" firstAttribute="top" secondItem="dJf-nh-jtY" secondAttribute="top" id="5HI-bT-nVA"/>
                             <constraint firstItem="dJf-nh-jtY" firstAttribute="leading" secondItem="SY1-su-YnR" secondAttribute="leadingMargin" constant="-16" id="Eb6-tL-bxb"/>
+                            <constraint firstItem="oxO-U1-p7Y" firstAttribute="top" secondItem="0ug-BX-l6C" secondAttribute="bottom" id="Ha3-SK-V4e"/>
                             <constraint firstAttribute="right" secondItem="r58-Cv-gN7" secondAttribute="right" id="IaR-Uc-gVy"/>
-                            <constraint firstItem="0ug-BX-l6C" firstAttribute="bottom" secondItem="rNA-5B-utH" secondAttribute="top" multiplier="0.9" id="K1h-6o-TY5"/>
                             <constraint firstItem="0ug-BX-l6C" firstAttribute="leading" secondItem="SY1-su-YnR" secondAttribute="leadingMargin" constant="-8" id="MKa-2U-Lbc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dJf-nh-jtY" secondAttribute="trailing" constant="-16" id="Y1t-Yx-Xem"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0ug-BX-l6C" secondAttribute="trailing" constant="-8" id="bEt-2E-1Zk"/>
+                            <constraint firstAttribute="bottom" secondItem="oxO-U1-p7Y" secondAttribute="bottom" id="mmX-Ez-0A3"/>
                             <constraint firstItem="r58-Cv-gN7" firstAttribute="top" secondItem="s5c-oB-rwM" secondAttribute="bottom" id="pLD-Xw-HRS"/>
                             <constraint firstItem="r58-Cv-gN7" firstAttribute="left" secondItem="SY1-su-YnR" secondAttribute="left" id="qPx-ks-G2x"/>
                             <constraint firstItem="dJf-nh-jtY" firstAttribute="bottom" secondItem="0ug-BX-l6C" secondAttribute="bottom" multiplier="0.5" id="rkw-ma-Tkc"/>
                             <constraint firstItem="0ug-BX-l6C" firstAttribute="top" secondItem="rNA-5B-utH" secondAttribute="top" multiplier="0.16" id="v47-0q-Vvx"/>
-                            <constraint firstItem="oxO-U1-p7Y" firstAttribute="top" secondItem="rNA-5B-utH" secondAttribute="top" multiplier="0.9" id="xjc-pH-wHi"/>
                             <constraint firstItem="r58-Cv-gN7" firstAttribute="bottom" secondItem="rNA-5B-utH" secondAttribute="top" multiplier="0.16" id="yJ3-GT-NlZ"/>
                         </constraints>
                     </view>
