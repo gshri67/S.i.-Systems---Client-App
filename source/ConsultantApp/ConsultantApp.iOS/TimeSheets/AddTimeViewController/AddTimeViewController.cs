@@ -116,49 +116,45 @@ namespace ConsultantApp.iOS
                 headerDayOfWeekLabel.Text = Date.ToString("ddd");
 	    }
 
-        private void PreviousDay(object sender, EventArgs e)
+        private bool DateIsContainedWithinTimesheet(DateTime date)
 	    {
-            var inPeriodComparison = Date.AddDays(-1).CompareTo(_curTimesheet.StartDate);
+            return date >= _curTimesheet.StartDate && date <= _curTimesheet.EndDate;
+	    }
 
-            if (inPeriodComparison >= 0)
-                SetDate(this.Date.AddDays(-1));
+	    private void SetCurrentDate(DateTime desiredDate)
+	    {
+            if (DateIsContainedWithinTimesheet(desiredDate))
+                SetDate(desiredDate);
+	    }
 
-            if (inPeriodComparison <= 0)
-                leftArrowButton.Hidden = true;
-            else
-                leftArrowButton.Hidden = false;
+	    private void ToggleDateNavigation()
+	    {
+	        rightArrowButton.Hidden = !DateIsContainedWithinTimesheet(Date.AddDays(1));
+            leftArrowButton.Hidden = !DateIsContainedWithinTimesheet(Date.AddDays(-1));
+	    }
 
-            rightArrowButton.Hidden = false;
+	    private void NavigateDay(object sender, EventArgs e)
+	    {
+	        var desiredDate = sender == leftArrowButton 
+	            ? Date.AddDays(-1) 
+	            : Date.AddDays(1);
+            
+            SetCurrentDate(desiredDate);
+            ToggleDateNavigation();
 
             UpdateUI();
 	    }
 
-	    private void NextDay(object sender, EventArgs e)
-	    {
-            var inPeriodComparison = Date.AddDays(1).CompareTo(_curTimesheet.EndDate);
-
-            if (inPeriodComparison <= 0)
-                SetDate(this.Date.AddDays(1));
-            if (inPeriodComparison >= 0)
-                rightArrowButton.Hidden = true;
-            else
-                rightArrowButton.Hidden = false;
-
-            leftArrowButton.Hidden = false;
-
-            UpdateUI();
-	    }
-
-	    private void SetupDayNavigationButton(UIButton button,UIImage image, EventHandler action)
+	    private void SetupDayNavigationButton(UIButton button,UIImage image)
 	    {
             SetButtonImage(button, image);
-	        if (action != null) button.TouchUpInside += action;
+            button.TouchUpInside += NavigateDay;
 	    }
 
 	    private void SetupDayNavigationButtons()
 	    {
-            SetupDayNavigationButton(leftArrowButton, new UIImage("leftArrow.png"), PreviousDay);
-            SetupDayNavigationButton(rightArrowButton, new UIImage("rightArrow.png"), NextDay);
+            SetupDayNavigationButton(leftArrowButton, new UIImage("leftArrow.png"));
+            SetupDayNavigationButton(rightArrowButton, new UIImage("rightArrow.png"));
 
             if (Date.CompareTo(_curTimesheet.StartDate) == 0)
                 leftArrowButton.Hidden = true;
