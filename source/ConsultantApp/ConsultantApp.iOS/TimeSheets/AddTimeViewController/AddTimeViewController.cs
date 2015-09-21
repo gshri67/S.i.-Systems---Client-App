@@ -258,48 +258,81 @@ namespace ConsultantApp.iOS
 
 				_timesheetModel.SaveTimesheet( _curTimesheet );
 
-				UIView.Animate(0.7f, 0, UIViewAnimationOptions.TransitionNone, () => 
-					{
-						saveButton.Alpha = 0;
-						savingLabel.Alpha = 1;
-						savingIndicator.Alpha = 1;
-						savingIndicator.StartAnimating();
-					}, () => 
-					{
-						UIView.Animate(0.5f, 0.7f, UIViewAnimationOptions.TransitionNone, () => 
-							{
-								savingIndicator.Alpha = 0;
-								savingLabel.Alpha = 0.5f;
-							}, () => 
-							{
-								savingLabel.Text = "Saved";
-								savingIndicator.StopAnimating();
-
-								UIView.Animate(0.5f, 0, UIViewAnimationOptions.TransitionNone, () => 
-									{
-										savingLabel.Alpha = 1;
-									}, () => 
-									{
-										UIView.Animate(0.5f, 0.5f, UIViewAnimationOptions.TransitionNone, () => 
-											{
-												savingLabel.Alpha = 0;
-											}, () => 
-											{	
-												UIView.Animate(0.5f, 0, UIViewAnimationOptions.TransitionNone, () => 
-													{
-														saveButton.Alpha = 1;
-													}, () => {});	
-											});
-									});					
-							});						
-					});
-
+				TransitionToSavingAnimation();
 			};
 
             tableview.ContentInset = new UIEdgeInsets(-35, 0, 0, 0);
 
             UpdateUI();
             CreateCustomTitleBar();
+        }
+
+        private void TransitionToSavingAnimation()
+        {
+            UIView.Animate(0.7f, 0, UIViewAnimationOptions.TransitionNone, StartSavingAnimation, BeginTransitionToSavedAnimation);
+        }
+
+        //todo: call when we recieve the save confirmation from the server
+        private void BeginTransitionToSavedAnimation()
+        {
+            UIView.Animate(0.5f, 0.7f, UIViewAnimationOptions.TransitionNone, HideSavingIndicator, SavingComplete);
+        }
+
+        private void SavingComplete()
+        {
+            DisplaySaveCompletionText();
+
+            FadeInSavedLabel();
+        }
+
+        private void FadeInSavedLabel()
+        {
+            UIView.Animate(0.5f, 0, UIViewAnimationOptions.TransitionNone, ShowSavedLabel, FadeOutSavedLabel);
+        }
+
+        private void FadeOutSavedLabel()
+        {
+            UIView.Animate(0.5f, 0.5f, UIViewAnimationOptions.TransitionNone, HideSavedLabel, FadeInSaveButton);
+        }
+
+        private void FadeInSaveButton()
+        {
+            UIView.Animate(0.5f, 0, UIViewAnimationOptions.TransitionNone, ShowSaveButton, null);
+        }
+
+        private void ShowSaveButton()
+        {
+            saveButton.Alpha = 1;
+        }
+
+        private void HideSavedLabel()
+        {
+            savingLabel.Alpha = 0;
+        }
+
+        private void ShowSavedLabel()
+        {
+            savingLabel.Alpha = 1;
+        }
+
+        private void DisplaySaveCompletionText()
+        {
+            savingLabel.Text = "Saved";
+            savingIndicator.StopAnimating();
+        }
+
+        private void HideSavingIndicator()
+        {
+            savingIndicator.Alpha = 0;
+            savingLabel.Alpha = 0.5f;
+        }
+
+        private void StartSavingAnimation()
+        {
+            saveButton.Alpha = 0;
+            savingLabel.Alpha = 1;
+            savingIndicator.Alpha = 1;
+            savingIndicator.StartAnimating();
         }
 
         private void SetButtonImage(UIButton button, UIImage image)
