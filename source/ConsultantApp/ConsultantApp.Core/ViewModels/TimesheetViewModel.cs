@@ -28,7 +28,7 @@ namespace ConsultantApp.Core.ViewModels
 			return _api.GetProjectCodes();
 		}
 
-		public Task<IEnumerable<string>> GetPayRates()
+		public Task<IEnumerable<PayRate>> GetPayRates()
 		{
 			return _api.GetPayRates();
 		}

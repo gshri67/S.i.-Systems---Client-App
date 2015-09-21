@@ -43,9 +43,12 @@ namespace ConsultantApp.iOS
 
         public async void LoadPayRates()
         {
-            if (_payRates != null) return;
+            if (_payRates != null) return;                IEnumerable<PayRate> ratesList = await _timesheetModel.GetPayRates();
+                List<String> combinedRatesList = new List<String>();
+                foreach (PayRate payRate in ratesList)
+                    combinedRatesList.Add( payRate.RateDescription + "-" + payRate.Rate.ToString() );
 
-            _payRates = await _timesheetModel.GetPayRates();
+                _payRates = combinedRatesList;
             UpdateUI();
         }
 

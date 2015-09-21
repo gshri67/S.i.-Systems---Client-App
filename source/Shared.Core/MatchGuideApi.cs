@@ -159,9 +159,9 @@ namespace Shared.Core
 		}
 
 		[HttpGet("PayRates")]
-		public async Task<IEnumerable<string>> GetPayRates()
+		public async Task<IEnumerable<PayRate>> GetPayRates()
 		{
-			return await ExecuteWithDefaultClient<IEnumerable<string>>();
+			return await ExecuteWithDefaultClient<IEnumerable<PayRate>>();
 		}
 
         [HttpGet("Remittances")]

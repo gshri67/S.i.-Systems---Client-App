@@ -20,18 +20,22 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _payRateRepository = payRateRepository;
         }
 
-        public IEnumerable<string> GetPayRates()
+        public IEnumerable<PayRate> GetPayRates()
         {
             var payRates = _payRateRepository.GetPayRates().ToList();
 
             List<string> list = new List<string>();
+            List<PayRate> ratesList = new List<PayRate>();
             
+
             foreach( PayRate payRate in payRates )
                 if( payRate.RateDescription != null && !list.Contains(payRate.RateDescription) )
-                    list.Add(payRate.RateDescription);
-          
+                    {
+                       list.Add(payRate.RateDescription);//used to remove duplicate values (which shouldnt happen anyways)
+                        ratesList.Add(payRate);
+                    }  
 
-            return list;
+            return ratesList;
         }
     }
 }
