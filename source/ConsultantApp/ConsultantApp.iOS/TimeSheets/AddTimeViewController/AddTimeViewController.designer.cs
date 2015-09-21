@@ -19,6 +19,9 @@ namespace ConsultantApp.iOS
 		UIKit.UIButton copyOverButton { get; set; }
 
 		[Outlet]
+		ConsultantApp.iOS.BorderedButton emptySaveButton { get; set; }
+
+		[Outlet]
 		UIKit.UIView headerContainer { get; set; }
 
 		[Outlet]
@@ -40,6 +43,9 @@ namespace ConsultantApp.iOS
 		ConsultantApp.iOS.BorderedButton saveButton { get; set; }
 
 		[Outlet]
+		UIKit.UILabel savedLabel { get; set; }
+
+		[Outlet]
 		UIKit.UIActivityIndicatorView savingIndicator { get; set; }
 
 		[Outlet]
@@ -58,6 +64,11 @@ namespace ConsultantApp.iOS
 			if (copyOverButton != null) {
 				copyOverButton.Dispose ();
 				copyOverButton = null;
+			}
+
+			if (emptySaveButton != null) {
+				emptySaveButton.Dispose ();
+				emptySaveButton = null;
 			}
 
 			if (headerContainer != null) {
@@ -95,9 +106,9 @@ namespace ConsultantApp.iOS
 				saveButton = null;
 			}
 
-			if (tableview != null) {
-				tableview.Dispose ();
-				tableview = null;
+			if (savedLabel != null) {
+				savedLabel.Dispose ();
+				savedLabel = null;
 			}
 
 			if (savingIndicator != null) {
@@ -108,6 +119,11 @@ namespace ConsultantApp.iOS
 			if (savingLabel != null) {
 				savingLabel.Dispose ();
 				savingLabel = null;
+			}
+
+			if (tableview != null) {
+				tableview.Dispose ();
+				tableview = null;
 			}
 		}
 	}

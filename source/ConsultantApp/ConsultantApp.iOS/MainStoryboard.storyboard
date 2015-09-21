@@ -293,6 +293,16 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
+                                    <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="deX-JF-JOc" userLabel="EmptySaveButton" customClass="BorderedButton">
+                                        <rect key="frame" x="121" y="18" width="78" height="36"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="tintColor" red="0.97254901959999995" green="0.2274509804" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.97254901959999995" green="0.2274509804" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jg2-Ui-V17" userLabel="Total Hours Container">
                                         <rect key="frame" x="8" y="7" width="90" height="60"/>
                                         <subviews>
@@ -377,26 +387,40 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Saving" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpD-8l-nBo" userLabel="SavingLabel">
                                         <rect key="frame" x="151" y="33" width="44" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Saved" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FXf-Ea-uiq" userLabel="SavedLabel">
+                                        <rect key="frame" x="123" y="22" width="78" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.84493371210000001" green="0.83495114520000002" blue="0.83475207230000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="deX-JF-JOc" firstAttribute="bottom" secondItem="R89-T3-XDZ" secondAttribute="bottom" id="4YY-Xv-MES"/>
+                                    <constraint firstItem="FXf-Ea-uiq" firstAttribute="bottom" secondItem="R89-T3-XDZ" secondAttribute="bottom" id="9j5-cE-eL1"/>
                                     <constraint firstItem="Xm9-QC-xaI" firstAttribute="leading" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.65" id="EyS-RV-RbQ"/>
                                     <constraint firstItem="R89-T3-XDZ" firstAttribute="centerX" secondItem="VNf-5b-6Yy" secondAttribute="centerX" constant="24" id="FHj-kb-W3P"/>
                                     <constraint firstAttribute="trailing" secondItem="300-OZ-VCj" secondAttribute="trailing" constant="5" id="Gk2-dB-oQl"/>
                                     <constraint firstItem="R89-T3-XDZ" firstAttribute="trailing" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.62" id="HbI-Ne-lLi"/>
                                     <constraint firstAttribute="centerY" secondItem="Xm9-QC-xaI" secondAttribute="centerY" id="L09-OF-Rgq"/>
+                                    <constraint firstItem="deX-JF-JOc" firstAttribute="leading" secondItem="R89-T3-XDZ" secondAttribute="leading" id="MTE-HN-OQg"/>
                                     <constraint firstItem="jg2-Ui-V17" firstAttribute="leading" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.1" id="OJD-1g-Xaz"/>
                                     <constraint firstAttribute="centerY" secondItem="R89-T3-XDZ" secondAttribute="centerY" constant="-3.5" id="SRW-wM-uWJ"/>
                                     <constraint firstItem="jg2-Ui-V17" firstAttribute="trailing" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.35" id="U8l-bg-07Z"/>
                                     <constraint firstItem="R89-T3-XDZ" firstAttribute="centerY" secondItem="LpD-8l-nBo" secondAttribute="centerY" id="XrB-pK-97M"/>
+                                    <constraint firstItem="FXf-Ea-uiq" firstAttribute="leading" secondItem="R89-T3-XDZ" secondAttribute="leading" id="ZBA-Q4-SI3"/>
+                                    <constraint firstItem="FXf-Ea-uiq" firstAttribute="top" secondItem="R89-T3-XDZ" secondAttribute="top" id="d2B-xP-6um"/>
+                                    <constraint firstItem="deX-JF-JOc" firstAttribute="top" secondItem="R89-T3-XDZ" secondAttribute="top" id="hQ8-Ic-8Z4"/>
                                     <constraint firstItem="R89-T3-XDZ" firstAttribute="leading" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.38" id="jlv-PW-qnT"/>
                                     <constraint firstItem="uIl-8U-qfk" firstAttribute="leading" secondItem="r58-Cv-gN7" secondAttribute="leading" constant="5" id="ksI-rt-Xze"/>
                                     <constraint firstItem="Xm9-QC-xaI" firstAttribute="trailing" secondItem="r58-Cv-gN7" secondAttribute="trailing" multiplier="0.9" id="n1R-F2-Tss"/>
+                                    <constraint firstItem="FXf-Ea-uiq" firstAttribute="trailing" secondItem="R89-T3-XDZ" secondAttribute="trailing" id="n4L-uL-L3a"/>
                                     <constraint firstItem="R89-T3-XDZ" firstAttribute="centerY" secondItem="VNf-5b-6Yy" secondAttribute="centerY" id="qxJ-mF-or0"/>
                                     <constraint firstItem="LpD-8l-nBo" firstAttribute="leading" secondItem="VNf-5b-6Yy" secondAttribute="trailing" constant="3" id="rEs-92-xDP"/>
+                                    <constraint firstItem="deX-JF-JOc" firstAttribute="trailing" secondItem="R89-T3-XDZ" secondAttribute="trailing" id="szw-Md-FWq"/>
                                     <constraint firstAttribute="centerY" secondItem="uIl-8U-qfk" secondAttribute="centerY" constant="-0.5" id="vQN-lz-27E"/>
                                     <constraint firstAttribute="centerY" secondItem="300-OZ-VCj" secondAttribute="centerY" id="vgF-98-4pw"/>
                                     <constraint firstAttribute="centerY" secondItem="jg2-Ui-V17" secondAttribute="centerY" id="yp1-De-Ec0"/>
@@ -445,6 +469,7 @@
                     <connections>
                         <outlet property="addButton" destination="oxO-U1-p7Y" id="GMf-42-e63"/>
                         <outlet property="copyOverButton" destination="dJf-nh-jtY" id="tth-Ca-4Ah"/>
+                        <outlet property="emptySaveButton" destination="deX-JF-JOc" id="ptp-EP-HUL"/>
                         <outlet property="headerContainer" destination="r58-Cv-gN7" id="nEu-8m-ckb"/>
                         <outlet property="headerDateLabel" destination="RbK-U3-1E4" id="Yat-4A-tfb"/>
                         <outlet property="headerDayOfWeekLabel" destination="J56-VH-sr2" id="gjm-Nn-NgZ"/>
@@ -452,6 +477,7 @@
                         <outlet property="leftArrowButton" destination="uIl-8U-qfk" id="JOI-oH-piK"/>
                         <outlet property="rightArrowButton" destination="300-OZ-VCj" id="KbW-wz-Clb"/>
                         <outlet property="saveButton" destination="R89-T3-XDZ" id="Rpb-Vn-MMU"/>
+                        <outlet property="savedLabel" destination="FXf-Ea-uiq" id="cme-q0-spz"/>
                         <outlet property="savingIndicator" destination="VNf-5b-6Yy" id="0DC-6w-GCe"/>
                         <outlet property="savingLabel" destination="LpD-8l-nBo" id="JIG-VB-Qyx"/>
                         <outlet property="tableview" destination="0ug-BX-l6C" id="XOQ-Lf-FLR"/>

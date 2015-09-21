@@ -225,7 +225,7 @@ namespace ConsultantApp.iOS
         {
             base.ViewDidLoad();
 
-            headerContainer.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
+			headerContainer.BackgroundColor = UIColor.White;// StyleGuideConstants.LightGrayUiColor;
 
             LoadPayRates();
 
@@ -254,10 +254,10 @@ namespace ConsultantApp.iOS
 
 			savingLabel.Alpha = 0;
 			savingIndicator.Alpha = 0;
+			savedLabel.Alpha = 0;
+			emptySaveButton.Alpha = 0;
 
 			saveButton.TouchUpInside += delegate {
-
-				savingLabel.Text = "Saving";
 
 				_timesheetModel.SaveTimesheet( _curTimesheet );
 
@@ -283,7 +283,7 @@ namespace ConsultantApp.iOS
 
         private void SavingComplete()
         {
-            DisplaySaveCompletionText();
+			savingIndicator.StopAnimating();
 
             FadeInSavedLabel();
         }
@@ -306,33 +306,30 @@ namespace ConsultantApp.iOS
         private void ShowSaveButton()
         {
             saveButton.Alpha = 1;
+			emptySaveButton.Alpha = 0;
         }
 
         private void HideSavedLabel()
         {
-            savingLabel.Alpha = 0;
+            savedLabel.Alpha = 0;
         }
 
         private void ShowSavedLabel()
         {
-            savingLabel.Alpha = 1;
+            savingLabel.Alpha = 0;
+			savedLabel.Alpha = 1;
         }
 
-        private void DisplaySaveCompletionText()
-        {
-            savingLabel.Text = "Saved";
-            savingIndicator.StopAnimating();
-        }
-
-        private void HideSavingIndicator()
+		private void HideSavingIndicator()
         {
             savingIndicator.Alpha = 0;
-            savingLabel.Alpha = 0.5f;
+            savingLabel.Alpha = 0;
         }
 
         private void StartSavingAnimation()
         {
             saveButton.Alpha = 0;
+			emptySaveButton.Alpha = 1;
             savingLabel.Alpha = 1;
             savingIndicator.Alpha = 1;
             savingIndicator.StartAnimating();
