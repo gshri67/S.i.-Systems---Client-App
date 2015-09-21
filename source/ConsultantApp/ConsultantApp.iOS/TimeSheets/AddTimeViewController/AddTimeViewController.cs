@@ -43,13 +43,20 @@ namespace ConsultantApp.iOS
 
         public async void LoadPayRates()
         {
-            if (_payRates != null) return;                IEnumerable<PayRate> ratesList = await _timesheetModel.GetPayRates();
-                List<String> combinedRatesList = new List<String>();
-                foreach (PayRate payRate in ratesList)
-                    combinedRatesList.Add( payRate.RateDescription + "-" + payRate.Rate.ToString() );
+            if (_payRates != null) return;                
 
-                _payRates = combinedRatesList;
-            UpdateUI();
+			IEnumerable<PayRate> ratesList = await _timesheetModel.GetPayRates();
+            List<String> combinedRatesList = new List<String>();
+             
+			foreach (PayRate payRate in ratesList)
+            	combinedRatesList.Add(
+					string.Format("{0} ({1:C})", payRate.RateDescription, payRate.Rate)
+					//payRate.RateDescription + "-" + payRate.Rate.ToString() 
+				);
+
+            _payRates = combinedRatesList;
+            
+			UpdateUI();
         }
 
         private void SetupTableViewSource()

@@ -78,9 +78,6 @@ namespace ConsultantApp.iOS
 			            OnDataChanged( TimeEntries);
 
 			            MustSave = false;
-			            var tc = (TimeEntryCell)tableView.CellAt( NSIndexPath.FromItemSection( _prevSelectedRow, 0) );
-			            if( tc != null )
-			                tc.activateSave();
 			        };
                    
 			    if( cell.onDelete == null )
