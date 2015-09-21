@@ -223,7 +223,7 @@ namespace ConsultantApp.iOS
 						savingIndicator.StartAnimating();
 					}, () => 
 					{
-						UIView.Animate(1, 3, UIViewAnimationOptions.TransitionNone, () => 
+						UIView.Animate(0.5f, 1.5f, UIViewAnimationOptions.TransitionNone, () => 
 							{
 								savingIndicator.Alpha = 0;
 								savingLabel.Alpha = 0.5f;
@@ -232,12 +232,12 @@ namespace ConsultantApp.iOS
 								savingLabel.Text = "Saved";
 								savingIndicator.StopAnimating();
 
-								UIView.Animate(1, 0, UIViewAnimationOptions.TransitionNone, () => 
+								UIView.Animate(0.5f, 0, UIViewAnimationOptions.TransitionNone, () => 
 									{
 										savingLabel.Alpha = 1;
 									}, () => 
 									{
-										UIView.Animate(2, 2, UIViewAnimationOptions.TransitionNone, () => 
+										UIView.Animate(1, 1, UIViewAnimationOptions.TransitionNone, () => 
 											{
 												savingLabel.Alpha = 0;
 												saveButton.Alpha = 1;
