@@ -618,9 +618,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Lrn-Nv-x2v" firstAttribute="trailing" secondItem="197" secondAttribute="trailingMargin" multiplier="0.9" id="HvC-ag-NYu"/>
+                            <constraint firstItem="Lrn-Nv-x2v" firstAttribute="right" secondItem="197" secondAttribute="right" multiplier="0.9" id="HvC-ag-NYu"/>
                             <constraint firstItem="Lrn-Nv-x2v" firstAttribute="bottom" secondItem="188" secondAttribute="top" multiplier="0.5" id="fgj-ho-hOq"/>
-                            <constraint firstItem="Lrn-Nv-x2v" firstAttribute="leading" secondItem="197" secondAttribute="trailingMargin" multiplier="0.1" id="hH1-tL-RwQ"/>
+                            <constraint firstItem="Lrn-Nv-x2v" firstAttribute="left" secondItem="197" secondAttribute="right" multiplier="0.1" id="hH1-tL-RwQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="bsZ-z0-C7B" secondAttribute="trailing" constant="-16" id="ocQ-e3-fYt"/>
                             <constraint firstItem="Lrn-Nv-x2v" firstAttribute="top" secondItem="187" secondAttribute="bottom" id="p45-7l-bHD"/>
                             <constraint firstItem="bsZ-z0-C7B" firstAttribute="leading" secondItem="197" secondAttribute="leadingMargin" constant="-16" id="uYa-kN-k7q"/>
@@ -758,9 +758,9 @@
                             <constraint firstAttribute="bottom" secondItem="275" secondAttribute="bottom" id="1576"/>
                             <constraint firstItem="275" firstAttribute="trailing" secondItem="255" secondAttribute="trailing" id="1577"/>
                             <constraint firstItem="275" firstAttribute="leading" secondItem="255" secondAttribute="leading" id="1578"/>
-                            <constraint firstItem="0wX-rZ-zSE" firstAttribute="trailing" secondItem="255" secondAttribute="trailingMargin" multiplier="0.9" id="1ms-Ac-VG9"/>
+                            <constraint firstItem="0wX-rZ-zSE" firstAttribute="right" secondItem="255" secondAttribute="right" multiplier="0.9" id="1ms-Ac-VG9"/>
                             <constraint firstItem="0wX-rZ-zSE" firstAttribute="top" secondItem="251" secondAttribute="bottom" id="TCQ-dj-X4W"/>
-                            <constraint firstItem="0wX-rZ-zSE" firstAttribute="leading" secondItem="255" secondAttribute="trailingMargin" multiplier="0.1" id="YHf-yc-0ct"/>
+                            <constraint firstItem="0wX-rZ-zSE" firstAttribute="left" secondItem="255" secondAttribute="right" multiplier="0.1" id="YHf-yc-0ct"/>
                             <constraint firstItem="0wX-rZ-zSE" firstAttribute="bottom" secondItem="252" secondAttribute="top" multiplier="0.5" id="bGs-Iq-qDa"/>
                         </constraints>
                     </view>

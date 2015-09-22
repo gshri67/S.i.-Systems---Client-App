@@ -256,6 +256,8 @@ namespace ConsultantApp.iOS
                 _addTimeTableViewSource.HandleNewCell();
 
                 tableview.ReloadData();
+
+				_addTimeTableViewSource.scrollToExpandedCell(tableview);
             };
             addButton.TintColor = StyleGuideConstants.RedUiColor;
 

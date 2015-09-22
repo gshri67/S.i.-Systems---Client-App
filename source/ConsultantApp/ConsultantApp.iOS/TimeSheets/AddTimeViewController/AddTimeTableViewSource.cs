@@ -168,6 +168,9 @@ namespace ConsultantApp.iOS
 
 		    tableView.ReloadData ();
 
+			if (_addingProjectCode)
+				scrollToExpandedCell ( tableView );
+
 		    _prevSelectedRow = realSelectedIndex;
 		}
 			
@@ -177,6 +180,7 @@ namespace ConsultantApp.iOS
 			if (!_addingProjectCode) 
 			{
 				OpenExpandedCell (TimeEntries.Count () - 1);
+
 			}
 		}
 
@@ -218,6 +222,11 @@ namespace ConsultantApp.iOS
 		{
 			_isEnabled = shouldEnable;
 			_isChangingEnabledState = true;
+		}
+
+		public void scrollToExpandedCell( UITableView tableview )
+		{
+			//tableview.ScrollToRow (NSIndexPath.FromItemSection (_prevSelectedRow, 0), UITableViewScrollPosition.Top, true);
 		}
 	}
 }
