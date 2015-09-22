@@ -560,7 +560,7 @@
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="56789" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mr0-DB-1aQ">
                                                     <rect key="frame" x="112" y="11" width="75" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -571,7 +571,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$2000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="zFV-6O-IZf">
-                                                    <rect key="frame" x="212" y="10" width="61" height="24"/>
+                                                    <rect key="frame" x="212" y="14" width="40" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -591,8 +591,8 @@
                                                 <constraint firstItem="00K-ec-4cW" firstAttribute="leading" secondItem="Eb5-3F-mIV" secondAttribute="leading" id="8575"/>
                                                 <constraint firstItem="00K-ec-4cW" firstAttribute="width" secondItem="Eb5-3F-mIV" secondAttribute="width" id="8580"/>
                                                 <constraint firstItem="Mr0-DB-1aQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Eb5-3F-mIV" secondAttribute="trailing" constant="19" id="8583"/>
-                                                <constraint firstItem="Mr0-DB-1aQ" firstAttribute="centerY" secondItem="IAg-Zp-i7X" secondAttribute="centerY" id="8597"/>
                                                 <constraint firstItem="FuC-i7-Te3" firstAttribute="leading" secondItem="Mr0-DB-1aQ" secondAttribute="trailing" constant="5" id="3WP-BL-1hi"/>
+                                                <constraint firstItem="Mr0-DB-1aQ" firstAttribute="bottom" secondItem="zFV-6O-IZf" secondAttribute="bottom" constant="1" id="7Cj-SJ-rGe"/>
                                                 <constraint firstItem="zFV-6O-IZf" firstAttribute="leading" secondItem="FuC-i7-Te3" secondAttribute="trailing" constant="5" id="Jux-xy-cJD"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="zFV-6O-IZf" secondAttribute="trailing" id="OZb-bE-hew"/>
                                                 <constraint firstAttribute="centerY" secondItem="zFV-6O-IZf" secondAttribute="centerY" id="wbS-cf-R77"/>
