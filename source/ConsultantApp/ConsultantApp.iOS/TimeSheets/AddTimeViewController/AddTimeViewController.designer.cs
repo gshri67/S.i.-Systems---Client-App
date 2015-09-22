@@ -1,11 +1,13 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Xamarin Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
 using Foundation;
+using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace ConsultantApp.iOS
 {
@@ -53,78 +55,9 @@ namespace ConsultantApp.iOS
 
 		[Outlet]
 		UIKit.UITableView tableview { get; set; }
-		
+
 		void ReleaseDesignerOutlets ()
 		{
-			if (addButton != null) {
-				addButton.Dispose ();
-				addButton = null;
-			}
-
-			if (copyOverButton != null) {
-				copyOverButton.Dispose ();
-				copyOverButton = null;
-			}
-
-			if (emptySaveButton != null) {
-				emptySaveButton.Dispose ();
-				emptySaveButton = null;
-			}
-
-			if (headerContainer != null) {
-				headerContainer.Dispose ();
-				headerContainer = null;
-			}
-
-			if (headerDateLabel != null) {
-				headerDateLabel.Dispose ();
-				headerDateLabel = null;
-			}
-
-			if (headerDayOfWeekLabel != null) {
-				headerDayOfWeekLabel.Dispose ();
-				headerDayOfWeekLabel = null;
-			}
-
-			if (headerHoursLabel != null) {
-				headerHoursLabel.Dispose ();
-				headerHoursLabel = null;
-			}
-
-			if (leftArrowButton != null) {
-				leftArrowButton.Dispose ();
-				leftArrowButton = null;
-			}
-
-			if (rightArrowButton != null) {
-				rightArrowButton.Dispose ();
-				rightArrowButton = null;
-			}
-
-			if (saveButton != null) {
-				saveButton.Dispose ();
-				saveButton = null;
-			}
-
-			if (savedLabel != null) {
-				savedLabel.Dispose ();
-				savedLabel = null;
-			}
-
-			if (savingIndicator != null) {
-				savingIndicator.Dispose ();
-				savingIndicator = null;
-			}
-
-			if (savingLabel != null) {
-				savingLabel.Dispose ();
-				savingLabel = null;
-			}
-
-			if (tableview != null) {
-				tableview.Dispose ();
-				tableview = null;
-			}
 		}
 	}
 }
