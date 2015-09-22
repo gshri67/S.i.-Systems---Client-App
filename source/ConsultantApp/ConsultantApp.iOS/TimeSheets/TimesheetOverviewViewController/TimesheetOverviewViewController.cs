@@ -296,6 +296,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			approverPicker.Model = approverPickerModel;
 			approverNameTextField.InputView = approverPicker;
 			approverPicker.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
+			approverNameTextField.TintColor = UIColor.Clear;//gets rid of cursor in iOS 7+
+			approverNameTextField.EditingDidBegin += delegate {approverPicker.Select (1, 0, false);};
 
 			//add toolbar with done button on top of picker
 			var toolbar = new UIToolbar(new CGRect(0.0f, 0.0f, View.Frame.Size.Width, 44.0f));
