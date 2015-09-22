@@ -5,7 +5,6 @@ namespace SiSystems.SharedModels
     public class TimeEntry
     {
         public int Id { get; set; }
-        public String ClientName { get; set; }
         public string ProjectCode { get; set; }
 		public string PayRate { get; set; }
         public float Hours { get; set; }
@@ -16,7 +15,6 @@ namespace SiSystems.SharedModels
 			TimeEntry newEntry = new TimeEntry ();
 
 			newEntry.Id = Id;
-			newEntry.ClientName = ClientName;
 			newEntry.ProjectCode = ProjectCode;
 			newEntry.PayRate = PayRate;
 			newEntry.Hours = Hours;

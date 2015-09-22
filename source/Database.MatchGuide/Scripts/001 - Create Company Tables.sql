@@ -77,4 +77,28 @@ CREATE TABLE [dbo].[CompanyDomain] (
 	CONSTRAINT FKComDomCompanyId FOREIGN KEY (CompanyID) REFERENCES Company(CompanyID)
 );
 
+CREATE TABLE [dbo].[CompanyProject](
+	[CompanyProjectID] [int] IDENTITY(1,1) NOT NULL,
+	[ProjectID] [varchar](250) NOT NULL,
+	[Description] [varchar](250) NULL,
+	--[CreateDate] [datetime] NOT NULL,
+	--[CreateUserID] [int] NOT NULL,
+	--[UpdateDate] [datetime] NULL,
+	--[UpdateUserID] [int] NULL,
+	[CompanyID] [int] NOT NULL,
+	[InActive] [bit] NULL,
+	--[verticalid] [int] NULL,
+ CONSTRAINT [PK_CompanyProject] PRIMARY KEY CLUSTERED 
+(
+	[CompanyProjectID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
 GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[CompanyProject] ADD  CONSTRAINT [DF_CompanyProject_InActive]  DEFAULT ((0)) FOR [InActive]
+GO
+

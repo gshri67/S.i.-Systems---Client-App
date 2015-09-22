@@ -21,19 +21,21 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                        @"SELECT TimeSheetDetailID
-	                          ,Company.CompanyName AS ClientName
-                              ,RateDetail.RateDescription as PayRate
-                              ,PONumber AS ProjectCode
-	                          ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), day, 0, 0, 0, 0) AS Date
-                              ,CAST(UnitValue AS FLOAT) AS Hours
-                          FROM TimeSheetDetail Dets
-                          LEFT JOIN Agreement_ContractRateDetail RateDetail ON RateDetail.ContractRateID = Dets.ContractRateID
-                          LEFT JOIN TimeSheet ON Dets.TimesheetID = TimeSheet.TimeSheetID  
-                          LEFT JOIN Agreement ON Agreement.AgreementID = TimeSheet.AgreementID
-                          LEFT JOIN Company ON Agreement.CompanyID = Company.CompanyID
-                          LEFT JOIN TimeSheetAvailablePeriod Period ON TimeSheet.TimeSheetAvailablePeriodID = Period.TimeSheetAvailablePeriodID
-                          WHERE Dets.TimesheetID = @TimesheetId";
+                        @"SELECT TD.TimesheetDetailId, AC.RateDescription  as PayRate,       
+                        (ISNULL(P.ProjectId,'')  
+                        +     
+                        CASE WHEN LEN(ISNULL(P.ProjectId,'') )>0 AND LEN(ISNULL(PONumber,''))>0 THEN '/' ELSE '' END + ISNULL(PONumber,'')   
+                        + 
+                        IsNull(I.InvoiceCodeText,''))  AS ProjectCode,    
+                        DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), day, 0, 0, 0, 0) AS Date,    
+                        CAST(UnitValue AS FLOAT) AS Hours
+                        FROM Timesheet t     
+                        INNER JOIN Timesheetdetail TD ON T.TimesheetId = TD.TimesheetId     
+                        INNER JOIN Agreement_ContractRatedetail AC ON TD.contractRateId = AC.ContractRateId    
+                        LEFT JOIN CompanyProject P ON P.CompanyProjectId= TD.ProjectId    
+                        LEFT JOIN ContractInvoiceCode I on I.invoicecodeid=TD.invoicecodeid AND I.contractid=T.Agreementid     
+                        LEFT JOIN TimeSheetAvailablePeriod Period ON T.TimeSheetAvailablePeriodID = Period.TimeSheetAvailablePeriodID
+                        WHERE T.TimesheetId = @TimesheetId";
                 
                 var timeEntries = db.Connection.Query<TimeEntry>(query, new { TimesheetId = timesheetId});
 

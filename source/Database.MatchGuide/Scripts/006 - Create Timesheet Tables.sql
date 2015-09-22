@@ -44,13 +44,13 @@ CREATE TABLE [dbo].[TimeSheetDetail](
 	[ContractRateID] [int] NOT NULL,
 	[PONumber] [varchar](250) NULL,
 	[ProjectID] [int] NULL,
-	--[ContractProjectPoID] [int] NULL,
+	[ContractProjectPoID] [int] NULL,
 	[Day] [varchar](50) NULL,
 	[UnitValue] [varchar](50) NULL,
 	[Description] [varchar](250) NULL,
 	[TimesheetID] [int] NULL,
-	--[verticalid] [int] NULL,
-	--[InvoiceCodeId] [int] NULL,
+	[verticalid] [int] NULL,
+	[InvoiceCodeId] [int] NULL,
  CONSTRAINT [PK_TimeSheetDetail_1] PRIMARY KEY CLUSTERED 
 (
 	[TimeSheetDetailID] ASC

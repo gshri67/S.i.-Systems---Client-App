@@ -162,3 +162,30 @@ GO
 
 ALTER TABLE [dbo].[Agreement_ContractAdminContactMatrix] CHECK CONSTRAINT [FK_Agreement_ContractAdminContactMatrix_Agreement]
 GO
+
+CREATE TABLE [dbo].[ContractInvoiceCode](
+	[InvoiceCodeID] [int] IDENTITY(1,1) NOT NULL,
+	[InvoiceCodeText] [nvarchar](max) NOT NULL,
+	--[FieldDelimiter] [varchar](5) NOT NULL,
+	--[FieldCounter] [int] NOT NULL,
+	--[IsDefault] [bit] NOT NULL,
+	[ContractID] [int] NOT NULL,
+	--[IsActive] [bit] NOT NULL,
+	--[InactiveForUser] [bit] NOT NULL,
+	--[CreatedBy] [int] NOT NULL,
+	--[CreatedDate] [datetime] NOT NULL,
+	--[UpdatedBy] [int] NULL,
+	--[UpdatedDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[InvoiceCodeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[ContractInvoiceCode]  WITH CHECK ADD FOREIGN KEY([ContractID])
+REFERENCES [dbo].[Agreement] ([AgreementID])
+GO
+
+

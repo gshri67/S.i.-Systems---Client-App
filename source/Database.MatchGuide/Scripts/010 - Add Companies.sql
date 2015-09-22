@@ -38,3 +38,20 @@ VALUES
 
 SET IDENTITY_INSERT [dbo].[CompanyDomain] OFF;
 
+SET IDENTITY_INSERT [dbo].[CompanyProject] ON;
+
+INSERT INTO [dbo].[CompanyProject]
+(
+	CompanyProjectID,
+	ProjectID,
+	Description,
+	CompanyID
+)
+VALUES
+(1, '', 'Project One', 1),
+(2, '', 'Project Two', 3),
+(3, '', 'General Project', 3),
+(4, '', 'Operations Mobile Field Inspection', 1);
+
+SET IDENTITY_INSERT [dbo].[CompanyProject] OFF;
+

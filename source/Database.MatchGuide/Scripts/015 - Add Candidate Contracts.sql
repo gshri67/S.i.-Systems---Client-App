@@ -92,3 +92,17 @@ VALUES
           
 
 SET IDENTITY_INSERT [dbo].[Agreement_ContractAdminContactMatrix] OFF;
+
+SET IDENTITY_INSERT [dbo].[ContractInvoiceCode] ON;
+
+INSERT INTO [dbo].[ContractInvoiceCode](
+	InvoiceCodeID,
+	InvoiceCodeText,
+	ContractID
+)
+VALUES
+(1, '[CC:57846][G:7030.334][WO:00830721W][A:-]', 4),
+(2, '[A:15161088][G:7030.334][WO:00830369][CC:-]', 5),
+(3, '[CC:55131][G:7030.334][A:-][WO:-]', 6);
+
+SET IDENTITY_INSERT [dbo].[ContractInvoiceCode] OFF;
