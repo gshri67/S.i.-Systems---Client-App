@@ -79,6 +79,28 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 		{
 			return 32;
 		}
+
+		public override UIView GetViewForFooter (UITableView tableView, nint section)
+		{
+			if (section == NumberOfSections (tableView) - 1) 
+			{
+				UILabel footerView = new UILabel ();
+				footerView.Text = "Please use the Desktop portal to view eRemittances older than 6 months";
+				footerView.Lines = 0;
+				footerView.BackgroundColor = StyleGuideConstants.LighterGrayUiColor;
+				footerView.TextAlignment = UITextAlignment.Center;
+
+				return footerView;
+			}
+			return null;
+		}
+
+		public override nfloat GetHeightForFooter (UITableView tableView, nint section)
+		{
+			if (section == NumberOfSections (tableView) - 1) 
+				return 150;
+			return 0;
+		}
 	}
 }
 

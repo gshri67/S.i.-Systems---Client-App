@@ -74,6 +74,22 @@ namespace ConsultantApp.iOS
 			//normal iOS behaviour is to remove the selection
 			tableView.DeselectRow(indexPath, true);*/
 		}
+
+		public override UIView GetViewForFooter (UITableView tableView, nint section)
+		{
+			UILabel footerView = new UILabel ();
+			footerView.Text = "Please use the Desktop portal to view eRemittances older than 6 months";
+			footerView.Lines = 0;
+			footerView.BackgroundColor = StyleGuideConstants.LighterGrayUiColor;
+			footerView.TextAlignment = UITextAlignment.Center;
+
+			return footerView;
+		}
+
+		public override nfloat GetHeightForFooter (UITableView tableView, nint section)
+		{
+			return 150;
+		}
 		/*
 		public Timesheet GetItem(NSIndexPath indexPath)
 		{

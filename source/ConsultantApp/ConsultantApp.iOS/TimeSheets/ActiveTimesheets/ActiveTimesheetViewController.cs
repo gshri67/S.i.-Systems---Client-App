@@ -1,14 +1,18 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using ConsultantApp.Core.ViewModels;
 using ConsultantApp.iOS.TimeEntryViewController;
-using CoreGraphics;
 using Foundation;
 using Microsoft.Practices.Unity;
-using Shared.Core;
 using SiSystems.SharedModels;
 using UIKit;
+using ConsultantApp.iOS.TimeEntryViewController;
+using CoreGraphics;
+using System.Linq;
+using Shared.Core;
+
 
 namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 {
