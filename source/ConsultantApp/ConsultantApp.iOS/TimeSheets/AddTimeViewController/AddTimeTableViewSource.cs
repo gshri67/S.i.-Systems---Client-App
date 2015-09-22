@@ -40,6 +40,8 @@ namespace ConsultantApp.iOS
 
 			_normalCellHeight = 44;
 			_expandedCellHeight = 200;
+
+
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -167,11 +169,10 @@ namespace ConsultantApp.iOS
 		    }
 
 		    tableView.ReloadData ();
+			_prevSelectedRow = realSelectedIndex;
 
-			if (_addingProjectCode)
-				scrollToExpandedCell ( tableView );
-
-		    _prevSelectedRow = realSelectedIndex;
+			//if (_addingProjectCode)
+				//scrollToExpandedCell (tableView);
 		}
 			
 		//if a cell was added
@@ -226,7 +227,9 @@ namespace ConsultantApp.iOS
 
 		public void scrollToExpandedCell( UITableView tableview )
 		{
-			//tableview.ScrollToRow (NSIndexPath.FromItemSection (_prevSelectedRow, 0), UITableViewScrollPosition.Top, true);
+			Console.WriteLine ("prev selected index " + _prevSelectedRow);
+
+			tableview.ScrollToRow (NSIndexPath.FromItemSection (_prevSelectedRow, 0), UITableViewScrollPosition.Top, false);
 		}
 	}
 }
