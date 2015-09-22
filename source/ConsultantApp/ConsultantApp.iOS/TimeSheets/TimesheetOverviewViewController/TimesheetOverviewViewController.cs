@@ -152,7 +152,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 					if (_curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted) {
 						submitButton.SetTitle ("Withdraw", UIControlState.Normal);
 						submitButton.Enabled = true;
-					} else if (_curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Approved) {
+					} else if (approvedStatus(_curTimesheet.Status)) {
 						submitButton.Hidden = true;
 					}
 
@@ -165,12 +165,22 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 						submitButton.Enabled = true;
 					}
 
-					if (_curTimesheet.Status != MatchGuideConstants.TimesheetStatus.Approved)
+					if ( !approvedStatus(_curTimesheet.Status) )
 						submitButton.Hidden = false;
 				}
 			}
 
 			View.SetNeedsLayout ();
+		}
+
+		public bool approvedStatus( MatchGuideConstants.TimesheetStatus status )
+		{
+			if( status == MatchGuideConstants.TimesheetStatus.Approved || 
+				status == MatchGuideConstants.TimesheetStatus.Batched ||
+				status == MatchGuideConstants.TimesheetStatus.Moved ||
+				status == MatchGuideConstants.TimesheetStatus.Accepted )
+					return true;
+			return false;
 		}
 
 	    public override void ViewWillAppear(bool animated)

@@ -55,11 +55,21 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
             var cell = tableView.DequeueReusableCell(CellIdentifier) as ActiveTimesheetCell ??
                        new ActiveTimesheetCell(CellIdentifier);
 		    var timesheet = _payPeriods.ElementAt(indexPath.Section).Timesheets.ElementAt(indexPath.Row);
+
+			MatchGuideConstants.TimesheetStatus status = timesheet.Status;
+
+			if (status == MatchGuideConstants.TimesheetStatus.Batched)
+				status = MatchGuideConstants.TimesheetStatus.Approved;
+			else if (status == MatchGuideConstants.TimesheetStatus.Moved)
+				status = MatchGuideConstants.TimesheetStatus.Approved;
+			else if (status == MatchGuideConstants.TimesheetStatus.Accepted)
+				status = MatchGuideConstants.TimesheetStatus.Approved;			
+
             cell.UpdateCell(
                 company: timesheet.ClientName,
                 timesheetApprover: timesheet.TimesheetApprover,
                 hours: timesheet.TimeEntries.Sum(t => t.Hours).ToString(),
-                status: timesheet.Status.ToString()
+                status: status.ToString()
             );
 
 			return cell;
