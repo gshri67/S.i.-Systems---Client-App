@@ -23,18 +23,27 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
-			return _payPeriods.Count;
+			if (_payPeriods != null && _payPeriods.Count() > 0 )
+				return _payPeriods.Count;
+			else
+				return 0;
 		}
 
 		public override string TitleForHeader(UITableView tableView, nint section)
 		{
+			if (_payPeriods == null || _payPeriods.Count() == 0 )
+				return "";
+
 		    return _payPeriods[(int)section] != null
                 ? _payPeriods[(int)section].TimePeriod
                 : "Unknown Pay Period";
 		}
 
 	    public override nint RowsInSection(UITableView tableview, nint section)
-	    {
+		{
+			if (_payPeriods == null || _payPeriods.Count () == 0)
+				return 0;
+			
             return _payPeriods.ElementAt((int)section) != null
                 ? _payPeriods.ElementAt((int)section).Timesheets.Count()
                 : 0;
@@ -77,15 +86,18 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
 		{
+			if (_payPeriods == null || _payPeriods.Count () == 0)
+				return 0;
+	
 			return 32;
 		}
 
 		public override UIView GetViewForFooter (UITableView tableView, nint section)
 		{
-			if (section == NumberOfSections (tableView) - 1) 
+			if (NumberOfSections(tableView) <= 1 || section == NumberOfSections (tableView) - 1) 
 			{
 				UILabel footerView = new UILabel ();
-				footerView.Text = "Please use the Desktop portal to view eRemittances older than 6 months";
+				footerView.Text = "Please use the Desktop portal to view Timesheets older than 6 months";
 				footerView.Lines = 0;
 				footerView.BackgroundColor = StyleGuideConstants.LighterGrayUiColor;
 				footerView.TextAlignment = UITextAlignment.Center;
@@ -97,7 +109,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		public override nfloat GetHeightForFooter (UITableView tableView, nint section)
 		{
-			if (section == NumberOfSections (tableView) - 1) 
+			if ( NumberOfSections(tableView) <= 1 || section == NumberOfSections (tableView) - 1) 
 				return 150;
 			return 0;
 		}

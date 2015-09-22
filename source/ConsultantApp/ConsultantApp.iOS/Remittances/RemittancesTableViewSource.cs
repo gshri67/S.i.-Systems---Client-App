@@ -26,6 +26,9 @@ namespace ConsultantApp.iOS
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
+			if (_remittances == null || _remittances.Count () == 0)
+				return 0;
+
 			return 1;
 		}
 		/*
