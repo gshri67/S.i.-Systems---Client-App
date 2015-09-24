@@ -12,8 +12,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     public interface ITimesheetRepository
     {
         IEnumerable<Timesheet> GetTimesheetsForUser(int userId);
-        Timesheet CreateTimesheet(Timesheet timesheet);
-        Timesheet UpdateTimesheet(Timesheet timesheet);
+        Timesheet SaveTimesheet(Timesheet timesheet, int userId);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -22,12 +21,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string query = 
+                const string query =
                         @"SELECT TOP 6 TimeSheetID AS Id
                             ,Company.CompanyName AS ClientName
+                            ,Times.AgreementId as ContractId
                             ,StatusID AS Status
                             ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
 	                        ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
+                            ,Periods.TimeSheetAvailablePeriodID AS AvailableTimePeriodId
                             ,User_Email.PrimaryEmail AS TimeSheetApprover
                         FROM TimeSheet Times
                         LEFT JOIN Agreement ON Agreement.AgreementID = Times.AgreementID
@@ -43,193 +44,34 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public Timesheet CreateTimesheet(Timesheet timesheet)
+        public Timesheet SaveTimesheet(Timesheet timesheet, int userId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Timesheet UpdateTimesheet(Timesheet timesheet)
-        {
-            throw new NotImplementedException();
-        }
-
-        //mocked out data for now
-        //todo: connect this to the DB using the connection and retrieve the proper data. 
-        private static List<Timesheet> UserTimesheets
-        {
-            get
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                return new List<Timesheet>
-                {
-                    new Timesheet
-                    {
-                        ClientName = "Cenovus",
-                        TimesheetApprover= "Bob Smith",
-                        Status = MatchGuideConstants.TimesheetStatus.Open,
-                        StartDate = new DateTime(2015, 08, 01),
-                        EndDate = new DateTime(2015, 08, 31),
-                        TimeEntries = CenovusTimeEntries
-                    },
-                    new Timesheet
-                    {
-                        ClientName = "Nexen",
-                        TimesheetApprover= "Sally Abbott",
-                        Status = MatchGuideConstants.TimesheetStatus.Open,
-                        StartDate = new DateTime(2015, 08, 01),
-                        EndDate = new DateTime(2015, 08, 31),
-                        TimeEntries = NexenTimeEntries
-                    },
-                    new Timesheet
-                    {
-                        ClientName = "Cenovus",
-                        TimesheetApprover= "Bob Smith",
-                        Status = MatchGuideConstants.TimesheetStatus.Submitted,
-                        StartDate = new DateTime(2015, 07, 01),
-                        EndDate = new DateTime(2015, 07, 31),
-                        TimeEntries = CenovusTimeEntries
-                    },
-                    new Timesheet
-                    {
-                        ClientName = "Nexen",
-                        TimesheetApprover= "Sally Abbott",
-                        Status = MatchGuideConstants.TimesheetStatus.Approved,
-                        StartDate = new DateTime(2015, 07, 01),
-                        EndDate = new DateTime(2015, 07, 31),
-                        TimeEntries = NexenTimeEntries
-                    },
-                };
-            }
-        }
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[sp_TimesheetTemp_Insert] 
+                            @aCandidateUserId
+                            ,@aContractID
+                            ,@aTSAvailablePeriodID
+                            ,@aQuickPay
+                            ,@aTSID
+                            ,@aTSTempID
+                            ,@verticalId";
 
-        private static List<TimeEntry> NexenTimeEntries
-        {
-            get
-            {
-                return new List<TimeEntry>
+                //todo: we may need to change this to db.Connection.Execute if the stored procedure doesn't return anything.
+                var savedTimesheet = db.Connection.Query<Timesheet>(query, new
                 {
-                    new TimeEntry
-                    {
-                        ClientName = "Nexen",
-                        Date = new DateTime(2015, 8, 1),
-                        Hours = 2,
-                        ProjectCode = "PC1111"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Nexen",
-                        Date = new DateTime(2015, 8, 2),
-                        Hours = 2,
-                        ProjectCode = "PC1111"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Nexen",
-                        Date = new DateTime(2015, 8, 3),
-                        Hours = 2,
-                        ProjectCode = "PC1111"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Nexen",
-                        Date = new DateTime(2015, 8, 4),
-                        Hours = 2,
-                        ProjectCode = "PC1111"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Nexen",
-                        Date = new DateTime(2015, 8, 1),
-                        Hours = 2,
-                        ProjectCode = "PC1112"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Nexen",
-                        Date = new DateTime(2015, 8, 2),
-                        Hours = 2,
-                        ProjectCode = "PC1112"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Nexen",
-                        Date = new DateTime(2015, 8, 3),
-                        Hours = 2,
-                        ProjectCode = "PC1112"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Nexen",
-                        Date = new DateTime(2015, 8, 4),
-                        Hours = 2,
-                        ProjectCode = "PC1112"
-                    }
-                };
-            }
-        }
+                    aCandidateUserId  = userId,
+                    aContractID = timesheet.ContractId,
+                    aTSAvailablePeriodID = timesheet.AvailableTimePeriodId,
+                    aQuickPay = (int?)null,
+                    aTSID = (int?)null,
+                    aTSTempID = (int?)null,
+                    verticalId = 4 //todo: make this not four?
+                }).FirstOrDefault();
 
-        private static List<TimeEntry> CenovusTimeEntries
-        {
-            get
-            {
-                return new List<TimeEntry>
-                {
-                    new TimeEntry
-                    {
-                        ClientName = "Cenovus",
-                        Date = new DateTime(2015, 8, 3),
-                        Hours = 4,
-                        ProjectCode = "PC0001"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Cenovus",
-                        Date = new DateTime(2015, 8, 4),
-                        Hours = 4,
-                        ProjectCode = "PC0001"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Cenovus",
-                        Date = new DateTime(2015, 8, 5),
-                        Hours = 4,
-                        ProjectCode = "PC0001"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Cenovus",
-                        Date = new DateTime(2015, 8, 6),
-                        Hours = 4,
-                        ProjectCode = "PC0001"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Cenovus",
-                        Date = new DateTime(2015, 8, 7),
-                        Hours = 4,
-                        ProjectCode = "PC0001"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Cenovus",
-                        Date = new DateTime(2015, 8, 10),
-                        Hours = 8,
-                        ProjectCode = "PC0001"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Cenovus",
-                        Date = new DateTime(2015, 8, 11),
-                        Hours = 8,
-                        ProjectCode = "PC0001"
-                    },
-                    new TimeEntry
-                    {
-                        ClientName = "Cenovus",
-                        Date = new DateTime(2015, 8, 12),
-                        Hours = 8,
-                        ProjectCode = "PC0001"
-                    }
-                };
+                return savedTimesheet;
             }
         }
     }

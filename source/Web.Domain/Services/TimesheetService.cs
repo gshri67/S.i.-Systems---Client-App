@@ -30,9 +30,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             //do we want to do something with the user's Id?
             var userId = _sessionContext.CurrentUser.Id;
 
-            var savedTimesheet = timesheet.Id == 0 ? 
-                _timeSheetRepository.CreateTimesheet(timesheet) : 
-                _timeSheetRepository.UpdateTimesheet(timesheet);
+            var savedTimesheet = _timeSheetRepository.SaveTimesheet(timesheet, userId);
             return savedTimesheet;
         }
     }
