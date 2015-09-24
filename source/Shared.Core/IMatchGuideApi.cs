@@ -41,5 +41,7 @@ namespace Shared.Core
         Task<ConsultantDetails> GetCurrentUserConsultantDetails();
 
         Task<HttpResponseMessage> GetPDF(string docNumber);
+        
+        Task SaveTimesheet(Timesheet timesheet);
     }
 }

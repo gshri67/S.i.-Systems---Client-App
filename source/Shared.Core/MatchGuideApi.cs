@@ -187,5 +187,11 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<HttpResponseMessage>(new { docNumber });
         }
+
+        [HttpPost("Timesheets")]
+        public Task SaveTimesheet(Timesheet timesheet)
+        {
+            return ExecuteWithDefaultClient(timesheet);
+        }
     }
 }
