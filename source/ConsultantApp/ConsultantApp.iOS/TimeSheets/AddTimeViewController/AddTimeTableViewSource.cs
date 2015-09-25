@@ -15,7 +15,7 @@ namespace ConsultantApp.iOS
 		private const string ExpandedCellIdentifier = "AddProjectCodeCell";
 		public IEnumerable<TimeEntry> TimeEntries;
 		public IEnumerable<string> ProjectCodes;
-		public IEnumerable<string> PayRates;
+		public IEnumerable<PayRate> PayRates;
 
 		public delegate void TableDelegate(IEnumerable<TimeEntry> timeEntries);
 		public  TableDelegate OnDataChanged;
@@ -32,7 +32,7 @@ namespace ConsultantApp.iOS
 		public bool MustSave;//if this is true, the save or delete button must be tapped before the cell can be minimized.
 		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
 
-		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries, IEnumerable<string> projectCodes, IEnumerable<string> payRates ) 
+		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries, IEnumerable<string> projectCodes, IEnumerable<PayRate> payRates ) 
 		{
 			this.TimeEntries = timeEntries;
 			this.ProjectCodes = projectCodes;
@@ -68,10 +68,10 @@ namespace ConsultantApp.iOS
 			    if (TimeEntries == null) return cell;
 
 			    var curEntry = TimeEntries.ElementAt( _prevSelectedRow );//((int)indexPath.Item);
-			    cell.setData ( curEntry, ProjectCodes, PayRates );
+			    cell.SetData( curEntry, ProjectCodes, PayRates );
 
-			    if( cell.onSave == null )
-			        cell.onSave += delegate
+			    if( cell.OnSave == null )
+			        cell.OnSave += delegate
 			        {
 			            CloseExpandedCell();
 
@@ -82,8 +82,8 @@ namespace ConsultantApp.iOS
 			            MustSave = false;
 			        };
                    
-			    if( cell.onDelete == null )
-			        cell.onDelete += delegate
+			    if( cell.OnDelete == null )
+			        cell.OnDelete += delegate
 			        {
 			            Console.WriteLine(TimeEntries.Count());
 			            CloseExpandedCell();
@@ -164,7 +164,7 @@ namespace ConsultantApp.iOS
 		    else 
 		    {
 		        var expandedCell = (AddProjectCodeCell)tableView.CellAt ( NSIndexPath.FromItemSection(_expandedCellIndex, 0) );
-		        expandedCell.saveChanges ();
+		        expandedCell.SaveChanges ();
 		        _expandedCellIndex = -1;
 		    }
 

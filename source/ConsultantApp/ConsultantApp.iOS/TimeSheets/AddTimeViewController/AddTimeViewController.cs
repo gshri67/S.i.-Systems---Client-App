@@ -16,7 +16,7 @@ namespace ConsultantApp.iOS
         private readonly TimesheetViewModel _timesheetModel;
         private AddTimeTableViewSource _addTimeTableViewSource;
         private Timesheet _curTimesheet;
-        private IEnumerable<string> _payRates;
+        private IEnumerable<PayRate> _payRates;
         private SubtitleHeaderView _subtitleHeaderView;
         public DateTime Date;
 
@@ -43,12 +43,9 @@ namespace ConsultantApp.iOS
 
         public async void LoadPayRates()
         {
-            if (_payRates != null) return;                
+            if (_payRates != null) return;
 
-			var ratesList = await _timesheetModel.GetPayRates(_curTimesheet.ContractId);
-            var combinedRatesList = ratesList.Select(payRate => string.Format("{0} ({1:C})", payRate.RateDescription, payRate.Rate)).ToList();
-
-            _payRates = combinedRatesList;
+            _payRates = await _timesheetModel.GetPayRates(_curTimesheet.ContractId);
             
 			UpdateUI();
         }
@@ -66,8 +63,11 @@ namespace ConsultantApp.iOS
 
         private void InstantiateTableViewSource()
         {
-            _addTimeTableViewSource = new AddTimeTableViewSource(GetTimeEntriesForSelectedDate(),
-                _timesheetModel.GetProjectCodes().Result, _payRates);
+            _addTimeTableViewSource = new AddTimeTableViewSource(
+                GetTimeEntriesForSelectedDate(),
+                _timesheetModel.GetProjectCodes().Result, 
+                _payRates
+            );
 
             _addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
         }
@@ -76,7 +76,7 @@ namespace ConsultantApp.iOS
         private IEnumerable<TimeEntry> GetTimeEntriesForSelectedDate()
         {
             return (_curTimesheet == null)
-                ? (IEnumerable<TimeEntry>) new List<Timesheet>()
+                ? Enumerable.Empty<TimeEntry>()
                 : _curTimesheet.TimeEntries.Where(e => e.Date.Equals(Date));
         }
 
