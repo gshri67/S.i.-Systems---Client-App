@@ -27,16 +27,17 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _sessionContext = sessionContext;
         }
 
-        public int SaveTimesheet(Timesheet timesheet)
+        public Timesheet SaveTimesheet(Timesheet timesheet)
         {
-            //do we want to do something with the user's Id?
             var userId = _sessionContext.CurrentUser.Id;
 
-            var savedTimesheet = _timeSheetRepository.SaveTimesheet(timesheet, userId);
+            var savedTimesheetId = _timeSheetRepository.SaveTimesheet(timesheet, userId);
             foreach ( var entry in timesheet.TimeEntries)
-                _timeEntryRepository.SaveTimeEntry(savedTimesheet, entry);
+                _timeEntryRepository.SaveTimeEntry(savedTimesheetId, entry);
 
-            return savedTimesheet;
+            timesheet.OpenStatusId = savedTimesheetId;
+
+            return timesheet;
         }
     }
 }

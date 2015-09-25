@@ -263,9 +263,9 @@ namespace ConsultantApp.iOS
 			savedLabel.Alpha = 0;
 			emptySaveButton.Alpha = 0;
 
-			saveButton.TouchUpInside += delegate {
+			saveButton.TouchUpInside += async delegate {
 
-				_timesheetModel.SaveTimesheet( _curTimesheet );
+				_curTimesheet = await _timesheetModel.SaveTimesheet( _curTimesheet );
 
 				TransitionToSavingAnimation();
 			};

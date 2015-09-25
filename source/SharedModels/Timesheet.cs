@@ -17,6 +17,8 @@ namespace SiSystems.SharedModels
 		public string TimePeriod { get { return string.Format("{0:MMM d} - {1:MMM d}", StartDate, EndDate); } }
         public int AvailableTimePeriodId { get; set; }
 
+        public int? OpenStatusId { get; set; }
+
 	    public IEnumerable<TimeEntry> TimeEntries { get; set; }
 	}
 

@@ -48,6 +48,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
+                var tempTableIdOrNull = timesheet.OpenStatusId <= 0 ? (int?) null : timesheet.OpenStatusId;
+
                 const string query =
                     @"DECLARE @RC int
                         EXECUTE @RC = [dbo].[sp_TimesheetTemp_Insert] 
@@ -59,15 +61,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                             ,@aTSTempID
                             ,@verticalId";
 
-                //todo: we may need to change this to db.Connection.Execute if the stored procedure doesn't return anything.
-                var savedTimesheetTempId = db.Connection.Query<int>(query, new
+                    var savedTimesheetTempId = db.Connection.Query<int>(query, new
                 {
                     aCandidateUserId  = userId,
                     aContractID = timesheet.ContractId,
                     aTSAvailablePeriodID = timesheet.AvailableTimePeriodId,
                     aQuickPay = (int?)null,
                     aTSID = (int?)null,
-                    aTSTempID = (int?)null,
+                    aTSTempID = tempTableIdOrNull,
                     verticalId = 4 //todo: make this not four?
                 }).FirstOrDefault();
 
