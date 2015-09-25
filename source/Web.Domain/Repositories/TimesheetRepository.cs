@@ -12,7 +12,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     public interface ITimesheetRepository
     {
         IEnumerable<Timesheet> GetTimesheetsForUser(int userId);
-        Timesheet SaveTimesheet(Timesheet timesheet, int userId);
+        int SaveTimesheet(Timesheet timesheet, int userId);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -44,7 +44,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public Timesheet SaveTimesheet(Timesheet timesheet, int userId)
+        public int SaveTimesheet(Timesheet timesheet, int userId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -60,7 +60,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                             ,@verticalId";
 
                 //todo: we may need to change this to db.Connection.Execute if the stored procedure doesn't return anything.
-                var savedTimesheet = db.Connection.Query<Timesheet>(query, new
+                var savedTimesheetTempId = db.Connection.Query<int>(query, new
                 {
                     aCandidateUserId  = userId,
                     aContractID = timesheet.ContractId,
@@ -71,7 +71,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     verticalId = 4 //todo: make this not four?
                 }).FirstOrDefault();
 
-                return savedTimesheet;
+                return savedTimesheetTempId;
             }
         }
     }

@@ -28,9 +28,9 @@ namespace ConsultantApp.Core.ViewModels
 			return _api.GetProjectCodes();
 		}
 
-		public Task<IEnumerable<PayRate>> GetPayRates()
+		public Task<IEnumerable<PayRate>> GetPayRates(int contractId)
 		{
-			return _api.GetPayRates();
+			return _api.GetPayRates(contractId);
 		}
 
         public Task<IEnumerable<string>> GetTimesheetApproversByTimesheetId(int timesheetId)

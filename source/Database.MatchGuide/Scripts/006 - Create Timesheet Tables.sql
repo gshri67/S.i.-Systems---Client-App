@@ -133,107 +133,6 @@ CREATE TABLE [dbo].[TimeSheetDetailTemp](
 GO
 
 /*
-	************************************************************ Timesheet Stored Procedures ******************************************************
-*/
-
-CREATE PROC [dbo].[sp_TimesheetTemp_Insert]                                
-(                                                    
-@aCandidateUserId INT,                                                              
-@aContractID INT,                                
-@aTSAvailablePeriodID INT,                              
-@aQuickPay BIT,                              
-@aTSID INT,    
-@aTSTempID INT,  
-@verticalId int      
-)                                                                                   
-                  
-AS                                                                       
-                  
-SET NOCOUNT ON                                                                       
-                  
-BEGIN                                
-                  
-DECLARE @timesheetavailableperiodid INT                                
-DECLARE @newTSTempID INT    
-                  
-SET @timesheetavailableperiodid = @aTSAvailablePeriodID                              
-    
-IF @aTSTempID IS NOT NULL    
-BEGIN     
- IF EXISTS (     
-    SELECT 1     
-    FROM TimesheetTemp     
-    WHERE TimesheetTemp.TimeSheetTempID = @aTSTempID     
-    AND  TimesheetTemp.Inactive = 0    
-    )    
- BEGIN     
-  UPDATE TimesheetTemp    
-  SET TimesheetTemp.inactive = 1    
-  WHERE TimesheetTemp.TimesheetTempID = @aTSTempID    
-      
-  UPDATE TimesheetDetailTemp    
-  SET TimesheetDetailTemp.inactive = 1    
-  WHERE TimesheetDetailTemp.TimesheetTempID = @aTSTempID    
- END       
-END    
-    
-IF @aTSTempID IS NULL    
-    
-DECLARE @pTSTempID INT    
-    
-BEGIN     
- IF EXISTS (     
-    SELECT 1     
-    FROM TimesheetTemp     
-    WHERE TimesheetTemp.AgreementID = @aContractID     
-    AND TimesheetTemp.TimeSheetAvailablePeriodID = @aTSAvailablePeriodID    
-    AND  TimesheetTemp.Inactive = 0    
-    )    
- BEGIN     
-  SELECT @pTSTempID = TimesheetTemp.TimesheetTempID     
-  FROM TimesheetTemp     
-  WHERE TimesheetTemp.AgreementID = @aContractID     
-  AND TimesheetTemp.TimeSheetAvailablePeriodID = @aTSAvailablePeriodID    
-  AND  TimesheetTemp.Inactive = 0    
-    
-  UPDATE TimesheetTemp    
-  SET inactive = 1    
-  WHERE TimesheetTemp.TimesheetTempID = @pTSTempID     
-  AND  TimesheetTemp.Inactive = 0    
-      
-  UPDATE TimesheetDetailTemp    
-  SET inactive = 1    
-  WHERE TimesheetDetailTemp.TimesheetTempID = @pTSTempID    
- END       
-END    
-    
-    
- INSERT INTO TimeSheetTemp(                                
-  createdate,      
-  timesheetid,                                
-  candidateuserid,        
-  agreementid,                                
-  quickpay,      
-  timesheetavailableperiodid,  
-  verticalId   
-  )                                
- VALUES(                                
-  getdate(),       
-  @aTSID,                               
-  @aCandidateUserId,                                
-  @aContractId,      
-  @aQuickPay,                                
-  @timesheetavailableperiodid,  
-  @verticalId         
- )                                 
-      
-SET @newTSTempID =  @@identity                  
-SELECT @newTSTempID as TimesheetTempId                   
-                  
-END 
-GO
-
-/*
 	************************************************************ TimeSheet Constraints ******************************************************
 */
 
@@ -344,11 +243,11 @@ GO
 ALTER TABLE [dbo].[TimeSheetTemp] ADD  CONSTRAINT [DF_TimeSheetTemp_IsManualPAMEntry]  DEFAULT ((0)) FOR [IsManualPAMEntry]
 GO
 
-ALTER TABLE [dbo].[TimeSheetTemp]  WITH CHECK ADD  CONSTRAINT [chkverticalid_TimeSheetTemp] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
-GO
+--ALTER TABLE [dbo].[TimeSheetTemp]  WITH CHECK ADD  CONSTRAINT [chkverticalid_TimeSheetTemp] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
+--GO
 
-ALTER TABLE [dbo].[TimeSheetTemp] CHECK CONSTRAINT [chkverticalid_TimeSheetTemp]
-GO
+--ALTER TABLE [dbo].[TimeSheetTemp] CHECK CONSTRAINT [chkverticalid_TimeSheetTemp]
+--GO
 
 /*
 	************************************************************ TimeSheetDetailTemp Constraints ******************************************************
@@ -357,10 +256,10 @@ GO
 ALTER TABLE [dbo].[TimeSheetDetailTemp] ADD  CONSTRAINT [DF_TimeSheetDetailTemp_Inactive]  DEFAULT ((0)) FOR [Inactive]
 GO
 
-ALTER TABLE [dbo].[TimeSheetDetailTemp]  WITH CHECK ADD  CONSTRAINT [chkverticalid_TimeSheetDetailTemp] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
-GO
+--ALTER TABLE [dbo].[TimeSheetDetailTemp]  WITH CHECK ADD  CONSTRAINT [chkverticalid_TimeSheetDetailTemp] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
+--GO
 
-ALTER TABLE [dbo].[TimeSheetDetailTemp] CHECK CONSTRAINT [chkverticalid_TimeSheetDetailTemp]
-GO
+--ALTER TABLE [dbo].[TimeSheetDetailTemp] CHECK CONSTRAINT [chkverticalid_TimeSheetDetailTemp]
+--GO
 
 

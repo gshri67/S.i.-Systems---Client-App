@@ -20,20 +20,18 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _payRateRepository = payRateRepository;
         }
 
-        public IEnumerable<PayRate> GetPayRates()
+        public IEnumerable<PayRate> GetPayRatesByContractId(int id)
         {
-            var payRates = _payRateRepository.GetPayRates().ToList();
+            var payRates = _payRateRepository.GetPayRates();
 
-            List<string> list = new List<string>();
-            List<PayRate> ratesList = new List<PayRate>();
-            
+            var list = new List<string>();
+            var ratesList = new List<PayRate>();
 
-            foreach( PayRate payRate in payRates )
-                if( payRate.RateDescription != null && !list.Contains(payRate.RateDescription) )
-                    {
-                       list.Add(payRate.RateDescription);//used to remove duplicate values (which shouldnt happen anyways)
-                        ratesList.Add(payRate);
-                    }  
+            foreach (var payRate in payRates.Where(payRate => payRate.RateDescription != null && !list.Contains(payRate.RateDescription)))
+            {
+                list.Add(payRate.RateDescription);
+                ratesList.Add(payRate);
+            }  
 
             return ratesList;
         }

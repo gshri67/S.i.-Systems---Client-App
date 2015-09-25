@@ -45,14 +45,8 @@ namespace ConsultantApp.iOS
         {
             if (_payRates != null) return;                
 
-			IEnumerable<PayRate> ratesList = await _timesheetModel.GetPayRates();
-            List<String> combinedRatesList = new List<String>();
-             
-			foreach (PayRate payRate in ratesList)
-            	combinedRatesList.Add(
-					string.Format("{0} ({1:C})", payRate.RateDescription, payRate.Rate)
-					//payRate.RateDescription + "-" + payRate.Rate.ToString() 
-				);
+			var ratesList = await _timesheetModel.GetPayRates(_curTimesheet.ContractId);
+            var combinedRatesList = ratesList.Select(payRate => string.Format("{0} ({1:C})", payRate.RateDescription, payRate.Rate)).ToList();
 
             _payRates = combinedRatesList;
             
@@ -245,7 +239,10 @@ namespace ConsultantApp.iOS
                     Date = Date,
                     ProjectCode = "Project Code",
                     Hours = 8,
-                    PayRate = "Pay Rate"
+                    PayRate = new PayRate
+                    {
+                        RateDescription = "Pay Rate"
+                    }
                 };
 
                 IEnumerable<TimeEntry> newEnumerableEntry = new List<TimeEntry> {newEntry};

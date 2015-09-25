@@ -17,20 +17,25 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
     public class TimesheetService
     {
         private readonly ITimesheetRepository _timeSheetRepository;
+        private readonly ITimeEntryRepository _timeEntryRepository;
         private readonly ISessionContext _sessionContext;
 
-        public TimesheetService(ITimesheetRepository timesheetRepository, ISessionContext sessionContext)
+        public TimesheetService(ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository, ISessionContext sessionContext)
         {
             _timeSheetRepository = timesheetRepository;
+            _timeEntryRepository = timeEntryRepository;
             _sessionContext = sessionContext;
         }
 
-        public Timesheet SaveTimesheet(Timesheet timesheet)
+        public int SaveTimesheet(Timesheet timesheet)
         {
             //do we want to do something with the user's Id?
             var userId = _sessionContext.CurrentUser.Id;
 
             var savedTimesheet = _timeSheetRepository.SaveTimesheet(timesheet, userId);
+            foreach ( var entry in timesheet.TimeEntries)
+                _timeEntryRepository.SaveTimeEntry(savedTimesheet, entry);
+
             return savedTimesheet;
         }
     }

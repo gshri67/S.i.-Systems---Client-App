@@ -8,6 +8,7 @@ namespace SiSystems.SharedModels
 {
     public class PayRate
     {
+        public int Id { get; set; }
         public float Rate{ get; set; }
         public string RateDescription{ get; set; }
     }

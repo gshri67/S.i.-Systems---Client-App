@@ -122,7 +122,7 @@ namespace ConsultantApp.iOS
 					var curEntry = TimeEntries.ElementAt(EntryIndex(indexPath));
 
 					cell.projectCodeField.Text = curEntry.ProjectCode;
-					cell.payRateLabel.Text = curEntry.PayRate;
+					cell.payRateLabel.Text = curEntry.PayRate.RateDescription;
 					cell.hoursField.Text = curEntry.Hours.ToString(CultureInfo.InvariantCulture);
 
 					cell.onHoursChanged = ( float newHours) => {

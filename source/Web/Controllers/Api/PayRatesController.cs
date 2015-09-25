@@ -17,9 +17,10 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             _service = service;
         }
 
-        public HttpResponseMessage GetPayRates()
+        [Route("{id}")]
+        public HttpResponseMessage GetPayRates(int id)
         {
-            var payRates = _service.GetPayRates();
+            var payRates = _service.GetPayRatesByContractId(id);
             return Request.CreateResponse(HttpStatusCode.OK, payRates);
         }
     }

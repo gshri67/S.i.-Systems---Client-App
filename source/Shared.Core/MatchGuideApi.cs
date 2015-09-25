@@ -158,10 +158,10 @@ namespace Shared.Core
 			//return await ExecuteWithDefaultClient<string[]>();
 		}
 
-		[HttpGet("PayRates")]
-		public async Task<IEnumerable<PayRate>> GetPayRates()
+		[HttpGet("PayRates/{id}")]
+		public async Task<IEnumerable<PayRate>> GetPayRates(int id)
 		{
-			return await ExecuteWithDefaultClient<IEnumerable<PayRate>>();
+            return await ExecuteWithDefaultClient<IEnumerable<PayRate>>(new { id });
 		}
 
         [HttpGet("Remittances")]

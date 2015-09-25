@@ -241,7 +241,7 @@ namespace ConsultantApp.iOS
 		public void saveChanges()
 		{
 			timeEntry.ProjectCode = pickerModel.items.ElementAt(0).ElementAt( pickerModel.selectedItemIndex.ElementAt(0) );
-			timeEntry.PayRate = pickerModel.items.ElementAt(1).ElementAt( pickerModel.selectedItemIndex.ElementAt(1) );
+			timeEntry.PayRate.RateDescription = pickerModel.items.ElementAt(1).ElementAt( pickerModel.selectedItemIndex.ElementAt(1) );
 			//timeEntry.Hours = float.Parse(hoursTextField.Text);
 
 			if( !ActiveTimesheetViewModel.projectCodeDict.Keys.Contains(timeEntry.ProjectCode) )

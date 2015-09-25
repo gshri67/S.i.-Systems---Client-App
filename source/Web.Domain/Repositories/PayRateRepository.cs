@@ -20,13 +20,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     {
         public IEnumerable<PayRate> GetPayRates()
         {
-            
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
               const string query =
-                        @"SELECT RateDescription AS RateDescription
-                              ,PayRate AS Rate
-                          FROM Agreement_ContractRateDetail Dets";
+                        @"SELECT ContractRateID AS Id
+	                        ,RateDescription AS RateDescription
+                            ,PayRate AS Rate	
+                        FROM Agreement_ContractRateDetail Dets";
                     
 
                 var payRates = db.Connection.Query<PayRate>(query);
