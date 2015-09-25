@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using ConsultantApp.Core.ViewModels;
 using Microsoft.Practices.Unity;
 using Shared.Core;
@@ -263,11 +264,13 @@ namespace ConsultantApp.iOS
 			savedLabel.Alpha = 0;
 			emptySaveButton.Alpha = 0;
 
-			saveButton.TouchUpInside += async delegate {
+			saveButton.TouchUpInside += async delegate
+			{
+                TransitionToSavingAnimation();
 
-				_curTimesheet = await _timesheetModel.SaveTimesheet( _curTimesheet );
+			    _curTimesheet = await _timesheetModel.SaveTimesheet( _curTimesheet );
 
-				TransitionToSavingAnimation();
+                BeginTransitionToSavedAnimation();
 			};
 
             tableview.ContentInset = new UIEdgeInsets(-35, 0, 0, 0);
@@ -278,13 +281,13 @@ namespace ConsultantApp.iOS
 
         private void TransitionToSavingAnimation()
         {
-            UIView.Animate(0.7f, 0, UIViewAnimationOptions.TransitionNone, StartSavingAnimation, BeginTransitionToSavedAnimation);
+            StartSavingAnimation();
+            //UIView.Animate(0.7f, 0, UIViewAnimationOptions.TransitionNone, StartSavingAnimation, null);
         }
 
-        //todo: call when we recieve the save confirmation from the server
         private void BeginTransitionToSavedAnimation()
         {
-            UIView.Animate(0.5f, 0.7f, UIViewAnimationOptions.TransitionNone, HideSavingIndicator, SavingComplete);
+            UIView.Animate(0.5f, 0f, UIViewAnimationOptions.TransitionNone, HideSavingIndicator, SavingComplete);
         }
 
         private void SavingComplete()
