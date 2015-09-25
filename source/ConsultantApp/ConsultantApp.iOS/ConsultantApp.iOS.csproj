@@ -171,10 +171,6 @@
     <Compile Include="Remittances\RemittanceCell.designer.cs">
       <DependentUpon>RemittanceCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddTimeEntryViewController.cs" />
-    <Compile Include="AddTimeEntryViewController.designer.cs">
-      <DependentUpon>AddTimeEntryViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="SubtitleHeaderView.cs" />
     <Compile Include="Remittances\RemittanceSummaryViewController.designer.cs">
       <DependentUpon>RemittanceSummaryViewController.cs</DependentUpon>
