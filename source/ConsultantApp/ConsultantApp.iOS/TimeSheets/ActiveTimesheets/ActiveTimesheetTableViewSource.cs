@@ -49,6 +49,17 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                 : 0;
 		}
 
+	    private static string StatusTextToDisplay(MatchGuideConstants.TimesheetStatus status)
+	    {
+            if (status == MatchGuideConstants.TimesheetStatus.Batched
+                || status == MatchGuideConstants.TimesheetStatus.Moved
+                || status == MatchGuideConstants.TimesheetStatus.Accepted)
+            {
+                return MatchGuideConstants.TimesheetStatus.Approved.ToString();
+            }
+	        return status.ToString();
+	    }
+
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			// if there are no cells to reuse, create a new one
@@ -56,20 +67,11 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                        new ActiveTimesheetCell(CellIdentifier);
 		    var timesheet = _payPeriods.ElementAt(indexPath.Section).Timesheets.ElementAt(indexPath.Row);
 
-			MatchGuideConstants.TimesheetStatus status = timesheet.Status;
-
-			if (status == MatchGuideConstants.TimesheetStatus.Batched)
-				status = MatchGuideConstants.TimesheetStatus.Approved;
-			else if (status == MatchGuideConstants.TimesheetStatus.Moved)
-				status = MatchGuideConstants.TimesheetStatus.Approved;
-			else if (status == MatchGuideConstants.TimesheetStatus.Accepted)
-				status = MatchGuideConstants.TimesheetStatus.Approved;			
-
             cell.UpdateCell(
                 company: timesheet.ClientName,
                 timesheetApprover: timesheet.TimesheetApprover,
                 hours: timesheet.TimeEntries.Sum(t => t.Hours).ToString(),
-                status: status.ToString()
+                status: StatusTextToDisplay(timesheet.Status)
             );
 
 			return cell;
