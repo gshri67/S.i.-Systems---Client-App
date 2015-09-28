@@ -50,9 +50,8 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    public async void LoadTimesheets()
 	    {
-	        IndicateLoading();
-            if (_payPeriods == null)
-                _payPeriods = await _activeTimesheetModel.GetPayPeriods();
+	        //if (_payPeriods == null)
+            _payPeriods = await _activeTimesheetModel.GetPayPeriods();
 
             UpdateTableSource();
 
@@ -90,7 +89,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 		{
 			base.ViewDidLoad();
 
-            LoadTimesheets();
+            IndicateLoading();
 
             CreateCustomTitleBar();
 			RetrieveConsultantDetails ();
