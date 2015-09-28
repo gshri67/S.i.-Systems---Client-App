@@ -328,7 +328,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 				sheet.CancelButtonIndex = 1;
 
 				var confirmationAlertView = new UIAlertView("Successfully submitted timesheet", "", null, "Ok");
-				MatchGuideConstants.TimesheetStatus newStatus = 0;
 				bool permissionToSubmit = true;
 
 				if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
@@ -338,27 +337,26 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 					if( allZeros )
 						sheet.Title = "Are you sure you want to submit a timesheet with zero entries?";
 
-					newStatus = MatchGuideConstants.TimesheetStatus.Submitted;
-
 					sheet.AddButton("Submit");
 				}
 				else if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted )
 				{
-					newStatus = MatchGuideConstants.TimesheetStatus.Open;
 					confirmationAlertView = new UIAlertView("Successfully withdrew timesheet", "", null, "Ok");
 					sheet.Title = "Are you sure you want to withdraw this timesheet?";
 
 					sheet.AddButton("Withdraw");
 				}
 					
-				sheet.Clicked += delegate (object sender2, UIButtonEventArgs args)
+				sheet.Clicked += async delegate (object sender2, UIButtonEventArgs args)
 				{
 					if (args.ButtonIndex == 1)
 						permissionToSubmit = false;
 
 					if( permissionToSubmit )
 					{
-						_curTimesheet.Status = newStatus;
+                        if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
+    					    _curTimesheet = await _timesheetModel.SubmitTimesheet(_curTimesheet);
+    
 						updateUI();
 						confirmationAlertView.Show();
 					}

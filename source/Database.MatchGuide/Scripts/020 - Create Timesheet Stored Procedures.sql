@@ -169,3 +169,136 @@ else
 end
 
 GO
+
+/*
+	**************************************Create Timesheet Update*******************************
+*/
+
+CREATE proc [dbo].[sp_Timesheet_Update]                  
+(                                          
+@aTimesheetId int,                  
+@aCandidateUserId int,                                                    
+@aContractID int,                      
+@aTimesheetavailableperiodid  int,          
+@aTSSubmittedName varchar(100),    
+@verticalid int,  
+@aTimesheetType varchar(100),  
+@TSstatus varchar(100) 
+                  
+)                                                                         
+                                                                          
+as                                                             
+                                                          
+set nocount on                                                             
+                
+declare @newtimesheetid int                
+  
+begin                      
+                  
+ if @aTimesheetId is null                  
+  begin                  
+   insert into timesheet(                      
+    createdate,                      
+    candidateuserid,                      
+    agreementid,                      
+    timesheetavailableperiodid,                     
+    Vacation,                   
+    quickpay,                      
+    statusid,                      
+    resubmittedfromid,                      
+    resubmittedtoid,                      
+    approverrejectoruserid,                      
+    batchid,                      
+    submittedpdf,                      
+    approvedpdf,                      
+    rejectedpdf,    
+    verticalid,  
+ Timesheettype                 
+    )                      
+   values(                      
+    getdate(),                      
+    @aCandidateUserId,                      
+    @aContractId,                      
+    @aTimesheetavailableperiodid,                      
+   1,                  
+    0,
+	624,--This is the pick list ID for Approved timesheets (Zero time is auto approved)
+    null, 
+    null, 
+    @aCandidateUserId, 
+    null,                 
+    @aTSSubmittedName, 
+    null, 
+    null, 
+ @verticalid,  
+    851 --this is the pick list ID for ETimesheets
+   )                       
+                     
+  end                  
+ else                  
+  begin                
+                
+ insert into timesheet                 
+ (                
+  CreateDate,                
+  CandidateUserID,                
+  AgreementID,                
+  TimeSheetAvailablePeriodID,                
+  QuickPay,                
+  Vacation,                
+  StatusID,                
+  ResubmittedFromID,                
+  ResubmittedToID,                
+  ApproverRejectorUserID,                
+  BatchID,                
+  submittedpdf,                
+  approvedpdf,                
+  rejectedpdf,    
+  verticalid,  
+  Timesheettype                
+ )                
+ select                 
+  CreateDate,                
+  CandidateUserID,                
+  AgreementID,                
+  TimeSheetAvailablePeriodID,                
+  QuickPay,                
+  Vacation,                
+   624,--This is the pick list ID for Approved timesheets (Zero time is auto approved)
+  @aTimesheetId,                
+  ResubmittedToID,                
+  ApproverRejectorUserID,                
+  BatchID,                
+  submittedpdf,                
+  approvedpdf,                
+  rejectedpdf,    
+  verticalid,  
+  Timesheettype               
+ from timesheet              
+ where timesheetid = @aTimesheetId                
+                 
+ set @newtimesheetid  =  @@identity                
+                
+ update  timesheet                  
+ set                 
+  CreateDate = getdate(),      
+  Vacation = 1,                 
+  statusid = 624,--This is the pick list ID for Approved timesheets (Zero time is auto approved)
+  ResubmittedFromID = @aTimesheetId,          
+  submittedpdf = @aTSSubmittedName,      
+  ApproverRejectorUserID = @aCandidateUserId,    
+  verticalid = @verticalid                
+ where timesheetid = @newtimesheetid                  
+                 
+ update  timesheet                  
+ set                 
+  ResubmittedToID = @newtimesheetid                
+ where timesheetid = @aTimesheetId                  
+                
+  end                  
+                  
+end   
+
+GO
+
+

@@ -37,6 +37,11 @@ namespace ConsultantApp.Core.ViewModels
         {
             return _api.GetTimesheetApproversByTimesheetId(timesheetId);
         }
+
+	    public Task<Timesheet> SubmitTimesheet(Timesheet timesheet)
+	    {
+	        return _api.SubmitTimesheet(timesheet);
+	    }
 	}
 }
 

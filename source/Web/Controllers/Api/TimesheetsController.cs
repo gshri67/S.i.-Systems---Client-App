@@ -23,5 +23,12 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             var returnedTimesheet = _service.SaveTimesheet(timesheet);
             return Request.CreateResponse(HttpStatusCode.OK, returnedTimesheet);
         }
+
+        [Route("Submit")]
+        public HttpResponseMessage Submit(Timesheet timesheet)
+        {
+            var submittedTimesheet = _service.SubmitTimesheet(timesheet);
+            return Request.CreateResponse(HttpStatusCode.OK, submittedTimesheet);
+        }
     }
 }

@@ -39,5 +39,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             return timesheet;
         }
+
+        public Timesheet SubmitTimesheet(Timesheet timesheet)
+        {
+            var timesheetId = _timeSheetRepository.SubmitZeroTimeForUser(timesheet, _sessionContext.CurrentUser.Id);
+            timesheet.Id = timesheetId;
+            timesheet.Status = MatchGuideConstants.TimesheetStatus.Approved;
+            
+            return timesheet;
+        }
     }
 }

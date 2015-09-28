@@ -20,6 +20,8 @@ namespace SiSystems.SharedModels
         public int? OpenStatusId { get; set; }
 
 	    public IEnumerable<TimeEntry> TimeEntries { get; set; }
+
+        public int VerticalId { get { return 4; } }
 	}
 
     public class PayPeriod

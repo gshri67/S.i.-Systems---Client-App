@@ -703,7 +703,6 @@ namespace SiSystems.SharedModels
             }
         }
 
-        /// Consider any unanticipated values as the default, NotChecked
         [DataContract]
         [DebuggerDisplay("{DisplayValue}")]
         public struct TimesheetStatus: IMatchGuideConstant
@@ -760,6 +759,63 @@ namespace SiSystems.SharedModels
                 return status.m_value;
             }
            
+            public override string ToString()
+            {
+                string description;
+                return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultDisplayString;
+            }
+        }
+
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
+        public struct VerticalId : IMatchGuideConstant
+        {
+            [DataMember(Name = "backingValue")]
+            private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
+            public const int Common = -1;
+            public const int FinanceAndAccounting = 1;
+            public const int EngineeringAndDesign = 2;
+            public const int AdministrationAndProfessional = 3;
+            public const int IT = 4;
+
+            private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
+            {
+                {Common, "Common"},
+                {FinanceAndAccounting, "Finance & Accounting"},
+                {EngineeringAndDesign, "Engineering & Design"},
+                {AdministrationAndProfessional, "Administration & Professional"},
+                {IT, "IT"}
+            };
+
+            private const string DefaultDisplayString = "Common";
+
+            private VerticalId(long value)
+            {
+                m_value = value;
+            }
+
+            public static implicit operator VerticalId(long val)
+            {
+                return new VerticalId(val);
+            }
+
+            public static implicit operator VerticalId(int val)
+            {
+                return new VerticalId(val);
+            }
+
+            public static implicit operator long(VerticalId verticalId)
+            {
+                return verticalId.m_value;
+            }
+
             public override string ToString()
             {
                 string description;

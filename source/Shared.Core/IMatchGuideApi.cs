@@ -43,5 +43,7 @@ namespace Shared.Core
         Task<HttpResponseMessage> GetPDF(string docNumber);
         
         Task<Timesheet> SaveTimesheet(Timesheet timesheet);
+        
+        Task<Timesheet> SubmitTimesheet(Timesheet timesheet);
     }
 }
