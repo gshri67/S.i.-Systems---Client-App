@@ -20,7 +20,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private readonly ITimeEntryRepository _timeEntryRepository;
         private readonly ISessionContext _sessionContext;
 
-        public TimesheetService(ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository, ISessionContext sessionContext)
+        /// <summary>
+        /// This is a constant value to correct for possible Floating Point issues
+        /// </summary>
+        private const float Tolerance = 0.00001F;
+
+        public TimesheetService(ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository,
+            ISessionContext sessionContext)
         {
             _timeSheetRepository = timesheetRepository;
             _timeEntryRepository = timeEntryRepository;
@@ -32,7 +38,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             var userId = _sessionContext.CurrentUser.Id;
 
             var savedTimesheetId = _timeSheetRepository.SaveTimesheet(timesheet, userId);
-            foreach ( var entry in timesheet.TimeEntries)
+
+            foreach (var entry in timesheet.TimeEntries)
                 _timeEntryRepository.SaveTimeEntry(savedTimesheetId, entry);
 
             timesheet.OpenStatusId = savedTimesheetId;
@@ -40,13 +47,45 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return timesheet;
         }
 
+        public Timesheet GetTimesheetById(int id)
+        {
+            var updatedTimesheet = _timeSheetRepository.GetTimesheetsById(id);
+
+            updatedTimesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesByTimesheetId(id);
+
+            return updatedTimesheet;
+        }
+
         public Timesheet SubmitTimesheet(Timesheet timesheet)
         {
-            var timesheetId = _timeSheetRepository.SubmitZeroTimeForUser(timesheet, _sessionContext.CurrentUser.Id);
-            timesheet.Id = timesheetId;
-            timesheet.Status = MatchGuideConstants.TimesheetStatus.Approved;
+            timesheet = SubmittingZeroTimesheet(timesheet) 
+                ? SubmitZeroTime(timesheet) 
+                : SubmitTimesheetWithTimeEntries(timesheet);
+
+            return GetTimesheetById(timesheet.Id);
+        }
+
+        private Timesheet SubmitTimesheetWithTimeEntries(Timesheet timesheet)
+        {
+            //timesheet.Id = _timeSheetRepository.
+            return timesheet;
+        }
+
+        private Timesheet SubmitZeroTime(Timesheet timesheet)
+        {
+            timesheet.Id = _timeSheetRepository.SubmitZeroTimeForUser(timesheet, _sessionContext.CurrentUser.Id);
             
             return timesheet;
+        }
+
+        public static bool SubmittingZeroTimesheet(Timesheet timesheet)
+        {
+            if (timesheet.TimeEntries.Any())
+            {
+                return Math.Abs(timesheet.TimeEntries.Sum(entry => entry.Hours)) < Tolerance;
+            }
+
+            return true;
         }
     }
 }
