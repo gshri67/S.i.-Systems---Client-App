@@ -100,9 +100,9 @@ namespace ConsultantApp.iOS
 
 				if (_projectCodes.Count < MaxFrequentlyUsed)
 					_projectCodes.Sort (new Comparison<string> ((string pc1, string pc2) => {
-						if (!ActiveTimesheetViewModel.projectCodeDict.ContainsKey (pc1) || ActiveTimesheetViewModel.projectCodeDict.ContainsKey (pc2) && ActiveTimesheetViewModel.projectCodeDict [pc2] >= ActiveTimesheetViewModel.projectCodeDict [pc1])
+						if (!ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (pc1) || ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (pc2) && ActiveTimesheetViewModel.ProjectCodeDict [pc2] >= ActiveTimesheetViewModel.ProjectCodeDict [pc1])
 							return 1;
-						else if (!ActiveTimesheetViewModel.projectCodeDict.ContainsKey (pc2) || ActiveTimesheetViewModel.projectCodeDict.ContainsKey (pc1) && ActiveTimesheetViewModel.projectCodeDict [pc1] >= ActiveTimesheetViewModel.projectCodeDict [pc2])
+						else if (!ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (pc2) || ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (pc1) && ActiveTimesheetViewModel.ProjectCodeDict [pc1] >= ActiveTimesheetViewModel.ProjectCodeDict [pc2])
 							return -1;
 						return 0;
 					}));
@@ -112,20 +112,20 @@ namespace ConsultantApp.iOS
 					//can make this linear time if need be.
 					for (int i = 0; i < MaxFrequentlyUsed; i++) 
 					{
-						if (!ActiveTimesheetViewModel.projectCodeDict.ContainsKey (_projectCodes [i])) {
+						if (!ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (_projectCodes [i])) {
 							highest = -1;
 							highestIndex = -1;
 						} else 
 						{
-							highest = ActiveTimesheetViewModel.projectCodeDict [_projectCodes [i]];
+							highest = ActiveTimesheetViewModel.ProjectCodeDict [_projectCodes [i]];
 							highestIndex = i;
 						}
 
 						for (int j = i+1; j < _projectCodes.Count; j++) 
 						{
-							if (ActiveTimesheetViewModel.projectCodeDict.ContainsKey (_projectCodes [j]) && ActiveTimesheetViewModel.projectCodeDict [_projectCodes [j]] > highest) 
+							if (ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (_projectCodes [j]) && ActiveTimesheetViewModel.ProjectCodeDict [_projectCodes [j]] > highest) 
 							{
-								highest = ActiveTimesheetViewModel.projectCodeDict [_projectCodes [j]];
+								highest = ActiveTimesheetViewModel.ProjectCodeDict [_projectCodes [j]];
 								highestIndex = j;
 							}
 						}
@@ -145,7 +145,7 @@ namespace ConsultantApp.iOS
 				//find out how many frequently used items there are, and if it is higher than our limit
 				int numFrequentItems = 0;
 				for (int i = 0; i < _projectCodes.Count; i++)
-					if (ActiveTimesheetViewModel.projectCodeDict.ContainsKey (_projectCodes [i]))
+					if (ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (_projectCodes [i]))
 						numFrequentItems++;
 
 				if (numFrequentItems > MaxFrequentlyUsed)
@@ -201,12 +201,12 @@ namespace ConsultantApp.iOS
 			TimeEntry.ProjectCode = _pickerModel.items.ElementAt(0).ElementAt( _pickerModel.selectedItemIndex.ElementAt(0) );
 			SetTimeEntryPayRateToSelectedRate();
 
-			if( !ActiveTimesheetViewModel.projectCodeDict.Keys.Contains(TimeEntry.ProjectCode) )
-				ActiveTimesheetViewModel.projectCodeDict.Add(TimeEntry.ProjectCode, 1);
+			if( !ActiveTimesheetViewModel.ProjectCodeDict.Keys.Contains(TimeEntry.ProjectCode) )
+				ActiveTimesheetViewModel.ProjectCodeDict.Add(TimeEntry.ProjectCode, 1);
 			else
-				ActiveTimesheetViewModel.projectCodeDict[TimeEntry.ProjectCode] ++;
+				ActiveTimesheetViewModel.ProjectCodeDict[TimeEntry.ProjectCode] ++;
 
-			Console.WriteLine( TimeEntry.ProjectCode + " " + ActiveTimesheetViewModel.projectCodeDict[TimeEntry.ProjectCode]);
+			Console.WriteLine( TimeEntry.ProjectCode + " " + ActiveTimesheetViewModel.ProjectCodeDict[TimeEntry.ProjectCode]);
 
 			OnSave();
 		}

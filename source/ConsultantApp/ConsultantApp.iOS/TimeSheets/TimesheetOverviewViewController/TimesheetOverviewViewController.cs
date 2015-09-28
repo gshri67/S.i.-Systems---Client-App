@@ -15,7 +15,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	public partial class TimesheetOverviewViewController : UIViewController
 	{
 	    private readonly TimesheetViewModel _timesheetModel;
-		private readonly ActiveTimesheetViewModel _activeTimesheetModel;
 		private Timesheet _curTimesheet;
 		private FMCalendar calendar;
 		private SubtitleHeaderView subtitleHeaderView;
@@ -33,7 +32,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             //TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
 
 			_timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
-			_activeTimesheetModel = DependencyResolver.Current.Resolve<ActiveTimesheetViewModel>();
 		}
         
         public void SetTimesheet(Timesheet timesheet)
@@ -73,76 +71,22 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 				if (approverPickerModel != null && _approvers != null ) 
 				{
-					List<string> approverList = _approvers.ToList ();
+				    var mostFrequentlyUsed = ActiveTimesheetViewModel.TopNumberOfApprovers(maxFrequentlyUsed);
+				    var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
+                    var partialApprovers = _approvers.Except(frequentlyUsed).ToList();
+				    partialApprovers.Sort();
 
-					approverList.Sort ();
+                    _approvers = frequentlyUsed.Concat(partialApprovers).ToList();
 
-					if (approverList.Count < maxFrequentlyUsed)
-						approverList.Sort (new Comparison<string> ((string pc1, string pc2) => {
-							if (!ActiveTimesheetViewModel.approverDict.ContainsKey (pc1) || ActiveTimesheetViewModel.approverDict.ContainsKey (pc2) && ActiveTimesheetViewModel.approverDict [pc2] >= ActiveTimesheetViewModel.approverDict [pc1])
-								return 1;
-							else if (!ActiveTimesheetViewModel.approverDict.ContainsKey (pc2) || ActiveTimesheetViewModel.approverDict.ContainsKey (pc1) && ActiveTimesheetViewModel.approverDict [pc1] >= ActiveTimesheetViewModel.approverDict [pc2])
-								return -1;
-							return 0;
-						}));
-					else 
-					{
-						int highest = 0, highestIndex = 0;
-						//can make this linear time if need be.
-						for (int i = 0; i < maxFrequentlyUsed; i++) 
-						{
-							if (!ActiveTimesheetViewModel.approverDict.ContainsKey (approverList [i])) {
-								highest = -1;
-								highestIndex = -1;
-							} else 
-							{
-								highest = ActiveTimesheetViewModel.approverDict [approverList [i]];
-								highestIndex = i;
-							}
-
-							for (int j = i+1; j < approverList.Count; j++) 
-							{
-								if (ActiveTimesheetViewModel.approverDict.ContainsKey (approverList [j]) && ActiveTimesheetViewModel.approverDict [approverList [j]] > highest) 
-								{
-									highest = ActiveTimesheetViewModel.approverDict [approverList [j]];
-									highestIndex = j;
-								}
-							}
-
-							if (highestIndex > -1) 
-							{
-								string temp = approverList [i];
-								approverList [i] = approverList [highestIndex];
-								approverList [highestIndex] = temp;
-							}
-						}
-					}
-
-					//find out how many frequently used items there are, and if it is higher than our limit
-					int numFrequentItems = 0;
-					for (int i = 0; i < approverList.Count; i++)
-						if (ActiveTimesheetViewModel.approverDict.ContainsKey (approverList [i]))
-							numFrequentItems++;
-
-					if (numFrequentItems > maxFrequentlyUsed)
-						numFrequentItems = maxFrequentlyUsed;
-					
-					_approvers = approverList;
-
-					approverPickerModel.items = new List<List<string>> ();
-					approverPickerModel.items.Add (approverList);
-					approverPickerModel.numFrequentItems[0] = numFrequentItems;
+				    approverPickerModel.items = new List<List<string>>
+				    {
+				        _approvers.ToList()
+				    };
+				    approverPickerModel.numFrequentItems[0] = frequentlyUsed.Count;
 				}
 				if( approverPicker != null )
 					approverPicker.Model = approverPickerModel;
 
-				/*
-				if (subtitleHeaderView != null) 
-				{
-					subtitleHeaderView.TitleText = "Timesheet Overview";
-					subtitleHeaderView.SubtitleText = _curTimesheet.ClientName;
-				}
-*/
 				if( calendarContainerView != null )
 					SetupCalendar ();
 
@@ -175,12 +119,10 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 		public bool approvedStatus( MatchGuideConstants.TimesheetStatus status )
 		{
-			if( status == MatchGuideConstants.TimesheetStatus.Approved || 
-				status == MatchGuideConstants.TimesheetStatus.Batched ||
-				status == MatchGuideConstants.TimesheetStatus.Moved ||
-				status == MatchGuideConstants.TimesheetStatus.Accepted )
-					return true;
-			return false;
+		    return status == MatchGuideConstants.TimesheetStatus.Approved || 
+		           status == MatchGuideConstants.TimesheetStatus.Batched ||
+		           status == MatchGuideConstants.TimesheetStatus.Moved ||
+		           status == MatchGuideConstants.TimesheetStatus.Accepted;
 		}
 
 	    public override void ViewWillAppear(bool animated)
@@ -231,14 +173,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
              {
                  _curTimesheet.TimesheetApprover
              };
-			/*
-			if (_approvers != null) 
-			{
-				if( approverPickerModel.items.Count > 0 )
-					approverPickerModel.items [0] = _approvers.ToList ();
-				else
-					approverPickerModel.items.Add( _approvers.ToList () );
-			}*/
 
 			updateUI ();
         }
@@ -397,10 +331,10 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			approverNameTextField.ResignFirstResponder ();
 
-			if( !ActiveTimesheetViewModel.approverDict.Keys.Contains(selectedApprover) )
-				ActiveTimesheetViewModel.approverDict.Add(selectedApprover, 1);
+			if( !ActiveTimesheetViewModel.ApproverDict.Keys.Contains(selectedApprover) )
+				ActiveTimesheetViewModel.ApproverDict.Add(selectedApprover, 1);
 			else
-				ActiveTimesheetViewModel.approverDict[selectedApprover] ++;
+				ActiveTimesheetViewModel.ApproverDict[selectedApprover] ++;
 			
 
 			updateUI ();

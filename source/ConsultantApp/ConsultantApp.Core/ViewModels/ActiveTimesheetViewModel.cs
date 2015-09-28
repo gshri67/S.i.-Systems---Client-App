@@ -10,56 +10,51 @@ namespace ConsultantApp.Core.ViewModels
 	public class ActiveTimesheetViewModel
 	{
         private readonly IMatchGuideApi _api;
-		public static Dictionary<string, int> projectCodeDict;
-		public static Dictionary<string, int> approverDict;
+		public static Dictionary<string, int> ProjectCodeDict;
+		public static Dictionary<string, int> ApproverDict;
+
+	    private const int MaxPeriodHistory = 6;
 
         public ActiveTimesheetViewModel(IMatchGuideApi matchGuideApi)
 	    {
 	        _api = matchGuideApi;
 
-			if (projectCodeDict == null)
-				projectCodeDict = new Dictionary<string, int> ();
-			if (approverDict == null)
-				approverDict = new Dictionary<string, int> ();
+			if (ProjectCodeDict == null)
+				ProjectCodeDict = new Dictionary<string, int> ();
+			if (ApproverDict == null)
+				ApproverDict = new Dictionary<string, int> ();
 
-			preloadDictionaries ();
+			PreloadDictionaries ();
 		}
 
 		//use the last few timesheets to populate most frequently used
-		private async void preloadDictionaries()
+		private async void PreloadDictionaries()
 		{
-			IEnumerable<PayPeriod> payPeriods = await GetPayPeriods ();
+			var payPeriods = await GetPayPeriods ();
 
-			if (payPeriods != null) 
-			{
-				payPeriods.ToList ().Sort (new Comparison<PayPeriod> ((PayPeriod p1, PayPeriod p2) => {
-					return p1.EndDate.CompareTo(p2.EndDate);
-				}));
+		    if (payPeriods == null) return;
+            
+            payPeriods = payPeriods.OrderBy(period => period.EndDate);
 
-				int maxDepth = 3;//check the last # of periods to populate dictionaries
-				if (payPeriods.Count () < maxDepth)
-					maxDepth = payPeriods.Count ();
-
-				for (int i = 0; i < maxDepth; i++) 
-				{
-					foreach (Timesheet timesheet in payPeriods.ElementAt(i).Timesheets ) 
-					{
-						foreach (TimeEntry entry in timesheet.TimeEntries) 
-						{
-							if (projectCodeDict.ContainsKey (entry.ProjectCode))
-								projectCodeDict [entry.ProjectCode]++;
-							else
-								projectCodeDict.Add (entry.ProjectCode, 1);
-						}
-
-						if (approverDict.ContainsKey (timesheet.TimesheetApprover))
-							approverDict [timesheet.TimesheetApprover]++;
-						else
-							approverDict.Add (timesheet.TimesheetApprover, 1);
-					}
-				}
-			}
+            foreach (var timesheet in payPeriods.Take(MaxPeriodHistory).SelectMany(period => period.Timesheets))
+		    {
+		        foreach (var entry in timesheet.TimeEntries)
+		        {
+		            AddOrIncrementKeyToDictionary(ProjectCodeDict, entry.ProjectCode);
+		        }
+		        AddOrIncrementKeyToDictionary(ApproverDict, timesheet.TimesheetApprover);
+		    }
 		}
+
+	    private static void AddOrIncrementKeyToDictionary(IDictionary<string, int> dictionary, string key)
+	    {
+	        if (string.IsNullOrEmpty(key)) return;
+
+            if (dictionary.ContainsKey(key))
+                dictionary[key]++;
+            else
+                dictionary.Add(key, 1);
+	    }
 
         public Task<IEnumerable<PayPeriod>> GetPayPeriods()
         {
@@ -69,6 +64,13 @@ namespace ConsultantApp.Core.ViewModels
 	    public Task<ConsultantDetails> GetConsultantDetails()
 	    {
 	        return _api.GetCurrentUserConsultantDetails();
+	    }
+
+	    public static IEnumerable<string> TopNumberOfApprovers(int number)
+	    {
+	        var sortedList = from entry in ApproverDict orderby entry.Value descending select entry.Key;
+
+            return sortedList.Take(number);
 	    }
 	}
 }
