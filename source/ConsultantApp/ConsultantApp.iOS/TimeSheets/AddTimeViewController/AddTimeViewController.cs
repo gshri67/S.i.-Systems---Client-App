@@ -20,6 +20,7 @@ namespace ConsultantApp.iOS
         private IEnumerable<PayRate> _payRates;
         private SubtitleHeaderView _subtitleHeaderView;
         public DateTime Date;
+		private int maxFrequentlyUsed = 5;
 
         public AddTimeViewController(IntPtr handle) : base(handle)
         {

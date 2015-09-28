@@ -22,7 +22,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		private PickerViewModel approverPickerModel;
 		IEnumerable<string> _approvers;
 		private const string ScreenTitle = "Timesheet Overview";
-		private int maxFrequentlyUsed = 2;
+		private int maxFrequentlyUsed = 5;
 
 		public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
@@ -71,7 +71,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 				if (approverPickerModel != null && _approvers != null ) 
 				{
-				    var mostFrequentlyUsed = ActiveTimesheetViewModel.TopNumberOfApprovers(maxFrequentlyUsed);
+					var mostFrequentlyUsed = ActiveTimesheetViewModel.TopFrequentEntries( ActiveTimesheetViewModel.ApproverDict, maxFrequentlyUsed);
 				    var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
                     var partialApprovers = _approvers.Except(frequentlyUsed).ToList();
 				    partialApprovers.Sort();

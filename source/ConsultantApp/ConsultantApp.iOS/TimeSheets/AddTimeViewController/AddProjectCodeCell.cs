@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using SiSystems.SharedModels;
 using ConsultantApp.Core.ViewModels;
 
+using CoreGraphics;
+using Microsoft.Practices.Unity;
+using Shared.Core;
+
 namespace ConsultantApp.iOS
 {
 	public class AddProjectCodeCell : UITableViewCell
@@ -96,64 +100,20 @@ namespace ConsultantApp.iOS
 			_pickerModel = new PickerViewModel ();
 			if (_projectCodes != null && _payRates != null) 
 			{
-				_projectCodes.Sort ();
+				var mostFrequentlyUsed = ActiveTimesheetViewModel.TopFrequentEntries( ActiveTimesheetViewModel.ProjectCodeDict, MaxFrequentlyUsed);
+					var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
+				var notFrequentlyUsed = _projectCodes.Except(frequentlyUsed).ToList();
+				notFrequentlyUsed.Sort();
 
-				if (_projectCodes.Count < MaxFrequentlyUsed)
-					_projectCodes.Sort (new Comparison<string> ((string pc1, string pc2) => {
-						if (!ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (pc1) || ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (pc2) && ActiveTimesheetViewModel.ProjectCodeDict [pc2] >= ActiveTimesheetViewModel.ProjectCodeDict [pc1])
-							return 1;
-						else if (!ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (pc2) || ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (pc1) && ActiveTimesheetViewModel.ProjectCodeDict [pc1] >= ActiveTimesheetViewModel.ProjectCodeDict [pc2])
-							return -1;
-						return 0;
-					}));
-				else 
-				{
-					int highest = 0, highestIndex = 0;
-					//can make this linear time if need be.
-					for (int i = 0; i < MaxFrequentlyUsed; i++) 
+				_projectCodes = frequentlyUsed.Concat(notFrequentlyUsed).ToList();
+
+					_pickerModel.items = new List<List<string>>
 					{
-						if (!ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (_projectCodes [i])) {
-							highest = -1;
-							highestIndex = -1;
-						} else 
-						{
-							highest = ActiveTimesheetViewModel.ProjectCodeDict [_projectCodes [i]];
-							highestIndex = i;
-						}
-
-						for (int j = i+1; j < _projectCodes.Count; j++) 
-						{
-							if (ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (_projectCodes [j]) && ActiveTimesheetViewModel.ProjectCodeDict [_projectCodes [j]] > highest) 
-							{
-								highest = ActiveTimesheetViewModel.ProjectCodeDict [_projectCodes [j]];
-								highestIndex = j;
-							}
-						}
-
-						if (highestIndex > -1) 
-						{
-							List<string> list = _projectCodes.ToList ();
-							string temp = list [i];
-							list [i] = list [highestIndex];
-							list [highestIndex] = temp;
-
-							_projectCodes = list;
-						}
-					}
-				}
-
-				//find out how many frequently used items there are, and if it is higher than our limit
-				int numFrequentItems = 0;
-				for (int i = 0; i < _projectCodes.Count; i++)
-					if (ActiveTimesheetViewModel.ProjectCodeDict.ContainsKey (_projectCodes [i]))
-						numFrequentItems++;
-
-				if (numFrequentItems > MaxFrequentlyUsed)
-					numFrequentItems = MaxFrequentlyUsed;
-
-				_pickerModel.numFrequentItems[0] = numFrequentItems;
-
-
+						_projectCodes.ToList()
+					};
+					
+				_pickerModel.numFrequentItems[0] = frequentlyUsed.Count;
+			
 			    _pickerModel.items = new List<List<string>>
 			    {
 			        _projectCodes,

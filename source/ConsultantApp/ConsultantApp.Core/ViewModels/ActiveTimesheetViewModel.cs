@@ -66,9 +66,10 @@ namespace ConsultantApp.Core.ViewModels
 	        return _api.GetCurrentUserConsultantDetails();
 	    }
 
-	    public static IEnumerable<string> TopNumberOfApprovers(int number)
+		//Grabs the top "number" of most frequent entries
+		public static IEnumerable<string> TopFrequentEntries( Dictionary<string, int> dict, int number)
 	    {
-	        var sortedList = from entry in ApproverDict orderby entry.Value descending select entry.Key;
+	        var sortedList = from entry in dict orderby entry.Value descending select entry.Key;
 
             return sortedList.Take(number);
 	    }
