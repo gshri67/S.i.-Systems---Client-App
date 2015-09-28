@@ -140,11 +140,21 @@ namespace ConsultantApp.iOS
                 addButton.Enabled = enabled;
         }
 
+        private void EnableSaveButton(bool enabled)
+        {
+            if (saveButton == null)
+                return;
+            
+            saveButton.Enabled = enabled;
+            saveButton.Hidden = !enabled;
+        }
+
         private void SetTimesheetEditability()
         {
             var enabled = TimesheetEditable();
 
             EnabledAddButton(enabled);
+            EnableSaveButton(enabled);
             EnableTableView(enabled);
             EnableTableViewSource(enabled);
 			EnableSaveButton(enabled);
