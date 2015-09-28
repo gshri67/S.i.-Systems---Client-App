@@ -822,5 +822,58 @@ namespace SiSystems.SharedModels
                 return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultDisplayString;
             }
         }
+        
+        [DataContract]
+        [DebuggerDisplay("{DisplayValue}")]
+        public struct TimesheetType : IMatchGuideConstant
+        {
+            [DataMember(Name = "backingValue")]
+            private readonly long m_value;
+
+            [DataMember(Name = "displayValue")]
+            private string DisplayValue
+            {
+                get { return this.ToString(); }
+            }
+
+            public const int Client = 849;
+            public const int Manual = 850;
+            public const int ETimesheet = 851;
+
+            private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
+            {
+                {Client, "Client"},
+                {Manual, "Manual"},
+                {ETimesheet, "ETimesheet"}
+            };
+
+            private const string DefaultDisplayString = "ETimesheet";
+
+            private TimesheetType(long value)
+            {
+                m_value = value;
+            }
+
+            public static implicit operator TimesheetType(long val)
+            {
+                return new TimesheetType(val);
+            }
+
+            public static implicit operator TimesheetType(int val)
+            {
+                return new TimesheetType(val);
+            }
+
+            public static implicit operator long(TimesheetType verticalId)
+            {
+                return verticalId.m_value;
+            }
+
+            public override string ToString()
+            {
+                string description;
+                return DescriptionDictionary.TryGetValue(m_value, out description) ? description : DefaultDisplayString;
+            }
+        }
     }
 }

@@ -102,7 +102,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     aTimesheetavailableperiodid = timesheet.AvailableTimePeriodId,
                     aTSSubmittedName = (string)null, //Name of the Submitted PDF
                     verticalId = MatchGuideConstants.VerticalId.IT,
-                    aTimesheetType = "ETimesheet",
+                    aTimesheetType = MatchGuideConstants.TimesheetType.ETimesheet.ToString(),
                     TSstatus = MatchGuideConstants.TimesheetStatus.Approved.ToString()
                 }).FirstOrDefault();
 
