@@ -708,3 +708,86 @@ GO
 
 
 
+/*
+	**************************************Create TimesheetDetail Insert*******************************
+*/
+
+
+CREATE proc [dbo].[sp_TimesheetDetail_Insert]              
+(                                  
+            
+@aContractrateid int,                      
+@aPoNumber VARCHAR(250),            
+@aProjectId int,                                  
+@acontractprojectpoid int,              
+@aDay int,              
+@aUnitValue  DECIMAL(6,2),              
+@aGeneralProjPODesc nvarchar(1000),            
+@aTimesheetId int,           
+@verticalId int ,
+@InvoiceCodeId int
+)                                                                 
+                                                                  
+as                                                     
+                                                  
+set nocount on                                                     
+              
+begin            
+            
+if @aPoNumber is  null and  @aProjectId is null            
+ begin            
+            
+  insert into timesheetdetail             
+  (            
+   contractrateid,            
+   [day],            
+   unitvalue,    
+   contractprojectpoid,            
+   [description],            
+   timesheetid,  
+   verticalId ,
+   InvoiceCodeId           
+  )            
+  values             
+  (            
+   @aContractrateid,            
+   @aDay,            
+   @aUnitValue,      
+   0,          
+   @aGeneralProjPODesc,            
+   @aTimesheetId,  
+   @verticalId ,
+   @InvoiceCodeId            
+  )            
+            
+ end            
+else            
+ begin            
+            
+  insert into timesheetdetail             
+  (            
+   contractrateid,            
+   ponumber,            
+   projectid,            
+   contractprojectpoid,            
+   [day],            
+   unitvalue,            
+   timesheetid,  
+   verticalId ,
+   InvoiceCodeId            
+  )            
+  select              
+   @aContractrateid,            
+   @aPoNumber,            
+   @aProjectId,            
+   @acontractprojectpoid,            
+   @aDay,            
+   @aUnitValue,            
+   @aTimesheetId,  
+   @verticalId ,
+   @InvoiceCodeId                  
+ end            
+end 
+GO
+
+

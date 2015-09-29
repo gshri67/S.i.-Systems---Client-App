@@ -14,6 +14,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<TimeEntry> GetTimeEntriesByTimesheetId(int timesheetId);
         void SaveTimeEntry(int id, TimeEntry entry);
         PayRate GetPayRateById(TimeEntry entry);
+        int SubmitTimeEntry(int timesheetId, TimeEntry timeEntry);
     }
 
     public class TimeEntryRepository : ITimeEntryRepository
@@ -92,6 +93,43 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 var payRate = db.Connection.Query<PayRate>(query, new { TimeEntryId = entry.Id }).SingleOrDefault();
 
                 return payRate;
+            }
+        }
+
+        public int SubmitTimeEntry(int timesheetId, TimeEntry timeEntry)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[sp_TimesheetDetail_Insert] 
+                           @aContractrateid
+                          ,@aPoNumber
+                          ,@aProjectId
+                          ,@acontractprojectpoid
+                          ,@aDay
+                          ,@aUnitValue
+                          ,@aGeneralProjPODesc
+                          ,@aTimesheetId
+                          ,@verticalId
+                          ,@InvoiceCodeId";
+
+                var submittedTimesheetId = db.Connection.Query<int>(query, new
+                {
+                    //todo: ensure that the values being entered into this query are using the appropraite values as returned from other stored procedures
+                     aContractrateid = timeEntry.PayRate.Id,
+                     aPoNumber  = timeEntry.ProjectCode,
+                     aProjectId = "",
+                     acontractprojectpoid = "",
+                     aDay = timeEntry.Date.Day,
+                     aUnitValue = timeEntry.Hours,
+                     aGeneralProjPODesc  = "",
+                     aTimesheetId = timesheetId,
+                     verticalId = MatchGuideConstants.VerticalId.IT,
+                     InvoiceCodeId = (int?)null 
+                }).FirstOrDefault();
+
+                return submittedTimesheetId;
             }
         }
     }

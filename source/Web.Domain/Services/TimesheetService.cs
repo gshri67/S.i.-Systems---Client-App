@@ -71,6 +71,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private Timesheet SubmitTimesheetWithTimeEntries(Timesheet timesheet)
         {
             timesheet.Id = _timeSheetRepository.SubmitTimesheet(timesheet, _sessionContext.CurrentUser.Id);
+
+            foreach (var timeEntry in timesheet.TimeEntries)
+            {
+                _timeEntryRepository.SubmitTimeEntry(timesheet.Id, timeEntry);
+            }
+
             return timesheet;
         }
 
