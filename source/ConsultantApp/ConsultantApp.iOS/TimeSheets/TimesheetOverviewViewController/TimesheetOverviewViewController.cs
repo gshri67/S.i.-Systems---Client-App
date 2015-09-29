@@ -306,13 +306,24 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 						TransitionToSubmittingAnimation();
 
-                        if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
+						if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
     					    _curTimesheet = await _timesheetModel.SubmitTimesheet(_curTimesheet);
 
+						if( _curTimesheet == null )
+						{
+							submittedLabel.Text = "Error";
+
+							if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted )
+								confirmationAlertView = new UIAlertView("Failed to withdraw the timesheet", "", null, "Ok");
+							if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
+								confirmationAlertView = new UIAlertView("Failed to submit the timesheet", "", null, "Ok");
+						
+							confirmationAlertView.Show();
+						}
+							
 						BeginTransitionToSubmittedAnimation();
 
 						updateUI();
-						//confirmationAlertView.Show();
 					}
 				};
 
