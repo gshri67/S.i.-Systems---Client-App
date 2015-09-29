@@ -254,6 +254,11 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			approverNameTextField.InputAccessoryView = toolbar;
 
+			submittingLabel.Alpha = 0;
+			submittingIndicator.Alpha = 0;
+			submittedLabel.Alpha = 0;
+			emptySubmitButton.Alpha = 0;
+
 			submitButton.TouchUpInside += delegate(object sender, EventArgs e) {
 
 				var sheet = new UIActionSheet();
@@ -288,11 +293,15 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 					if( permissionToSubmit )
 					{
+						TransitionToSubmittingAnimation();
+
                         if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
     					    _curTimesheet = await _timesheetModel.SubmitTimesheet(_curTimesheet);
-    
+
+						BeginTransitionToSubmittedAnimation();
+
 						updateUI();
-						confirmationAlertView.Show();
+						//confirmationAlertView.Show();
 					}
 				};
 
@@ -355,5 +364,76 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		{
 			base.PrepareForSegue (segue, sender);
 		}
+
+
+
+
+
+		//#region submit animation
+		private void TransitionToSubmittingAnimation()
+		{
+			StartSubmittingAnimation();
+			//UIView.Animate(0.7f, 0, UIViewAnimationOptions.TransitionNone, StartsubmittingAnimation, null);
+		}
+
+		private void BeginTransitionToSubmittedAnimation()
+		{
+			UIView.Animate(0.5f, 0.3f, UIViewAnimationOptions.TransitionNone, HideSubmittingIndicator, SubmittingComplete);
+		}
+
+		private void SubmittingComplete()
+		{
+			submittingIndicator.StopAnimating();
+
+			FadeInSubmittedLabel();
+		}
+
+		private void FadeInSubmittedLabel()
+		{
+			UIView.Animate(0.5f, 0, UIViewAnimationOptions.TransitionNone, ShowSubmittedLabel, FadeOutSubmittedLabel);
+		}
+
+		private void FadeOutSubmittedLabel()
+		{
+			UIView.Animate(0.5f, 0.5f, UIViewAnimationOptions.TransitionNone, HideSubmittedLabel, FadeInSubmitButton);
+		}
+
+		private void FadeInSubmitButton()
+		{
+			UIView.Animate(0.5f, 0, UIViewAnimationOptions.TransitionNone, ShowSubmitButton, null);
+		}
+
+		private void ShowSubmitButton()
+		{
+			submitButton.Alpha = 1;
+			emptySubmitButton.Alpha = 0;
+		}
+
+		private void HideSubmittedLabel()
+		{
+			submittedLabel.Alpha = 0;
+		}
+
+		private void ShowSubmittedLabel()
+		{
+			submittingLabel.Alpha = 0;
+			submittedLabel.Alpha = 1;
+		}
+
+		private void HideSubmittingIndicator()
+		{
+			submittingIndicator.Alpha = 0;
+			submittingLabel.Alpha = 0;
+		}
+
+		private void StartSubmittingAnimation()
+		{
+			submitButton.Alpha = 0;
+			emptySubmitButton.Alpha = 1;
+			submittingLabel.Alpha = 1;
+			submittingIndicator.Alpha = 1;
+			submittingIndicator.StartAnimating();
+		}
+		//#endregion
 	}
 }

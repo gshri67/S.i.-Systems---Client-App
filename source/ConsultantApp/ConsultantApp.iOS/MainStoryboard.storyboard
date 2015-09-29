@@ -51,8 +51,16 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcq-tm-ZVP" userLabel="SubmitContainer">
                                 <rect key="frame" x="-2" y="0.0" width="324" height="73"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8LQ-Lh-lgp" userLabel="EmptySubmitButton">
+                                        <rect key="frame" x="106" y="26" width="63" height="16"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="217" customClass="BorderedButton">
-                                        <rect key="frame" x="106" y="16" width="113" height="36"/>
+                                        <rect key="frame" x="106" y="26" width="63" height="16"/>
                                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="QXm-G4-lAu"/>
@@ -128,18 +136,51 @@
                                             <constraint firstItem="0fZ-VG-J41" firstAttribute="top" secondItem="djm-7g-cFG" secondAttribute="top" id="k85-Tw-6nr"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Submitting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="tCs-EG-ncj" userLabel="SubmittingLabel">
+                                        <rect key="frame" x="153" y="26" width="66" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="1gT-0p-Pg8" userLabel="SubmittingIndicator">
+                                        <rect key="frame" x="106" y="23" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="UtY-CQ-S5d"/>
+                                            <constraint firstAttribute="height" constant="20" id="ziF-km-jVS"/>
+                                        </constraints>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Submitted" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1BR-1l-nO7" userLabel="SubmittedLabel">
+                                        <rect key="frame" x="106" y="23" width="82" height="25"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.84493371210000001" green="0.83495114520000002" blue="0.83475207230000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="8LQ-Lh-lgp" firstAttribute="leading" secondItem="217" secondAttribute="leading" id="05H-xT-brW"/>
                                     <constraint firstAttribute="centerY" secondItem="9Dj-jt-YtM" secondAttribute="centerY" constant="-0.5" id="2S8-VL-Wnz"/>
+                                    <constraint firstItem="tCs-EG-ncj" firstAttribute="trailing" secondItem="217" secondAttribute="trailing" constant="-2" id="3gO-K1-HBM"/>
                                     <constraint firstItem="9Dj-jt-YtM" firstAttribute="trailing" secondItem="jcq-tm-ZVP" secondAttribute="trailing" multiplier="0.3" id="65p-Db-V0V"/>
                                     <constraint firstAttribute="centerY" secondItem="djm-7g-cFG" secondAttribute="centerY" constant="-0.5" id="6bw-pr-5yF"/>
                                     <constraint firstItem="9Dj-jt-YtM" firstAttribute="leading" secondItem="jcq-tm-ZVP" secondAttribute="trailing" multiplier="0.05" id="8Jp-pc-ZoL"/>
+                                    <constraint firstItem="1gT-0p-Pg8" firstAttribute="centerX" secondItem="217" secondAttribute="centerX" constant="-26" id="A3C-Wm-wfP"/>
+                                    <constraint firstItem="217" firstAttribute="top" secondItem="tCs-EG-ncj" secondAttribute="top" id="Aes-Jg-nQf"/>
+                                    <constraint firstItem="217" firstAttribute="top" secondItem="1BR-1l-nO7" secondAttribute="top" id="FHZ-bW-JO9"/>
+                                    <constraint firstItem="1gT-0p-Pg8" firstAttribute="centerY" secondItem="217" secondAttribute="centerY" id="H8S-Jx-EzP"/>
+                                    <constraint firstItem="8LQ-Lh-lgp" firstAttribute="top" secondItem="217" secondAttribute="top" id="HcY-HZ-n21"/>
+                                    <constraint firstItem="8LQ-Lh-lgp" firstAttribute="trailing" secondItem="217" secondAttribute="trailing" id="Kwd-95-mmq"/>
+                                    <constraint firstItem="8LQ-Lh-lgp" firstAttribute="bottom" secondItem="217" secondAttribute="bottom" id="R9h-dm-k3I"/>
+                                    <constraint firstItem="217" firstAttribute="leading" secondItem="1BR-1l-nO7" secondAttribute="leading" id="WdH-or-6Ai"/>
+                                    <constraint firstItem="217" firstAttribute="bottom" secondItem="tCs-EG-ncj" secondAttribute="bottom" id="cEe-au-DWz"/>
+                                    <constraint firstItem="217" firstAttribute="bottom" secondItem="1BR-1l-nO7" secondAttribute="bottom" id="eMb-Ym-yyI"/>
                                     <constraint firstItem="djm-7g-cFG" firstAttribute="leading" secondItem="jcq-tm-ZVP" secondAttribute="trailing" multiplier="0.7" id="hYG-bD-stS"/>
                                     <constraint firstAttribute="centerY" secondItem="217" secondAttribute="centerY" constant="2.5" id="nuG-Tx-dsG"/>
                                     <constraint firstItem="djm-7g-cFG" firstAttribute="trailing" secondItem="jcq-tm-ZVP" secondAttribute="trailing" multiplier="0.95" id="osv-e9-pWs"/>
                                     <constraint firstItem="217" firstAttribute="trailing" secondItem="jcq-tm-ZVP" secondAttribute="trailing" multiplier="0.62" id="pAw-0i-FI2"/>
                                     <constraint firstItem="217" firstAttribute="leading" secondItem="jcq-tm-ZVP" secondAttribute="trailing" multiplier="0.38" id="rB8-vM-fV3"/>
+                                    <constraint firstItem="tCs-EG-ncj" firstAttribute="leading" secondItem="1gT-0p-Pg8" secondAttribute="trailing" constant="2" id="rJc-Wd-HuK"/>
+                                    <constraint firstItem="217" firstAttribute="trailing" secondItem="1BR-1l-nO7" secondAttribute="trailing" id="t2f-1I-FyM"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i8a-Yi-wTP" userLabel="CalendarView">
@@ -254,10 +295,14 @@
                         <outlet property="calendarHeaderView" destination="XIA-6r-ypa" id="ORT-Vy-RK6"/>
                         <outlet property="calendarLeftButton" destination="mxX-Kj-Pan" id="i2m-7Y-4KQ"/>
                         <outlet property="calendarRightButton" destination="eeD-Wp-akL" id="dq1-Ni-342"/>
+                        <outlet property="emptySubmitButton" destination="8LQ-Lh-lgp" id="LIm-7t-85D"/>
                         <outlet property="submitButton" destination="217" id="mzy-eY-ikx"/>
                         <outlet property="submitContainerView" destination="jcq-tm-ZVP" id="hwx-CX-PG5"/>
                         <outlet property="submitDayYearLabel" destination="cPO-qv-T5Y" id="o9s-rk-9ZJ"/>
                         <outlet property="submitMonthLabel" destination="0fZ-VG-J41" id="jjv-h5-qpn"/>
+                        <outlet property="submittedLabel" destination="1BR-1l-nO7" id="HaV-fd-npL"/>
+                        <outlet property="submittingIndicator" destination="1gT-0p-Pg8" id="TpV-bS-awl"/>
+                        <outlet property="submittingLabel" destination="tCs-EG-ncj" id="p7P-HC-xbB"/>
                         <outlet property="totalHoursLabel" destination="Mf5-3t-98a" id="r16-Yi-7nQ"/>
                     </connections>
                 </viewController>
