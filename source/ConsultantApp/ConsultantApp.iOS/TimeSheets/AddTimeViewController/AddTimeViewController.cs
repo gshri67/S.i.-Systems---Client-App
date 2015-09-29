@@ -267,9 +267,19 @@ namespace ConsultantApp.iOS
 
 			saveButton.TouchUpInside += async delegate
 			{
+				savedLabel.Text = "Saved";
+
                 TransitionToSavingAnimation();
 
 			    _curTimesheet = await _timesheetModel.SaveTimesheet( _curTimesheet );
+
+				if( _curTimesheet == null )
+				{
+					savedLabel.Text = "Error";
+
+					UIAlertView confirmationAlertView = new UIAlertView("Failed to save changes", "", null, "Ok");
+					confirmationAlertView.Show();
+				}
 
                 BeginTransitionToSavedAnimation();
 			};
