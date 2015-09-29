@@ -127,6 +127,13 @@ namespace ConsultantApp.iOS
             _addTimeTableViewSource.Enable(enabled);
         }
 
+		private void EnableSaveButton(bool enabled)
+		{
+			if (saveButton == null) return;
+
+			saveButton.Enable(enabled);
+		}
+
         private void EnabledAddButton(bool enabled)
         {
             if (addButton != null)
@@ -140,6 +147,7 @@ namespace ConsultantApp.iOS
             EnabledAddButton(enabled);
             EnableTableView(enabled);
             EnableTableViewSource(enabled);
+			EnableSaveButton(enabled);
         }
 
         private void SetHeaderHours()
@@ -267,13 +275,24 @@ namespace ConsultantApp.iOS
 
 			saveButton.TouchUpInside += async delegate
 			{
+				bool saveFailed = false;
+
 				savedLabel.Text = "Saved";
 
                 TransitionToSavingAnimation();
 
-			    _curTimesheet = await _timesheetModel.SaveTimesheet( _curTimesheet );
+				try{
+			    	_curTimesheet = await _timesheetModel.SaveTimesheet( _curTimesheet );
 
-				if( _curTimesheet == null )
+					if( _curTimesheet == null )
+						saveFailed = true;
+				}
+				catch
+				{
+					saveFailed = true;	
+				}
+
+				if( saveFailed )
 				{
 					savedLabel.Text = "Error";
 

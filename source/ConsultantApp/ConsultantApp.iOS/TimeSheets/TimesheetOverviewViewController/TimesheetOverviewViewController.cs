@@ -293,6 +293,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 					if( permissionToSubmit )
 					{
+						bool submitFailed = false;
+
 						if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
 						{
 							submittingLabel.Text = "Submitting";
@@ -307,9 +309,21 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 						TransitionToSubmittingAnimation();
 
 						if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
-    					    _curTimesheet = await _timesheetModel.SubmitTimesheet(_curTimesheet);
+						{
+							try
+							{
+    					    	_curTimesheet = await _timesheetModel.SubmitTimesheet(_curTimesheet);
 
-						if( _curTimesheet == null )
+								if( _curTimesheet == null )
+									submitFailed = true;
+							}
+							catch
+							{
+								submitFailed = true;
+							}
+						}
+
+						if( submitFailed )
 						{
 							submittedLabel.Text = "Error";
 

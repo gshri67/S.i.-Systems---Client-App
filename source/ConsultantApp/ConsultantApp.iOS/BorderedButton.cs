@@ -27,5 +27,13 @@ namespace ConsultantApp.iOS
             {
             }
         }
+
+		public void Enable( bool enabled )
+		{
+			if (enabled)
+				Hidden = false;
+			else
+				Hidden = true;
+		}
     }
 }
