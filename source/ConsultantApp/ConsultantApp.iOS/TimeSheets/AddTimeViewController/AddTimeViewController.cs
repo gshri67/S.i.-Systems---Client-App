@@ -127,13 +127,6 @@ namespace ConsultantApp.iOS
             _addTimeTableViewSource.Enable(enabled);
         }
 
-		private void EnableSaveButton(bool enabled)
-		{
-			if (saveButton == null) return;
-
-			saveButton.Enable(enabled);
-		}
-
         private void EnabledAddButton(bool enabled)
         {
             if (addButton != null)
@@ -157,7 +150,6 @@ namespace ConsultantApp.iOS
             EnableSaveButton(enabled);
             EnableTableView(enabled);
             EnableTableViewSource(enabled);
-			EnableSaveButton(enabled);
         }
 
         private void SetHeaderHours()
