@@ -42,7 +42,7 @@ namespace ConsultantApp.Core.ViewModels
 		        {
 		            AddOrIncrementKeyToDictionary(ProjectCodeDict, entry.ProjectCode);
 		        }
-		        AddOrIncrementKeyToDictionary(ApproverDict, timesheet.TimesheetApprover);
+		        AddOrIncrementKeyToDictionary(ApproverDict, timesheet.TimesheetApprover.Email);
 		    }
 		}
 

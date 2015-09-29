@@ -132,6 +132,23 @@ CREATE TABLE [dbo].[TimeSheetDetailTemp](
 
 GO
 
+
+CREATE TABLE [dbo].[TimeSheetActivity](
+	[TimeSheetActivityID] [int] IDENTITY(1,1) NOT NULL,
+	[TimeSheetID] [int] NOT NULL,
+	[Action] [varchar](100) NOT NULL,
+	[CreatedBy] [int] NOT NULL,
+	[CreatedDate] [datetime] NULL,
+	[DirectReportID] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TimeSheetActivityID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
 /*
 	************************************************************ TimeSheet Constraints ******************************************************
 */
@@ -261,5 +278,19 @@ GO
 
 --ALTER TABLE [dbo].[TimeSheetDetailTemp] CHECK CONSTRAINT [chkverticalid_TimeSheetDetailTemp]
 --GO
+
+/*
+	************************************************************ TimeSheetActivity Constraints ******************************************************
+*/
+
+ALTER TABLE [dbo].[TimeSheetActivity] ADD  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+
+ALTER TABLE [dbo].[TimeSheetActivity]  WITH CHECK ADD  CONSTRAINT [fk_RefId] FOREIGN KEY([TimeSheetID])
+REFERENCES [dbo].[TimeSheet] ([TimeSheetID])
+GO
+
+ALTER TABLE [dbo].[TimeSheetActivity] CHECK CONSTRAINT [fk_RefId]
+GO
 
 

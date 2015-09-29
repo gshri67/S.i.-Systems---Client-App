@@ -54,7 +54,7 @@ CREATE TABLE [dbo].[Agreement_ContractDetail](
 	--[CandidateLegalDocStatus] [int] NULL,
 	--[CompanyLegalDocStatus] [int] NULL,
 	--[CandidatePrimaryEmail] [bit] NULL,
-	--[TimeSheetSubmitted] [bit] NOT NULL CONSTRAINT [DF_Agreement_ContractDetail_TimeSheetSubmitted]  DEFAULT ((0)),
+	[TimeSheetSubmitted] [bit] NOT NULL CONSTRAINT [DF_Agreement_ContractDetail_TimeSheetSubmitted]  DEFAULT ((0)),
 	--[ContractCandidateWith] [varchar](100) NULL,
 	--[ContractClientContactWith] [varchar](100) NULL,
 	--[LimitationofExpense] [money] NULL,

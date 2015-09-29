@@ -12,23 +12,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     public interface ITimesheetRepository
     {
         IEnumerable<Timesheet> GetTimesheetsForUser(int userId);
-
-        /// <summary>
-        /// Saves the timesheet into the temporary table, returning the ID of the row created.
-        /// </summary>
-        /// <param name="timesheet"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
         int SaveTimesheet(Timesheet timesheet, int userId);
-
-        /// <summary>
-        /// Submits the Timesheet as vacation for the user, automatically approving, and returning the ID of the new record.
-        /// </summary>
-        /// <param name="timesheet"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
         int SubmitZeroTimeForUser(Timesheet timesheet, int userId);
         Timesheet GetTimesheetsById(int timesheetId);
+        int SubmitTimesheet(Timesheet timesheet, int userId);
+        DirectReport GetDirectReportByTimesheetId(int timesheetId);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -39,24 +27,32 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             {
                 const string query =
                         @"SELECT TimeSheetID AS Id
-                            ,Company.CompanyName AS ClientName
-                            ,Times.AgreementId as ContractId
-                            ,StatusID AS Status
-                            ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
-	                        ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
-                            ,Periods.TimeSheetAvailablePeriodID AS AvailableTimePeriodId
-                            ,User_Email.PrimaryEmail AS TimeSheetApprover
-                        FROM TimeSheet Times
-                        LEFT JOIN Agreement ON Agreement.AgreementID = Times.AgreementID
-                        LEFT JOIN Company ON Agreement.CompanyID = Company.CompanyID
-                        LEFT JOIN TimeSheetAvailablePeriod Periods ON Times.TimeSheetAvailablePeriodID = Periods.TimeSheetAvailablePeriodID
-                        LEFT JOIN User_Email ON Times.DirectReportUserId = User_Email.UserID
+                                ,Company.CompanyName AS ClientName
+                                ,Times.AgreementId as ContractId
+                                ,StatusID AS Status
+                                ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
+	                            ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
+                                ,Periods.TimeSheetAvailablePeriodID AS AvailableTimePeriodId
+	                            ,DirectReport.UserID Id
+	                            ,DirectReport.FirstName FirstName
+	                            ,DirectReport.LastName LastName
+	                            ,DirectReportEmail.PrimaryEmail Email
+                            FROM TimeSheet Times
+                            LEFT JOIN Agreement ON Agreement.AgreementID = Times.AgreementID
+                            LEFT JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                            LEFT JOIN TimeSheetAvailablePeriod Periods ON Times.TimeSheetAvailablePeriodID = Periods.TimeSheetAvailablePeriodID
+                            LEFT JOIN Users DirectReport ON Times.DirectReportUserId = DirectReport.UserID
+                            LEFT JOIN User_Email DirectReportEmail ON Times.DirectReportUserId = DirectReportEmail.UserID
                         WHERE Times.TimeSheetId = @TimesheetId
                         ORDER BY EndDate DESC, CompanyName";
 
-                var timesheet = db.Connection.Query<Timesheet>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
+                var retrievedTimesheet = db.Connection.Query<Timesheet, DirectReport, Timesheet>(query, (timesheet, directReport) =>
+                {
+                    timesheet.TimesheetApprover = directReport;
+                    return timesheet;
+                }, new { TimesheetId = timesheetId }).FirstOrDefault();
 
-                return timesheet;
+                return retrievedTimesheet;
             }
         }
 
@@ -66,23 +62,31 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             {
                 const string query =
                         @"SELECT TimeSheetID AS Id
-                            ,Company.CompanyName AS ClientName
-                            ,Times.AgreementId as ContractId
-                            ,StatusID AS Status
-                            ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
-	                        ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
-                            ,Periods.TimeSheetAvailablePeriodID AS AvailableTimePeriodId
-                            ,User_Email.PrimaryEmail AS TimeSheetApprover
-                        FROM TimeSheet Times
-                        LEFT JOIN Agreement ON Agreement.AgreementID = Times.AgreementID
-                        LEFT JOIN Company ON Agreement.CompanyID = Company.CompanyID
-                        LEFT JOIN TimeSheetAvailablePeriod Periods ON Times.TimeSheetAvailablePeriodID = Periods.TimeSheetAvailablePeriodID
-                        LEFT JOIN User_Email ON Times.DirectReportUserId = User_Email.UserID
-                        WHERE CandidateUserID = @UserId
-                        AND ResubmittedToID IS NULL
-                        ORDER BY EndDate DESC, CompanyName";
-                
-                var timesheets = db.Connection.Query<Timesheet>(query, new { UserId = userId});
+                                ,Company.CompanyName AS ClientName
+                                ,Times.AgreementId as ContractId
+                                ,StatusID AS Status
+                                ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
+	                            ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
+                                ,Periods.TimeSheetAvailablePeriodID AS AvailableTimePeriodId
+	                            ,DirectReport.UserID Id
+	                            ,DirectReport.FirstName FirstName
+	                            ,DirectReport.LastName LastName
+	                            ,DirectReportEmail.PrimaryEmail Email
+                            FROM TimeSheet Times
+                            LEFT JOIN Agreement ON Agreement.AgreementID = Times.AgreementID
+                            LEFT JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                            LEFT JOIN TimeSheetAvailablePeriod Periods ON Times.TimeSheetAvailablePeriodID = Periods.TimeSheetAvailablePeriodID
+                            LEFT JOIN Users DirectReport ON Times.DirectReportUserId = DirectReport.UserID
+                            LEFT JOIN User_Email DirectReportEmail ON Times.DirectReportUserId = DirectReportEmail.UserID
+                            WHERE CandidateUserID = 12
+                            AND ResubmittedToID IS NULL
+                            ORDER BY EndDate DESC, CompanyName";
+
+                var timesheets = db.Connection.Query<Timesheet, DirectReport, Timesheet>(query, (timesheet, directReport) =>
+                {
+                    timesheet.TimesheetApprover = directReport;
+                    return timesheet;
+                } ,new { UserId = userId});
 
                 return timesheets;
             }
@@ -111,7 +115,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     aQuickPay = (int?)null,
                     aTSID = IntegerOrNullIfZero(timesheet.Id),
                     aTSTempID = IntegerOrNullIfZero(timesheet.OpenStatusId),
-                    verticalId = 4 //todo: make this not four?
+                    verticalId = MatchGuideConstants.VerticalId.IT
                 }).FirstOrDefault();
 
                 return savedTimesheetTempId;
@@ -150,6 +154,68 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 }).FirstOrDefault();
 
                 return savedTimesheetTempId;
+            }
+        }
+        
+        public int SubmitTimesheet(Timesheet timesheet, int userId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[sp_Timesheet_Insert] 
+                           @aCandidateUserId
+                          ,@aContractID
+                          ,@aTSType
+                          ,@aTSAvailablePeriodID
+                          ,@aQuickPay
+                          ,@aSubmittedPdfName
+                          ,@aTSID
+                          ,@aIsCPGSubmission
+                          ,@verticalId
+                          ,@aTimesheetType
+                          ,@aSubmittedBy
+                          ,@isSubmittedEmailSent
+                          ,@aDirectReportid";
+
+                var submittedTimesheetId = db.Connection.Query<int>(query, new
+                {
+                    aCandidateUserId = userId,
+                    aContractID = timesheet.ContractId,
+                    aTSType = MatchGuideConstants.TimesheetType.ETimesheet.ToString(), 
+                    aTSAvailablePeriodID = timesheet.AvailableTimePeriodId,
+                    aQuickPay = 0, 
+                    aSubmittedPdfName = (string)null, //Name of the Submitted PDF
+                    aTSID = IntegerOrNullIfZero(timesheet.Id),
+                    aIsCPGSubmission = (bool?)null, 
+                    verticalId = MatchGuideConstants.VerticalId.IT,
+                    aTimesheetType = MatchGuideConstants.TimesheetType.ETimesheet.ToString(),
+                    aSubmittedBy = userId,
+                    isSubmittedEmailSent = true, 
+                    aDirectReportid = timesheet.TimesheetApprover.Id
+                }).FirstOrDefault();
+
+                return submittedTimesheetId;
+            }
+        }
+
+        public DirectReport GetDirectReportByTimesheetId(int timesheetId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                        @"SELECT DirectReport.UserID Id
+	                            ,DirectReport.FirstName FirstName
+	                            ,DirectReport.LastName LastName
+	                            ,DirectReportEmail.PrimaryEmail Email
+                            FROM TimeSheet Times
+                            LEFT JOIN Users DirectReport ON Times.DirectReportUserId = DirectReport.UserID
+                            LEFT JOIN User_Email DirectReportEmail ON Times.DirectReportUserId = DirectReportEmail.UserID
+                        WHERE Times.TimeSheetId = @TimesheetId";
+
+                var retrievedTimesheet = db.Connection.Query<DirectReport>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
+
+                return retrievedTimesheet;
             }
         }
 

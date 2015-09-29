@@ -51,6 +51,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         {
             var updatedTimesheet = _timeSheetRepository.GetTimesheetsById(id);
 
+            updatedTimesheet.TimesheetApprover = updatedTimesheet.TimesheetApprover ?? 
+                _timeSheetRepository.GetDirectReportByTimesheetId(updatedTimesheet.Id);
+            
             updatedTimesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesByTimesheetId(id);
 
             return updatedTimesheet;
@@ -67,7 +70,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         private Timesheet SubmitTimesheetWithTimeEntries(Timesheet timesheet)
         {
-            //timesheet.Id = _timeSheetRepository.
+            timesheet.Id = _timeSheetRepository.SubmitTimesheet(timesheet, _sessionContext.CurrentUser.Id);
             return timesheet;
         }
 

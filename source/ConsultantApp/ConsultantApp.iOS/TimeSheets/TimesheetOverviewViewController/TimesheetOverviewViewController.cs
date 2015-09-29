@@ -64,7 +64,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			    if (approverNameTextField != null)
 			    {
-			        approverNameTextField.Text = _curTimesheet.TimesheetApprover;
+			        approverNameTextField.Text = _curTimesheet.TimesheetApprover.Email;
 			    }
 
 				approverPickerModel = new PickerViewModel ();
@@ -171,7 +171,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
              _approvers = await _timesheetModel.GetTimesheetApproversByTimesheetId(_curTimesheet.Id) ?? new List<string>
              {
-                 _curTimesheet.TimesheetApprover
+                 _curTimesheet.TimesheetApprover.Email
              };
 
 			updateUI ();
@@ -372,7 +372,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			approverNameTextField.Text = selectedApprover;
 
 			//save approver
-			_curTimesheet.TimesheetApprover = selectedApprover;
+			_curTimesheet.TimesheetApprover.Email = selectedApprover;
 
 			approverNameTextField.ResignFirstResponder ();
 
