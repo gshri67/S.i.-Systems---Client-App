@@ -94,11 +94,16 @@ namespace ConsultantApp.iOS
 
 		public void UpdateUI()
 		{
+			if (_pickerModel == null && _picker != null) 
+			{
+				_pickerModel = new PickerViewModel ();
+				_picker.Model = _pickerModel;
+			}
+
 			if( TimeEntry != null )
 				_hoursTextField.Text = TimeEntry.Hours.ToString();	
 	
-			_pickerModel = new PickerViewModel ();
-			if (_projectCodes != null && _payRates != null) 
+			if ( TimeEntry != null && _projectCodes != null && _payRates != null) 
 			{
 				var mostFrequentlyUsed = ActiveTimesheetViewModel.TopFrequentEntries( ActiveTimesheetViewModel.ProjectCodeDict, MaxFrequentlyUsed);
 					var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
@@ -119,20 +124,39 @@ namespace ConsultantApp.iOS
 			        _projectCodes,
 			        _payRates.Select(pr => string.Format("{0} ({1:C})", pr.RateDescription, pr.Rate)).ToList()
 			    };
+
+				int pcIndex = 0;
+
+				if (TimeEntry.ProjectCode != null && TimeEntry.ProjectCode.Length > 0)
+					pcIndex = _projectCodes.FindIndex ((string code) => { return TimeEntry.ProjectCode == code; });
+
+				if( pcIndex < 0 )
+					pcIndex = 0;
+
+				//Console.WriteLine ("pcindex " + pcIndex);
+
+				//if (_pickerModel.usingFrequentlyUsedSection [0] || _pickerModel.numFrequentItems [0] > 0)
+				//	pcIndex++;
+
+				//_picker.Select ( pcIndex, 0, true);
+
+				_pickerModel.scrollToItemIndex (_picker, pcIndex, 0);
+				Console.WriteLine ( "scrolling to initial item index " + pcIndex + " with item: " + TimeEntry.ProjectCode );
+
+				_picker.ReloadAllComponents ();
 			}
-			_picker.Model = _pickerModel;
 		}
 
 		public override void LayoutSubviews ()
 		{
 			base.LayoutSubviews ();
-
+			/*
 			if ( _pickerModel == null || (!_pickerModel.usingFrequentlyUsedSection[0] || _pickerModel.numFrequentItems [0] == 0))
 				_picker.Select (0, 0, false);
 			else
 				_picker.Select (1, 0, false);
 			
-			_picker.Select (0, 1, false); 
+			_picker.Select (0, 1, false); */
 		}
 
 		public void SetupConstraints()
@@ -159,6 +183,9 @@ namespace ConsultantApp.iOS
 		public void SaveChanges()
 		{
 			TimeEntry.ProjectCode = _pickerModel.items.ElementAt(0).ElementAt( _pickerModel.selectedItemIndex.ElementAt(0) );
+
+			Console.WriteLine ( "Saving " + TimeEntry.ProjectCode );
+
 			SetTimeEntryPayRateToSelectedRate();
 
 			if( !ActiveTimesheetViewModel.ProjectCodeDict.Keys.Contains(TimeEntry.ProjectCode) )

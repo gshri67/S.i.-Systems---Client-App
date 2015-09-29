@@ -101,6 +101,9 @@ namespace ConsultantApp.iOS
 				selectedItemIndex [(int)component] = (int)row;
 				pickerView.Select ( oldRow, component, true );
 			}
+
+			if( component == 0 )
+				Console.WriteLine ("Selected item index: " + selectedItemIndex[0] );
 		}
 
 		public override UIView GetView (UIPickerView pickerView, nint row, nint component, UIView view)
@@ -178,6 +181,28 @@ namespace ConsultantApp.iOS
 			else if( row > numFrequentItems [component] + 1 )
 				return row-2;
 			return -1;
+		}
+		public int getRowForItemIndex( int itemIndex, int component )
+		{
+			if ( !usingFrequentlyUsedSection[component] || numFrequentItems [component] == 0)
+				return itemIndex;
+			else if (usingFrequentlyUsedSection [component] && itemIndex+1 < numFrequentItems [component] + 1 )
+				return itemIndex+1;
+			else if( itemIndex+2 > numFrequentItems [component] + 1 )
+				return itemIndex+2;
+			return -1;
+		}
+
+		public void scrollToItemIndex( UIPickerView picker, int itemIndex, int component )
+		{
+			int row = getRowForItemIndex (itemIndex, component);
+
+			Console.WriteLine ( "Selecting row " + row + " with initial itemIndex: " + itemIndex  );
+
+			if (row >= 0) 
+				picker.Select (row, component, true);
+
+
 		}
 	}
 }
