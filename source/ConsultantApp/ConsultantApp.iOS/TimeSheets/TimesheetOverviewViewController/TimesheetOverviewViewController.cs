@@ -293,6 +293,17 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 					if( permissionToSubmit )
 					{
+						if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
+						{
+							submittingLabel.Text = "Submitting";
+							submittedLabel.Text = "Submitted";
+						}
+						else if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted )
+						{
+							submittingLabel.Text = "Withdrawing";
+							submittedLabel.Text = "Withdrew";
+						}
+
 						TransitionToSubmittingAnimation();
 
                         if( _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open )
