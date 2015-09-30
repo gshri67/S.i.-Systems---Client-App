@@ -47,7 +47,9 @@ namespace ConsultantApp.Core.ViewModels
 	    public Task<Timesheet> WithdrawTimesheet(Timesheet timesheet)
 	    {
             //todo:Make the Withdraw Timesheet Call to the API
-	        return new Task<Timesheet>(() => timesheet);
+	        var apiCallResult = new TaskCompletionSource<Timesheet>();
+            apiCallResult.SetResult(timesheet);
+            return apiCallResult.Task;
 	    }
 	}
 }

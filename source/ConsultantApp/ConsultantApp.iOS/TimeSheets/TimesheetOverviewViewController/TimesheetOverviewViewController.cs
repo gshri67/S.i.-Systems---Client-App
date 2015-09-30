@@ -359,7 +359,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	    private void SetWithdrawText()
 	    {
             submittingLabel.Text = "Withdrawing";
-            submittedLabel.Text = "Withdrew";
+            submittedLabel.Text = "Withdrawn";
 	    }
 
 	    private void SetSubmittingText()
