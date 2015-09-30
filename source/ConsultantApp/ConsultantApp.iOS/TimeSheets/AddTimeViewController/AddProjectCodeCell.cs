@@ -119,44 +119,47 @@ namespace ConsultantApp.iOS
 					
 				_pickerModel.numFrequentItems[0] = frequentlyUsed.Count;
 			
+				List<string> payRateStringList = _payRates.Select (pr => string.Format ("{0} ({1:C})", pr.RateDescription, pr.Rate)).ToList ();
+
 			    _pickerModel.items = new List<List<string>>
 			    {
 			        _projectCodes,
-			        _payRates.Select(pr => string.Format("{0} ({1:C})", pr.RateDescription, pr.Rate)).ToList()
+			        payRateStringList
 			    };
 
-				int pcIndex = 0;
 
-				if (TimeEntry.ProjectCode != null && TimeEntry.ProjectCode.Length > 0)
-					pcIndex = _projectCodes.FindIndex ((string code) => { return TimeEntry.ProjectCode == code; });
+				loadSelectedPickerItem ( TimeEntry.ProjectCode, _projectCodes, 0 );
 
-				if( pcIndex < 0 )
-					pcIndex = 0;
-
-				//Console.WriteLine ("pcindex " + pcIndex);
-
-				//if (_pickerModel.usingFrequentlyUsedSection [0] || _pickerModel.numFrequentItems [0] > 0)
-				//	pcIndex++;
-
-				//_picker.Select ( pcIndex, 0, true);
-
-				_pickerModel.scrollToItemIndex (_picker, pcIndex, 0);
-				Console.WriteLine ( "scrolling to initial item index " + pcIndex + " with item: " + TimeEntry.ProjectCode );
-
-				_picker.ReloadAllComponents ();
+				if( TimeEntry.PayRate != null )
+					loadSelectedPickerItem ( string.Format ("{0} ({1:C})", TimeEntry.PayRate.RateDescription, TimeEntry.PayRate.Rate), payRateStringList, 1 );
+				else
+					loadSelectedPickerItem ( null, payRateStringList, 1 );
 			}
+		}
+
+		//find the index of the input item in the item list (if it exists). Then scroll to that item
+		private void loadSelectedPickerItem( string item, List<string> itemList, int component )
+		{
+			int itemIndex = 0;
+
+			if (item != null && item.Length > 0)
+				itemIndex = itemList.FindIndex ((string code) => { return item == code; });
+
+			if( itemIndex < 0 )
+				itemIndex = 0;
+
+			scrollToItemInPicker ( itemIndex, component );
+		}
+
+		private void scrollToItemInPicker( int itemIndex, int component  )
+		{
+			_pickerModel.scrollToItemIndex (_picker, itemIndex, component);
+			_picker.ReloadAllComponents ();
 		}
 
 		public override void LayoutSubviews ()
 		{
 			base.LayoutSubviews ();
-			/*
-			if ( _pickerModel == null || (!_pickerModel.usingFrequentlyUsedSection[0] || _pickerModel.numFrequentItems [0] == 0))
-				_picker.Select (0, 0, false);
-			else
-				_picker.Select (1, 0, false);
-			
-			_picker.Select (0, 1, false); */
 		}
 
 		public void SetupConstraints()
@@ -184,17 +187,13 @@ namespace ConsultantApp.iOS
 		{
 			TimeEntry.ProjectCode = _pickerModel.items.ElementAt(0).ElementAt( _pickerModel.selectedItemIndex.ElementAt(0) );
 
-			Console.WriteLine ( "Saving " + TimeEntry.ProjectCode );
-
 			SetTimeEntryPayRateToSelectedRate();
 
 			if( !ActiveTimesheetViewModel.ProjectCodeDict.Keys.Contains(TimeEntry.ProjectCode) )
 				ActiveTimesheetViewModel.ProjectCodeDict.Add(TimeEntry.ProjectCode, 1);
 			else
 				ActiveTimesheetViewModel.ProjectCodeDict[TimeEntry.ProjectCode] ++;
-
-			Console.WriteLine( TimeEntry.ProjectCode + " " + ActiveTimesheetViewModel.ProjectCodeDict[TimeEntry.ProjectCode]);
-
+			
 			OnSave();
 		}
 

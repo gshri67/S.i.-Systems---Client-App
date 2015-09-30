@@ -67,9 +67,12 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			        approverNameTextField.Text = _curTimesheet.TimesheetApprover.Email;
 			    }
 
-				approverPickerModel = new PickerViewModel ();
-
-				if (approverPickerModel != null && _approvers != null ) 
+				if (approverPickerModel == null && approverPicker != null) 
+				{
+					approverPickerModel = new PickerViewModel ();
+					approverPicker.Model = approverPickerModel;
+				}
+				if ( approverPickerModel != null && _approvers != null ) 
 				{
 					var mostFrequentlyUsed = ActiveTimesheetViewModel.TopFrequentEntries( ActiveTimesheetViewModel.ApproverDict, maxFrequentlyUsed);
 				    var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
@@ -83,9 +86,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 				        _approvers.ToList()
 				    };
 				    approverPickerModel.numFrequentItems[0] = frequentlyUsed.Count;
+
+					loadSelectedPickerItem ( _curTimesheet.TimesheetApprover.Email, _approvers.ToList(), 0 );
 				}
-				if( approverPicker != null )
-					approverPicker.Model = approverPickerModel;
 
 				if( calendarContainerView != null )
 					SetupCalendar ();
@@ -241,7 +244,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			approverNameTextField.InputView = approverPicker;
 			approverPicker.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
 			approverNameTextField.TintColor = UIColor.Clear;//gets rid of cursor in iOS 7+
-			approverNameTextField.EditingDidBegin += delegate {approverPicker.Select (1, 0, false);};
 
 			//add toolbar with done button on top of picker
 			var toolbar = new UIToolbar(new CGRect(0.0f, 0.0f, View.Frame.Size.Width, 44.0f));
@@ -471,5 +473,25 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			submittingIndicator.StartAnimating();
 		}
 		//#endregion
+
+		//find the index of the input item in the item list (if it exists). Then scroll to that item
+		private void loadSelectedPickerItem( string item, List<string> itemList, int component )
+		{
+			int itemIndex = 0;
+
+			if (item != null && item.Length > 0)
+				itemIndex = itemList.FindIndex ((string code) => { return item == code; });
+
+			if( itemIndex < 0 )
+				itemIndex = 0;
+
+			scrollToItemInPicker ( itemIndex, component );
+		}
+
+		private void scrollToItemInPicker( int itemIndex, int component  )
+		{
+			approverPickerModel.scrollToItemIndex (approverPicker, itemIndex, component);
+			approverPicker.ReloadAllComponents ();
+		}
 	}
 }

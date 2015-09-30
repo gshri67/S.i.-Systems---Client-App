@@ -184,25 +184,23 @@ namespace ConsultantApp.iOS
 		}
 		public int getRowForItemIndex( int itemIndex, int component )
 		{
-			if ( !usingFrequentlyUsedSection[component] || numFrequentItems [component] == 0)
+			if (!usingFrequentlyUsedSection [component] || numFrequentItems [component] == 0)
 				return itemIndex;
-			else if (usingFrequentlyUsedSection [component] && itemIndex+1 < numFrequentItems [component] + 1 )
-				return itemIndex+1;
-			else if( itemIndex+2 > numFrequentItems [component] + 1 )
-				return itemIndex+2;
-			return -1;
+			else if (usingFrequentlyUsedSection [component] && itemIndex+1 < numFrequentItems [component]+1)
+				return itemIndex + 1;
+			else
+				return itemIndex + 2;
 		}
 
 		public void scrollToItemIndex( UIPickerView picker, int itemIndex, int component )
 		{
 			int row = getRowForItemIndex (itemIndex, component);
 
-			Console.WriteLine ( "Selecting row " + row + " with initial itemIndex: " + itemIndex  );
-
 			if (row >= 0) 
+			{
+				selectedItemIndex [component] = itemIndex;//if you don't move the picker manually from it's initial position I don't think selected gets called which doesn't update the selectedItemIndex
 				picker.Select (row, component, true);
-
-
+			}
 		}
 	}
 }
