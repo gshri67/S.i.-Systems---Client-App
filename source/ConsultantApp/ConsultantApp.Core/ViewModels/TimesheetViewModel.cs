@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Shared.Core;
 using SiSystems.SharedModels;
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using ConsultantApp.Core.ViewModels;
 
 namespace ConsultantApp.Core.ViewModels
@@ -41,6 +42,12 @@ namespace ConsultantApp.Core.ViewModels
 	    public Task<Timesheet> SubmitTimesheet(Timesheet timesheet)
 	    {
 	        return _api.SubmitTimesheet(timesheet);
+	    }
+
+	    public Task<Timesheet> WithdrawTimesheet(Timesheet timesheet)
+	    {
+            //todo:Make the Withdraw Timesheet Call to the API
+	        return new Task<Timesheet>(() => timesheet);
 	    }
 	}
 }
