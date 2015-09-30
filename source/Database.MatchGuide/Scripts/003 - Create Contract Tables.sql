@@ -144,8 +144,8 @@ CREATE TABLE [dbo].[Agreement_ContractAdminContactMatrix](
 	[DirectReportUserID] [int] NOT NULL,
 	--[CreateDate] [datetime] NULL,
 	--[CreateUserID] [int] NULL,
-	--[UpdateDate] [datetime] NULL,
-	--[UpdateUserID] [int] NULL,
+	[UpdateDate] [datetime] NULL,
+	[UpdateUserID] [int] NULL,
 	[Inactive] [bit] NOT NULL CONSTRAINT [DF__Agreement__Inact__7FB85519]  DEFAULT (0),
 	--[verticalid] [int] NULL,
  CONSTRAINT [PK__Agreement_Contra__7EC430E0] PRIMARY KEY CLUSTERED 
