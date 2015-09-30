@@ -54,7 +54,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Repositories\ITimesheetApproverRepository.cs" />
+    <Compile Include="Repositories\TimesheetApproverRepository.cs" />
     <Compile Include="Repositories\ConsultantDetailsRepository.cs" />
     <Compile Include="Repositories\PayRateRepository.cs" />
     <Compile Include="Repositories\TimeEntryRepository.cs" />
