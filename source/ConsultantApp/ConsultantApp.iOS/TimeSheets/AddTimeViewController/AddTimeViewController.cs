@@ -121,6 +121,7 @@ namespace ConsultantApp.iOS
             if (tableview == null) return;
 
             tableview.UserInteractionEnabled = enabled;
+            tableview.ReloadData();
         }
 
         private void EnableTableViewSource(bool enabled)
@@ -169,9 +170,9 @@ namespace ConsultantApp.iOS
         public void UpdateUI()
         {
             SetHeaderDate();
-            SetTimesheetEditability();
             SetHeaderHours();
             SetupTableViewSource();
+            SetTimesheetEditability();
             ReloadTableViewData();
         }
 

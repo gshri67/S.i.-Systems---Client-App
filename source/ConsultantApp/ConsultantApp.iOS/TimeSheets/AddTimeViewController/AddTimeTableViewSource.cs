@@ -26,7 +26,7 @@ namespace ConsultantApp.iOS
 		private int _prevSelectedRow = -1;
 		private bool _addingProjectCode;//if there is an extra cell expanded for picker etc..
 		private bool _isEnabled = true;
-		private bool _isChangingEnabledState = false;
+		private bool _isChangingEnabledState = true;//for communicating whether the enabled state has changed. This saves time because getCell is called alot
 
 		//This functionality is likely going to be removed
 		public bool MustSave;//if this is true, the save or delete button must be tapped before the cell can be minimized.
@@ -136,10 +136,10 @@ namespace ConsultantApp.iOS
 					cell.hoursField.Text = "";
 				}
 
-			    if (!_isChangingEnabledState) return cell;
+			    //if( !_isChangingEnabledState ) return cell;
 
 			    cell.enable (_isEnabled);
-			    _isChangingEnabledState = false;
+//			    _isChangingEnabledState = false;
 
 			    return cell;
 			}
@@ -219,7 +219,7 @@ namespace ConsultantApp.iOS
 		    return (int)indexPath.Item-1;
 		}
 
-	    public void Enable(bool shouldEnable )
+	    public void Enable( bool shouldEnable )
 		{
 			_isEnabled = shouldEnable;
 			_isChangingEnabledState = true;
