@@ -8,6 +8,7 @@ using Microsoft.Practices.Unity;
 using Shared.Core;
 using SiSystems.SharedModels;
 using UIKit;
+using ConsultantApp.iOS.TimeEntryViewController;
 
 namespace ConsultantApp.iOS
 {
@@ -21,6 +22,8 @@ namespace ConsultantApp.iOS
         private SubtitleHeaderView _subtitleHeaderView;
         public DateTime Date;
 		private int maxFrequentlyUsed = 5;
+
+        public AddTimeDelegate TimeDelegate;
 
         public AddTimeViewController(IntPtr handle) : base(handle)
         {
@@ -284,7 +287,7 @@ namespace ConsultantApp.iOS
                 TransitionToSavingAnimation();
 
 				try{
-			    	_curTimesheet = await _timesheetModel.SaveTimesheet( _curTimesheet );
+                    _curTimesheet = await _timesheetModel.SaveTimesheet( _curTimesheet );
 
 					if( _curTimesheet == null )
 						saveFailed = true;
@@ -294,13 +297,17 @@ namespace ConsultantApp.iOS
 					saveFailed = true;	
 				}
 
-				if( saveFailed )
-				{
-					savedLabel.Text = "Error";
+                if (saveFailed)
+                {
+                    savedLabel.Text = "Error";
 
-					UIAlertView confirmationAlertView = new UIAlertView("Failed to save changes", "", null, "Ok");
-					confirmationAlertView.Show();
-				}
+                    UIAlertView confirmationAlertView = new UIAlertView("Failed to save changes", "", null, "Ok");
+                    confirmationAlertView.Show();
+                }
+                else
+                {
+                    TimeDelegate.setTimesheet(_curTimesheet);
+                }
 
                 BeginTransitionToSavedAnimation();
 			};

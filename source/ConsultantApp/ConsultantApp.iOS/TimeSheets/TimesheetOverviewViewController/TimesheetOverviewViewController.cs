@@ -13,6 +13,12 @@ using UIKit;
 
 namespace ConsultantApp.iOS.TimeEntryViewController
 {
+    public class AddTimeDelegate : UIViewController
+    {
+        public delegate void TimeDelegate(Timesheet timesheet);
+        public TimeDelegate setTimesheet;
+    }
+
 	public partial class TimesheetOverviewViewController : UIViewController
 	{
 	    private readonly TimesheetViewModel _timesheetModel;
@@ -151,6 +157,11 @@ namespace ConsultantApp.iOS.TimeEntryViewController
                 AddTimeViewController vc = (AddTimeViewController)Storyboard.InstantiateViewController("AddTimeViewController");
                 vc.SetDate(date);
                 vc.SetTimesheet(_curTimesheet);
+
+                AddTimeDelegate addTimeDelegate = new AddTimeDelegate();
+                addTimeDelegate.setTimesheet = delegate(Timesheet timesheet) { _curTimesheet = timesheet; };
+                vc.TimeDelegate = addTimeDelegate;
+
                 NavigationController.PushViewController(vc, true);
             };
 
@@ -187,7 +198,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			addButton.TouchUpInside += delegate {
 				
 				UIViewController vc = Storyboard.InstantiateViewController("AddTimeEntryViewController");
-
+                
 				NavigationController.PushViewController(vc, true);
 			};
 
@@ -556,5 +567,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             _approverPickerModel.scrollToItemIndex(_approverPicker, itemIndex, component);
             _approverPicker.ReloadAllComponents();
 		}
+
 	}
 }
