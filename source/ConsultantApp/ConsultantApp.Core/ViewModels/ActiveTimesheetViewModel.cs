@@ -10,8 +10,14 @@ namespace ConsultantApp.Core.ViewModels
 	public class ActiveTimesheetViewModel
 	{
         private readonly IMatchGuideApi _api;
-		public static Dictionary<string, int> ProjectCodeDict;
-        public static Dictionary<string, int> ApproverDict;
+		private static Dictionary<string, int> _projectCodeDict;
+        private static Dictionary<string, int> _approverDict;
+
+	    public IEnumerable<PayPeriod> PayPeriods { get; private set; }
+	    private ConsultantDetails _consultantDetails;
+
+	    public Task LoadingPayPeriods;
+	    public Task LoadingConsultantDetails;
 
 	    private const int MaxPeriodHistory = 6;
         private const int MaxFrequentlyUsed = 5;
@@ -19,82 +25,108 @@ namespace ConsultantApp.Core.ViewModels
         public ActiveTimesheetViewModel(IMatchGuideApi matchGuideApi)
 	    {
 	        _api = matchGuideApi;
-
-			if (ProjectCodeDict == null)
-				ProjectCodeDict = new Dictionary<string, int> ();
-			if (ApproverDict == null)
-                ApproverDict = new Dictionary<string, int>();
-
-			PreloadDictionaries ();
-		}
-
-		//use the last few timesheets to populate most frequently used
-		private async void PreloadDictionaries()
-		{
-			var payPeriods = await GetPayPeriods ();
-
-		    if (payPeriods == null) return;
             
-            payPeriods = payPeriods.OrderBy(period => period.EndDate);
+            PayPeriods = Enumerable.Empty<PayPeriod>();
+            _consultantDetails = new ConsultantDetails();
+            _projectCodeDict = new Dictionary<string, int>();
+            _approverDict = new Dictionary<string, int>();
 
-            foreach (var timesheet in payPeriods.Take(MaxPeriodHistory).SelectMany(period => period.Timesheets))
-		    {
-		        foreach (var entry in timesheet.TimeEntries)
-		        {
-                    IncrementProjectCodeCount(entry.ProjectCode);
-		        }
-                IncrementApproverCount(timesheet.TimesheetApprover);
-		    }
-		}
+            LoadingConsultantDetails = LoadConsultantDetails();
+        }
 
-	    private static void IncrementProjectCodeCount(string projectCode)
+	    public void LoadPayPayeriods()
 	    {
-	        if (string.IsNullOrEmpty(projectCode))
-	            return;
-	        AddOrIncrementKeyToDictionary(ProjectCodeDict, projectCode);
+            LoadingPayPeriods = GetPayPeriods();
+            LoadingPayPeriods.ContinueWith(_ => BuildDictionaries());
 	    }
+
+        private async Task GetPayPeriods()
+        {
+            PayPeriods = await _api.GetPayPeriods();
+        }
+
+        private async Task LoadConsultantDetails()
+        {
+            _consultantDetails = await _api.GetCurrentUserConsultantDetails();
+        }
+
+        public string ConsultantCorporationName()
+        {
+            if (_consultantDetails == null || string.IsNullOrEmpty(_consultantDetails.CorporationName))
+                return string.Empty;
+
+            return _consultantDetails.CorporationName;
+        }
+        
+        public bool UserHasPayPeriods()
+        {
+            return PayPeriods != null && PayPeriods.Any();
+        }
+
+        public static IEnumerable<string> MostFrequentProjectCodes()
+        {
+            return MostFrequentEntries(_projectCodeDict, MaxFrequentlyUsed);
+        }
+
+        public static IEnumerable<string> MostFrequentTimesheetApprovers()
+        {
+            return MostFrequentEntries(_approverDict, MaxFrequentlyUsed);
+        }
+
+        public static void IncrementProjectCodeCount(string projectCode)
+        {
+            AddOrIncrementKeyToDictionary(_projectCodeDict, projectCode);
+        }
 
         public static void IncrementApproverCount(DirectReport directReport)
         {
             if (directReport == null) return;
-            
-            AddOrIncrementKeyToDictionary(ApproverDict, directReport.Email);
+
+            AddOrIncrementKeyToDictionary(_approverDict, directReport.Email);
         }
 
-	    private static void AddOrIncrementKeyToDictionary(IDictionary<string, int> dictionary, string key)
+	    private void BuildDictionaries()
 	    {
-	        if (key == null) return;
+            if (PayPeriods == null) return;
 
-            if (dictionary.ContainsKey(key))
-                dictionary[key]++;
-            else
-                dictionary.Add(key, 1);
+            var relevantPayPeriods = RelevantPayPeriods();
+
+	        foreach (var timesheet in relevantPayPeriods.SelectMany(period => period.Timesheets))
+	        {
+	            IncrementProjectCodeDictionary(timesheet);
+	            IncrementApproverCount(timesheet.TimesheetApprover);
+	        }
 	    }
 
-        public Task<IEnumerable<PayPeriod>> GetPayPeriods()
-        {
-            return _api.GetPayPeriods();
-        }
-
-	    public Task<ConsultantDetails> GetConsultantDetails()
+	    private IEnumerable<PayPeriod> RelevantPayPeriods()
 	    {
-	        return _api.GetCurrentUserConsultantDetails();
+            return PayPeriods.OrderBy(period => period.EndDate).Take(MaxPeriodHistory);
 	    }
 
-		//Grabs the top "number" of most frequent entries
-		public static IEnumerable<string> TopFrequentEntries( Dictionary<string, int> dict, int number)
+	    private static void IncrementProjectCodeDictionary(Timesheet timesheet)
+	    {
+	        foreach (var entry in timesheet.TimeEntries)
+	        {
+	            IncrementProjectCodeCount(entry.ProjectCode);
+	        }
+	    }
+
+		private static IEnumerable<string> MostFrequentEntries( Dictionary<string, int> dict, int number)
 	    {
 	        var sortedList = from entry in dict orderby entry.Value descending select entry.Key;
 
             return sortedList.Take(number);
 	    }
 
-	    public static IEnumerable<string> MostFrequentTimesheetApprovers()
-	    {
-	        var sortedList = from entry in ApproverDict orderby entry.Value descending select entry.Key;
-            
-	        return sortedList.Distinct().Take(MaxFrequentlyUsed);
-	    }
+        private static void AddOrIncrementKeyToDictionary(IDictionary<string, int> dictionary, string key)
+        {
+            if (key == null) return;
+
+            if (dictionary.ContainsKey(key))
+                dictionary[key]++;
+            else
+                dictionary.Add(key, 1);
+        }
 	}
 }
 

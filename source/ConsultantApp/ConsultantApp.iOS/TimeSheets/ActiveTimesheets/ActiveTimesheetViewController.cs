@@ -25,15 +25,16 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    private const string ScreenTitle = "Timesheets";
 		private SubtitleHeaderView subtitleHeaderView;
 
-	    private IEnumerable<PayPeriod> _payPeriods;
-
-		public ActiveTimesheetViewController (IntPtr handle) : base (handle)
+	    public ActiveTimesheetViewController (IntPtr handle) : base (handle)
 		{
             _activeTimesheetModel = DependencyResolver.Current.Resolve<ActiveTimesheetViewModel>();
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 
 			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
 			TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
+
+            InitiatePayPeriodLoading();
+		    _activeTimesheetModel.LoadingConsultantDetails.ContinueWith(_ => InvokeOnMainThread(SetCurrentConsultantDetails));
 		}
 
 
@@ -48,29 +49,22 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
             UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
         }
 
-	    public async void LoadTimesheets()
+	    public void LoadTimesheets()
 	    {
-	        //if (_payPeriods == null)
-            _payPeriods = await _activeTimesheetModel.GetPayPeriods();
+            RemoveOverlay();
 
-            UpdateTableSource();
+	        UpdateTableSource();
 
-			if (_payPeriods == null || _payPeriods.Count() <= 0 )
-				noTimesheetsLabel.Hidden = false;
-			else
-				noTimesheetsLabel.Hidden = true;
+	        noTimesheetsLabel.Hidden = _activeTimesheetModel.UserHasPayPeriods();
 	    }
 
 	    private void UpdateTableSource()
 	    {
-            RemoveOverlay();
-	        InvokeOnMainThread(delegate
-	        {
-                if (_payPeriods == null) return;
-
-                ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _payPeriods);
-                ActiveTimesheetsTable.ReloadData();
-	        });
+	        if (!_activeTimesheetModel.UserHasPayPeriods())
+	                return;
+            
+            ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
+            ActiveTimesheetsTable.ReloadData();
 	    }
 
 		private void CreateCustomTitleBar()
@@ -92,30 +86,28 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
             IndicateLoading();
 
             CreateCustomTitleBar();
-			RetrieveConsultantDetails ();
 
 		    LogoutManager.CreateNavBarRightButton(this);
 		}
 
-	    private async void RetrieveConsultantDetails()
-	    {
-	        var details = await _activeTimesheetModel.GetConsultantDetails();
-            SetCurrentConsultantDetails(details);
-			CreateCustomTitleBar ();
-	    }
 
-
-        private static void SetCurrentConsultantDetails(ConsultantDetails details)
+        private void SetCurrentConsultantDetails()
         {
-            if (details != null)
-                CurrentConsultantDetails.CorporationName = details.CorporationName;
+            CurrentConsultantDetails.CorporationName = _activeTimesheetModel.ConsultantCorporationName();
+            CreateCustomTitleBar();
         }
 
 	    public override void ViewWillAppear(bool animated)
 	    {
 	        base.ViewWillAppear(animated);
 
-	        LoadTimesheets();
+	        InitiatePayPeriodLoading();
+	    }
+
+	    private void InitiatePayPeriodLoading()
+	    {
+            _activeTimesheetModel.LoadPayPayeriods();
+            _activeTimesheetModel.LoadingPayPeriods.ContinueWith(_ => InvokeOnMainThread(LoadTimesheets));
 	    }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)

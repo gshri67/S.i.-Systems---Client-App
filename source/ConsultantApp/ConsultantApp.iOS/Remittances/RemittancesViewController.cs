@@ -16,7 +16,6 @@ namespace ConsultantApp.iOS
 	partial class RemittancesViewController : UIViewController
 	{
 		private readonly RemittanceViewModel _remittanceModel;
-		private readonly ActiveTimesheetViewModel _activeTimesheetModel;
 		private IEnumerable<Remittance> _remittances;
         private LoadingOverlay _overlay;
 		private SubtitleHeaderView subtitleHeaderView;
@@ -25,7 +24,6 @@ namespace ConsultantApp.iOS
 		public RemittancesViewController (IntPtr handle) : base (handle)
 		{
 			_remittanceModel = DependencyResolver.Current.Resolve<RemittanceViewModel>();
-			_activeTimesheetModel = DependencyResolver.Current.Resolve<ActiveTimesheetViewModel>();
 			EdgesForExtendedLayout = UIRectEdge.None;
 		}
 

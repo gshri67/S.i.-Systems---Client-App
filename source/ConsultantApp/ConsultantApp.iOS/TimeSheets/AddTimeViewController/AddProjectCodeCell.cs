@@ -29,7 +29,6 @@ namespace ConsultantApp.iOS
 		private List<string> _projectCodes;
 		private IEnumerable<PayRate> _payRates;
 
-	    private const int MaxFrequentlyUsed = 5;
         private const int PayRateComponentIndex = 1;
 
 	    public AddProjectCodeCell (IntPtr handle) : base (handle)
@@ -120,9 +119,11 @@ namespace ConsultantApp.iOS
 		private void updatePickerModel()
 		{
 			if ( _picker == null || _pickerModel == null || TimeEntry == null || _projectCodes == null || _payRates == null)
+				
 				return;
+			
 
-			var mostFrequentlyUsed = ActiveTimesheetViewModel.TopFrequentEntries( ActiveTimesheetViewModel.ProjectCodeDict, MaxFrequentlyUsed);
+			var mostFrequentlyUsed = ActiveTimesheetViewModel.MostFrequentProjectCodes();
 			var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
 			var notFrequentlyUsed = _projectCodes.Except(frequentlyUsed).ToList();
 			notFrequentlyUsed.Sort();
@@ -206,10 +207,7 @@ namespace ConsultantApp.iOS
 
 			SetTimeEntryPayRateToSelectedRate();
 
-			if( !ActiveTimesheetViewModel.ProjectCodeDict.Keys.Contains(TimeEntry.ProjectCode) )
-				ActiveTimesheetViewModel.ProjectCodeDict.Add(TimeEntry.ProjectCode, 1);
-			else
-				ActiveTimesheetViewModel.ProjectCodeDict[TimeEntry.ProjectCode] ++;
+			ActiveTimesheetViewModel.IncrementProjectCodeCount(TimeEntry.ProjectCode);
 			
 			OnSave();
 		}
