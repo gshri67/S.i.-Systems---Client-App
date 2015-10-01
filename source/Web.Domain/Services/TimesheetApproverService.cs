@@ -7,13 +7,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
     public class TimesheetApproverService
     {
         private readonly ISessionContext _sessionContext;
-        private readonly ITimesheetApproverRepository _timeSheetApproverRepository;
+        private readonly IDirectReportRepository _timeSheetApproverRepository;
 
 
-        public TimesheetApproverService(ISessionContext sessionContext , ITimesheetApproverRepository timesheetApproverRepository )
+        public TimesheetApproverService(ISessionContext sessionContext , IDirectReportRepository directReportRepository )
         {
             _sessionContext = sessionContext;
-            _timeSheetApproverRepository = timesheetApproverRepository;
+            _timeSheetApproverRepository = directReportRepository;
         }
 
         public IEnumerable<string> GetTimesheetApproversByTimesheetId( int timesheetId )

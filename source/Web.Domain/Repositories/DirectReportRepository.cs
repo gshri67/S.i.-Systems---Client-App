@@ -9,14 +9,14 @@ using SiSystems.SharedModels;
 
 namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 {
-    public interface ITimesheetApproverRepository
+    public interface IDirectReportRepository
     {
         IEnumerable<string> GetPossibleApproversByTimesheetId(int timesheetId);
         DirectReport GetCurrentTimesheetApproverForTimesheet(int timesheetId);
         int UpdateDirectReport(Timesheet timesheet, int previousDirectReportId, int currentUserId);
     }
 
-    public class TimesheetApproverRepository : ITimesheetApproverRepository
+    public class DirectReportRepository : IDirectReportRepository
     {
         public IEnumerable<string> GetPossibleApproversByTimesheetId(int timesheetId)
         {

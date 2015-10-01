@@ -18,7 +18,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
     {
         private readonly ITimesheetRepository _timeSheetRepository;
         private readonly ITimeEntryRepository _timeEntryRepository;
-        private readonly ITimesheetApproverRepository _approverRepository;
+        private readonly IDirectReportRepository _directReportRepository;
         private readonly IActivityRepository _activityRepository;
         private readonly ISessionContext _sessionContext;
 
@@ -28,17 +28,19 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private const float Tolerance = 0.00001F;
 
         public TimesheetService(ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository,
-            ITimesheetApproverRepository approverRepository, IActivityRepository activityRepository, ISessionContext sessionContext)
+            IDirectReportRepository directReportRepository, IActivityRepository activityRepository, ISessionContext sessionContext)
         {
             _timeSheetRepository = timesheetRepository;
             _timeEntryRepository = timeEntryRepository;
-            _approverRepository = approverRepository;
+            _directReportRepository = directReportRepository;
             _activityRepository = activityRepository;
             _sessionContext = sessionContext;
         }
 
         public Timesheet SaveTimesheet(Timesheet timesheet)
         {
+            UpdateTimesheetApproverIfNecessary(timesheet);
+
             var userId = _sessionContext.CurrentUser.Id;
 
             var savedTimesheetId = _timeSheetRepository.SaveTimesheet(timesheet, userId);
@@ -76,14 +78,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         private void UpdateTimesheetApproverIfNecessary(Timesheet timesheet)
         {
-            var previousDirectReport = _approverRepository.GetCurrentTimesheetApproverForTimesheet(timesheet.Id);
+            var previousDirectReport = _directReportRepository.GetCurrentTimesheetApproverForTimesheet(timesheet.Id);
             if (previousDirectReport != timesheet.TimesheetApprover)
                 UpdateTimesheetApprover(timesheet, previousDirectReport);
         }
 
         private void UpdateTimesheetApprover(Timesheet timesheet, DirectReport previousDirectReport)
         {
-            _approverRepository.UpdateDirectReport(timesheet, previousDirectReport.Id, _sessionContext.CurrentUser.Id);
+            _directReportRepository.UpdateDirectReport(timesheet, previousDirectReport.Id, _sessionContext.CurrentUser.Id);
             _activityRepository.InsertUpdateRecordActivity(timesheet, _sessionContext.CurrentUser.Id);
         }
 
@@ -111,7 +113,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return timesheet;
         }
 
-        public static bool SubmittingZeroTimesheet(Timesheet timesheet)
+        private static bool SubmittingZeroTimesheet(Timesheet timesheet)
         {
             if (timesheet.TimeEntries.Any())
             {
