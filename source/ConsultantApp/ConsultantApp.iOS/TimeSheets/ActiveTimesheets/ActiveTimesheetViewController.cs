@@ -20,6 +20,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	{
         private readonly NSObject _tokenExpiredObserver;
         private readonly ActiveTimesheetViewModel _activeTimesheetModel;
+        private readonly ConsultantDetailsViewModel _consultantDetailsViewModel;
         private LoadingOverlay _overlay;
         public const string TimesheetSelectedSegue = "TimesheetSelected";
 	    private const string ScreenTitle = "Timesheets";
@@ -28,13 +29,14 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    public ActiveTimesheetViewController (IntPtr handle) : base (handle)
 		{
             _activeTimesheetModel = DependencyResolver.Current.Resolve<ActiveTimesheetViewModel>();
+            _consultantDetailsViewModel = DependencyResolver.Current.Resolve<ConsultantDetailsViewModel>();
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 
 			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
 			TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
 
             InitiatePayPeriodLoading();
-		    _activeTimesheetModel.LoadingConsultantDetails.ContinueWith(_ => InvokeOnMainThread(SetCurrentConsultantDetails));
+	        InitiateConsultantDetailsLoading();
 		}
 
 
@@ -90,13 +92,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 		    LogoutManager.CreateNavBarRightButton(this);
 		}
 
-
-        private void SetCurrentConsultantDetails()
-        {
-            CurrentConsultantDetails.CorporationName = _activeTimesheetModel.ConsultantCorporationName();
-            CreateCustomTitleBar();
-        }
-
 	    public override void ViewWillAppear(bool animated)
 	    {
 	        base.ViewWillAppear(animated);
@@ -108,6 +103,12 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    {
             _activeTimesheetModel.LoadPayPayeriods();
             _activeTimesheetModel.LoadingPayPeriods.ContinueWith(_ => InvokeOnMainThread(LoadTimesheets));
+	    }
+
+	    private void InitiateConsultantDetailsLoading()
+	    {
+	        _consultantDetailsViewModel.LoadConsultantDetails();
+            _consultantDetailsViewModel.LoadingConsultantDetails.ContinueWith(_ => InvokeOnMainThread(CreateCustomTitleBar));
 	    }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
