@@ -101,7 +101,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    private void InitiatePayPeriodLoading()
 	    {
-            _activeTimesheetModel.LoadPayPayeriods();
+            _activeTimesheetModel.LoadPayPeriods();
             _activeTimesheetModel.LoadingPayPeriods.ContinueWith(_ => InvokeOnMainThread(LoadTimesheets));
 	    }
 

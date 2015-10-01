@@ -13,9 +13,14 @@ namespace ConsultantApp.Core.ViewModels
 		private static Dictionary<string, int> _projectCodeDict;
         private static Dictionary<string, int> _approverDict;
 
-	    public IEnumerable<PayPeriod> PayPeriods { get; private set; }
-	    
-        public Task LoadingPayPeriods;
+	    private IEnumerable<PayPeriod> _payPeriods;
+        public IEnumerable<PayPeriod> PayPeriods
+	    {
+	        get { return _payPeriods; }
+            private set { _payPeriods = value ?? Enumerable.Empty<PayPeriod>(); }
+	    }
+
+	    public Task LoadingPayPeriods;
 	    
 	    private const int MaxPeriodHistory = 6;
         private const int MaxFrequentlyUsed = 5;
@@ -25,11 +30,15 @@ namespace ConsultantApp.Core.ViewModels
 	        _api = matchGuideApi;
             
             PayPeriods = Enumerable.Empty<PayPeriod>();
-            _projectCodeDict = new Dictionary<string, int>();
-            _approverDict = new Dictionary<string, int>();
+
+            if(_projectCodeDict == null)
+                _projectCodeDict = new Dictionary<string, int>();
+            
+            if (_approverDict == null)
+                _approverDict = new Dictionary<string, int>();
         }
 
-	    public void LoadPayPayeriods()
+	    public void LoadPayPeriods()
 	    {
             LoadingPayPeriods = GetPayPeriods();
             LoadingPayPeriods.ContinueWith(_ => BuildDictionaries());
