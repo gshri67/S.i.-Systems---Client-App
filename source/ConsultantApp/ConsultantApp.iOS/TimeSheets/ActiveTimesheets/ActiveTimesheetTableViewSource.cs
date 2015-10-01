@@ -111,7 +111,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 				UILabel footerView = new UILabel ();
 				footerView.Text = "Please use the Desktop portal to view Timesheets older than 6 months";
 				footerView.Lines = 0;
-				footerView.BackgroundColor = StyleGuideConstants.LighterGrayUiColor;
+				footerView.BackgroundColor = UIColor.Clear;
 				footerView.TextAlignment = UITextAlignment.Center;
 
 				return footerView;
