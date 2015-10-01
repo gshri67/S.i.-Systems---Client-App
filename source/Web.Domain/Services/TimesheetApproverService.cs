@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SiSystems.ConsultantApp.Web.Domain.Repositories;
+using SiSystems.SharedModels;
 using SiSystems.Web.Domain.Context;
 
 namespace SiSystems.ConsultantApp.Web.Domain.Services
@@ -16,7 +17,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _timeSheetApproverRepository = directReportRepository;
         }
 
-        public IEnumerable<string> GetTimesheetApproversByTimesheetId( int timesheetId )
+        public IEnumerable<DirectReport> GetTimesheetApproversByTimesheetId( int timesheetId )
         {
             return _timeSheetApproverRepository.GetPossibleApproversByTimesheetId(timesheetId);
         }

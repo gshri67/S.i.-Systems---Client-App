@@ -78,9 +78,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         private void UpdateTimesheetApproverIfNecessary(Timesheet timesheet)
         {
-            var previousDirectReport = _directReportRepository.GetCurrentTimesheetApproverForTimesheet(timesheet.Id);
-            if (previousDirectReport != timesheet.TimesheetApprover)
-                UpdateTimesheetApprover(timesheet, previousDirectReport);
+            var previousTimesheetApprover = _directReportRepository.GetCurrentTimesheetApproverForTimesheet(timesheet.Id);
+            if (previousTimesheetApprover != timesheet.TimesheetApprover)
+                UpdateTimesheetApprover(timesheet, previousTimesheetApprover);
         }
 
         private void UpdateTimesheetApprover(Timesheet timesheet, DirectReport previousDirectReport)

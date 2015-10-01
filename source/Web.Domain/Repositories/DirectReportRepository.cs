@@ -11,19 +11,22 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 {
     public interface IDirectReportRepository
     {
-        IEnumerable<string> GetPossibleApproversByTimesheetId(int timesheetId);
+        IEnumerable<DirectReport> GetPossibleApproversByTimesheetId(int timesheetId);
         DirectReport GetCurrentTimesheetApproverForTimesheet(int timesheetId);
         int UpdateDirectReport(Timesheet timesheet, int previousDirectReportId, int currentUserId);
     }
 
     public class DirectReportRepository : IDirectReportRepository
     {
-        public IEnumerable<string> GetPossibleApproversByTimesheetId(int timesheetId)
+        public IEnumerable<DirectReport> GetPossibleApproversByTimesheetId(int timesheetId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                        @"SELECT UE.PrimaryEmail
+                        @"SELECT U.UserID Id
+	                            ,U.FirstName
+	                            ,U.LastName
+	                            ,UE.PrimaryEmail Email
                             FROM Users U
                             LEFT JOIN User_Email UE ON UE.UserID = U.UserID
                             LEFT JOIN Timesheet ON Timesheet.TimesheetId = @TimesheetId
@@ -31,7 +34,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                             WHERE UserType = @UserTypeConstant
                             AND U.CompanyID = Agreement.CompanyID";
                 
-                var approvers = db.Connection.Query<string>(query
+                var approvers = db.Connection.Query<DirectReport>(query
                     , new { UserTypeConstant = MatchGuideConstants.UserType.ClientContact, TimesheetId = timesheetId });
 
                 return approvers;

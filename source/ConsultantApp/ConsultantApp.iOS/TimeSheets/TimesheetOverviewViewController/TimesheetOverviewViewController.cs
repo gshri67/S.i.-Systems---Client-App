@@ -27,9 +27,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		private SubtitleHeaderView _subtitleHeaderView;
 		private UIPickerView _approverPicker;
 		private PickerViewModel _approverPickerModel;
-		IEnumerable<string> _approvers;
+		IEnumerable<DirectReport> _approvers;
 		private const string ScreenTitle = "Timesheet Overview";
-	    private const int MaxFrequentlyUsed = 5;
 
 	    public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
@@ -74,20 +73,21 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 				}
 				if (_approverPickerModel != null && _approvers != null ) 
 				{
-					var mostFrequentlyUsed = ActiveTimesheetViewModel.TopFrequentEntries( ActiveTimesheetViewModel.ApproverDict, MaxFrequentlyUsed);
-				    var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
+					var mostFrequentlyUsed = GetMostFrequentlyUsedApprovers();
+				    var frequentlyUsed = mostFrequentlyUsed as IList<DirectReport> ?? mostFrequentlyUsed.ToList();
                     var partialApprovers = _approvers.Except(frequentlyUsed).ToList();
-				    partialApprovers.Sort();
+
+                    partialApprovers = partialApprovers.OrderByDescending(pa => pa.Email).ToList();
 
                     _approvers = frequentlyUsed.Concat(partialApprovers).ToList();
 
 				    _approverPickerModel.items = new List<List<string>>
 				    {
-				        _approvers.ToList()
+                        _approvers.Select(a=>a.Email).ToList()
 				    };
 				    _approverPickerModel.numFrequentItems[0] = frequentlyUsed.Count;
 
-					LoadSelectedPickerItem ( _curTimesheet.TimesheetApprover.Email, _approvers.ToList(), 0 );
+                    LoadSelectedPickerItem(_curTimesheet.TimesheetApprover.Email, _approvers.Select(a => a.Email).ToList(), 0);
 				}
 				if( _approverPicker != null )
 					_approverPicker.Model = _approverPickerModel;
@@ -121,6 +121,13 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 			View.SetNeedsLayout ();
 		}
+
+	    private IEnumerable<DirectReport> GetMostFrequentlyUsedApprovers()
+	    {
+	        var mostFrequentEmails = ActiveTimesheetViewModel.MostFrequentTimesheetApprovers();
+
+	        return _approvers.Where(approver => mostFrequentEmails.Contains(approver.Email));
+	    }
 
 		public bool approvedStatus( MatchGuideConstants.TimesheetStatus status )
 		{
@@ -179,9 +186,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         {
             if(_curTimesheet == null) return;
 
-             _approvers = await _timesheetModel.GetTimesheetApproversByTimesheetId(_curTimesheet.Id) ?? new List<string>
+             _approvers = await _timesheetModel.GetTimesheetApproversByTimesheetId(_curTimesheet.Id) ?? new List<DirectReport>
              {
-                 _curTimesheet.TimesheetApprover.Email
+                 _curTimesheet.TimesheetApprover
              };
 
 			UpdateUI ();
@@ -444,18 +451,19 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	
 		public void doneButtonTapped(object sender, EventArgs args)
 		{
-			string selectedApprover = _approvers.ElementAt (_approverPickerModel.selectedItemIndex[0]);
-			approverNameTextField.Text = selectedApprover;
+			var selectedApprover = _approvers.ElementAt (_approverPickerModel.selectedItemIndex[0]);
+			approverNameTextField.Text = selectedApprover.Email;
 
 			//save approver
-			_curTimesheet.TimesheetApprover.Email = selectedApprover;
+			_curTimesheet.TimesheetApprover = selectedApprover;
 
 			approverNameTextField.ResignFirstResponder ();
 
-			if( !ActiveTimesheetViewModel.ApproverDict.Keys.Contains(selectedApprover) )
-				ActiveTimesheetViewModel.ApproverDict.Add(selectedApprover, 1);
-			else
-				ActiveTimesheetViewModel.ApproverDict[selectedApprover] ++;
+            //if( !ActiveTimesheetViewModel.ApproverDict.Keys.Contains(selectedApprover) )
+            //    ActiveTimesheetViewModel.ApproverDict.Add(selectedApprover, 1);
+            //else
+            //    ActiveTimesheetViewModel.ApproverDict[selectedApprover] ++;
+		    ActiveTimesheetViewModel.IncrementApproverCount(selectedApprover);
 			
 
 			UpdateUI ();

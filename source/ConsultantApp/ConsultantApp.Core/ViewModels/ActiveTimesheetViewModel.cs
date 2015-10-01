@@ -11,9 +11,10 @@ namespace ConsultantApp.Core.ViewModels
 	{
         private readonly IMatchGuideApi _api;
 		public static Dictionary<string, int> ProjectCodeDict;
-		public static Dictionary<string, int> ApproverDict;
+        public static Dictionary<string, int> ApproverDict;
 
 	    private const int MaxPeriodHistory = 6;
+        private const int MaxFrequentlyUsed = 5;
 
         public ActiveTimesheetViewModel(IMatchGuideApi matchGuideApi)
 	    {
@@ -22,7 +23,7 @@ namespace ConsultantApp.Core.ViewModels
 			if (ProjectCodeDict == null)
 				ProjectCodeDict = new Dictionary<string, int> ();
 			if (ApproverDict == null)
-				ApproverDict = new Dictionary<string, int> ();
+                ApproverDict = new Dictionary<string, int>();
 
 			PreloadDictionaries ();
 		}
@@ -40,15 +41,29 @@ namespace ConsultantApp.Core.ViewModels
 		    {
 		        foreach (var entry in timesheet.TimeEntries)
 		        {
-		            AddOrIncrementKeyToDictionary(ProjectCodeDict, entry.ProjectCode);
+                    IncrementProjectCodeCount(entry.ProjectCode);
 		        }
-		        AddOrIncrementKeyToDictionary(ApproverDict, timesheet.TimesheetApprover.Email);
+                IncrementApproverCount(timesheet.TimesheetApprover);
 		    }
 		}
 
+	    private static void IncrementProjectCodeCount(string projectCode)
+	    {
+	        if (string.IsNullOrEmpty(projectCode))
+	            return;
+	        AddOrIncrementKeyToDictionary(ProjectCodeDict, projectCode);
+	    }
+
+        public static void IncrementApproverCount(DirectReport directReport)
+        {
+            if (directReport == null) return;
+            
+            AddOrIncrementKeyToDictionary(ApproverDict, directReport.Email);
+        }
+
 	    private static void AddOrIncrementKeyToDictionary(IDictionary<string, int> dictionary, string key)
 	    {
-	        if (string.IsNullOrEmpty(key)) return;
+	        if (key == null) return;
 
             if (dictionary.ContainsKey(key))
                 dictionary[key]++;
@@ -72,6 +87,13 @@ namespace ConsultantApp.Core.ViewModels
 	        var sortedList = from entry in dict orderby entry.Value descending select entry.Key;
 
             return sortedList.Take(number);
+	    }
+
+	    public static IEnumerable<string> MostFrequentTimesheetApprovers()
+	    {
+	        var sortedList = from entry in ApproverDict orderby entry.Value descending select entry.Key;
+            
+	        return sortedList.Distinct().Take(MaxFrequentlyUsed);
 	    }
 	}
 }
