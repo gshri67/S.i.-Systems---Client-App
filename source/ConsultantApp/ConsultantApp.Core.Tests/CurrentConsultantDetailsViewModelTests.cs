@@ -30,6 +30,14 @@ namespace ConsultantApp.Core.Tests
         }
 
         [Test]
+        public void ConsultantCorporationName_BeforeLoadingConsultantDetails_ReturnsEmptyString()
+        {
+            var result = _viewModel.ConsultantCorporationName();
+
+            Assert.AreEqual(result, string.Empty);
+        }
+
+        [Test]
         public void LoadConsultantDetails_GetCurrentUserConsultantDetails()
         {
             _mockApi.Setup(api => api.GetCurrentUserConsultantDetails());
@@ -54,6 +62,18 @@ namespace ConsultantApp.Core.Tests
             var result = _viewModel.HasCorporationName();
 
             Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void ConsultantCorporationName_NullConsultantDetails_ReturnsEmptyString()
+        {
+            _mockApi.Setup(api => api.GetCurrentUserConsultantDetails())
+                    .Returns(Task.FromResult((ConsultantDetails)null));
+
+            _viewModel.LoadConsultantDetails();
+            var result = _viewModel.ConsultantCorporationName();
+
+            Assert.AreEqual(result, string.Empty);
         }
 
         [Test]

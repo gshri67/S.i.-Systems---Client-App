@@ -24,7 +24,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
         private LoadingOverlay _overlay;
         public const string TimesheetSelectedSegue = "TimesheetSelected";
 	    private const string ScreenTitle = "Timesheets";
-		private SubtitleHeaderView subtitleHeaderView;
+		private SubtitleHeaderView _subtitleHeaderView;
 
 	    public ActiveTimesheetViewController (IntPtr handle) : base (handle)
 		{
@@ -73,10 +73,10 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 		{
 			InvokeOnMainThread(() =>
 				{
-					subtitleHeaderView = new SubtitleHeaderView();
-					NavigationItem.TitleView = subtitleHeaderView;
-					subtitleHeaderView.TitleText = ScreenTitle;
-					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName;
+					_subtitleHeaderView = new SubtitleHeaderView();
+					NavigationItem.TitleView = _subtitleHeaderView;
+					_subtitleHeaderView.TitleText = ScreenTitle;
+					_subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName;
 					NavigationItem.Title = "";
 				});
 		}
