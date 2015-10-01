@@ -7,7 +7,7 @@ using SiSystems.SharedModels;
 
 namespace ConsultantApp.Core.ViewModels
 {
-	public class ConsultantDetailsViewModel
+	public class CurrentConsultantDetailsViewModel
 	{
         private readonly IMatchGuideApi _api;
 
@@ -15,7 +15,7 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public Task LoadingConsultantDetails;
 
-        public ConsultantDetailsViewModel(IMatchGuideApi matchGuideApi)
+        public CurrentConsultantDetailsViewModel(IMatchGuideApi matchGuideApi)
 	    {
 	        _api = matchGuideApi;
 
@@ -38,12 +38,16 @@ namespace ConsultantApp.Core.ViewModels
             CurrentConsultantDetails.CorporationName = ConsultantCorporationName();
 	    }
 
+	    public bool HasCorporationName()
+	    {
+	        return _consultantDetails != null && !string.IsNullOrEmpty(_consultantDetails.CorporationName);
+	    }
+
         public string ConsultantCorporationName()
         {
-            if (_consultantDetails == null || string.IsNullOrEmpty(_consultantDetails.CorporationName))
-                return string.Empty;
-
-            return _consultantDetails.CorporationName;
+            return HasCorporationName() 
+                ? _consultantDetails.CorporationName 
+                : string.Empty;
         }
 	}
 }

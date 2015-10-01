@@ -20,7 +20,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	{
         private readonly NSObject _tokenExpiredObserver;
         private readonly ActiveTimesheetViewModel _activeTimesheetModel;
-        private readonly ConsultantDetailsViewModel _consultantDetailsViewModel;
+        private readonly CurrentConsultantDetailsViewModel _currentConsultantDetailsViewModel;
         private LoadingOverlay _overlay;
         public const string TimesheetSelectedSegue = "TimesheetSelected";
 	    private const string ScreenTitle = "Timesheets";
@@ -29,7 +29,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    public ActiveTimesheetViewController (IntPtr handle) : base (handle)
 		{
             _activeTimesheetModel = DependencyResolver.Current.Resolve<ActiveTimesheetViewModel>();
-            _consultantDetailsViewModel = DependencyResolver.Current.Resolve<ConsultantDetailsViewModel>();
+            _currentConsultantDetailsViewModel = DependencyResolver.Current.Resolve<CurrentConsultantDetailsViewModel>();
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 
 			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
@@ -76,7 +76,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 					subtitleHeaderView = new SubtitleHeaderView();
 					NavigationItem.TitleView = subtitleHeaderView;
 					subtitleHeaderView.TitleText = ScreenTitle;
-					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName ?? string.Empty;
+					subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName;
 					NavigationItem.Title = "";
 				});
 		}
@@ -107,8 +107,8 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    private void InitiateConsultantDetailsLoading()
 	    {
-	        _consultantDetailsViewModel.LoadConsultantDetails();
-            _consultantDetailsViewModel.LoadingConsultantDetails.ContinueWith(_ => InvokeOnMainThread(CreateCustomTitleBar));
+	        _currentConsultantDetailsViewModel.LoadConsultantDetails();
+            _currentConsultantDetailsViewModel.LoadingConsultantDetails.ContinueWith(_ => InvokeOnMainThread(CreateCustomTitleBar));
 	    }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
