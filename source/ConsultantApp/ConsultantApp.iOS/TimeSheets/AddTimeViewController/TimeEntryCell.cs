@@ -160,5 +160,14 @@ namespace ConsultantApp.iOS
 				hoursField.TextColor = UIColor.LightGray;
 			}
 		}
+
+		public void UpdateCell(string projectCode, string rateDescription, string hours, hoursFieldDelegate onHoursChanged )
+		{
+			projectCodeField.Text = projectCode;
+			payRateLabel.Text = rateDescription;
+			hoursField.Text = hours;
+
+			onHoursChanged = onHoursChanged;
+		}
     }
 }

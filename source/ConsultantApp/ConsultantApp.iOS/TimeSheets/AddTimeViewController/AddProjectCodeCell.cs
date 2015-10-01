@@ -21,10 +21,10 @@ namespace ConsultantApp.iOS
 		public  CellDelegate OnSave;
 		public  CellDelegate OnDelete;
 
-		private readonly UIPickerView _picker;
-		private readonly UIButton _saveButton;
-		private readonly UIButton _deleteButton;
-		private readonly UITextField _hoursTextField;
+		private UIPickerView _picker;
+		private UIButton _saveButton;
+		private UIButton _deleteButton;
+		private UITextField _hoursTextField;
 		private PickerViewModel _pickerModel;
 		private List<string> _projectCodes;
 		private IEnumerable<PayRate> _payRates;
@@ -36,46 +36,63 @@ namespace ConsultantApp.iOS
 		{
 		    BackgroundColor = StyleGuideConstants.LighterGrayUiColor;
 
+			setupPicker ();
+			setupSaveButton ();
+			setupDeleteButton ();
+			setupHoursTextField ();
+
+			SetupConstraints();
+		}
+
+		private void setupPicker()
+		{
 			_picker = new UIPickerView ();
 			_pickerModel = new PickerViewModel ();
 			_picker.Model = _pickerModel;
 			_picker.TranslatesAutoresizingMaskIntoConstraints = false;
 			AddSubview(_picker);
+		}
 
+		private void setupHoursTextField()
+		{
+			_hoursTextField = new UITextField
+			{
+				Text = "7.5",
+				Font = UIFont.SystemFontOfSize(17f),
+				TextAlignment = UITextAlignment.Center,
+				UserInteractionEnabled = false,
+				TranslatesAutoresizingMaskIntoConstraints = false
+			};
+			AddSubview (_hoursTextField);
+			_hoursTextField.Hidden = true;			
+		}
+
+		private void setupSaveButton()
+		{
 			_saveButton = new BorderedButton ();
 			_saveButton.SetTitle ("Done", UIControlState.Normal);
-            _saveButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
-            _saveButton.TintColor = StyleGuideConstants.RedUiColor;
+			_saveButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+			_saveButton.TintColor = StyleGuideConstants.RedUiColor;
 			_saveButton.TranslatesAutoresizingMaskIntoConstraints = false;
 			_saveButton.TouchUpInside += delegate 
 			{
 				SaveChanges();
 			};
 			AddSubview (_saveButton);
+		}
 
+		private void setupDeleteButton()
+		{
 			_deleteButton = new BorderedButton ();
 			_deleteButton.SetTitle ("Delete", UIControlState.Normal);
-            _deleteButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
-            _deleteButton.TintColor = StyleGuideConstants.RedUiColor;
+			_deleteButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+			_deleteButton.TintColor = StyleGuideConstants.RedUiColor;
 			_deleteButton.TranslatesAutoresizingMaskIntoConstraints = false;
 			_deleteButton.TouchUpInside += delegate 
 			{
 				OnDelete();
 			};
 			AddSubview (_deleteButton);
-
-	        _hoursTextField = new UITextField
-	        {
-	            Text = "7.5",
-	            Font = UIFont.SystemFontOfSize(17f),
-	            TextAlignment = UITextAlignment.Center,
-	            UserInteractionEnabled = false,
-	            TranslatesAutoresizingMaskIntoConstraints = false
-	        };
-	        AddSubview (_hoursTextField);
-			_hoursTextField.Hidden = true;
-
-			SetupConstraints();
 		}
 
 		public void SetTimeEntry( TimeEntry entry )
@@ -94,47 +111,47 @@ namespace ConsultantApp.iOS
 
 		public void UpdateUI()
 		{
-			if (_pickerModel == null && _picker != null) 
-			{
-				_pickerModel = new PickerViewModel ();
-				_picker.Model = _pickerModel;
-			}
-
 			if( TimeEntry != null )
 				_hoursTextField.Text = TimeEntry.Hours.ToString();	
 	
-			if ( TimeEntry != null && _projectCodes != null && _payRates != null) 
+			updatePickerModel ();
+		}
+
+		private void updatePickerModel()
+		{
+			if ( _picker == null || _pickerModel == null || TimeEntry == null || _projectCodes == null || _payRates == null)
+				return;
+
+			var mostFrequentlyUsed = ActiveTimesheetViewModel.TopFrequentEntries( ActiveTimesheetViewModel.ProjectCodeDict, MaxFrequentlyUsed);
+			var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
+			var notFrequentlyUsed = _projectCodes.Except(frequentlyUsed).ToList();
+			notFrequentlyUsed.Sort();
+
+			_projectCodes = frequentlyUsed.Concat(notFrequentlyUsed).ToList();
+
+			_pickerModel.items = new List<List<string>>
 			{
-				var mostFrequentlyUsed = ActiveTimesheetViewModel.TopFrequentEntries( ActiveTimesheetViewModel.ProjectCodeDict, MaxFrequentlyUsed);
-					var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
-				var notFrequentlyUsed = _projectCodes.Except(frequentlyUsed).ToList();
-				notFrequentlyUsed.Sort();
+				_projectCodes.ToList()
+			};
 
-				_projectCodes = frequentlyUsed.Concat(notFrequentlyUsed).ToList();
+			_pickerModel.numFrequentItems[0] = frequentlyUsed.Count;
 
-					_pickerModel.items = new List<List<string>>
-					{
-						_projectCodes.ToList()
-					};
-					
-				_pickerModel.numFrequentItems[0] = frequentlyUsed.Count;
+			List<string> payRateStringList = _payRates.Select (pr => string.Format ("{0} ({1:C})", pr.RateDescription, pr.Rate)).ToList ();
+
+			_pickerModel.items = new List<List<string>>
+			{
+				_projectCodes,
+				payRateStringList
+			};
+
+
+			loadSelectedPickerItem ( TimeEntry.ProjectCode, _projectCodes, 0 );
+
+			if( TimeEntry.PayRate != null )
+				loadSelectedPickerItem ( string.Format ("{0} ({1:C})", TimeEntry.PayRate.RateDescription, TimeEntry.PayRate.Rate), payRateStringList, 1 );
+			else
+				loadSelectedPickerItem ( null, payRateStringList, 1 );
 			
-				List<string> payRateStringList = _payRates.Select (pr => string.Format ("{0} ({1:C})", pr.RateDescription, pr.Rate)).ToList ();
-
-			    _pickerModel.items = new List<List<string>>
-			    {
-			        _projectCodes,
-			        payRateStringList
-			    };
-
-
-				loadSelectedPickerItem ( TimeEntry.ProjectCode, _projectCodes, 0 );
-
-				if( TimeEntry.PayRate != null )
-					loadSelectedPickerItem ( string.Format ("{0} ({1:C})", TimeEntry.PayRate.RateDescription, TimeEntry.PayRate.Rate), payRateStringList, 1 );
-				else
-					loadSelectedPickerItem ( null, payRateStringList, 1 );
-			}
 		}
 
 		//find the index of the input item in the item list (if it exists). Then scroll to that item
