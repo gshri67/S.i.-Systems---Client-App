@@ -19,6 +19,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private readonly ITimesheetRepository _timeSheetRepository;
         private readonly ITimeEntryRepository _timeEntryRepository;
         private readonly ITimesheetApproverRepository _approverRepository;
+        private readonly IActivityRepository _activityRepository;
         private readonly ISessionContext _sessionContext;
 
         /// <summary>
@@ -27,12 +28,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private const float Tolerance = 0.00001F;
 
         public TimesheetService(ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository,
-            ITimesheetApproverRepository approverRepository, ISessionContext sessionContext)
+            ITimesheetApproverRepository approverRepository, IActivityRepository activityRepository, ISessionContext sessionContext)
         {
             _timeSheetRepository = timesheetRepository;
             _timeEntryRepository = timeEntryRepository;
-            _sessionContext = sessionContext;
             _approverRepository = approverRepository;
+            _activityRepository = activityRepository;
+            _sessionContext = sessionContext;
         }
 
         public Timesheet SaveTimesheet(Timesheet timesheet)
@@ -82,7 +84,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private void UpdateTimesheetApprover(Timesheet timesheet, DirectReport previousDirectReport)
         {
             _approverRepository.UpdateDirectReport(timesheet, previousDirectReport.Id, _sessionContext.CurrentUser.Id);
-            _approverRepository.InsertUpdateRecord(timesheet, _sessionContext.CurrentUser.Id);
+            _activityRepository.InsertUpdateRecordActivity(timesheet, _sessionContext.CurrentUser.Id);
         }
 
         private Timesheet SubmitTimesheetWithTimeEntries(Timesheet timesheet)

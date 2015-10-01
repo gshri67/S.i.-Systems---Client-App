@@ -14,7 +14,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<string> GetPossibleApproversByTimesheetId(int timesheetId);
         DirectReport GetCurrentTimesheetApproverForTimesheet(int timesheetId);
         int UpdateDirectReport(Timesheet timesheet, int previousDirectReportId, int currentUserId);
-        int InsertUpdateRecord(Timesheet timesheet, int userId);
     }
 
     public class TimesheetApproverRepository : ITimesheetApproverRepository
@@ -82,58 +81,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 }).FirstOrDefault();
 
                 return submittedTimesheetId;
-            }
-        }
-
-        public int InsertUpdateRecord(Timesheet timesheet, int userId)
-        {
-            var typeId = GetActivityTypeId("DirectReportChange");
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                    @"DECLARE @RC int
-                        EXECUTE @RC = [dbo].[sp_SC_ActivityTransaction_Generic] 
-                           @internaluserid
-                          ,@header
-                          ,@note
-                          ,@activitytype
-                          ,@complete
-                          ,@status
-                          ,@AgreementID
-                          ,@VerticalID";
-
-                var insertedRecordId = db.Connection.Query<int>(query, new
-                {
-                    internaluserid = userId,
-                    header = (string)null,
-                    note = (string)null,
-                    activitytype = typeId,
-                    complete = (bool?)null,
-                    status = (int?)null,
-                    AgreementID = timesheet.ContractId,
-                    VerticalID = MatchGuideConstants.VerticalId.IT
-                }).FirstOrDefault();
-
-                return insertedRecordId;
-            }
-        }
-
-        private int GetActivityTypeId(string typeName)
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                        @"SELECT [ActivityTypeID]
-                          FROM [dbo].[ActivityType]
-                          WHERE [ActivityTypeName]=@TypeName";
-
-                var typeId = db.Connection.Query<int>(query
-                    , new
-                    {
-                        TypeName = typeName
-                    }).FirstOrDefault();
-
-                return typeId;
             }
         }
     }
