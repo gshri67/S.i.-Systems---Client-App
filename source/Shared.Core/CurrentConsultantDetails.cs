@@ -7,10 +7,11 @@ namespace Shared.Core
     /// </summary>
     public static class CurrentConsultantDetails
     {
+        private static string _corporationName;
         public static string CorporationName
         {
-            get { return CorporationName ?? string.Empty; } 
-            set { CorporationName = value; } 
+            get { return _corporationName ?? string.Empty; }
+            set { _corporationName = value; } 
         }
     }
 }
