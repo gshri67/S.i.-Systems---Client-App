@@ -164,7 +164,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         public void LoadTimesheetApprovers()
         {
             _timesheetModel.GetTimesheetApprovers();
-            _timesheetModel.LoadingTimesheetApprovers.ContinueWith(_ => UpdateApproverPicker());
+            _timesheetModel.LoadingTimesheetApprovers.ContinueWith(_ => InvokeOnMainThread(UpdateApproverPicker));
         }
 
 		public override void ViewDidLoad ()
