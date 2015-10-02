@@ -74,24 +74,20 @@ namespace ConsultantApp.iOS
 		private float WeekDayWidth { get { return _calendarMonthView.DayCellWidth; } }
 		private float WeekDayHeigth { get { return _calendarMonthView.DayCellHeight; } }
 
-		private Timesheet timesheet;
+		private readonly IEnumerable<TimeEntry> _timeEntries;
+	    private readonly DateTime _startDate;
+	    private readonly DateTime _endDate;
 
-		public MonthGridView(FMCalendar calendarMonthView, DateTime month)
-		{
-			_calendarMonthView = calendarMonthView;
-			_currentMonth = month.Date;
-
-			BackgroundColor = _calendarMonthView.MonthBackgroundColor;
-		}
-
-		public MonthGridView(FMCalendar calendarMonthView, DateTime month, Timesheet timesheet )
+		public MonthGridView(FMCalendar calendarMonthView, DateTime month, DateTime startDate, DateTime endDate, IEnumerable<TimeEntry> timeEntries )
 		{
 			_calendarMonthView = calendarMonthView;
 			_currentMonth = month.Date;
 
 			BackgroundColor = UIColor.White;//StyleGuideConstants.LightGrayUiColor;// _calendarMonthView.MonthBackgroundColor;
 
-			this.timesheet = timesheet;
+		    _startDate = startDate;
+		    _endDate = endDate;
+            _timeEntries = timeEntries ?? Enumerable.Empty<TimeEntry>();
 		}
 
 		public void Update(){
@@ -193,7 +189,7 @@ namespace ConsultantApp.iOS
 
 				dayView.Date = viewDay;
 
-				dayView.totalHours = timesheet.TimeEntries.Where(e => e.Date.Equals(viewDay) ).Sum( t => t.Hours ).ToString();
+				dayView.totalHours = _timeEntries.Where(e => e.Date.Equals(viewDay) ).Sum( t => t.Hours ).ToString();
 				if ( !insideTimePeriod(viewDay.Date) )
 					dayView.BackgroundColor = outsidePeriodColor;
 
@@ -265,7 +261,7 @@ namespace ConsultantApp.iOS
 
 		public bool insideTimePeriod ( DateTime date )
 		{
-			if (date.CompareTo (timesheet.EndDate) == 1 || date.CompareTo (timesheet.StartDate) == -1 )
+			if (date.CompareTo (_endDate) == 1 || date.CompareTo (_startDate) == -1 )
 				return false;
 			return true;
 		}

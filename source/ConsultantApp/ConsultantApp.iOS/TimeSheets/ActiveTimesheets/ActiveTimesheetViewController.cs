@@ -119,14 +119,13 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
             {
                 var navCtrl = segue.DestinationViewController as TimesheetOverviewViewController;
 
-                if (navCtrl != null)
-                {
-                    //pass the selected item into the Overview Controller
-                    var source = ActiveTimesheetsTable.Source as ActiveTimesheetTableViewSource;
-                    var rowpath = ActiveTimesheetsTable.IndexPathForSelectedRow;
-                    var timesheet = source.GetItem(rowpath);
-                    navCtrl.SetTimesheet(timesheet);
-                }
+                if (navCtrl == null) return;
+
+                //pass the selected item into the Overview Controller
+                var source = ActiveTimesheetsTable.Source as ActiveTimesheetTableViewSource;
+                var rowpath = ActiveTimesheetsTable.IndexPathForSelectedRow;
+                var timesheet = source.GetItem(rowpath);
+                navCtrl.LoadTimesheet(timesheet);
             }
         }
 

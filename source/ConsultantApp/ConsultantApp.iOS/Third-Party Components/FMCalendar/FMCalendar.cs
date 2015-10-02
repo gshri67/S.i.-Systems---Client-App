@@ -195,13 +195,16 @@ namespace ConsultantApp.iOS
 			Initialize ();
 		}
 
-		public FMCalendar(CoreGraphics.CGRect mainViewSize, CoreGraphics.CGRect headerViewSize, Timesheet timesheet ) : base (mainViewSize)
+		public FMCalendar(CoreGraphics.CGRect mainViewSize, CoreGraphics.CGRect headerViewSize, DateTime startDate, DateTime endDate, IEnumerable<TimeEntry> timeEntries ) : base (mainViewSize)
 		{
 			this.MainViewSize = mainViewSize;
 			this.HeaderViewSize = headerViewSize;
-			this.timesheet = timesheet;
 
-			CurrentDate = timesheet.StartDate;
+		    _startDate = startDate;
+		    _endDate = endDate;
+		    _timeEntries = timeEntries;
+
+			CurrentDate = startDate;
 
 			Initialize ();
 		}
@@ -226,7 +229,9 @@ namespace ConsultantApp.iOS
 
 		#endif
 
-		private Timesheet timesheet;
+	    private DateTime _startDate;
+        private DateTime _endDate;
+	    private IEnumerable<TimeEntry> _timeEntries;
 
 		private void Initialize()
 		{
@@ -523,10 +528,7 @@ namespace ConsultantApp.iOS
 
 			MonthGridView grid = null;
 
-			if( timesheet != null )
-				grid = new MonthGridView(this, date, timesheet);
-			else
-				grid = new MonthGridView(this, date);
+			grid = new MonthGridView(this, date, _startDate, _endDate, _timeEntries);
 			
 			grid.CurrentDate = CurrentDate;
 			grid.BuildGrid();

@@ -30,6 +30,11 @@ namespace ConsultantApp.iOS
 			numFrequentItems.Add (0);
 		}
 
+	    public string GetSelectedPickerItemValue(int componentId)
+	    {
+            return items.ElementAt(componentId).ElementAt(selectedItemIndex[componentId]);
+	    }
+
 		public override nint GetComponentCount (UIPickerView picker)
 		{
 			if (items == null)

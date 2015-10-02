@@ -22,12 +22,12 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	public partial class TimesheetOverviewViewController : UIViewController
 	{
 	    private readonly TimesheetViewModel _timesheetModel;
-		private Timesheet _curTimesheet;
+		//private Timesheet _curTimesheet;
 		private FMCalendar _calendar;
 		private SubtitleHeaderView _subtitleHeaderView;
 		private UIPickerView _approverPicker;
 		private PickerViewModel _approverPickerModel;
-		IEnumerable<DirectReport> _approvers;
+		//IEnumerable<DirectReport> _approvers;
 		private const string ScreenTitle = "Timesheet Overview";
 
 	    public TimesheetOverviewViewController (IntPtr handle) : base (handle)
@@ -35,106 +35,85 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			_timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
 		}
         
-        public void SetTimesheet(Timesheet timesheet)
+        public void LoadTimesheet(Timesheet timesheet)
         {
-            _curTimesheet = timesheet;
-
-			UpdateUI ();
-
+            _timesheetModel.SetTimesheet(timesheet);
+            _timesheetModel.LoadingTimesheet.ContinueWith(_ => InvokeOnMainThread(UpdateUI));
         }
+
+	    private void SetLabelText(UILabel label, string text)
+	    {
+	        if (label != null)
+	            label.Text = text;
+	    }
+
+	    private void UpdateApproverPicker()
+	    {
+	        if (_approverPickerModel == null && _approverPicker != null) 
+		    {
+		        _approverPickerModel = new PickerViewModel ();
+		        _approverPicker.Model = _approverPickerModel;
+		    }
+		    if (_approverPickerModel != null)
+		    {
+		        var approverList = _timesheetModel.ApproverEmailsSortedByFrequency();
+		        _approverPickerModel.items = new List<List<string>>
+		        {
+		            approverList
+		        };
+
+		        _approverPickerModel.numFrequentItems[0] = _timesheetModel.NumberOfFrequentlyUsedApprovers();
+
+                LoadSelectedPickerItem(_timesheetModel.TimesheetApproverEmail(), approverList, 0);
+            }
+            if (_approverPicker != null)
+                _approverPicker.Model = _approverPickerModel;
+	    }
 
 		public void UpdateUI()
 		{
-			if (_curTimesheet != null) 
-			{
-				var curMonthDate = _curTimesheet.StartDate;
+		    if (_timesheetModel.TimesheetIsNull()) return;
 
-				if (calendarDateLabel != null)
-					calendarDateLabel.Text = curMonthDate.ToString ("MMMMM yyyy");
+		    SetLabelText(calendarDateLabel, _timesheetModel.TextForDate());
+            SetLabelText(totalHoursLabel, _timesheetModel.TotalHoursText());
+            SetLabelText(submitMonthLabel, _timesheetModel.MonthText());
+            SetLabelText(submitDayYearLabel, _timesheetModel.TimesheetPeriodRange());
+            SetLabelText(submitDayYearLabel, _timesheetModel.TimesheetPeriodRange());
 
-				if (totalHoursLabel != null)
-					totalHoursLabel.Text = _curTimesheet.TimeEntries.Sum (t => t.Hours).ToString ();
+		    if (approverNameTextField != null)
+		        approverNameTextField.Text = _timesheetModel.TimesheetApproverEmail();
 
-				if( submitMonthLabel != null )
-					submitMonthLabel.Text = curMonthDate.ToString("MMM").ToUpper();
+		    if( calendarContainerView != null )
+		        SetupCalendar ();
 
-				if (submitDayYearLabel != null) 
-					submitDayYearLabel.Text = _curTimesheet.StartDate.ToString("dd").TrimStart('0') + "-" + _curTimesheet.EndDate.ToString("dd").TrimStart('0') + ", " + curMonthDate.ToString ("yyyy");
+		    if (submitButton != null && approverNameTextField != null) 
+		    {
+		        //if timesheet is submitted we change the name of submit to Withdraw
+		        if (_timesheetModel.TimesheetIsSubmitted()) {
+		            submitButton.SetTitle ("Withdraw", UIControlState.Normal);
+		            submitButton.Enabled = true;
+                }
+                else if (_timesheetModel.TimesheetIsApproved())
+                {
+		            submitButton.Hidden = true;
+		        }
 
-			    if (approverNameTextField != null)
-			    {
-			        approverNameTextField.Text = _curTimesheet.TimesheetApprover.Email;
-			    }
+		        if (_timesheetModel.TimesheetIsOpen())
+		        {
+                    approverNameTextField.Enabled = true;
 
-				if (_approverPickerModel == null && _approverPicker != null) 
-				{
-					_approverPickerModel = new PickerViewModel ();
-					_approverPicker.Model = _approverPickerModel;
-				}
-				if (_approverPickerModel != null && _approvers != null ) 
-				{
-					var mostFrequentlyUsed = GetMostFrequentlyUsedApprovers();
-				    var frequentlyUsed = mostFrequentlyUsed as IList<DirectReport> ?? mostFrequentlyUsed.ToList();
-                    var partialApprovers = _approvers.Except(frequentlyUsed).ToList();
+                    submitButton.SetTitle("Submit", UIControlState.Normal);
+                    submitButton.Enabled = true;
+		        }
+		        else {
+                    approverNameTextField.Enabled = false;   
+		        }
 
-                    partialApprovers = partialApprovers.OrderByDescending(pa => pa.Email).ToList();
+		        if (!_timesheetModel.TimesheetIsApproved())
+		            submitButton.Hidden = false;
+		    }
 
-                    _approvers = frequentlyUsed.Concat(partialApprovers).ToList();
-
-				    _approverPickerModel.items = new List<List<string>>
-				    {
-                        _approvers.Select(a=>a.Email).ToList()
-				    };
-				    _approverPickerModel.numFrequentItems[0] = frequentlyUsed.Count;
-
-                    LoadSelectedPickerItem(_curTimesheet.TimesheetApprover.Email, _approvers.Select(a => a.Email).ToList(), 0);
-				}
-				if( _approverPicker != null )
-					_approverPicker.Model = _approverPickerModel;
-
-				if( calendarContainerView != null )
-					SetupCalendar ();
-
-				if (submitButton != null && approverNameTextField != null) 
-				{
-					//if timesheet is submitted we change the name of submit to Withdraw
-					if (_curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted) {
-						submitButton.SetTitle ("Withdraw", UIControlState.Normal);
-						submitButton.Enabled = true;
-					} else if (approvedStatus(_curTimesheet.Status)) {
-						submitButton.Hidden = true;
-					}
-
-					if (_curTimesheet.Status != MatchGuideConstants.TimesheetStatus.Open)
-						approverNameTextField.Enabled = false;
-					else {
-						approverNameTextField.Enabled = true;
-
-						submitButton.SetTitle ("Submit", UIControlState.Normal);
-						submitButton.Enabled = true;
-					}
-
-					if ( !approvedStatus(_curTimesheet.Status) )
-						submitButton.Hidden = false;
-				}
-			}
-
-			View.SetNeedsLayout ();
-		}
-
-	    private IEnumerable<DirectReport> GetMostFrequentlyUsedApprovers()
-	    {
-	        var mostFrequentEmails = ActiveTimesheetViewModel.MostFrequentTimesheetApprovers();
-
-	        return _approvers.Where(approver => mostFrequentEmails.Contains(approver.Email));
-	    }
-
-		public bool approvedStatus( MatchGuideConstants.TimesheetStatus status )
-		{
-		    return status == MatchGuideConstants.TimesheetStatus.Approved || 
-		           status == MatchGuideConstants.TimesheetStatus.Batched ||
-		           status == MatchGuideConstants.TimesheetStatus.Moved ||
-		           status == MatchGuideConstants.TimesheetStatus.Accepted;
+		    View.SetNeedsLayout();
 		}
 
 	    public override void ViewWillAppear(bool animated)
@@ -150,11 +129,11 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			if (_calendar != null) 
 			{
 				DateTime selectedDate = _calendar.SelectedDate;
-				_calendar = new FMCalendar (_calendar.Bounds, new CGRect (), _curTimesheet);
+				_calendar = new FMCalendar (_calendar.Bounds, new CGRect (), _timesheetModel.StartDate(), _timesheetModel.EndDate(), _timesheetModel.TimeSheetEntries());
 				_calendar.SelectedDate = selectedDate;
 			}
 			else
-				_calendar = new FMCalendar(calendarContainerView.Bounds, new CGRect(), _curTimesheet);
+                _calendar = new FMCalendar(calendarContainerView.Bounds, new CGRect(), _timesheetModel.StartDate(), _timesheetModel.EndDate(), _timesheetModel.TimeSheetEntries());
 			
 			_calendar.SundayFirst = true;
             calendarContainerView.AddSubview(_calendar);
@@ -163,10 +142,10 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             {
                 AddTimeViewController vc = (AddTimeViewController)Storyboard.InstantiateViewController("AddTimeViewController");
                 vc.SetDate(date);
-                vc.SetTimesheet(_curTimesheet);
+                vc.SetTimesheet(_timesheetModel.Timesheet);//todo: can we not expose timesheet from the timesheetviewmodel and still do this?
 
                 AddTimeDelegate addTimeDelegate = new AddTimeDelegate();
-                addTimeDelegate.setTimesheet = delegate(Timesheet timesheet) { _curTimesheet = timesheet; };
+                addTimeDelegate.setTimesheet = delegate(Timesheet timesheet) { _timesheetModel.SetTimesheet(timesheet); };
                 vc.TimeDelegate = addTimeDelegate;
 
                 NavigationController.PushViewController(vc, true);
@@ -182,16 +161,10 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             calendarRightButton.SetImage(new UIImage("rightArrow.png"), UIControlState.Normal);
 	    }
 
-        public async void LoadTimesheetApprovers()
+        public void LoadTimesheetApprovers()
         {
-            if(_curTimesheet == null) return;
-
-             _approvers = await _timesheetModel.GetTimesheetApproversByTimesheetId(_curTimesheet.Id) ?? new List<DirectReport>
-             {
-                 _curTimesheet.TimesheetApprover
-             };
-
-			UpdateUI ();
+            _timesheetModel.GetTimesheetApprovers();
+            _timesheetModel.LoadingTimesheetApprovers.ContinueWith(_ => UpdateApproverPicker());
         }
 
 		public override void ViewDidLoad ()
@@ -218,37 +191,12 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			approverContainerView.Layer.ShadowOpacity = 0.2f;
 			approverContainerView.Layer.ShadowRadius = 0.1f;
 
-
-			DateTime curMonthDate;
-
-			if (_curTimesheet != null )
-				curMonthDate = _curTimesheet.StartDate;
-			else
-				curMonthDate = DateTime.Now;
-			
-			calendarDateLabel.Text = curMonthDate.ToString("MMMMM yyyy");
-
-			calendarLeftButton.TouchUpInside += delegate 
-			{
-				_calendar.MoveCalendarMonths(false, true);
-				curMonthDate = curMonthDate.AddMonths(-1);
-				calendarDateLabel.Text = curMonthDate.ToString("MMMMM yyyy");
-			};
-			calendarRightButton.TouchUpInside += delegate 
-			{ 
-				_calendar.MoveCalendarMonths(true, true);
-				curMonthDate = curMonthDate.AddMonths(1);
-				calendarDateLabel.Text = curMonthDate.ToString("MMMMM yyyy");
-			};
-
 			calendarLeftButton.Hidden = true;
 			calendarRightButton.Hidden = true;
 
 			submitContainerView.Layer.BorderWidth = 0.5f;
 			submitContainerView.Layer.BorderColor = StyleGuideConstants.LightGrayUiColor.CGColor;
-
-		    this.Title = string.Format(_curTimesheet.ClientName);
-
+            
 			//add picker in keyboard when approverTextField tapped
 			_approverPicker = new UIPickerView ();
 			_approverPicker.BackgroundColor = UIColor.White;
@@ -265,7 +213,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			toolbar.Items = new[]
 			{
 				new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace),
-				new UIBarButtonItem(UIBarButtonSystemItem.Done, doneButtonTapped)
+				new UIBarButtonItem(UIBarButtonSystemItem.Done, DoneButtonTapped)
 			};
 
 			approverNameTextField.InputAccessoryView = toolbar;
@@ -282,19 +230,10 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			CreateCustomTitleBar();
 		}
 
-        private string SubmitTimesheetSheetTitle()
-        {
-            var allZeros = _curTimesheet.TimeEntries.Sum(t => t.Hours) == 0;
-            var sheetTitle = allZeros
-                ? "Are you sure you want to submit a timesheet with zero entries?"
-                : "Are you sure you want to submit this timesheet?";
-            return sheetTitle;
-        }
-
 	    private void OpenSubmitActionSheet()
 	    {
             OpenActionSheet(
-                sheetTitle: SubmitTimesheetSheetTitle(),
+                sheetTitle: _timesheetModel.SubmitTimesheetConfirmationTitle(),
                 buttonText: "Submit",
                 buttonAction: SubmitActionSheetClicked);
 	    }
@@ -327,9 +266,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 	    private void OpenActionSheet(object sender, EventArgs e)
 	    {
-	        if (_curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open)
+	        if (_timesheetModel.TimesheetIsOpen())
 	            OpenSubmitActionSheet();
-            else if (_curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted)
+            else if (_timesheetModel.TimesheetIsSubmitted())
                 OpenWithdrawActionSheet();
 	    }
 
@@ -349,29 +288,21 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             Withdraw();
         }
 
-	    private async void ContinueWithSubmission()
+	    private void ContinueWithSubmission()
 	    {
             SetSubmittingText();
 
             TransitionToAnimationStart();
 
-            await SubmitTimesheet();
-
-            BeginTransitionToAnimationComplete();
-
-            UpdateUI();
+            SubmitTimesheet();
 	    }
-        private async void Withdraw()
+        private void Withdraw()
         {
             SetWithdrawText();
 
             TransitionToAnimationStart();
 
-            await WithdrawTimesheet();
-
-            BeginTransitionToAnimationComplete();
-
-            UpdateUI();
+            WithdrawTimesheet();
         }
 
 	    private void SetWithdrawText()
@@ -386,22 +317,23 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             submittedLabel.Text = "Submitted";
 	    }
 
-	    private async Task SubmitTimesheet()
+	    private void SubmitTimesheet()
 	    {
-            if (_curTimesheet.Status != MatchGuideConstants.TimesheetStatus.Open) return;
-
-	        _curTimesheet = await _timesheetModel.SubmitTimesheet(_curTimesheet);
-            
-            var success = _curTimesheet != null;
-            DisplayAlert(success);
+            _timesheetModel.SubmitTimesheet();
+            _timesheetModel.SubmittingTimesheet.ContinueWith(_ => InvokeOnMainThread(SubmitOrWithrawComplete));
 	    }
 
-        private async Task WithdrawTimesheet()
+        private void WithdrawTimesheet()
         {
-            _curTimesheet = await _timesheetModel.WithdrawTimesheet(_curTimesheet);
+            _timesheetModel.WithdrawTimesheet();
+            _timesheetModel.WithdrawingTimesheet.ContinueWith(_ => InvokeOnMainThread(SubmitOrWithrawComplete));
+        }
 
-            var success = _curTimesheet != null;
-            DisplayAlert(success);
+        private void SubmitOrWithrawComplete()
+        {
+            DisplayAlert();
+            BeginTransitionToAnimationComplete();
+            UpdateUI();
         }
 
 	    private static bool UserClickedCancel(UIButtonEventArgs args)
@@ -409,32 +341,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	        return args.ButtonIndex == 1;
 	    }
 
-	    private void DisplayAlert(bool success)
+	    private void DisplayAlert()
 	    {
-	        var alertText = AlertText(success);
-
-            new UIAlertView(alertText, "", null, "Ok").Show();
-	    }
-
-	    private string AlertText(bool submitOrWithdrawSucceeded)
-	    {
-	        return submitOrWithdrawSucceeded
-	            ? SuccessAlertText()
-	            : FailureAlertText();
-	    }
-
-	    private string FailureAlertText()
-	    {
-	        return _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted 
-                ? "Failed to withdraw the timesheet" 
-                : "Failed to submit the timesheet";
-	    }
-
-	    private string SuccessAlertText()
-	    {
-            return _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted 
-                ? "Successfully submitted timesheet" 
-                : "Successfully withdrew timesheet";
+            new UIAlertView(_timesheetModel.AlertText, "", null, "Ok").Show();
 	    }
 
 	    private void CreateCustomTitleBar()
@@ -449,24 +358,14 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 				});
 		}
 	
-		public void doneButtonTapped(object sender, EventArgs args)
+		public void DoneButtonTapped(object sender, EventArgs args)
 		{
-			var selectedApprover = _approvers.ElementAt (_approverPickerModel.selectedItemIndex[0]);
-			approverNameTextField.Text = selectedApprover.Email;
+            var selectedApproverEmail = _approverPickerModel.GetSelectedPickerItemValue(0);
 
-			//save approver
-			_curTimesheet.TimesheetApprover = selectedApprover;
+            approverNameTextField.Text = selectedApproverEmail;
+            approverNameTextField.ResignFirstResponder();
 
-			approverNameTextField.ResignFirstResponder ();
-
-            //if( !ActiveTimesheetViewModel.ApproverDict.Keys.Contains(selectedApprover) )
-            //    ActiveTimesheetViewModel.ApproverDict.Add(selectedApprover, 1);
-            //else
-            //    ActiveTimesheetViewModel.ApproverDict[selectedApprover] ++;
-		    ActiveTimesheetViewModel.IncrementApproverCount(selectedApprover);
-			
-
-			UpdateUI ();
+            _timesheetModel.SetTimesheetApproverByEmail(selectedApproverEmail);
 		}
 
 		//dismiss keyboard when tapping outside of text fields
