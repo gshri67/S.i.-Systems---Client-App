@@ -211,6 +211,9 @@ namespace ConsultantApp.iOS
 
         private void NavigateDay(object sender, EventArgs e)
         {
+			if (_addTimeTableViewSource != null)
+				_addTimeTableViewSource.saveOpenExpandedCells ( tableview );
+
             var desiredDate = sender == leftArrowButton
                 ? Date.AddDays(-1)
                 : Date.AddDays(1);
@@ -403,5 +406,13 @@ namespace ConsultantApp.iOS
                 NavigationItem.Title = "";
             });
         }
+
+		public override void ViewWillDisappear (bool animated)
+		{
+			base.ViewWillDisappear (animated);
+
+			if (_addTimeTableViewSource != null)
+				_addTimeTableViewSource.saveOpenExpandedCells ( tableview );
+		}
     }
 }

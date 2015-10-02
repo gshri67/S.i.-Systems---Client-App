@@ -151,6 +151,16 @@ namespace ConsultantApp.iOS
 			_addingProjectCode = false;
 		}
 
+		public void saveOpenExpandedCells( UITableView tableView )
+		{
+			if (_addingProjectCode == true && _expandedCellIndex >= 0 ) 
+			{
+				AddProjectCodeCell cell = (AddProjectCodeCell)tableView.CellAt ( NSIndexPath.FromItemSection(_expandedCellIndex, 0) );
+
+				cell.SaveChanges ();
+			}
+		}
+
 		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
 		    return (int)indexPath.Item != _expandedCellIndex 
