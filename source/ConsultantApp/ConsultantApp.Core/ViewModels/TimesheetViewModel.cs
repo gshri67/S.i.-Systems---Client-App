@@ -14,7 +14,16 @@ namespace ConsultantApp.Core.ViewModels
 	{
         private readonly IMatchGuideApi _api;
 
-	    public Timesheet Timesheet { get; private set; }
+	    private Timesheet _timesheet;
+
+	    public Timesheet Timesheet
+	    {
+	        get
+	        {
+	            return _timesheet;
+	        }
+	    }
+
 	    private IEnumerable<DirectReport> _approvers;
 	    private string _alertText;
 
@@ -33,9 +42,9 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public string TextForDate()
 	    {
-	        return Timesheet == null 
+	        return _timesheet == null 
                 ? string.Empty 
-                : Timesheet.StartDate.ToString(DateLabelFormat);
+                : _timesheet.StartDate.ToString(DateLabelFormat);
 	    }
 
 	    public Task<Timesheet> SaveTimesheet(Timesheet timesheet)
@@ -69,7 +78,7 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task SubmitCurrentTimesheet()
 	    {
-	        Timesheet = await _api.SubmitTimesheet(Timesheet);
+	        _timesheet = await _api.SubmitTimesheet(_timesheet);
 	    }
 
         public void WithdrawTimesheet()
@@ -83,7 +92,7 @@ namespace ConsultantApp.Core.ViewModels
 	    private async Task WithdrawCurrentTimesheet()
 	    {
             //todo:Make the Withdraw Timesheet Call to the API
-	        Timesheet.Status = MatchGuideConstants.TimesheetStatus.Open;
+	        _timesheet.Status = MatchGuideConstants.TimesheetStatus.Open;
 	    }
 
 	    public void SetTimesheet(Timesheet timesheet)
@@ -101,55 +110,55 @@ namespace ConsultantApp.Core.ViewModels
 	    {
 	        return Task.Run(() =>
 	        {
-                Timesheet = timesheet;
+                _timesheet = timesheet;
 	        });
 	    }
 
 	    private async Task LoadTimesheetApprovers()
 	    {
-            _approvers = await GetTimesheetApproversByTimesheetId(Timesheet.Id);
+            _approvers = await GetTimesheetApproversByTimesheetId(_timesheet.Id);
 	    }
 
 	    public string TotalHoursText()
 	    {
-            return Timesheet == null
+            return _timesheet == null
                 ? string.Empty
-                : Timesheet.TimeEntries.Sum(t => t.Hours).ToString();
+                : _timesheet.TimeEntries.Sum(t => t.Hours).ToString();
 	    }
 
 	    public string MonthText()
 	    {
-            return Timesheet == null
+            return _timesheet == null
                 ? string.Empty
-                : Timesheet.StartDate.ToString("MMM").ToUpper();
+                : _timesheet.StartDate.ToString("MMM").ToUpper();
 	    }
 
 	    public string TimesheetPeriodRange()
 	    {
-            return Timesheet == null
+            return _timesheet == null
                 ? string.Empty
-                : Timesheet.StartDate.ToString("dd").TrimStart('0') + "-" + Timesheet.EndDate.ToString("dd").TrimStart('0') + ", " + Timesheet.StartDate.ToString("yyyy");
+                : _timesheet.StartDate.ToString("dd").TrimStart('0') + "-" + _timesheet.EndDate.ToString("dd").TrimStart('0') + ", " + _timesheet.StartDate.ToString("yyyy");
 	    }
 
 	    public string TimesheetApproverEmail()
 	    {
-	        if (Timesheet == null || Timesheet.TimesheetApprover == null)
+	        if (_timesheet == null || _timesheet.TimesheetApprover == null)
 	            return string.Empty;
 
-	        return Timesheet.TimesheetApprover.Email;
+	        return _timesheet.TimesheetApprover.Email;
 	    }
 
 	    public bool TimesheetIsSubmitted()
 	    {
-	        return Timesheet != null && Timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted;
+            return _timesheet != null && _timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted;
 	    }
 
 	    public bool TimesheetIsApproved()
 	    {
-	        if (Timesheet == null)
+	        if (_timesheet == null)
 	            return false;
 	        
-            var status = Timesheet.Status;
+            var status = _timesheet.Status;
 		    return status == MatchGuideConstants.TimesheetStatus.Approved || 
 		           status == MatchGuideConstants.TimesheetStatus.Batched ||
 		           status == MatchGuideConstants.TimesheetStatus.Moved ||
@@ -158,33 +167,33 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public bool TimesheetIsOpen()
 	    {
-	        return Timesheet != null &&
-                Timesheet.Status == MatchGuideConstants.TimesheetStatus.Open;
+	        return _timesheet != null &&
+                _timesheet.Status == MatchGuideConstants.TimesheetStatus.Open;
 	    }
 
 	    public bool TimesheetIsNull()
 	    {
-	        return Timesheet == null;
+	        return _timesheet == null;
 	    }
 
 	    public DateTime StartDate()
 	    {
-	        return Timesheet.StartDate;
+	        return _timesheet.StartDate;
 	    }
         
         public DateTime EndDate()
         {
-            return Timesheet.EndDate;
+            return _timesheet.EndDate;
         }
 
 	    public IEnumerable<TimeEntry> TimeSheetEntries()
 	    {
-	        return Timesheet.TimeEntries ?? Enumerable.Empty<TimeEntry>();
+	        return _timesheet.TimeEntries ?? Enumerable.Empty<TimeEntry>();
 	    }
 
 	    public float TotalHours()
 	    {
-	        return Timesheet.TimeEntries.Sum(t => t.Hours);
+	        return _timesheet.TimeEntries.Sum(t => t.Hours);
 	    }
 
 	    public bool TimesheetHasZeroHours()
@@ -201,7 +210,7 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public void SetTimesheetApprover(DirectReport selectedApprover)
 	    {
-            Timesheet.TimesheetApprover = selectedApprover;
+            _timesheet.TimesheetApprover = selectedApprover;
             ActiveTimesheetViewModel.IncrementApproverCount(selectedApprover);
 	    }
 
