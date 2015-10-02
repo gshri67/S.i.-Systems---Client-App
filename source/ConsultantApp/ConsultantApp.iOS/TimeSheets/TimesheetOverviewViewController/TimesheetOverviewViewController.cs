@@ -343,7 +343,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 	    private void DisplayAlert()
 	    {
-            new UIAlertView(_timesheetModel.AlertText, "", null, "Ok").Show();
+	        var alertText = _timesheetModel.GetAlertText();
+            if(!string.IsNullOrEmpty(alertText))
+                new UIAlertView(alertText, "", null, "Ok").Show();
 	    }
 
 	    private void CreateCustomTitleBar()

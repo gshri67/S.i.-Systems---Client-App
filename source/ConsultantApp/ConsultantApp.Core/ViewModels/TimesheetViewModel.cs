@@ -15,9 +15,9 @@ namespace ConsultantApp.Core.ViewModels
         private readonly IMatchGuideApi _api;
 
 	    public Timesheet Timesheet { get; private set; }
-	    public string AlertText { get; set; }
-
 	    private IEnumerable<DirectReport> _approvers;
+	    private string _alertText;
+
         private const string DateLabelFormat = "MMMMM yyyy";
 	    private const float Tolerance = (float) 0.00001;
 
@@ -61,9 +61,9 @@ namespace ConsultantApp.Core.ViewModels
 	    public void SubmitTimesheet()
 	    {
 	        SubmittingTimesheet = SubmitCurrentTimesheet();
-	        SubmittingTimesheet.ContinueWith(_ => AlertText = "Successfully submitted timesheet",
+	        SubmittingTimesheet.ContinueWith(_ => _alertText = "Successfully submitted timesheet",
 	            TaskContinuationOptions.OnlyOnRanToCompletion);
-            SubmittingTimesheet.ContinueWith(_ => AlertText = "Failed to submit the timesheet",
+            SubmittingTimesheet.ContinueWith(_ => _alertText = "Failed to submit the timesheet",
                 TaskContinuationOptions.NotOnRanToCompletion);
 	    }
 
@@ -75,9 +75,9 @@ namespace ConsultantApp.Core.ViewModels
         public void WithdrawTimesheet()
         {
             WithdrawingTimesheet = WithdrawCurrentTimesheet();
-            WithdrawingTimesheet.ContinueWith(_ => AlertText = "Successfully withdrew timesheet",
+            WithdrawingTimesheet.ContinueWith(_ => _alertText = "Successfully withdrew timesheet",
                 TaskContinuationOptions.OnlyOnRanToCompletion);
-            WithdrawingTimesheet.ContinueWith(_ => AlertText = "Failed to withdraw the timesheet",
+            WithdrawingTimesheet.ContinueWith(_ => _alertText = "Failed to withdraw the timesheet",
                 TaskContinuationOptions.NotOnRanToCompletion);
         }
 	    private async Task WithdrawCurrentTimesheet()
@@ -199,16 +199,6 @@ namespace ConsultantApp.Core.ViewModels
                 : "Are you sure you want to submit this timesheet?";
 	    }
 
-        //public string SubmittedSuccessfullyAlertText()
-        //{
-        //    return "Successfully submitted timesheet";
-        //}
-
-        //public string WithdrewSuccessfullyAlertText()
-        //{
-        //    return "Successfully withdrew timesheet";
-        //}
-
 	    public void SetTimesheetApprover(DirectReport selectedApprover)
 	    {
             Timesheet.TimesheetApprover = selectedApprover;
@@ -246,6 +236,11 @@ namespace ConsultantApp.Core.ViewModels
 	    public int NumberOfFrequentlyUsedApprovers()
 	    {
             return CountOfFrequentlyUsedapprovers;
+	    }
+
+	    public string GetAlertText()
+	    {
+	        return _alertText ?? string.Empty;
 	    }
 	}
 }
