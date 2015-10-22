@@ -61,11 +61,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{244A18
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AccountExecutiveApp", "AccountExecutiveApp", "{D33D1FBA-188E-491F-926F-C538D74816DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountExecutiveApp.iOS", "AccountExecutiveApp.iOS\AccountExecutiveApp.iOS.csproj", "{63B538C6-8DA9-40D8-AD47-F00EDB1AE14F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountExecutiveApp.iOS", "AccountExecutiveApp\AccountExecutiveApp.iOS\AccountExecutiveApp.iOS.csproj", "{63B538C6-8DA9-40D8-AD47-F00EDB1AE14F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountExecutiveApp.Core.Tests", "AccountExecutiveApp.Core.Tests\AccountExecutiveApp.Core.Tests.csproj", "{8C69347C-84FD-4EB6-9AE7-18B51E2265D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountExecutiveApp.Core.Tests", "AccountExecutiveApp\AccountExecutiveApp.Core.Tests\AccountExecutiveApp.Core.Tests.csproj", "{8C69347C-84FD-4EB6-9AE7-18B51E2265D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountExecutiveApp.Core", "AccountExecutiveApp.Core\AccountExecutiveApp.Core.csproj", "{D9C2EDAA-2BB0-4FE3-BF21-23BEAD4208D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountExecutiveApp.Core", "AccountExecutiveApp\AccountExecutiveApp.Core\AccountExecutiveApp.Core.csproj", "{D9C2EDAA-2BB0-4FE3-BF21-23BEAD4208D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
