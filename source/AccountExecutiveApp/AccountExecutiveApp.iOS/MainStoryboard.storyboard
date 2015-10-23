@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="p2L-UA-u20">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="m5k-HI-Ies">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--LoginViewController-->
         <!--View Controller-->
         <scene sceneID="9f2-I0-HNH">
             <objects>
@@ -26,10 +25,10 @@
             </objects>
             <point key="canvasLocation" x="1423" y="252"/>
         </scene>
-        <!--View Controller-->
+        <!--Dashboard View Controller-->
         <scene sceneID="6Xh-hx-JGD">
             <objects>
-                <viewController id="kgU-VK-9wo" sceneMemberID="viewController">
+                <viewController id="kgU-VK-9wo" customClass="DashboardViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ozM-97-1pK"/>
                         <viewControllerLayoutGuide type="bottom" id="dv3-Lo-hg0"/>
@@ -45,10 +44,10 @@
             </objects>
             <point key="canvasLocation" x="1423" y="-378"/>
         </scene>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="5a7-lT-sZC">
             <objects>
-                <viewController id="p2L-UA-u20" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginView" id="p2L-UA-u20" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eHr-Ob-6Ge"/>
                         <viewControllerLayoutGuide type="bottom" id="NuY-dK-Z5S"/>
@@ -72,11 +71,8 @@
                                     <color key="titleColor" red="0.19215686269999999" green="0.30588235289999999" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="login_TouchUpInside:" destination="289" eventType="touchUpInside" id="NNl-cY-2ps"/>
-                                </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="IM S.i.™" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="lTD-mx-lnC">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="IM S.i.™" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="lTD-mx-lnC">
                                 <rect key="frame" x="8" y="133" width="304" height="24"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -96,8 +92,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                             </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" misplaced="YES" image="sisystems_logo.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="adm-dN-ORZ">
-                                <rect key="frame" x="0.0" y="30" width="320" height="95"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="sisystems_logo.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="adm-dN-ORZ">
+                                <rect key="frame" x="16" y="30" width="288" height="95"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="95" id="oPp-LU-an0"/>
                                 </constraints>
@@ -106,18 +102,19 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lTD-mx-lnC" firstAttribute="centerX" secondItem="adm-dN-ORZ" secondAttribute="centerX" id="1d7-zg-i4d"/>
-                            <constraint firstItem="lTD-mx-lnC" firstAttribute="width" secondItem="lTD-mx-lnC" secondAttribute="height" multiplier="155:12" id="6Ia-4T-JkA"/>
+                            <constraint firstItem="adm-dN-ORZ" firstAttribute="top" secondItem="eHr-Ob-6Ge" secondAttribute="bottom" constant="10" id="6aY-LY-DaS"/>
+                            <constraint firstItem="adm-dN-ORZ" firstAttribute="leading" secondItem="kmE-Rb-lll" secondAttribute="leadingMargin" id="E6C-Iv-1WJ"/>
                             <constraint firstItem="sdb-9i-6Ye" firstAttribute="leading" secondItem="kaA-DD-ZVr" secondAttribute="leading" id="HsH-Im-IGd"/>
-                            <constraint firstItem="lTD-mx-lnC" firstAttribute="width" secondItem="lTD-mx-lnC" secondAttribute="height" multiplier="155:12" id="MFO-Y3-nGs"/>
+                            <constraint firstItem="H9u-rD-s1d" firstAttribute="top" secondItem="kaA-DD-ZVr" secondAttribute="bottom" constant="8" id="MQ2-pJ-iop"/>
                             <constraint firstItem="lTD-mx-lnC" firstAttribute="top" secondItem="adm-dN-ORZ" secondAttribute="bottom" constant="8" id="R4u-zN-jXZ"/>
                             <constraint firstItem="H9u-rD-s1d" firstAttribute="width" secondItem="kaA-DD-ZVr" secondAttribute="width" id="U49-cS-tcJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="sdb-9i-6Ye" secondAttribute="trailing" constant="32" id="WAa-LH-BLx"/>
                             <constraint firstItem="sdb-9i-6Ye" firstAttribute="leading" secondItem="kmE-Rb-lll" secondAttribute="leadingMargin" constant="32" id="XfN-Xk-fe9"/>
-                            <constraint firstItem="H9u-rD-s1d" firstAttribute="top" secondItem="kaA-DD-ZVr" secondAttribute="bottom" constant="8" symbolic="YES" id="aEH-aT-Sj7"/>
                             <constraint firstItem="kaA-DD-ZVr" firstAttribute="height" secondItem="sdb-9i-6Ye" secondAttribute="height" id="bXv-Ca-b8T"/>
-                            <constraint firstItem="kaA-DD-ZVr" firstAttribute="top" secondItem="sdb-9i-6Ye" secondAttribute="bottom" constant="8" symbolic="YES" id="eGY-xo-LOs"/>
                             <constraint firstItem="kaA-DD-ZVr" firstAttribute="width" secondItem="sdb-9i-6Ye" secondAttribute="width" id="g4k-ZL-Gcv"/>
+                            <constraint firstItem="kaA-DD-ZVr" firstAttribute="top" secondItem="sdb-9i-6Ye" secondAttribute="bottom" constant="8" id="pyO-3Y-7iK"/>
                             <constraint firstAttribute="centerX" secondItem="sdb-9i-6Ye" secondAttribute="centerX" id="qsk-pX-MNA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="adm-dN-ORZ" secondAttribute="trailing" id="slw-eY-0HJ"/>
                             <constraint firstItem="H9u-rD-s1d" firstAttribute="centerX" secondItem="kaA-DD-ZVr" secondAttribute="centerX" id="yaq-xI-6Lp"/>
                         </constraints>
                     </view>
@@ -187,11 +184,6 @@
     <resources>
         <image name="leftArrow.png" width="32" height="32"/>
         <image name="sisystems_logo.jpg" width="730" height="253"/>
-        <image name="app-button.png" width="40" height="22"/>
-        <image name="Default-568h.png" width="640" height="1136"/>
-        <image name="ios7-clock-outline.png" width="50" height="50"/>
-        <image name="rightArrow.png" width="32" height="32"/>
-        <image name="social-usd.png" width="50" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

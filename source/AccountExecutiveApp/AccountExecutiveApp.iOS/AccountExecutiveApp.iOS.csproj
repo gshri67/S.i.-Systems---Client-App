@@ -133,6 +133,10 @@
     <None Include="Octopus\Release.nuspec" />
     <None Include="Octopus\Test.nuspec" />
     <None Include="packages.config" />
+    <Compile Include="DashboardViewController.cs" />
+    <Compile Include="DashboardViewController.designer.cs">
+      <DependentUpon>DashboardViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

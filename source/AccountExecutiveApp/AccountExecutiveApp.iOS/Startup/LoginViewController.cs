@@ -54,50 +54,50 @@ namespace AccountExecutiveApp.iOS
 
         //#region View lifecycle
 
-        //public override void ViewDidLoad()
-        //{
-        //    base.ViewDidLoad();
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+			/*
+            username.ShouldReturn += (textField) =>
+            {
+                password.BecomeFirstResponder();
+                return true;
+            };
 
-        //    username.ShouldReturn += (textField) =>
-        //    {
-        //        password.BecomeFirstResponder();
-        //        return true;
-        //    };
+            password.ShouldReturn += (textField) =>
+            {
+                textField.ResignFirstResponder();
+                login_TouchUpInside(null);
+                return true;
+            };
 
-        //    password.ShouldReturn += (textField) =>
-        //    {
-        //        textField.ResignFirstResponder();
-        //        login_TouchUpInside(null);
-        //        return true;
-        //    };
+            //Force Sign In button to always be visible even when they keyboard tries to cover it
+            _defaultFrame = LoginView.Frame;
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, ShowKeyboard);
+            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, HideKeyboard);
 
-        //    //Force Sign In button to always be visible even when they keyboard tries to cover it
-        //    _defaultFrame = LoginView.Frame;
-        //    NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, ShowKeyboard);
-        //    NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, HideKeyboard);
-
-        //    var previousUsername = _tokenStore.GetUserName();
-        //    username.Text = previousUsername;
-        //}
-
-        //private void ShowKeyboard(NSNotification notification)
-        //{
-        //    var spaceFromBottom = UIScreen.MainScreen.Bounds.Height - login.Frame.Y - login.Frame.Height;
-        //    var keyHeight = UIKeyboard.FrameEndFromNotification(notification).Height;
-        //    if (spaceFromBottom < keyHeight)
-        //    {
-        //        InvokeOnMainThread(() =>
-        //        {
-        //            UIView.Animate(1, () =>
-        //            {
-        //                LoginView.Frame = new CGRect(_defaultFrame.X,
-        //                    _defaultFrame.Y + (spaceFromBottom - keyHeight),
-        //                    _defaultFrame.Width, _defaultFrame.Height);
-        //            });
-        //        });
-        //    }
-        //}
-
+            var previousUsername = _tokenStore.GetUserName();
+            username.Text = previousUsername;*/
+        }
+		/*
+        private void ShowKeyboard(NSNotification notification)
+        {
+            var spaceFromBottom = UIScreen.MainScreen.Bounds.Height - login.Frame.Y - login.Frame.Height;
+            var keyHeight = UIKeyboard.FrameEndFromNotification(notification).Height;
+            if (spaceFromBottom < keyHeight)
+            {
+                InvokeOnMainThread(() =>
+                {
+                    UIView.Animate(1, () =>
+                    {
+                        LoginView.Frame = new CGRect(_defaultFrame.X,
+                            _defaultFrame.Y + (spaceFromBottom - keyHeight),
+                            _defaultFrame.Width, _defaultFrame.Height);
+                    });
+                });
+            }
+        }
+*/
         //private void HideKeyboard(NSNotification notification)
         //{
         //    if (LoginView.Frame.Y != _defaultFrame.Y)
