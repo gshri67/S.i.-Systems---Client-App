@@ -11,8 +11,8 @@ using UIKit;
 
 namespace AccountExecutiveApp.iOS
 {
-	[Register ("LoginViewController")]
-	partial class LoginViewController
+	[Register ("LoginViewControllerTemp")]
+	partial class LoginViewControllerTemp
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]

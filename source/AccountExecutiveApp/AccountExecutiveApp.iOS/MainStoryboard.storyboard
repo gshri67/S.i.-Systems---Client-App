@@ -60,6 +60,8 @@
                                 <rect key="frame" x="32" y="275" width="256" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
+                                <connections>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H9u-rD-s1d">
                                 <rect key="frame" x="32" y="333" width="256" height="30"/>
@@ -71,6 +73,9 @@
                                     <color key="titleColor" red="0.19215686269999999" green="0.30588235289999999" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="login_TouchUpInside:" destination="p2L-UA-u20" id="8" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="IM S.i.™" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="lTD-mx-lnC">
                                 <rect key="frame" x="8" y="133" width="304" height="24"/>
@@ -91,6 +96,8 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                <connections>
+                                </connections>
                             </textField>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="sisystems_logo.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="adm-dN-ORZ">
                                 <rect key="frame" x="16" y="30" width="288" height="95"/>
@@ -118,6 +125,10 @@
                             <constraint firstItem="H9u-rD-s1d" firstAttribute="centerX" secondItem="kaA-DD-ZVr" secondAttribute="centerX" id="yaq-xI-6Lp"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="password" destination="kaA-DD-ZVr" id="CTH-jK-FP9"/>
+                        <outlet property="username" destination="sdb-9i-6Ye" id="jdl-6m-xzn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5O8-yu-0k6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -184,6 +195,11 @@
     <resources>
         <image name="leftArrow.png" width="32" height="32"/>
         <image name="sisystems_logo.jpg" width="730" height="253"/>
+        <image name="app-button.png" width="40" height="22"/>
+        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="ios7-clock-outline.png" width="50" height="50"/>
+        <image name="rightArrow.png" width="32" height="32"/>
+        <image name="social-usd.png" width="50" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

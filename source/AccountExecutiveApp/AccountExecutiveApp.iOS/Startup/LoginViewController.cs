@@ -57,7 +57,7 @@ namespace AccountExecutiveApp.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-			/*
+
             username.ShouldReturn += (textField) =>
             {
                 password.BecomeFirstResponder();
@@ -70,7 +70,7 @@ namespace AccountExecutiveApp.iOS
                 login_TouchUpInside(null);
                 return true;
             };
-
+			/*
             //Force Sign In button to always be visible even when they keyboard tries to cover it
             _defaultFrame = LoginView.Frame;
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, ShowKeyboard);
@@ -135,44 +135,47 @@ namespace AccountExecutiveApp.iOS
 
         //#endregion
 
-        //async partial void login_TouchUpInside(UIButton sender)
-        //{
-        //    var userName = username.Text;
-        //    var result = _loginModel.IsValidUserName(userName);
-        //    if (!result.IsValid)
-        //    {
-        //        var view = new UIAlertView("Error", result.Message, null, "Ok");
-        //        view.Show();
-        //        return;
-        //    }
+		async partial void login_TouchUpInside(UIButton sender)
+		{
+			var userName = username.Text;
+			var result = _loginModel.IsValidUserName(userName);
+			if (!result.IsValid)
+			{
+				var view = new UIAlertView("Error", result.Message, null, "Ok");
+				view.Show();
+				return;
+			}
 
-        //    result = _loginModel.IsValidPassword(password.Text);
-        //    if (!result.IsValid)
-        //    {
-        //        var view = new UIAlertView("Error", result.Message, null, "Ok");
-        //        view.Show();
-        //        return;
-        //    }
+			result = _loginModel.IsValidPassword(password.Text);
+			if (!result.IsValid)
+			{
+				var view = new UIAlertView("Error", result.Message, null, "Ok");
+				view.Show();
+				return;
+			}
 
-        //    DisableControls();
+			//DisableControls();
 
-        //    var loginTask = await _loginModel.LoginAsync(userName, password.Text);
+			//var loginTask = await _loginModel.LoginAsync(userName, password.Text);
 
-        //    if (loginTask.IsValid)
-        //    {
-        //        CurrentUser.Email = _loginModel.UserName;
-        //        RunMainStoryboard();
-        //    }
-        //    else
-        //    {
-        //        DisplayInvalidCredentials(loginTask.Message);
-        //    };
-        //}
+			//if (loginTask.IsValid)
+			if (true)
+			{
+				CurrentUser.Email = _loginModel.UserName;
+				RunMainStoryboard();
+			}/*
+			else
+			{
+				DisplayInvalidCredentials(loginTask.Message);
+			};*/
+		}
 
-        //private static void RunMainStoryboard()
-        //{
-        //    UIApplication.SharedApplication.Windows[0].RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
-        //}
+
+        private static void RunMainStoryboard()
+        {
+			Console.WriteLine ("Running main storyboard");
+            UIApplication.SharedApplication.Windows[0].RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
+        }
 
         //public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
         //{

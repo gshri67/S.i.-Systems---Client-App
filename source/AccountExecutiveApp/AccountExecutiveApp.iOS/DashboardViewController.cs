@@ -27,8 +27,6 @@ namespace AccountExecutiveApp.iOS
 			var navigationController = new UINavigationController(loginViewController) { NavigationBarHidden = true };
 
 			UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
-
-			//ShowViewController (loginViewController, this);
 		}
 
 		public override void ViewDidLoad ()
@@ -40,11 +38,6 @@ namespace AccountExecutiveApp.iOS
 			//CreateCustomTitleBar();
 
 			//LogoutManager.CreateNavBarRightButton(this);
-
-			var loginViewController = this.Storyboard.InstantiateViewController("LoginView");
-			var navigationController = new UINavigationController(loginViewController) { NavigationBarHidden = true };
-
-			UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
 		}
 	}
 }
