@@ -50,6 +50,14 @@ namespace AccountExecutiveApp.iOS
 			FT_curContractsLabel.Layer.BorderColor = UIColor.DarkGray.CGColor;
 			FT_curContractsLabel.Layer.CornerRadius = FS_curContractsLabel.Frame.Width/2;
 
+			FT_containerView.Layer.BorderWidth = 1;
+			FT_containerView.Layer.BorderColor = UIColor.LightGray.CGColor;
+
+			FS_containerView.Layer.BorderWidth = 1;
+			FS_containerView.Layer.BorderColor = UIColor.LightGray.CGColor;
+
+			//FT_containerView.Hidden = true;
+
 			FS_endingContractsLabel.Text = "88";
 			FS_startingContractsLabel.Text = "88";
 		}
