@@ -3,6 +3,7 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 using AccountExecutiveApp.Core.ViewModel;
+using Microsoft.Practices.Unity;
 
 namespace AccountExecutiveApp.iOS
 {

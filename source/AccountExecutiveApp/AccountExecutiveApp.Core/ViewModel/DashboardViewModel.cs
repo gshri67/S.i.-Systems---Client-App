@@ -1,6 +1,7 @@
 ﻿using System;
-
+using Shared.Core;
 using SiSystems.SharedModels;
+using System.Threading.Tasks;
 
 namespace AccountExecutiveApp.Core.ViewModel
 {
@@ -13,7 +14,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 			this._api = api;
 		}
 
-		public async Task<DashboardInfo> getDashboardInfo
+		public async Task<DashboardInfo> getDashboardInfo()
 		{
 			return await this._api.getDashboardInfo();
 		}
