@@ -146,6 +146,16 @@
     <Compile Include="DashboardViewController.designer.cs">
       <DependentUpon>DashboardViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Jobs\JobsClientListViewController.cs" />
+    <Compile Include="Jobs\JobsClientListViewController.designer.cs">
+      <DependentUpon>JobsClientListViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Jobs\JobsClientListTableViewSource.cs" />
+    <Compile Include="Contracts\ContractStatusListViewController.cs" />
+    <Compile Include="Contracts\ContractStatusListViewController.designer.cs">
+      <DependentUpon>ContractStatusListViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contracts\ContractStatusListTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
@@ -182,6 +192,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Jobs\" />
+    <Folder Include="Contracts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccountExecutiveApp.Core\AccountExecutiveApp.Core.csproj">

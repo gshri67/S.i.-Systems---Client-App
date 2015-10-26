@@ -37,7 +37,7 @@ namespace AccountExecutiveApp.iOS
 
 			//CreateCustomTitleBar();
 
-			//LogoutManager.CreateNavBarRightButton(this);
+			LogoutManager.CreateNavBarLeftButton(this);
 		}
 	}
 }
