@@ -38,6 +38,20 @@ namespace AccountExecutiveApp.iOS
 			//CreateCustomTitleBar();
 
 			LogoutManager.CreateNavBarLeftButton(this);
+
+			View.LayoutIfNeeded ();
+			View.NeedsUpdateConstraints ();
+
+			FS_curContractsLabel.Layer.BorderWidth = 3;
+			FS_curContractsLabel.Layer.BorderColor = UIColor.DarkGray.CGColor;
+			FS_curContractsLabel.Layer.CornerRadius = FS_curContractsLabel.Frame.Width/2;
+
+			FT_curContractsLabel.Layer.BorderWidth = 3;
+			FT_curContractsLabel.Layer.BorderColor = UIColor.DarkGray.CGColor;
+			FT_curContractsLabel.Layer.CornerRadius = FS_curContractsLabel.Frame.Width/2;
+
+			FS_endingContractsLabel.Text = "88";
+			FS_startingContractsLabel.Text = "88";
 		}
 	}
 }

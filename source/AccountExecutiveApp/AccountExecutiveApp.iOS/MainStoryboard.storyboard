@@ -25,8 +25,8 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="57" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SXJ-8i-UH2">
                                         <rect key="frame" x="139" y="44" width="42" height="29"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="29" id="Uf3-Nm-ccj"/>
-                                            <constraint firstAttribute="width" constant="42" id="no6-jr-h35"/>
+                                            <constraint firstAttribute="height" constant="64" id="Uf3-Nm-ccj"/>
+                                            <constraint firstAttribute="width" constant="64" id="no6-jr-h35"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -45,7 +45,6 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XOT-f5-KTd">
                                         <rect key="frame" x="248" y="46" width="23" height="25"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="23" id="8J0-mA-fAx"/>
                                             <constraint firstAttribute="height" constant="25" id="ij9-hm-JdB"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -65,7 +64,6 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATB-79-5DB">
                                         <rect key="frame" x="62" y="41" width="23" height="36"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="23" id="Ni7-Sd-P6N"/>
                                             <constraint firstAttribute="height" constant="36" id="m1c-R0-uPX"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -89,14 +87,14 @@
                                     <constraint firstItem="XOT-f5-KTd" firstAttribute="centerY" secondItem="SXJ-8i-UH2" secondAttribute="centerY" id="Bri-Ug-3mT"/>
                                     <constraint firstItem="SXJ-8i-UH2" firstAttribute="centerY" secondItem="4We-A1-Drc" secondAttribute="centerY" id="Cgo-We-70e"/>
                                     <constraint firstItem="ATB-79-5DB" firstAttribute="leading" secondItem="4We-A1-Drc" secondAttribute="trailing" constant="12" id="D5Q-JY-TFj"/>
-                                    <constraint firstItem="XOT-f5-KTd" firstAttribute="leading" secondItem="JhR-3i-MDZ" secondAttribute="trailing" constant="8" id="ESy-x1-iER"/>
-                                    <constraint firstItem="Uzl-tO-sb1" firstAttribute="top" secondItem="SXJ-8i-UH2" secondAttribute="bottom" constant="12" id="HKH-UY-Yxx"/>
+                                    <constraint firstItem="XOT-f5-KTd" firstAttribute="leading" secondItem="JhR-3i-MDZ" secondAttribute="trailing" constant="8" id="GHV-yG-n5H"/>
+                                    <constraint firstItem="Uzl-tO-sb1" firstAttribute="top" secondItem="SXJ-8i-UH2" secondAttribute="bottom" constant="5" id="HKH-UY-Yxx"/>
                                     <constraint firstAttribute="centerY" secondItem="SXJ-8i-UH2" secondAttribute="centerY" id="QNo-l5-SII"/>
                                     <constraint firstItem="ATB-79-5DB" firstAttribute="trailing" secondItem="pGO-Di-Apo" secondAttribute="trailing" multiplier="0.3" id="Y0q-wQ-oiM"/>
                                     <constraint firstAttribute="centerX" secondItem="Uzl-tO-sb1" secondAttribute="centerX" constant="-0.5" id="fZc-Bc-yB9"/>
                                     <constraint firstItem="SXJ-8i-UH2" firstAttribute="centerY" secondItem="JhR-3i-MDZ" secondAttribute="centerY" id="fdv-zr-eMq"/>
+                                    <constraint firstItem="JhR-3i-MDZ" firstAttribute="leading" secondItem="pGO-Di-Apo" secondAttribute="trailing" multiplier="0.7" id="iwe-Eq-EEW"/>
                                     <constraint firstItem="ATB-79-5DB" firstAttribute="centerY" secondItem="SXJ-8i-UH2" secondAttribute="centerY" id="nfq-Io-hJ4"/>
-                                    <constraint firstItem="XOT-f5-KTd" firstAttribute="trailing" secondItem="pGO-Di-Apo" secondAttribute="trailing" multiplier="0.8" id="sQS-hN-6nj"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sul-9I-Lb4" userLabel="Jobs View">
@@ -157,7 +155,6 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UlQ-h5-py2">
                                         <rect key="frame" x="248" y="46" width="23" height="25"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="23" id="ahY-dL-3O6"/>
                                             <constraint firstAttribute="height" constant="25" id="sdy-1O-ldg"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -178,7 +175,6 @@
                                         <rect key="frame" x="62" y="41" width="23" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="hXo-e1-Oqa"/>
-                                            <constraint firstAttribute="width" constant="23" id="iz4-P8-tCn"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -197,8 +193,8 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="112" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ENz-Ja-Htg">
                                         <rect key="frame" x="131" y="44" width="54" height="39"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="54" id="8Ov-Ak-Tm9"/>
-                                            <constraint firstAttribute="height" constant="29" id="SeH-sj-7ji"/>
+                                            <constraint firstAttribute="width" constant="64" id="8Ov-Ak-Tm9"/>
+                                            <constraint firstAttribute="height" constant="64" id="SeH-sj-7ji"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -208,16 +204,16 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="ENz-Ja-Htg" secondAttribute="centerX" id="C76-zt-fbm"/>
+                                    <constraint firstItem="P34-jn-r7Y" firstAttribute="leading" secondItem="kmT-uf-OAQ" secondAttribute="trailing" multiplier="0.7" id="GGp-Xa-Pgn"/>
                                     <constraint firstItem="ENz-Ja-Htg" firstAttribute="centerY" secondItem="w1r-tb-GPB" secondAttribute="centerY" id="KNX-Oi-8AP"/>
                                     <constraint firstItem="UlQ-h5-py2" firstAttribute="centerY" secondItem="ENz-Ja-Htg" secondAttribute="centerY" id="Nc4-OV-zR5"/>
-                                    <constraint firstItem="UlQ-h5-py2" firstAttribute="leading" secondItem="P34-jn-r7Y" secondAttribute="trailing" constant="8" id="OVm-I4-oKD"/>
                                     <constraint firstItem="rJ2-wp-t4p" firstAttribute="leading" secondItem="w1r-tb-GPB" secondAttribute="trailing" constant="12" id="PF7-F8-53g"/>
                                     <constraint firstItem="rJ2-wp-t4p" firstAttribute="centerY" secondItem="ENz-Ja-Htg" secondAttribute="centerY" id="SDA-YY-riN"/>
                                     <constraint firstItem="ENz-Ja-Htg" firstAttribute="centerY" secondItem="P34-jn-r7Y" secondAttribute="centerY" id="SIT-d9-1RA"/>
-                                    <constraint firstItem="UlQ-h5-py2" firstAttribute="trailing" secondItem="kmT-uf-OAQ" secondAttribute="trailing" multiplier="0.8" id="bd9-QR-ATs"/>
                                     <constraint firstAttribute="centerX" secondItem="dqj-WP-ycn" secondAttribute="centerX" constant="-0.5" id="dhw-w7-Hsf"/>
                                     <constraint firstItem="rJ2-wp-t4p" firstAttribute="trailing" secondItem="kmT-uf-OAQ" secondAttribute="trailing" multiplier="0.3" id="hsE-dW-gaP"/>
-                                    <constraint firstItem="dqj-WP-ycn" firstAttribute="top" secondItem="ENz-Ja-Htg" secondAttribute="bottom" constant="12" id="r1x-O7-Y9x"/>
+                                    <constraint firstItem="dqj-WP-ycn" firstAttribute="top" secondItem="ENz-Ja-Htg" secondAttribute="bottom" constant="5" id="r1x-O7-Y9x"/>
+                                    <constraint firstItem="UlQ-h5-py2" firstAttribute="leading" secondItem="P34-jn-r7Y" secondAttribute="trailing" constant="8" id="sxl-9q-wdJ"/>
                                     <constraint firstAttribute="centerY" secondItem="ENz-Ja-Htg" secondAttribute="centerY" id="wSr-Wj-1jo"/>
                                 </constraints>
                             </view>
@@ -239,6 +235,20 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Dashboard" id="00e-IZ-Q14"/>
+                    <connections>
+                        <outlet property="FS_containerView" destination="pGO-Di-Apo" id="kVs-aN-zYf"/>
+                        <outlet property="FS_curContractsLabel" destination="SXJ-8i-UH2" id="nzx-iP-Fwz"/>
+                        <outlet property="FS_endingContractsLabel" destination="ATB-79-5DB" id="BBI-Tk-4eN"/>
+                        <outlet property="FS_startingContractsLabel" destination="XOT-f5-KTd" id="aRk-sX-9HG"/>
+                        <outlet property="FT_containerView" destination="kmT-uf-OAQ" id="yva-Vh-CDq"/>
+                        <outlet property="FT_curContractsLabel" destination="ENz-Ja-Htg" id="OVr-zf-LuQ"/>
+                        <outlet property="FT_endingContractsLabel" destination="rJ2-wp-t4p" id="qeD-Io-Aex"/>
+                        <outlet property="FT_startingContractsLabel" destination="UlQ-h5-py2" id="fbK-pf-ZlF"/>
+                        <outlet property="calloutJobsLabel" destination="RuH-zn-Xgv" id="VdR-oC-WdX"/>
+                        <outlet property="jobsContainerView" destination="Sul-9I-Lb4" id="xKr-iF-gc8"/>
+                        <outlet property="jobsLabel" destination="Ky2-P5-6aY" id="YRG-PZ-Pgb"/>
+                        <outlet property="proposedJobsLabel" destination="gEe-Z1-k0Q" id="0OZ-sJ-MSu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mTy-r5-WXw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
