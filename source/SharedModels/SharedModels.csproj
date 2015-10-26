@@ -38,7 +38,6 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountExecutive.cs" />
     <Compile Include="ConsultantDetails.cs" />
     <Compile Include="ClientAccountDetails.cs" />
     <Compile Include="Consultant.cs" />
@@ -64,6 +63,8 @@
     <Compile Include="Client.cs" />
     <Compile Include="ProjectCode.cs" />
     <Compile Include="Remittance.cs" />
+    <Compile Include="AccountExecutive.cs" />
+    <Compile Include="DashboardInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

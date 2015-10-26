@@ -45,5 +45,7 @@ namespace Shared.Core
         Task<Timesheet> SaveTimesheet(Timesheet timesheet);
         
         Task<Timesheet> SubmitTimesheet(Timesheet timesheet);
+
+		Task<DashboardInfo> getDashboardInfo();
     }
 }

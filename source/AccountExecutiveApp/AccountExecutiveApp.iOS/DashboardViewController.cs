@@ -2,16 +2,20 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 using UIKit;
+using AccountExecutiveApp.Core.ViewModel;
 
 namespace AccountExecutiveApp.iOS
 {
 	partial class DashboardViewController : UIViewController
 	{
 		private readonly NSObject _tokenExpiredObserver;
+		private DashboardViewModel _dashboardViewmodel;
 
 		public DashboardViewController (IntPtr handle) : base (handle)
 		{
 			this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
+
+			_dashboardViewmodel = DependencyResolver.Current.Resolve<DashboardViewModel>();
 
 			//TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
 			//TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
