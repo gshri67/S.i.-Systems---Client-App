@@ -1,13 +1,11 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -15,26 +13,40 @@ namespace AccountExecutiveApp.iOS
 	partial class LoginViewController
 	{
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField password { get; set; }
+		UIKit.UIActivityIndicatorView loginActivityIndicator { get; set; }
 
 		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField username { get; set; }
+		UIKit.UIView LoginView { get; set; }
+
+		[Outlet]
+		UIKit.UITextField password { get; set; }
+
+		[Outlet]
+		UIKit.UITextField username { get; set; }
 
 		[Action ("login_TouchUpInside:")]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		partial void login_TouchUpInside (UIButton sender);
-
+		partial void login_TouchUpInside (UIKit.UIButton sender);
+		
 		void ReleaseDesignerOutlets ()
 		{
+			if (LoginView != null) {
+				LoginView.Dispose ();
+				LoginView = null;
+			}
+
 			if (password != null) {
 				password.Dispose ();
 				password = null;
 			}
+
 			if (username != null) {
 				username.Dispose ();
 				username = null;
+			}
+
+			if (loginActivityIndicator != null) {
+				loginActivityIndicator.Dispose ();
+				loginActivityIndicator = null;
 			}
 		}
 	}

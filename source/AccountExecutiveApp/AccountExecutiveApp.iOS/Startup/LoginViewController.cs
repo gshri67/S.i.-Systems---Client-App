@@ -44,15 +44,15 @@ namespace AccountExecutiveApp.iOS
         }
 
         //dismiss keyboard when tapping outside of text fields
-        //public override void TouchesBegan(NSSet touches, UIEvent evt)
-        //{
-        //    base.TouchesBegan(touches, evt);
+        public override void TouchesBegan(NSSet touches, UIEvent evt)
+        {
+            base.TouchesBegan(touches, evt);
 
-        //    username.ResignFirstResponder();
-        //    password.ResignFirstResponder();
-        //}
+            username.ResignFirstResponder();
+            password.ResignFirstResponder();
+        }
 
-        //#region View lifecycle
+        #region View lifecycle
 
         public override void ViewDidLoad()
         {
@@ -98,42 +98,42 @@ namespace AccountExecutiveApp.iOS
             }
         }
 */
-        //private void HideKeyboard(NSNotification notification)
-        //{
-        //    if (LoginView.Frame.Y != _defaultFrame.Y)
-        //    {
-        //        UIView.Animate(0.2, () =>
-        //        {
-        //            LoginView.Frame = new CGRect(_defaultFrame.X, _defaultFrame.Y,
-        //                _defaultFrame.Width, _defaultFrame.Height);
-        //        });
-        //    }
-        //}
+        private void HideKeyboard(NSNotification notification)
+        {
+            if (LoginView.Frame.Y != _defaultFrame.Y)
+            {
+                UIView.Animate(0.2, () =>
+                {
+                    LoginView.Frame = new CGRect(_defaultFrame.X, _defaultFrame.Y,
+                        _defaultFrame.Width, _defaultFrame.Height);
+                });
+            }
+        }
 
-        //public override void ViewWillAppear(bool animated)
-        //{
-        //    base.ViewWillAppear(animated);
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
 
-        //    NavigationController.NavigationBar.Hidden = true;
-        //}
+            NavigationController.NavigationBar.Hidden = true;
+        }
 
-        //public override void ViewDidAppear(bool animated)
-        //{
-        //    base.ViewDidAppear(animated);
-        //}
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+        }
 
-        //public override void ViewWillDisappear(bool animated)
-        //{
-        //    base.ViewWillDisappear(animated);
-        //}
+        public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+        }
 
-        //public override void ViewDidDisappear(bool animated)
-        //{
-        //    if (loginActivityIndicator != null) loginActivityIndicator.StopAnimating();
-        //    base.ViewDidDisappear(animated);
-        //}
+        public override void ViewDidDisappear(bool animated)
+        {
+            if (loginActivityIndicator != null) loginActivityIndicator.StopAnimating();
+            base.ViewDidDisappear(animated);
+        }
 
-        //#endregion
+        #endregion
 
 		async partial void login_TouchUpInside(UIButton sender)
 		{
