@@ -237,5 +237,7 @@
     <BundleResource Include="Resources\sisystems_logo.jpg" />
     <BundleResource Include="Resources\social-usd%402x.png" />
     <BundleResource Include="Resources\Sprint2_SS_1.0.pdf" />
+    <BundleResource Include="Resources\ios7-plus-empty.png" />
+    <BundleResource Include="Resources\ios7-minus-empty.png" />
   </ItemGroup>
 </Project>
