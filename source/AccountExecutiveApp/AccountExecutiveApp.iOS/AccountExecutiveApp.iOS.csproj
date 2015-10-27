@@ -156,6 +156,10 @@
       <DependentUpon>ContractStatusListViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Contracts\ContractStatusListTableViewSource.cs" />
+    <Compile Include="RightDetailCell.cs" />
+    <Compile Include="RightDetailCell.designer.cs">
+      <DependentUpon>RightDetailCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
