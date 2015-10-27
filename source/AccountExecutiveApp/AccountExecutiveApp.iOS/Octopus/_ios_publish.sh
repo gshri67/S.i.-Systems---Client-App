@@ -6,7 +6,7 @@ security unlock-keychain -p $SI_SIGN_KEY si-systems-xcode.keychain
 
 #ship it!
 apple_id=it.infrastructure@sisystems.com
-app_id=1039202852
+app_id=1053244881
 
 find . -name "*.ipa" | while read package; do
     echo "Attempting to upload $package"
