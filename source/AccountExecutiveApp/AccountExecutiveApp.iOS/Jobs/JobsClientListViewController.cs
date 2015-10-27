@@ -2,15 +2,23 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 using UIKit;
+using AccountExecutiveApp.Core.ViewModel;
+using Microsoft.Practices.Unity;
+using SiSystems.SharedModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AccountExecutiveApp.iOS
 {
 	partial class JobsClientListViewController : UITableViewController
 	{
 		private JobsClientListTableViewSource _clientListTableViewSource;
+        private JobsViewModel _jobsViewModel;
+        private IEnumerable<Job> _jobs;
 
 		public JobsClientListViewController (IntPtr handle) : base (handle)
 		{
+            _jobsViewModel = DependencyResolver.Current.Resolve<JobsViewModel>();
 		}
 
 		private void SetupTableViewSource()
@@ -35,6 +43,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+            LoadJobs();
+
 			SetupTableViewSource ();
 
 			TableView.ReloadData ();
@@ -47,5 +57,21 @@ namespace AccountExecutiveApp.iOS
 			TableView.RegisterClassForCellReuse(typeof (RightDetailCell), "RightDetailCell");
 			TableView.RegisterClassForCellReuse(typeof (UITableViewCell), "cell");
 		}
+
+        public void UpdateUI()
+        {
+            if (_jobs != null)
+            { }
+        }
+
+        public async void LoadJobs()
+        {
+            if (_jobs != null) return;
+
+            _jobs = await _jobsViewModel.getJobs();
+
+
+            UpdateUI();
+        }
 	}
 }

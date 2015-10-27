@@ -193,6 +193,7 @@
     <Compile Include="Controllers\Api\ClientDetailsController.cs" />
     <Compile Include="Controllers\Api\ConsultantMessagesController.cs" />
     <Compile Include="Controllers\Api\DashboardController.cs" />
+    <Compile Include="Controllers\Api\JobController.cs" />
     <Compile Include="Controllers\Api\RemittancesController .cs" />
     <Compile Include="Controllers\Api\PayPeriodsController.cs" />
     <Compile Include="Controllers\Api\TimesheetApproversController.cs" />
@@ -270,6 +271,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Dashboard\" />
+    <Folder Include="Views\Job\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

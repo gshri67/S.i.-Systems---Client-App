@@ -205,5 +205,11 @@ namespace Shared.Core
 		{
 			return await ExecuteWithDefaultClient<DashboardInfo>();
 		}
+
+        [HttpGet("Job")]
+        public async Task<IEnumerable<Job>> getJobs()
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<Job>>();
+        }
     }
 }

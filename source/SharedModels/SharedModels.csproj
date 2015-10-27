@@ -47,6 +47,7 @@
     <Compile Include="Contact.cs" />
     <Compile Include="Contract.cs" />
     <Compile Include="ContractProposal.cs" />
+    <Compile Include="Job.cs" />
     <Compile Include="PayRate.cs" />
     <Compile Include="Eula.cs" />
     <Compile Include="FloThruAgreement.cs" />
