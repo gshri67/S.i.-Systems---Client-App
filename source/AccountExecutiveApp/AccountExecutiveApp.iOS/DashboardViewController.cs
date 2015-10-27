@@ -4,6 +4,7 @@ using System.CodeDom.Compiler;
 using UIKit;
 using AccountExecutiveApp.Core.ViewModel;
 using Microsoft.Practices.Unity;
+using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -11,6 +12,7 @@ namespace AccountExecutiveApp.iOS
 	{
 		private readonly NSObject _tokenExpiredObserver;
 		private DashboardViewModel _dashboardViewmodel;
+		private DashboardInfo _dashboardInfo;
 
 		public DashboardViewController (IntPtr handle) : base (handle)
 		{
@@ -38,6 +40,9 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad();
 
+
+			LoadDashboardInfo ();
+
 			//IndicateLoading();
 
 			//CreateCustomTitleBar();
@@ -61,10 +66,39 @@ namespace AccountExecutiveApp.iOS
 			FS_containerView.Layer.BorderWidth = 1;
 			FS_containerView.Layer.BorderColor = UIColor.LightGray.CGColor;
 
-			//FT_containerView.Hidden = true;
-
 			FS_endingContractsLabel.Text = "88";
 			FS_startingContractsLabel.Text = "88";
+
+			UpdateUI ();
+		}
+
+		public void UpdateUI()
+		{
+			if (_dashboardInfo != null) 
+			{
+				Console.WriteLine (_dashboardInfo.FS_curContracts);
+
+				FS_endingContractsLabel.Text = _dashboardInfo.FS_endingContracts.ToString();
+				FS_startingContractsLabel.Text = _dashboardInfo.FS_startingContracts.ToString();
+				FS_curContractsLabel.Text = _dashboardInfo.FS_curContracts.ToString();
+
+				FT_endingContractsLabel.Text = _dashboardInfo.FT_endingContracts.ToString();
+				FT_startingContractsLabel.Text = _dashboardInfo.FT_startingContracts.ToString();
+				FT_curContractsLabel.Text = _dashboardInfo.FT_curContracts.ToString();
+
+				jobsLabel.Text = _dashboardInfo.curJobs.ToString ();
+				proposedJobsLabel.Text = _dashboardInfo.proposedJobs.ToString ();
+				calloutJobsLabel.Text = _dashboardInfo.calloutJobs.ToString ();
+			}
+		}
+
+		public async void LoadDashboardInfo()
+		{
+			if (_dashboardInfo != null) return;
+
+			_dashboardInfo = await _dashboardViewmodel.getDashboardInfo ();
+
+			UpdateUI();
 		}
 	}
 }
