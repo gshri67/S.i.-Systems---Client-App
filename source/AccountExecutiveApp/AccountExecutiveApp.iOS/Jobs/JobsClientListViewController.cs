@@ -23,7 +23,7 @@ namespace AccountExecutiveApp.iOS
 
 		private void SetupTableViewSource()
 		{
-			if (TableView == null )
+			if (TableView == null || _jobs == null )
 				return;
 
 			RegisterCellsForReuse();
@@ -34,7 +34,7 @@ namespace AccountExecutiveApp.iOS
 
 		private void InstantiateTableViewSource()
 		{
-			_clientListTableViewSource = new JobsClientListTableViewSource ();
+			_clientListTableViewSource = new JobsClientListTableViewSource (_jobs);
 
 			//_addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
 		}
@@ -44,10 +44,6 @@ namespace AccountExecutiveApp.iOS
 			base.ViewDidLoad ();
 
             LoadJobs();
-
-			SetupTableViewSource ();
-
-			TableView.ReloadData ();
 		}
 
 		private void RegisterCellsForReuse()
@@ -61,7 +57,9 @@ namespace AccountExecutiveApp.iOS
         public void UpdateUI()
         {
             if (_jobs != null)
-            { }
+            {
+                SetupTableViewSource();
+            }
         }
 
         public async void LoadJobs()

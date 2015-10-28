@@ -25,10 +25,21 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         {
             List<Job> jobList = new List<Job>();
 
-            Job job = new Job();
-            job.ClientName = "Nexen";
-            jobList.Add(job);
+            for (int i = 0; i < 19; i++)
+            {
+                Job job = new Job();
 
+                if (i < 10)
+                    job.ClientName = "Nexen";
+                else
+                    job.ClientName = "Cenovus";
+
+                job.isProposed = (i % 3) == 0;
+                job.hasCallout = job.isProposed && ((i%2) == 0);
+                job.JobTitle = "Developer" + i.ToString();
+             
+                jobList.Add(job);
+            }
             return jobList.AsEnumerable<Job>();
         }
     }

@@ -26,6 +26,7 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
         {
             var jobs = _service.GetJobs();
             return Request.CreateResponse(HttpStatusCode.OK, jobs);
+
         }
     }
 }
