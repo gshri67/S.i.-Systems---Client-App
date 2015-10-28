@@ -200,7 +200,7 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<Timesheet>(timesheet);
         }
 
-		[HttpPost("Dashboard")]
+		[HttpGet("Dashboard")]
 		public async Task<DashboardInfo> getDashboardInfo()
 		{
 			return await ExecuteWithDefaultClient<DashboardInfo>();

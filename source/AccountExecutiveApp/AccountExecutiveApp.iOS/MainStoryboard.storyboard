@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pGO-Di-Apo" userLabel="FS View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pGO-Di-Apo" userLabel="FS View" misplaced="YES">
                                 <rect key="frame" x="-4" y="0.0" width="328" height="168"/>
                                 <subviews>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ios7-minus-empty.png" translatesAutoresizingMaskIntoConstraints="NO" id="Njy-Tm-N1H" userLabel="minusImageView">
@@ -370,6 +370,7 @@
                         <outlet property="loginActivityIndicator" destination="p7g-ue-eQ6" id="Sc4-vY-4zF"/>
                         <outlet property="password" destination="kaA-DD-ZVr" id="CTH-jK-FP9"/>
                         <outlet property="username" destination="sdb-9i-6Ye" id="jdl-6m-xzn"/>
+                        <outlet property="login" destination="H9u-rD-s1d" id="name-outlet-H9u-rD-s1d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5O8-yu-0k6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -565,10 +566,15 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ios7-clock-outline.png" width="25" height="25"/>
+        <image name="ios7-clock-outline.png" width="50" height="50"/>
         <image name="ios7-minus-empty.png" width="512" height="512"/>
         <image name="leftArrow.png" width="32" height="32"/>
         <image name="sisystems_logo.jpg" width="730" height="253"/>
+        <image name="app-button.png" width="40" height="22"/>
+        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="ios7-plus-empty.png" width="512" height="512"/>
+        <image name="rightArrow.png" width="32" height="32"/>
+        <image name="social-usd.png" width="50" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

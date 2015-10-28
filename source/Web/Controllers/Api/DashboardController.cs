@@ -12,10 +12,9 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
     [RoutePrefix("api/Dashboard")]
     public class DashboardController: ApiController
     {
-        //private readonly DashboardService _service;
-        public  DashboardController(TimesheetService service)
+        public  DashboardController()
         {
-           // _service = service;
+
         }
 
         public HttpResponseMessage getDashboardInfo()

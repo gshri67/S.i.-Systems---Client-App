@@ -70,16 +70,16 @@ namespace AccountExecutiveApp.iOS
                 login_TouchUpInside(null);
                 return true;
             };
-			/*
+			
             //Force Sign In button to always be visible even when they keyboard tries to cover it
             _defaultFrame = LoginView.Frame;
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, ShowKeyboard);
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, HideKeyboard);
 
             var previousUsername = _tokenStore.GetUserName();
-            username.Text = previousUsername;*/
+            username.Text = previousUsername;
         }
-		/*
+		
         private void ShowKeyboard(NSNotification notification)
         {
             var spaceFromBottom = UIScreen.MainScreen.Bounds.Height - login.Frame.Y - login.Frame.Height;
@@ -97,7 +97,7 @@ namespace AccountExecutiveApp.iOS
                 });
             }
         }
-*/
+
         private void HideKeyboard(NSNotification notification)
         {
             if (LoginView.Frame.Y != _defaultFrame.Y)
@@ -154,20 +154,19 @@ namespace AccountExecutiveApp.iOS
 				return;
 			}
 
-			//DisableControls();
+			DisableControls();
 
-			//var loginTask = await _loginModel.LoginAsync(userName, password.Text);
+			var loginTask = await _loginModel.LoginAsync(userName, password.Text);
 
-			//if (loginTask.IsValid)
-			if (true)
+			if (loginTask.IsValid)
 			{
 				CurrentUser.Email = _loginModel.UserName;
 				RunMainStoryboard();
-			}/*
+			}
 			else
 			{
 				DisplayInvalidCredentials(loginTask.Message);
-			};*/
+			};
 		}
 
 
@@ -177,49 +176,47 @@ namespace AccountExecutiveApp.iOS
             UIApplication.SharedApplication.Windows[0].RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
         }
 
-        //public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
-        //{
-        //    base.PrepareForSegue(segue, sender);
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        {
+            base.PrepareForSegue(segue, sender);
 
-        //    if (segue.Identifier == "forgotPasswordSegue")
-        //    {
-        //        UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;
-        //        ResetPasswordViewController viewController = (ResetPasswordViewController)navigationController.TopViewController;
-        //        viewController.Initialize("Reset Password", username.Text);
-        //    }
-        //}
+            if (segue.Identifier == "forgotPasswordSegue")
+            {
+                UINavigationController navigationController = (UINavigationController)segue.DestinationViewController;
+                ResetPasswordViewController viewController = (ResetPasswordViewController)navigationController.TopViewController;
+                viewController.Initialize("Reset Password", username.Text);
+            }
+        }
 
-        //private void DisplayInvalidCredentials(string message)
-        //{
-        //    InvokeOnMainThread(delegate
-        //    {
-        //        loginActivityIndicator.StopAnimating();
-        //        var view = new UIAlertView(message, null, null, "Ok");
-        //        view.Show();
-        //        EnableControls();
-        //    });
-        //}
+        private void DisplayInvalidCredentials(string message)
+        {
+            InvokeOnMainThread(delegate
+            {
+                loginActivityIndicator.StopAnimating();
+                var view = new UIAlertView(message, null, null, "Ok");
+                view.Show();
+                EnableControls();
+            });
+        }
 
-        //private void DisableControls()
-        //{
-        //    username.Enabled = false;
-        //    username.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
-        //    password.Enabled = false;
-        //    password.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
-        //    login.Enabled = false;
-        //    ForgotPasswordButton.Enabled = false;
-        //    loginActivityIndicator.StartAnimating();
-        //}
+        private void DisableControls()
+        {
+            username.Enabled = false;
+            username.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
+            password.Enabled = false;
+            password.BackgroundColor = StyleGuideConstants.LightGrayUiColor;
+            login.Enabled = false;
+            loginActivityIndicator.StartAnimating();
+        }
 
-        //private void EnableControls()
-        //{
-        //    username.Enabled = true;
-        //    username.BackgroundColor = UIColor.White;
-        //    password.Enabled = true;
-        //    password.BackgroundColor = UIColor.White;
-        //    login.Enabled = true;
-        //    ForgotPasswordButton.Enabled = true;
-        //    loginActivityIndicator.StopAnimating();
-        //}
+        private void EnableControls()
+        {
+            username.Enabled = true;
+            username.BackgroundColor = UIColor.White;
+            password.Enabled = true;
+            password.BackgroundColor = UIColor.White;
+            login.Enabled = true;
+            loginActivityIndicator.StopAnimating();
+        }
     }
 }
