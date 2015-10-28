@@ -10,31 +10,31 @@ using System.Linq;
 
 namespace AccountExecutiveApp.iOS
 {
-	partial class JobsClientListViewController : UITableViewController
+	partial class JobsListViewController : UITableViewController
 	{
-		private JobsClientListTableViewSource _clientListTableViewSource;
-        private JobsViewModel _jobsViewModel;
-        private IEnumerable<Job> _jobs;
+		private JobsListTableViewSource _listTableViewSource;
+		private JobsViewModel _jobsViewModel;
+		public IEnumerable<Job> _jobs;
 
-		public JobsClientListViewController (IntPtr handle) : base (handle)
+		public JobsListViewController (IntPtr handle) : base (handle)
 		{
-            _jobsViewModel = DependencyResolver.Current.Resolve<JobsViewModel>();
+			//_jobsViewModel = DependencyResolver.Current.Resolve<JobsViewModel>();
 		}
 
 		private void SetupTableViewSource()
 		{
-			if (TableView == null || _jobs == null)
+			if (TableView == null || _jobs == null )
 				return;
 
 			RegisterCellsForReuse();
 			InstantiateTableViewSource();
 
-			TableView.Source = _clientListTableViewSource;
+			TableView.Source = _listTableViewSource;
 		}
 
 		private void InstantiateTableViewSource()
 		{
-			_clientListTableViewSource = new JobsClientListTableViewSource ( this, _jobs );
+			_listTableViewSource = new JobsListTableViewSource ( this, _jobs );
 
 			//_addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
 		}
@@ -43,7 +43,7 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
-            LoadJobs();
+			LoadJobs();
 
 			SetupTableViewSource ();
 
@@ -58,22 +58,22 @@ namespace AccountExecutiveApp.iOS
 			TableView.RegisterClassForCellReuse(typeof (UITableViewCell), "cell");
 		}
 
-        public void UpdateUI()
-        {
-			if ( _jobs != null)
-            { 
+		public void UpdateUI()
+		{
+			if (_jobs != null)
+			{
 				SetupTableViewSource ();
 			}
-        }
+		}
 
-        public async void LoadJobs()
-        {
-            if (_jobs != null) return;
+		public async void LoadJobs()
+		{
+			if (_jobs != null) return;
 
-            _jobs = await _jobsViewModel.getJobs();
+			_jobs = await _jobsViewModel.getJobs();
 
 
-            UpdateUI();
-        }
+			UpdateUI();
+		}
 	}
 }
