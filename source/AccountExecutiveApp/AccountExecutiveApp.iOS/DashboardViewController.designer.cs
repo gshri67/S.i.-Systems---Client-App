@@ -50,8 +50,16 @@ namespace AccountExecutiveApp.iOS
 		[Outlet]
 		UIKit.UILabel proposedJobsLabel { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIView DashboardView { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
+			if (DashboardView != null) {
+				DashboardView.Dispose ();
+				DashboardView = null;
+			}
 		}
 	}
 }

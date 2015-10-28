@@ -273,6 +273,7 @@
                         <outlet property="jobsContainerView" destination="Sul-9I-Lb4" id="xKr-iF-gc8"/>
                         <outlet property="jobsLabel" destination="Ky2-P5-6aY" id="YRG-PZ-Pgb"/>
                         <outlet property="proposedJobsLabel" destination="gEe-Z1-k0Q" id="0OZ-sJ-MSu"/>
+                        <outlet property="DashboardView" destination="G5G-hz-kO6" id="name-outlet-G5G-hz-kO6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mTy-r5-WXw" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -3,6 +3,7 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 using AccountExecutiveApp.Core.ViewModel;
+using CoreGraphics;
 using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 
@@ -11,18 +12,14 @@ namespace AccountExecutiveApp.iOS
 	partial class DashboardViewController : UIViewController
 	{
 		private readonly NSObject _tokenExpiredObserver;
-		private DashboardViewModel _dashboardViewmodel;
-		private DashboardInfo _dashboardInfo;
+		private readonly DashboardViewModel _dashboardViewmodel;
+        private LoadingOverlay _overlay;
 
 		public DashboardViewController (IntPtr handle) : base (handle)
 		{
 			this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
 
 			_dashboardViewmodel = DependencyResolver.Current.Resolve<DashboardViewModel>();
-
-			//TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
-			//TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
-
 		}
 
 		public void OnTokenExpired(NSNotification notifcation)
@@ -36,69 +33,103 @@ namespace AccountExecutiveApp.iOS
 			UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
 		}
 
+	    private void AddCircularBorderToLabel(UILabel label)
+	    {
+            label.Layer.BorderWidth = 3;
+            label.Layer.BorderColor = UIColor.DarkGray.CGColor;
+            label.Layer.CornerRadius = label.Frame.Width / 2;
+	    }
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad();
+            
+			LoadDashboardInfo();
 
-
-			LoadDashboardInfo ();
-
-			//IndicateLoading();
-
-			//CreateCustomTitleBar();
+			IndicateLoading();
 
 			LogoutManager.CreateNavBarLeftButton(this);
 
-			View.LayoutIfNeeded ();
-			View.NeedsUpdateConstraints ();
-
-			FS_curContractsLabel.Layer.BorderWidth = 3;
-			FS_curContractsLabel.Layer.BorderColor = UIColor.DarkGray.CGColor;
-			FS_curContractsLabel.Layer.CornerRadius = FS_curContractsLabel.Frame.Width/2;
-
-			FT_curContractsLabel.Layer.BorderWidth = 3;
-			FT_curContractsLabel.Layer.BorderColor = UIColor.DarkGray.CGColor;
-			FT_curContractsLabel.Layer.CornerRadius = FS_curContractsLabel.Frame.Width/2;
-
-			FT_containerView.Layer.BorderWidth = 1;
-			FT_containerView.Layer.BorderColor = UIColor.LightGray.CGColor;
-
-			FS_containerView.Layer.BorderWidth = 1;
-			FS_containerView.Layer.BorderColor = UIColor.LightGray.CGColor;
-
-			FS_endingContractsLabel.Text = "88";
-			FS_startingContractsLabel.Text = "88";
-
-			UpdateUI ();
+			SetupPageAutoLayout();
 		}
 
-		public void UpdateUI()
+	    private void SetupPageAutoLayout()
+	    {
+	        View.LayoutIfNeeded();
+	        View.NeedsUpdateConstraints();
+
+	        AddCircularBorderToLabel(FS_curContractsLabel);
+	        AddCircularBorderToLabel(FT_curContractsLabel);
+            AddBorderToView(FT_containerView);
+            AddBorderToView(FS_containerView);
+	    }
+
+	    private void AddBorderToView(UIView view)
+	    {
+            view.Layer.BorderWidth = 1;
+            view.Layer.BorderColor = StyleGuideConstants.LightGrayUiColor.CGColor;
+	    }
+
+	    private void SetFullySourcedLabels()
+	    {
+            FS_endingContractsLabel.Text = _dashboardViewmodel.FullySourcedEndingContracts();
+            FS_startingContractsLabel.Text = _dashboardViewmodel.FullySourcedStartingContracts();
+            FS_curContractsLabel.Text = _dashboardViewmodel.FullySourcedCurrentContracts();
+	    }
+
+	    private void SetFlowThruLabels()
+	    {
+            FT_endingContractsLabel.Text = _dashboardViewmodel.FlowThruEndingContracts();
+            FT_startingContractsLabel.Text = _dashboardViewmodel.FlowThruStartingContracts();
+            FT_curContractsLabel.Text = _dashboardViewmodel.FlowThruCurrentContracts();    
+	    }
+
+	    private void SetJobsLabels()
+	    {
+            jobsLabel.Text = _dashboardViewmodel.AllJobs();
+            proposedJobsLabel.Text = _dashboardViewmodel.ProposedJobs();
+            calloutJobsLabel.Text = _dashboardViewmodel.JobsWithCallouts();
+	    }
+
+		private void UpdateUserInterface()
 		{
-			if (_dashboardInfo != null) 
-			{
-				Console.WriteLine (_dashboardInfo.FS_curContracts);
-
-				FS_endingContractsLabel.Text = _dashboardInfo.FS_endingContracts.ToString();
-				FS_startingContractsLabel.Text = _dashboardInfo.FS_startingContracts.ToString();
-				FS_curContractsLabel.Text = _dashboardInfo.FS_curContracts.ToString();
-
-				FT_endingContractsLabel.Text = _dashboardInfo.FT_endingContracts.ToString();
-				FT_startingContractsLabel.Text = _dashboardInfo.FT_startingContracts.ToString();
-				FT_curContractsLabel.Text = _dashboardInfo.FT_curContracts.ToString();
-
-				jobsLabel.Text = _dashboardInfo.curJobs.ToString ();
-				proposedJobsLabel.Text = _dashboardInfo.proposedJobs.ToString ();
-				calloutJobsLabel.Text = _dashboardInfo.calloutJobs.ToString ();
-			}
+		    InvokeOnMainThread(delegate
+		    {
+		        SetFullySourcedLabels();
+		        SetFlowThruLabels();
+		        SetJobsLabels();
+		        RemoveOverlay();
+		    });
 		}
 
-		public async void LoadDashboardInfo()
+		private void LoadDashboardInfo()
 		{
-			if (_dashboardInfo != null) return;
-
-			_dashboardInfo = await _dashboardViewmodel.getDashboardInfo ();
-
-			UpdateUI();
+            _dashboardViewmodel.LoadDashboardInformation();
+		    _dashboardViewmodel.DashboardLoadingTask.ContinueWith(_ => UpdateUserInterface());
 		}
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(DashboardView.Frame.X, DashboardView.Frame.Y, DashboardView.Frame.Width, DashboardView.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }
