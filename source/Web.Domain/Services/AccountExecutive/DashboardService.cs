@@ -24,30 +24,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
         public DashboardSummary GetDashboardSummary()
         {
-            _contractsRepository.GetSummaryForDashboard();
-            var info = new DashboardSummary
+            var dashboardInfo = new DashboardSummary
             {
-                FlowThruContracts = new ContractSummarySet
-                {
-                    Current = 55,
-                    Starting = 17,
-                    Ending = 12
-                },
-                FullySourcedContracts = new ContractSummarySet
-                {
-                    Current = 55,
-                    Starting = 17,
-                    Ending = 12
-                },
-                Jobs = new JobsSummarySet
-                {
-                    All = 18,
-                    Proposed = 9,
-                    Callouts = 6
-                }
+                FlowThruContracts = _contractsRepository.GetFlowThruSummary(),
+                FullySourcedContracts = _contractsRepository.GetFullySourcedSummary(),
+                Jobs = _jobsRepository.GetJobsSummary()
             };
 
-            return info;
+            return dashboardInfo;
         }
     }
 }
