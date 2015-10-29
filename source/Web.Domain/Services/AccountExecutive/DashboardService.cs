@@ -22,19 +22,29 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             _session = session;
         }
 
-        public DashboardInfo GetDashboardSummary()
+        public DashboardSummary GetDashboardSummary()
         {
-            var info = new DashboardInfo
+            _contractsRepository.GetSummaryForDashboard();
+            var info = new DashboardSummary
             {
-                FS_curContracts = 55,
-                FS_startingContracts = 17,
-                FS_endingContracts = 12,
-                FT_curContracts = 55,
-                FT_startingContracts = 17,
-                FT_endingContracts = 12,
-                curJobs = 18,
-                calloutJobs = 6,
-                proposedJobs = 9
+                FlowThruContracts = new ContractSummarySet
+                {
+                    Current = 55,
+                    Starting = 17,
+                    Ending = 12
+                },
+                FullySourcedContracts = new ContractSummarySet
+                {
+                    Current = 55,
+                    Starting = 17,
+                    Ending = 12
+                },
+                Jobs = new JobsSummarySet
+                {
+                    All = 18,
+                    Proposed = 9,
+                    Callouts = 6
+                }
             };
 
             return info;

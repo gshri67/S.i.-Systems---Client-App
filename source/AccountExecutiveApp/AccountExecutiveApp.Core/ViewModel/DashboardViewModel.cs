@@ -10,13 +10,13 @@ namespace AccountExecutiveApp.Core.ViewModel
 		private readonly IMatchGuideApi _api;
 
 	    public Task DashboardLoadingTask;
-	    private DashboardInfo _dashboardStats;
+	    private DashboardSummary _dashboardStats;
 
 		public DashboardViewModel(IMatchGuideApi api)
 		{
 			_api = api;
 
-		    _dashboardStats = new DashboardInfo();
+		    _dashboardStats = new DashboardSummary();
 		}
 
 	    public void LoadDashboardInformation()
@@ -37,47 +37,47 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 	    public string FullySourcedEndingContracts()
 	    {
-	        return _dashboardStats.FS_endingContracts.ToString();
+	        return _dashboardStats.FullySourcedContracts.Ending.ToString();
 	    }
 
 	    public string FullySourcedStartingContracts()
 	    {
-	        return _dashboardStats.FS_startingContracts.ToString();
+            return _dashboardStats.FullySourcedContracts.Starting.ToString();
 	    }
 
 	    public string FullySourcedCurrentContracts()
 	    {
-	        return _dashboardStats.FS_curContracts.ToString();
+            return _dashboardStats.FullySourcedContracts.Current.ToString();
 	    }
         
         public string FlowThruEndingContracts()
         {
-            return _dashboardStats.FT_endingContracts.ToString();
+            return _dashboardStats.FlowThruContracts.Ending.ToString();
         }
 
         public string FlowThruStartingContracts()
         {
-            return _dashboardStats.FT_startingContracts.ToString();
+            return _dashboardStats.FlowThruContracts.Starting.ToString();
         }
 
         public string FlowThruCurrentContracts()
         {
-            return _dashboardStats.FT_curContracts.ToString();
+            return _dashboardStats.FlowThruContracts.Current.ToString();
         }
 
 	    public string AllJobs()
 	    {
-	        return _dashboardStats.curJobs.ToString();
+	        return _dashboardStats.Jobs.All.ToString();
 	    }
 
 	    public string ProposedJobs()
 	    {
-	        return _dashboardStats.proposedJobs.ToString();
+	        return _dashboardStats.Jobs.Proposed.ToString();
 	    }
 
 	    public string JobsWithCallouts()
 	    {
-	        return _dashboardStats.calloutJobs.ToString();
+	        return _dashboardStats.Jobs.Callouts.ToString();
 	    }
 	}
 }

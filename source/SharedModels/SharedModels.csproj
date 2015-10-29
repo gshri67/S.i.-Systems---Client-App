@@ -65,7 +65,7 @@
     <Compile Include="ProjectCode.cs" />
     <Compile Include="Remittance.cs" />
     <Compile Include="AccountExecutive.cs" />
-    <Compile Include="DashboardInfo.cs" />
+    <Compile Include="DashboardSummary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

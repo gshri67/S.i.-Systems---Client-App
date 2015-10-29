@@ -8,11 +8,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 {
     public interface IContractsRepository
     {
-
+        int GetSummaryForDashboard();
     }
 
     public class ContractsRepository : IContractsRepository
     {
-
+        public int GetSummaryForDashboard()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -201,9 +201,9 @@ namespace Shared.Core
         }
 
 		[HttpGet("Dashboard")]
-		public async Task<DashboardInfo> getDashboardInfo()
+		public async Task<DashboardSummary> getDashboardInfo()
 		{
-			return await ExecuteWithDefaultClient<DashboardInfo>();
+			return await ExecuteWithDefaultClient<DashboardSummary>();
 		}
 
         [HttpGet("Job")]

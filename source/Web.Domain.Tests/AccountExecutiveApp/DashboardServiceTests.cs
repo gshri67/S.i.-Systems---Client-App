@@ -31,32 +31,58 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         public void GetDashboardSummary_ReturnsDashboardSummary()
         {
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
-            var expected = new DashboardInfo
+            var expected = new DashboardSummary
             {
-                FS_curContracts = 55,
-                FS_startingContracts = 17,
-                FS_endingContracts = 12,
-                FT_curContracts = 55,
-                FT_startingContracts = 17,
-                FT_endingContracts = 12,
-                curJobs = 18,
-                calloutJobs = 6,
-                proposedJobs = 9
+                FlowThruContracts = new ContractSummarySet
+                {
+                    Current = 55,
+                    Starting = 17,
+                    Ending = 12
+                },
+                FullySourcedContracts = new ContractSummarySet
+                {
+                    Current = 55,
+                    Starting = 17,
+                    Ending = 12
+                },
+                Jobs = new JobsSummarySet
+                {
+                    All = 18,
+                    Proposed = 9,
+                    Callouts = 6
+                }
             };
 
             var summary = service.GetDashboardSummary();
-            
-            Assert.AreEqual(expected.FS_endingContracts, summary.FS_endingContracts);
-            Assert.AreEqual(expected.FS_startingContracts, summary.FS_startingContracts);
-            Assert.AreEqual(expected.FS_curContracts, summary.FS_curContracts);
 
-            Assert.AreEqual(expected.FT_endingContracts, summary.FT_endingContracts);
-            Assert.AreEqual(expected.FT_startingContracts, summary.FT_startingContracts);
-            Assert.AreEqual(expected.FT_curContracts, summary.FT_curContracts);
+            AssertSummariesAreEqual(expected, summary);
+        }
 
-            Assert.AreEqual(expected.curJobs, summary.curJobs);
-            Assert.AreEqual(expected.proposedJobs, summary.proposedJobs);
-            Assert.AreEqual(expected.calloutJobs, summary.calloutJobs);
+        [Test]
+        public void GetDashboardSummary_WhenAuthorized_CallsOnContractsRepository()
+        {
+            _contractsRepoMock.Setup(repository => repository.GetSummaryForDashboard());
+
+            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
+
+            var summary = service.GetDashboardSummary();
+
+            _contractsRepoMock.VerifyAll();
+        }
+
+        private void AssertSummariesAreEqual(DashboardSummary expected, DashboardSummary actual)
+        {
+            Assert.AreEqual(expected.FullySourcedContracts.Current, actual.FullySourcedContracts.Current);
+            Assert.AreEqual(expected.FullySourcedContracts.Starting, actual.FullySourcedContracts.Starting);
+            Assert.AreEqual(expected.FullySourcedContracts.Ending, actual.FullySourcedContracts.Ending);
+
+            Assert.AreEqual(expected.FlowThruContracts.Current, actual.FlowThruContracts.Current);
+            Assert.AreEqual(expected.FlowThruContracts.Starting, actual.FlowThruContracts.Starting);
+            Assert.AreEqual(expected.FlowThruContracts.Ending, actual.FlowThruContracts.Ending);
+
+            Assert.AreEqual(expected.Jobs.All, actual.Jobs.All);
+            Assert.AreEqual(expected.Jobs.Proposed, actual.Jobs.Proposed);
+            Assert.AreEqual(expected.Jobs.Callouts, actual.Jobs.Callouts);
         }
     }
 }

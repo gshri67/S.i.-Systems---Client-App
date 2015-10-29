@@ -46,7 +46,7 @@ namespace Shared.Core
         
         Task<Timesheet> SubmitTimesheet(Timesheet timesheet);
 
-		Task<DashboardInfo> getDashboardInfo();
+		Task<DashboardSummary> getDashboardInfo();
 
         Task<IEnumerable<Job>> getJobs();
     }
