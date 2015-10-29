@@ -10,6 +10,7 @@ using System.Linq;
 
 namespace AccountExecutiveApp.iOS
 {
+	[Register ("ContractsListViewController")]
 	partial class ContractsListViewController : UITableViewController
 	{
         private ContractsListTableViewSource _listTableViewSource;
