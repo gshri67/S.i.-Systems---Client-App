@@ -38,8 +38,8 @@ namespace AccountExecutiveApp.iOS
 			//SubtitleWithRightDetailCell cell = (SubtitleWithRightDetailCell)tableView.DequeueReusableCell ("SubtitleWithRightDetailCell");
 
 			string CellIdentifier = "SubtitleWithRightDetailCell";
-			var cell = tableView.DequeueReusableCell(CellIdentifier) as SubtitleWithRightDetailCell ??
-				new SubtitleWithRightDetailCell(CellIdentifier);
+			var cell = tableView.DequeueReusableCell (CellIdentifier) as SubtitleWithRightDetailCell;
+			//??	new SubtitleWithRightDetailCell(CellIdentifier);
 
 			if (_jobs != null)
 			{
@@ -53,9 +53,9 @@ namespace AccountExecutiveApp.iOS
 
 				cell.UpdateCell 
 				(
-					text:curJob.JobTitle,
-					subtitle:curJob.ClientName,
-					rightDetail:rightDetail
+					mainText:curJob.JobTitle,
+					subtitleText:curJob.ClientName,
+					rightDetailText:rightDetail
 				);
 			}
 

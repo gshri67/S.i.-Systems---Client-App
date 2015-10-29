@@ -177,9 +177,15 @@
       <DependentUpon>JobsListViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Jobs\JobsListTableViewSource.cs" />
+    <Compile Include="SubtitleWithRightDetailCell.cs" />
+    <Compile Include="SubtitleWithRightDetailCell.designer.cs">
+      <DependentUpon>SubtitleWithRightDetailCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
+    <InterfaceDefinition Include="SubtitleWithRightDetailCell~iphone.xib" />
+    <InterfaceDefinition Include="SubtitleWithRightDetailCell~ipad.xib" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
