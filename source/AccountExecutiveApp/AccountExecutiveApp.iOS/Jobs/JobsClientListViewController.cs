@@ -45,9 +45,9 @@ namespace AccountExecutiveApp.iOS
 
             LoadJobs();
 
-			SetupTableViewSource ();
+			//SetupTableViewSource ();
 
-			TableView.ReloadData ();
+			//TableView.ReloadData ();
 		}
 
 		private void RegisterCellsForReuse()
@@ -63,6 +63,7 @@ namespace AccountExecutiveApp.iOS
 			if ( _jobs != null)
             { 
 				SetupTableViewSource ();
+				TableView.ReloadData ();
 			}
         }
 

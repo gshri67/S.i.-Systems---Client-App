@@ -35,28 +35,28 @@ namespace AccountExecutiveApp.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			var cell = tableView.DequeueReusableCell ("RightDetailCell");
+			//SubtitleWithRightDetailCell cell = (SubtitleWithRightDetailCell)tableView.DequeueReusableCell ("SubtitleWithRightDetailCell");
 
-			if (cell == null)
-			{
-				Console.WriteLine ("creating new cell");
-
-				cell = new RightDetailCell (UITableViewCellStyle.Value1, "RightDetailCell");
-			}
+			string CellIdentifier = "SubtitleWithRightDetailCell";
+			var cell = tableView.DequeueReusableCell(CellIdentifier) as SubtitleWithRightDetailCell ??
+				new SubtitleWithRightDetailCell(CellIdentifier);
 
 			if (_jobs != null)
 			{
 				Job curJob = _jobs [(int)indexPath.Item];
-				cell.TextLabel.Text = curJob.JobTitle;
 
-				if (cell.DetailTextLabel != null)
-				{
-					if (curJob.hasCallout)
-						cell.DetailTextLabel.Text = "Callout";
-					else if (curJob.isProposed)
-						cell.DetailTextLabel.Text = "Proposed";
-					
-				}
+				string rightDetail = "";
+				if (curJob.hasCallout)
+					rightDetail = "Callout";
+				else if (curJob.isProposed)
+					rightDetail = "Proposed";
+
+				cell.UpdateCell 
+				(
+					text:curJob.JobTitle,
+					subtitle:curJob.ClientName,
+					rightDetail:rightDetail
+				);
 			}
 
 

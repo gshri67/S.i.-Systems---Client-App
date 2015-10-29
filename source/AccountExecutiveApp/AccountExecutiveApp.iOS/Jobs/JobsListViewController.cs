@@ -43,9 +43,19 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
-			LoadJobs();
+			//SetupTableViewSource ();
 
-			SetupTableViewSource ();
+			//TableView.ReloadData ();
+
+			UpdateUI ();
+
+
+			TableView.ReloadData ();
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			base.ViewDidAppear (animated);
 
 			TableView.ReloadData ();
 		}
@@ -53,9 +63,10 @@ namespace AccountExecutiveApp.iOS
 		private void RegisterCellsForReuse()
 		{
 			if (TableView == null) return;
-
-			TableView.RegisterClassForCellReuse(typeof (RightDetailCell), "RightDetailCell");
-			TableView.RegisterClassForCellReuse(typeof (UITableViewCell), "cell");
+		
+			//TableView.RegisterClassForCellReuse(typeof (RightDetailCell), "RightDetailCell");
+			//TableView.RegisterClassForCellReuse(typeof (UITableViewCell), "cell");
+			TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), "SubtitleWithRightDetailCell");
 		}
 
 		public void UpdateUI()
@@ -63,17 +74,8 @@ namespace AccountExecutiveApp.iOS
 			if (_jobs != null)
 			{
 				SetupTableViewSource ();
+				TableView.ReloadData ();
 			}
-		}
-
-		public async void LoadJobs()
-		{
-			if (_jobs != null) return;
-
-			_jobs = await _jobsViewModel.getJobs();
-
-
-			UpdateUI();
 		}
 	}
 }
