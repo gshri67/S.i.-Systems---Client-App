@@ -28,6 +28,12 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             for (int i = 0; i < 19; i++)
             {
                 ConsultantContract contract = new ConsultantContract();
+                contract.consultant = new IM_Consultant();
+
+                contract.consultant.FirstName = "Bob";
+                contract.consultant.LastName = "Smith";
+
+                contract.EndDate = new DateTime();
 
                 if (i < 7)
                     contract.StatusType = MatchGuideConstants.ContractStatusTypes.Active;
@@ -35,6 +41,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                     contract.StatusType = MatchGuideConstants.ContractStatusTypes.Pending;
                 else
                     contract.StatusType = MatchGuideConstants.ContractStatusTypes.Expired;
+
+                if (i % 2 == 0)
+                    contract.IsFloThru = true;
+                else
+                    contract.IsFullySourced = true;
 
                 //job.isProposed = (i % 3) == 0;
                 //job.hasCallout = job.isProposed && ((i%2) == 0);

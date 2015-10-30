@@ -45,7 +45,7 @@ namespace AccountExecutiveApp.iOS
 			{
 				ConsultantContract curContract = _contracts [(int)indexPath.Item];
 			
-				string rightDetail = "Ends Oct 8";
+				string rightDetail = "Ends " + curContract.EndDate.ToString("MMM dd, YYYY");
 				string subtitleText = "";
 
 				if (curContract.IsFloThru)
@@ -55,7 +55,7 @@ namespace AccountExecutiveApp.iOS
 
 				cell.UpdateCell 
 				(
-					mainText:"Bob Smith",
+					mainText:curContract.consultant.FullName,
 					subtitleText:subtitleText,
 					rightDetailText:rightDetail
 				);

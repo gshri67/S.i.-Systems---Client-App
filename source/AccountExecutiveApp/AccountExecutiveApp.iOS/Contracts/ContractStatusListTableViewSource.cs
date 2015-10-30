@@ -41,9 +41,25 @@ namespace AccountExecutiveApp.iOS
 	       	}
 		
             //sort contract statuses into Ending, Starting, Current
+            for (int listIndex = 0; listIndex < contractsByStatus.Count(); listIndex ++ )
+            {
+                if (contractsByStatus[listIndex][0].StatusType == MatchGuideConstants.ContractStatusTypes.Expired && listIndex != 0)
+                    swapInContractList(contractsByStatus, 0, listIndex);
+                else if (contractsByStatus[listIndex][0].StatusType == MatchGuideConstants.ContractStatusTypes.Pending && (listIndex > 1 || listIndex == 0 && contractsByStatus.Count > 2 ) )
+                    swapInContractList(contractsByStatus, 1, listIndex);
+                else if (contractsByStatus[listIndex][0].StatusType == MatchGuideConstants.ContractStatusTypes.Active && listIndex > 2 )
+                    swapInContractList(contractsByStatus, 2, listIndex);
+            }
 
 			_parentController = parentVC;
 		}
+
+        public void swapInContractList( List<List<ConsultantContract>> list, int i, int j ) 
+        {
+            List<ConsultantContract> temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
+        }
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
@@ -71,7 +87,16 @@ namespace AccountExecutiveApp.iOS
 
            if (contractsByStatus != null)
 		   {
-                cell.TextLabel.Text = contractsByStatus[(int)indexPath.Item][0].StatusType.ToString();
+               string status = "";
+
+               if (contractsByStatus[(int)indexPath.Item][0].StatusType == MatchGuideConstants.ContractStatusTypes.Active)
+                   status = "Current";
+               else if (contractsByStatus[(int)indexPath.Item][0].StatusType == MatchGuideConstants.ContractStatusTypes.Pending)
+                   status = "Starting";
+               else if (contractsByStatus[(int)indexPath.Item][0].StatusType == MatchGuideConstants.ContractStatusTypes.Expired)
+                   status = "Ending";
+
+                cell.TextLabel.Text = status;
 			
                 if (cell.DetailTextLabel != null)
 	                {
