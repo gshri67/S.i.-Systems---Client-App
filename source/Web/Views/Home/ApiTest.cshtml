@@ -82,6 +82,7 @@
             <li role="presentation"><a id="specializationTabButton" href="#specialization" role="tab" data-toggle="tab">Specializations</a></li>
             <li role="presentation"><a id="timesheetsTabButton" href="#timesheets" role="tab" data-toggle="tab">Timesheets</a></li>
             <li role="presentation"><a id="payPeriodsTabButton" href="#payPeriods" role="tab" data-toggle="tab">PayPeriods</a></li>
+            <li role="presentation"><a id="dashboardTabButton" href="#dashboard" role="tab" data-toggle="tab">IM Si Dashboard</a></li>
         </ul>
 
         <div class="tab-content">
@@ -150,12 +151,23 @@
 
             <div id="payPeriods" role="details" class="tab-pane">
                 <div class="input-group">
-                    <input id="payPeriodsId" type="text" class="form-control" placeholder="" />
+                    <input id="payPeriodsId" type="text" class="form-control" placeholder=""/>
                     <div class="input-group-btn">
                         <button id="getPayPeriodsButton" type="button" class="btn btn-primary">Search</button>
                     </div>
                 </div>
                 <div id="payPeriodsResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="dashboard" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="dashboardId" type="text" class="form-control" placeholder="" disabled/>
+                    <div class="input-group-btn">
+                        <button id="getDashboardButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="dashboardResults" class="code json well">
                 </div>
             </div>
 
@@ -370,6 +382,27 @@
 
 
                     }).fail(function (err) { showError(err, 'payPeriodsResults') });
+                },
+                getDashboard: function () {
+                    $('#dashboardResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Dashboard/',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#dashboardResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'dashboardResults') });
                 }
             };
 
@@ -384,6 +417,7 @@
             $('#getSpecializationsButton').click(page.getSpecializations);
             $('#getTimesheetsButton').click(page.getTimesheets);
             $('#getPayPeriodsButton').click(page.getPayPeriods);
+            $('#getDashboardButton').click(page.getDashboard);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {
