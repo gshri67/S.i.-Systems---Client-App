@@ -4,6 +4,8 @@ namespace SiSystems.SharedModels
 {
     public class ConsultantContract
     {
+		public IM_Consultant consultant;
+
         public int ConsultantId { get; set; }
 
         public int ClientId { get; set; }

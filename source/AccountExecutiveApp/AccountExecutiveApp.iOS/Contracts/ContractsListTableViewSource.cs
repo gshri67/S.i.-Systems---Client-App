@@ -44,7 +44,7 @@ namespace AccountExecutiveApp.iOS
 			if (_contracts != null)
 			{
 				ConsultantContract curContract = _contracts [(int)indexPath.Item];
-
+			
 				string rightDetail = "Ends Oct 8";
 				string subtitleText = "";
 
