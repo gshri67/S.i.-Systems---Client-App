@@ -45,7 +45,7 @@ namespace AccountExecutiveApp.iOS
 			{
 				ConsultantContract curContract = _contracts [(int)indexPath.Item];
 			
-				string rightDetail = "Ends " + curContract.EndDate.ToString("MMM dd, YYYY");
+				string rightDetail = "Ends " + curContract.EndDate.ToString("MMM dd, yyyy");
 				string subtitleText = "";
 
 				if (curContract.IsFloThru)

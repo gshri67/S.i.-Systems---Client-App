@@ -33,7 +33,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 contract.consultant.FirstName = "Bob";
                 contract.consultant.LastName = "Smith";
 
-                contract.EndDate = new DateTime();
+                contract.EndDate = new DateTime(2015, 12, 26);
 
                 if (i < 7)
                     contract.StatusType = MatchGuideConstants.ContractStatusTypes.Active;
