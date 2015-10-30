@@ -6,7 +6,9 @@ using SiSystems.ClientApp.Web.Domain.Caching;
 using SiSystems.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using System.Net.Http;
+using SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive;
 using SiSystems.ConsultantApp.Web.Domain.Repositories;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web
 {
@@ -49,7 +51,9 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<IConsultantDetailsRepository, ConsultantDetailsRepository>();
             container.RegisterType<IDirectReportRepository, DirectReportRepository>();
             container.RegisterType<IActivityRepository, ActivityRepository>();
-            container.RegisterType<IPayRateRepository, PayRateRepository>();            
+            container.RegisterType<IPayRateRepository, PayRateRepository>();
+            container.RegisterType<IContractsRepository, ContractsRepository>();
+            container.RegisterType<IJobsRepository, JobsRepository>();
             container.RegisterType<IObjectCache, ObjectCache>();
             container.RegisterType<HttpMessageHandler, HttpClientHandler>();
         }
