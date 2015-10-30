@@ -104,8 +104,7 @@ namespace AccountExecutiveApp.iOS
 
 		private void LoadDashboardInfo()
 		{
-            _dashboardViewmodel.LoadDashboardInformation();
-		    _dashboardViewmodel.DashboardLoadingTask.ContinueWith(_ => UpdateUserInterface());
+            _dashboardViewmodel.LoadDashboardInformation(UpdateUserInterface);
 		}
 
         #region Overlay
