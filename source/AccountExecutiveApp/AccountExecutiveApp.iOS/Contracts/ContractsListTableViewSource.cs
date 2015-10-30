@@ -42,25 +42,25 @@ namespace AccountExecutiveApp.iOS
 			//??	new SubtitleWithRightDetailCell(CellIdentifier);
             
 			if (_contracts != null)
-			{/*
-				Contract curContract = _contracts [(int)indexPath.Item];
+			{
+				ConsultantContract curContract = _contracts [(int)indexPath.Item];
 
-				string rightDetail = "";
-				if (curContract.hasCallout)
-					rightDetail = "Callout";
-				else if (curContract.isProposed)
-					rightDetail = "Proposed";
+				string rightDetail = "Ends Oct 8";
+				string subtitleText = "";
+
+				if (curContract.IsFloThru)
+					subtitleText = "FT";
+				else
+					subtitleText = "FS";
 
 				cell.UpdateCell 
 				(
-					mainText:curContract.JobTitle,
-					subtitleText:curContract.ClientName,
+					mainText:"Bob Smith",
+					subtitleText:subtitleText,
 					rightDetailText:rightDetail
-				);*/
+				);
 			}
-
-            cell.TextLabel.Text = "Contract";
-
+				
 			return cell;
 		}
 	}

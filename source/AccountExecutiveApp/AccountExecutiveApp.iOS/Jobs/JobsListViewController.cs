@@ -35,8 +35,6 @@ namespace AccountExecutiveApp.iOS
 		private void InstantiateTableViewSource()
 		{
 			_listTableViewSource = new JobsListTableViewSource ( this, _jobs );
-
-			//_addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
 		}
 
 		public override void ViewDidLoad ()
@@ -50,14 +48,20 @@ namespace AccountExecutiveApp.iOS
 			UpdateUI ();
 
 
-			TableView.ReloadData ();
+			//TableView.ReloadData ();
 		}
 
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
 
-			TableView.ReloadData ();
+			//TableView.ReloadData ();
+		}
+
+		public void setJobs( IEnumerable<Job> jobs )
+		{
+			_jobs = jobs;
+			UpdateUI ();
 		}
 
 		private void RegisterCellsForReuse()
@@ -71,7 +75,7 @@ namespace AccountExecutiveApp.iOS
 
 		public void UpdateUI()
 		{
-			if (_jobs != null)
+			if (_jobs != null && TableView != null )
 			{
 				SetupTableViewSource ();
 				TableView.ReloadData ();

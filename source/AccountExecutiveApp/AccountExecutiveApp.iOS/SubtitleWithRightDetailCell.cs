@@ -16,8 +16,8 @@ namespace AccountExecutiveApp.iOS
 			MainTextLabel = new UILabel();
 			MainTextLabel.TranslatesAutoresizingMaskIntoConstraints = false;
 			MainTextLabel.TextAlignment = UITextAlignment.Left;
-			MainTextLabel.Font =  UIFont.FromName("Helvetica", 12f);
-			MainTextLabel.TextColor = StyleGuideConstants.DarkerGrayUiColor;
+			MainTextLabel.Font =  UIFont.FromName("Helvetica", 14f);
+			MainTextLabel.TextColor = UIColor.Black;
 			AddSubview( MainTextLabel );
 
             SubtitleTextLabel = new UILabel();
@@ -30,9 +30,11 @@ namespace AccountExecutiveApp.iOS
             RightDetailTextLabel = new UILabel();
             RightDetailTextLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             RightDetailTextLabel.TextAlignment = UITextAlignment.Left;
-            RightDetailTextLabel.Font = UIFont.FromName("Helvetica", 10f);
-            RightDetailTextLabel.TextColor = StyleGuideConstants.MediumGrayUiColor;
+            RightDetailTextLabel.Font = UIFont.FromName("Helvetica", 12f);
+            RightDetailTextLabel.TextColor = StyleGuideConstants.DarkGrayUiColor;
             AddSubview(RightDetailTextLabel);
+
+			setupConstraints ();
 		}
 
 		public void setupConstraints() 
@@ -42,7 +44,6 @@ namespace AccountExecutiveApp.iOS
 			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.65f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.75f, 0f));
 
-			
 			AddConstraint( NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Left, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Bottom, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.95f, 0f));

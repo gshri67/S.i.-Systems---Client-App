@@ -69,17 +69,17 @@ namespace AccountExecutiveApp.iOS
 				cell = new RightDetailCell (UITableViewCellStyle.Value1, "RightDetailCell");
 			}
 
-		           if (contractsByStatus != null)
-				   {
-		                cell.TextLabel.Text = contractsByStatus[(int)indexPath.Item][0].StatusType.ToString();
-					
-		                if (cell.DetailTextLabel != null)
-			                {
-			                    int numContracts = contractsByStatus[(int)indexPath.Item].Count();
-			                
-			                    cell.DetailTextLabel.Text = numContracts.ToString();
-			                }
-		            }
+           if (contractsByStatus != null)
+		   {
+                cell.TextLabel.Text = contractsByStatus[(int)indexPath.Item][0].StatusType.ToString();
+			
+                if (cell.DetailTextLabel != null)
+	                {
+	                    int numContracts = contractsByStatus[(int)indexPath.Item].Count();
+	                
+	                    cell.DetailTextLabel.Text = numContracts.ToString();
+	                }
+            }
 	
 
 			return cell;
@@ -89,7 +89,7 @@ namespace AccountExecutiveApp.iOS
 		{
             
 			ContractsListViewController vc = (ContractsListViewController)_parentController.Storyboard.InstantiateViewController ("ContractsListViewController");
-			vc._contracts = contractsByStatus[(int)indexPath.Item];
+			vc.setContracts( contractsByStatus[(int)indexPath.Item] );
 			_parentController.ShowViewController ( vc, _parentController );
 		}
 	}

@@ -50,14 +50,19 @@ namespace AccountExecutiveApp.iOS
 			UpdateUI ();
 
 
-			TableView.ReloadData ();
+			//TableView.ReloadData ();
+		}
+
+		public void setContracts( IEnumerable<ConsultantContract> contracts )
+		{
+			_contracts = contracts;
 		}
 
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
 
-			TableView.ReloadData ();
+			//TableView.ReloadData ();
 		}
 
 		private void RegisterCellsForReuse()
@@ -71,7 +76,7 @@ namespace AccountExecutiveApp.iOS
 
 		public void UpdateUI()
 		{
-			if (_contracts != null)
+			if (_contracts != null && TableView != null)
 			{
 				SetupTableViewSource ();
 				TableView.ReloadData ();

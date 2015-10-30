@@ -95,7 +95,7 @@ namespace AccountExecutiveApp.iOS
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			JobsListViewController vc = (JobsListViewController)_parentController.Storyboard.InstantiateViewController ("JobsListViewController");
-			vc._jobs = jobsByClient[(int)indexPath.Item];
+			vc.setJobs( jobsByClient[(int)indexPath.Item] );
 			_parentController.ShowViewController ( vc, _parentController );
 		}
 	}
