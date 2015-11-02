@@ -25,7 +25,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         {
             List<Job> jobList = new List<Job>();
 
-            for (int i = 0; i < 19; i++)
+            for (int i = 0; i < 28; i++)
             {
                 Job job = new Job();
 
@@ -37,7 +37,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 job.isProposed = (i % 3) == 0;
                 job.hasCallout = job.isProposed && ((i%2) == 0);
                 job.JobTitle = "Developer" + i.ToString();
-             
+
+                job.issueDate = new DateTime(2015, 10, i + 1 + (i%5) - (i%3) );
+
                 jobList.Add(job);
             }
             return jobList.AsEnumerable<Job>();

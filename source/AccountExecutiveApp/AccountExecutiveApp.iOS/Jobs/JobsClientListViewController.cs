@@ -60,10 +60,12 @@ namespace AccountExecutiveApp.iOS
 
         public void UpdateUI()
         {
-			if ( _jobs != null)
-            { 
-				SetupTableViewSource ();
-				TableView.ReloadData ();
+			if ( _jobs != null && TableView != null )
+            {
+                if (_clientListTableViewSource == null) 
+    				SetupTableViewSource ();
+				
+                TableView.ReloadData ();
 			}
         }
 

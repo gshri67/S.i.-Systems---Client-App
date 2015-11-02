@@ -12,5 +12,6 @@ namespace SiSystems.SharedModels
         public string JobTitle { get; set; }
         public bool isProposed { get; set; }
         public bool hasCallout { get; set; }
+        public DateTime issueDate { get; set; }
     }
 }

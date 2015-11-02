@@ -51,10 +51,28 @@ namespace AccountExecutiveApp.iOS
 				else if (curJob.isProposed)
 					rightDetail = "Proposed";
 
+                DateTime curDate = DateTime.Now;
+                int daysSinceStart = curDate.Subtract(curJob.issueDate).Days;
+
+                string subtitleText = "New";
+
+                if (daysSinceStart == 1)
+                    subtitleText = "1 day ago";
+                else if (daysSinceStart < 7)
+                    subtitleText = daysSinceStart.ToString() + " days ago";
+                else if (daysSinceStart < 14)
+                    subtitleText = "1 week ago";
+                else if (daysSinceStart < 30)
+                    subtitleText = (daysSinceStart / 7).ToString() + " weeks ago";
+                else if(daysSinceStart < 60 )
+                    subtitleText = "1 month ago";
+                else
+                    subtitleText = (daysSinceStart / 30).ToString() + " months ago";
+
 				cell.UpdateCell 
 				(
 					mainText:curJob.JobTitle,
-					subtitleText:curJob.ClientName,
+					subtitleText:subtitleText,
 					rightDetailText:rightDetail
 				);
 			}

@@ -61,8 +61,18 @@ namespace AccountExecutiveApp.iOS
 		public void setJobs( IEnumerable<Job> jobs )
 		{
 			_jobs = jobs;
+            sortJobsByIssueDate();
 			UpdateUI ();
 		}
+
+        private void sortJobsByIssueDate() 
+        {
+            List<Job> list = _jobs.ToList();
+            list.Sort((d1, d2) => DateTime.Compare(d1.issueDate, d2.issueDate));
+            list.Reverse();
+            _jobs = list.AsEnumerable();
+
+        }
 
 		private void RegisterCellsForReuse()
 		{
