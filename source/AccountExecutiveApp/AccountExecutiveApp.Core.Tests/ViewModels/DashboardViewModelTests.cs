@@ -677,29 +677,5 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         }
         #endregion
         #endregion
-
-        //[Test]
-        //public void LoadDashboardInformation_OnCompletion_CallsAction()
-        //{
-        //    //var mockAction = new Mock<Action>();
-
-        //    //_mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult<DashboardSummary>(null));
-        //    //_viewModel = new DashboardViewModel(_mockApi.Object);
-
-        //    //_viewModel.LoadDashboardInformation(mockAction.Object);
-
-        //    //mockAction.Verify();
-
-        //    //bool actionWasInvoked = false;
-        //    //Action action = () => actionWasInvoked = true;
-
-        //    //_mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult<DashboardSummary>(null));
-        //    //_viewModel = new DashboardViewModel(_mockApi.Object);
-
-        //    //_viewModel.LoadDashboardInformation(action);
-
-        //    //Assert.True(actionWasInvoked);
-            
-        //}
     }
 }
