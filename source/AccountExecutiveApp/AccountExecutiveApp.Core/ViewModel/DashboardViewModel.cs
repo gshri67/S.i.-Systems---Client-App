@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Shared.Core;
 using SiSystems.SharedModels;
 using System.Threading.Tasks;
@@ -10,8 +11,6 @@ namespace AccountExecutiveApp.Core.ViewModel
 		private readonly IMatchGuideApi _api;
 
 	    private DashboardSummary _dashboardStats;
-        private ContractSummarySet FullySourcedContracts { get { return _dashboardStats.FullySourcedContracts; } }
-        private ContractSummarySet FlowThruContracts { get { return _dashboardStats.FlowThruContracts; } }
 
 	    public DashboardViewModel(IMatchGuideApi api)
 		{
@@ -22,10 +21,11 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 	    public void LoadDashboardInformation(Action dashboardLoadedCallback)
 	    {
-	        var dashboardLoadingTask = GetDashboadStats();
-	        dashboardLoadingTask.ContinueWith(_ => DashboardInfoRetrieved());
-	        
-            if (dashboardLoadedCallback != null) 
+            var dashboardLoadingTask = GetDashboadStats();
+
+            dashboardLoadingTask.ContinueWith(_ => DashboardInfoRetrieved());
+
+            if (dashboardLoadedCallback != null)
                 dashboardLoadingTask.ContinueWith(_ => dashboardLoadedCallback());
 	    }
 

@@ -15,8 +15,6 @@ namespace SiSystems.SharedModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public decimal Rate { get; set; }
-
         public ClientContact DirectReport { get; set; }
 
         public bool IsFloThru;
