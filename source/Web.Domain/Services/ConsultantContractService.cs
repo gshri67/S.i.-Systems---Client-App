@@ -36,11 +36,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 contract.EndDate = new DateTime(2015, 12, 26);
 
                 if (i < 7)
-                    contract.StatusType = MatchGuideConstants.ContractStatusTypes.Active;
+                    contract.StatusType = MatchGuideConstants.ConsultantContractStatusTypes.Active;
                 else if( i < 14 )
-                    contract.StatusType = MatchGuideConstants.ContractStatusTypes.Pending;
+                    contract.StatusType = MatchGuideConstants.ConsultantContractStatusTypes.Starting;
                 else
-                    contract.StatusType = MatchGuideConstants.ContractStatusTypes.Expired;
+                    contract.StatusType = MatchGuideConstants.ConsultantContractStatusTypes.Ending;
 
                 if (i % 2 == 0)
                     contract.IsFloThru = true;

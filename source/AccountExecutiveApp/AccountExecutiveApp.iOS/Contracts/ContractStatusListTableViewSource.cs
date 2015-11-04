@@ -89,13 +89,15 @@ namespace AccountExecutiveApp.iOS
 		   {
                string status = "";
 
-               if (contractsByStatus[(int)indexPath.Item][0].StatusType == MatchGuideConstants.ContractStatusTypes.Active)
+		       status = contractsByStatus[(int) indexPath.Item][0].StatusType.ToString();
+               /*
+               if (contractsByStatus[(int)indexPath.Item][0].StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Active)
                    status = "Current";
-               else if (contractsByStatus[(int)indexPath.Item][0].StatusType == MatchGuideConstants.ContractStatusTypes.Pending)
+               else if (contractsByStatus[(int)indexPath.Item][0].StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Starting)
                    status = "Starting";
-               else if (contractsByStatus[(int)indexPath.Item][0].StatusType == MatchGuideConstants.ContractStatusTypes.Expired)
+               else if (contractsByStatus[(int)indexPath.Item][0].StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Ending)
                    status = "Ending";
-
+               */
                 cell.TextLabel.Text = status;
 			
                 if (cell.DetailTextLabel != null)

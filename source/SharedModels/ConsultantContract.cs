@@ -23,6 +23,7 @@ namespace SiSystems.SharedModels
 
         public bool IsFullySourced;
 
-        public MatchGuideConstants.ContractStatusTypes StatusType { get; set; }
+        //public MatchGuideConstants.ContractStatusTypes StatusType { get; set; }
+        public MatchGuideConstants.ConsultantContractStatusTypes StatusType { get; set; }
     }
 }
