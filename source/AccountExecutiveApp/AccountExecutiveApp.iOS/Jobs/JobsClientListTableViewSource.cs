@@ -11,47 +11,58 @@ namespace AccountExecutiveApp.iOS
 	{
 		private readonly UITableViewController _parentController;
 
-		private List<List<Job>> jobsByClient;
+		private List<List<Job>> JobsByClient;
 
 		public JobsClientListTableViewSource ( UITableViewController parentVC, IEnumerable<Job> jobs )
 		{
-            jobsByClient = new List<List<Job>>();
+		    JobsByClient = getJobsByClient(jobs);
+		
+			_parentController = parentVC;
+		}
+         
+        /*
+         Traverse the jobs, if we find a client name we have not seen before we add it to the first dimension of "JobsByClient". Otherwise 
+         just add the job to the second dimension of the existing client index. This assumes client names are unique. 
+         */
+        private List<List<Job>> getJobsByClient(IEnumerable<Job> jobs )
+        {
+            List<List<Job>> jobsByClient = new List<List<Job>>();
             List<Job> jobsList = jobs.ToList();
 
             for (int i = 0; i < jobs.Count(); i++)
-        	{
+            {
                 bool clientAlreadyAdded = false;
                 int clientIndex = -1;
 
                 for (int j = 0; j < jobsByClient.Count; j++)
-	                {
-	                    if (jobsByClient[j][0].ClientName == jobsList[i].ClientName)
-		                    {
-		                        clientAlreadyAdded = true;
-		                        clientIndex = j;
-	                    }
+                {
+                    if (jobsByClient[j][0].ClientName == jobsList[i].ClientName)
+                    {
+                        clientAlreadyAdded = true;
+                        clientIndex = j;
+                    }
                 }
 
                 Job jobToAdd = jobsList[i];
 
-                if (clientAlreadyAdded)	
-					jobsByClient[clientIndex].Add( jobToAdd );
+                if (clientAlreadyAdded)
+                    jobsByClient[clientIndex].Add(jobToAdd);
                 else
-		            jobsByClient.Add(new List<Job>() { jobToAdd });
-	       	}
-		
-			_parentController = parentVC;
-		}
+                    jobsByClient.Add(new List<Job>() { jobToAdd });
+            }
 
-		public override nint NumberOfSections(UITableView tableView)
+            return jobsByClient;
+	    }
+         
+        public override nint NumberOfSections(UITableView tableView)
 		{
 			return 1;
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			if (jobsByClient != null)
-				return jobsByClient.Count();
+			if (JobsByClient != null)
+				return JobsByClient.Count();
 			else
 				return 0;
 		}
@@ -67,26 +78,26 @@ namespace AccountExecutiveApp.iOS
 				cell = new RightDetailCell (UITableViewCellStyle.Value1, "RightDetailCell");
 			}
 
-		           if (jobsByClient != null)
-				   {
-		                cell.TextLabel.Text = jobsByClient[(int)indexPath.Item][0].ClientName;
+		    if (JobsByClient != null)
+			{
+		        cell.TextLabel.Text = JobsByClient[(int)indexPath.Item][0].ClientName;
 					
-		                if (cell.DetailTextLabel != null)
-			                {
-			                    int numJobs = jobsByClient[(int)indexPath.Item].Count();
-			                    int jobsProposed = 0, jobCallouts = 0;
+		        if (cell.DetailTextLabel != null)
+			    {
+			        int numJobs = JobsByClient[(int)indexPath.Item].Count();
+			        int jobsProposed = 0, jobCallouts = 0;
 
-			                    foreach (Job job in jobsByClient[(int)indexPath.Item])
-				                {
-			                        if (job.hasCallout)
-				                            jobCallouts++;
-			                        if (job.isProposed)
-				                            jobsProposed++;
-				                }
+			        foreach (Job job in JobsByClient[(int)indexPath.Item])
+				    {
+			            if (job.hasCallout)
+				                jobCallouts++;
+			            if (job.isProposed)
+				                jobsProposed++;
+				    }
 			
-			                    cell.DetailTextLabel.Text = numJobs + "/" + jobsProposed + "/" + jobCallouts;
-			                }
-		            }
+			        cell.DetailTextLabel.Text = numJobs + "/" + jobsProposed + "/" + jobCallouts;
+			    }
+		    }
 	
 
 			return cell;
@@ -95,7 +106,7 @@ namespace AccountExecutiveApp.iOS
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			JobsListViewController vc = (JobsListViewController)_parentController.Storyboard.InstantiateViewController ("JobsListViewController");
-			vc.setJobs( jobsByClient[(int)indexPath.Item] );
+			vc.setJobs( JobsByClient[(int)indexPath.Item] );
 			_parentController.ShowViewController ( vc, _parentController );
 		}
 	}

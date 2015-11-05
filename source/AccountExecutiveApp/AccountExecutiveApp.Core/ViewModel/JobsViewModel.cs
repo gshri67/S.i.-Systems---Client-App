@@ -11,7 +11,7 @@ namespace AccountExecutiveApp.Core.ViewModel
     public class JobsViewModel
 	{
 		private readonly IMatchGuideApi _api;
-        private IEnumerable<Job> _jobs;
+        public IEnumerable<Job> Jobs;
 
         /*
         public string ClientName { get; set; }
@@ -26,9 +26,9 @@ namespace AccountExecutiveApp.Core.ViewModel
 			this._api = api;
 		}
 
-        public async Task<IEnumerable<Job>> getJobs()
+        public async Task getJobs()
 		{
-			return await this._api.getJobs();
+			Jobs = await this._api.getJobs();
 		}
 
         public void LoadJobs(Action jobsLoadedCallback)
@@ -42,34 +42,42 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public void JobInfoRetrieved()
         {
-            if (_jobs == null)
-                _jobs = new List<Job>();
+            if (Jobs == null)
+                Jobs = new List<Job>();
         }
 
         public string ClientName( int index )
         {
             if (Jobs != null)
                 return Jobs.ElementAt(index).ClientName;
+            return null;
         }
         public string JobTitle(int index)
         {
             if (Jobs != null)
                 return Jobs.ElementAt(index).JobTitle;
+
+            return null;
         }
         public bool IsProposed(int index)
         {
             if (Jobs != null)
                 return Jobs.ElementAt(index).isProposed;
+
+            return false;
         }
         public bool HasCallout(int index)
         {
             if (Jobs != null)
                 return Jobs.ElementAt(index).hasCallout;
+
+            return false;
         }
         public DateTime IssueDate(int index)
         {
             if (Jobs != null)
                 return Jobs.ElementAt(index).issueDate;
+            return DateTime.Now;
         }
 	}
 }

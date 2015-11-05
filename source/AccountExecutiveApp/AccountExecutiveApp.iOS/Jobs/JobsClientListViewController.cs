@@ -14,7 +14,6 @@ namespace AccountExecutiveApp.iOS
 	{
 		private JobsClientListTableViewSource _clientListTableViewSource;
         private JobsViewModel _jobsViewModel;
-        private IEnumerable<Job> _jobs;
 
 		public JobsClientListViewController (IntPtr handle) : base (handle)
 		{
@@ -23,7 +22,7 @@ namespace AccountExecutiveApp.iOS
 
 		private void SetupTableViewSource()
 		{
-			if (TableView == null || _jobs == null)
+            if (TableView == null || _jobsViewModel.Jobs == null)
 				return;
 
 			RegisterCellsForReuse();
@@ -34,7 +33,7 @@ namespace AccountExecutiveApp.iOS
 
 		private void InstantiateTableViewSource()
 		{
-			_clientListTableViewSource = new JobsClientListTableViewSource ( this, _jobs );
+            _clientListTableViewSource = new JobsClientListTableViewSource(this, _jobsViewModel.Jobs);
 
 			//_addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
 		}
@@ -44,10 +43,6 @@ namespace AccountExecutiveApp.iOS
 			base.ViewDidLoad ();
 
             LoadJobs();
-
-			//SetupTableViewSource ();
-
-			//TableView.ReloadData ();
 		}
 
 		private void RegisterCellsForReuse()
@@ -60,23 +55,24 @@ namespace AccountExecutiveApp.iOS
 
         public void UpdateUI()
         {
-			if ( _jobs != null && TableView != null )
-            {
-                if (_clientListTableViewSource == null) 
-    				SetupTableViewSource ();
+            InvokeOnMainThread( delegate{
+			    if ( _jobsViewModel.Jobs != null && TableView != null )
+                {
+                    if (_clientListTableViewSource == null) 
+    				    SetupTableViewSource ();
 				
-                TableView.ReloadData ();
-			}
+                    TableView.ReloadData ();
+			    }
+            });
         }
 
         public async void LoadJobs()
         {
-            if (_jobs != null) return;
+            if ( _jobsViewModel.Jobs != null) return;
 
-            _jobs = await _jobsViewModel.getJobs();
-
-
-            UpdateUI();
+            _jobsViewModel.LoadJobs(UpdateUI);
         }
+
+
 	}
 }
