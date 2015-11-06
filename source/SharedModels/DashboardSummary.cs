@@ -2,12 +2,19 @@
 
 namespace SiSystems.SharedModels
 {
-	public class DashboardSummary
-	{
+    public class DashboardSummary
+    {
         public ContractSummarySet FullySourcedContracts { get; set; }
         public ContractSummarySet FlowThruContracts { get; set; }
         public JobsSummarySet Jobs { get; set; }
-	}
+
+        public DashboardSummary()
+        {
+            FullySourcedContracts = new ContractSummarySet();
+            FlowThruContracts = new ContractSummarySet();
+            Jobs = new JobsSummarySet();
+        }
+    }
 
     public class ContractSummarySet
     {

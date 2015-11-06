@@ -1,6 +1,7 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using System.Threading.Tasks;
 using UIKit;
 using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
@@ -79,8 +80,8 @@ namespace AccountExecutiveApp.iOS
 
 	    private void SetFlowThruLabels()
 	    {
-            FT_endingContractsLabel.Text = _dashboardViewmodel.FlowThruEndingContracts();
-            FT_startingContractsLabel.Text = _dashboardViewmodel.FlowThruStartingContracts();
+            FT_endingContractsLabel.Text = _dashboardViewmodel.FloThruEndingContracts();
+            FT_startingContractsLabel.Text = _dashboardViewmodel.FloThruStartingContracts();
             FT_curContractsLabel.Text = _dashboardViewmodel.FlowThruCurrentContracts();    
 	    }
 
@@ -102,9 +103,16 @@ namespace AccountExecutiveApp.iOS
 		    });
 		}
 
+	    private void NotifyOfError()
+	    {
+	        //todo: Add any error alerts and display that screen as appropriate
+	    }
+
 		private void LoadDashboardInfo()
 		{
-            _dashboardViewmodel.LoadDashboardInformation(UpdateUserInterface);
+            _dashboardViewmodel.LoadDashboardInformation();
+		    _dashboardViewmodel.DashboardIsLoading.ContinueWith(_ => UpdateUserInterface(), TaskContinuationOptions.OnlyOnRanToCompletion);
+            _dashboardViewmodel.DashboardIsLoading.ContinueWith(_ => NotifyOfError(), TaskContinuationOptions.NotOnRanToCompletion);
 		}
 
         #region Overlay

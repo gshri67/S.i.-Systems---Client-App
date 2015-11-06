@@ -10,23 +10,53 @@ namespace AccountExecutiveApp.Core.ViewModel
 	{
 		private readonly IMatchGuideApi _api;
 
+	    private const int MinimumToDisplay = 0;
 	    private DashboardSummary _dashboardStats;
+
+        private ContractSummarySet FullySourced 
+        { 
+            get
+            {
+                if(_dashboardStats == null)
+                    return new ContractSummarySet();
+                return _dashboardStats.FullySourcedContracts ?? new ContractSummarySet();
+            } 
+        }
+        
+        private ContractSummarySet FloThru
+        {
+            get
+            {
+                if (_dashboardStats == null)
+                    return new ContractSummarySet();
+                return _dashboardStats.FlowThruContracts ?? new ContractSummarySet();
+            }
+        }
+        
+        private JobsSummarySet Jobs
+        {
+            get
+            {
+                if (_dashboardStats == null)
+                    return new JobsSummarySet();
+                return _dashboardStats.Jobs ?? new JobsSummarySet();
+            }
+        }
+
+	    public Task DashboardIsLoading { get; private set; }
 
 	    public DashboardViewModel(IMatchGuideApi api)
 		{
 			_api = api;
 
-		    _dashboardStats = new DashboardSummary();
+            _dashboardStats = new DashboardSummary();
 		}
 
-	    public void LoadDashboardInformation(Action dashboardLoadedCallback)
+	    public void LoadDashboardInformation()
 	    {
-            var dashboardLoadingTask = GetDashboadStats();
+            DashboardIsLoading = GetDashboadStats();
 
-            dashboardLoadingTask.ContinueWith(_ => DashboardInfoRetrieved());
-
-            if (dashboardLoadedCallback != null)
-                dashboardLoadingTask.ContinueWith(_ => dashboardLoadedCallback());
+            DashboardIsLoading.ContinueWith(_ => DashboardInfoRetrieved());
 	    }
 
 	    private async Task GetDashboadStats()
@@ -40,73 +70,54 @@ namespace AccountExecutiveApp.Core.ViewModel
                 _dashboardStats = new DashboardSummary();
 	    }
 
-        private static bool LessThanMin(int number)
-        {
-            const int min = 0;
-            return number < min;
-        }
+	    private string ValueOrMinimumToString(int value)
+	    {
+	        return Math.Max(value, MinimumToDisplay).ToString();
+	    }
 
 	    public string FullySourcedEndingContracts()
 	    {
-            return (_dashboardStats == null || _dashboardStats.FullySourcedContracts == null || LessThanMin(_dashboardStats.FullySourcedContracts.Ending)) ? 
-	            string.Empty : 
-                _dashboardStats.FullySourcedContracts.Ending.ToString();
+	        return ValueOrMinimumToString(FullySourced.Ending);
         }
 
 	    public string FullySourcedStartingContracts()
 	    {
-            return (_dashboardStats == null || _dashboardStats.FullySourcedContracts == null || LessThanMin(_dashboardStats.FullySourcedContracts.Starting)) ?
-                string.Empty :
-                _dashboardStats.FullySourcedContracts.Starting.ToString();
+            return ValueOrMinimumToString(FullySourced.Starting);
 	    }
 
 	    public string FullySourcedCurrentContracts()
 	    {
-            return (_dashboardStats == null || _dashboardStats.FullySourcedContracts == null || LessThanMin(_dashboardStats.FullySourcedContracts.Current)) ?
-                string.Empty :
-                _dashboardStats.FullySourcedContracts.Current.ToString();
+            return ValueOrMinimumToString(FullySourced.Current);
 	    }
         
-        public string FlowThruEndingContracts()
+        public string FloThruEndingContracts()
         {
-            return (_dashboardStats == null || _dashboardStats.FlowThruContracts == null || LessThanMin(_dashboardStats.FlowThruContracts.Ending)) ?
-                string.Empty : 
-                _dashboardStats.FlowThruContracts.Ending.ToString();
+            return ValueOrMinimumToString(FloThru.Ending);
         }
 
-        public string FlowThruStartingContracts()
+        public string FloThruStartingContracts()
         {
-            return (_dashboardStats == null || _dashboardStats.FlowThruContracts == null || LessThanMin(_dashboardStats.FlowThruContracts.Starting)) ?
-                string.Empty : 
-                _dashboardStats.FlowThruContracts.Starting.ToString();
+            return ValueOrMinimumToString(FloThru.Starting);
         }
 
 	    public string FlowThruCurrentContracts()
         {
-            return (_dashboardStats == null || _dashboardStats.FlowThruContracts == null || LessThanMin(_dashboardStats.FlowThruContracts.Current)) ? 
-                string.Empty :
-                _dashboardStats.FlowThruContracts.Current.ToString();
+            return ValueOrMinimumToString(FloThru.Current);
         }
 
 	    public string AllJobs()
 	    {
-            return (_dashboardStats == null || _dashboardStats.Jobs == null || LessThanMin(_dashboardStats.Jobs.All)) ?
-               string.Empty : 
-               _dashboardStats.Jobs.All.ToString();
+	        return ValueOrMinimumToString(Jobs.All);
 	    }
 
 	    public string ProposedJobs()
 	    {
-            return (_dashboardStats == null || _dashboardStats.Jobs == null || LessThanMin(_dashboardStats.Jobs.Proposed)) ?
-               string.Empty :
-               _dashboardStats.Jobs.Proposed.ToString();
+	        return ValueOrMinimumToString(Jobs.Proposed);
 	    }
 
 	    public string JobsWithCallouts()
 	    {
-            return (_dashboardStats == null || _dashboardStats.Jobs == null || LessThanMin(_dashboardStats.Jobs.Callouts)) ?
-               string.Empty :
-               _dashboardStats.Jobs.Callouts.ToString();
+	        return ValueOrMinimumToString(Jobs.Callouts);
 	    }
 	}
 }

@@ -15,6 +15,8 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         private Mock<IMatchGuideApi> _mockApi;
         private DashboardViewModel _viewModel;
 
+        private const string Zero = "0";
+
         [SetUp]
         public void Setup()
         {
@@ -81,7 +83,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
 
             var actual = _viewModel.FlowThruCurrentContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -89,10 +91,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupGetDashboardInfoReturnsNegativeValues();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FlowThruCurrentContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -100,10 +102,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FlowThruCurrentContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -111,10 +113,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullChildrenGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FlowThruCurrentContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -133,22 +135,22 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             _mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult(_invalidDashboardInfo));
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FlowThruCurrentContracts();
 
             Assert.AreEqual(expected.ToString(), actual);
         }
         #endregion
 
-        #region FlowThruStartingContracts
+        #region FloThruStartingContracts
         [Test]
         public void FlowThruStartingContracts_OnInitialization_ReturnsEmptyString()
         {
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            var actual = _viewModel.FlowThruStartingContracts();
+            var actual = _viewModel.FloThruStartingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -156,10 +158,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupGetDashboardInfoReturnsNegativeValues();
 
-            _viewModel.LoadDashboardInformation(null);
-            var actual = _viewModel.FlowThruStartingContracts();
+            _viewModel.LoadDashboardInformation();
+            var actual = _viewModel.FloThruStartingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -167,10 +169,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
-            var actual = _viewModel.FlowThruStartingContracts();
+            _viewModel.LoadDashboardInformation();
+            var actual = _viewModel.FloThruStartingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -178,10 +180,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullChildrenGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
-            var actual = _viewModel.FlowThruStartingContracts();
+            _viewModel.LoadDashboardInformation();
+            var actual = _viewModel.FloThruStartingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -200,22 +202,22 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             _mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult(_invalidDashboardInfo));
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            _viewModel.LoadDashboardInformation(null);
-            var actual = _viewModel.FlowThruStartingContracts();
+            _viewModel.LoadDashboardInformation();
+            var actual = _viewModel.FloThruStartingContracts();
 
             Assert.AreEqual(expected.ToString(), actual);
         }
         #endregion
 
-        #region FlowThruEndingContracts
+        #region FloThruEndingContracts
         [Test]
         public void FlowThruEndingContracts_OnInitialization_ReturnsEmptyString()
         {
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            var actual = _viewModel.FlowThruEndingContracts();
+            var actual = _viewModel.FloThruEndingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -223,10 +225,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupGetDashboardInfoReturnsNegativeValues();
 
-            _viewModel.LoadDashboardInformation(null);
-            var actual = _viewModel.FlowThruEndingContracts();
+            _viewModel.LoadDashboardInformation();
+            var actual = _viewModel.FloThruEndingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -234,10 +236,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
-            var actual = _viewModel.FlowThruEndingContracts();
+            _viewModel.LoadDashboardInformation();
+            var actual = _viewModel.FloThruEndingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -245,10 +247,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullChildrenGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
-            var actual = _viewModel.FlowThruEndingContracts();
+            _viewModel.LoadDashboardInformation();
+            var actual = _viewModel.FloThruEndingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -267,8 +269,8 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             _mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult(_invalidDashboardInfo));
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            _viewModel.LoadDashboardInformation(null);
-            var actual = _viewModel.FlowThruEndingContracts();
+            _viewModel.LoadDashboardInformation();
+            var actual = _viewModel.FloThruEndingContracts();
 
             Assert.AreEqual(expected.ToString(), actual);
         }
@@ -284,7 +286,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
 
             var actual = _viewModel.FullySourcedCurrentContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -292,10 +294,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupGetDashboardInfoReturnsNegativeValues();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedCurrentContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -303,10 +305,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedCurrentContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -314,10 +316,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullChildrenGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedCurrentContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -336,7 +338,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             _mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult(_invalidDashboardInfo));
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedCurrentContracts();
 
             Assert.AreEqual(expected.ToString(), actual);
@@ -351,7 +353,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
 
             var actual = _viewModel.FullySourcedStartingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -359,10 +361,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupGetDashboardInfoReturnsNegativeValues();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedStartingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -370,10 +372,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedStartingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -381,10 +383,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullChildrenGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedStartingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -403,7 +405,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             _mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult(_invalidDashboardInfo));
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedStartingContracts();
 
             Assert.AreEqual(expected.ToString(), actual);
@@ -418,7 +420,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
 
             var actual = _viewModel.FullySourcedEndingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -426,10 +428,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupGetDashboardInfoReturnsNegativeValues();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedEndingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -437,10 +439,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedEndingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -448,10 +450,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullChildrenGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedEndingContracts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -470,7 +472,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             _mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult(_invalidDashboardInfo));
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.FullySourcedEndingContracts();
 
             Assert.AreEqual(expected.ToString(), actual);
@@ -487,7 +489,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
 
             var actual = _viewModel.AllJobs();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -495,10 +497,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupGetDashboardInfoReturnsNegativeValues();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.AllJobs();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -506,10 +508,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.AllJobs();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -517,10 +519,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullChildrenGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.AllJobs();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -539,7 +541,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             _mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult(_invalidDashboardInfo));
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.AllJobs();
 
             Assert.AreEqual(expected.ToString(), actual);
@@ -554,7 +556,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
 
             var actual = _viewModel.ProposedJobs();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -562,10 +564,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupGetDashboardInfoReturnsNegativeValues();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.ProposedJobs();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -573,10 +575,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.ProposedJobs();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -584,10 +586,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullChildrenGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.ProposedJobs();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -606,7 +608,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             _mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult(_invalidDashboardInfo));
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.ProposedJobs();
 
             Assert.AreEqual(expected.ToString(), actual);
@@ -621,7 +623,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
 
             var actual = _viewModel.JobsWithCallouts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -629,10 +631,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupGetDashboardInfoReturnsNegativeValues();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.JobsWithCallouts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -640,10 +642,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.JobsWithCallouts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -651,10 +653,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         {
             SetupNullChildrenGetDashboardInfoReturn();
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.JobsWithCallouts();
 
-            Assert.AreEqual(string.Empty, actual);
+            Assert.AreEqual(Zero, actual);
         }
 
         [Test]
@@ -670,7 +672,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             _mockApi.Setup(api => api.getDashboardInfo()).Returns(Task.FromResult(_invalidDashboardInfo));
             _viewModel = new DashboardViewModel(_mockApi.Object);
 
-            _viewModel.LoadDashboardInformation(null);
+            _viewModel.LoadDashboardInformation();
             var actual = _viewModel.JobsWithCallouts();
 
             Assert.AreEqual(expected.ToString(), actual);
