@@ -30,7 +30,7 @@ namespace AccountExecutiveApp.iOS
 
 		private void InstantiateTableViewSource()
 		{
-            TableView.Source = new JobsClientListTableViewSource(this, _jobsViewModel.JobsByClient());
+            TableView.Source = new JobsClientListTableViewSource(this, _jobsViewModel.Jobs);
 			//_addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
 		}
 
@@ -62,11 +62,10 @@ namespace AccountExecutiveApp.iOS
             });
         }
 
-        public async void LoadJobs()
+        public void LoadJobs()
         {
-            if ( _jobsViewModel.Jobs != null) return;
-
-            _jobsViewModel.LoadJobs(UpdateUI);
+            var task = _jobsViewModel.LoadJobs();
+            task.ContinueWith(_ => UpdateUI());
         }
 
 
