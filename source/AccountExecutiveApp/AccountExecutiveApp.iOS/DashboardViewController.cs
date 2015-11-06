@@ -73,23 +73,23 @@ namespace AccountExecutiveApp.iOS
 
 	    private void SetFullySourcedLabels()
 	    {
-            FS_endingContractsLabel.Text = _dashboardViewmodel.FullySourcedEndingContracts();
-            FS_startingContractsLabel.Text = _dashboardViewmodel.FullySourcedStartingContracts();
-            FS_curContractsLabel.Text = _dashboardViewmodel.FullySourcedCurrentContracts();
+	        FS_endingContractsLabel.Text = _dashboardViewmodel.EndingFullySourcedContracts;
+	        FS_startingContractsLabel.Text = _dashboardViewmodel.StartingFullySourcedContracts;
+	        FS_curContractsLabel.Text = _dashboardViewmodel.CurrentFullySourcedContracts;
 	    }
 
-	    private void SetFlowThruLabels()
+	    private void SetFloThruLabels()
 	    {
-            FT_endingContractsLabel.Text = _dashboardViewmodel.FloThruEndingContracts();
-            FT_startingContractsLabel.Text = _dashboardViewmodel.FloThruStartingContracts();
-            FT_curContractsLabel.Text = _dashboardViewmodel.FlowThruCurrentContracts();    
+	        FT_endingContractsLabel.Text = _dashboardViewmodel.EndingFloThruContracts;
+	        FT_startingContractsLabel.Text = _dashboardViewmodel.StartingFloThruContracts;
+	        FT_curContractsLabel.Text = _dashboardViewmodel.CurrentFloThruContracts;
 	    }
 
 	    private void SetJobsLabels()
 	    {
-            jobsLabel.Text = _dashboardViewmodel.AllJobs();
-            proposedJobsLabel.Text = _dashboardViewmodel.ProposedJobs();
-            calloutJobsLabel.Text = _dashboardViewmodel.JobsWithCallouts();
+            jobsLabel.Text = _dashboardViewmodel.AllJobs;
+            proposedJobsLabel.Text = _dashboardViewmodel.ProposedJobs;
+            calloutJobsLabel.Text = _dashboardViewmodel.JobsWithCallouts;
 	    }
 
 		private void UpdateUserInterface()
@@ -97,7 +97,7 @@ namespace AccountExecutiveApp.iOS
 		    InvokeOnMainThread(delegate
 		    {
 		        SetFullySourcedLabels();
-		        SetFlowThruLabels();
+		        SetFloThruLabels();
 		        SetJobsLabels();
 		        RemoveOverlay();
 		    });
@@ -110,9 +110,9 @@ namespace AccountExecutiveApp.iOS
 
 		private void LoadDashboardInfo()
 		{
-            _dashboardViewmodel.LoadDashboardInformation();
-		    _dashboardViewmodel.DashboardIsLoading.ContinueWith(_ => UpdateUserInterface(), TaskContinuationOptions.OnlyOnRanToCompletion);
-            _dashboardViewmodel.DashboardIsLoading.ContinueWith(_ => NotifyOfError(), TaskContinuationOptions.NotOnRanToCompletion);
+            var loadDashboardTask = _dashboardViewmodel.LoadDashboardInformation();
+		    loadDashboardTask.ContinueWith(_ => UpdateUserInterface(), TaskContinuationOptions.OnlyOnRanToCompletion);
+            loadDashboardTask.ContinueWith(_ => NotifyOfError(), TaskContinuationOptions.NotOnRanToCompletion);
 		}
 
         #region Overlay

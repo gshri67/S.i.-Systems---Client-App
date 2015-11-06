@@ -10,7 +10,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 	{
 		private readonly IMatchGuideApi _api;
 
-	    private const int MinimumToDisplay = 0;
+	    private const int MinimumValueToDisplay = 0;
 	    private DashboardSummary _dashboardStats;
 
         private ContractSummarySet FullySourced 
@@ -43,7 +43,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
 
-	    public Task DashboardIsLoading { get; private set; }
+	    private Task DashboardIsLoading { get; set; }
 
 	    public DashboardViewModel(IMatchGuideApi api)
 		{
@@ -52,11 +52,13 @@ namespace AccountExecutiveApp.Core.ViewModel
             _dashboardStats = new DashboardSummary();
 		}
 
-	    public void LoadDashboardInformation()
+	    public Task LoadDashboardInformation()
 	    {
             DashboardIsLoading = GetDashboadStats();
 
             DashboardIsLoading.ContinueWith(_ => DashboardInfoRetrieved());
+	        
+            return DashboardIsLoading;
 	    }
 
 	    private async Task GetDashboadStats()
@@ -70,54 +72,54 @@ namespace AccountExecutiveApp.Core.ViewModel
                 _dashboardStats = new DashboardSummary();
 	    }
 
-	    private string ValueOrMinimumToString(int value)
+	    private string MaxOfValueOrZeroToString(int value)
 	    {
-	        return Math.Max(value, MinimumToDisplay).ToString();
+	        return Math.Max(value, MinimumValueToDisplay).ToString();
 	    }
 
-	    public string FullySourcedEndingContracts()
+	    public string EndingFullySourcedContracts
 	    {
-	        return ValueOrMinimumToString(FullySourced.Ending);
+            get { return MaxOfValueOrZeroToString(FullySourced.Ending); }
         }
 
-	    public string FullySourcedStartingContracts()
+        public string StartingFullySourcedContracts
 	    {
-            return ValueOrMinimumToString(FullySourced.Starting);
+            get { return MaxOfValueOrZeroToString(FullySourced.Starting); }
 	    }
 
-	    public string FullySourcedCurrentContracts()
+	    public string CurrentFullySourcedContracts
 	    {
-            return ValueOrMinimumToString(FullySourced.Current);
+            get { return MaxOfValueOrZeroToString(FullySourced.Current); }
 	    }
         
-        public string FloThruEndingContracts()
+        public string EndingFloThruContracts
         {
-            return ValueOrMinimumToString(FloThru.Ending);
+            get { return MaxOfValueOrZeroToString(FloThru.Ending); }
         }
 
-        public string FloThruStartingContracts()
-        {
-            return ValueOrMinimumToString(FloThru.Starting);
-        }
-
-	    public string FlowThruCurrentContracts()
-        {
-            return ValueOrMinimumToString(FloThru.Current);
-        }
-
-	    public string AllJobs()
+	    public string StartingFloThruContracts
 	    {
-	        return ValueOrMinimumToString(Jobs.All);
+	        get { return MaxOfValueOrZeroToString(FloThru.Starting); }
+        }
+
+	    public string CurrentFloThruContracts
+        {
+            get { return MaxOfValueOrZeroToString(FloThru.Current); }
+        }
+
+	    public string AllJobs
+	    {
+            get { return MaxOfValueOrZeroToString(Jobs.All); }
 	    }
 
-	    public string ProposedJobs()
+	    public string ProposedJobs
 	    {
-	        return ValueOrMinimumToString(Jobs.Proposed);
+            get { return MaxOfValueOrZeroToString(Jobs.Proposed); }
 	    }
 
-	    public string JobsWithCallouts()
+	    public string JobsWithCallouts
 	    {
-	        return ValueOrMinimumToString(Jobs.Callouts);
+            get { return MaxOfValueOrZeroToString(Jobs.Callouts); }
 	    }
 	}
 }
