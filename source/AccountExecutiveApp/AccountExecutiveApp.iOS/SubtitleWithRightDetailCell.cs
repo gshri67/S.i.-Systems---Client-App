@@ -13,29 +13,46 @@ namespace AccountExecutiveApp.iOS
 
 		public SubtitleWithRightDetailCell (IntPtr handle) : base (handle)
 		{
-			MainTextLabel = new UILabel();
-			MainTextLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-			MainTextLabel.TextAlignment = UITextAlignment.Left;
-			MainTextLabel.Font =  UIFont.FromName("Helvetica", 14f);
-			MainTextLabel.TextColor = UIColor.Black;
-			AddSubview( MainTextLabel );
-
-            SubtitleTextLabel = new UILabel();
-            SubtitleTextLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            SubtitleTextLabel.TextAlignment = UITextAlignment.Left;
-            SubtitleTextLabel.Font = UIFont.FromName("Helvetica", 10f);
-            SubtitleTextLabel.TextColor = StyleGuideConstants.MediumGrayUiColor;
-            AddSubview(SubtitleTextLabel);
-
-            RightDetailTextLabel = new UILabel();
-            RightDetailTextLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            RightDetailTextLabel.TextAlignment = UITextAlignment.Left;
-            RightDetailTextLabel.Font = UIFont.FromName("Helvetica", 12f);
-            RightDetailTextLabel.TextColor = StyleGuideConstants.DarkGrayUiColor;
-            AddSubview(RightDetailTextLabel);
-
-			setupConstraints ();
+		    InitializeCell();
 		}
+
+	    private void InitializeCell()
+	    {
+	        MainTextLabel = new UILabel
+	        {
+	            TranslatesAutoresizingMaskIntoConstraints = false,
+	            TextAlignment = UITextAlignment.Left,
+	            Font = UIFont.FromName("Helvetica", 14f),
+	            TextColor = UIColor.Black
+	        };
+	        AddSubview(MainTextLabel);
+
+	        SubtitleTextLabel = new UILabel
+	        {
+	            TranslatesAutoresizingMaskIntoConstraints = false,
+	            TextAlignment = UITextAlignment.Left,
+	            Font = UIFont.FromName("Helvetica", 10f),
+	            TextColor = StyleGuideConstants.MediumGrayUiColor
+	        };
+	        AddSubview(SubtitleTextLabel);
+
+	        RightDetailTextLabel = new UILabel
+	        {
+	            TranslatesAutoresizingMaskIntoConstraints = false,
+	            TextAlignment = UITextAlignment.Left,
+	            Font = UIFont.FromName("Helvetica", 12f),
+	            TextColor = StyleGuideConstants.DarkGrayUiColor
+	        };
+	        AddSubview(RightDetailTextLabel);
+
+	        setupConstraints();
+	    }
+
+	    public SubtitleWithRightDetailCell(string cellId)
+            : base(UITableViewCellStyle.Default, cellId)
+        {
+            InitializeCell();
+        }
 
 		public void setupConstraints() 
 		{

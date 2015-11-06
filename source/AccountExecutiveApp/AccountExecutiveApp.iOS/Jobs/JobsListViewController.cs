@@ -15,6 +15,7 @@ namespace AccountExecutiveApp.iOS
 		private JobsListTableViewSource _listTableViewSource;
 		private JobsViewModel _jobsViewModel;
 		public IEnumerable<Job> _jobs;
+	    public const string SubtitleCellIdentifier = "SubtitleWithRightDetailCell";
 
 		public JobsListViewController (IntPtr handle) : base (handle)
 		{
@@ -41,14 +42,7 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
-			//SetupTableViewSource ();
-
-			//TableView.ReloadData ();
-
 			UpdateUI ();
-
-
-			//TableView.ReloadData ();
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -61,13 +55,13 @@ namespace AccountExecutiveApp.iOS
 		public void setJobs( IEnumerable<Job> jobs )
 		{
 			_jobs = jobs;
-            sortJobsByIssueDate();
+            SortJobsByIssueDate();
 			UpdateUI ();
 		}
 
-        private void sortJobsByIssueDate() 
+        private void SortJobsByIssueDate() 
         {
-            List<Job> list = _jobs.ToList();
+            var list = _jobs.ToList();
             list.Sort((d1, d2) => DateTime.Compare(d1.issueDate, d2.issueDate));
             list.Reverse();
             _jobs = list.AsEnumerable();
@@ -77,9 +71,6 @@ namespace AccountExecutiveApp.iOS
 		private void RegisterCellsForReuse()
 		{
 			if (TableView == null) return;
-		
-			//TableView.RegisterClassForCellReuse(typeof (RightDetailCell), "RightDetailCell");
-			//TableView.RegisterClassForCellReuse(typeof (UITableViewCell), "cell");
 			TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), "SubtitleWithRightDetailCell");
 		}
 

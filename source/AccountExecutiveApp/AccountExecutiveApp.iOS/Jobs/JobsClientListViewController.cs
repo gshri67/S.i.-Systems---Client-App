@@ -12,8 +12,7 @@ namespace AccountExecutiveApp.iOS
 {
 	partial class JobsClientListViewController : UITableViewController
 	{
-		private JobsClientListTableViewSource _clientListTableViewSource;
-        private JobsViewModel _jobsViewModel;
+		private JobsViewModel _jobsViewModel;
 
 		public JobsClientListViewController (IntPtr handle) : base (handle)
 		{
@@ -27,14 +26,11 @@ namespace AccountExecutiveApp.iOS
 
 			RegisterCellsForReuse();
 			InstantiateTableViewSource();
-
-			TableView.Source = _clientListTableViewSource;
 		}
 
 		private void InstantiateTableViewSource()
 		{
-            _clientListTableViewSource = new JobsClientListTableViewSource(this, _jobsViewModel.Jobs);
-
+            TableView.Source = new JobsClientListTableViewSource(this, _jobsViewModel.JobsByClient());
 			//_addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
 		}
 
@@ -58,7 +54,7 @@ namespace AccountExecutiveApp.iOS
             InvokeOnMainThread( delegate{
 			    if ( _jobsViewModel.Jobs != null && TableView != null )
                 {
-                    if (_clientListTableViewSource == null) 
+                    if (TableView.Source == null) 
     				    SetupTableViewSource ();
 				
                     TableView.ReloadData ();

@@ -4,6 +4,7 @@ using Foundation;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -11,11 +12,13 @@ namespace AccountExecutiveApp.iOS
 	{
 		private readonly UITableViewController _parentController;
 
-		private List<List<Job>> JobsByClient;
+		private IEnumerable<IGrouping<string, Job>> JobsByClient;
 
-		public JobsClientListTableViewSource ( UITableViewController parentVC, IEnumerable<Job> jobs )
+		public JobsClientListTableViewSource ( UITableViewController parentVC, IEnumerable<IGrouping<string, Job>> jobsGroupedByClient )
 		{
-		    JobsByClient = getJobsByClient(jobs);
+		    //JobsByClient = getJobsByClient(jobs);
+		    JobsByClient = jobsGroupedByClient;
+		    //jobs.GroupBy(job => job.ClientName);
 		
 			_parentController = parentVC;
 		}
@@ -69,44 +72,35 @@ namespace AccountExecutiveApp.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			var cell = tableView.DequeueReusableCell ("RightDetailCell");
+			var cell = tableView.DequeueReusableCell ("RightDetailCell") ??
+                new RightDetailCell(UITableViewCellStyle.Value1, "RightDetailCell");
 
-			if (cell == null)
-			{
-				Console.WriteLine ("creating new cell");
+		    if (JobsByClient == null)
+		        return cell;
 
-				cell = new RightDetailCell (UITableViewCellStyle.Value1, "RightDetailCell");
-			}
-
-		    if (JobsByClient != null)
-			{
-		        cell.TextLabel.Text = JobsByClient[(int)indexPath.Item][0].ClientName;
-					
-		        if (cell.DetailTextLabel != null)
-			    {
-			        int numJobs = JobsByClient[(int)indexPath.Item].Count();
-			        int jobsProposed = 0, jobCallouts = 0;
-
-			        foreach (Job job in JobsByClient[(int)indexPath.Item])
-				    {
-			            if (job.hasCallout)
-				                jobCallouts++;
-			            if (job.isProposed)
-				                jobsProposed++;
-				    }
-			
-			        cell.DetailTextLabel.Text = numJobs + "/" + jobsProposed + "/" + jobCallouts;
-			    }
-		    }
-	
-
-			return cell;
+            var clientGrouping = JobsByClient.ElementAt((int)indexPath.Item);
+		    UpdateCell(clientGrouping, cell);
+		    
+		    return cell;
 		}
 
-		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
+	    private void UpdateCell(IGrouping<string, Job> clientGrouping, UITableViewCell cell)
+	    {
+	        cell.TextLabel.Text = clientGrouping.Key;
+
+	        if (cell.DetailTextLabel == null) return;
+	        
+            var numJobs = clientGrouping.Count();
+	        var jobsProposed = clientGrouping.Count(j => j.isProposed);
+	        var jobCallouts = clientGrouping.Count(j => j.hasCallout);
+
+	        cell.DetailTextLabel.Text = string.Format("{0}/{1}/{2}", numJobs, jobsProposed, jobCallouts);
+	    }
+
+	    public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			JobsListViewController vc = (JobsListViewController)_parentController.Storyboard.InstantiateViewController ("JobsListViewController");
-			vc.setJobs( JobsByClient[(int)indexPath.Item] );
+			var vc = (JobsListViewController)_parentController.Storyboard.InstantiateViewController ("JobsListViewController");
+			vc.setJobs( JobsByClient.ElementAt((int)indexPath.Item) );
 			_parentController.ShowViewController ( vc, _parentController );
 		}
 	}

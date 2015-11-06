@@ -79,5 +79,12 @@ namespace AccountExecutiveApp.Core.ViewModel
                 return Jobs.ElementAt(index).issueDate;
             return DateTime.Now;
         }
+
+        public IEnumerable<IGrouping<string, Job>> JobsByClient()
+        {
+            return Jobs == null 
+                ? new List<IGrouping<string, Job>>() 
+                : Jobs.GroupBy(job => job.ClientName);
+        }
 	}
 }
