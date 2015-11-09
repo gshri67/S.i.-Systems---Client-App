@@ -9,10 +9,12 @@ using SiSystems.ConsultantApp.Web.Domain.Services;
 using SiSystems.ConsultantApp.Web.Filters;
 using SiSystems.SharedModels;
 using SiSystems.ClientApp.Web.Domain.Services;
+using SiSystems.AccountExecutiveApp.Web.Filters;
 
-namespace SiSystems.ClientApp.Web.Controllers.Api
+namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
 {
-     [RoutePrefix("api/Job")]
+    [AccountExecutiveAccessAuthorization]
+    [RoutePrefix("api/Job")]
     public class JobController : ApiController
     {
 

@@ -4,12 +4,12 @@ using System.Net.Http;
 using System.Web.Http;
 using SiSystems.ClientApp.Web.Domain.Services.AccountExecutive;
 using SiSystems.ConsultantApp.Web.Domain.Services;
-using SiSystems.ConsultantApp.Web.Filters;
+using SiSystems.AccountExecutiveApp.Web.Filters;
 using SiSystems.SharedModels;
 
-namespace SiSystems.ConsultantApp.Web.Controllers.Api
+namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
 {
-    [ConsultantAccessAuthorizationAttribute]
+    [AccountExecutiveAccessAuthorization]
     [RoutePrefix("api/Dashboard")]
     public class DashboardController: ApiController
     {
