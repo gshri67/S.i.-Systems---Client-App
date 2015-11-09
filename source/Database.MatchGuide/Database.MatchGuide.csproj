@@ -71,7 +71,7 @@
     <EmbeddedResource Include="Scripts\001 - Create Company Tables.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\011 - Add Client Users.sql" />
+    <EmbeddedResource Include="Scripts\011 - Add Users.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\003 - Create Contract Tables.sql" />

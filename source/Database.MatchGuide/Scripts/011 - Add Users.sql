@@ -36,3 +36,31 @@ VALUES
 (4, 'joe.johnson@email.com'),
 (5, 'jessica.li@email.com'),
 (6, 'ed.maron@email.com');
+
+
+
+SET IDENTITY_INSERT [dbo].[Users] ON;
+
+INSERT INTO [dbo].[Users]
+(
+	[UserID], [FirstName], [Middle], [LastName], [UserType], [CompanyID], [Inactive], [ClientPortalTypeID], [ClientPortalFTAlumniTypeID]
+)
+VALUES
+(7, 'Adam', 'H.', 'Si', 693, null, 0, null, null);
+
+SET IDENTITY_INSERT [dbo].[Users] OFF;
+
+INSERT INTO [dbo].[User_Login]
+(
+	[UserID], [Login], [Password]
+)
+VALUES
+(7, 'adam.si', '5F4DCC3B5AA765D61D8327DEB882CF99');
+
+
+INSERT INTO [dbo].[User_Email]
+(
+	[UserID], [PrimaryEmail]
+)
+VALUES
+(7, 'adam.si@email.com');
