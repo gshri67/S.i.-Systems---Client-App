@@ -26,21 +26,14 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public async Task GetJobs()
 		{
-			Jobs = await _api.getJobs();
+			Jobs = await _api.GetJobs();
 		}
 
         public Task LoadJobs()
         {
             var jobLoadingTask = GetJobs();
 
-            jobLoadingTask.ContinueWith(_ => JobInfoRetrieved());
-
             return jobLoadingTask;
-        }
-
-        public void JobInfoRetrieved()
-        {
-            //todo: data cleanup?
         }
 	}
 }

@@ -13,6 +13,7 @@ namespace AccountExecutiveApp.iOS
 	partial class JobsClientListViewController : UITableViewController
 	{
 		private readonly JobsViewModel _jobsViewModel;
+        private const string ClientSelectedFromJobListSegueIdentifier = "ClientSelectedSegue";
 
 		public JobsClientListViewController (IntPtr handle) : base (handle)
 		{
@@ -47,5 +48,15 @@ namespace AccountExecutiveApp.iOS
             var task = _jobsViewModel.LoadJobs();
             task.ContinueWith(_ => UpdateUserInterface());
         }
+
+	    public override bool ShouldPerformSegue(string segueIdentifier, NSObject sender)
+	    {
+            if (segueIdentifier == ClientSelectedFromJobListSegueIdentifier)
+            {
+                return false;
+            }
+
+            return base.ShouldPerformSegue(segueIdentifier, sender);
+	    }
 	}
 }

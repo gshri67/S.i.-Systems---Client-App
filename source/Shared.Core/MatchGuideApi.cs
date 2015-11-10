@@ -207,7 +207,7 @@ namespace Shared.Core
 		}
 
         [HttpGet("Job")]
-        public async Task<IEnumerable<Job>> getJobs()
+        public async Task<IEnumerable<Job>> GetJobs()
         {
             return await ExecuteWithDefaultClient<IEnumerable<Job>>();
         }

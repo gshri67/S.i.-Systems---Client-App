@@ -13,6 +13,8 @@ namespace AccountExecutiveApp.iOS
         private readonly UITableViewController _parentController;
         private readonly JobsClientListTableViewModel _listViewModel;
 
+        private const string CellIdentifier = "JobsClientListCell";
+
         public JobsClientListTableViewSource(UITableViewController parentViewController, IEnumerable<Job> jobs)
         {
             _listViewModel = new JobsClientListTableViewModel(jobs);
@@ -30,13 +32,6 @@ namespace AccountExecutiveApp.iOS
             return _listViewModel.NumberOfGroups();
         }
 
-        private RightDetailCell GetRightDetailCellFromTableView(UITableView tableView)
-        {
-            const string rightCellIdendtifier = "RightDetailCell";
-            return tableView.DequeueReusableCell(rightCellIdendtifier) as RightDetailCell
-                ?? new RightDetailCell(UITableViewCellStyle.Value1, rightCellIdendtifier);
-        }
-
         private void SetCellTextByRowNumber(UITableViewCell cell, int rowNumber)
         {
             cell.TextLabel.Text = _listViewModel.ClientNameByRowNumber(rowNumber);
@@ -47,7 +42,8 @@ namespace AccountExecutiveApp.iOS
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = GetRightDetailCellFromTableView(tableView);
+            var cell = tableView.DequeueReusableCell(CellIdentifier)
+                ?? new UITableViewCell(UITableViewCellStyle.Value1, CellIdentifier);
 
             SetCellTextByRowNumber(cell, (int)indexPath.Item);
 
