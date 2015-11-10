@@ -12,26 +12,21 @@ namespace AccountExecutiveApp.iOS
 {
 	partial class JobsClientListViewController : UITableViewController
 	{
-		private JobsViewModel _jobsViewModel;
+		private readonly JobsViewModel _jobsViewModel;
 
 		public JobsClientListViewController (IntPtr handle) : base (handle)
 		{
             _jobsViewModel = DependencyResolver.Current.Resolve<JobsViewModel>();
 		}
 
-		private void SetupTableViewSource()
-		{
-            if (TableView == null || _jobsViewModel.Jobs == null)
-				return;
-
-			RegisterCellsForReuse();
-			InstantiateTableViewSource();
-		}
-
 		private void InstantiateTableViewSource()
 		{
+            if (TableView == null) return;
+
+            TableView.RegisterClassForCellReuse(typeof(RightDetailCell), "RightDetailCell");
+            
             TableView.Source = new JobsClientListTableViewSource(this, _jobsViewModel.Jobs);
-			//_addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
+            TableView.ReloadData();
 		}
 
 		public override void ViewDidLoad ()
@@ -41,33 +36,16 @@ namespace AccountExecutiveApp.iOS
             LoadJobs();
 		}
 
-		private void RegisterCellsForReuse()
-		{
-			if (TableView == null) return;
 
-			TableView.RegisterClassForCellReuse(typeof (RightDetailCell), "RightDetailCell");
-			TableView.RegisterClassForCellReuse(typeof (UITableViewCell), "cell");
-		}
-
-        public void UpdateUI()
+        public void UpdateUserInterface()
         {
-            InvokeOnMainThread( delegate{
-			    if ( _jobsViewModel.Jobs != null && TableView != null )
-                {
-                    if (TableView.Source == null) 
-    				    SetupTableViewSource ();
-				
-                    TableView.ReloadData ();
-			    }
-            });
+            InvokeOnMainThread(InstantiateTableViewSource);
         }
 
         public void LoadJobs()
         {
             var task = _jobsViewModel.LoadJobs();
-            task.ContinueWith(_ => UpdateUI());
+            task.ContinueWith(_ => UpdateUserInterface());
         }
-
-
 	}
 }
