@@ -45,13 +45,15 @@ namespace AccountExecutiveApp.iOS
 			{
 				ConsultantContract curContract = _contracts [(int)indexPath.Item];
 			
-				string rightDetail = "Ends " + curContract.EndDate.ToString("MMM dd, yyyy");
+				string rightDetail;
 				string subtitleText = "";
 
-				if (curContract.IsFloThru)
-					subtitleText = "FT";
+				if( curContract.StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Starting )
+					rightDetail = "Starts " + curContract.StartDate.ToString("MMM dd, yyyy");
 				else
-					subtitleText = "FS";
+					rightDetail = "Ends " + curContract.EndDate.ToString("MMM dd, yyyy");
+
+				subtitleText = curContract.CompanyName;
 
 				cell.UpdateCell 
 				(

@@ -6,7 +6,9 @@ namespace SiSystems.SharedModels
     {
 		public int ConsultantId { get; set; }
 
-        public int ClientId { get; set; }
+		public string CompanyName { get; set; }
+        
+		public int ClientId { get; set; }
 
         public string Title { get; set; }
 
