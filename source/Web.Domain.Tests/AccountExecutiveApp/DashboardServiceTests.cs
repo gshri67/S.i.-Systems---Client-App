@@ -16,14 +16,14 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
     public class DashboardServiceTests
     {
         private Mock<IJobsRepository> _jobsRepoMock;
-        private Mock<IContractsRepository> _contractsRepoMock;
+        private Mock<IConsultantContractRepository> _contractsRepoMock;
         private Mock<ISessionContext> _sessionMock;
         
         [SetUp]
         public void Setup()
         {
             _jobsRepoMock = new Mock<IJobsRepository>();
-            _contractsRepoMock = new Mock<IContractsRepository>();
+            _contractsRepoMock = new Mock<IConsultantContractRepository>();
             _sessionMock = new Mock<ISessionContext>();
         }
 

@@ -52,7 +52,6 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<IDirectReportRepository, DirectReportRepository>();
             container.RegisterType<IActivityRepository, ActivityRepository>();
             container.RegisterType<IPayRateRepository, PayRateRepository>();
-            container.RegisterType<IContractsRepository, ContractsRepository>();
             container.RegisterType<IJobsRepository, JobsRepository>();
             container.RegisterType<IObjectCache, ObjectCache>();
             container.RegisterType<HttpMessageHandler, HttpClientHandler>();

@@ -54,7 +54,6 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Repositories\AccountExecutive\ContractsRepository.cs" />
     <Compile Include="Repositories\AccountExecutive\JobsRepository.cs" />
     <Compile Include="Repositories\ActivityRepository.cs" />
     <Compile Include="Repositories\AccountExecutive\ConsultantContractRepository.cs" />

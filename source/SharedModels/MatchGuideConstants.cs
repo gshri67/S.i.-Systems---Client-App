@@ -331,64 +331,12 @@ namespace SiSystems.SharedModels
         /// <summary>
         /// Corresponds to -, +, or Active Contracts
         /// </summary>
-
         public struct ConsultantContractStatusTypes
         {
             public static string Active = "Active";
             public static string Ending = "-";
             public static string Starting = "+";
         }
-        /*
-        [DataContract]
-        [DebuggerDisplay("{DisplayValue}")]
-        public struct ConsultantContractStatusTypes : IMatchGuideConstant
-        {
-            [DataMember(Name = "backingValue")]
-            private readonly long m_value;
-
-            [DataMember(Name = "displayValue")]
-            private string DisplayValue
-            {
-                get { return this.ToString(); }
-            }
-
-            public const int Active = 1;
-            public const int Ending = 2;
-            public const int Starting = 3;
-
-            private ConsultantContractStatusTypes(long value)
-            {
-                m_value = value;
-            }
-
-            public static implicit operator ConsultantContractStatusTypes(long val)
-            {
-                return new ConsultantContractStatusTypes(val);
-            }
-
-            public static implicit operator ConsultantContractStatusTypes(int val)
-            {
-                return new ConsultantContractStatusTypes(val);
-            }
-
-            public static implicit operator long(ConsultantContractStatusTypes s)
-            {
-                return s.m_value;
-            }
-
-            public override string ToString()
-            {
-                if (m_value == 1)
-                    return "Active";
-                if (m_value == 2)
-                    return "-";
-                if (m_value == 3)
-                    return "+";
-                else
-                    return m_value.ToString();
-            }
-        }*/
-       
 
         /// Consider any unanticipated values as the default, NotChecked
         [DataContract]

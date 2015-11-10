@@ -17,9 +17,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     /// </summary>
     public class ConsultantContractService
     {
-        private ConsultantContractRepository _consultantContractRepository;
+        private IConsultantContractRepository _consultantContractRepository;
 
-        public ConsultantContractService(ConsultantContractRepository consultantContractRepository)
+        public ConsultantContractService(IConsultantContractRepository consultantContractRepository)
         {
             _consultantContractRepository = consultantContractRepository;
         }

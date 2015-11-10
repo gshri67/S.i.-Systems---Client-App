@@ -12,10 +12,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
     public class DashboardService
     {
         private readonly IJobsRepository _jobsRepository;
-        private readonly IContractsRepository _contractsRepository;
+        private readonly IConsultantContractRepository _contractsRepository;
         private readonly ISessionContext _session;
 
-        public DashboardService(IJobsRepository jobsRepository, IContractsRepository contractsRepository, ISessionContext session)
+        public DashboardService(IJobsRepository jobsRepository, IConsultantContractRepository contractsRepository, ISessionContext session)
         {
             _jobsRepository = jobsRepository;
             _contractsRepository = contractsRepository;
