@@ -19,7 +19,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public async Task<IEnumerable<ConsultantContract>> getContracts()
         {
-            return await this._api.getContracts();
+            return await this._api.GetContracts();
         }
     }
 }

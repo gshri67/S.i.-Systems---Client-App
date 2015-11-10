@@ -4,9 +4,7 @@ namespace SiSystems.SharedModels
 {
     public class ConsultantContract
     {
-		public IM_Consultant consultant;
-
-        public int ConsultantId { get; set; }
+		public int ConsultantId { get; set; }
 
         public int ClientId { get; set; }
 
@@ -23,5 +21,7 @@ namespace SiSystems.SharedModels
 
         //public MatchGuideConstants.ContractStatusTypes StatusType { get; set; }
         public MatchGuideConstants.ConsultantContractStatusTypes StatusType { get; set; }
+        
+        public IM_Consultant consultant;
     }
 }

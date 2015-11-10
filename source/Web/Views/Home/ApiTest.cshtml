@@ -83,6 +83,7 @@
             <li role="presentation"><a id="timesheetsTabButton" href="#timesheets" role="tab" data-toggle="tab">Timesheets</a></li>
             <li role="presentation"><a id="payPeriodsTabButton" href="#payPeriods" role="tab" data-toggle="tab">PayPeriods</a></li>
             <li role="presentation"><a id="dashboardTabButton" href="#dashboard" role="tab" data-toggle="tab">IM Si Dashboard</a></li>
+            <li role="presentation"><a id="consultantContractsTabButton" href="#consultantContracts" role="tab" data-toggle="tab">Consultant Contracts</a></li>
         </ul>
 
         <div class="tab-content">
@@ -168,6 +169,17 @@
                     </div>
                 </div>
                 <div id="dashboardResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="consultantContracts" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="consultantContractId" type="text" class="form-control" placeholder="" disabled />
+                    <div class="input-group-btn">
+                        <button id="getConsultantContractsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="consultantContractsResults" class="code json well">
                 </div>
             </div>
 
@@ -403,6 +415,28 @@
 
 
                     }).fail(function (err) { showError(err, 'dashboardResults') });
+                },
+
+                getConsultantContracts: function () {
+                    $('#consultantContractsResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/ConsultantContracts/',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#consultantContractsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'consultantContractsResults') });
                 }
             };
 
@@ -418,6 +452,7 @@
             $('#getTimesheetsButton').click(page.getTimesheets);
             $('#getPayPeriodsButton').click(page.getPayPeriods);
             $('#getDashboardButton').click(page.getDashboard);
+            $('#getConsultantContractsButton').click(page.getConsultantContracts);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {

@@ -57,6 +57,7 @@
     <Compile Include="Repositories\AccountExecutive\ContractsRepository.cs" />
     <Compile Include="Repositories\AccountExecutive\JobsRepository.cs" />
     <Compile Include="Repositories\ActivityRepository.cs" />
+    <Compile Include="Repositories\AccountExecutive\ConsultantContractRepository.cs" />
     <Compile Include="Repositories\DirectReportRepository.cs" />
     <Compile Include="Repositories\ConsultantDetailsRepository.cs" />
     <Compile Include="Repositories\PayRateRepository.cs" />

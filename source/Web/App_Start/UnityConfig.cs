@@ -56,6 +56,7 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<IJobsRepository, JobsRepository>();
             container.RegisterType<IObjectCache, ObjectCache>();
             container.RegisterType<HttpMessageHandler, HttpClientHandler>();
+            container.RegisterType<IConsultantContractRepository, ConsultantContractRepository>();
         }
     }
 }

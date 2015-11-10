@@ -14,17 +14,16 @@ using SiSystems.ClientApp.Web.Domain.Services;
 namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
 {
     [AccountExecutiveAccessAuthorization]
-    [RoutePrefix("api/ConsultantConstract")]
-    public class ConsultantContractController : ApiController
+    public class ConsultantContractsController : ApiController
     {
 
         private readonly ConsultantContractService _service;
-        public ConsultantContractController(ConsultantContractService service)
+        public ConsultantContractsController(ConsultantContractService service)
         {
             _service = service;
         }
 
-        public HttpResponseMessage getJobs()
+        public HttpResponseMessage GetContracts()
         {
             var contracts = _service.GetContracts();
             return Request.CreateResponse(HttpStatusCode.OK, contracts);

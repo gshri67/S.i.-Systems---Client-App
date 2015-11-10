@@ -203,7 +203,7 @@
     <Compile Include="Controllers\Api\ForgotPasswordController.cs" />
     <Compile Include="Controllers\Api\LogoutController.cs" />
     <Compile Include="Controllers\Api\ConsultantsController.cs" />
-    <Compile Include="Controllers\Api\ConsultantContractController.cs" />
+    <Compile Include="Controllers\Api\ConsultantContractsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\PayRatesController.cs" />
     <Compile Include="Filters\AccountExecutiveAccessAuthorizationAttribute.cs" />
@@ -272,7 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ConsultantContract\" />
+    <Folder Include="Views\ConsultantContracts\" />
     <Folder Include="Views\Dashboard\" />
     <Folder Include="Views\Job\" />
   </ItemGroup>
