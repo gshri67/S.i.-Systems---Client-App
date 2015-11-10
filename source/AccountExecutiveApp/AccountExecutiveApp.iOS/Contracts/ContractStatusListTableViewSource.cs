@@ -11,10 +11,12 @@ namespace AccountExecutiveApp.iOS
 	{
 		private readonly UITableViewController _parentController;
 
-		private List<List<ConsultantContract>> contractsByStatus;
-
+		private List<List<ConsultantContract>> FS_contractsByStatus;
+		private List<List<ConsultantContract>> FT_contractsByStatus;
+	
         public ContractStatusListTableViewSource(UITableViewController parentVC, IEnumerable<ConsultantContract> contracts)
 		{
+			List<List<ConsultantContract>> contractsByStatus;
             contractsByStatus = new List<List<ConsultantContract>>();
             List<ConsultantContract> contractsList = contracts.ToList();
 
@@ -51,6 +53,30 @@ namespace AccountExecutiveApp.iOS
                     swapInContractList(contractsByStatus, 2, listIndex);
             }
 
+			//sort contracts into FS or FT
+			FS_contractsByStatus = new List<List<ConsultantContract>>();
+			FT_contractsByStatus = new List<List<ConsultantContract>>();
+
+			for (int status = 0; status < contractsByStatus.Count; status++) 
+			{
+				FS_contractsByStatus.Add ( new List<ConsultantContract>() );
+				FT_contractsByStatus.Add ( new List<ConsultantContract>() );
+
+				foreach (ConsultantContract contract in contractsByStatus[status]) 
+				{
+					if (contract.IsFloThru)
+						FT_contractsByStatus[FT_contractsByStatus.Count()-1].Add (contract);
+					else
+						FS_contractsByStatus[FS_contractsByStatus.Count()-1].Add (contract);
+				}
+
+				if (FT_contractsByStatus [FT_contractsByStatus.Count - 1].Count == 0)
+					FT_contractsByStatus.RemoveAt (FT_contractsByStatus.Count - 1);
+
+				if (FS_contractsByStatus [FS_contractsByStatus.Count - 1].Count == 0)
+					FS_contractsByStatus.RemoveAt (FS_contractsByStatus.Count - 1);
+			}
+
 			_parentController = parentVC;
 		}
 
@@ -63,13 +89,23 @@ namespace AccountExecutiveApp.iOS
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
-			return 1;
+			return 2;
+		}
+
+		public override string TitleForHeader (UITableView tableView, nint section)
+		{
+			if (section == 0)
+				return "Fully-Sourced";
+			else
+				return "Flo-Thru";
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			if (contractsByStatus != null)
-				return contractsByStatus.Count();
+			if ( section == 0 && FS_contractsByStatus != null)
+				return FS_contractsByStatus.Count();
+			else if ( section == 1 && FT_contractsByStatus != null)
+				return FT_contractsByStatus.Count();
 			else
 				return 0;
 		}
@@ -85,11 +121,18 @@ namespace AccountExecutiveApp.iOS
 				cell = new RightDetailCell (UITableViewCellStyle.Value1, "RightDetailCell");
 			}
 
-           if (contractsByStatus != null)
+			List<ConsultantContract> contractStatus = null;
+
+			if (indexPath.Section == 0 && FS_contractsByStatus != null )
+				contractStatus = FS_contractsByStatus [(int)indexPath.Item];
+			else if( indexPath.Section == 1 && FT_contractsByStatus != null )
+				contractStatus = FT_contractsByStatus [(int)indexPath.Item];
+
+           if (contractStatus != null)
 		   {
                string status = "";
-
-		       status = contractsByStatus[(int) indexPath.Item][0].StatusType.ToString();
+			
+		       status = contractStatus[0].StatusType.ToString();
                /*
                if (contractsByStatus[(int)indexPath.Item][0].StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Active)
                    status = "Current";
@@ -102,7 +145,7 @@ namespace AccountExecutiveApp.iOS
 			
                 if (cell.DetailTextLabel != null)
 	                {
-	                    int numContracts = contractsByStatus[(int)indexPath.Item].Count();
+						int numContracts = contractStatus.Count();
 	                
 	                    cell.DetailTextLabel.Text = numContracts.ToString();
 	                }
@@ -114,9 +157,13 @@ namespace AccountExecutiveApp.iOS
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-            
 			ContractsListViewController vc = (ContractsListViewController)_parentController.Storyboard.InstantiateViewController ("ContractsListViewController");
-			vc.setContracts( contractsByStatus[(int)indexPath.Item] );
+
+			if( indexPath.Section == 0 && FS_contractsByStatus != null )
+				vc.setContracts( FS_contractsByStatus[(int)indexPath.Item] );
+			else if( indexPath.Section == 1 && FT_contractsByStatus != null )
+				vc.setContracts( FT_contractsByStatus[(int)indexPath.Item] );
+			
 			_parentController.ShowViewController ( vc, _parentController );
 		}
 	}
