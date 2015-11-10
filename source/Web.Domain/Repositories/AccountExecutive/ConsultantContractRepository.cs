@@ -55,6 +55,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 	                                        agrDetail.JobTitle Title,
 	                                        agr.StartDate StartDate,
 	                                        agr.EndDate EndDate,
+											company.CompanyName CompanyName,
 	                                        directReport.FirstName FirstName,
                                             directReport.LastName LastName,
                                             directReportEmail.PrimaryEmail EmailAddress
@@ -62,6 +63,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 	                                        LEFT JOIN [Users] directReport ON agr.CandidateID = directReport.UserID
                                             LEFT JOIN [Agreement_ContractDetail] agrDetail ON agr.AgreementID = agrDetail.AgreementID
                                             JOIN [User_Email] directReportEmail on directReportEmail.UserID = directReport.UserID
+											LEFT JOIN [Company] company ON agr.CompanyID = company.CompanyID
                                             ORDER BY agr.EndDate desc";
                   /*,
                                             CAST(agr.StatusType AS INT) StatusType,
