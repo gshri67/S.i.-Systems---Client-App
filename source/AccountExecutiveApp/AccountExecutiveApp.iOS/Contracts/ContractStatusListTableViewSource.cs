@@ -43,11 +43,11 @@ namespace AccountExecutiveApp.iOS
             //sort contract statuses into Ending, Starting, Current
             for (int listIndex = 0; listIndex < contractsByStatus.Count(); listIndex ++ )
             {
-                if (contractsByStatus[listIndex][0].StatusType == MatchGuideConstants.ContractStatusTypes.Expired && listIndex != 0)
+                if (contractsByStatus[listIndex][0].StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Ending && listIndex != 0)
                     swapInContractList(contractsByStatus, 0, listIndex);
-                else if (contractsByStatus[listIndex][0].StatusType == MatchGuideConstants.ContractStatusTypes.Pending && (listIndex > 1 || listIndex == 0 && contractsByStatus.Count > 2 ) )
+                else if (contractsByStatus[listIndex][0].StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Starting && (listIndex > 1 || listIndex == 0 && contractsByStatus.Count > 2))
                     swapInContractList(contractsByStatus, 1, listIndex);
-                else if (contractsByStatus[listIndex][0].StatusType == MatchGuideConstants.ContractStatusTypes.Active && listIndex > 2 )
+                else if (contractsByStatus[listIndex][0].StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Active && listIndex > 2)
                     swapInContractList(contractsByStatus, 2, listIndex);
             }
 

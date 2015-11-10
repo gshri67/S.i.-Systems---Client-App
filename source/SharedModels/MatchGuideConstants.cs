@@ -331,6 +331,14 @@ namespace SiSystems.SharedModels
         /// <summary>
         /// Corresponds to -, +, or Active Contracts
         /// </summary>
+
+        public struct ConsultantContractStatusTypes
+        {
+            public static string Active = "Active";
+            public static string Ending = "-";
+            public static string Starting = "+";
+        }
+        /*
         [DataContract]
         [DebuggerDisplay("{DisplayValue}")]
         public struct ConsultantContractStatusTypes : IMatchGuideConstant
@@ -379,7 +387,7 @@ namespace SiSystems.SharedModels
                 else
                     return m_value.ToString();
             }
-        }
+        }*/
        
 
         /// Consider any unanticipated values as the default, NotChecked
