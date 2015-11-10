@@ -159,11 +159,17 @@ namespace AccountExecutiveApp.iOS
 		{
 			ContractsListViewController vc = (ContractsListViewController)_parentController.Storyboard.InstantiateViewController ("ContractsListViewController");
 
-			if( indexPath.Section == 0 && FS_contractsByStatus != null )
-				vc.setContracts( FS_contractsByStatus[(int)indexPath.Item] );
-			else if( indexPath.Section == 1 && FT_contractsByStatus != null )
-				vc.setContracts( FT_contractsByStatus[(int)indexPath.Item] );
-			
+			if (indexPath.Section == 0 && FS_contractsByStatus != null) {
+				vc.setContracts (FS_contractsByStatus [(int)indexPath.Item]);
+				vc.Title = string.Format ("{0} Contracts", FS_contractsByStatus [(int)indexPath.Item] [0].StatusType);
+				vc.subtitle = "Fully-Sourced";
+			}
+			else if (indexPath.Section == 1 && FT_contractsByStatus != null) 
+			{
+				vc.setContracts (FT_contractsByStatus [(int)indexPath.Item]);
+				vc.Title = string.Format ("{0} Contracts", FT_contractsByStatus [(int)indexPath.Item][0].StatusType);
+				vc.subtitle = "Flo-Thru";
+			}
 			_parentController.ShowViewController ( vc, _parentController );
 		}
 	}

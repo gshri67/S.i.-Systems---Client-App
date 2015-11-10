@@ -15,6 +15,7 @@ namespace AccountExecutiveApp.iOS
 	{
         private ContractsListTableViewSource _listTableViewSource;
 		public IEnumerable<ConsultantContract> _contracts;
+		public string subtitle;
 
         public ContractsListViewController(IntPtr handle)
             : base(handle)
