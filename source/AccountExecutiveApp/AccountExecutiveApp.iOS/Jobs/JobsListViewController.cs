@@ -52,7 +52,7 @@ namespace AccountExecutiveApp.iOS
 			//TableView.ReloadData ();
 		}
 
-		public void setJobs( IEnumerable<Job> jobs )
+		public void SetJobs( IEnumerable<Job> jobs )
 		{
 			_jobs = jobs;
             SortJobsByIssueDate();

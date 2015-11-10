@@ -56,9 +56,11 @@ namespace AccountExecutiveApp.iOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            JobsListViewController vc = (JobsListViewController)_parentController.Storyboard.InstantiateViewController("JobsListViewController");
-            vc.setJobs(_listViewModel.JobsByRowNumber((int)indexPath.Item));
-            _parentController.ShowViewController(vc, _parentController);
+            var viewController = (JobsListViewController)_parentController.Storyboard.InstantiateViewController("JobsListViewController");
+
+            viewController.SetJobs(_listViewModel.JobsByRowNumber((int)indexPath.Item));
+
+            _parentController.ShowViewController(viewController, _parentController);
         }
     }
 }
