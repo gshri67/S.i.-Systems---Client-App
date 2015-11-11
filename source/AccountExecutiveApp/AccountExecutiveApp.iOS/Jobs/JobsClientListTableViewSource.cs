@@ -10,12 +10,10 @@ namespace AccountExecutiveApp.iOS
 {
     public class JobsClientListTableViewSource : UITableViewSource
     {
-        private readonly UITableViewController _parentController;
+        private readonly JobsClientListViewController _parentController;
         private readonly JobsClientListTableViewModel _listViewModel;
 
-        private const string CellIdentifier = "JobsClientListCell";
-
-        public JobsClientListTableViewSource(UITableViewController parentViewController, IEnumerable<Job> jobs)
+        public JobsClientListTableViewSource(JobsClientListViewController parentViewController, IEnumerable<Job> jobs)
         {
             _listViewModel = new JobsClientListTableViewModel(jobs);
 
@@ -42,8 +40,7 @@ namespace AccountExecutiveApp.iOS
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = tableView.DequeueReusableCell(CellIdentifier)
-                ?? new UITableViewCell(UITableViewCellStyle.Value1, CellIdentifier);
+            var cell = tableView.DequeueReusableCell(JobsClientListViewController.CellReuseIdentifier);
 
             SetCellTextByRowNumber(cell, (int)indexPath.Item);
 

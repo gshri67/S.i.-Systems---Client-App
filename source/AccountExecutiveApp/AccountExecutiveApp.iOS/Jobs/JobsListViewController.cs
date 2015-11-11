@@ -12,37 +12,32 @@ namespace AccountExecutiveApp.iOS
 {
 	partial class JobsListViewController : UITableViewController
 	{
-		private JobsListTableViewSource _listTableViewSource;
-		private JobsViewModel _jobsViewModel;
-		public IEnumerable<Job> _jobs;
+		private readonly JobsListViewModel _jobsListViewModel;
+		
 	    public const string SubtitleCellIdentifier = "SubtitleWithRightDetailCell";
 
 		public JobsListViewController (IntPtr handle) : base (handle)
 		{
-			//_jobsViewModel = DependencyResolver.Current.Resolve<JobsViewModel>();
+			_jobsListViewModel = DependencyResolver.Current.Resolve<JobsListViewModel>();
+
+            TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleCellIdentifier);
 		}
 
 		private void SetupTableViewSource()
 		{
-			if (TableView == null || _jobs == null )
+			if (TableView == null)
 				return;
 
-			RegisterCellsForReuse();
-			InstantiateTableViewSource();
+            TableView.Source = new JobsListTableViewSource(this, _jobsListViewModel);
 
-			TableView.Source = _listTableViewSource;
-		}
-
-		private void InstantiateTableViewSource()
-		{
-			_listTableViewSource = new JobsListTableViewSource ( this, _jobs );
+            TableView.ReloadData();
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			UpdateUI ();
+			UpdateUserInterface ();
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -54,33 +49,14 @@ namespace AccountExecutiveApp.iOS
 
 		public void SetJobs( IEnumerable<Job> jobs )
 		{
-			_jobs = jobs;
-            SortJobsByIssueDate();
-			UpdateUI ();
+		    var task = _jobsListViewModel.SetJobs(jobs);
+
+            task.ContinueWith(_ => UpdateUserInterface());
 		}
 
-        private void SortJobsByIssueDate() 
-        {
-            var list = _jobs.ToList();
-            list.Sort((d1, d2) => DateTime.Compare(d1.issueDate, d2.issueDate));
-            list.Reverse();
-            _jobs = list.AsEnumerable();
-
-        }
-
-		private void RegisterCellsForReuse()
+		public void UpdateUserInterface()
 		{
-			if (TableView == null) return;
-			TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), "SubtitleWithRightDetailCell");
-		}
-
-		public void UpdateUI()
-		{
-			if (_jobs != null && TableView != null )
-			{
-				SetupTableViewSource ();
-				TableView.ReloadData ();
-			}
+            InvokeOnMainThread(SetupTableViewSource);
 		}
 	}
 }

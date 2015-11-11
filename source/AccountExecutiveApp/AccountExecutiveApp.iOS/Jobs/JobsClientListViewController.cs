@@ -10,21 +10,23 @@ using System.Linq;
 
 namespace AccountExecutiveApp.iOS
 {
-	partial class JobsClientListViewController : UITableViewController
+    partial class JobsClientListViewController : UITableViewController
 	{
 		private readonly JobsViewModel _jobsViewModel;
         private const string ClientSelectedFromJobListSegueIdentifier = "ClientSelectedSegue";
 
+        public const string CellReuseIdentifier = "JobsClientListCell";
+
 		public JobsClientListViewController (IntPtr handle) : base (handle)
 		{
             _jobsViewModel = DependencyResolver.Current.Resolve<JobsViewModel>();
+
+            TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellReuseIdentifier);
 		}
 
 		private void InstantiateTableViewSource()
 		{
             if (TableView == null) return;
-
-            TableView.RegisterClassForCellReuse(typeof(RightDetailCell), "RightDetailCell");
             
             TableView.Source = new JobsClientListTableViewSource(this, _jobsViewModel.Jobs);
             TableView.ReloadData();

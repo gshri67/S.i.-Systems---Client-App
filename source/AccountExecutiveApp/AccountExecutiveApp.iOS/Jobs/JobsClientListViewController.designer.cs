@@ -12,7 +12,7 @@ using UIKit;
 namespace AccountExecutiveApp.iOS
 {
 	[Register ("JobsClientListViewController")]
-	partial class JobsClientListViewController
+	public partial class JobsClientListViewController
 	{
 		void ReleaseDesignerOutlets ()
 		{
