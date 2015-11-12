@@ -51,6 +51,11 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return JobDetails.Callouts.Count(); }
         }
 
+        public string JobTitle
+        {
+            get { return JobDetails.Title; }
+        }
+
         public JobDetailViewModel(IMatchGuideApi api)
         {
             _api = api;

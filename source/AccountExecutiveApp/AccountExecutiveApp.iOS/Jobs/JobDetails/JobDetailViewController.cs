@@ -44,6 +44,15 @@ namespace AccountExecutiveApp.iOS
             TableView.ReloadData();
         }
 
+	    public override string TitleForHeader(UITableView tableView, nint section)
+	    {
+	        if (section == 0)
+	        {
+	            return _viewModel.JobTitle;
+	        }
+	        return base.TitleForHeader(tableView, section);
+	    }
+
 	    public override void ViewDidLoad()
 	    {
 	        base.ViewDidLoad();
