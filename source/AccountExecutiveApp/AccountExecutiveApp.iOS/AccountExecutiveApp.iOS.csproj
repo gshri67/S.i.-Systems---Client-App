@@ -181,6 +181,7 @@
     <Compile Include="Contracts\ContractDetailsViewController.designer.cs">
       <DependentUpon>ContractDetailsViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Contracts\ContractDetailsTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

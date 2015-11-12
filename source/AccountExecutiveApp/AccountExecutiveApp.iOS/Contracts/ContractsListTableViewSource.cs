@@ -96,6 +96,8 @@ namespace AccountExecutiveApp.iOS
 				vc.subtitle = "Fully-Sourced";
 			}*/
 
+			vc._contract = _contracts[(int)indexPath.Item];
+
 			_parentController.ShowViewController ( vc, _parentController );
 		}
 	}
