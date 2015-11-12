@@ -48,12 +48,12 @@ namespace AccountExecutiveApp.iOS
 				}
 				if (indexPath.Item == 1) 
 				{
-					mainText = "Lucy Lu";
+					mainText = _contract.ClientContact.FullName;
 					subtitleText = "Client Contact";
 				}
 				if (indexPath.Item == 2) 
 				{
-					mainText = "Henry Ford";
+                    mainText = _contract.BillingContact.FullName;
 					subtitleText = "Billing Contact";
 				}
 

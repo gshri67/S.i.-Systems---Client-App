@@ -16,13 +16,19 @@ namespace SiSystems.SharedModels
         public DateTime EndDate { get; set; }
 
         public ClientContact DirectReport { get; set; }
+        public ClientContact ClientContact { get; set; }
+        public ClientContact BillingContact { get; set; }
 
         public bool IsFloThru;
 
         public bool IsFullySourced;
 
         public string StatusType { get; set; } //based on MatchGuideConstants.ConsultantContractStatusTypes
-        
+
+        public float BillRate { get; set; }
+        public float PayRate { get; set; }
+        public float GrossMargin { get; set; }
+
         public IM_Consultant consultant;
     }
 }

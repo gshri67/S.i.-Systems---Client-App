@@ -47,6 +47,19 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 contractList[i].consultant = new IM_Consultant();
                 contractList[i].consultant.FirstName = "Bob";
                 contractList[i].consultant.LastName = "Smith";
+
+                contractList[i].BillRate = 123.00f + (float)i;
+                contractList[i].GrossMargin = i%5 + 1.0f;
+                contractList[i].PayRate = contractList[i].BillRate - contractList[i].GrossMargin;
+
+                contractList[i].ClientContact = new ClientContact();
+                contractList[i].ClientContact.FirstName = "Lucy";
+                contractList[i].ClientContact.LastName = "Lu";
+
+                contractList[i].BillingContact = new ClientContact();
+                contractList[i].BillingContact.FirstName = "Henry";
+                contractList[i].BillingContact.LastName = "Ford";
+
             }
 
             return contractList.AsEnumerable<ConsultantContract>();
