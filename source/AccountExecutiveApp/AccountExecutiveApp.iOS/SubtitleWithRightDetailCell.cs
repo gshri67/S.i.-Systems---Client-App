@@ -39,13 +39,13 @@ namespace AccountExecutiveApp.iOS
 	        RightDetailTextLabel = new UILabel
 	        {
 	            TranslatesAutoresizingMaskIntoConstraints = false,
-	            TextAlignment = UITextAlignment.Left,
+	            TextAlignment = UITextAlignment.Right,
 	            Font = UIFont.FromName("Helvetica", 12f),
 	            TextColor = StyleGuideConstants.DarkGrayUiColor
 	        };
 	        AddSubview(RightDetailTextLabel);
 
-	        setupConstraints();
+	        SetupConstraints();
 	    }
 
 	    public SubtitleWithRightDetailCell(string cellId)
@@ -54,7 +54,7 @@ namespace AccountExecutiveApp.iOS
             InitializeCell();
         }
 
-		public void setupConstraints() 
+		public void SetupConstraints() 
 		{
 			AddConstraint( NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.05f, 0f));

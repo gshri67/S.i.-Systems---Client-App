@@ -40,7 +40,7 @@ namespace AccountExecutiveApp.iOS
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = tableView.DequeueReusableCell(JobsClientListViewController.CellReuseIdentifier);
+            var cell = tableView.DequeueReusableCell(JobsClientListViewController.CellReuseIdentifier) as RightDetailCell;
 
             SetCellTextByRowNumber(cell, (int)indexPath.Item);
 

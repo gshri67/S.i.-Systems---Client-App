@@ -10,12 +10,13 @@ namespace AccountExecutiveApp.iOS
 {
 	public class JobsListTableViewSource : UITableViewSource
 	{
-		private readonly UITableViewController _parentController;
+        private readonly JobsListViewController _parentController;
 
 		private readonly JobsListViewModel _jobsListViewModel;
 
-		public JobsListTableViewSource ( UITableViewController parentViewController, JobsListViewModel jobs )
+        public JobsListTableViewSource(JobsListViewController parentViewController, JobsListViewModel jobs)
 		{
+		    _parentController = parentViewController;
 			_jobsListViewModel = jobs;
 		}
 

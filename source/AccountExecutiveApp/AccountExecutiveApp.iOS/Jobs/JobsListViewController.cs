@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace AccountExecutiveApp.iOS
 {
-	partial class JobsListViewController : UITableViewController
+    public partial class JobsListViewController : UITableViewController
 	{
 		private readonly JobsListViewModel _jobsListViewModel;
 		
