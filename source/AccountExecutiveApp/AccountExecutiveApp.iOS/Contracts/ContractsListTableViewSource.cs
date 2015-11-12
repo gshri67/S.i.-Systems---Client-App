@@ -15,6 +15,7 @@ namespace AccountExecutiveApp.iOS
 
         public ContractsListTableViewSource(UITableViewController parentVC, IEnumerable<ConsultantContract> contracts)
 		{
+			_parentController = parentVC;
 			_contracts = contracts.ToList();
             SortContracts();
 		}
@@ -83,6 +84,19 @@ namespace AccountExecutiveApp.iOS
 			}
 				
 			return cell;
+		}
+
+		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
+		{
+			ContractDetailsViewController vc = (ContractDetailsViewController)_parentController.Storyboard.InstantiateViewController ("ContractDetailsViewController");
+			/*
+			if (indexPath.Section == 0 && FS_contractsByStatus != null) {
+				vc.setContracts (FS_contractsByStatus [(int)indexPath.Item]);
+				vc.Title = string.Format ("{0} Contracts", FS_contractsByStatus [(int)indexPath.Item] [0].StatusType);
+				vc.subtitle = "Fully-Sourced";
+			}*/
+
+			_parentController.ShowViewController ( vc, _parentController );
 		}
 	}
 }
