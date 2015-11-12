@@ -3,6 +3,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
+using CoreGraphics;
 using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using UIKit;
@@ -11,23 +12,39 @@ namespace AccountExecutiveApp.iOS
 {
 	partial class JobDetailViewController : UITableViewController
 	{
-	    private JobDetailViewModel _viewModel;
+        private readonly NSObject _tokenExpiredObserver;
+        private LoadingOverlay _overlay;
+
+	    private readonly JobDetailViewModel _viewModel;
 
 		public JobDetailViewController (IntPtr handle) : base (handle)
 		{
+            this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
             _viewModel = DependencyResolver.Current.Resolve<JobDetailViewModel>();
 		}
+
+        public void OnTokenExpired(NSNotification notifcation)
+        {
+            // Unsubscribe from this event so that it won't be handled again
+            NSNotificationCenter.DefaultCenter.RemoveObserver(_tokenExpiredObserver);
+
+            var loginViewController = this.Storyboard.InstantiateViewController("LoginView");
+            var navigationController = new UINavigationController(loginViewController) { NavigationBarHidden = true };
+
+            UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
+        }
 
 	    public void LoadJob(Job job)
 	    {
 	        var task = _viewModel.LoadJob(job);
 
-            task.ContinueWith(_ => UpdateUserInterface(), TaskContinuationOptions.OnlyOnRanToCompletion);
+            task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 	    }
 
 	    private void UpdateUserInterface()
 	    {
-	        InvokeOnMainThread(InstantiateTableViewSource);
+	        InstantiateTableViewSource();
+            RemoveOverlay();
 	    }
 
         private void InstantiateTableViewSource()
@@ -56,6 +73,31 @@ namespace AccountExecutiveApp.iOS
 	    public override void ViewDidLoad()
 	    {
 	        base.ViewDidLoad();
+            IndicateLoading();
 	    }
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(TableView.Frame.X, TableView.Frame.Y, TableView.Frame.Width, TableView.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }
