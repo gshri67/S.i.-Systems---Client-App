@@ -22,16 +22,35 @@ namespace AccountExecutiveApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
-			tableView.RegisterClassForCellReuse ( typeof(SubtitleWithRightDetailCell), "SubtitleWithRightDetailCell" );
-
-			tableView.Source = new ContractDetailsTableViewSource (this, _contract );
-			tableView.ReloadData ();
-
+			SetupTableViewSource();
 			UpdateSummaryView ();
 		}
 
-		public void UpdateSummaryView()
+        private void SetupTableViewSource()
+        {
+            if (tableView == null || _contract == null)
+                return;
+
+            RegisterCellsForReuse();
+            InstantiateTableViewSource();
+
+            tableView.Source = new ContractDetailsTableViewSource(this, _contract);
+            tableView.ReloadData();
+        }
+
+        private void RegisterCellsForReuse()
+        {
+            if (tableView == null) return;
+
+            tableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), "SubtitleWithRightDetailCell");
+        }
+
+        private void InstantiateTableViewSource()
+        {
+            tableView.Source = new ContractDetailsTableViewSource(this, _contract);
+        }
+
+	    public void UpdateSummaryView()
 		{
 			if (_contract == null)
 				return;
