@@ -16,9 +16,28 @@ namespace AccountExecutiveApp.iOS
         public ContractsListTableViewSource(UITableViewController parentVC, IEnumerable<ConsultantContract> contracts)
 		{
 			_contracts = contracts.ToList();
-
+            SortContracts();
 		}
 
+	    private void SortContracts()
+	    {
+	        if (_contracts != null)
+	        {
+                if( _contracts[0].StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Starting )
+                    SortContractsByStartDate();
+                else
+                    SortContractsByEndDate();
+	        }
+	    }
+
+	    private void SortContractsByStartDate()
+        {
+            _contracts.Sort((d1, d2) => DateTime.Compare(d1.StartDate, d2.StartDate));
+        }
+        private void SortContractsByEndDate()
+        {
+            _contracts.Sort((d1, d2) => DateTime.Compare(d1.EndDate, d2.EndDate));
+        }
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
