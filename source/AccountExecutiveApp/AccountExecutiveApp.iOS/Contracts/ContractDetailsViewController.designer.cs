@@ -13,6 +13,21 @@ namespace AccountExecutiveApp.iOS
 	partial class ContractDetailsViewController
 	{
 		[Outlet]
+		UIKit.UILabel BillRateLabel { get; set; }
+
+		[Outlet]
+		UIKit.UILabel CompanyNameLabel { get; set; }
+
+		[Outlet]
+		UIKit.UILabel GrossMarginLabel { get; set; }
+
+		[Outlet]
+		UIKit.UILabel PayRateLabel { get; set; }
+
+		[Outlet]
+		UIKit.UILabel PeriodLabel { get; set; }
+
+		[Outlet]
 		UIKit.UIView summaryView { get; set; }
 
 		[Outlet]
@@ -20,14 +35,39 @@ namespace AccountExecutiveApp.iOS
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (tableView != null) {
-				tableView.Dispose ();
-				tableView = null;
-			}
-
 			if (summaryView != null) {
 				summaryView.Dispose ();
 				summaryView = null;
+			}
+
+			if (PeriodLabel != null) {
+				PeriodLabel.Dispose ();
+				PeriodLabel = null;
+			}
+
+			if (BillRateLabel != null) {
+				BillRateLabel.Dispose ();
+				BillRateLabel = null;
+			}
+
+			if (GrossMarginLabel != null) {
+				GrossMarginLabel.Dispose ();
+				GrossMarginLabel = null;
+			}
+
+			if (PayRateLabel != null) {
+				PayRateLabel.Dispose ();
+				PayRateLabel = null;
+			}
+
+			if (CompanyNameLabel != null) {
+				CompanyNameLabel.Dispose ();
+				CompanyNameLabel = null;
+			}
+
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
 			}
 		}
 	}

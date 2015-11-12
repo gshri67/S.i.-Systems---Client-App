@@ -27,6 +27,17 @@ namespace AccountExecutiveApp.iOS
 
 			tableView.Source = new ContractDetailsTableViewSource (this, _contract );
 			tableView.ReloadData ();
+
+			UpdateSummaryView ();
+		}
+
+		public void UpdateSummaryView()
+		{
+			if (_contract == null)
+				return;
+			
+			CompanyNameLabel.Text = _contract.CompanyName;
+			PeriodLabel.Text = string.Format ( "{0} - {1}", _contract.StartDate.ToString("MMM dd YYY"),  _contract.EndDate.ToString("MM dd YYY") );
 		}
 	}
 }
