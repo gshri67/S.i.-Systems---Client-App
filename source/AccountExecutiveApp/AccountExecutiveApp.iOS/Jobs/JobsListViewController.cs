@@ -19,14 +19,14 @@ namespace AccountExecutiveApp.iOS
 		public JobsListViewController (IntPtr handle) : base (handle)
 		{
 			_jobsListViewModel = DependencyResolver.Current.Resolve<JobsListViewModel>();
-
-            TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleCellIdentifier);
 		}
 
 		private void SetupTableViewSource()
 		{
 			if (TableView == null)
 				return;
+
+            TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleCellIdentifier);
 
             TableView.Source = new JobsListTableViewSource(this, _jobsListViewModel);
 
@@ -58,5 +58,22 @@ namespace AccountExecutiveApp.iOS
 		{
             InvokeOnMainThread(SetupTableViewSource);
 		}
+
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        {
+            if (segue.Identifier == "JobSelectedSegue")
+            {
+                var destinationController = segue.DestinationViewController as JobDetailViewController;
+
+                var source = TableView.Source as JobsListTableViewSource;
+
+                var job = source.JobSelected(TableView.IndexPathForSelectedRow);
+
+                destinationController.LoadJob(job);
+
+            }
+
+            base.PrepareForSegue(segue, sender);
+        }
 	}
 }

@@ -31,7 +31,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task LoadJobs(IEnumerable<Job> jobs)
         {
-            _jobs = jobs.OrderByDescending(job => job.issueDate);
+            _jobs = jobs.OrderByDescending(job => job.IssueDate);
         }
 
         public string JobTitleByIndex(int index)
@@ -51,7 +51,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             if (!IsInBounds(rowNumber)) return string.Empty;
 
             var job = Jobs.ElementAt(rowNumber);
-            var differenceInDays = DateTime.Now.Subtract(job.issueDate).Days;
+            var differenceInDays = DateTime.Now.Subtract(job.IssueDate).Days;
 
 
             return TimePassedDescription(differenceInDays);
@@ -89,11 +89,18 @@ namespace AccountExecutiveApp.Core.ViewModel
             if (job == null) return string.Empty;
 
             var status = "";
-            if (job.isProposed)
+            if (job.IsProposed)
                 status = "Proposed";
-            if (job.hasCallout)
+            if (job.HasCallout)
                 status = "Callout";
             return status;
+        }
+
+        public Job JobByIndex(int index)
+        {
+            return IsInBounds(index)
+                ? Jobs.ElementAtOrDefault(index)
+                : new Job();
         }
     }
 }

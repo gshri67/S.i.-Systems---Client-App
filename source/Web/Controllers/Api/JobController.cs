@@ -13,7 +13,7 @@ using SiSystems.AccountExecutiveApp.Web.Filters;
 
 namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
 {
-    [AccountExecutiveAccessAuthorization]
+    //[AccountExecutiveAccessAuthorization]
     [RoutePrefix("api/Job")]
     public class JobController : ApiController
     {
@@ -24,11 +24,17 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
            _service = service;
         }
 
-        public HttpResponseMessage getJobs()
+        public HttpResponseMessage GetJobs()
         {
             var jobs = _service.GetJobs();
             return Request.CreateResponse(HttpStatusCode.OK, jobs);
+        }
 
+        [Route("Details/{id}")]
+        public HttpResponseMessage GetJobDetails(int id)
+        {
+            var job = _service.GetJobDetailsById(id);
+            return Request.CreateResponse(HttpStatusCode.OK, job);
         }
     }
 }

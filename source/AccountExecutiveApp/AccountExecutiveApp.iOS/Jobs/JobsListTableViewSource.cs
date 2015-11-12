@@ -46,6 +46,16 @@ namespace AccountExecutiveApp.iOS
 
 		    return cell;
 		}
+
+	    public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+	    {
+	        _parentController.PerformSegue("JobSelectedSegue", indexPath);
+	    }
+
+	    public Job JobSelected(NSIndexPath indexPath)
+	    {
+	        return _jobsListViewModel.JobByIndex((int) indexPath.Item);
+	    }
 	}
 }
 

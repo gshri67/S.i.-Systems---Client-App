@@ -124,10 +124,18 @@
     <Compile Include="BorderedButton.designer.cs">
       <DependentUpon>BorderedButton.cs</DependentUpon>
     </Compile>
+    <Compile Include="ContactCell.cs" />
+    <Compile Include="ContactCell.designer.cs">
+      <DependentUpon>ContactCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Contracts\ContractsListTableViewSource.cs" />
     <Compile Include="Contracts\ContractsListViewController.cs" />
     <Compile Include="DependencyResolver.cs" />
     <Compile Include="ErrorReporter.cs" />
+    <Compile Include="Jobs\JobDetails\JobDetailViewController.cs" />
+    <Compile Include="Jobs\JobDetails\JobDetailViewController.designer.cs">
+      <DependentUpon>JobDetailViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoadingOverlay.cs" />
     <Compile Include="LogoutManager.cs" />
     <Compile Include="Main.cs" />

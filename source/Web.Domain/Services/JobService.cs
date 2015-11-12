@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive;
 using SiSystems.Web.Domain.Context;
 using SiSystems.ConsultantApp.Web.Domain.Repositories;
 using SiSystems.SharedModels;
@@ -16,9 +17,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     /// </summary>
     public class JobService
     {
+        private IJobsRepository _jobsRepository;
 
-        public JobService()
+        public JobService(IJobsRepository jobsRepository)
         {
+            _jobsRepository = jobsRepository;
         }
 
         public IEnumerable<Job> GetJobs() 
@@ -34,15 +37,23 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 else
                     job.ClientName = "Cenovus";
 
-                job.isProposed = (i % 3) == 0;
-                job.hasCallout = job.isProposed && ((i%2) == 0);
+                job.Id = i;
+                job.IsProposed = (i % 3) == 0;
+                job.HasCallout = job.IsProposed && ((i%2) == 0);
                 job.JobTitle = "Developer" + i.ToString();
 
-                job.issueDate = new DateTime(2015, 10, i + 1 + (i%5) - (i%3) );
+                job.IssueDate = new DateTime(2015, 10, i + 1 + (i%5) - (i%3) );
 
                 jobList.Add(job);
             }
             return jobList.AsEnumerable<Job>();
+        }
+
+        public JobDetails GetJobDetailsById(int id)
+        {
+            var jobDetails = _jobsRepository.GetJobDetailsById(id);
+
+            return jobDetails;
         }
     }
 }

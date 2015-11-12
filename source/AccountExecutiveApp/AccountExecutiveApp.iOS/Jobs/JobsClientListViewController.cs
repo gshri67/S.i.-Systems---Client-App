@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace AccountExecutiveApp.iOS
 {
-    partial class JobsClientListViewController : UITableViewController
+    public partial class JobsClientListViewController : UITableViewController
 	{
 		private readonly JobsViewModel _jobsViewModel;
         private const string ClientSelectedFromJobListSegueIdentifier = "ClientSelectedSegue";

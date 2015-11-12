@@ -22,18 +22,18 @@ namespace AccountExecutiveApp.Core.Tests.TableViewSourceModels
         {
             ClientName = "Company One",
             JobTitle = "Developer",
-            hasCallout = false,
-            isProposed = false,
-            issueDate = DateTime.Now
+            HasCallout = false,
+            IsProposed = false,
+            IssueDate = DateTime.Now
         };
 
         private static Job _jobCompanyTwoDeveloperWithoutProposed = new Job
         {
             ClientName = "Company Two",
             JobTitle = "Developer",
-            hasCallout = false,
-            isProposed = false,
-            issueDate = DateTime.Now
+            HasCallout = false,
+            IsProposed = false,
+            IssueDate = DateTime.Now
         };
 
         private static IEnumerable<Job> _jobsFromSameCompany = new List<Job>

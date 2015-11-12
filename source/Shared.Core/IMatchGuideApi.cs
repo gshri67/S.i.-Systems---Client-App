@@ -49,6 +49,9 @@ namespace Shared.Core
 		Task<DashboardSummary> getDashboardInfo();
 
         Task<IEnumerable<Job>> GetJobs();
+        
         Task<IEnumerable<ConsultantContract>> GetContracts();
+        
+        Task<JobDetails> GetJobDetails(int id);
     }
 }

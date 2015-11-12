@@ -8,10 +8,11 @@ namespace SiSystems.SharedModels
 {
     public class Job
     {
+        public int Id { get; set; }
         public string ClientName { get; set; }
         public string JobTitle { get; set; }
-        public bool isProposed { get; set; }
-        public bool hasCallout { get; set; }
-        public DateTime issueDate { get; set; }
+        public bool IsProposed { get; set; }
+        public bool HasCallout { get; set; }
+        public DateTime IssueDate { get; set; }
     }
 }

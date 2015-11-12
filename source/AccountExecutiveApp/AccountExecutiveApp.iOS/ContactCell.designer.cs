@@ -11,8 +11,8 @@ using UIKit;
 
 namespace AccountExecutiveApp.iOS
 {
-	[Register ("JobsClientListViewController")]
-	partial class JobsClientListViewController
+	[Register ("ContactCell")]
+	partial class ContactCell
 	{
 		void ReleaseDesignerOutlets ()
 		{

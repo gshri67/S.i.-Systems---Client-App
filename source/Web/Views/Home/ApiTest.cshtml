@@ -84,6 +84,7 @@
             <li role="presentation"><a id="payPeriodsTabButton" href="#payPeriods" role="tab" data-toggle="tab">PayPeriods</a></li>
             <li role="presentation"><a id="dashboardTabButton" href="#dashboard" role="tab" data-toggle="tab">IM Si Dashboard</a></li>
             <li role="presentation"><a id="consultantContractsTabButton" href="#consultantContracts" role="tab" data-toggle="tab">Consultant Contracts</a></li>
+            <li role="presentation"><a id="jobDetailsTabButton" href="#jobDetails" role="tab" data-toggle="tab">Job Details</a></li>
         </ul>
 
         <div class="tab-content">
@@ -174,12 +175,23 @@
 
             <div id="consultantContracts" role="details" class="tab-pane">
                 <div class="input-group">
-                    <input id="consultantContractId" type="text" class="form-control" placeholder="" disabled />
+                    <input id="consultantContractId" type="text" class="form-control" placeholder="" disabled/>
                     <div class="input-group-btn">
                         <button id="getConsultantContractsButton" type="button" class="btn btn-primary">Go</button>
                     </div>
                 </div>
                 <div id="consultantContractsResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="jobDetails" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="jobDetailsId" type="text" class="form-control" placeholder="" />
+                    <div class="input-group-btn">
+                        <button id="getJobDetailsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="jobDetailsResults" class="code json well">
                 </div>
             </div>
 
@@ -437,6 +449,29 @@
 
 
                     }).fail(function (err) { showError(err, 'consultantContractsResults') });
+                },
+                getJobDetails: function () {
+                    $('#jobDetailsResults').html('Sending...');
+                    var id = $('#jobDetailsId').val();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Job/Details/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#jobDetailsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'jobDetailsResults') });
                 }
             };
 
@@ -453,6 +488,7 @@
             $('#getPayPeriodsButton').click(page.getPayPeriods);
             $('#getDashboardButton').click(page.getDashboard);
             $('#getConsultantContractsButton').click(page.getConsultantContracts);
+            $('#getJobDetailsButton').click(page.getJobDetails);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {

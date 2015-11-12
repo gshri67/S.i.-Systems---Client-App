@@ -50,14 +50,14 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         public int NumberOfProposedJobsInSection(int groupNumber)
         {
             return IndexIsInBounds(groupNumber)
-                ? GroupedJobs.ElementAtOrDefault(groupNumber).Count(job => job.isProposed)
+                ? GroupedJobs.ElementAtOrDefault(groupNumber).Count(job => job.IsProposed)
                 : 0;
         }
 
         public int NumberOfJobsWithCalloutsInSection(int groupNumber)
         {
             return IndexIsInBounds(groupNumber) 
-                ? GroupedJobs.ElementAtOrDefault(groupNumber).Count(job => job.hasCallout)
+                ? GroupedJobs.ElementAtOrDefault(groupNumber).Count(job => job.HasCallout)
                 : 0;
         }
 
