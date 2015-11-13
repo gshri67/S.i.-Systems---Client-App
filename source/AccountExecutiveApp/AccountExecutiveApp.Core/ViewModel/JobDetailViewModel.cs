@@ -70,6 +70,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task GetJobDetails(Job job)
         {
+            if (job == null) return;
             JobDetails = await _api.GetJobDetails(job.Id);
         }
     }
