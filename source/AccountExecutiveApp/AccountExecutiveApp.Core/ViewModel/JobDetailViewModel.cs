@@ -18,13 +18,13 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get { return _jobDetails ?? new JobDetails(); }
             set { _jobDetails = value ?? new JobDetails(); }
-    }
+        }
 
         public string ClientContactName
         {
             get
             {
-                return string.Format("{0} {1}", JobDetails.ClientContact.FirstName, JobDetails.ClientContact.LastName);
+                return string.Format(JobDetails.ClientContact.FullName);
             }
         }
 
@@ -32,7 +32,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                return string.Format("{0} {1}", JobDetails.DirectReport.FirstName, JobDetails.DirectReport.LastName);
+                return string.Format(JobDetails.DirectReport.FullName);
             }
         }
 
