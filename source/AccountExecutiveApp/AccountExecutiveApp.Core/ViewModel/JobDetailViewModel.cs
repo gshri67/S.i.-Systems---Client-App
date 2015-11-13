@@ -56,6 +56,21 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return JobDetails.Title; }
         }
 
+        public IEnumerable<IM_Consultant> ShortlistedConsultants
+        {
+            get { return JobDetails.Shortlisted ?? Enumerable.Empty<IM_Consultant>(); }
+        }
+
+        public IEnumerable<IM_Consultant> ProposedConsultants
+        {
+            get { return JobDetails.Proposed ?? Enumerable.Empty<IM_Consultant>(); }
+        }
+
+        public IEnumerable<IM_Consultant> ConsultantsWithCallouts
+        {
+            get { return JobDetails.Callouts ?? Enumerable.Empty<IM_Consultant>(); }
+        }
+
         public JobDetailViewModel(IMatchGuideApi api)
         {
             _api = api;

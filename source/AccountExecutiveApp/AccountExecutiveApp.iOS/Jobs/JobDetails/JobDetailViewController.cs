@@ -1,6 +1,7 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
@@ -14,8 +15,11 @@ namespace AccountExecutiveApp.iOS
 	{
         private readonly NSObject _tokenExpiredObserver;
         private LoadingOverlay _overlay;
-
 	    private readonly JobDetailViewModel _viewModel;
+
+	    private const string ShortlistedSegueIdentifier = "ShortlistedSegue";
+        private const string ProposedSegueIdentifier = "ProposedSegue";
+        private const string CalloutSegueIdentifier = "CalloutSegue";
 
 		public JobDetailViewController (IntPtr handle) : base (handle)
 		{
@@ -76,7 +80,32 @@ namespace AccountExecutiveApp.iOS
             IndicateLoading();
 	    }
 
-        #region Overlay
+	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+	    {
+	        base.PrepareForSegue(segue, sender);
+
+	        if (segue.Identifier == ShortlistedSegueIdentifier)
+	        {
+                LoadConsultantsIntoDestinationController(segue, _viewModel.ShortlistedConsultants);
+	        }
+	        else if (segue.Identifier == ProposedSegueIdentifier)
+	        {
+                LoadConsultantsIntoDestinationController(segue, _viewModel.ProposedConsultants);
+            }else if (segue.Identifier == CalloutSegueIdentifier)
+            {
+                LoadConsultantsIntoDestinationController(segue, _viewModel.ConsultantsWithCallouts);
+            }
+	    }
+
+	    private void LoadConsultantsIntoDestinationController(UIStoryboardSegue segue, IEnumerable<IM_Consultant> consultants)
+	    {
+	        var destinationController = segue.DestinationViewController as ContractorJobStatusListViewController;
+
+	        if (destinationController != null)
+	            destinationController.LoadConsultants(consultants);
+	    }
+
+	    #region Overlay
 
         private void IndicateLoading()
         {
