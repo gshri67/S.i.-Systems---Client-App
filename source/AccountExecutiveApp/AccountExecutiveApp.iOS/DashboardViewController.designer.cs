@@ -154,6 +154,11 @@ namespace AccountExecutiveApp.iOS
 				FT_startingContractsLabel = null;
 			}
 
+			if (JobsButtonOverlay != null) {
+				JobsButtonOverlay.Dispose ();
+				JobsButtonOverlay = null;
+			}
+
 			if (jobsContainerView != null) {
 				jobsContainerView.Dispose ();
 				jobsContainerView = null;
@@ -167,11 +172,6 @@ namespace AccountExecutiveApp.iOS
 			if (proposedJobsLabel != null) {
 				proposedJobsLabel.Dispose ();
 				proposedJobsLabel = null;
-			}
-
-			if (JobsButtonOverlay != null) {
-				JobsButtonOverlay.Dispose ();
-				JobsButtonOverlay = null;
 			}
 		}
 	}
