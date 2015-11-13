@@ -94,7 +94,7 @@ namespace AccountExecutiveApp.iOS
 
 			var jobsListVC = (JobsClientListViewController)Storyboard.InstantiateViewController("JobsClientListViewController");
 
-			FS_endingButtonOverlay.TouchUpInside += delegate 
+			JobsButtonOverlay.TouchUpInside += delegate 
 			{
 				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
 				ShowViewController( jobsListVC, this );

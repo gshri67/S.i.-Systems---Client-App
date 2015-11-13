@@ -61,6 +61,9 @@ namespace AccountExecutiveApp.iOS
 		UIKit.UILabel FT_startingContractsLabel { get; set; }
 
 		[Outlet]
+		UIKit.UIButton JobsButtonOverlay { get; set; }
+
+		[Outlet]
 		UIKit.UIView jobsContainerView { get; set; }
 
 		[Outlet]
@@ -76,6 +79,16 @@ namespace AccountExecutiveApp.iOS
 				calloutJobsLabel = null;
 			}
 
+			if (DashboardView != null) {
+				DashboardView.Dispose ();
+				DashboardView = null;
+			}
+
+			if (FS_activeButtonOverlay != null) {
+				FS_activeButtonOverlay.Dispose ();
+				FS_activeButtonOverlay = null;
+			}
+
 			if (FS_containerView != null) {
 				FS_containerView.Dispose ();
 				FS_containerView = null;
@@ -86,14 +99,29 @@ namespace AccountExecutiveApp.iOS
 				FS_curContractsLabel = null;
 			}
 
+			if (FS_endingButtonOverlay != null) {
+				FS_endingButtonOverlay.Dispose ();
+				FS_endingButtonOverlay = null;
+			}
+
 			if (FS_endingContractsLabel != null) {
 				FS_endingContractsLabel.Dispose ();
 				FS_endingContractsLabel = null;
 			}
 
+			if (FS_startingButtonOverlay != null) {
+				FS_startingButtonOverlay.Dispose ();
+				FS_startingButtonOverlay = null;
+			}
+
 			if (FS_startingContractsLabel != null) {
 				FS_startingContractsLabel.Dispose ();
 				FS_startingContractsLabel = null;
+			}
+
+			if (FT_activeButtonOverlay != null) {
+				FT_activeButtonOverlay.Dispose ();
+				FT_activeButtonOverlay = null;
 			}
 
 			if (FT_containerView != null) {
@@ -106,9 +134,19 @@ namespace AccountExecutiveApp.iOS
 				FT_curContractsLabel = null;
 			}
 
+			if (FT_endingButtonOverlay != null) {
+				FT_endingButtonOverlay.Dispose ();
+				FT_endingButtonOverlay = null;
+			}
+
 			if (FT_endingContractsLabel != null) {
 				FT_endingContractsLabel.Dispose ();
 				FT_endingContractsLabel = null;
+			}
+
+			if (FT_startingButtonOverlay != null) {
+				FT_startingButtonOverlay.Dispose ();
+				FT_startingButtonOverlay = null;
 			}
 
 			if (FT_startingContractsLabel != null) {
@@ -131,39 +169,9 @@ namespace AccountExecutiveApp.iOS
 				proposedJobsLabel = null;
 			}
 
-			if (DashboardView != null) {
-				DashboardView.Dispose ();
-				DashboardView = null;
-			}
-
-			if (FS_endingButtonOverlay != null) {
-				FS_endingButtonOverlay.Dispose ();
-				FS_endingButtonOverlay = null;
-			}
-
-			if (FS_activeButtonOverlay != null) {
-				FS_activeButtonOverlay.Dispose ();
-				FS_activeButtonOverlay = null;
-			}
-
-			if (FS_startingButtonOverlay != null) {
-				FS_startingButtonOverlay.Dispose ();
-				FS_startingButtonOverlay = null;
-			}
-
-			if (FT_endingButtonOverlay != null) {
-				FT_endingButtonOverlay.Dispose ();
-				FT_endingButtonOverlay = null;
-			}
-
-			if (FT_activeButtonOverlay != null) {
-				FT_activeButtonOverlay.Dispose ();
-				FT_activeButtonOverlay = null;
-			}
-
-			if (FT_startingButtonOverlay != null) {
-				FT_startingButtonOverlay.Dispose ();
-				FT_startingButtonOverlay = null;
+			if (JobsButtonOverlay != null) {
+				JobsButtonOverlay.Dispose ();
+				JobsButtonOverlay = null;
 			}
 		}
 	}
