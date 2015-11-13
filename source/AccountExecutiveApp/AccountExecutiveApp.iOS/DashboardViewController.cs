@@ -7,6 +7,7 @@ using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
 using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
+using AccountExecutiveApp.iOS;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -51,7 +52,53 @@ namespace AccountExecutiveApp.iOS
 
 			LogoutManager.CreateNavBarLeftButton(this);
 
+			SetupSegueConnections ();
+
 			SetupPageAutoLayout();
+		}
+
+		private void SetupSegueConnections ()
+		{
+			var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
+
+			FS_endingButtonOverlay.TouchUpInside += delegate 
+			{
+				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+				ShowViewController( contractListVC, this );
+			};
+			FS_startingButtonOverlay.TouchUpInside += delegate 
+			{
+				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+				ShowViewController( contractListVC, this );
+			};
+			FS_activeButtonOverlay.TouchUpInside += delegate 
+			{
+				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+				ShowViewController( contractListVC, this );
+			};
+			FT_endingButtonOverlay.TouchUpInside += delegate 
+			{
+				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+				ShowViewController( contractListVC, this );
+			};
+			FT_startingButtonOverlay.TouchUpInside += delegate 
+			{
+				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+				ShowViewController( contractListVC, this );
+			};
+			FT_activeButtonOverlay.TouchUpInside += delegate 
+			{
+				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+				ShowViewController( contractListVC, this );
+			};
+
+			var jobsListVC = (JobsClientListViewController)Storyboard.InstantiateViewController("JobsClientListViewController");
+
+			FS_endingButtonOverlay.TouchUpInside += delegate 
+			{
+				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+				ShowViewController( jobsListVC, this );
+			};
 		}
 
 	    private void SetupPageAutoLayout()
