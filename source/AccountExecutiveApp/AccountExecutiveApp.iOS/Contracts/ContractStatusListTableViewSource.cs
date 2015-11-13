@@ -162,13 +162,13 @@ namespace AccountExecutiveApp.iOS
 			if (indexPath.Section == 0 && FS_contractsByStatus != null) {
 				vc.setContracts (FS_contractsByStatus [(int)indexPath.Item]);
 				vc.Title = string.Format ("{0} Contracts", FS_contractsByStatus [(int)indexPath.Item] [0].StatusType);
-				vc.subtitle = "Fully-Sourced";
+				vc.Subtitle = "Fully-Sourced";
 			}
 			else if (indexPath.Section == 1 && FT_contractsByStatus != null) 
 			{
 				vc.setContracts (FT_contractsByStatus [(int)indexPath.Item]);
 				vc.Title = string.Format ("{0} Contracts", FT_contractsByStatus [(int)indexPath.Item][0].StatusType);
-				vc.subtitle = "Flo-Thru";
+				vc.Subtitle = "Flo-Thru";
 			}
 			_parentController.ShowViewController ( vc, _parentController );
 		}

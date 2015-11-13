@@ -181,6 +181,7 @@
       <DependentUpon>JobsListViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Jobs\JobsListTableViewSource.cs" />
+    <Compile Include="SubtitleHeaderView.cs" />
     <Compile Include="SubtitleWithRightDetailCell.cs" />
     <Compile Include="SubtitleWithRightDetailCell.designer.cs">
       <DependentUpon>SubtitleWithRightDetailCell.cs</DependentUpon>

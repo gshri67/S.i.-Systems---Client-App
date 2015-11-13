@@ -52,7 +52,7 @@ namespace AccountExecutiveApp.iOS
             var viewController = (JobsListViewController)_parentController.Storyboard.InstantiateViewController("JobsListViewController");
 
             viewController.SetJobs(_listViewModel.JobsByRowNumber((int)indexPath.Item));
-
+            viewController.Subtitle = _listViewModel.ClientNameByRowNumber((int)indexPath.Item);
             _parentController.ShowViewController(viewController, _parentController);
         }
     }

@@ -13,12 +13,14 @@ namespace AccountExecutiveApp.iOS
     public partial class JobsListViewController : UITableViewController
 	{
 		private readonly JobsListViewModel _jobsListViewModel;
-		
+        private SubtitleHeaderView _subtitleHeaderView;
 	    public const string SubtitleCellIdentifier = "SubtitleWithRightDetailCell";
+        public string Subtitle;
 
 		public JobsListViewController (IntPtr handle) : base (handle)
 		{
 			_jobsListViewModel = DependencyResolver.Current.Resolve<JobsListViewModel>();
+		    Title = "Jobs";
 		}
 
 		private void SetupTableViewSource()
@@ -36,6 +38,8 @@ namespace AccountExecutiveApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+            CreateCustomTitleBar();
 
 			UpdateUserInterface ();
 		}
@@ -74,6 +78,18 @@ namespace AccountExecutiveApp.iOS
             }
 
             base.PrepareForSegue(segue, sender);
+        }
+
+        private void CreateCustomTitleBar()
+        {
+            InvokeOnMainThread(() =>
+            {
+                _subtitleHeaderView = new SubtitleHeaderView();
+                NavigationItem.TitleView = _subtitleHeaderView;
+                _subtitleHeaderView.TitleText = Title;
+                _subtitleHeaderView.SubtitleText = Subtitle;
+                NavigationItem.Title = "";
+            });
         }
 	}
 }

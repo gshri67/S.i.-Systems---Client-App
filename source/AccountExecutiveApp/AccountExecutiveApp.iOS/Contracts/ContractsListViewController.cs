@@ -15,7 +15,8 @@ namespace AccountExecutiveApp.iOS
 	{
         private ContractsListTableViewSource _listTableViewSource;
 		public IEnumerable<ConsultantContract> _contracts;
-		public string subtitle;
+		public string Subtitle;
+	    private SubtitleHeaderView _subtitleHeaderView;
 
         public ContractsListViewController(IntPtr handle)
             : base(handle)
@@ -47,6 +48,8 @@ namespace AccountExecutiveApp.iOS
 			//SetupTableViewSource ();
 
 			//TableView.ReloadData ();
+
+            CreateCustomTitleBar();
 
 			UpdateUI ();
 
@@ -83,5 +86,17 @@ namespace AccountExecutiveApp.iOS
 				TableView.ReloadData ();
 			}
 		}
+
+        private void CreateCustomTitleBar()
+        {
+            InvokeOnMainThread(() =>
+            {
+                _subtitleHeaderView = new SubtitleHeaderView();
+                NavigationItem.TitleView = _subtitleHeaderView;
+                _subtitleHeaderView.TitleText = Title;
+                _subtitleHeaderView.SubtitleText = Subtitle;
+                NavigationItem.Title = "";
+            });
+        }
 	}
 }
