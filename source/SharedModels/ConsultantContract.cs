@@ -23,6 +23,7 @@ namespace SiSystems.SharedModels
 
         public bool IsFullySourced;
 
+        //public ContractType StatusType { get; set; } //based on MatchGuideConstants.ConsultantContractStatusTypes
         public string StatusType { get; set; } //based on MatchGuideConstants.ConsultantContractStatusTypes
 
         public float BillRate { get; set; }
@@ -30,5 +31,12 @@ namespace SiSystems.SharedModels
         public float GrossMargin { get; set; }
 
         public IM_Consultant consultant;
+    }
+
+    public enum ContractType
+    {
+        Ending, 
+        Starting, 
+        Active
     }
 }
