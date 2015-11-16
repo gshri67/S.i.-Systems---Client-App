@@ -80,8 +80,13 @@ namespace AccountExecutiveApp.iOS
 
             IEnumerable<ConsultantContract> contracts = await _contractsViewModel.getContracts();
 
-            if (!_contractsWereSet)
-                _contracts = contracts.Where(c => c.StatusType == StatusType && c.ContractType == TypeOfContract ).ToList();
+			if (!_contractsWereSet) 
+			{
+				_contracts = contracts.Where (c => c.StatusType == StatusType && c.ContractType == TypeOfContract).ToList ();
+
+				if (_contracts.Count() <= 0)
+					_contracts = null;
+			}
 
             UpdateUI();
         }
