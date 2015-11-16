@@ -17,36 +17,16 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     /// </summary>
     public class JobService
     {
-        private IJobsRepository _jobsRepository;
+        private readonly IJobsRepository _jobsRepository;
 
         public JobService(IJobsRepository jobsRepository)
         {
             _jobsRepository = jobsRepository;
         }
 
-        public IEnumerable<Job> GetJobs() 
+        public IEnumerable<Job> GetJobs()
         {
-            List<Job> jobList = new List<Job>();
-
-            for (int i = 0; i < 28; i++)
-            {
-                Job job = new Job();
-
-                if (i < 10)
-                    job.ClientName = "Nexen";
-                else
-                    job.ClientName = "Cenovus";
-
-                job.Id = i;
-                job.IsProposed = (i % 3) == 0;
-                job.HasCallout = job.IsProposed && ((i%2) == 0);
-                job.JobTitle = "Developer" + i.ToString();
-
-                job.IssueDate = new DateTime(2015, 10, i + 1 + (i%5) - (i%3) );
-
-                jobList.Add(job);
-            }
-            return jobList.AsEnumerable<Job>();
+            return _jobsRepository.GetJobs();
         }
 
         public JobDetails GetJobDetailsById(int id)

@@ -11,6 +11,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     {
         JobsSummarySet GetJobsSummary();
         JobDetails GetJobDetailsById(int id);
+        IEnumerable<Job> GetJobs();
     }
 
     public class JobsRepository : IJobsRepository
@@ -87,6 +88,32 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     }
                 }.AsEnumerable()
             };
+        }
+
+        public IEnumerable<Job> GetJobs()
+        {
+            var jobList = new List<Job>();
+
+            for (var i = 0; i < 28; i++)
+            {
+                var job = new Job
+                {
+                    ClientName = i < 10 ? "Nexen" : "Cenovus", 
+                    Id = i, 
+                    IsProposed = (i%3) == 0
+                };
+
+
+                job.HasCallout = job.IsProposed && ((i % 2) == 0);
+
+                job.JobTitle = string.Format("Developer {0}", i);
+
+                job.IssueDate = new DateTime(2015, 10, i + 1 + (i % 5) - (i % 3));
+
+                jobList.Add(job);
+            }
+
+            return jobList.AsEnumerable();
         }
     }
 }
