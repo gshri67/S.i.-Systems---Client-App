@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using System.Collections;
 using UIKit;
 using AccountExecutiveApp.Core.ViewModel;
 using Microsoft.Practices.Unity;
@@ -18,9 +19,15 @@ namespace AccountExecutiveApp.iOS
 		public string Subtitle;
 	    private SubtitleHeaderView _subtitleHeaderView;
 
+	    private bool _contractsWereSet = false;//this is to know whether the contracts were passed in, or if we should call the API
+	    ContractsViewModel _contractsViewModel;
+        public ContractStatusType StatusType;//atm only used when loading contracts because they were not passed in
+	    public ContractType TypeOfContract;
+
         public ContractsListViewController(IntPtr handle)
             : base(handle)
 		{
+            _contractsViewModel = DependencyResolver.Current.Resolve<ContractsViewModel>();
 		}
 
 		private void SetupTableViewSource()
@@ -45,20 +52,18 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
-			//SetupTableViewSource ();
-
-			//TableView.ReloadData ();
-
+            if( !_contractsWereSet )
+                LoadContracts();
+			
+            
             CreateCustomTitleBar();
 
 			UpdateUI ();
-
-
-			//TableView.ReloadData ();
 		}
 
 		public void setContracts( IEnumerable<ConsultantContract> contracts )
 		{
+		    _contractsWereSet = true; 
 			_contracts = contracts;
 		}
 
@@ -68,6 +73,18 @@ namespace AccountExecutiveApp.iOS
 
 			//TableView.ReloadData ();
 		}
+
+        public async void LoadContracts()
+        {
+            if (_contracts != null) return;
+
+            IEnumerable<ConsultantContract> contracts = await _contractsViewModel.getContracts();
+
+            if (!_contractsWereSet)
+                _contracts = contracts.Where(c => c.StatusType == StatusType && c.ContractType == TypeOfContract ).ToList();
+
+            UpdateUI();
+        }
 
 		private void RegisterCellsForReuse()
 		{

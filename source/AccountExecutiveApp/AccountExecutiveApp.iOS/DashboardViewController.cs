@@ -63,32 +63,38 @@ namespace AccountExecutiveApp.iOS
 
 			FS_endingButtonOverlay.TouchUpInside += delegate 
 			{
-				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+                contractListVC.StatusType = ContractStatusType.Ending;
+                contractListVC.TypeOfContract = ContractType.FullySourced;
 				ShowViewController( contractListVC, this );
 			};
 			FS_startingButtonOverlay.TouchUpInside += delegate 
 			{
-				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
-				ShowViewController( contractListVC, this );
+                contractListVC.StatusType = ContractStatusType.Starting;
+                contractListVC.TypeOfContract = ContractType.FullySourced;
+                ShowViewController(contractListVC, this);
 			};
 			FS_activeButtonOverlay.TouchUpInside += delegate 
 			{
-				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+                contractListVC.StatusType = ContractStatusType.Active;
+                contractListVC.TypeOfContract = ContractType.FullySourced;
 				ShowViewController( contractListVC, this );
 			};
 			FT_endingButtonOverlay.TouchUpInside += delegate 
 			{
-				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+                contractListVC.StatusType = ContractStatusType.Ending;
+                contractListVC.TypeOfContract = ContractType.FloThru;
 				ShowViewController( contractListVC, this );
 			};
 			FT_startingButtonOverlay.TouchUpInside += delegate 
 			{
-				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+                contractListVC.StatusType = ContractStatusType.Starting;
+                contractListVC.TypeOfContract = ContractType.FloThru;
 				ShowViewController( contractListVC, this );
 			};
 			FT_activeButtonOverlay.TouchUpInside += delegate 
 			{
-				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+                contractListVC.StatusType = ContractStatusType.Active;
+                contractListVC.TypeOfContract = ContractType.FloThru;
 				ShowViewController( contractListVC, this );
 			};
 
