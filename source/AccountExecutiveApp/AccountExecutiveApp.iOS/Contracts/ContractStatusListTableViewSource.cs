@@ -29,18 +29,13 @@ namespace AccountExecutiveApp.iOS
 
 		public override string TitleForHeader (UITableView tableView, nint section)
 		{
-			if (section == 0)
-				return "Fully-Sourced";
-			else
-				return "Flo-Thru";
+		    return _contractsTableModel.ContractTypeAtIndex((int)section).ToString();
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-            if (section == 0 && _contractsTableModel.HasContracts() )
-                return _contractsTableModel.NumberOfStatusesWithContractsOfType( ContractType.FullySourced );
-            else if (section == 1 && _contractsTableModel.HasContracts())
-                return _contractsTableModel.NumberOfStatusesWithContractsOfType(ContractType.FloThru);
+            if (_contractsTableModel.HasContracts() )
+                return _contractsTableModel.NumberOfStatusesWithContractsOfTypeIndex( (int)section );
             else
 				return 0;
 		}
@@ -71,18 +66,16 @@ namespace AccountExecutiveApp.iOS
 	    private List<ConsultantContract> GetContractsByStatusAndSection(NSIndexPath indexPath)
 	    {
 	        if ( _contractsTableModel.HasContracts() )
-	            return indexPath.Section == 0
-                ? _contractsTableModel.contractsWithTypeAndStatusIndex(ContractType.FullySourced, (int)indexPath.Item)
-                : _contractsTableModel.contractsWithTypeAndStatusIndex(ContractType.FloThru, (int)indexPath.Item);
+                return _contractsTableModel.ContractsWithTypeIndexAndStatusIndex((int)indexPath.Section, (int)indexPath.Item);
 
-            return null;
+            return new List<ConsultantContract>();
 	    }
 
 	    public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
             ContractsListViewController vc = (ContractsListViewController)_parentController.Storyboard.InstantiateViewController ("ContractsListViewController");
 
-	        List<ConsultantContract> contractsByStatus = _contractsTableModel.contractsWithTypeIndexAndStatusIndex((int) indexPath.Section, (int) indexPath.Item);
+	        List<ConsultantContract> contractsByStatus = _contractsTableModel.ContractsWithTypeIndexAndStatusIndex((int) indexPath.Section, (int) indexPath.Item);
 
             vc.setContracts( contractsByStatus );
             vc.Title = string.Format("{0} Contracts", contractsByStatus[0].StatusType.ToString());

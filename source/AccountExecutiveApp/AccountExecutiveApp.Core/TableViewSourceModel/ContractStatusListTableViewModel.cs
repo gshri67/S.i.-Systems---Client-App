@@ -10,34 +10,38 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
     public class ContractStatusListTableViewModel
     {
         private Dictionary<ContractType, Dictionary<ContractStatusType, List<ConsultantContract>>>
-            ContractsDictionaryByTypeAndStatus;
+            _contractsDictionaryByTypeAndStatus;
 
         public ContractStatusListTableViewModel( IEnumerable<ConsultantContract> contracts )
         {
             PopulateContractsDictionaryByTypeAndStatus(contracts);
         }
 
-        public List<ConsultantContract> contractsWithTypeAndStatus(ContractType type, ContractStatusType status)
+        public List<ConsultantContract> ContractsWithTypeAndStatus(ContractType type, ContractStatusType status)
         {
-            return ContractsDictionaryByTypeAndStatus[type][status];
+            return _contractsDictionaryByTypeAndStatus[type][status];
         }
-        public List<ConsultantContract> contractsWithTypeAndStatusIndex(ContractType type, int statusIndex)
+        public List<ConsultantContract> ContractsWithTypeAndStatusIndex(ContractType type, int statusIndex)
         {
-            return ContractsDictionaryByTypeAndStatus[type].Values.ElementAt(statusIndex);
+            return _contractsDictionaryByTypeAndStatus[type].Values.ElementAt(statusIndex);
         }
-        public List<ConsultantContract> contractsWithTypeIndexAndStatusIndex(int typeIndex, int statusIndex)
+        public List<ConsultantContract> ContractsWithTypeIndexAndStatusIndex(int typeIndex, int statusIndex)
         {
-            return ContractsDictionaryByTypeAndStatus.Values.ElementAt(typeIndex).Values.ElementAt(statusIndex);
+            return _contractsDictionaryByTypeAndStatus.Values.ElementAt(typeIndex).Values.ElementAt(statusIndex);
         }
 
         public int NumberOfStatusesWithContractsOfType( ContractType type )
         {
-            return ContractsDictionaryByTypeAndStatus[type].Keys.Count;
+            return _contractsDictionaryByTypeAndStatus[type].Keys.Count;
+        }
+        public int NumberOfStatusesWithContractsOfTypeIndex(int section)
+        {
+            return _contractsDictionaryByTypeAndStatus.Values.ElementAt(section).Keys.Count;
         }
 
         public int NumberOfContractTypes()
         {
-            return ContractsDictionaryByTypeAndStatus.Keys.Count;
+            return _contractsDictionaryByTypeAndStatus.Keys.Count;
         }
 
         public bool HasContracts()
@@ -54,10 +58,10 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             var fsDict = DictionaryWithContractsByStatus(contracts, ContractType.FullySourced);
             var ftDict = DictionaryWithContractsByStatus(contracts, ContractType.FloThru);
 
-            ContractsDictionaryByTypeAndStatus =
+            _contractsDictionaryByTypeAndStatus =
                 new Dictionary<ContractType, Dictionary<ContractStatusType, List<ConsultantContract>>>();
-            ContractsDictionaryByTypeAndStatus[ContractType.FullySourced] = fsDict;
-            ContractsDictionaryByTypeAndStatus[ContractType.FloThru] = ftDict;
+            _contractsDictionaryByTypeAndStatus[ContractType.FullySourced] = fsDict;
+            _contractsDictionaryByTypeAndStatus[ContractType.FloThru] = ftDict;
         }
 
         private Dictionary<ContractStatusType, List<ConsultantContract>> DictionaryWithContractsByStatus(IEnumerable<ConsultantContract> contracts, ContractType type)
@@ -77,6 +81,11 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
                 typeDict[ContractStatusType.Active] = activeContracts;
 
             return typeDict;
+        }
+
+        public ContractType ContractTypeAtIndex( int section)
+        {
+            return _contractsDictionaryByTypeAndStatus.Keys.ElementAt(section);
         }
     }
 }
