@@ -40,15 +40,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                     contractList[i].StatusType = ContractStatusType.Ending;
 
                 if (i%2 == 0)
-                {
-                    contractList[i].IsFloThru = true;
                     contractList[i].ContractType = ContractType.FloThru;
-                }
+           
                 else
-                {
-                    contractList[i].IsFullySourced = true;
                     contractList[i].ContractType = ContractType.FullySourced;
-                }
 
                 contractList[i].consultant = new IM_Consultant();
                 contractList[i].consultant.FirstName = "Bob";

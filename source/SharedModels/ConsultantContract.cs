@@ -19,10 +19,6 @@ namespace SiSystems.SharedModels
         public ClientContact ClientContact { get; set; }
         public ClientContact BillingContact { get; set; }
 
-        public bool IsFloThru;
-
-        public bool IsFullySourced;
-
         //public ContractType StatusType { get; set; } //based on MatchGuideConstants.ConsultantContractStatusTypes
         public ContractStatusType StatusType { get; set; } //based on MatchGuideConstants.ConsultantContractStatusTypes
         public ContractType ContractType { get; set; } 
