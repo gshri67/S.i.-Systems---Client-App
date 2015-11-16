@@ -4,66 +4,26 @@ using Foundation;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using AccountExecutiveApp.Core.TableViewSourceModel;
 
 namespace AccountExecutiveApp.iOS
 {
 	public class ContractStatusListTableViewSource : UITableViewSource
 	{
 		private readonly UITableViewController _parentController;
-
-	    private readonly IEnumerable<IGrouping<ContractType, ConsultantContract>> _fullySourcedContractsGroupedByTypeAndStatus;
-        private readonly IEnumerable<IGrouping<ContractType, ConsultantContract>> _floThruContractsGroupedByTypeAndStatus;
-
-        private Dictionary<ContractType, Dictionary<ContractStatusType, List<ConsultantContract>>> ContractsGroupedByTypeAndStatus; 
+	    private ContractStatusListTableViewModel _contractsTableModel;
 
         public ContractStatusListTableViewSource(UITableViewController parentVC, IEnumerable<ConsultantContract> contracts)
         {
-            PopulateContractsDictionaryByTypeAndStatus(contracts);
+            _contractsTableModel = new ContractStatusListTableViewModel( contracts );
 
             _parentController = parentVC;
         }
 
-	    private void PopulateContractsDictionaryByTypeAndStatus(IEnumerable<ConsultantContract> contracts )
-	    {
-	        var fsDict = DictionaryWithContractsByStatus(contracts, ContractType.FullySourced);
-            var ftDict = DictionaryWithContractsByStatus(contracts, ContractType.FloThru);
-
-	        ContractsGroupedByTypeAndStatus =
-	            new Dictionary<ContractType, Dictionary<ContractStatusType, List<ConsultantContract>>>();
-	        ContractsGroupedByTypeAndStatus[ContractType.FullySourced] = fsDict;
-	        ContractsGroupedByTypeAndStatus[ContractType.FloThru] = ftDict;
-	    }
-
-        private static Dictionary<ContractStatusType, List<ConsultantContract>> DictionaryWithContractsByStatus(IEnumerable<ConsultantContract> contracts, ContractType type)
-	    {
-	        Dictionary<ContractStatusType, List<ConsultantContract>> fsDict =
-	            new Dictionary<ContractStatusType, List<ConsultantContract>>();
-
-            List<ConsultantContract> endingContracts = contracts.Where(contract => contract.ContractType == type && contract.StatusType == ContractStatusType.Ending).ToList();
-            List<ConsultantContract> startingContracts = contracts.Where(contract => contract.ContractType == type && contract.StatusType == ContractStatusType.Starting).ToList();
-            List<ConsultantContract> activeContracts = contracts.Where(contract => contract.ContractType == type && contract.StatusType == ContractStatusType.Active).ToList();
-
-            if (endingContracts.Count > 0)
-                fsDict[ContractStatusType.Ending] = endingContracts;
-            if (startingContracts.Count > 0)
-                fsDict[ContractStatusType.Starting] =startingContracts;
-            if (activeContracts.Count > 0)
-                fsDict[ContractStatusType.Active] = activeContracts;
-
-	        return fsDict;
-	    }
-
-	    public void swapInContractList( List<List<ConsultantContract>> list, int i, int j ) 
-        {
-            List<ConsultantContract> temp = list[i];
-            list[i] = list[j];
-            list[j] = temp;
-        }
-
 		public override nint NumberOfSections(UITableView tableView)
 		{
-            if (ContractsGroupedByTypeAndStatus!= null )
-    			return ContractsGroupedByTypeAndStatus.Keys.Count;
+            if ( _contractsTableModel.HasContracts() )
+    			return _contractsTableModel.NumberOfContractTypes();
 		    return 1;
 		}
 
@@ -77,10 +37,10 @@ namespace AccountExecutiveApp.iOS
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-            if (section == 0 && ContractsGroupedByTypeAndStatus != null)
-                return ContractsGroupedByTypeAndStatus[ContractType.FullySourced].Count();
-            else if (section == 1 && ContractsGroupedByTypeAndStatus != null )
-                return ContractsGroupedByTypeAndStatus[ContractType.FloThru].Count();
+            if (section == 0 && _contractsTableModel.HasContracts() )
+                return _contractsTableModel.NumberOfStatusesWithContractsOfType( ContractType.FullySourced );
+            else if (section == 1 && _contractsTableModel.HasContracts())
+                return _contractsTableModel.NumberOfStatusesWithContractsOfType(ContractType.FloThru);
             else
 				return 0;
 		}
@@ -110,22 +70,19 @@ namespace AccountExecutiveApp.iOS
 
 	    private List<ConsultantContract> GetContractsByStatusAndSection(NSIndexPath indexPath)
 	    {
-	        if (ContractsGroupedByTypeAndStatus != null )//(!_fullySourcedContractsGroupedByTypeAndStatus.Any())
+	        if ( _contractsTableModel.HasContracts() )
 	            return indexPath.Section == 0
-                ? ContractsGroupedByTypeAndStatus[ContractType.FullySourced].Values.ElementAt((int)indexPath.Item)
-                : ContractsGroupedByTypeAndStatus[ContractType.FloThru].Values.ElementAt((int)indexPath.Item);
+                ? _contractsTableModel.contractsWithTypeAndStatusIndex(ContractType.FullySourced, (int)indexPath.Item)
+                : _contractsTableModel.contractsWithTypeAndStatusIndex(ContractType.FloThru, (int)indexPath.Item);
 
-            else
-	        {
-	            return null;//_floThruContractsGroupedByTypeAndStatus.ElementAtOrDefault((int)indexPath.Item).ToList();
-            }
+            return null;
 	    }
 
 	    public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
             ContractsListViewController vc = (ContractsListViewController)_parentController.Storyboard.InstantiateViewController ("ContractsListViewController");
 
-	        List<ConsultantContract> contractsByStatus = ContractsGroupedByTypeAndStatus.Values.ElementAt((int)indexPath.Section).Values.ElementAt((int)indexPath.Item);
+	        List<ConsultantContract> contractsByStatus = _contractsTableModel.contractsWithTypeIndexAndStatusIndex((int) indexPath.Section, (int) indexPath.Item);
 
             vc.setContracts( contractsByStatus );
             vc.Title = string.Format("{0} Contracts", contractsByStatus[0].StatusType.ToString());
