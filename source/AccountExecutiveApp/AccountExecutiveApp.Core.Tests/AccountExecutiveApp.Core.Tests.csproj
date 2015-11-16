@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableViewSourceModels\JobsClientListTableViewModelTests.cs" />
+    <Compile Include="ViewModels\ContractorJobStatusListViewModelTests.cs" />
     <Compile Include="ViewModels\DashboardViewModelTests.cs" />
     <Compile Include="ViewModels\JobDetailViewModelTests.cs" />
     <Compile Include="ViewModels\LoginViewModelTests.cs" />

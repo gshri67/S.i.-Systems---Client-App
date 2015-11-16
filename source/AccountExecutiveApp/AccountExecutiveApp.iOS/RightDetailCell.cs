@@ -15,7 +15,7 @@ namespace AccountExecutiveApp.iOS
 		public RightDetailCell(UITableViewCellStyle style, string cellIdentifier)
 			: base(UITableViewCellStyle.Value1, cellIdentifier)
 		{
-
+            Accessory = UITableViewCellAccessory.DisclosureIndicator;
 		}
 	}
 }

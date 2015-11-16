@@ -128,6 +128,7 @@
     <Compile Include="ContactCell.designer.cs">
       <DependentUpon>ContactCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorCandidateTableViewSource.cs" />
     <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorJobStatusListViewController.cs" />
     <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorJobStatusListViewController.designer.cs">
       <DependentUpon>ContractorJobStatusListViewController.cs</DependentUpon>
