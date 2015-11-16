@@ -13,18 +13,45 @@ namespace AccountExecutiveApp.iOS
 
 	    private readonly IEnumerable<IGrouping<ContractType, ConsultantContract>> _fullySourcedContractsGroupedByTypeAndStatus;
         private readonly IEnumerable<IGrouping<ContractType, ConsultantContract>> _floThruContractsGroupedByTypeAndStatus;
-	
+
+        private Dictionary<ContractType, Dictionary<ContractStatusType, List<ConsultantContract>>> ContractsGroupedByTypeAndStatus; 
+
         public ContractStatusListTableViewSource(UITableViewController parentVC, IEnumerable<ConsultantContract> contracts)
-		{
-            //_fullySourcedContractsGroupedByTypeAndStatus = contracts.Where(contract => contract.IsFullySourced)
-            //                                            .GroupBy(contract => contract.StatusType)
-            //                                            .OrderBy(grouping => grouping.Key);
-            //_floThruContractsGroupedByTypeAndStatus = contracts.Where(contract => contract.IsFloThru)
-            //                                            .GroupBy(contract => contract.StatusType)
-            //                                            .OrderBy(grouping => grouping.Key);
+        {
+            PopulateContractsDictionaryByTypeAndStatus(contracts);
 
             _parentController = parentVC;
-		}
+        }
+
+	    private void PopulateContractsDictionaryByTypeAndStatus(IEnumerable<ConsultantContract> contracts )
+	    {
+	        var fsDict = DictionaryWithContractsByStatus(contracts, ContractType.FullySourced);
+            var ftDict = DictionaryWithContractsByStatus(contracts, ContractType.FloThru);
+
+	        ContractsGroupedByTypeAndStatus =
+	            new Dictionary<ContractType, Dictionary<ContractStatusType, List<ConsultantContract>>>();
+	        ContractsGroupedByTypeAndStatus[ContractType.FullySourced] = fsDict;
+	        ContractsGroupedByTypeAndStatus[ContractType.FloThru] = ftDict;
+	    }
+
+        private static Dictionary<ContractStatusType, List<ConsultantContract>> DictionaryWithContractsByStatus(IEnumerable<ConsultantContract> contracts, ContractType type)
+	    {
+	        Dictionary<ContractStatusType, List<ConsultantContract>> fsDict =
+	            new Dictionary<ContractStatusType, List<ConsultantContract>>();
+
+            List<ConsultantContract> endingContracts = contracts.Where(contract => contract.ContractType == type && contract.StatusType == ContractStatusType.Ending).ToList();
+            List<ConsultantContract> startingContracts = contracts.Where(contract => contract.ContractType == type && contract.StatusType == ContractStatusType.Starting).ToList();
+            List<ConsultantContract> activeContracts = contracts.Where(contract => contract.ContractType == type && contract.StatusType == ContractStatusType.Active).ToList();
+
+            if (endingContracts.Count > 0)
+                fsDict[ContractStatusType.Ending] = endingContracts;
+            if (startingContracts.Count > 0)
+                fsDict[ContractStatusType.Starting] =startingContracts;
+            if (activeContracts.Count > 0)
+                fsDict[ContractStatusType.Active] = activeContracts;
+
+	        return fsDict;
+	    }
 
 	    public void swapInContractList( List<List<ConsultantContract>> list, int i, int j ) 
         {
@@ -35,7 +62,9 @@ namespace AccountExecutiveApp.iOS
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
-			return 2;
+            if (ContractsGroupedByTypeAndStatus!= null )
+    			return ContractsGroupedByTypeAndStatus.Keys.Count;
+		    return 1;
 		}
 
 		public override string TitleForHeader (UITableView tableView, nint section)
@@ -48,11 +77,11 @@ namespace AccountExecutiveApp.iOS
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-            //if ( section == 0 && FS_contractsByStatus != null)
-            //    return FS_contractsByStatus.Count();
-            //else if ( section == 1 && FT_contractsByStatus != null)
-            //    return FT_contractsByStatus.Count();
-            //else
+            if (section == 0 && ContractsGroupedByTypeAndStatus != null)
+                return ContractsGroupedByTypeAndStatus[ContractType.FullySourced].Count();
+            else if (section == 1 && ContractsGroupedByTypeAndStatus != null )
+                return ContractsGroupedByTypeAndStatus[ContractType.FloThru].Count();
+            else
 				return 0;
 		}
 
@@ -72,7 +101,8 @@ namespace AccountExecutiveApp.iOS
 	        if (contractsByStatus == null)
 	            return; 
 
-	        cell.TextLabel.Text = contractsByStatus[0].StatusType.ToString();
+            if( contractsByStatus.Count > 0 )
+	            cell.TextLabel.Text = contractsByStatus[0].StatusType.ToString();
 
 	        if (cell.DetailTextLabel != null)
 	            cell.DetailTextLabel.Text = contractsByStatus.Count().ToString();
@@ -80,33 +110,28 @@ namespace AccountExecutiveApp.iOS
 
 	    private List<ConsultantContract> GetContractsByStatusAndSection(NSIndexPath indexPath)
 	    {
-            if (!_fullySourcedContractsGroupedByTypeAndStatus.Any())
-	        return indexPath.Section == 0 
-                ? _fullySourcedContractsGroupedByTypeAndStatus.ElementAtOrDefault((int) indexPath.Item).ToList() 
-                : _floThruContractsGroupedByTypeAndStatus.ElementAtOrDefault((int)indexPath.Item).ToList();
+	        if (ContractsGroupedByTypeAndStatus != null )//(!_fullySourcedContractsGroupedByTypeAndStatus.Any())
+	            return indexPath.Section == 0
+                ? ContractsGroupedByTypeAndStatus[ContractType.FullySourced].Values.ElementAt((int)indexPath.Item)
+                : ContractsGroupedByTypeAndStatus[ContractType.FloThru].Values.ElementAt((int)indexPath.Item);
 
             else
-            {
-                return _floThruContractsGroupedByTypeAndStatus.ElementAtOrDefault((int)indexPath.Item).ToList();
+	        {
+	            return null;//_floThruContractsGroupedByTypeAndStatus.ElementAtOrDefault((int)indexPath.Item).ToList();
             }
 	    }
 
 	    public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-            //ContractsListViewController vc = (ContractsListViewController)_parentController.Storyboard.InstantiateViewController ("ContractsListViewController");
+            ContractsListViewController vc = (ContractsListViewController)_parentController.Storyboard.InstantiateViewController ("ContractsListViewController");
 
-            //if (indexPath.Section == 0 && FS_contractsByStatus != null) {
-            //    vc.setContracts (FS_contractsByStatus [(int)indexPath.Item]);
-            //    vc.Title = string.Format ("{0} Contracts", FS_contractsByStatus [(int)indexPath.Item] [0].StatusType);
-                //vc.Subtitle = "Fully-Sourced";
-            //}
-            //else if (indexPath.Section == 1 && FT_contractsByStatus != null) 
-            //{
-            //    vc.setContracts (FT_contractsByStatus [(int)indexPath.Item]);
-            //    vc.Title = string.Format ("{0} Contracts", FT_contractsByStatus [(int)indexPath.Item][0].StatusType);
-                //vc.Subtitle = "Flo-Thru";
-            //}
-            //_parentController.ShowViewController ( vc, _parentController );
+	        List<ConsultantContract> contractsByStatus = ContractsGroupedByTypeAndStatus.Values.ElementAt((int)indexPath.Section).Values.ElementAt((int)indexPath.Item);
+
+            vc.setContracts( contractsByStatus );
+            vc.Title = string.Format("{0} Contracts", contractsByStatus[0].StatusType.ToString());
+            vc.Subtitle = string.Format("{0} Contracts", contractsByStatus[0].ContractType.ToString());
+     
+            _parentController.ShowViewController ( vc, _parentController );
 		}
 	}
 }

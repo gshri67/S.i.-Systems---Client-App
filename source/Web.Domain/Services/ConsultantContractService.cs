@@ -33,16 +33,22 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             {
 
                 if (i < 2)
-                    contractList[i].StatusType = MatchGuideConstants.ConsultantContractStatusTypes.Active;
+                    contractList[i].StatusType = ContractStatusType.Active;
                 else if (i < 5)
-                    contractList[i].StatusType = MatchGuideConstants.ConsultantContractStatusTypes.Starting;
+                    contractList[i].StatusType = ContractStatusType.Starting;
                 else
-                    contractList[i].StatusType = MatchGuideConstants.ConsultantContractStatusTypes.Ending;
+                    contractList[i].StatusType = ContractStatusType.Ending;
 
-                if (i % 2 == 0)
+                if (i%2 == 0)
+                {
                     contractList[i].IsFloThru = true;
+                    contractList[i].ContractType = ContractType.FloThru;
+                }
                 else
+                {
                     contractList[i].IsFullySourced = true;
+                    contractList[i].ContractType = ContractType.FullySourced;
+                }
 
                 contractList[i].consultant = new IM_Consultant();
                 contractList[i].consultant.FirstName = "Bob";

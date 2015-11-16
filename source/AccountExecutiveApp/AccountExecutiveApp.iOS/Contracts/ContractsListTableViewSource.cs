@@ -24,7 +24,7 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        if (_contracts != null)
 	        {
-                if( _contracts[0].StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Starting )
+                if( _contracts[0].StatusType == ContractStatusType.Starting )
                     SortContractsByStartDate();
                 else
                     SortContractsByEndDate();
@@ -68,7 +68,7 @@ namespace AccountExecutiveApp.iOS
 				string rightDetail;
 				string subtitleText = "";
 
-				if( curContract.StatusType == MatchGuideConstants.ConsultantContractStatusTypes.Starting )
+				if( curContract.StatusType == ContractStatusType.Starting )
 					rightDetail = "Starts " + curContract.StartDate.ToString("MMM dd, yyyy");
 				else
 					rightDetail = "Ends " + curContract.EndDate.ToString("MMM dd, yyyy");
