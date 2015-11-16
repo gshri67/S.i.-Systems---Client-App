@@ -52,6 +52,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+		    UpdatePageTitle();
+
             if( !_contractsWereSet )
                 LoadContracts();
 			
@@ -61,7 +63,27 @@ namespace AccountExecutiveApp.iOS
 			UpdateUI ();
 		}
 
-		public void setContracts( IEnumerable<ConsultantContract> contracts )
+	    private void UpdatePageTitle()
+	    {
+	        ContractStatusType status;
+	        ContractType contractType;
+
+	        if (_contracts != null && _contracts.Any())
+	        {
+	            status = _contracts.ElementAt(0).StatusType;
+	            contractType = _contracts.ElementAt(0).ContractType;
+	        }
+	        else
+	        {
+	            status = StatusType;
+	            contractType = TypeOfContract;
+	        }
+
+	        Title = string.Format("{0} Contracts", status.ToString());
+            Subtitle = string.Format("{0}", contractType.ToString());
+	    }
+
+	    public void setContracts( IEnumerable<ConsultantContract> contracts )
 		{
 		    _contractsWereSet = true; 
 			_contracts = contracts;
