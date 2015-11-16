@@ -9,14 +9,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 {
     public interface IJobsRepository
     {
-        JobsSummarySet GetJobsSummary();
-        JobDetails GetJobDetailsById(int id);
-        IEnumerable<Job> GetJobs();
+        JobsSummarySet GetJobsSummaryByAccountExecutiveId(int id);
+        JobDetails GetJobDetailsByJobId(int id);
+        IEnumerable<Job> GetJobsByAccountExecutiveId(int id);
     }
 
     public class JobsRepository : IJobsRepository
     {
-        public JobsSummarySet GetJobsSummary()
+        public JobsSummarySet GetJobsSummaryByAccountExecutiveId(int id)
         {
             return new JobsSummarySet
             {
@@ -26,7 +26,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             };
         }
 
-        public JobDetails GetJobDetailsById(int id)
+        public JobDetails GetJobDetailsByJobId(int jobId)
         {
             //todo: connect to DB, querying on selected id
             return new JobDetails
@@ -90,7 +90,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             };
         }
 
-        public IEnumerable<Job> GetJobs()
+        public IEnumerable<Job> GetJobsByAccountExecutiveId(int id)
         {
             var jobList = new List<Job>();
 

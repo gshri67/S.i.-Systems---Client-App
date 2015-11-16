@@ -18,20 +18,34 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     public class JobService
     {
         private readonly IJobsRepository _jobsRepository;
+        private readonly ISessionContext _sessionContext;
 
-        public JobService(IJobsRepository jobsRepository)
+        public JobService(IJobsRepository jobsRepository, ISessionContext sessionContext)
         {
             _jobsRepository = jobsRepository;
+            _sessionContext = sessionContext;
         }
 
         public IEnumerable<Job> GetJobs()
         {
-            return _jobsRepository.GetJobs();
+            return _jobsRepository.GetJobsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+        }
+
+        /// <summary>
+        /// Validate that the current user is the Account Executive for the job being requested
+        /// </summary>
+        private void AssertCurrentUserHasPermissionsToViewJobDetails(JobDetails jobDetails)
+        {
+            //todo: add business rules regarding who can see which job details
+            if(false)
+                throw new UnauthorizedAccessException();
         }
 
         public JobDetails GetJobDetailsById(int id)
         {
-            var jobDetails = _jobsRepository.GetJobDetailsById(id);
+            var jobDetails = _jobsRepository.GetJobDetailsByJobId(id);
+
+            AssertCurrentUserHasPermissionsToViewJobDetails(jobDetails);
 
             return jobDetails;
         }

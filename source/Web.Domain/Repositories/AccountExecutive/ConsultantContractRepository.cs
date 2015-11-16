@@ -14,8 +14,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public interface IConsultantContractRepository
     {
         IEnumerable<ConsultantContract> GetContracts();
-        ContractSummarySet GetFlowThruSummary();
-        ContractSummarySet GetFullySourcedSummary();
+        ContractSummarySet GetFlowThruSummaryByAccountExecutiveId(int id);
+        ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id);
     }
 
     public class ConsultantContractRepository : IConsultantContractRepository
@@ -106,7 +106,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
              }
         }
 
-        public ContractSummarySet GetFlowThruSummary()
+        public ContractSummarySet GetFlowThruSummaryByAccountExecutiveId(int id)
         {
             return new ContractSummarySet
             {
@@ -116,7 +116,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             };
         }
 
-        public ContractSummarySet GetFullySourcedSummary()
+        public ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id)
         {
             return new ContractSummarySet
             {

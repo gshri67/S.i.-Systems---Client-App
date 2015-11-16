@@ -36,7 +36,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
                 Starting = 17,
                 Ending = 12
             };
-            _contractsRepoMock.Setup(repository => repository.GetFlowThruSummary())
+            _contractsRepoMock.Setup(repository => repository.GetFlowThruSummaryByAccountExecutiveId(It.IsAny<int>()))
                 .Returns(contractSummaryToReturn);
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
@@ -57,7 +57,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
                 Starting = 15,
                 Ending = 10
             };
-            _contractsRepoMock.Setup(repository => repository.GetFullySourcedSummary())
+            _contractsRepoMock.Setup(repository => repository.GetFullySourcedSummaryByAccountExecutiveId(It.IsAny<int>()))
                 .Returns(contractSummaryToReturn);
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
@@ -78,7 +78,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
                 Proposed = 9,
                 Callouts = 6
             };
-            _jobsRepoMock.Setup(repository => repository.GetJobsSummary()).Returns(jobsToReturn);
+            _jobsRepoMock.Setup(repository => repository.GetJobsSummaryByAccountExecutiveId(It.IsAny<int>())).Returns(jobsToReturn);
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
 
@@ -92,7 +92,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         [Test]
         public void GetDashboardSummary_CallsGetFlowThruSummary()
         {
-            _contractsRepoMock.Setup(repository => repository.GetFlowThruSummary());
+            _contractsRepoMock.Setup(repository => repository.GetFlowThruSummaryByAccountExecutiveId(It.IsAny<int>()));
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
 
@@ -104,7 +104,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         [Test]
         public void GetDashboardSummary_CallsGetFullySourcedSummary()
         {
-            _contractsRepoMock.Setup(repository => repository.GetFullySourcedSummary());
+            _contractsRepoMock.Setup(repository => repository.GetFullySourcedSummaryByAccountExecutiveId(It.IsAny<int>()));
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
 
@@ -116,7 +116,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         [Test]
         public void GetDashboardSummary_CallsGetJobsRepository()
         {
-            _jobsRepoMock.Setup(repository => repository.GetJobsSummary());
+            _jobsRepoMock.Setup(repository => repository.GetJobsSummaryByAccountExecutiveId(It.IsAny<int>()));
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
 
