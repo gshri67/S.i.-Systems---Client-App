@@ -25,6 +25,10 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
             _jobsRepoMock = new Mock<IJobsRepository>();
             _contractsRepoMock = new Mock<IConsultantContractRepository>();
             _sessionMock = new Mock<ISessionContext>();
+            _sessionMock.Setup(context => context.CurrentUser).Returns(new User
+            {
+                Id = 1
+            });
         }
 
         [Test]
