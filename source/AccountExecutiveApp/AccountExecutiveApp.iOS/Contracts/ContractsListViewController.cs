@@ -54,6 +54,8 @@ namespace AccountExecutiveApp.iOS
 
 		    UpdatePageTitle();
 
+            //LogoutManager.CreateNavBarLeftButton(this);
+
             if( !_contractsWereSet )
                 LoadContracts();
 			

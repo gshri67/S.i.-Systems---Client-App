@@ -54,10 +54,25 @@ namespace AccountExecutiveApp.iOS
 	    private static void UpdateCellText(UITableViewCell cell, List<ConsultantContract> contractsByStatus)
 	    {
 	        if (contractsByStatus == null)
-	            return; 
+	            return;
 
-            if( contractsByStatus.Count > 0 )
-	            cell.TextLabel.Text = contractsByStatus[0].StatusType.ToString();
+	        if (contractsByStatus.Count > 0)
+	        {
+	            if (contractsByStatus[0].StatusType == ContractStatusType.Ending)
+	            {
+	                cell.TextLabel.Text = "-";
+	                cell.TextLabel.TextColor = StyleGuideConstants.RedUiColor;
+                    cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(45);
+	            }
+                else if (contractsByStatus[0].StatusType == ContractStatusType.Starting)
+                {
+                    cell.TextLabel.Text = "+";
+                    cell.TextLabel.TextColor = StyleGuideConstants.GreenUiColor;
+                    cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(40);
+                } 
+	            else
+	                cell.TextLabel.Text = contractsByStatus[0].StatusType.ToString();
+	        }
 
 	        if (cell.DetailTextLabel != null)
 	            cell.DetailTextLabel.Text = contractsByStatus.Count().ToString();
