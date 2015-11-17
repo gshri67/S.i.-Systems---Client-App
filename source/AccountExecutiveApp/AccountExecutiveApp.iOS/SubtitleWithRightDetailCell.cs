@@ -19,6 +19,8 @@ namespace AccountExecutiveApp.iOS
 
         private void InitializeCell()
         {
+            this.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+
             CreateAndAddLabels();
 
             SetupConstraints();
@@ -39,8 +41,8 @@ namespace AccountExecutiveApp.iOS
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 TextAlignment = UITextAlignment.Right,
-                Font = UIFont.FromName("Helvetica", 12f),
-                TextColor = StyleGuideConstants.DarkGrayUiColor
+                Font = UIFont.FromName("Helvetica", 14f),
+                TextColor = StyleGuideConstants.MediumGrayUiColor
             };
             AddSubview(RightDetailTextLabel);
         }
@@ -51,7 +53,7 @@ namespace AccountExecutiveApp.iOS
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 TextAlignment = UITextAlignment.Left,
-                Font = UIFont.FromName("Helvetica", 10f),
+                Font = UIFont.FromName("Helvetica", 14f),
                 TextColor = StyleGuideConstants.MediumGrayUiColor
             };
             AddSubview(SubtitleTextLabel);
@@ -63,7 +65,7 @@ namespace AccountExecutiveApp.iOS
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 TextAlignment = UITextAlignment.Left,
-                Font = UIFont.FromName("Helvetica", 14f),
+                Font = UIFont.FromName("Helvetica", 17f),
                 TextColor = UIColor.Black
             };
             AddSubview(MainTextLabel);
@@ -87,26 +89,22 @@ namespace AccountExecutiveApp.iOS
         private void AddMainTextLabelConstraints()
         {
             AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.05f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.65f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.6f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1f, 0f));
         }
 
         private void AddSubtitleTextLabelConstraints()
         {
             AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Left, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Bottom, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.95f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Bottom, 1.1f, 0f));
             AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 0f));
         }
 
         private void AddRightDetailTextLabelContstraints()
         {
 
-            AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, SubtitleTextLabel, NSLayoutAttribute.Right, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 15f));
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 0.6f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.95f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
         }
 
         public void UpdateCell(string mainText, string subtitleText, string rightDetailText)
