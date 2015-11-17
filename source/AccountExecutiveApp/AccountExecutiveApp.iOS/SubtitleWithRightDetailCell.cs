@@ -53,7 +53,7 @@ namespace AccountExecutiveApp.iOS
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 TextAlignment = UITextAlignment.Left,
-                Font = UIFont.FromName("Helvetica", 14f),
+                Font = UIFont.FromName("Helvetica", 12f),
                 TextColor = StyleGuideConstants.MediumGrayUiColor
             };
             AddSubview(SubtitleTextLabel);
@@ -65,7 +65,7 @@ namespace AccountExecutiveApp.iOS
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 TextAlignment = UITextAlignment.Left,
-                Font = UIFont.FromName("Helvetica", 17f),
+                Font = UIFont.FromName("Helvetica", 16f),
                 TextColor = UIColor.Black
             };
             AddSubview(MainTextLabel);
@@ -89,13 +89,13 @@ namespace AccountExecutiveApp.iOS
         private void AddMainTextLabelConstraints()
         {
             AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1f, 3f));
         }
 
         private void AddSubtitleTextLabelConstraints()
         {
             AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Left, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Bottom, 1.1f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Bottom, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(SubtitleTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 0f));
         }
 
