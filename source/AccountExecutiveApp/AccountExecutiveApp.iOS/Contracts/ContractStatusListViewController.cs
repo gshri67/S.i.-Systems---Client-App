@@ -43,6 +43,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+			LogoutManager.CreateNavBarLeftButton (this);
+
             LoadContracts();
 
 			//SetupTableViewSource ();
