@@ -4,6 +4,7 @@ using Foundation;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using AccountExecutiveApp.Core.TableViewSourceModel;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -11,34 +12,17 @@ namespace AccountExecutiveApp.iOS
 	{
 		private readonly UITableViewController _parentController;
 
-		private List<ConsultantContract> _contracts;
+	    private ContractListTableViewModel _contractsTableModel;
 
         public ContractsListTableViewSource(UITableViewController parentVC, IEnumerable<ConsultantContract> contracts)
 		{
 			_parentController = parentVC;
-			_contracts = contracts.ToList();
-            SortContracts();
+
+            //Assuming there is always a contract
+            ContractType typeOfContract = contracts.ElementAt(0).ContractType;
+            ContractStatusType contractStatus = contracts.ElementAt(0).StatusType;
+            _contractsTableModel = new ContractListTableViewModel( contracts );
 		}
-
-	    private void SortContracts()
-	    {
-	        if (_contracts != null)
-	        {
-                if( _contracts[0].StatusType == ContractStatusType.Starting )
-                    SortContractsByStartDate();
-                else
-                    SortContractsByEndDate();
-	        }
-	    }
-
-	    private void SortContractsByStartDate()
-        {
-            _contracts.Sort((d1, d2) => DateTime.Compare(d1.StartDate, d2.StartDate));
-        }
-        private void SortContractsByEndDate()
-        {
-            _contracts.Sort((d1, d2) => DateTime.Compare(d1.EndDate, d2.EndDate));
-        }
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
@@ -47,31 +31,23 @@ namespace AccountExecutiveApp.iOS
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			if (_contracts != null)
-				return _contracts.Count();
+			if (_contractsTableModel.HasContracts())
+				return _contractsTableModel.NumberOfContracts();
 			else
 				return 0;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			//SubtitleWithRightDetailCell cell = (SubtitleWithRightDetailCell)tableView.DequeueReusableCell ("SubtitleWithRightDetailCell");
-
 			string CellIdentifier = "SubtitleWithRightDetailCell";
 			var cell = tableView.DequeueReusableCell (CellIdentifier) as SubtitleWithRightDetailCell;
-			//??	new SubtitleWithRightDetailCell(CellIdentifier);
             
-			if (_contracts != null)
+			if (_contractsTableModel.HasContracts())
 			{
-				ConsultantContract curContract = _contracts [(int)indexPath.Item];
+                ConsultantContract curContract = _contractsTableModel.ContractAtIndex((int)indexPath.Item);
 			
-				string rightDetail;
 				string subtitleText = "";
-
-				if( curContract.StatusType == ContractStatusType.Starting )
-					rightDetail = "Starts " + curContract.StartDate.ToString("MMM dd, yyyy");
-				else
-					rightDetail = "Ends " + curContract.EndDate.ToString("MMM dd, yyyy");
+				string rightDetail = _contractsTableModel.DateDetailStringAtIndex((int)indexPath.Item);
 
 				subtitleText = curContract.CompanyName;
 
@@ -89,14 +65,8 @@ namespace AccountExecutiveApp.iOS
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			ContractDetailsViewController vc = (ContractDetailsViewController)_parentController.Storyboard.InstantiateViewController ("ContractDetailsViewController");
-			/*
-			if (indexPath.Section == 0 && FS_contractsByStatus != null) {
-				vc.setContracts (FS_contractsByStatus [(int)indexPath.Item]);
-				vc.Title = string.Format ("{0} Contracts", FS_contractsByStatus [(int)indexPath.Item] [0].StatusType);
-				vc.subtitle = "Fully-Sourced";
-			}*/
 
-			vc._contract = _contracts[(int)indexPath.Item];
+            vc._contract = _contractsTableModel.ContractAtIndex((int)indexPath.Item);
 
 			_parentController.ShowViewController ( vc, _parentController );
 		}
