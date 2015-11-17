@@ -68,8 +68,8 @@ namespace AccountExecutiveApp.iOS
 					//cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 65f);
 
 					NSTextAttachment textAttachement = new NSTextAttachment ();
-					textAttachement.Image = new UIImage ("ios7-minus-empty.png");
-					textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, 40, 40);
+					textAttachement.Image = new UIImage ("ios7-minus-empty-centred.png");
+					textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, 30, 30);
 					NSAttributedString attrStringWithImage = NSAttributedString.CreateFrom (textAttachement);
 
 
@@ -93,8 +93,8 @@ namespace AccountExecutiveApp.iOS
 					//cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 40f);
 
 					NSTextAttachment textAttachement = new NSTextAttachment ();
-					textAttachement.Image = new UIImage ("ios7-plus-empty.png");
-					textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, 40, 40);
+					textAttachement.Image = new UIImage ("ios7-plus-empty-centred.png");
+					textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, 30, 30);
 					NSAttributedString attrStringWithImage = NSAttributedString.CreateFrom (textAttachement);
 
 

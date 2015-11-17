@@ -275,5 +275,7 @@
     <BundleResource Include="Resources\Sprint2_SS_1.0.pdf" />
     <BundleResource Include="Resources\ios7-plus-empty.png" />
     <BundleResource Include="Resources\ios7-minus-empty.png" />
+    <BundleResource Include="Resources\ios7-minus-empty-centred.png" />
+    <BundleResource Include="Resources\ios7-plus-empty-centred.png" />
   </ItemGroup>
 </Project>
