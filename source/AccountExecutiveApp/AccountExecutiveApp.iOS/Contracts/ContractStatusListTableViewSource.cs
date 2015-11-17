@@ -60,24 +60,47 @@ namespace AccountExecutiveApp.iOS
 	        {
                 cell.TextLabel.TextColor = UIColor.DarkTextColor;
 
-	            if (contractsByStatus[0].StatusType == ContractStatusType.Ending)
-	            {
-	                cell.TextLabel.Text = "-";
-	                //cell.TextLabel.TextColor = StyleGuideConstants.RedUiColor;
-                    //cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(50);
-	                //cell.TextLabel.Font = UIFont.SystemFontOfSize(50);
-                    cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 65f);
-	            }
-                else if (contractsByStatus[0].StatusType == ContractStatusType.Starting)
-                {
-                    cell.TextLabel.Text = "+";
-                    //cell.TextLabel.TextColor = StyleGuideConstants.GreenUiColor;
-                    //cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(45);
-                    //cell.TextLabel.Font = UIFont.SystemFontOfSize(45);
-                    cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 40f);
-                } 
-	            else
-	                cell.TextLabel.Text = contractsByStatus[0].StatusType.ToString();
+				if (contractsByStatus [0].StatusType == ContractStatusType.Ending) {
+					//cell.TextLabel.Text = "-";
+					//cell.TextLabel.TextColor = StyleGuideConstants.RedUiColor;
+					//cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(50);
+					//cell.TextLabel.Font = UIFont.SystemFontOfSize(50);
+					//cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 65f);
+
+					NSTextAttachment textAttachement = new NSTextAttachment ();
+					textAttachement.Image = new UIImage ("ios7-minus-empty.png");
+					textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, 40, 40);
+					NSAttributedString attrStringWithImage = NSAttributedString.CreateFrom (textAttachement);
+
+
+					cell.TextLabel.AttributedText = attrStringWithImage;
+					/*
+					NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"like after"];
+
+					NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+					textAttachment.image = [UIImage imageNamed:@"ios7-minus-empty.png"];
+
+					NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+
+					[attributedString replaceCharactersInRange:NSMakeRange(4, 1) withAttributedString:attrStringWithImage];
+*/
+
+				} else if (contractsByStatus [0].StatusType == ContractStatusType.Starting) {
+					//cell.TextLabel.Text = "+";
+					//cell.TextLabel.TextColor = StyleGuideConstants.GreenUiColor;
+					//cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(45);
+					//cell.TextLabel.Font = UIFont.SystemFontOfSize(45);
+					//cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 40f);
+
+					NSTextAttachment textAttachement = new NSTextAttachment ();
+					textAttachement.Image = new UIImage ("ios7-plus-empty.png");
+					textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, 40, 40);
+					NSAttributedString attrStringWithImage = NSAttributedString.CreateFrom (textAttachement);
+
+
+					cell.TextLabel.AttributedText = attrStringWithImage;
+				} else 
+					cell.TextLabel.Text = contractsByStatus [0].StatusType.ToString ();
 	        }
 
 	        if (cell.DetailTextLabel != null)
