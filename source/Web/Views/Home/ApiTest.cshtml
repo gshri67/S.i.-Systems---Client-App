@@ -84,6 +84,7 @@
             <li role="presentation"><a id="payPeriodsTabButton" href="#payPeriods" role="tab" data-toggle="tab">PayPeriods</a></li>
             <li role="presentation"><a id="dashboardTabButton" href="#dashboard" role="tab" data-toggle="tab">IM Si Dashboard</a></li>
             <li role="presentation"><a id="consultantContractsTabButton" href="#consultantContracts" role="tab" data-toggle="tab">Consultant Contracts</a></li>
+            <li role="presentation"><a id="jobsTabButton" href="#jobs" role="tab" data-toggle="tab">Jobs</a></li>
             <li role="presentation"><a id="jobDetailsTabButton" href="#jobDetails" role="tab" data-toggle="tab">Job Details</a></li>
         </ul>
 
@@ -186,12 +187,23 @@
 
             <div id="jobDetails" role="details" class="tab-pane">
                 <div class="input-group">
-                    <input id="jobDetailsId" type="text" class="form-control" placeholder="" />
+                    <input id="jobDetailsId" type="text" class="form-control" placeholder=""/>
                     <div class="input-group-btn">
                         <button id="getJobDetailsButton" type="button" class="btn btn-primary">Go</button>
                     </div>
                 </div>
                 <div id="jobDetailsResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="jobs" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="jobsId" type="text" class="form-control" placeholder="" disabled/>
+                    <div class="input-group-btn">
+                        <button id="getJobsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="jobsResults" class="code json well">
                 </div>
             </div>
 
@@ -472,6 +484,27 @@
 
 
                     }).fail(function (err) { showError(err, 'jobDetailsResults') });
+                },
+                getJobs: function () {
+                    $('#jobsResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Job/',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#jobsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'jobsResults') });
                 }
             };
 
@@ -489,6 +522,7 @@
             $('#getDashboardButton').click(page.getDashboard);
             $('#getConsultantContractsButton').click(page.getConsultantContracts);
             $('#getJobDetailsButton').click(page.getJobDetails);
+            $('#getJobsButton').click(page.getJobs);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {
