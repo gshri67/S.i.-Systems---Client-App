@@ -58,17 +58,23 @@ namespace AccountExecutiveApp.iOS
 
 	        if (contractsByStatus.Count > 0)
 	        {
+                cell.TextLabel.TextColor = UIColor.DarkTextColor;
+
 	            if (contractsByStatus[0].StatusType == ContractStatusType.Ending)
 	            {
 	                cell.TextLabel.Text = "-";
-	                cell.TextLabel.TextColor = StyleGuideConstants.RedUiColor;
-                    cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(45);
+	                //cell.TextLabel.TextColor = StyleGuideConstants.RedUiColor;
+                    //cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(50);
+	                //cell.TextLabel.Font = UIFont.SystemFontOfSize(50);
+                    cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 65f);
 	            }
                 else if (contractsByStatus[0].StatusType == ContractStatusType.Starting)
                 {
                     cell.TextLabel.Text = "+";
-                    cell.TextLabel.TextColor = StyleGuideConstants.GreenUiColor;
-                    cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(40);
+                    //cell.TextLabel.TextColor = StyleGuideConstants.GreenUiColor;
+                    //cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(45);
+                    //cell.TextLabel.Font = UIFont.SystemFontOfSize(45);
+                    cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 40f);
                 } 
 	            else
 	                cell.TextLabel.Text = contractsByStatus[0].StatusType.ToString();
@@ -98,6 +104,11 @@ namespace AccountExecutiveApp.iOS
      
             _parentController.ShowViewController ( vc, _parentController );
 		}
+
+	    public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+	    {
+	        return 35;
+	    }
 	}
 }
 
