@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="AccountExecutiveApp\ConsultantContractServiceTests.cs" />
     <Compile Include="AccountExecutiveApp\DashboardServiceTests.cs" />
+    <Compile Include="AccountExecutiveApp\JobServiceTests.cs" />
     <Compile Include="ClientDetailsRepositoryTests.cs" />
     <Compile Include="CompanyRepositoryTests.cs" />
     <Compile Include="ConsultantMessageServiceTests.cs" />
