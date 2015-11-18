@@ -13,20 +13,37 @@ namespace AccountExecutiveApp.iOS
 	partial class ContractDetailsViewController : UIViewController
 	{
 		private ConsultantContract _contract;
-		public string subtitle;
+		public string Subtitle;
 		public int ContractID = -1;
-	    private ContractsViewModel _contractsViewModel;
+	    private ContractDetailsViewModel _contractsViewModel;
+        private SubtitleHeaderView _subtitleHeaderView;
 
 		public ContractDetailsViewController (IntPtr handle) : base (handle)
 		{
-            _contractsViewModel = DependencyResolver.Current.Resolve<ContractsViewModel>();
+            _contractsViewModel = DependencyResolver.Current.Resolve<ContractDetailsViewModel>();
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
 			LoadContract ();
 		}
+
+        private void UpdatePageTitle()
+        {
+            if (_contract != null)
+            {
+                Title = string.Format("{0}", _contract.Title);
+                Subtitle = string.Format("{0}", _contract.consultant.FullName);
+            }
+            else
+            {
+                Title = "Contract Overview";
+                Subtitle = "";
+            }
+        }
+
 
         private void SetupTableViewSource()
         {
@@ -57,12 +74,12 @@ namespace AccountExecutiveApp.iOS
 			if (_contract == null)
 				return;
 			
-			CompanyNameLabel.Text = _contract.CompanyName;
-            PeriodLabel.Text = string.Format("{0} - {1}", _contract.StartDate.ToString("MMM dd, yyyy"), _contract.EndDate.ToString("MMM dd, yyyy"));
+			CompanyNameLabel.Text = _contractsViewModel.CompanyNameString();
+            PeriodLabel.Text = _contractsViewModel.DatePeriodString();
 
-            BillRateLabel.Text = string.Format("${0}", _contract.BillRate.ToString("0.00"));
-            PayRateLabel.Text = string.Format("${0}", _contract.PayRate.ToString("0.00"));
-            GrossMarginLabel.Text = string.Format("${0}", _contract.GrossMargin.ToString("0.00"));
+            BillRateLabel.Text = _contractsViewModel.BillRateString();
+            PayRateLabel.Text = _contractsViewModel.PayRateString();
+            GrossMarginLabel.Text = _contractsViewModel.GrossMarginString();
 		}
 
 		public async void LoadContract()
@@ -78,7 +95,22 @@ namespace AccountExecutiveApp.iOS
                 SetupTableViewSource();
                 tableView.ReloadData();
                 UpdateSummaryView();
+
+                UpdatePageTitle();
+                CreateCustomTitleBar();
             }
 	    }
+
+        private void CreateCustomTitleBar()
+        {
+            InvokeOnMainThread(() =>
+            {
+                _subtitleHeaderView = new SubtitleHeaderView();
+                NavigationItem.TitleView = _subtitleHeaderView;
+                _subtitleHeaderView.TitleText = Title;
+                _subtitleHeaderView.SubtitleText = Subtitle;
+                NavigationItem.Title = "";
+            });
+        }
 	}
 }
