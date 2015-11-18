@@ -14,6 +14,7 @@ namespace AccountExecutiveApp.iOS
 	{
 		public ConsultantContract _contract;
 		public string subtitle;
+		public int ContractID = -1;
 
 		public ContractDetailsViewController (IntPtr handle) : base (handle)
 		{
@@ -22,6 +23,7 @@ namespace AccountExecutiveApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+			LoadContracts ();
 			SetupTableViewSource();
 			UpdateSummaryView ();
 		}
@@ -61,6 +63,16 @@ namespace AccountExecutiveApp.iOS
             BillRateLabel.Text = string.Format("${0}", _contract.BillRate.ToString("0.00"));
             PayRateLabel.Text = string.Format("${0}", _contract.PayRate.ToString("0.00"));
             GrossMarginLabel.Text = string.Format("${0}", _contract.GrossMargin.ToString("0.00"));
+		}
+
+		public async void LoadContracts()
+		{
+			if (_contract != null) return;
+
+			//_contract = await _contractsViewModel.getContractWithID(ContractID);
+
+
+			//UpdateUI();
 		}
 	}
 }

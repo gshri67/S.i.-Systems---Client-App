@@ -328,16 +328,6 @@ namespace SiSystems.SharedModels
             }
         }
 
-        /// <summary>
-        /// Corresponds to -, +, or Active Contracts
-        /// </summary>
-        public struct ConsultantContractStatusTypes
-        {
-            public static string Active = "Active";
-            public static string Ending = "-";
-            public static string Starting = "+";
-        }
-
         /// Consider any unanticipated values as the default, NotChecked
         [DataContract]
         [DebuggerDisplay("{DisplayValue}")]
