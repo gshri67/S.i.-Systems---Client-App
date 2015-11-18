@@ -11,7 +11,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
     {
         private List<ConsultantContract> _contracts;
 
-        private ContractType _typeOfContract;
+        private MatchGuideConstants.AgreementSubTypes _typeOfContract;
         private ContractStatusType _contractStatus;
 
         public ContractListTableViewModel( IEnumerable<ConsultantContract> contracts )
@@ -21,7 +21,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             else
                 _contracts = new List<ConsultantContract>();
 
-            _typeOfContract = _contracts[0].ContractType;
+            _typeOfContract = _contracts[0].AgreementSubType;
             _contractStatus = _contracts[0].StatusType;
 
             List<ConsultantContract> sortedContracts = SortContracts(_contracts);

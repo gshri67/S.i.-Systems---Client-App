@@ -63,42 +63,42 @@ namespace AccountExecutiveApp.iOS
 			{
 				var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
                 contractListVC.StatusType = ContractStatusType.Ending;
-                contractListVC.TypeOfContract = ContractType.FullySourced;
+                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.Consultant;
 				ShowViewController( contractListVC, this );
 			};
 			FS_startingButtonOverlay.TouchUpInside += delegate 
 			{
 				var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
                 contractListVC.StatusType = ContractStatusType.Starting;
-                contractListVC.TypeOfContract = ContractType.FullySourced;
+                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.Consultant;
                 ShowViewController(contractListVC, this);
 			};
 			FS_activeButtonOverlay.TouchUpInside += delegate 
 			{
 				var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
                 contractListVC.StatusType = ContractStatusType.Active;
-                contractListVC.TypeOfContract = ContractType.FullySourced;
+                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.Consultant;
 				ShowViewController( contractListVC, this );
 			};
 			FT_endingButtonOverlay.TouchUpInside += delegate 
 			{
 				var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
                 contractListVC.StatusType = ContractStatusType.Ending;
-                contractListVC.TypeOfContract = ContractType.FloThru;
+                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.FloThru;
 				ShowViewController( contractListVC, this );
 			};
 			FT_startingButtonOverlay.TouchUpInside += delegate 
 			{
 				var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
                 contractListVC.StatusType = ContractStatusType.Starting;
-                contractListVC.TypeOfContract = ContractType.FloThru;
+                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.FloThru;
 				ShowViewController( contractListVC, this );
 			};
 			FT_activeButtonOverlay.TouchUpInside += delegate 
 			{
 				var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
                 contractListVC.StatusType = ContractStatusType.Active;
-                contractListVC.TypeOfContract = ContractType.FloThru;
+                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.FloThru;
 				ShowViewController( contractListVC, this );
 			};
 

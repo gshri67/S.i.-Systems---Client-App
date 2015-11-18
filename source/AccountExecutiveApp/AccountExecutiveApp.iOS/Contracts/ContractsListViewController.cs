@@ -22,7 +22,7 @@ namespace AccountExecutiveApp.iOS
 	    private bool _contractsWereSet = false;//this is to know whether the contracts were passed in, or if we should call the API
 	    ContractsViewModel _contractsViewModel;
         public ContractStatusType StatusType;//atm only used when loading contracts because they were not passed in
-	    public ContractType TypeOfContract;
+        public MatchGuideConstants.AgreementSubTypes TypeOfContract;
 
         public ContractsListViewController(IntPtr handle)
             : base(handle)
@@ -68,12 +68,12 @@ namespace AccountExecutiveApp.iOS
 	    private void UpdatePageTitle()
 	    {
 	        ContractStatusType status;
-	        ContractType contractType;
+            MatchGuideConstants.AgreementSubTypes contractType;
 
 	        if (_contracts != null && _contracts.Any())
 	        {
 	            status = _contracts.ElementAt(0).StatusType;
-	            contractType = _contracts.ElementAt(0).ContractType;
+	            contractType = _contracts.ElementAt(0).AgreementSubType;
 	        }
 	        else
 	        {

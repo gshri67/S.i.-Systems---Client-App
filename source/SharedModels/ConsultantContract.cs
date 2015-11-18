@@ -44,9 +44,12 @@ namespace SiSystems.SharedModels
         public ClientContact BillingContact { get; set; }
 
         public ContractStatusType StatusType { get; set; }
-        public ContractType ContractType { get; set; } 
 
-       
+        public MatchGuideConstants.AgreementSubTypes AgreementSubType { get; set; }
+
+        public bool IsFloThru { get { return AgreementSubType == MatchGuideConstants.AgreementSubTypes.FloThru; } }
+
+        public bool IsFullySourced { get { return AgreementSubType == MatchGuideConstants.AgreementSubTypes.Consultant; } }
 
         public float BillRate { get; set; }
         public float PayRate { get; set; }
@@ -62,11 +65,5 @@ namespace SiSystems.SharedModels
         Active
 
         
-    }
-
-    public enum ContractType
-    {
-        FullySourced,
-        FloThru
     }
 }

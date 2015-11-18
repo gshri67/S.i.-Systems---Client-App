@@ -123,7 +123,7 @@ namespace AccountExecutiveApp.iOS
 
             vc.setContracts( contractsByStatus );
             vc.Title = string.Format("{0} Contracts", contractsByStatus[0].StatusType.ToString());
-            vc.Subtitle = string.Format("{0} Contracts", contractsByStatus[0].ContractType.ToString());
+            vc.Subtitle = string.Format("{0} Contracts", contractsByStatus[0].AgreementSubType.ToString());
      
             _parentController.ShowViewController ( vc, _parentController );
 		}
