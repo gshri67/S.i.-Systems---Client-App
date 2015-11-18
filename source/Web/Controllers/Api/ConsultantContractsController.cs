@@ -13,7 +13,7 @@ using SiSystems.ClientApp.Web.Domain.Services;
 
 namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
 {
-    [AccountExecutiveAccessAuthorization]
+    //[AccountExecutiveAccessAuthorization]
     [RoutePrefix("api/ConsultantContracts")]
     public class ConsultantContractsController : ApiController
     {
@@ -25,9 +25,8 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
 
         public HttpResponseMessage GetContracts()
         {
-            var contracts = _service.GetContracts();
+            var contracts = _service.GetContractSummariesForAccountExecutive();
             return Request.CreateResponse(HttpStatusCode.OK, contracts);
-
         }
 
         [Route("{id}")]

@@ -14,12 +14,87 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public interface IConsultantContractRepository
     {
         IEnumerable<ConsultantContract> GetContracts();
+        IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id);
         ContractSummarySet GetFlowThruSummaryByAccountExecutiveId(int id);
         ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id);
     }
 
     public class ConsultantContractRepository : IConsultantContractRepository
     {
+        private static readonly string Constants = @"DECLARE @ACTIVE int = " + MatchGuideConstants.ContractStatusTypes.Active + ","
+                            + "@PENDING int = " + MatchGuideConstants.ContractStatusTypes.Pending + ","
+                            + "@FLOTHRU int = " + MatchGuideConstants.AgreementSubTypes.FloThru + ","
+                            + "@FULLYSOURCED int = " + MatchGuideConstants.AgreementSubTypes.Consultant + ","
+                            + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
+                            + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
+
+        public IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id)
+        {
+            var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
+            var oneWeekFromNow = DateTime.UtcNow.AddDays(7);
+            var twoMonthsFromNow = DateTime.UtcNow.AddMonths(2);
+
+            var summaries = new List<ConsultantContractSummary>();
+            for (var i = 1; i < 30; i++)
+            {
+                DateTime startDate;
+                DateTime endDate;
+                if (i % 3 == 0)
+                {
+                    //starting contract
+                    startDate = oneWeekFromNow;
+                    endDate = twoMonthsFromNow;
+                }
+                else if (i % 3 == 1)
+                {
+                    //ending
+                    startDate = oneWeekAgo;
+                    endDate = oneWeekFromNow;
+                }
+                else
+                {
+                    //active
+                    startDate = oneWeekAgo;
+                    endDate = twoMonthsFromNow;
+                }
+                summaries.Add(new ConsultantContractSummary
+                {
+                    ContractId = i,
+                    CompanyName = "Nexen",
+                    ContractorName = "Fred Flintstone",
+                    Title = string.Format("{0} - Job title with indepth description to indicate length", 321 * i),
+                    AgreementSubType = i % 3 == 0 ? MatchGuideConstants.AgreementSubTypes.Consultant : MatchGuideConstants.AgreementSubTypes.FloThru,
+                    StartDate = startDate,
+                    EndDate = endDate
+                });
+            }
+            return summaries;
+
+//            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+//            {
+//                const string contractSummaryQuery = @"SELECT agr.AgreementID as ContractId,
+//	                                                    consultant.FirstName as FirstName,
+//	                                                    consultant.LastName as LastName,
+//                                                        Company.CompanyName,
+//	                                                    agrDetail.JobTitle Title,
+//	                                                    agr.StartDate StartDate,
+//	                                                    agr.EndDate EndDate,
+//	                                                    agr.AgreementSubType
+//                                                    FROM [Agreement] agr
+//                                                    LEFT JOIN [Users] consultant ON consultant.UserID = agr.CandidateID
+//                                                    LEFT JOIN [Agreement_ContractDetail] agrDetail ON agr.AgreementID = agrDetail.AgreementID
+//                                                    LEFT JOIN [Company]  ON agr.CompanyID = company.CompanyID
+//                                                    WHERE agr.StatusType = @ACTIVE
+//                                                    OR agr.StatusType = @PENDING
+//                                                    ORDER BY agr.EndDate desc";
+
+
+//                var contracts = db.Connection.Query<ConsultantContractSummary>(Constants + contractSummaryQuery, new { Id = id });
+
+//                return contracts;
+//            }
+        }
+
         public IEnumerable<ConsultantContract> GetContracts()
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))

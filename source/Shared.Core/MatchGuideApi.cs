@@ -213,9 +213,9 @@ namespace Shared.Core
         }
 
         [HttpGet("ConsultantContracts")]
-        public async Task<IEnumerable<ConsultantContract>> GetContracts()
+        public async Task<IEnumerable<ConsultantContractSummary>> GetContracts()
         {
-            return await ExecuteWithDefaultClient<IEnumerable<ConsultantContract>>();
+            return await ExecuteWithDefaultClient<IEnumerable<ConsultantContractSummary>>();
         }
 
         [HttpGet("ConsultantContracts/{id}")]

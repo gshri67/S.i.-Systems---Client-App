@@ -102,11 +102,11 @@ namespace AccountExecutiveApp.iOS
         {
             if (_contracts != null) return;
 
-            IEnumerable<ConsultantContract> contracts = await _contractsViewModel.getContracts();
+            var contracts = await _contractsViewModel.getContracts();
 
 			if (!_contractsWereSet) 
 			{
-				_contracts = contracts.Where (c => c.StatusType == StatusType && c.ContractType == TypeOfContract).ToList ();
+				//_contracts = contracts.Where (c => c.StatusType == StatusType && c.AgreementSubType == TypeOfContract).ToList ();
 
 				if (_contracts.Count() <= 0)
 					_contracts = null;

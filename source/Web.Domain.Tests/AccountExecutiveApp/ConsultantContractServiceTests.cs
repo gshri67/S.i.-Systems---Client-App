@@ -17,58 +17,112 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
     public class ConsultantContractServiceTests
     {
         private Mock<IConsultantContractRepository> _contractsRepoMock;
-        private Mock<ISessionContext> _sessionMock;
+        private Mock<IDateTimeService> _dateTimeMock;
+        private Mock<ISessionContext> _session;
+
+        private static readonly DateTime OneWeekFromNow = DateTime.UtcNow.AddDays(7);
+        private static readonly DateTime TwoMonthsFromNow = DateTime.UtcNow.AddMonths(2);
+
+        private static readonly DateTime TwoMonthsAgo = DateTime.UtcNow.AddMonths(-2);
+        private static readonly DateTime TwoWeeksFromNow = DateTime.UtcNow.AddDays(14);
 
         [SetUp]
         public void Setup()
         {
             _contractsRepoMock = new Mock<IConsultantContractRepository>();
-            _sessionMock = new Mock<ISessionContext>();
-        }
-        /*
-        [Test]
-        public void EndingContracts_WithMultipleContracts_DateIsWithinThirtyDaysOfEnding()
-        {
-            var testContracts = new List<ConsultantContract>();
-
-            DateTime currentDate = new DateTime(2015, 11, 11);
             
-            var contractEndingSoon = new ConsultantContract();
-            contractEndingSoon.EndDate = new DateTime(2015, 11, 15);
-            contractEndingSoon.StartDate = new DateTime(2015, 9, 15);
-            testContracts.Add( contractEndingSoon );
+            _dateTimeMock = new Mock<IDateTimeService>();
+            _dateTimeMock.Setup(timeService => timeService.DateIsWithinNextThirtyDays(OneWeekFromNow))
+                .Returns(true);
+            _dateTimeMock.Setup(timeService => timeService.DateIsWithinNextThirtyDays(TwoMonthsAgo))
+                .Returns(false);
 
-            var contractStartingSoon = new ConsultantContract();
-            contractStartingSoon.EndDate = new DateTime(2016, 3, 15);
-            contractStartingSoon.StartDate = new DateTime(2015, 11, 15);
-            testContracts.Add(contractStartingSoon);
-
-            var activeContract = new ConsultantContract();
-            activeContract.EndDate = new DateTime(2016, 2, 15);
-            activeContract.StartDate = new DateTime(2015, 9, 15);
-            testContracts.Add(activeContract);
-
-
-            _contractsRepoMock.Setup(repository => repository.GetContracts())
-                .Returns( testContracts.AsEnumerable() );
-
-            var service = new ConsultantContractService(_contractsRepoMock.Object);
-
-            var resultedContracts = service.GetContracts();
-
-            int numEndingContracts = 0;
-            foreach (var contract in resultedContracts)
+            _session = new Mock<ISessionContext>();
+            _session.Setup(context => context.CurrentUser).Returns(new User
             {
-                //if contract is ending soon
-                if ((contract.EndDate - currentDate).TotalDays <= 30)
-                {
-                    Assert.AreEqual( MatchGuideConstants.ConsultantContractStatusTypes.Ending, contract.StatusType );
-                    numEndingContracts ++;
-                }
-            }
-
-            Assert.AreEqual(1, numEndingContracts);
+                Id = 1
+            });
         }
-        */
+
+        [Test]
+        public void ContractStatusTypeForConsultantContract_EndingContract_ReturnsEndingStatus()
+        {
+            var contract = new ConsultantContractSummary
+            {
+                StartDate = TwoMonthsAgo, 
+                EndDate = OneWeekFromNow
+            };
+
+            var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
+
+            var actual = service.ContractStatusTypeForConsultantContract(contract);
+
+            Assert.AreEqual(ContractStatusType.Ending, actual);
+        }
+
+        [Test]
+        public void ContractStatusTypeForConsultantContract_StartingContract_ReturnsStartingStatus()
+        {
+            var contract = new ConsultantContractSummary
+            {
+                StartDate = OneWeekFromNow,
+                EndDate = TwoMonthsFromNow
+            };
+
+            var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
+
+            var actual = service.ContractStatusTypeForConsultantContract(contract);
+
+            Assert.AreEqual(ContractStatusType.Starting, actual);
+        }
+
+        [Test]
+        public void ContractStatusTypeForConsultantContract_StartingAndEndingContract_ReturnsStartingStatus()
+        {
+            var contract = new ConsultantContractSummary
+            {
+                StartDate = OneWeekFromNow,
+                EndDate = TwoWeeksFromNow
+            };
+
+            var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
+
+            var actual = service.ContractStatusTypeForConsultantContract(contract);
+
+            Assert.AreEqual(ContractStatusType.Starting, actual);
+        }
+
+        [Test]
+        public void ContractStatusTypeForConsultantContract_PastContract_ReturnsActiveStatus()
+        {
+            var contract = new ConsultantContractSummary
+            {
+                StartDate = TwoMonthsAgo,
+                EndDate = TwoMonthsAgo
+            };
+
+            var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
+
+            var actual = service.ContractStatusTypeForConsultantContract(contract);
+            //todo: Is Active what we would actually want these to show as? Should there be another status?
+            Assert.AreEqual(ContractStatusType.Active, actual);
+        }
+
+        [Test]
+        public void ContractStatusTypeForConsultantContract_FutureContract_ReturnsActiveStatus()
+        {
+            var contract = new ConsultantContractSummary
+            {
+                StartDate = TwoMonthsFromNow,
+                EndDate = TwoMonthsFromNow
+            };
+
+            var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
+
+            var actual = service.ContractStatusTypeForConsultantContract(contract);
+
+            //todo: Is Active what we would actually want these to show as? Should there be another status?
+            Assert.AreEqual(ContractStatusType.Active, actual);
+        }
     }
 }

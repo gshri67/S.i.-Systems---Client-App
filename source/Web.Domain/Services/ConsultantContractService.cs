@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive;
+using SiSystems.ClientApp.Web.Domain.Services.AccountExecutive;
 using SiSystems.Web.Domain.Context;
 using SiSystems.ConsultantApp.Web.Domain.Repositories;
 using SiSystems.SharedModels;
@@ -17,53 +18,39 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     /// </summary>
     public class ConsultantContractService
     {
-        private IConsultantContractRepository _consultantContractRepository;
+        private readonly IConsultantContractRepository _consultantContractRepository;
+        private readonly IDateTimeService _dateTimeService;
+        private readonly ISessionContext _session;
 
-        public ConsultantContractService(IConsultantContractRepository consultantContractRepository)
+        public ConsultantContractService(IConsultantContractRepository consultantContractRepository, IDateTimeService dateTimeService, ISessionContext session)
         {
             _consultantContractRepository = consultantContractRepository;
+            _dateTimeService = dateTimeService;
+            _session = session;
         }
 
-        public IEnumerable<ConsultantContract> GetContracts() 
+        public ContractStatusType ContractStatusTypeForConsultantContract(ConsultantContractSummary contract)
         {
-            IEnumerable<ConsultantContract> repoContracts = _consultantContractRepository.GetContracts();
-            List<ConsultantContract> contractList = repoContracts.ToList();
+            if(_dateTimeService.DateIsWithinNextThirtyDays(contract.StartDate))
+                return ContractStatusType.Starting;
 
-            for (int i = 0; i < contractList.Count; i++)
+            if (_dateTimeService.DateIsWithinNextThirtyDays(contract.EndDate))
+                return ContractStatusType.Ending;
+            
+            //todo: Is Active what we would actually want these to show as? Should there be another status? Future? Past?
+            return ContractStatusType.Active;
+        }
+
+        public IEnumerable<ConsultantContractSummary> GetContractSummariesForAccountExecutive() 
+        {
+            var repoContracts = _consultantContractRepository.GetContractSummaryByAccountExecutiveId(_session.CurrentUser.Id);
+
+            foreach (var contract in repoContracts)
             {
-
-                if (i < 2)
-                    contractList[i].StatusType = ContractStatusType.Active;
-                else if (i < 5)
-                    contractList[i].StatusType = ContractStatusType.Starting;
-                else
-                    contractList[i].StatusType = ContractStatusType.Ending;
-
-                if (i%2 == 0)
-                    contractList[i].ContractType = ContractType.FloThru;
-           
-                else
-                    contractList[i].ContractType = ContractType.FullySourced;
-
-                contractList[i].consultant = new IM_Consultant();
-                contractList[i].consultant.FirstName = "Bob";
-                contractList[i].consultant.LastName = "Smith";
-
-                contractList[i].BillRate = 123.00f + (float)i;
-                contractList[i].GrossMargin = i%5 + 1.0f;
-                contractList[i].PayRate = contractList[i].BillRate - contractList[i].GrossMargin;
-
-                contractList[i].ClientContact = new ClientContact();
-                contractList[i].ClientContact.FirstName = "Lucy";
-                contractList[i].ClientContact.LastName = "Lu";
-
-                contractList[i].BillingContact = new ClientContact();
-                contractList[i].BillingContact.FirstName = "Henry";
-                contractList[i].BillingContact.LastName = "Ford";
-
+                contract.StatusType = ContractStatusTypeForConsultantContract(contract);
             }
 
-            return contractList.AsEnumerable<ConsultantContract>();
+            return repoContracts;
         }
     }
 }

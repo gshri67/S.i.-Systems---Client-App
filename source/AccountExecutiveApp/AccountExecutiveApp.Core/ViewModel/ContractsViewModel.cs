@@ -17,7 +17,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             this._api = api;
         }
 
-        public async Task<IEnumerable<ConsultantContract>> getContracts()
+        public async Task<IEnumerable<ConsultantContractSummary>> getContracts()
         {
             return await this._api.GetContracts();
         }

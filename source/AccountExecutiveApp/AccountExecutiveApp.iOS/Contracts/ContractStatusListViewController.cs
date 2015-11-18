@@ -73,7 +73,7 @@ namespace AccountExecutiveApp.iOS
         {
             if (_contracts != null) return;
 
-            _contracts = await _contractsViewModel.getContracts();
+            //_contracts = await _contractsViewModel.getContracts();
 
 
             UpdateUI();

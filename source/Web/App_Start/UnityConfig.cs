@@ -7,6 +7,7 @@ using SiSystems.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using System.Net.Http;
 using SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive;
+using SiSystems.ClientApp.Web.Domain.Services.AccountExecutive;
 using SiSystems.ConsultantApp.Web.Domain.Repositories;
 using SiSystems.SharedModels;
 
@@ -41,6 +42,8 @@ namespace SiSystems.ClientApp.Web
         public static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterType<ISessionContext, SessionContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IDateTimeService, DateTimeService>();
+
             container.RegisterType<IConsultantRepository, ConsultantRepository>();
             container.RegisterType<ICompanyRepository, CompanyRepository>();
             container.RegisterType<IClientDetailsRepository, ClientDetailsRepository>();
