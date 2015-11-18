@@ -12,20 +12,20 @@ namespace AccountExecutiveApp.iOS
 {
 	partial class ContractDetailsViewController : UIViewController
 	{
-		public ConsultantContract _contract;
+		private ConsultantContract _contract;
 		public string subtitle;
 		public int ContractID = -1;
+	    private ContractsViewModel _contractsViewModel;
 
 		public ContractDetailsViewController (IntPtr handle) : base (handle)
 		{
+            _contractsViewModel = DependencyResolver.Current.Resolve<ContractsViewModel>();
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			LoadContracts ();
-			SetupTableViewSource();
-			UpdateSummaryView ();
+			LoadContract ();
 		}
 
         private void SetupTableViewSource()
@@ -65,14 +65,20 @@ namespace AccountExecutiveApp.iOS
             GrossMarginLabel.Text = string.Format("${0}", _contract.GrossMargin.ToString("0.00"));
 		}
 
-		public async void LoadContracts()
+		public async void LoadContract()
 		{
-			if (_contract != null) return;
-
-			//_contract = await _contractsViewModel.getContractWithID(ContractID);
-
-
-			//UpdateUI();
+		    _contract = await _contractsViewModel.GetContractWithId(ContractID);
+			UpdateUI();
 		}
+
+	    private void UpdateUI()
+	    {
+            if (_contract != null && tableView != null && summaryView != null )
+            {
+                SetupTableViewSource();
+                tableView.ReloadData();
+                UpdateSummaryView();
+            }
+	    }
 	}
 }

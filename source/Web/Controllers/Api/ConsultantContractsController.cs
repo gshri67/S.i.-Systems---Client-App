@@ -14,9 +14,9 @@ using SiSystems.ClientApp.Web.Domain.Services;
 namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
 {
     [AccountExecutiveAccessAuthorization]
+    [RoutePrefix("api/ConsultantContracts")]
     public class ConsultantContractsController : ApiController
     {
-
         private readonly ConsultantContractService _service;
         public ConsultantContractsController(ConsultantContractService service)
         {
@@ -28,6 +28,16 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             var contracts = _service.GetContracts();
             return Request.CreateResponse(HttpStatusCode.OK, contracts);
 
+        }
+
+        [Route("{id}")]
+        public HttpResponseMessage GetContractWithId(int id)
+        {
+            var contracts = _service.GetContracts();
+
+            var contract = contracts.ElementAt(0);
+
+            return Request.CreateResponse(HttpStatusCode.OK, contract);
         }
     }
 }

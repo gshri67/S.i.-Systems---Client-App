@@ -66,7 +66,7 @@ namespace AccountExecutiveApp.iOS
 		{
 			ContractDetailsViewController vc = (ContractDetailsViewController)_parentController.Storyboard.InstantiateViewController ("ContractDetailsViewController");
 
-            vc._contract = _contractsTableModel.ContractAtIndex((int)indexPath.Item);
+            vc.ContractID = _contractsTableModel.ContractAtIndex((int)indexPath.Item).ContractId;
 
 			_parentController.ShowViewController ( vc, _parentController );
 		}
