@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SiSystems.SharedModels
 {
 	public class IM_Consultant : UserContact
 	{
 		public MatchGuideConstants.ResumeRating? Rating { get; set; }
-
 
 		public string ResumeText { get; set; }
 
@@ -15,9 +15,8 @@ namespace SiSystems.SharedModels
 
 		public IM_Consultant()
 		{
-			Specializations = new List<Specialization>();
-			Contracts = new List<ConsultantContract>();
+			Specializations = Enumerable.Empty<Specialization>();
+			Contracts = Enumerable.Empty<ConsultantContract>();
 		}
-
 	}
 }
