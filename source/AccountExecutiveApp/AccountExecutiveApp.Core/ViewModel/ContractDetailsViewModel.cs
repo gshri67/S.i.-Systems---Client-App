@@ -59,5 +59,26 @@ namespace AccountExecutiveApp.Core.ViewModel
                 return string.Format("${0}", _contract.GrossMargin.ToString("0.00"));
             return string.Empty;
         }
+
+        public string ConsultantFullNameString()
+        {
+            if (_contract != null)
+                return _contract.consultant.FullName;
+            return string.Empty;
+        }
+
+        public string Title()
+        {
+            if (_contract != null)
+                return _contract.Title;
+            return string.Empty;
+        }
+
+        public bool HasContract()
+        {
+            if (_contract != null )
+                return true;
+            return false;
+        }
     }
 }

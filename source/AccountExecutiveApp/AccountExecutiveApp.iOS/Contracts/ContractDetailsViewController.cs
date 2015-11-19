@@ -12,7 +12,6 @@ namespace AccountExecutiveApp.iOS
 {
 	partial class ContractDetailsViewController : UIViewController
 	{
-		private ConsultantContract _contract;
 		public string Subtitle;
 		public int ContractID = -1;
 	    private ContractDetailsViewModel _contractsViewModel;
@@ -32,10 +31,10 @@ namespace AccountExecutiveApp.iOS
 
         private void UpdatePageTitle()
         {
-            if (_contract != null)
+            if (_contractsViewModel.HasContract())
             {
-                Title = string.Format("{0}", _contract.Title);
-                Subtitle = string.Format("{0}", _contract.consultant.FullName);
+                Title = _contractsViewModel.Title();
+                Subtitle = _contractsViewModel.ConsultantFullNameString();
             }
             else
             {
@@ -47,13 +46,13 @@ namespace AccountExecutiveApp.iOS
 
         private void SetupTableViewSource()
         {
-            if (tableView == null || _contract == null)
+            if (tableView == null || !_contractsViewModel.HasContract())
                 return;
 
             RegisterCellsForReuse();
             InstantiateTableViewSource();
 
-            tableView.Source = new ContractDetailsTableViewSource(this, _contract);
+            tableView.Source = new ContractDetailsTableViewSource(this, _contractsViewModel.Contract);
             tableView.ReloadData();
         }
 
@@ -66,12 +65,12 @@ namespace AccountExecutiveApp.iOS
 
         private void InstantiateTableViewSource()
         {
-            tableView.Source = new ContractDetailsTableViewSource(this, _contract);
+            tableView.Source = new ContractDetailsTableViewSource(this, _contractsViewModel.Contract);
         }
 
 	    public void UpdateSummaryView()
 		{
-			if (_contract == null)
+			if (!_contractsViewModel.HasContract())
 				return;
 			
 			CompanyNameLabel.Text = _contractsViewModel.CompanyNameString();
@@ -84,13 +83,13 @@ namespace AccountExecutiveApp.iOS
 
 		public async void LoadContract()
 		{
-		    _contract = await _contractsViewModel.GetContractWithId(ContractID);
+		    await _contractsViewModel.GetContractWithId(ContractID);
 			UpdateUI();
 		}
 
 	    private void UpdateUI()
 	    {
-            if (_contract != null && tableView != null && summaryView != null )
+            if (_contractsViewModel.HasContract() && tableView != null && summaryView != null )
             {
                 SetupTableViewSource();
                 tableView.ReloadData();
