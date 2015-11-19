@@ -30,7 +30,6 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             
             Assert.AreEqual(string.Empty, _viewModel.JobTitle);
             Assert.AreEqual(string.Empty, _viewModel.ClientContactName);
-            Assert.AreEqual(string.Empty, _viewModel.DirectReportName);
             Assert.AreEqual(0, _viewModel.NumberOfShortlistedConsultants);
             Assert.AreEqual(0, _viewModel.NumberOfProposedContractors);
             Assert.AreEqual(0, _viewModel.NumberOfContractorsWithCallouts);

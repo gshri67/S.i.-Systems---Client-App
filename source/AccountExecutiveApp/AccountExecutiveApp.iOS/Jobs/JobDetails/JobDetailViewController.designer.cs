@@ -24,10 +24,6 @@ namespace AccountExecutiveApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel DirectReportName { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		AccountExecutiveApp.iOS.RightDetailCell Proposed { get; set; }
 
 		[Outlet]
@@ -43,10 +39,6 @@ namespace AccountExecutiveApp.iOS
 			if (ClientContactName != null) {
 				ClientContactName.Dispose ();
 				ClientContactName = null;
-			}
-			if (DirectReportName != null) {
-				DirectReportName.Dispose ();
-				DirectReportName = null;
 			}
 			if (Proposed != null) {
 				Proposed.Dispose ();

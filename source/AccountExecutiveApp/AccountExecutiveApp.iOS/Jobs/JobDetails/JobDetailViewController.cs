@@ -60,7 +60,6 @@ namespace AccountExecutiveApp.iOS
         private void InstantiateTableViewSource()
         {
             ClientContactName.Text = _viewModel.ClientContactName;
-            DirectReportName.Text = _viewModel.DirectReportName;
             ShortListed.TextLabel.Text = "Shortlisted";
             ShortListed.DetailTextLabel.Text = _viewModel.NumberOfShortlistedConsultants.ToString();
             Proposed.TextLabel.Text = "Proposed";

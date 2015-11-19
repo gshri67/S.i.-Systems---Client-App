@@ -41,13 +41,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     EmailAddress = "lucy.lu@email.com",
                     PhoneNumber = "(555)555-1234"
                 },
-                DirectReport = new UserContact
-                {
-                    FirstName = "Mary",
-                    LastName = "Jo",
-                    EmailAddress = "mary.jo@email.com",
-                    PhoneNumber = "(555)555-4321"
-                },
                 Shortlisted = new List<Contractor>
                 {
                     new Contractor

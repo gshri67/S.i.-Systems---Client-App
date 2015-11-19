@@ -28,14 +28,6 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
 
-        public string DirectReportName
-        {
-            get
-            {
-                return string.Format(JobDetails.DirectReport.FullName);
-            }
-        }
-
 		public string ClientName
 		{
 			get
