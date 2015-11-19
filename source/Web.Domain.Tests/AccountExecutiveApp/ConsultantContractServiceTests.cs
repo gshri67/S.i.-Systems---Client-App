@@ -45,7 +45,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         }
 
         [Test]
-        public void ContractStatusTypeForConsultantContract_EndingContract_ReturnsEndingStatus()
+        public void ContractStatusTypeForStartDateAndEndDate_EndingContract_ReturnsEndingStatus()
         {
             var contract = new ConsultantContractSummary
             {
@@ -55,13 +55,13 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
 
             var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
 
-            var actual = service.ContractStatusTypeForConsultantContract(contract);
+            var actual = service.ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
 
             Assert.AreEqual(ContractStatusType.Ending, actual);
         }
 
         [Test]
-        public void ContractStatusTypeForConsultantContract_StartingContract_ReturnsStartingStatus()
+        public void ContractStatusTypeForStartDateAndEndDate_StartingContract_ReturnsStartingStatus()
         {
             var contract = new ConsultantContractSummary
             {
@@ -71,13 +71,13 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
 
             var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
 
-            var actual = service.ContractStatusTypeForConsultantContract(contract);
+            var actual = service.ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
 
             Assert.AreEqual(ContractStatusType.Starting, actual);
         }
 
         [Test]
-        public void ContractStatusTypeForConsultantContract_StartingAndEndingContract_ReturnsStartingStatus()
+        public void ContractStatusTypeForStartDateAndEndDate_StartingAndEndingContract_ReturnsStartingStatus()
         {
             var contract = new ConsultantContractSummary
             {
@@ -87,13 +87,13 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
 
             var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
 
-            var actual = service.ContractStatusTypeForConsultantContract(contract);
+            var actual = service.ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
 
             Assert.AreEqual(ContractStatusType.Starting, actual);
         }
 
         [Test]
-        public void ContractStatusTypeForConsultantContract_PastContract_ReturnsActiveStatus()
+        public void ContractStatusTypeForStartDateAndEndDate_PastContract_ReturnsActiveStatus()
         {
             var contract = new ConsultantContractSummary
             {
@@ -103,13 +103,13 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
 
             var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
 
-            var actual = service.ContractStatusTypeForConsultantContract(contract);
+            var actual = service.ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
             //todo: Is Active what we would actually want these to show as? Should there be another status?
             Assert.AreEqual(ContractStatusType.Active, actual);
         }
 
         [Test]
-        public void ContractStatusTypeForConsultantContract_FutureContract_ReturnsActiveStatus()
+        public void ContractStatusTypeForStartDateAndEndDate_FutureContract_ReturnsActiveStatus()
         {
             var contract = new ConsultantContractSummary
             {
@@ -119,7 +119,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
 
             var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
 
-            var actual = service.ContractStatusTypeForConsultantContract(contract);
+            var actual = service.ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
 
             //todo: Is Active what we would actually want these to show as? Should there be another status?
             Assert.AreEqual(ContractStatusType.Active, actual);

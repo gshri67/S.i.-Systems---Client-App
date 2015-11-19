@@ -9,25 +9,25 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 {
     public class ContractListTableViewModel
     {
-        private List<ConsultantContract> _contracts;
+        private List<ConsultantContractSummary> _contracts;
 
         private MatchGuideConstants.AgreementSubTypes _typeOfContract;
         private ContractStatusType _contractStatus;
 
-        public ContractListTableViewModel( IEnumerable<ConsultantContract> contracts )
+        public ContractListTableViewModel( IEnumerable<ConsultantContractSummary> contracts )
         {
             if( contracts != null )
                 _contracts = contracts.ToList();
             else
-                _contracts = new List<ConsultantContract>();
+                _contracts = new List<ConsultantContractSummary>();
 
             _typeOfContract = _contracts[0].AgreementSubType;
             _contractStatus = _contracts[0].StatusType;
 
-            List<ConsultantContract> sortedContracts = SortContracts(_contracts);
+            List<ConsultantContractSummary> sortedContracts = SortContracts(_contracts);
         }
 
-        public ConsultantContract ContractAtIndex(int index)
+        public ConsultantContractSummary ContractAtIndex(int index)
         {
             return _contracts[index];
         }
@@ -46,7 +46,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
         public string DateDetailStringAtIndex( int index )
         {
-            ConsultantContract curContract = _contracts[index];
+            ConsultantContractSummary curContract = _contracts[index];
 
             if ( _contractStatus == ContractStatusType.Starting)
                 return  string.Format( "Starts {0}", curContract.StartDate.ToString("MMM dd, yyyy") );
@@ -55,7 +55,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         }
 
 //Private Methods
-        private List<ConsultantContract> SortContracts( List<ConsultantContract> contracts )
+        private List<ConsultantContractSummary> SortContracts( List<ConsultantContractSummary> contracts )
         {
             if ( contracts != null && NumberOfContracts() > 1 )
             {
@@ -67,13 +67,18 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             return contracts;
         }
 
-        private void SortContractsByStartDate( List<ConsultantContract> contracts )
+        private void SortContractsByStartDate( List<ConsultantContractSummary> contracts )
         {
             contracts.Sort((d1, d2) => DateTime.Compare(d1.StartDate, d2.StartDate));
         }
-        private void SortContractsByEndDate( List<ConsultantContract> contracts )
+        private void SortContractsByEndDate( List<ConsultantContractSummary> contracts )
         {
             contracts.Sort((d1, d2) => DateTime.Compare(d1.EndDate, d2.EndDate));
+        }
+
+        public int ContractIdByIndex(int item)
+        {
+            return _contracts[item].ContractId;
         }
     }
 }

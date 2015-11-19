@@ -9,23 +9,23 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 {
     public class ContractStatusListTableViewModel
     {
-        private Dictionary<MatchGuideConstants.AgreementSubTypes, Dictionary<ContractStatusType, List<ConsultantContract>>>
+        private Dictionary<MatchGuideConstants.AgreementSubTypes, Dictionary<ContractStatusType, List<ConsultantContractSummary>>>
             _contractsDictionaryByTypeAndStatus;
 
-        public ContractStatusListTableViewModel( IEnumerable<ConsultantContract> contracts )
+        public ContractStatusListTableViewModel( IEnumerable<ConsultantContractSummary> contracts )
         {
             PopulateContractsDictionaryByTypeAndStatus(contracts);
         }
 
-        public List<ConsultantContract> ContractsWithTypeAndStatus(MatchGuideConstants.AgreementSubTypes type, ContractStatusType status)
+        public List<ConsultantContractSummary> ContractsWithTypeAndStatus(MatchGuideConstants.AgreementSubTypes type, ContractStatusType status)
         {
             return _contractsDictionaryByTypeAndStatus[type][status];
         }
-        public List<ConsultantContract> ContractsWithTypeAndStatusIndex(MatchGuideConstants.AgreementSubTypes type, int statusIndex)
+        public List<ConsultantContractSummary> ContractsWithTypeAndStatusIndex(MatchGuideConstants.AgreementSubTypes type, int statusIndex)
         {
             return _contractsDictionaryByTypeAndStatus[type].Values.ElementAt(statusIndex);
         }
-        public List<ConsultantContract> ContractsWithTypeIndexAndStatusIndex(int typeIndex, int statusIndex)
+        public List<ConsultantContractSummary> ContractsWithTypeIndexAndStatusIndex(int typeIndex, int statusIndex)
         {
             return _contractsDictionaryByTypeAndStatus.Values.ElementAt(typeIndex).Values.ElementAt(statusIndex);
         }
@@ -53,25 +53,24 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 
 //Private Methods
-        private void PopulateContractsDictionaryByTypeAndStatus(IEnumerable<ConsultantContract> contracts)
+        private void PopulateContractsDictionaryByTypeAndStatus(IEnumerable<ConsultantContractSummary> contracts)
         {
             var fsDict = DictionaryWithContractsByStatus(contracts, MatchGuideConstants.AgreementSubTypes.Consultant);
             var ftDict = DictionaryWithContractsByStatus(contracts, MatchGuideConstants.AgreementSubTypes.FloThru);
 
             _contractsDictionaryByTypeAndStatus =
-                new Dictionary<MatchGuideConstants.AgreementSubTypes, Dictionary<ContractStatusType, List<ConsultantContract>>>();
+                new Dictionary<MatchGuideConstants.AgreementSubTypes, Dictionary<ContractStatusType, List<ConsultantContractSummary>>>();
             _contractsDictionaryByTypeAndStatus[MatchGuideConstants.AgreementSubTypes.Consultant] = fsDict;
             _contractsDictionaryByTypeAndStatus[MatchGuideConstants.AgreementSubTypes.FloThru] = ftDict;
         }
 
-        private Dictionary<ContractStatusType, List<ConsultantContract>> DictionaryWithContractsByStatus(IEnumerable<ConsultantContract> contracts, MatchGuideConstants.AgreementSubTypes type)
+        private Dictionary<ContractStatusType, List<ConsultantContractSummary>> DictionaryWithContractsByStatus(IEnumerable<ConsultantContractSummary> contracts, MatchGuideConstants.AgreementSubTypes type)
         {
-            Dictionary<ContractStatusType, List<ConsultantContract>> typeDict =
-                new Dictionary<ContractStatusType, List<ConsultantContract>>();
+            var typeDict = new Dictionary<ContractStatusType, List<ConsultantContractSummary>>();
 
-            List<ConsultantContract> endingContracts = contracts.Where(contract => contract.AgreementSubType == type && contract.StatusType == ContractStatusType.Ending).ToList();
-            List<ConsultantContract> startingContracts = contracts.Where(contract => contract.AgreementSubType == type && contract.StatusType == ContractStatusType.Starting).ToList();
-            List<ConsultantContract> activeContracts = contracts.Where(contract => contract.AgreementSubType == type && contract.StatusType == ContractStatusType.Active).ToList();
+            var endingContracts = contracts.Where(contract => contract.AgreementSubType == type && contract.StatusType == ContractStatusType.Ending).ToList();
+            var startingContracts = contracts.Where(contract => contract.AgreementSubType == type && contract.StatusType == ContractStatusType.Starting).ToList();
+            var activeContracts = contracts.Where(contract => contract.AgreementSubType == type && contract.StatusType == ContractStatusType.Active).ToList();
 
             if (endingContracts.Count > 0)
                 typeDict[ContractStatusType.Ending] = endingContracts;

@@ -12,7 +12,11 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private readonly IMatchGuideApi _api;
         private ConsultantContract _contract;
-        public ConsultantContract Contract { get { return _contract; } }
+        public ConsultantContract Contract 
+        {
+            get { return _contract ?? new ConsultantContract(); }
+            set { _contract = value ?? new ConsultantContract(); } 
+        }
 
         public ContractDetailsViewModel(IMatchGuideApi api)
         {
@@ -59,26 +63,52 @@ namespace AccountExecutiveApp.Core.ViewModel
                 return string.Format("${0}", _contract.GrossMargin.ToString("0.00"));
             return string.Empty;
         }
-
-        public string ConsultantFullNameString()
+        public string CompanyName
         {
-            if (_contract != null)
-                return _contract.consultant.FullName;
-            return string.Empty;
+            get { return Contract.CompanyName ?? string.Empty; }
         }
 
-        public string Title()
+        public string ContractPeriod
         {
-            if (_contract != null)
-                return _contract.Title;
-            return string.Empty;
+            get
+            {
+                return string.Format("{0} - {1}", Contract.StartDate.ToString("MMM dd, yyyy"),
+                    Contract.EndDate.ToString("MMM dd, yyyy"));
+            }
         }
 
-        public bool HasContract()
+        public string BillRate
         {
-            if (_contract != null )
-                return true;
-            return false;
+            get { return string.Format("{0:C}", Contract.BillRate); }
         }
+
+        public string PayRate
+        {
+            get { return string.Format("{0:C}", Contract.PayRate); }
+        }
+
+        public string GrossMargin
+        {
+            get { return string.Format("{0:C}", Contract.GrossMargin); }
+        }
+
+        public ContractDetailsViewModel(IMatchGuideApi api)
+        {
+            _api = api;
+        }
+
+        public Task LoadContractDetails(int contractId)
+        {
+            var task = GetContractDetailsFromService(contractId);
+
+            return task;
+        }
+
+        private async Task GetContractDetailsFromService(int contractId)
+        {
+            Contract = await _api.GetContractDetails(contractId);
+            var test = "";
+        }
+
     }
 }

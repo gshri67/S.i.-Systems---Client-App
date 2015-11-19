@@ -13,7 +13,7 @@ namespace AccountExecutiveApp.iOS
 		private readonly UITableViewController _parentController;
 	    private ContractStatusListTableViewModel _contractsTableModel;
 
-        public ContractStatusListTableViewSource(UITableViewController parentVC, IEnumerable<ConsultantContract> contracts)
+        public ContractStatusListTableViewSource(UITableViewController parentVC, IEnumerable<ConsultantContractSummary> contracts)
         {
             _contractsTableModel = new ContractStatusListTableViewModel( contracts );
 
@@ -51,7 +51,7 @@ namespace AccountExecutiveApp.iOS
 		    return cell;
 		}
 
-	    private static void UpdateCellText(UITableViewCell cell, List<ConsultantContract> contractsByStatus)
+	    private static void UpdateCellText(UITableViewCell cell, List<ConsultantContractSummary> contractsByStatus)
 	    {
 	        if (contractsByStatus == null)
 	            return;
@@ -107,19 +107,19 @@ namespace AccountExecutiveApp.iOS
 	            cell.DetailTextLabel.Text = contractsByStatus.Count().ToString();
 	    }
 
-	    private List<ConsultantContract> GetContractsByStatusAndSection(NSIndexPath indexPath)
+	    private List<ConsultantContractSummary> GetContractsByStatusAndSection(NSIndexPath indexPath)
 	    {
 	        if ( _contractsTableModel.HasContracts() )
                 return _contractsTableModel.ContractsWithTypeIndexAndStatusIndex((int)indexPath.Section, (int)indexPath.Item);
 
-            return new List<ConsultantContract>();
+            return new List<ConsultantContractSummary>();
 	    }
 
 	    public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
             ContractsListViewController vc = (ContractsListViewController)_parentController.Storyboard.InstantiateViewController ("ContractsListViewController");
 
-	        List<ConsultantContract> contractsByStatus = _contractsTableModel.ContractsWithTypeIndexAndStatusIndex((int) indexPath.Section, (int) indexPath.Item);
+	        var contractsByStatus = _contractsTableModel.ContractsWithTypeIndexAndStatusIndex((int) indexPath.Section, (int) indexPath.Item);
 
             vc.setContracts( contractsByStatus );
             vc.Title = string.Format("{0} Contracts", contractsByStatus[0].StatusType.ToString());

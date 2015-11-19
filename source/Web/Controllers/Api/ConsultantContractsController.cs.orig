@@ -29,6 +29,7 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, contracts);
         }
 
+<<<<<<< HEAD
         [Route("{id}")]
         public HttpResponseMessage GetContractWithId(int id)
         {
@@ -37,6 +38,13 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             var contract = contracts.ElementAt(0);
 
             return Request.CreateResponse(HttpStatusCode.OK, contract);
+=======
+        [Route("Details/{id}")]
+        public HttpResponseMessage GetContractDetailsById(int id)
+        {
+            var contractDetails = _service.GetContractDetailsById(id);
+            return Request.CreateResponse(HttpStatusCode.OK, contractDetails);
+>>>>>>> Consultant Contract Details
         }
     }
 }

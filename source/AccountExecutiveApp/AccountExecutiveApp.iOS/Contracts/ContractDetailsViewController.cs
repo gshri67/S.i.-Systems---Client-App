@@ -7,26 +7,27 @@ using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AccountExecutiveApp.iOS
 {
 	partial class ContractDetailsViewController : UIViewController
 	{
-		public string Subtitle;
+		private readonly ContractDetailsViewModel _viewModel;
 		public int ContractID = -1;
 	    private ContractDetailsViewModel _contractsViewModel;
         private SubtitleHeaderView _subtitleHeaderView;
 
-		public ContractDetailsViewController (IntPtr handle) : base (handle)
-		{
-            _contractsViewModel = DependencyResolver.Current.Resolve<ContractDetailsViewModel>();
-		}
+		public void LoadContract(int id)
+	    {
+	        var task = _viewModel.LoadContractDetails(id);
+            task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
+	    }
 
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
-
-			LoadContract ();
+	    private void UpdateUserInterface()
+	    {
+            SetupTableViewSource();
+            UpdateSummaryView();
 		}
 
         private void UpdatePageTitle()
@@ -44,41 +45,37 @@ namespace AccountExecutiveApp.iOS
         }
 
 
+		public ContractDetailsViewController (IntPtr handle) : base (handle)
+        {
+            _viewModel = DependencyResolver.Current.Resolve<ContractDetailsViewModel>();
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+		}
+
         private void SetupTableViewSource()
         {
-            if (tableView == null || !_contractsViewModel.HasContract())
+            if (tableView == null)
                 return;
 
-            RegisterCellsForReuse();
-            InstantiateTableViewSource();
-
-            tableView.Source = new ContractDetailsTableViewSource(this, _contractsViewModel.Contract);
-            tableView.ReloadData();
-        }
-
-        private void RegisterCellsForReuse()
-        {
-            if (tableView == null) return;
-
             tableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), "SubtitleWithRightDetailCell");
-        }
 
-        private void InstantiateTableViewSource()
-        {
-            tableView.Source = new ContractDetailsTableViewSource(this, _contractsViewModel.Contract);
+            tableView.Source = new ContractDetailsTableViewSource(this, _viewModel.Contract);
+            tableView.ReloadData();
         }
 
 	    public void UpdateSummaryView()
 		{
-			if (!_contractsViewModel.HasContract())
-				return;
-			
+			CompanyNameLabel.Text = _viewModel.CompanyName;
+            PeriodLabel.Text = _viewModel.ContractPeriod;
+
 			CompanyNameLabel.Text = _contractsViewModel.CompanyNameString();
             PeriodLabel.Text = _contractsViewModel.DatePeriodString();
-
-            BillRateLabel.Text = _contractsViewModel.BillRateString();
-            PayRateLabel.Text = _contractsViewModel.PayRateString();
-            GrossMarginLabel.Text = _contractsViewModel.GrossMarginString();
+            BillRateLabel.Text = _viewModel.BillRate;
+            PayRateLabel.Text = _viewModel.PayRate;
+            GrossMarginLabel.Text = _viewModel.GrossMargin;
 		}
 
 		public async void LoadContract()

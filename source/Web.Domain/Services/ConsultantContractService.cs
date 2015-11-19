@@ -29,12 +29,12 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             _session = session;
         }
 
-        public ContractStatusType ContractStatusTypeForConsultantContract(ConsultantContractSummary contract)
+        public ContractStatusType ContractStatusTypeForStartDateAndEndDate(DateTime startDate, DateTime endDate)
         {
-            if(_dateTimeService.DateIsWithinNextThirtyDays(contract.StartDate))
+            if(_dateTimeService.DateIsWithinNextThirtyDays(startDate))
                 return ContractStatusType.Starting;
 
-            if (_dateTimeService.DateIsWithinNextThirtyDays(contract.EndDate))
+            if (_dateTimeService.DateIsWithinNextThirtyDays(endDate))
                 return ContractStatusType.Ending;
             
             //todo: Is Active what we would actually want these to show as? Should there be another status? Future? Past?
@@ -43,14 +43,35 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         public IEnumerable<ConsultantContractSummary> GetContractSummariesForAccountExecutive() 
         {
-            var repoContracts = _consultantContractRepository.GetContractSummaryByAccountExecutiveId(_session.CurrentUser.Id);
+            var contracts = _consultantContractRepository.GetContractSummaryByAccountExecutiveId(_session.CurrentUser.Id);
 
-            foreach (var contract in repoContracts)
+            foreach (var contract in contracts)
             {
-                contract.StatusType = ContractStatusTypeForConsultantContract(contract);
+                contract.StatusType = ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
             }
 
-            return repoContracts;
+            return contracts;
+        }
+
+        public ConsultantContract GetContractDetailsById(int id)
+        {
+            var details = _consultantContractRepository.GetContractDetailsById(id);
+            
+            details.StatusType = ContractStatusTypeForStartDateAndEndDate(details.StartDate, details.EndDate);
+
+            AssertCurrentUserHasAccessToContractDetails(details);
+
+            return details;
+        }
+
+        /// <summary>
+        /// Validate that the current user is the Account Executive for the Contract Details being requested
+        /// </summary>
+        private void AssertCurrentUserHasAccessToContractDetails(ConsultantContract details)
+        {
+            //todo: work out the permissions regarding which AE has access to what details
+            if(false)
+                throw new UnauthorizedAccessException();
         }
     }
 }

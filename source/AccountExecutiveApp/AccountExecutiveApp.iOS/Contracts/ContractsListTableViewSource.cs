@@ -14,7 +14,7 @@ namespace AccountExecutiveApp.iOS
 
 	    private ContractListTableViewModel _contractsTableModel;
 
-        public ContractsListTableViewSource(UITableViewController parentVC, IEnumerable<ConsultantContract> contracts)
+        public ContractsListTableViewSource(UITableViewController parentVC, IEnumerable<ConsultantContractSummary> contracts)
 		{
 			_parentController = parentVC;
 
@@ -44,7 +44,7 @@ namespace AccountExecutiveApp.iOS
             
 			if (_contractsTableModel.HasContracts())
 			{
-                ConsultantContract curContract = _contractsTableModel.ContractAtIndex((int)indexPath.Item);
+                ConsultantContractSummary curContract = _contractsTableModel.ContractAtIndex((int)indexPath.Item);
 			
 				string subtitleText = "";
 				string rightDetail = _contractsTableModel.DateDetailStringAtIndex((int)indexPath.Item);
@@ -53,7 +53,7 @@ namespace AccountExecutiveApp.iOS
 
 				cell.UpdateCell 
 				(
-					mainText:curContract.consultant.FullName,
+					mainText:curContract.ContractorName,
 					subtitleText:subtitleText,
 					rightDetailText:rightDetail
 				);
@@ -66,7 +66,7 @@ namespace AccountExecutiveApp.iOS
 		{
 			ContractDetailsViewController vc = (ContractDetailsViewController)_parentController.Storyboard.InstantiateViewController ("ContractDetailsViewController");
 
-            vc.ContractID = _contractsTableModel.ContractAtIndex((int)indexPath.Item).ContractId;
+            vc.LoadContract(_contractsTableModel.ContractIdByIndex((int)indexPath.Item));
 
 			_parentController.ShowViewController ( vc, _parentController );
 		}

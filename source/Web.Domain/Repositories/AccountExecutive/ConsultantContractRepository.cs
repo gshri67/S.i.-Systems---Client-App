@@ -17,6 +17,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id);
         ContractSummarySet GetFlowThruSummaryByAccountExecutiveId(int id);
         ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id);
+        ConsultantContract GetContractDetailsById(int id);
     }
 
     public class ConsultantContractRepository : IConsultantContractRepository
@@ -30,69 +31,29 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         public IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id)
         {
-            var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
-            var oneWeekFromNow = DateTime.UtcNow.AddDays(7);
-            var twoMonthsFromNow = DateTime.UtcNow.AddMonths(2);
-
-            var summaries = new List<ConsultantContractSummary>();
-            for (var i = 1; i < 30; i++)
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                DateTime startDate;
-                DateTime endDate;
-                if (i % 3 == 0)
-                {
-                    //starting contract
-                    startDate = oneWeekFromNow;
-                    endDate = twoMonthsFromNow;
-                }
-                else if (i % 3 == 1)
-                {
-                    //ending
-                    startDate = oneWeekAgo;
-                    endDate = oneWeekFromNow;
-                }
-                else
-                {
-                    //active
-                    startDate = oneWeekAgo;
-                    endDate = twoMonthsFromNow;
-                }
-                summaries.Add(new ConsultantContractSummary
-                {
-                    ContractId = i,
-                    CompanyName = "Nexen",
-                    ContractorName = "Fred Flintstone",
-                    Title = string.Format("{0} - Job title with indepth description to indicate length", 321 * i),
-                    AgreementSubType = i % 3 == 0 ? MatchGuideConstants.AgreementSubTypes.Consultant : MatchGuideConstants.AgreementSubTypes.FloThru,
-                    StartDate = startDate,
-                    EndDate = endDate
-                });
+                const string contractSummaryQuery = @"SELECT agr.AgreementID as ContractId,
+	                                                    consultant.FirstName as FirstName,
+	                                                    consultant.LastName as LastName,
+                                                        Company.CompanyName,
+	                                                    agrDetail.JobTitle Title,
+	                                                    agr.StartDate StartDate,
+	                                                    agr.EndDate EndDate,
+	                                                    agr.AgreementSubType
+                                                    FROM [Agreement] agr
+                                                    LEFT JOIN [Users] consultant ON consultant.UserID = agr.CandidateID
+                                                    LEFT JOIN [Agreement_ContractDetail] agrDetail ON agr.AgreementID = agrDetail.AgreementID
+                                                    LEFT JOIN [Company]  ON agr.CompanyID = company.CompanyID
+                                                    WHERE agr.StatusType = @ACTIVE
+                                                    OR agr.StatusType = @PENDING
+                                                    ORDER BY agr.EndDate desc";
+
+
+                var contracts = db.Connection.Query<ConsultantContractSummary>(Constants + contractSummaryQuery, new { Id = id });
+
+                return contracts;
             }
-            return summaries;
-
-//            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-//            {
-//                const string contractSummaryQuery = @"SELECT agr.AgreementID as ContractId,
-//	                                                    consultant.FirstName as FirstName,
-//	                                                    consultant.LastName as LastName,
-//                                                        Company.CompanyName,
-//	                                                    agrDetail.JobTitle Title,
-//	                                                    agr.StartDate StartDate,
-//	                                                    agr.EndDate EndDate,
-//	                                                    agr.AgreementSubType
-//                                                    FROM [Agreement] agr
-//                                                    LEFT JOIN [Users] consultant ON consultant.UserID = agr.CandidateID
-//                                                    LEFT JOIN [Agreement_ContractDetail] agrDetail ON agr.AgreementID = agrDetail.AgreementID
-//                                                    LEFT JOIN [Company]  ON agr.CompanyID = company.CompanyID
-//                                                    WHERE agr.StatusType = @ACTIVE
-//                                                    OR agr.StatusType = @PENDING
-//                                                    ORDER BY agr.EndDate desc";
-
-
-//                var contracts = db.Connection.Query<ConsultantContractSummary>(Constants + contractSummaryQuery, new { Id = id });
-
-//                return contracts;
-//            }
         }
 
         public IEnumerable<ConsultantContract> GetContracts()
@@ -140,34 +101,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                                             JOIN [User_Email] directReportEmail on directReportEmail.UserID = directReport.UserID
 											LEFT JOIN [Company] company ON agr.CompanyID = company.CompanyID
                                             ORDER BY agr.EndDate desc";
-                  /*,
-                                            CAST(agr.StatusType AS INT) StatusType,
-                                            agrRateDetail.BillRate Rate,
-                                            spec.Name SpecializationName, 
-                                            spec.Description SpecializationNameShort,
-                                            contact.UserID Id,
-											contact.FirstName,
-											contact.LastName,
-											contactEmail.PrimaryEmail EmailAddress,
-                                            directReport.UserID Id,
-	                                        directReport.FirstName,
-	                                        directReport.LastName,
-	                                        directReportEmail.PrimaryEmail EmailAddress
-                                            FROM [Agreement] agr 
-                                            LEFT JOIN [Agreement_ContractDetail] agrDetail on agr.AgreementID = agrDetail.AgreementID
-                                            LEFT JOIN [Agreement_ContractRateDetail] agrRateDetail on agr.AgreementID = agrRateDetail.AgreementID
-                                            LEFT JOIN [Specialization] spec on agrDetail.SpecializationID = spec.SpecializationID
-                                            JOIN [Users] contact on contact.UserID = agr.ContactID
-		                                    JOIN [User_Email] contactEmail on contactEmail.UserID = contact.UserID
-		                                    JOIN [Agreement_ContractAdminContactMatrix] m on m.AgreementId = agr.AgreementId and m.Inactive = 0
-		                                    JOIN [Users] directReport on directReport.UserID = m.DirectReportUserID
-		                                    JOIN [User_Email] directReportEmail on directReportEmail.UserID = directReport.UserID
-					                        
-                   
-                                            WHERE agr.CandidateId = @UserId
-						                        AND agr.AgreementType = @CONTRACT
-                                                AND agr.AgreementSubType IN (@FLOTHRU, @FULLYSOURCED) -- fully sourced will be filtered out later for alumni
-                                            ORDER BY agr.EndDate desc";*/
 
                 
               var contracts = db.Connection.Query<ConsultantContract, ClientContact, ConsultantContract>(constants + contractsQuery,
@@ -179,6 +112,72 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 return contracts;
              }
+        }
+
+        public ContractSummarySet GetFlowThruSummaryByAccountExecutiveId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ConsultantContract GetContractDetailsById(int id)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MockedConsultantContractRepository : IConsultantContractRepository
+    {
+        public IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id)
+        {
+            var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
+            var oneWeekFromNow = DateTime.UtcNow.AddDays(7);
+            var twoMonthsFromNow = DateTime.UtcNow.AddMonths(2);
+
+            var summaries = new List<ConsultantContractSummary>();
+            for (var i = 1; i < 30; i++)
+            {
+                DateTime startDate;
+                DateTime endDate;
+                if (i % 3 == 0)
+                {
+                    //starting contract
+                    startDate = oneWeekFromNow;
+                    endDate = twoMonthsFromNow;
+                }
+                else if (i % 3 == 1)
+                {
+                    //ending
+                    startDate = oneWeekAgo;
+                    endDate = oneWeekFromNow;
+                }
+                else
+                {
+                    //active
+                    startDate = oneWeekAgo;
+                    endDate = twoMonthsFromNow;
+                }
+                summaries.Add(new ConsultantContractSummary
+                {
+                    ContractId = i,
+                    CompanyName = "Nexen",
+                    ContractorName = "Fred Flintstone",
+                    Title = string.Format("{0} - Job title with indepth description to indicate length", 321 * i),
+                    AgreementSubType = i % 3 == 0 ? MatchGuideConstants.AgreementSubTypes.Consultant : MatchGuideConstants.AgreementSubTypes.FloThru,
+                    StartDate = startDate,
+                    EndDate = endDate
+                });
+            }
+            return summaries;
+        }
+
+        public IEnumerable<ConsultantContract> GetContracts()
+        {
+            throw new NotImplementedException();
         }
 
         public ContractSummarySet GetFlowThruSummaryByAccountExecutiveId(int id)
@@ -200,5 +199,62 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 Ending = 10
             };
         }
+
+        public ConsultantContract GetContractDetailsById(int id)
+        {
+            return ActiveMarketerAtNexenContract;
+        }
+
+        private static readonly IM_Consultant StandardMarketer = new IM_Consultant
+        {
+            Id = 1,
+            FirstName = "Jon",
+            LastName = "Marketer",
+            EmailAddress = "jm@email.com",
+            Rating = MatchGuideConstants.ResumeRating.Standard
+        };
+
+        private static readonly ClientContact ContactJanice = new ClientContact
+        {
+            FirstName = "Janice",
+            LastName = "McContact",
+            EmailAddress = "cc@email.com",
+            phoneNumber = "(555)555-1234"
+        };
+
+        private static readonly ClientContact BillingContactWilliam = new ClientContact
+        {
+            FirstName = "William",
+            LastName = "Payerson",
+            EmailAddress = "will.payerson@email.com",
+            phoneNumber = "(555)555-4321"
+        };
+
+        private static readonly ClientContact DirectReportCandice = new ClientContact
+        {
+            FirstName = "Candice",
+            LastName = "Consulty",
+            EmailAddress = "candice.consulty@email.com",
+            phoneNumber = "(555)555-9876"
+        };
+
+        private static readonly ConsultantContract ActiveMarketerAtNexenContract = new ConsultantContract
+        {
+            ContractId = 1,
+            CompanyName = "Nexen",
+            ClientId = 1,
+            AgreementSubType = MatchGuideConstants.AgreementSubTypes.Consultant,
+            PayRate = 125,
+            BillRate = 150,
+            GrossMargin = 50,
+            Title = "123456 - Contract with a Title that is not too long",
+            ConsultantId = 1,
+            consultant = StandardMarketer,
+            ClientContact = ContactJanice,
+            BillingContact = BillingContactWilliam,
+            DirectReport = DirectReportCandice,
+            StartDate = DateTime.UtcNow.AddDays(-7),
+            EndDate = DateTime.UtcNow.AddMonths(3)
+        };
     }
 }

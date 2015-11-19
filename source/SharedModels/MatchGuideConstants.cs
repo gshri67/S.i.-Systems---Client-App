@@ -254,6 +254,12 @@ namespace SiSystems.SharedModels
             public const int Permanent = 174;
             public const int ContractToHire = 175;
 
+            private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
+            {
+                {Consultant, "Fully Sourced"},
+                {FloThru, "Flo Thru"}
+            };
+            
             private AgreementSubTypes(long value)
             {
                 m_value = value;
@@ -276,7 +282,8 @@ namespace SiSystems.SharedModels
 
             public override string ToString()
             {
-                return m_value.ToString();
+                string description;
+                return DescriptionDictionary.TryGetValue(m_value, out description) ? description : m_value.ToString();
             }
         }
 

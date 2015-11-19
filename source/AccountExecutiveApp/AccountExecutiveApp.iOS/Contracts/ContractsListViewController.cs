@@ -15,7 +15,7 @@ namespace AccountExecutiveApp.iOS
 	partial class ContractsListViewController : UITableViewController
 	{
         private ContractsListTableViewSource _listTableViewSource;
-		public IEnumerable<ConsultantContract> _contracts;
+		public IEnumerable<ConsultantContractSummary> _contracts;
 		public string Subtitle;
 	    private SubtitleHeaderView _subtitleHeaderView;
 
@@ -85,7 +85,7 @@ namespace AccountExecutiveApp.iOS
             Subtitle = string.Format("{0}", contractType.ToString());
 	    }
 
-	    public void setContracts( IEnumerable<ConsultantContract> contracts )
+	    public void setContracts( IEnumerable<ConsultantContractSummary> contracts )
 		{
 		    _contractsWereSet = true; 
 			_contracts = contracts;
@@ -106,7 +106,7 @@ namespace AccountExecutiveApp.iOS
 
 			if (!_contractsWereSet) 
 			{
-				//_contracts = contracts.Where (c => c.StatusType == StatusType && c.AgreementSubType == TypeOfContract).ToList ();
+				_contracts = contracts.Where (c => c.StatusType == StatusType && c.AgreementSubType == TypeOfContract).ToList ();
 
 				if (_contracts.Count() <= 0)
 					_contracts = null;

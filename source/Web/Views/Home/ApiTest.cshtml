@@ -84,6 +84,7 @@
             <li role="presentation"><a id="payPeriodsTabButton" href="#payPeriods" role="tab" data-toggle="tab">PayPeriods</a></li>
             <li role="presentation"><a id="dashboardTabButton" href="#dashboard" role="tab" data-toggle="tab">IM Si Dashboard</a></li>
             <li role="presentation"><a id="consultantContractsTabButton" href="#consultantContracts" role="tab" data-toggle="tab">Consultant Contracts</a></li>
+            <li role="presentation"><a id="consultantContractDetailsTabButton" href="#consultantContractDetails" role="tab" data-toggle="tab">Contract Details</a></li>
             <li role="presentation"><a id="jobsTabButton" href="#jobs" role="tab" data-toggle="tab">Jobs</a></li>
             <li role="presentation"><a id="jobDetailsTabButton" href="#jobDetails" role="tab" data-toggle="tab">Job Details</a></li>
         </ul>
@@ -182,6 +183,17 @@
                     </div>
                 </div>
                 <div id="consultantContractsResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="consultantContractDetails" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="consultantContractDetailsId" type="text" class="form-control" placeholder="" />
+                    <div class="input-group-btn">
+                        <button id="getConsultantContractDetailsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="consultantContractDetailsResults" class="code json well">
                 </div>
             </div>
 
@@ -462,6 +474,31 @@
 
                     }).fail(function (err) { showError(err, 'consultantContractsResults') });
                 },
+
+                getConsultantContractDetails: function () {
+                    $('#consultantContractDetailsResults').html('Sending...');
+                    var id = $('#consultantContractDetailsId').val();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/ConsultantContracts/Details/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#consultantContractDetailsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'consultantContractDetailsResults') });
+                },
+
                 getJobDetails: function () {
                     $('#jobDetailsResults').html('Sending...');
                     var id = $('#jobDetailsId').val();
@@ -521,6 +558,7 @@
             $('#getPayPeriodsButton').click(page.getPayPeriods);
             $('#getDashboardButton').click(page.getDashboard);
             $('#getConsultantContractsButton').click(page.getConsultantContracts);
+            $('#getConsultantContractDetailsButton').click(page.getConsultantContractDetails);
             $('#getJobDetailsButton').click(page.getJobDetails);
             $('#getJobsButton').click(page.getJobs);
 

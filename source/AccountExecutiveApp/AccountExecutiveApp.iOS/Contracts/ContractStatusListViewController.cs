@@ -14,7 +14,7 @@ namespace AccountExecutiveApp.iOS
 	{
 		private ContractStatusListTableViewSource _clientListTableViewSource;
         private ContractsViewModel _contractsViewModel;
-        private IEnumerable<ConsultantContract> _contracts;
+        private IEnumerable<ConsultantContractSummary> _contracts;
 
 		public ContractStatusListViewController (IntPtr handle) : base (handle)
 		{
@@ -73,7 +73,7 @@ namespace AccountExecutiveApp.iOS
         {
             if (_contracts != null) return;
 
-            //_contracts = await _contractsViewModel.getContracts();
+            _contracts = await _contractsViewModel.getContracts();
 
 
             UpdateUI();

@@ -223,7 +223,13 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<ConsultantContract>(new { id });
         }
-        
+         
+        [HttpGet("ConsultantContracts/Details/{id}")]
+        public async Task<ConsultantContract> GetContractDetails(int id)
+        {
+            return await ExecuteWithDefaultClient<ConsultantContract>(new {id});
+        }
+
         [HttpGet("Job/Details/{id}")]
         public async Task<JobDetails> GetJobDetails(int id)
         {

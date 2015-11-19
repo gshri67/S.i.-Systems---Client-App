@@ -54,5 +54,7 @@ namespace Shared.Core
         Task<ConsultantContract> GetContractWithId( int id );
         
         Task<JobDetails> GetJobDetails(int id);
+        
+        Task<ConsultantContract> GetContractDetails(int id);
     }
 }
