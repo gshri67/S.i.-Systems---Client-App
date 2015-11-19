@@ -219,7 +219,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             FirstName = "Janice",
             LastName = "McContact",
             EmailAddress = "cc@email.com",
-            phoneNumber = "(555)555-1234"
+            PhoneNumber = "(555)555-1234"
         };
 
         private static readonly ClientContact BillingContactWilliam = new ClientContact
@@ -227,7 +227,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             FirstName = "William",
             LastName = "Payerson",
             EmailAddress = "will.payerson@email.com",
-            phoneNumber = "(555)555-4321"
+            PhoneNumber = "(555)555-4321"
         };
 
         private static readonly ClientContact DirectReportCandice = new ClientContact
@@ -235,7 +235,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             FirstName = "Candice",
             LastName = "Consulty",
             EmailAddress = "candice.consulty@email.com",
-            phoneNumber = "(555)555-9876"
+            PhoneNumber = "(555)555-9876"
         };
 
         private static readonly ConsultantContract ActiveMarketerAtNexenContract = new ConsultantContract
@@ -249,7 +249,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             GrossMargin = 50,
             Title = "123456 - Contract with a Title that is not too long",
             ConsultantId = 1,
-            consultant = StandardMarketer,
+            Consultant = StandardMarketer,
             ClientContact = ContactJanice,
             BillingContact = BillingContactWilliam,
             DirectReport = DirectReportCandice,

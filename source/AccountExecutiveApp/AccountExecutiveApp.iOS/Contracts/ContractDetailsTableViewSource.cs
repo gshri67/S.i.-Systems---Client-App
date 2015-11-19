@@ -43,7 +43,7 @@ namespace AccountExecutiveApp.iOS
 
 				if (indexPath.Item == 0) 
 				{
-					mainText = _contract.consultant.FullName;
+					mainText = _contract.Consultant.FullName;
 					subtitleText = "Contractor";
 				}
 				if (indexPath.Item == 1) 

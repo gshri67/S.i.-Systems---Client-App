@@ -65,9 +65,9 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                return Contract.consultant == null 
+                return Contract.Consultant == null 
                     ? String.Empty 
-                    : Contract.consultant.FullName;
+                    : Contract.Consultant.FullName;
             }
         }
 

@@ -53,7 +53,7 @@ namespace SiSystems.SharedModels
         public float PayRate { get; set; }
         public float GrossMargin { get; set; }
 
-        public IM_Consultant consultant;
+        public IM_Consultant Consultant { get; set; }
     }
 
     public enum ContractStatusType
@@ -61,7 +61,5 @@ namespace SiSystems.SharedModels
         Ending, 
         Starting, 
         Active
-
-        
     }
 }

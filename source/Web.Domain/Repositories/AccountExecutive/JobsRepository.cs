@@ -39,14 +39,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     FirstName = "Lucy",
                     LastName = "Lu",
                     EmailAddress = "lucy.lu@email.com",
-                    phoneNumber = "(555)555-1234"
+                    PhoneNumber = "(555)555-1234"
                 },
                 DirectReport = new ClientContact
                 {
                     FirstName = "Mary",
                     LastName = "Jo",
                     EmailAddress = "mary.jo@email.com",
-                    phoneNumber = "(555)555-4321"
+                    PhoneNumber = "(555)555-4321"
                 },
                 Shortlisted = new List<IM_Consultant>
                 {

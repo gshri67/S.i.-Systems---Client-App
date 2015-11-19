@@ -13,7 +13,7 @@ namespace SiSystems.SharedModels
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName).Trim(); } }
 
         public string EmailAddress { get; set; }
-        public string phoneNumber { get; set;  }
+        public string PhoneNumber { get; set;  }
     }
 }
        
