@@ -56,9 +56,9 @@ namespace AccountExecutiveApp.iOS
 
 			CompanyNameLabel.Text = _viewModel.CompanyName;
             PeriodLabel.Text = _viewModel.ContractPeriod;
-            BillRateLabel.Text = _viewModel.BillRate;
-            PayRateLabel.Text = _viewModel.PayRate;
-            GrossMarginLabel.Text = _viewModel.GrossMargin;
+            BillRateLabel.Text = _viewModel.FormatedBillRate;
+            PayRateLabel.Text = _viewModel.FormatedPayRate;
+            GrossMarginLabel.Text = _viewModel.FormatedGrossMargin;
 		}
 
         private void CreateCustomTitleBar()
