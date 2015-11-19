@@ -2,17 +2,8 @@
 
 namespace SiSystems.SharedModels
 {
-	public class IM_Consultant
+	public class IM_Consultant : UserContact
 	{
-		public int Id { get; set; }
-
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
-
-		public string FullName { get { return FirstName + " " + LastName; } }
-
-		public string EmailAddress { get; set; }
-
 		public MatchGuideConstants.ResumeRating? Rating { get; set; }
 
 

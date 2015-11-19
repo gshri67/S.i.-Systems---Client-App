@@ -34,14 +34,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 Id = 1,
                 ClientName = "Nexen",
                 Title = "0123456 - Intermediate Project Manager (w/ Asset Management/Investment Planning/Analytics exp). - long term contract!!!",
-                ClientContact = new ClientContact
+                ClientContact = new UserContact
                 {
                     FirstName = "Lucy",
                     LastName = "Lu",
                     EmailAddress = "lucy.lu@email.com",
                     PhoneNumber = "(555)555-1234"
                 },
-                DirectReport = new ClientContact
+                DirectReport = new UserContact
                 {
                     FirstName = "Mary",
                     LastName = "Jo",

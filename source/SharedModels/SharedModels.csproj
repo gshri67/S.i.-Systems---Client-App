@@ -38,7 +38,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientContact.cs" />
+    <Compile Include="UserContact.cs" />
     <Compile Include="ConsultantContract.cs" />
     <Compile Include="ConsultantDetails.cs" />
     <Compile Include="ClientAccountDetails.cs" />

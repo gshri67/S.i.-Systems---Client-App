@@ -11,8 +11,8 @@ namespace SiSystems.SharedModels
         public int Id { get; set; }
         public string Title { get; set; }
         public string ClientName { get; set; }
-        public ClientContact ClientContact { get; set; }
-        public ClientContact DirectReport { get; set; }
+        public UserContact ClientContact { get; set; }
+        public UserContact DirectReport { get; set; }
 
         public IEnumerable<IM_Consultant> Shortlisted { get; set; }
         public IEnumerable<IM_Consultant> Proposed { get; set; }
@@ -23,8 +23,8 @@ namespace SiSystems.SharedModels
             Id = 0;
             Title = string.Empty;
             ClientName = string.Empty;
-            ClientContact = new ClientContact();
-            DirectReport = new ClientContact();
+            ClientContact = new UserContact();
+            DirectReport = new UserContact();
 
             Shortlisted = Enumerable.Empty<IM_Consultant>();
             Proposed = Enumerable.Empty<IM_Consultant>();

@@ -37,9 +37,9 @@ namespace SiSystems.SharedModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public ClientContact DirectReport { get; set; }
-        public ClientContact ClientContact { get; set; }
-        public ClientContact BillingContact { get; set; }
+        public UserContact DirectReport { get; set; }
+        public UserContact ClientContact { get; set; }
+        public UserContact BillingContact { get; set; }
 
         public ContractStatusType StatusType { get; set; }
 

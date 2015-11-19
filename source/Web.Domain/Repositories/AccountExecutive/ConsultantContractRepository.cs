@@ -103,7 +103,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                                             ORDER BY agr.EndDate desc";
 
                 
-              var contracts = db.Connection.Query<ConsultantContract, ClientContact, ConsultantContract>(constants + contractsQuery,
+              var contracts = db.Connection.Query<ConsultantContract, UserContact, ConsultantContract>(constants + contractsQuery,
                   (contract, directReport) =>
                   {
                       contract.DirectReport = directReport;
@@ -214,7 +214,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             Rating = MatchGuideConstants.ResumeRating.Standard
         };
 
-        private static readonly ClientContact ContactJanice = new ClientContact
+        private static readonly UserContact ContactJanice = new UserContact
         {
             FirstName = "Janice",
             LastName = "McContact",
@@ -222,7 +222,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             PhoneNumber = "(555)555-1234"
         };
 
-        private static readonly ClientContact BillingContactWilliam = new ClientContact
+        private static readonly UserContact BillingContactWilliam = new UserContact
         {
             FirstName = "William",
             LastName = "Payerson",
@@ -230,7 +230,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             PhoneNumber = "(555)555-4321"
         };
 
-        private static readonly ClientContact DirectReportCandice = new ClientContact
+        private static readonly UserContact DirectReportCandice = new UserContact
         {
             FirstName = "Candice",
             LastName = "Consulty",
