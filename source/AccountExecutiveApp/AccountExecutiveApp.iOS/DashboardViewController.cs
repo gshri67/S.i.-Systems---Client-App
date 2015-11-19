@@ -135,6 +135,7 @@ namespace AccountExecutiveApp.iOS
 	        AddCircularBorderToLabel(FT_curContractsLabel);
             AddBorderToView(FT_containerView);
             AddBorderToView(FS_containerView);
+			AddBorderToView(jobsContainerView);
 	    }
 
 	    private void AddBorderToView(UIView view)
