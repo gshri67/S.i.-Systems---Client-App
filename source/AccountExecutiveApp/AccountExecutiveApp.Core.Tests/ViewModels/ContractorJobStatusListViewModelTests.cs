@@ -23,7 +23,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         [Test]
         public void ContractorNameByRowNumber_EmptyConsultants_ReturnsEmptyString()
         {
-            _viewModel.LoadConsultants(null);
+            _viewModel.LoadContractors(null);
 
             Assert.AreEqual(string.Empty, _viewModel.ContractorNameByRowNumber(0));
         }
@@ -31,9 +31,9 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         [Test]
         public void ContractorNameByRowNumber_IndexOutOfBounds_ReturnsEmptyString()
         {
-            _viewModel.LoadConsultants(new List<IM_Consultant>
+            _viewModel.LoadContractors(new List<Contractor>
             {
-                new IM_Consultant
+                new Contractor
                 {
                     FirstName = "Bob"
                 }
@@ -46,7 +46,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         [Test]
         public void NumberofContractors_EmptyConsultants_ReturnsZero()
         {
-            _viewModel.LoadConsultants(null);
+            _viewModel.LoadContractors(null);
 
             Assert.AreEqual(0, _viewModel.NumberOfContractors());
         }
@@ -55,9 +55,9 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         public void NumberOfContractors_SingleContractor_ReturnsOne()
         {
             const int expectedNumberOfConsultants = 1;
-            _viewModel.LoadConsultants(new List<IM_Consultant>
+            _viewModel.LoadContractors(new List<Contractor>
             {
-                new IM_Consultant
+                new Contractor
                 {
                     FirstName = "Bob"
                 }

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SiSystems.SharedModels
 {
-	public class IM_Consultant : UserContact
+	public class Contractor : UserContact
 	{
 		public MatchGuideConstants.ResumeRating? Rating { get; set; }
 
@@ -13,7 +13,7 @@ namespace SiSystems.SharedModels
 
 		public IEnumerable<ConsultantContract> Contracts { get; set; }
 
-		public IM_Consultant()
+		public Contractor()
 		{
 			Specializations = Enumerable.Empty<Specialization>();
 			Contracts = Enumerable.Empty<ConsultantContract>();

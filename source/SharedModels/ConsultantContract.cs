@@ -16,6 +16,6 @@ namespace SiSystems.SharedModels
         public float PayRate { get; set; }
         public float GrossMargin { get; set; }
 
-        public IM_Consultant Consultant { get; set; }
+        public Contractor Contractor { get; set; }
     }
 }

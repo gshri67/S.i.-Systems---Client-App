@@ -56,19 +56,19 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return JobDetails.Title; }
         }
 
-        public IEnumerable<IM_Consultant> ShortlistedConsultants
+        public IEnumerable<Contractor> ShortlistedContractors
         {
-            get { return JobDetails.Shortlisted ?? Enumerable.Empty<IM_Consultant>(); }
+            get { return JobDetails.Shortlisted ?? Enumerable.Empty<Contractor>(); }
         }
 
-        public IEnumerable<IM_Consultant> ProposedConsultants
+        public IEnumerable<Contractor> ProposedContractors
         {
-            get { return JobDetails.Proposed ?? Enumerable.Empty<IM_Consultant>(); }
+            get { return JobDetails.Proposed ?? Enumerable.Empty<Contractor>(); }
         }
 
-        public IEnumerable<IM_Consultant> ConsultantsWithCallouts
+        public IEnumerable<Contractor> ContractorsWithCallouts
         {
-            get { return JobDetails.Callouts ?? Enumerable.Empty<IM_Consultant>(); }
+            get { return JobDetails.Callouts ?? Enumerable.Empty<Contractor>(); }
         }
 
         public JobDetailViewModel(IMatchGuideApi api)

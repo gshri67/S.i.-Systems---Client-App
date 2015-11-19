@@ -20,9 +20,9 @@ namespace AccountExecutiveApp.iOS
             _viewModel = DependencyResolver.Current.Resolve<ContractorJobStatusListViewModel>();
 		}
 
-	    public void LoadConsultants(IEnumerable<IM_Consultant> consultants)
+	    public void LoadContractors(IEnumerable<Contractor> contractors)
 	    {
-	        _viewModel.LoadConsultants(consultants);
+	        _viewModel.LoadContractors(contractors);
 	    }
 
         private void InstantiateTableViewSource()

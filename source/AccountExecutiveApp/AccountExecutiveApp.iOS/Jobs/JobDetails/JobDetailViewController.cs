@@ -86,23 +86,23 @@ namespace AccountExecutiveApp.iOS
 
 	        if (segue.Identifier == ShortlistedSegueIdentifier)
 	        {
-                LoadConsultantsIntoDestinationController(segue, _viewModel.ShortlistedConsultants);
+                LoadContractorsIntoDestinationController(segue, _viewModel.ShortlistedContractors);
 	        }
 	        else if (segue.Identifier == ProposedSegueIdentifier)
 	        {
-                LoadConsultantsIntoDestinationController(segue, _viewModel.ProposedConsultants);
+                LoadContractorsIntoDestinationController(segue, _viewModel.ProposedContractors);
             }else if (segue.Identifier == CalloutSegueIdentifier)
             {
-                LoadConsultantsIntoDestinationController(segue, _viewModel.ConsultantsWithCallouts);
+                LoadContractorsIntoDestinationController(segue, _viewModel.ContractorsWithCallouts);
             }
 	    }
 
-	    private void LoadConsultantsIntoDestinationController(UIStoryboardSegue segue, IEnumerable<IM_Consultant> consultants)
+	    private void LoadContractorsIntoDestinationController(UIStoryboardSegue segue, IEnumerable<Contractor> consultants)
 	    {
 	        var destinationController = segue.DestinationViewController as ContractorJobStatusListViewController;
 
 	        if (destinationController != null)
-	            destinationController.LoadConsultants(consultants);
+	            destinationController.LoadContractors(consultants);
 	    }
 
 	    #region Overlay

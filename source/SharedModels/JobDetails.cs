@@ -14,9 +14,9 @@ namespace SiSystems.SharedModels
         public UserContact ClientContact { get; set; }
         public UserContact DirectReport { get; set; }
 
-        public IEnumerable<IM_Consultant> Shortlisted { get; set; }
-        public IEnumerable<IM_Consultant> Proposed { get; set; }
-        public IEnumerable<IM_Consultant> Callouts{ get; set; }
+        public IEnumerable<Contractor> Shortlisted { get; set; }
+        public IEnumerable<Contractor> Proposed { get; set; }
+        public IEnumerable<Contractor> Callouts{ get; set; }
 
         public JobDetails()
         {
@@ -26,9 +26,9 @@ namespace SiSystems.SharedModels
             ClientContact = new UserContact();
             DirectReport = new UserContact();
 
-            Shortlisted = Enumerable.Empty<IM_Consultant>();
-            Proposed = Enumerable.Empty<IM_Consultant>();
-            Callouts = Enumerable.Empty<IM_Consultant>();
+            Shortlisted = Enumerable.Empty<Contractor>();
+            Proposed = Enumerable.Empty<Contractor>();
+            Callouts = Enumerable.Empty<Contractor>();
         }
     }
 }

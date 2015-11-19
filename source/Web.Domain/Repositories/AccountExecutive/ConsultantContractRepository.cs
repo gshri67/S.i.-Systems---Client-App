@@ -205,7 +205,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             return ActiveMarketerAtNexenContract;
         }
 
-        private static readonly IM_Consultant StandardMarketer = new IM_Consultant
+        private static readonly Contractor StandardMarketer = new Contractor
         {
             Id = 1,
             FirstName = "Jon",
@@ -249,7 +249,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             GrossMargin = 50,
             Title = "123456 - Contract with a Title that is not too long",
             ConsultantId = 1,
-            Consultant = StandardMarketer,
+            Contractor = StandardMarketer,
             ClientContact = ContactJanice,
             BillingContact = BillingContactWilliam,
             DirectReport = DirectReportCandice,

@@ -48,40 +48,40 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     EmailAddress = "mary.jo@email.com",
                     PhoneNumber = "(555)555-4321"
                 },
-                Shortlisted = new List<IM_Consultant>
+                Shortlisted = new List<Contractor>
                 {
-                    new IM_Consultant
+                    new Contractor
                     {
                         FirstName = "Joe",
                         LastName = "Ferigno",
                     },
-                    new IM_Consultant
+                    new Contractor
                     {
                         FirstName = "Peter",
                         LastName = "Griffon",
                     },
-                    new IM_Consultant
+                    new Contractor
                     {
                         FirstName = "Spider",
                         LastName = "Man",
                     }
                 }.AsEnumerable(),
-                Proposed = new List<IM_Consultant>
+                Proposed = new List<Contractor>
                 {
-                    new IM_Consultant
+                    new Contractor
                     {
                         FirstName = "Joe",
                         LastName = "Ferigno",
                     },
-                    new IM_Consultant
+                    new Contractor
                     {
                         FirstName = "Peter",
                         LastName = "Griffon",
                     }
                 }.AsEnumerable(),
-                Callouts = new List<IM_Consultant>
+                Callouts = new List<Contractor>
                 {
-                    new IM_Consultant
+                    new Contractor
                     {
                         FirstName = "Joe",
                         LastName = "Ferigno",

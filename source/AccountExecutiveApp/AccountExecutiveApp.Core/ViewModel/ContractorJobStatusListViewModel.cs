@@ -9,12 +9,12 @@ namespace AccountExecutiveApp.Core.ViewModel
 {
     public class ContractorJobStatusListViewModel
     {
-        private IEnumerable<IM_Consultant> _consultants;
+        private IEnumerable<Contractor> _contractors;
 
-        private IEnumerable<IM_Consultant> Consultants
+        private IEnumerable<Contractor> Contractors
         {
-            get { return _consultants ?? Enumerable.Empty<IM_Consultant>(); }
-            set { _consultants = value ?? Enumerable.Empty<IM_Consultant>(); }
+            get { return _contractors ?? Enumerable.Empty<Contractor>(); }
+            set { _contractors = value ?? Enumerable.Empty<Contractor>(); }
         }
 
         public ContractorJobStatusListViewModel()
@@ -22,19 +22,19 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         }
 
-        public void LoadConsultants(IEnumerable<IM_Consultant> consultants)
+        public void LoadContractors(IEnumerable<Contractor> contractors)
         {
-            Consultants = consultants ?? Enumerable.Empty<IM_Consultant>();
+            Contractors = contractors ?? Enumerable.Empty<Contractor>();
         }
 
         public int NumberOfContractors()
         {
-            return Consultants.Count();
+            return Contractors.Count();
         }
 
         public string ContractorNameByRowNumber(int rowNumber)
         {
-            var contractor = Consultants.ElementAtOrDefault(rowNumber);
+            var contractor = Contractors.ElementAtOrDefault(rowNumber);
             
             if (contractor == null || string.IsNullOrEmpty(contractor.FullName))
                 return string.Empty;
