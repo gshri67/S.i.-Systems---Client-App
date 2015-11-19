@@ -49,7 +49,7 @@ namespace AccountExecutiveApp.iOS
 				string subtitleText = "";
 				string rightDetail = _contractsTableModel.DateDetailStringAtIndex((int)indexPath.Item);
 
-				subtitleText = curContract.CompanyName;
+				subtitleText = curContract.ClientName;
 
 				cell.UpdateCell 
 				(

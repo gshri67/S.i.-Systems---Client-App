@@ -7,7 +7,7 @@ namespace SiSystems.SharedModels
         public int ContractId { get; set; }
 
         public string ContractorName { get; set; }
-        public string CompanyName { get; set; }
+        public string ClientName { get; set; }
         public string Title { get; set; }
 
         public DateTime StartDate { get; set; }

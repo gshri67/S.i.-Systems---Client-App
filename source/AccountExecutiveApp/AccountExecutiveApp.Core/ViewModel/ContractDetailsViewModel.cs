@@ -26,7 +26,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string CompanyName
         {
-            get { return Contract.CompanyName ?? string.Empty; }
+            get { return Contract.ClientName ?? string.Empty; }
         }
 
         public string ContractPeriod

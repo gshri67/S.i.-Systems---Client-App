@@ -164,7 +164,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 summaries.Add(new ConsultantContractSummary
                 {
                     ContractId = i,
-                    CompanyName = "Nexen",
+                    ClientName = "Nexen",
                     ContractorName = "Fred Flintstone",
                     Title = string.Format("{0} - Job title with indepth description to indicate length", 321 * i),
                     AgreementSubType = i % 3 == 0 ? MatchGuideConstants.AgreementSubTypes.Consultant : MatchGuideConstants.AgreementSubTypes.FloThru,
@@ -241,7 +241,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         private static readonly ConsultantContract ActiveMarketerAtNexenContract = new ConsultantContract
         {
             ContractId = 1,
-            CompanyName = "Nexen",
+            ClientName = "Nexen",
             ClientId = 1,
             AgreementSubType = MatchGuideConstants.AgreementSubTypes.Consultant,
             PayRate = 125,
