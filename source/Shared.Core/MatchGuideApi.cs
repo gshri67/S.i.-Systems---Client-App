@@ -217,15 +217,9 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<IEnumerable<ConsultantContractSummary>>();
         }
-
-        [HttpGet("ConsultantContracts/{id}")]
-        public async Task<ConsultantContract> GetContractWithId(int id)
-        {
-            return await ExecuteWithDefaultClient<ConsultantContract>(new { id });
-        }
          
         [HttpGet("ConsultantContracts/Details/{id}")]
-        public async Task<ConsultantContract> GetContractDetails(int id)
+        public async Task<ConsultantContract> GetContractDetailsById(int id)
         {
             return await ExecuteWithDefaultClient<ConsultantContract>(new {id});
         }

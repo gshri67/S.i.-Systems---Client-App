@@ -14,8 +14,6 @@ namespace AccountExecutiveApp.iOS
 	partial class ContractDetailsViewController : UIViewController
 	{
 		private readonly ContractDetailsViewModel _viewModel;
-		public int ContractID = -1;
-	    private ContractDetailsViewModel _contractsViewModel;
         private SubtitleHeaderView _subtitleHeaderView;
 
 		public void LoadContract(int id)
@@ -28,22 +26,8 @@ namespace AccountExecutiveApp.iOS
 	    {
             SetupTableViewSource();
             UpdateSummaryView();
+            CreateCustomTitleBar();
 		}
-
-        private void UpdatePageTitle()
-        {
-            if (_contractsViewModel.HasContract())
-            {
-                Title = _contractsViewModel.Title();
-                Subtitle = _contractsViewModel.ConsultantFullNameString();
-            }
-            else
-            {
-                Title = "Contract Overview";
-                Subtitle = "";
-            }
-        }
-
 
 		public ContractDetailsViewController (IntPtr handle) : base (handle)
         {
@@ -67,35 +51,15 @@ namespace AccountExecutiveApp.iOS
         }
 
 	    public void UpdateSummaryView()
-		{
+	    {
+	        if (summaryView == null) return;
+
 			CompanyNameLabel.Text = _viewModel.CompanyName;
             PeriodLabel.Text = _viewModel.ContractPeriod;
-
-			CompanyNameLabel.Text = _contractsViewModel.CompanyNameString();
-            PeriodLabel.Text = _contractsViewModel.DatePeriodString();
             BillRateLabel.Text = _viewModel.BillRate;
             PayRateLabel.Text = _viewModel.PayRate;
             GrossMarginLabel.Text = _viewModel.GrossMargin;
 		}
-
-		public async void LoadContract()
-		{
-		    await _contractsViewModel.GetContractWithId(ContractID);
-			UpdateUI();
-		}
-
-	    private void UpdateUI()
-	    {
-            if (_contractsViewModel.HasContract() && tableView != null && summaryView != null )
-            {
-                SetupTableViewSource();
-                tableView.ReloadData();
-                UpdateSummaryView();
-
-                UpdatePageTitle();
-                CreateCustomTitleBar();
-            }
-	    }
 
         private void CreateCustomTitleBar()
         {
@@ -103,8 +67,8 @@ namespace AccountExecutiveApp.iOS
             {
                 _subtitleHeaderView = new SubtitleHeaderView();
                 NavigationItem.TitleView = _subtitleHeaderView;
-                _subtitleHeaderView.TitleText = Title;
-                _subtitleHeaderView.SubtitleText = Subtitle;
+                _subtitleHeaderView.TitleText = _viewModel.ContractTitle;
+                _subtitleHeaderView.SubtitleText = _viewModel.ConsultantsFullName;
                 NavigationItem.Title = "";
             });
         }

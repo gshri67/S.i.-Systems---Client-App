@@ -28,8 +28,6 @@ namespace SiSystems.SharedModels
 
 		public int ConsultantId { get; set; }
 
-        public int ContractId { get; set; }
-
 		public string CompanyName { get; set; }
         
 		public int ClientId { get; set; }

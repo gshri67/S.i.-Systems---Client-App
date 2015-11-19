@@ -21,10 +21,5 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             return await this._api.GetContracts();
         }
-
-        public async Task<ConsultantContract> GetContractWithId(int id)
-        {
-            return await _api.GetContractWithId(id);
-        }
     }
 }

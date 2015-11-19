@@ -11,6 +11,7 @@ namespace AccountExecutiveApp.Core.ViewModel
     public class ContractDetailsViewModel
     {
         private readonly IMatchGuideApi _api;
+
         private ConsultantContract _contract;
         public ConsultantContract Contract 
         {
@@ -21,12 +22,6 @@ namespace AccountExecutiveApp.Core.ViewModel
         public ContractDetailsViewModel(IMatchGuideApi api)
         {
             this._api = api;
-        }
-
-        public async Task<ConsultantContract> GetContractWithId(int id)
-        {
-            _contract = await _api.GetContractWithId(id);
-            return _contract;
         }
 
         public string CompanyNameString()
@@ -92,9 +87,22 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return string.Format("{0:C}", Contract.GrossMargin); }
         }
 
-        public ContractDetailsViewModel(IMatchGuideApi api)
+        public string ContractTitle
         {
-            _api = api;
+            get
+            {
+                return Contract.Title ?? string.Empty;
+            }
+        }
+
+        public string ConsultantsFullName
+        {
+            get
+            {
+                return Contract.consultant == null 
+                    ? String.Empty 
+                    : Contract.consultant.FullName;
+            }
         }
 
         public Task LoadContractDetails(int contractId)
@@ -106,8 +114,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task GetContractDetailsFromService(int contractId)
         {
-            Contract = await _api.GetContractDetails(contractId);
-            var test = "";
+            Contract = await _api.GetContractDetailsById(contractId);
         }
 
     }

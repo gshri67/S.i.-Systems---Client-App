@@ -29,16 +29,6 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, contracts);
         }
 
-        [Route("{id}")]
-        public HttpResponseMessage GetContractWithId(int id)
-        {
-            var contracts = _service.GetContracts();
-
-            var contract = contracts.ElementAt(0);
-
-            return Request.CreateResponse(HttpStatusCode.OK, contract);
-        }
-
         [Route("Details/{id}")]
         public HttpResponseMessage GetContractDetailsById(int id)
         {
