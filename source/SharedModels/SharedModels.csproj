@@ -38,7 +38,6 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsultantContractSummary.cs" />
     <Compile Include="ConsultantContractType.cs" />
     <Compile Include="UserContact.cs" />
     <Compile Include="ConsultantContract.cs" />
