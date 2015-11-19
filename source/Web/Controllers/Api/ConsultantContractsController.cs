@@ -13,7 +13,7 @@ using SiSystems.ClientApp.Web.Domain.Services;
 
 namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
 {
-    //[AccountExecutiveAccessAuthorization]
+    [AccountExecutiveAccessAuthorization]
     [RoutePrefix("api/ConsultantContracts")]
     public class ConsultantContractsController : ApiController
     {
