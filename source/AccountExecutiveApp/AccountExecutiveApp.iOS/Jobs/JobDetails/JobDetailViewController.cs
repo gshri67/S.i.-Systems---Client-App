@@ -21,6 +21,9 @@ namespace AccountExecutiveApp.iOS
         private const string ProposedSegueIdentifier = "ProposedSegue";
         private const string CalloutSegueIdentifier = "CalloutSegue";
 
+		private string Subtitle;
+		private SubtitleHeaderView _subtitleHeaderView;
+
 		public JobDetailViewController (IntPtr handle) : base (handle)
 		{
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
@@ -49,6 +52,9 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        InstantiateTableViewSource();
             RemoveOverlay();
+
+			UpdatePageTitle ();
+			CreateCustomTitleBar ();
 	    }
 
         private void InstantiateTableViewSource()
@@ -104,6 +110,24 @@ namespace AccountExecutiveApp.iOS
 	        if (destinationController != null)
 	            destinationController.LoadContractors(consultants);
 	    }
+
+		private void UpdatePageTitle()
+		{
+			Title = "Job Details";
+			Subtitle = string.Format("{0}", _viewModel.ClientName );
+		}
+
+		private void CreateCustomTitleBar()
+		{
+			InvokeOnMainThread(() =>
+				{
+					_subtitleHeaderView = new SubtitleHeaderView();
+					NavigationItem.TitleView = _subtitleHeaderView;
+					_subtitleHeaderView.TitleText = Title;
+					_subtitleHeaderView.SubtitleText = Subtitle;
+					NavigationItem.Title = "";
+				});
+		}
 
 	    #region Overlay
 

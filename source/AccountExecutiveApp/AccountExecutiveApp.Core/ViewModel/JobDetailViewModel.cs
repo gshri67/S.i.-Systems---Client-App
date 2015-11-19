@@ -36,6 +36,14 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
 
+		public string ClientName
+		{
+			get
+			{
+				return string.Format(JobDetails.ClientName);
+			}
+		}
+
         public int NumberOfShortlistedConsultants
         {
             get { return JobDetails.Shortlisted.Count(); }
