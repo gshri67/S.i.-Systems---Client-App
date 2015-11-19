@@ -55,6 +55,21 @@ namespace AccountExecutiveApp.iOS
 			SetupSegueConnections ();
 
 			SetupPageAutoLayout();
+
+
+			AddImageToLabel( new UIImage ("ios7-plus-empty-centred.png"), FS_plusLabel);
+			AddImageToLabel( new UIImage ("ios7-plus-empty-centred.png"), FT_plusLabel);
+			AddImageToLabel( new UIImage ("ios7-minus-empty-centred.png"), FS_MinusLabel);
+			AddImageToLabel( new UIImage ("ios7-minus-empty-centred.png"), FT_minusLabel);
+		}
+
+		private void AddImageToLabel( UIImage image, UILabel label )
+		{
+			NSTextAttachment textAttachement = new NSTextAttachment ();
+			textAttachement.Image = image;
+			textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, label.Bounds.Size.Width, label.Bounds.Size.Height);
+			NSAttributedString attrStringWithImage = NSAttributedString.CreateFrom (textAttachement);
+			label.AttributedText = attrStringWithImage;
 		}
 
 		private void SetupSegueConnections ()
