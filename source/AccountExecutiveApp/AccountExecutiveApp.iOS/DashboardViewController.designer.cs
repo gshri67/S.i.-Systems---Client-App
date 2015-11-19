@@ -82,7 +82,16 @@ namespace AccountExecutiveApp.iOS
 		UIKit.UILabel jobsLabel { get; set; }
 
 		[Outlet]
+		UIKit.UILabel OpenTimesheetsLabel { get; set; }
+
+		[Outlet]
 		UIKit.UILabel proposedJobsLabel { get; set; }
+
+		[Outlet]
+		UIKit.UILabel SubmittedTimesheetsLabel { get; set; }
+
+		[Outlet]
+		UIKit.UIView TimesheetsContainerView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -121,6 +130,16 @@ namespace AccountExecutiveApp.iOS
 				FS_endingContractsLabel = null;
 			}
 
+			if (FS_MinusLabel != null) {
+				FS_MinusLabel.Dispose ();
+				FS_MinusLabel = null;
+			}
+
+			if (FS_plusLabel != null) {
+				FS_plusLabel.Dispose ();
+				FS_plusLabel = null;
+			}
+
 			if (FS_startingButtonOverlay != null) {
 				FS_startingButtonOverlay.Dispose ();
 				FS_startingButtonOverlay = null;
@@ -156,6 +175,16 @@ namespace AccountExecutiveApp.iOS
 				FT_endingContractsLabel = null;
 			}
 
+			if (FT_minusLabel != null) {
+				FT_minusLabel.Dispose ();
+				FT_minusLabel = null;
+			}
+
+			if (FT_plusLabel != null) {
+				FT_plusLabel.Dispose ();
+				FT_plusLabel = null;
+			}
+
 			if (FT_startingButtonOverlay != null) {
 				FT_startingButtonOverlay.Dispose ();
 				FT_startingButtonOverlay = null;
@@ -186,24 +215,19 @@ namespace AccountExecutiveApp.iOS
 				proposedJobsLabel = null;
 			}
 
-			if (FS_MinusLabel != null) {
-				FS_MinusLabel.Dispose ();
-				FS_MinusLabel = null;
+			if (TimesheetsContainerView != null) {
+				TimesheetsContainerView.Dispose ();
+				TimesheetsContainerView = null;
 			}
 
-			if (FS_plusLabel != null) {
-				FS_plusLabel.Dispose ();
-				FS_plusLabel = null;
+			if (OpenTimesheetsLabel != null) {
+				OpenTimesheetsLabel.Dispose ();
+				OpenTimesheetsLabel = null;
 			}
 
-			if (FT_plusLabel != null) {
-				FT_plusLabel.Dispose ();
-				FT_plusLabel = null;
-			}
-
-			if (FT_minusLabel != null) {
-				FT_minusLabel.Dispose ();
-				FT_minusLabel = null;
+			if (SubmittedTimesheetsLabel != null) {
+				SubmittedTimesheetsLabel.Dispose ();
+				SubmittedTimesheetsLabel = null;
 			}
 		}
 	}

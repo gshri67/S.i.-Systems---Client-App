@@ -136,6 +136,7 @@ namespace AccountExecutiveApp.iOS
             AddBorderToView(FT_containerView);
             AddBorderToView(FS_containerView);
 			AddBorderToView(jobsContainerView);
+			AddBorderToView(TimesheetsContainerView);
 	    }
 
 	    private void AddBorderToView(UIView view)
