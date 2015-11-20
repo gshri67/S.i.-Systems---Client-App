@@ -87,6 +87,7 @@
             <li role="presentation"><a id="consultantContractDetailsTabButton" href="#consultantContractDetails" role="tab" data-toggle="tab">Contract Details</a></li>
             <li role="presentation"><a id="jobsTabButton" href="#jobs" role="tab" data-toggle="tab">Jobs</a></li>
             <li role="presentation"><a id="jobDetailsTabButton" href="#jobDetails" role="tab" data-toggle="tab">Job Details</a></li>
+            <li role="presentation"><a id="timesheetSummariesTabButton" href="#timesheetSummaries" role="tab" data-toggle="tab">TimesheetSummaries</a></li>
         </ul>
 
         <div class="tab-content">
@@ -219,6 +220,16 @@
                 </div>
             </div>
 
+            <div id="timesheetSummaries" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="timesheetSummariesId" type="text" class="form-control" placeholder="" disabled/>
+                    <div class="input-group-btn">
+                        <button id="timesheetSummariesButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="timesheetSummariesResults" class="code json well">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -542,6 +553,27 @@
 
 
                     }).fail(function (err) { showError(err, 'jobsResults') });
+                },
+                getTimesheetSummaries: function () {
+                    $('#timesheetSummariesResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Timesheets/Reporting/Summaries',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#timesheetSummariesResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'timesheetSummariesResults') });
                 }
             };
 
@@ -561,6 +593,7 @@
             $('#getConsultantContractDetailsButton').click(page.getConsultantContractDetails);
             $('#getJobDetailsButton').click(page.getJobDetails);
             $('#getJobsButton').click(page.getJobs);
+            $('#timesheetSummariesButton').click(page.getTimesheetSummaries);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {

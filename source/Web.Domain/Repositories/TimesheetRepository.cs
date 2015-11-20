@@ -17,6 +17,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         Timesheet GetTimesheetsById(int timesheetId);
         int SubmitTimesheet(Timesheet timesheet, int userId);
         DirectReport GetDirectReportByTimesheetId(int timesheetId);
+        IEnumerable<TimesheetSummary> GetTimesheetSummariesByAccountExecutiveId(int id);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -222,6 +223,73 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         private static int? IntegerOrNullIfZero(int number)
         {
             return number == 0 ? (int?)null : number;
+        }
+
+        public IEnumerable<TimesheetSummary> GetTimesheetSummariesByAccountExecutiveId(int id)
+        {
+            return new List<TimesheetSummary>
+            {
+                new TimesheetSummary
+                {
+                    Id = 1,
+                    ClientContact = new UserContact
+                    {
+                        Id = 3,
+                        FirstName = "Joe",
+                        LastName = "Dirt",
+                        EmailAddress = "jd@email.com",
+                        PhoneNumber = "(555)555-1234"
+                    },
+                    StartDate = DateTime.UtcNow.AddDays(-30),
+                    EndDate = DateTime.UtcNow.AddDays(-15),
+                    Status = MatchGuideConstants.TimesheetStatus.Approved
+                },
+                new TimesheetSummary
+                {
+                    Id = 2,
+                    ClientContact = new UserContact
+                    {
+                        Id = 3,
+                        FirstName = "Joe",
+                        LastName = "Dirt",
+                        EmailAddress = "jd@email.com",
+                        PhoneNumber = "(555)555-1234"
+                    },
+                    StartDate = DateTime.UtcNow.AddDays(-14),
+                    EndDate = DateTime.UtcNow,
+                    Status = MatchGuideConstants.TimesheetStatus.Submitted
+                },
+                new TimesheetSummary
+                {
+                    Id = 3,
+                    ClientContact = new UserContact
+                    {
+                        Id = 4,
+                        FirstName = "Marlin",
+                        LastName = "Monrow",
+                        EmailAddress = "mm@email.com",
+                        PhoneNumber = "(555)555-6543"
+                    },
+                    StartDate = DateTime.UtcNow.AddDays(-30),
+                    EndDate = DateTime.UtcNow.AddDays(-15),
+                    Status = MatchGuideConstants.TimesheetStatus.Rejected
+                },
+                new TimesheetSummary
+                {
+                    Id = 4,
+                    ClientContact = new UserContact
+                    {
+                        Id = 4,
+                        FirstName = "Marlin",
+                        LastName = "Monrow",
+                        EmailAddress = "mm@email.com",
+                        PhoneNumber = "(555)555-6543"
+                    },
+                    StartDate = DateTime.UtcNow.AddDays(-14),
+                    EndDate = DateTime.UtcNow,
+                    Status = MatchGuideConstants.TimesheetStatus.Open
+                }
+            };
         }
     }
 }

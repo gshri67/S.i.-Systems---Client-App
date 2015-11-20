@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using SiSystems.AccountExecutiveApp.Web.Filters;
 using SiSystems.ConsultantApp.Web.Domain.Services;
 using SiSystems.ConsultantApp.Web.Filters;
 using SiSystems.SharedModels;
@@ -29,6 +30,25 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         {
             var submittedTimesheet = _service.SubmitTimesheet(timesheet);
             return Request.CreateResponse(HttpStatusCode.OK, submittedTimesheet);
+        }
+    }
+
+    [AccountExecutiveAccessAuthorization]
+    [RoutePrefix("api/Timesheets/Reporting")]
+    public class TimesheetController : ApiController
+    {
+        private readonly TimesheetService _service;
+
+        public TimesheetController(TimesheetService service)
+        {
+            _service = service;
+        }
+
+        [Route("Summaries")]
+        public HttpResponseMessage GetTimesheets()
+        {
+            var timesheetsSummary = _service.GetTimesheetsSummaries();
+            return Request.CreateResponse(HttpStatusCode.OK, timesheetsSummary);
         }
     }
 }

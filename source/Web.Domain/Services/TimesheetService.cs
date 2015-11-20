@@ -122,5 +122,23 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             return true;
         }
+
+
+
+        public IEnumerable<TimesheetSummary> GetTimesheetsSummaries()
+        {
+            var summaries = _timeSheetRepository.GetTimesheetSummariesByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+
+            AssertCurrentUserHasPermissionsToViewTimesheetSummaries(summaries);
+
+            return summaries;
+        }
+
+        private void AssertCurrentUserHasPermissionsToViewTimesheetSummaries(IEnumerable<TimesheetSummary> summaries)
+        {
+            //todo: add business rules for an AE permissions
+            if(false)
+                throw new UnauthorizedAccessException();
+        }
     }
 }
