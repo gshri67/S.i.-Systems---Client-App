@@ -106,8 +106,11 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        var destinationController = segue.DestinationViewController as ContractorJobStatusListViewController;
 
-	        if (destinationController != null)
-	            destinationController.LoadContractors(consultants);
+			if (destinationController != null) 
+			{
+				destinationController.LoadContractors (consultants);
+				destinationController.LoadJobDetails (_viewModel.JobDetails);
+			}
 	    }
 
 		private void UpdatePageTitle()

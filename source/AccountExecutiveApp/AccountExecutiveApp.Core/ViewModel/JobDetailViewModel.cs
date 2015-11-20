@@ -14,10 +14,10 @@ namespace AccountExecutiveApp.Core.ViewModel
         
         private JobDetails _jobDetails;
 
-        private JobDetails JobDetails
+        public JobDetails JobDetails
         {
             get { return _jobDetails ?? new JobDetails(); }
-            set { _jobDetails = value ?? new JobDetails(); }
+            private set { _jobDetails = value ?? new JobDetails(); }
         }
 
         public string ClientContactName

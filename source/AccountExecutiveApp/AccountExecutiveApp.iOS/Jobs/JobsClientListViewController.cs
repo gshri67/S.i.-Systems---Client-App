@@ -36,6 +36,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+			LogoutManager.CreateNavBarLeftButton(this);
+
             LoadJobs();
 		}
 

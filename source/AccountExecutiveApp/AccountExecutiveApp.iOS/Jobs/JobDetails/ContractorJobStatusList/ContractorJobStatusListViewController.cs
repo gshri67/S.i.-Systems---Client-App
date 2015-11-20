@@ -14,6 +14,9 @@ namespace AccountExecutiveApp.iOS
 	{
 	    private readonly ContractorJobStatusListViewModel _viewModel;
 	    public const string CellIdentifier = "CandidateCell";
+		private SubtitleHeaderView _subtitleHeaderView;
+		private string Subtitle;
+		private JobDetails _jobDetails; //move to view model
 
 		public ContractorJobStatusListViewController (IntPtr handle) : base (handle)
 		{
@@ -24,6 +27,10 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        _viewModel.LoadContractors(contractors);
 	    }
+		public void LoadJobDetails( JobDetails JobDetails )
+		{
+			_jobDetails = JobDetails;
+		}
 
         private void InstantiateTableViewSource()
         {
@@ -46,7 +53,38 @@ namespace AccountExecutiveApp.iOS
         {
             base.ViewDidLoad();
 
+			UpdatePageTitle ();
+			CreateCustomTitleBar ();
             UpdateUserInterface();
         }
+
+
+		private void UpdatePageTitle()
+		{
+			if (_jobDetails != null) 
+			{
+				if (_jobDetails.JobStatus == JobStatus.Proposed)
+					Title = "Proposed Contractors";
+				else if (_jobDetails.JobStatus == JobStatus.Callout)
+					Title = "Callouts";
+				else
+					Title = "Shortlisted Contractors";
+				
+				Subtitle = _jobDetails.ClientName + " - " + _jobDetails.Title;
+			}
+		}
+
+
+		private void CreateCustomTitleBar()
+		{
+			InvokeOnMainThread(() =>
+				{
+					_subtitleHeaderView = new SubtitleHeaderView();
+					NavigationItem.TitleView = _subtitleHeaderView;
+					_subtitleHeaderView.TitleText = Title;
+					_subtitleHeaderView.SubtitleText = Subtitle;
+					NavigationItem.Title = "";
+				});
+		}
 	}
 }

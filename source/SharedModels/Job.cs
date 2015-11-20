@@ -14,5 +14,15 @@ namespace SiSystems.SharedModels
         public bool IsProposed { get; set; }
         public bool HasCallout { get; set; }
         public DateTime IssueDate { get; set; }
+
+		public JobStatus Status { get; set; }
     }
+
+	public enum JobStatus
+	{
+		Open,
+		Shortlisted,
+		Proposed,
+		Callout
+	}
 }
