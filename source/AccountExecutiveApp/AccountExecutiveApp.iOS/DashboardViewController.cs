@@ -56,11 +56,16 @@ namespace AccountExecutiveApp.iOS
 
 			SetupPageAutoLayout();
 
-
+			/*
 			AddImageToLabel( new UIImage ("ios7-plus-empty-centred.png"), FS_plusLabel);
 			AddImageToLabel( new UIImage ("ios7-plus-empty-centred.png"), FT_plusLabel);
 			AddImageToLabel( new UIImage ("ios7-minus-empty-centred.png"), FS_MinusLabel);
 			AddImageToLabel( new UIImage ("ios7-minus-empty-centred.png"), FT_minusLabel);
+			*/
+			AddImageToLabel( new UIImage ("plus-round-centred.png"), FS_plusLabel);
+			AddImageToLabel( new UIImage ("plus-round-centred.png"), FT_plusLabel);
+			AddImageToLabel( new UIImage ("minus-round-centred.png"), FS_MinusLabel);
+			AddImageToLabel( new UIImage ("minus-round-centred.png"), FT_minusLabel);
 		}
 
 		private void AddImageToLabel( UIImage image, UILabel label )

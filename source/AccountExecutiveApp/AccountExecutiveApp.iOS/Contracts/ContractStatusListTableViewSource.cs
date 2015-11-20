@@ -60,52 +60,28 @@ namespace AccountExecutiveApp.iOS
 	        {
                 cell.TextLabel.TextColor = UIColor.DarkTextColor;
 
-				if (contractsByStatus [0].StatusType == ContractStatusType.Ending) {
-					//cell.TextLabel.Text = "-";
-					//cell.TextLabel.TextColor = StyleGuideConstants.RedUiColor;
-					//cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(50);
-					//cell.TextLabel.Font = UIFont.SystemFontOfSize(50);
-					//cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 65f);
+				if (contractsByStatus [0].StatusType == ContractStatusType.Ending)
+					AddImageToLabel( new UIImage ("minus-round-centred.png"), cell.TextLabel, 20);
 
-					NSTextAttachment textAttachement = new NSTextAttachment ();
-					textAttachement.Image = new UIImage ("ios7-minus-empty-centred.png");
-					textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, 30, 30);
-					NSAttributedString attrStringWithImage = NSAttributedString.CreateFrom (textAttachement);
+				else if (contractsByStatus [0].StatusType == ContractStatusType.Starting)
+					AddImageToLabel( new UIImage ("plus-round-centred.png"), cell.TextLabel, 20);
 
-
-					cell.TextLabel.AttributedText = attrStringWithImage;
-					/*
-					NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"like after"];
-
-					NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-					textAttachment.image = [UIImage imageNamed:@"ios7-minus-empty.png"];
-
-					NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-
-					[attributedString replaceCharactersInRange:NSMakeRange(4, 1) withAttributedString:attrStringWithImage];
-*/
-
-				} else if (contractsByStatus [0].StatusType == ContractStatusType.Starting) {
-					//cell.TextLabel.Text = "+";
-					//cell.TextLabel.TextColor = StyleGuideConstants.GreenUiColor;
-					//cell.TextLabel.Font = UIFont.BoldSystemFontOfSize(45);
-					//cell.TextLabel.Font = UIFont.SystemFontOfSize(45);
-					//cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 40f);
-
-					NSTextAttachment textAttachement = new NSTextAttachment ();
-					textAttachement.Image = new UIImage ("ios7-plus-empty-centred.png");
-					textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, 30, 30);
-					NSAttributedString attrStringWithImage = NSAttributedString.CreateFrom (textAttachement);
-
-
-					cell.TextLabel.AttributedText = attrStringWithImage;
-				} else 
+				else 
 					cell.TextLabel.Text = contractsByStatus [0].StatusType.ToString ();
 	        }
 
 	        if (cell.DetailTextLabel != null)
 	            cell.DetailTextLabel.Text = contractsByStatus.Count().ToString();
 	    }
+			
+		private static void AddImageToLabel( UIImage image, UILabel label, float size )
+		{
+			NSTextAttachment textAttachement = new NSTextAttachment ();
+			textAttachement.Image = image;
+			textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, size, size);
+			NSAttributedString attrStringWithImage = NSAttributedString.CreateFrom (textAttachement);
+			label.AttributedText = attrStringWithImage;
+		}
 
 	    private List<ConsultantContractSummary> GetContractsByStatusAndSection(NSIndexPath indexPath)
 	    {

@@ -277,5 +277,7 @@
     <BundleResource Include="Resources\ios7-minus-empty.png" />
     <BundleResource Include="Resources\ios7-minus-empty-centred.png" />
     <BundleResource Include="Resources\ios7-plus-empty-centred.png" />
+    <BundleResource Include="Resources\plus-round-centred.png" />
+    <BundleResource Include="Resources\minus-round-centred.png" />
   </ItemGroup>
 </Project>
