@@ -241,10 +241,6 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Proposed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yMI-1N-zY2">
                                         <rect key="frame" x="123" y="28" width="70" height="18"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="66" id="Ts6-17-sqE"/>
-                                            <constraint firstAttribute="height" constant="18" id="mc7-OM-WKI"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -316,7 +312,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="16" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NkS-Uw-MiU">
-                                        <rect key="frame" x="77" y="42" width="29" height="33"/>
+                                        <rect key="frame" x="77" y="42" width="45" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="33" id="xdQ-94-HNu"/>
                                         </constraints>
