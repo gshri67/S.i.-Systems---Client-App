@@ -548,7 +548,7 @@
             <objects>
                 <navigationController title="Dashboard" automaticallyAdjustsScrollViewInsets="NO" id="MoB-tQ-ZLx" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Dashboard" image="leftArrow.png" id="O21-cU-0D6"/>
+                    <tabBarItem key="tabBarItem" title="Dashboard" image="home-light.png" id="O21-cU-0D6"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
@@ -569,7 +569,7 @@
         <scene sceneID="DSU-cr-Xdx">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DMD-u5-XdU" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Jobs" image="leftArrow.png" id="Jvo-Ql-nMZ"/>
+                    <tabBarItem key="tabBarItem" title="Jobs" image="tag-light.png" id="Jvo-Ql-nMZ"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
@@ -683,7 +683,7 @@
         <scene sceneID="Mae-V5-4L9">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ye2-B5-ILw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Contracts" image="ios7-clock-outline.png" id="NMV-pT-ACF"/>
+                    <tabBarItem key="tabBarItem" title="Contracts" image="paper-light.png" id="NMV-pT-ACF"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
@@ -823,7 +823,7 @@
         <scene sceneID="6df-YL-QfC">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GCV-He-Bwl" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Timesheets" image="ios7-clock-outline.png" id="JZK-cP-9Wt"/>
+                    <tabBarItem key="tabBarItem" title="Timesheets" image="clock-light.png" id="JZK-cP-9Wt"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
@@ -1167,6 +1167,10 @@
         <image name="ios7-minus-empty.png" width="512" height="512"/>
         <image name="leftArrow.png" width="32" height="32"/>
         <image name="sisystems_logo.jpg" width="730" height="253"/>
+        <image name="clock-light.png" width="25" height="25"/>
+        <image name="home-light.png" width="25" height="25"/>
+        <image name="paper-light.png" width="25" height="25"/>
+        <image name="tag-light.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="893"/>
