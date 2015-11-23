@@ -229,6 +229,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
+    <BundleResource Include="Resources\clock-light.png" />
+    <BundleResource Include="Resources\clock-light%402x.png" />
+    <BundleResource Include="Resources\clock-light%403x.png" />
+    <BundleResource Include="Resources\home-light.png" />
+    <BundleResource Include="Resources\home-light%402x.png" />
+    <BundleResource Include="Resources\home-light%403x.png" />
+    <BundleResource Include="Resources\paper-light.png" />
+    <BundleResource Include="Resources\paper-light%402x.png" />
+    <BundleResource Include="Resources\paper-light%403x.png" />
+    <BundleResource Include="Resources\tag-light.png" />
+    <BundleResource Include="Resources\tag-light%402x.png" />
+    <BundleResource Include="Resources\tag-light%403x.png" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
