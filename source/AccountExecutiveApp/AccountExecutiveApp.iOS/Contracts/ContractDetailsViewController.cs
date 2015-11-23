@@ -68,7 +68,12 @@ namespace AccountExecutiveApp.iOS
             {
                 _subtitleHeaderView = new SubtitleHeaderView();
                 NavigationItem.TitleView = _subtitleHeaderView;
-                _subtitleHeaderView.TitleText = _viewModel.ContractTitle;
+
+					string title = _viewModel.ContractTitle;
+					if( title.Length > 25 )
+						title = title.Substring(0,25);
+                _subtitleHeaderView.TitleText = title;
+
                 _subtitleHeaderView.SubtitleText = _viewModel.ConsultantsFullName;
                 NavigationItem.Title = "";
             });

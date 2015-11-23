@@ -283,7 +283,15 @@ namespace SiSystems.SharedModels
             public override string ToString()
             {
                 string description;
-                return DescriptionDictionary.TryGetValue(m_value, out description) ? description : m_value.ToString();
+
+				if (m_value == FloThru)
+					description = "Flo-Thru";
+				else if (m_value == Consultant)
+					description = "Fully-Sourced";
+				else
+					description = DescriptionDictionary.TryGetValue(m_value, out description) ? description : m_value.ToString();
+
+				return description;
             }
         }
 
