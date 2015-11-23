@@ -134,46 +134,102 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     {
         public IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id)
         {
-            var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
-            var oneWeekFromNow = DateTime.UtcNow.AddDays(7);
-            var twoMonthsFromNow = DateTime.UtcNow.AddMonths(2);
-
-            var summaries = new List<ConsultantContractSummary>();
-            for (var i = 1; i < 30; i++)
+            
+            return new List<ConsultantContractSummary>
             {
-                DateTime startDate;
-                DateTime endDate;
-                if (i % 3 == 0)
-                {
-                    //starting contract
-                    startDate = oneWeekFromNow;
-                    endDate = twoMonthsFromNow;
-                }
-                else if (i % 3 == 1)
-                {
-                    //ending
-                    startDate = oneWeekAgo;
-                    endDate = oneWeekFromNow;
-                }
-                else
-                {
-                    //active
-                    startDate = oneWeekAgo;
-                    endDate = twoMonthsFromNow;
-                }
-                summaries.Add(new ConsultantContractSummary
-                {
-                    ContractId = i,
-                    ClientName = "Nexen",
-                    ContractorName = "Fred Flintstone",
-                    Title = string.Format("{0} - Job title with indepth description to indicate length", 321 * i),
-                    AgreementSubType = i % 3 == 0 ? MatchGuideConstants.AgreementSubTypes.Consultant : MatchGuideConstants.AgreementSubTypes.FloThru,
-                    StartDate = startDate,
-                    EndDate = endDate
-                });
-            }
-            return summaries;
+                FredAtNexenActiveFloThruContract,FredAtNexenEndingFloThruContract, FredAtNexenEndingFullySourcedContract,
+                BarneyAtNexenActiveFloThruContract, BarneyAtNexenStartingFloThruContract, BarneyAtNexenStartingFullySourcedContract,
+                BamBamAtCenovusActiveFloThruContract, BamBamAtCenovusActiveFullySourcedContract
+            }.AsEnumerable();
         }
+
+        private ConsultantContractSummary FredAtNexenActiveFloThruContract = new ConsultantContractSummary
+        {
+            ContractId = 1,
+            ClientName = "Nexen",
+            ContractorName = "Fred Flintstone",
+            Title = string.Format("{0} - Job title with indepth description to indicate length", 60123),
+            AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
+            StartDate = DateTime.UtcNow.AddDays(-7),
+            EndDate = DateTime.UtcNow.AddMonths(2)
+        };
+
+        private ConsultantContractSummary BarneyAtNexenActiveFloThruContract = new ConsultantContractSummary
+        {
+            ContractId = 2,
+            ClientName = "Nexen",
+            ContractorName = "Barney Rubble",
+            Title = string.Format("{0} - Project Manager", 59326),
+            AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
+            StartDate = DateTime.UtcNow.AddDays(-15),
+            EndDate = DateTime.UtcNow.AddMonths(3)
+        };
+
+        private ConsultantContractSummary BamBamAtCenovusActiveFloThruContract = new ConsultantContractSummary
+        {
+            ContractId = 3,
+            ClientName = "Cenovus",
+            ContractorName = "BamBam Rubble",
+            Title = string.Format("{0} - Solution Architect", 59950),
+            AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
+            StartDate = DateTime.UtcNow.AddMonths(-1),
+            EndDate = DateTime.UtcNow.AddMonths(2)
+        };
+
+        private ConsultantContractSummary FredAtNexenEndingFloThruContract = new ConsultantContractSummary
+        {
+            ContractId = 4,
+            ClientName = "Nexen",
+            ContractorName = "Fred Flantstone",
+            Title = string.Format("{0} - Telecom Analyst/ Implementation Specialist", 63321),
+            AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
+            StartDate = DateTime.UtcNow.AddMonths(-7),
+            EndDate = DateTime.UtcNow.AddDays(10)
+        };
+
+        private ConsultantContractSummary BarneyAtNexenStartingFloThruContract = new ConsultantContractSummary
+        {
+            ContractId = 5,
+            ClientName = "Nexen",
+            ContractorName = "Barney Rabble",
+            Title = string.Format("{0} - Project Analyst", 62123),
+            AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
+            StartDate = DateTime.UtcNow.AddDays(15),
+            EndDate = DateTime.UtcNow.AddMonths(3)
+        };
+
+        private ConsultantContractSummary BamBamAtCenovusActiveFullySourcedContract = new ConsultantContractSummary
+        {
+            ContractId = 6,
+            ClientName = "Cenovus",
+            ContractorName = "BamBam Rabble",
+            Title = string.Format("{0} - ASP.NET MVC Developer", 59950),
+            AgreementSubType = MatchGuideConstants.AgreementSubTypes.Consultant,
+            StartDate = DateTime.UtcNow.AddMonths(-1),
+            EndDate = DateTime.UtcNow.AddMonths(2)
+        };
+
+        private ConsultantContractSummary FredAtNexenEndingFullySourcedContract = new ConsultantContractSummary
+        {
+            ContractId = 7,
+            ClientName = "Nexen",
+            ContractorName = "Fred Flantstone",
+            Title = string.Format("{0} - Job title with indepth description to indicate length", 63321),
+            AgreementSubType = MatchGuideConstants.AgreementSubTypes.Consultant,
+            StartDate = DateTime.UtcNow.AddMonths(-3),
+            EndDate = DateTime.UtcNow.AddDays(15)
+        };
+
+        private ConsultantContractSummary BarneyAtNexenStartingFullySourcedContract = new ConsultantContractSummary
+        {
+            ContractId = 8,
+            ClientName = "Nexen",
+            ContractorName = "Barney Rabble",
+            Title = string.Format("{0} - Project Analyst", 62123),
+            AgreementSubType = MatchGuideConstants.AgreementSubTypes.Consultant,
+            StartDate = DateTime.UtcNow.AddDays(15),
+            EndDate = DateTime.UtcNow.AddMonths(3)
+        };
 
         public IEnumerable<ConsultantContract> GetContracts()
         {
@@ -184,9 +240,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             return new ContractSummarySet
             {
-                Current = 55,
-                Starting = 17,
-                Ending = 12
+                Current = 3,
+                Starting = 1,
+                Ending = 1
             };
         }
 
@@ -194,9 +250,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             return new ContractSummarySet
             {
-                Current = 30,
-                Starting = 15,
-                Ending = 10
+                Current = 1,
+                Starting = 1,
+                Ending = 1
             };
         }
 
