@@ -56,7 +56,7 @@ namespace AccountExecutiveApp.iOS
 		{
 			if (TableView == null) return;
 
-			TableView.RegisterClassForCellReuse(typeof (RightDetailCell), "RightDetailCell");
+			TableView.RegisterClassForCellReuse(typeof (SubtitleWithRightDetailCell), "SubtitleWithRightDetailCell");
 			TableView.RegisterClassForCellReuse(typeof (UITableViewCell), "cell");
 		}
 

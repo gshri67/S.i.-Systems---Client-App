@@ -42,7 +42,7 @@ namespace AccountExecutiveApp.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			var cell = tableView.DequeueReusableCell ("RightDetailCell");
+			var cell = (SubtitleWithRightDetailCell)tableView.DequeueReusableCell ("SubtitleWithRightDetailCell");
 
 			var contractsByStatus = GetContractsByStatusAndSection(indexPath);
     
@@ -51,7 +51,7 @@ namespace AccountExecutiveApp.iOS
 		    return cell;
 		}
 
-	    private static void UpdateCellText(UITableViewCell cell, List<ConsultantContractSummary> contractsByStatus)
+		private static void UpdateCellText(SubtitleWithRightDetailCell cell, List<ConsultantContractSummary> contractsByStatus)
 	    {
 	        if (contractsByStatus == null)
 	            return;
@@ -70,8 +70,8 @@ namespace AccountExecutiveApp.iOS
 					cell.TextLabel.Text = contractsByStatus [0].StatusType.ToString ();
 	        }
 
-	        if (cell.DetailTextLabel != null)
-	            cell.DetailTextLabel.Text = contractsByStatus.Count().ToString();
+	        //if (cell.DetailTextLabel != null)
+			cell.RightDetailTextLabel.Text = contractsByStatus.Count().ToString();
 	    }
 			
 		private static void AddImageToLabel( UIImage image, UILabel label, float size )
