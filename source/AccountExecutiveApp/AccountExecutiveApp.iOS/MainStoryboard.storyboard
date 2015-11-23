@@ -627,6 +627,11 @@
                             <outlet property="dataSource" destination="Lee-vQ-dFm" id="aDJ-CR-Od6"/>
                             <outlet property="delegate" destination="Lee-vQ-dFm" id="HvD-O7-lSt"/>
                         </connections>
+                        <view contentMode="scaleToFill" id="936" key="tableFooterView">
+                            <rect key="frame" x="0.0" y="411" width="320" height="44"/>
+                            <color key="backgroundColor" customColorSpace="calibratedWhite" colorSpace="calibratedWhite" white="0" alpha="0"/>
+                        </view>
+                        <color key="sectionIndexBackgroundColor" colorSpace="calibratedWhite" white="0.666666666666667" alpha="1"/>
                     </tableView>
                     <navigationItem key="navigationItem" title="Jobs" id="P9L-Aj-jx2">
                         <barButtonItem key="backBarButtonItem" title=" " id="ke6-xU-Jeo"/>
@@ -661,6 +666,10 @@
                             <outlet property="dataSource" destination="j9q-Qc-Jxw" id="4N9-pd-Z9V"/>
                             <outlet property="delegate" destination="j9q-Qc-Jxw" id="6ql-zb-guH"/>
                         </connections>
+                        <view contentMode="scaleToFill" id="943" key="tableFooterView">
+                            <rect key="frame" x="0.0" y="411" width="320" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
                     </tableView>
                     <navigationItem key="navigationItem" id="t4K-40-RGb">
                         <barButtonItem key="backBarButtonItem" title=" " id="WQL-cn-B5d"/>
