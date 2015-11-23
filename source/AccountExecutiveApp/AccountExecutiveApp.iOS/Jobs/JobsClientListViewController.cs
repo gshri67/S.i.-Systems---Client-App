@@ -30,14 +30,14 @@ namespace AccountExecutiveApp.iOS
             
             TableView.Source = new JobsClientListTableViewSource(this, _jobsViewModel.Jobs);
             TableView.ReloadData();
-			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
+			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-			LogoutManager.CreateNavBarLeftButton(this);
+            LogoutManager.CreateNavBarLeftButton(this);
 
             LoadJobs();
 		}
