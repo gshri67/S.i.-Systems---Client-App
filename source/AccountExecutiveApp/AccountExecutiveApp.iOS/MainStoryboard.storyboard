@@ -1174,7 +1174,4 @@
     <inferredMetricsTieBreakers>
         <segue reference="893"/>
     </inferredMetricsTieBreakers>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>
