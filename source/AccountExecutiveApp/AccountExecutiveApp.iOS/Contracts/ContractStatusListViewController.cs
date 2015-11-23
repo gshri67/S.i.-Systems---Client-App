@@ -28,7 +28,7 @@ namespace AccountExecutiveApp.iOS
 
 			RegisterCellsForReuse();
 			InstantiateTableViewSource();
-
+			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 			TableView.Source = _clientListTableViewSource;
 		}
 

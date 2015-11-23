@@ -46,7 +46,7 @@ namespace AccountExecutiveApp.iOS
 
             tableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), "SubtitleWithRightDetailCell");
             tableView.ScrollEnabled = false;
-
+			tableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
             tableView.Source = new ContractDetailsTableViewSource(this, _viewModel.Contract);
             tableView.ReloadData();
         }

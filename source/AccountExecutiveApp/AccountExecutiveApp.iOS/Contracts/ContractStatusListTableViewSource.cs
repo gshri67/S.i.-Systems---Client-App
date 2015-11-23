@@ -103,11 +103,6 @@ namespace AccountExecutiveApp.iOS
      
             _parentController.ShowViewController ( vc, _parentController );
 		}
-
-	    public override nfloat GetHeightForHeader(UITableView tableView, nint section)
-	    {
-	        return 35;
-	    }
 	}
 }
 

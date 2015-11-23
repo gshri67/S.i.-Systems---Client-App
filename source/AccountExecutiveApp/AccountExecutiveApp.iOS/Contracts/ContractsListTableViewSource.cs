@@ -70,7 +70,6 @@ namespace AccountExecutiveApp.iOS
 
 			_parentController.ShowViewController ( vc, _parentController );
 		}
-
 	}
 }
 

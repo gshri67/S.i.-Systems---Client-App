@@ -29,7 +29,7 @@ namespace AccountExecutiveApp.iOS
 				return;
 
             TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleCellIdentifier);
-
+			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
             TableView.Source = new JobsListTableViewSource(this, _jobsListViewModel);
 
             TableView.ReloadData();
