@@ -2,6 +2,7 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Linq;
 using AccountExecutiveApp.Core.ViewModel;
 using AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList;
 using Microsoft.Practices.Unity;
@@ -17,16 +18,13 @@ namespace AccountExecutiveApp.iOS
 		private SubtitleHeaderView _subtitleHeaderView;
 		private string Subtitle;
 		private JobDetails _jobDetails; //move to view model
+        private JobStatus _status;
 
 		public ContractorJobStatusListViewController (IntPtr handle) : base (handle)
 		{
             _viewModel = DependencyResolver.Current.Resolve<ContractorJobStatusListViewModel>();
 		}
 
-	    public void LoadContractors(IEnumerable<Contractor> contractors)
-	    {
-	        _viewModel.LoadContractors(contractors);
-	    }
 		public void LoadJobDetails( JobDetails JobDetails )
 		{
 			_jobDetails = JobDetails;
@@ -63,14 +61,14 @@ namespace AccountExecutiveApp.iOS
 		{
 			if (_jobDetails != null) 
 			{
-				if (_jobDetails.JobStatus == JobStatus.Proposed)
+				if (_status == JobStatus.Proposed)
 					Title = "Proposed Contractors";
-				else if (_jobDetails.JobStatus == JobStatus.Callout)
+				else if (_status == JobStatus.Callout)
 					Title = "Callouts";
 				else
 					Title = "Shortlisted Contractors";
 				
-				Subtitle = _jobDetails.ClientName + " - " + _jobDetails.Title;
+				Subtitle = (_jobDetails.ClientName + " - " + _jobDetails.Title).Substring(0, 30);
 			}
 		}
 
@@ -86,5 +84,20 @@ namespace AccountExecutiveApp.iOS
 					NavigationItem.Title = "";
 				});
 		}
+
+        public void LoadContractorStatusDetails(JobDetails jobDetails, JobStatus status)
+        {
+            if( status == JobStatus.Shortlisted )
+                _viewModel.LoadContractors(jobDetails.Shortlisted);
+            else if( status == JobStatus.Proposed )
+                _viewModel.LoadContractors(jobDetails.Proposed);
+            else if (status == JobStatus.Callout)
+                _viewModel.LoadContractors(jobDetails.Callouts);
+            else
+                _viewModel.LoadContractors( (new List<Contractor>()).AsEnumerable() );
+
+            _jobDetails = jobDetails;
+            _status = status;
+        }
 	}
 }

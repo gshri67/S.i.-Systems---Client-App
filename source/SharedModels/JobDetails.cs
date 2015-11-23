@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace SiSystems.SharedModels
 {
-    public class JobDetails
+    public class JobDetails : Job
     {
-        public int Id { get; set; }
         public string Title { get; set; }
-        public string ClientName { get; set; }
         public UserContact ClientContact { get; set; }
-		public JobStatus JobStatus { get; set; }
 
         public IEnumerable<Contractor> Shortlisted { get; set; }
         public IEnumerable<Contractor> Proposed { get; set; }
@@ -24,7 +21,7 @@ namespace SiSystems.SharedModels
             Title = string.Empty;
             ClientName = string.Empty;
             ClientContact = new UserContact();
-			JobStatus = JobStatus.Open;
+			Status = JobStatus.Open;
 
             Shortlisted = Enumerable.Empty<Contractor>();
             Proposed = Enumerable.Empty<Contractor>();

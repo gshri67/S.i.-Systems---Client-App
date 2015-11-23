@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
+using HealthKit;
 using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using UIKit;
@@ -90,26 +91,21 @@ namespace AccountExecutiveApp.iOS
 	        base.PrepareForSegue(segue, sender);
 
 	        if (segue.Identifier == ShortlistedSegueIdentifier)
-	        {
-                LoadContractorsIntoDestinationController(segue, _viewModel.ShortlistedContractors);
-	        }
+                LoadContractorsIntoDestinationController(segue, JobStatus.Shortlisted);
 	        else if (segue.Identifier == ProposedSegueIdentifier)
-	        {
-                LoadContractorsIntoDestinationController(segue, _viewModel.ProposedContractors);
-            }else if (segue.Identifier == CalloutSegueIdentifier)
-            {
-                LoadContractorsIntoDestinationController(segue, _viewModel.ContractorsWithCallouts);
-            }
+                LoadContractorsIntoDestinationController(segue, JobStatus.Proposed);
+            else if (segue.Identifier == CalloutSegueIdentifier)
+                LoadContractorsIntoDestinationController(segue, JobStatus.Callout);
 	    }
 
-	    private void LoadContractorsIntoDestinationController(UIStoryboardSegue segue, IEnumerable<Contractor> consultants)
+	    private void LoadContractorsIntoDestinationController(UIStoryboardSegue segue, JobStatus status)//IEnumerable<Contractor> consultants)
 	    {
 	        var destinationController = segue.DestinationViewController as ContractorJobStatusListViewController;
 
 			if (destinationController != null) 
 			{
-				destinationController.LoadContractors (consultants);
-				destinationController.LoadJobDetails (_viewModel.JobDetails);
+				//destinationController.LoadContractors (consultants);
+				destinationController.LoadContractorStatusDetails (_viewModel.JobDetails, status);
 			}
 	    }
 

@@ -44,7 +44,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         public JobDetails GetJobDetailsById(int id)
         {
             var jobDetails = _jobsRepository.GetJobDetailsByJobId(id);
-
+            jobDetails.Status = JobStatus.Shortlisted;
             AssertCurrentUserHasPermissionsToViewJobDetails(jobDetails);
 
             return jobDetails;
