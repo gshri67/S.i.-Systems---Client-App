@@ -8,11 +8,19 @@ namespace AccountExecutiveApp.iOS
 	{
 		private string _titleText;
 		private string _subtitleText;
+	    private NSAttributedString _attributedTitleText;
 
 		public string TitleText{ get{ return _titleText; } set{ _titleText = value; titleLabel.Text = TitleText; updateUI(); } }
 		public string SubtitleText{ get{ return _subtitleText; } set{ _subtitleText = value; subtitleLabel.Text = SubtitleText; updateUI(); } }
+        public NSAttributedString AttributedTitleText { get { return _attributedTitleText; } set { _attributedTitleText = value; titleLabel.AttributedText = _attributedTitleText; updateUI(); } }
+	    public UIFont TitleFont {
+            get { return _titleFont; }
+	        private set { _titleFont = value; }
+	    }
 
-		private UILabel titleLabel;
+	    private UIFont _titleFont = UIFont.FromName("Arial", 20);
+
+	    private UILabel titleLabel;
 		private UILabel subtitleLabel;
 
 		public SubtitleHeaderView ()

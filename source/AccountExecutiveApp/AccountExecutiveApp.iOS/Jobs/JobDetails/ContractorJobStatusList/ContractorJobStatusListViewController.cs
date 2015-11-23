@@ -67,8 +67,8 @@ namespace AccountExecutiveApp.iOS
 					Title = "Callouts";
 				else
 					Title = "Shortlisted Contractors";
-				
-				Subtitle = (_jobDetails.ClientName + " - " + _jobDetails.Title).Substring(0, 30);
+
+			    Subtitle = _jobDetails.ClientName;
 			}
 		}
 

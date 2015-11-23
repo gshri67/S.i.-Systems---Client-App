@@ -8,6 +8,7 @@ using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using CoreText;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -17,6 +18,7 @@ namespace AccountExecutiveApp.iOS
         private ContractsListTableViewSource _listTableViewSource;
 		public IEnumerable<ConsultantContractSummary> _contracts;
 		public string Subtitle;
+	    private NSAttributedString _attributedTitle;
 	    private SubtitleHeaderView _subtitleHeaderView;
 
 	    private bool _contractsWereSet = false;//this is to know whether the contracts were passed in, or if we should call the API
@@ -81,9 +83,39 @@ namespace AccountExecutiveApp.iOS
 	            contractType = TypeOfContract;
 	        }
 
-	        Title = string.Format("{0} Contracts", status.ToString());
-            Subtitle = string.Format("{0}", contractType.ToString());
+	        Title = "";
+
+            if( status == ContractStatusType.Starting )
+                _attributedTitle = GetAttributedStringWithImage(new UIImage("plus-round-centred.png"), 15);
+            else if( status == ContractStatusType.Ending )
+                _attributedTitle = GetAttributedStringWithImage(new UIImage("minus-round-centred.png"), 15);
+            else
+                Title = string.Format("{0} Contracts", status.ToString());
+
+	        if (_attributedTitle != null)
+	        {
+                NSMutableAttributedString newAttrTitle = new NSMutableAttributedString();
+                NSAttributedString suffix = new NSAttributedString(" Contracts", new CTStringAttributes()
+                {
+                    Font = new CTFont("Arial", 20)
+                });
+
+                newAttrTitle.Append( _attributedTitle );
+                newAttrTitle.Append( suffix );
+	            _attributedTitle = newAttrTitle;
+	        }
+
+	        Subtitle = string.Format("{0}", contractType.ToString());
 	    }
+			
+		private static NSAttributedString GetAttributedStringWithImage( UIImage image, float size )
+		{
+			NSTextAttachment textAttachement = new NSTextAttachment ();
+			textAttachement.Image = image;
+			textAttachement.Bounds = new CoreGraphics.CGRect (0, 0, size, size);
+			NSAttributedString attrStringWithImage = NSAttributedString.CreateFrom (textAttachement);
+		    return attrStringWithImage;
+		}
 
 	    public void setContracts( IEnumerable<ConsultantContractSummary> contracts )
 		{
@@ -139,7 +171,12 @@ namespace AccountExecutiveApp.iOS
             {
                 _subtitleHeaderView = new SubtitleHeaderView();
                 NavigationItem.TitleView = _subtitleHeaderView;
+                
                 _subtitleHeaderView.TitleText = Title;
+
+                if( _attributedTitle != null )
+                    _subtitleHeaderView.AttributedTitleText = _attributedTitle;
+                
                 _subtitleHeaderView.SubtitleText = Subtitle;
                 NavigationItem.Title = "";
             });
