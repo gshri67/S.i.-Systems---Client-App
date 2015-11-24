@@ -48,9 +48,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             //todo: connect to DB, querying on selected id
             return new JobDetails
             {
-                Id = BusinessAnalyst.Id,
-                ClientName = BusinessAnalyst.ClientName,
-                Title = BusinessAnalyst.JobTitle,
+                Id = ProjectManager.Id,
+                ClientName = ProjectManager.ClientName,
+                Title = ProjectManager.JobTitle,
                 ClientContact = LucyLu,
                 Shortlisted = new List<Contractor>
                 {
@@ -109,16 +109,16 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             Id = 1,
             JobTitle = "60142 - Senior Financial Systems Business Analyst",
             ClientName = "Cenovus",
-            IssueDate = new DateTime(2015, 11, 16),
+            IssueDate = DateTime.UtcNow.AddDays(-14),
             HasCallout = true,
             IsProposed = true
         };
         private Job ProjectManager = new Job
         {
             Id = 2,
-            JobTitle = "60141 - Project Manager ESRI upgrade project",
+            JobTitle = "60141 - Intermediate Project Manager (w/ Asset Management/Investment Planning/Analytics exp). - long term contract!!!",
             ClientName = "Cenovus",
-            IssueDate = new DateTime(2015, 11, 16),
+            IssueDate = DateTime.UtcNow.AddDays(-7),
             HasCallout = false,
             IsProposed = true
         };
@@ -127,7 +127,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             Id = 3,
             JobTitle = "60139 - ASP.NET MVC Developer - Bilingual",
             ClientName = "Cenovus",
-            IssueDate = new DateTime(2015, 11, 13),
+            IssueDate = DateTime.UtcNow.AddDays(-1),
             HasCallout = false,
             IsProposed = false
         };

@@ -150,8 +150,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             ContractorName = "Fred Flintstone",
             Title = string.Format("{0} - Job title with indepth description to indicate length", 60123),
             AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
-            StartDate = DateTime.UtcNow.AddDays(-7),
-            EndDate = DateTime.UtcNow.AddMonths(2)
+            StartDate = DateTime.UtcNow.AddMonths(-2).AddDays(-14),
+            EndDate = DateTime.UtcNow.AddMonths(2).AddDays(10)
         };
 
         private ConsultantContractSummary BarneyAtNexenActiveFloThruContract = new ConsultantContractSummary
@@ -162,7 +162,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             Title = string.Format("{0} - Project Manager", 59326),
             AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
             StartDate = DateTime.UtcNow.AddDays(-15),
-            EndDate = DateTime.UtcNow.AddMonths(3)
+            EndDate = DateTime.UtcNow.AddMonths(3).AddDays(5)
         };
 
         private ConsultantContractSummary BamBamAtCenovusActiveFloThruContract = new ConsultantContractSummary
@@ -303,7 +303,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             PayRate = 125,
             BillRate = 150,
             GrossMargin = 50,
-            Title = "123456 - Contract with a Title that is not too long",
+            Title = "123456 - Telecom Analyst/ Implementation Specialist",
             ConsultantId = 1,
             Contractor = StandardMarketer,
             ClientContact = ContactJanice,
