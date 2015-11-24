@@ -38,20 +38,30 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
 
-        public string FormatedBillRate
+        public string FormattedBillRate
         {
             get { return string.Format("{0:C}", Contract.BillRate); }
         }
 
-        public string FormatedPayRate
+        public string FormattedPayRate
         {
             get { return string.Format("{0:C}", Contract.PayRate); }
         }
 
-        public string FormatedGrossMargin
+        public string FormattedGrossMargin
         {
             get { return string.Format("{0:C}", Contract.GrossMargin); }
         }
+
+		public string FormattedMarkup
+		{
+			get { return string.Format("{0:C}", Contract.Markup); }
+		}
+
+		public string FormattedClientAndStatus
+		{
+			get { return string.Format("{0} | {1}", Contract.ClientName, Contract.AgreementSubType.ToString()); }
+		}
 
         public string ContractTitle
         {

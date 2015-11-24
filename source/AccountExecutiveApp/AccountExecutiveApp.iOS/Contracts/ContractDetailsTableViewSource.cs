@@ -27,7 +27,7 @@ namespace AccountExecutiveApp.iOS
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
 			if (_contract != null)
-				return 3;
+				return 4;
 			else
 				return 0;
 		}
@@ -51,10 +51,13 @@ namespace AccountExecutiveApp.iOS
 					mainText = _contract.ClientContact.FullName;
 					subtitleText = "Client Contact";
 				}
-				if (indexPath.Item == 2) 
-				{
-                    mainText = _contract.BillingContact.FullName;
+				if (indexPath.Item == 2) {
+					mainText = _contract.BillingContact.FullName;
 					subtitleText = "Billing Contact";
+				} else if (indexPath.Item == 3) 
+				{
+					mainText = _contract.ClientContact.FullName;
+					subtitleText = "Direct Report";					
 				}
 
 				cell.UpdateCell 

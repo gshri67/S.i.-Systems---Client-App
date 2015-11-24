@@ -1,13 +1,11 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -18,10 +16,16 @@ namespace AccountExecutiveApp.iOS
 		UIKit.UILabel BillRateLabel { get; set; }
 
 		[Outlet]
-		UIKit.UILabel CompanyNameLabel { get; set; }
+		UIKit.UILabel ClientAndStatusLabel { get; set; }
+
+		[Outlet]
+		UIKit.UILabel ContractTitleLabel { get; set; }
 
 		[Outlet]
 		UIKit.UILabel GrossMarginLabel { get; set; }
+
+		[Outlet]
+		UIKit.UILabel MarkupLabel { get; set; }
 
 		[Outlet]
 		UIKit.UILabel PayRateLabel { get; set; }
@@ -34,9 +38,53 @@ namespace AccountExecutiveApp.iOS
 
 		[Outlet]
 		UIKit.UITableView tableView { get; set; }
-
+		
 		void ReleaseDesignerOutlets ()
 		{
+			if (BillRateLabel != null) {
+				BillRateLabel.Dispose ();
+				BillRateLabel = null;
+			}
+
+			if (GrossMarginLabel != null) {
+				GrossMarginLabel.Dispose ();
+				GrossMarginLabel = null;
+			}
+
+			if (PayRateLabel != null) {
+				PayRateLabel.Dispose ();
+				PayRateLabel = null;
+			}
+
+			if (PeriodLabel != null) {
+				PeriodLabel.Dispose ();
+				PeriodLabel = null;
+			}
+
+			if (summaryView != null) {
+				summaryView.Dispose ();
+				summaryView = null;
+			}
+
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
+			}
+
+			if (MarkupLabel != null) {
+				MarkupLabel.Dispose ();
+				MarkupLabel = null;
+			}
+
+			if (ContractTitleLabel != null) {
+				ContractTitleLabel.Dispose ();
+				ContractTitleLabel = null;
+			}
+
+			if (ClientAndStatusLabel != null) {
+				ClientAndStatusLabel.Dispose ();
+				ClientAndStatusLabel = null;
+			}
 		}
 	}
 }
