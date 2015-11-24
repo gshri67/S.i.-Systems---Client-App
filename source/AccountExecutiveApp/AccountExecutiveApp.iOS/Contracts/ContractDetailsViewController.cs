@@ -61,7 +61,7 @@ namespace AccountExecutiveApp.iOS
             GrossMarginLabel.Text = _viewModel.FormattedGrossMargin;
 			MarkupLabel.Text = _viewModel.FormattedMarkup;
 
-			ContractTitleLabel.Text = _viewModel.ContractTitle;
+			//ContractTitleLabel.Text = _viewModel.ContractTitle;
 			ClientAndStatusLabel.Text = _viewModel.FormattedClientAndStatus;
 		}
 
