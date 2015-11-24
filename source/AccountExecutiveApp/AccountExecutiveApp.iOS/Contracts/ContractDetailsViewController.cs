@@ -55,7 +55,6 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        if (summaryView == null) return;
 
-			CompanyNameLabel.Text = _viewModel.CompanyName;
             PeriodLabel.Text = _viewModel.ContractPeriod;
             BillRateLabel.Text = _viewModel.FormatedBillRate;
             PayRateLabel.Text = _viewModel.FormatedPayRate;
@@ -74,8 +73,10 @@ namespace AccountExecutiveApp.iOS
 						title = title.Substring(0,25);
                 _subtitleHeaderView.TitleText = title;
 
-                _subtitleHeaderView.SubtitleText = _viewModel.ConsultantsFullName;
-                NavigationItem.Title = "";
+				if( _viewModel != null && _viewModel.CompanyName != null )
+					_subtitleHeaderView.SubtitleText = _viewModel.CompanyName;
+
+				NavigationItem.Title = "";
             });
         }
 	}

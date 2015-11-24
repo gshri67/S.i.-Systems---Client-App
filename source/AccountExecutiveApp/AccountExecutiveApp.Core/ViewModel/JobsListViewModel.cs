@@ -51,7 +51,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             if (!IsInBounds(rowNumber)) return string.Empty;
 
             var job = Jobs.ElementAt(rowNumber);
-            var differenceInDays = DateTime.Now.Subtract(job.IssueDate).Days;
+			var differenceInDays = DateTime.UtcNow.Subtract(job.IssueDate).Days;
 
 
             return TimePassedDescription(differenceInDays);
@@ -59,9 +59,11 @@ namespace AccountExecutiveApp.Core.ViewModel
         
         private static string TimePassedDescription(int daysSinceStart)
         {
-            var subtitleText = "New";
+            var subtitleText = "";
             
-            if (daysSinceStart == 1)
+			if (daysSinceStart < 1)
+				subtitleText = "Today";
+			else if (daysSinceStart == 1)
                 subtitleText = "1 day ago";
             else if (daysSinceStart < 7)
                 subtitleText = string.Format("{0} days ago", daysSinceStart);
