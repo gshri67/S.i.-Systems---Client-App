@@ -13,7 +13,7 @@ namespace AccountExecutiveApp.iOS
         private readonly JobsClientListViewController _parentController;
         private readonly JobsClientListTableViewModel _listViewModel;
 
-        public JobsClientListTableViewSource(JobsClientListViewController parentViewController, IEnumerable<Job> jobs)
+        public JobsClientListTableViewSource(JobsClientListViewController parentViewController, IEnumerable<JobSummary> jobs)
         {
             _listViewModel = new JobsClientListTableViewModel(jobs);
 

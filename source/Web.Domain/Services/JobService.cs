@@ -88,5 +88,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
             return contractors;
         }
+
+        public IEnumerable<JobSummary> GetJobSummaries()
+        {
+            return _jobsRepository.GetJobSummariesByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+        }
     }
 }

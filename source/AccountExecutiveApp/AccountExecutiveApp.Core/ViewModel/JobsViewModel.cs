@@ -12,11 +12,11 @@ namespace AccountExecutiveApp.Core.ViewModel
 	{
 		private readonly IMatchGuideApi _api;
         
-        private IEnumerable<Job> _jobs;
-        public IEnumerable<Job> Jobs
+        private IEnumerable<JobSummary> _jobs;
+        public IEnumerable<JobSummary> Jobs
         {
-            get { return _jobs ?? Enumerable.Empty<Job>(); }
-            set { _jobs = value ?? Enumerable.Empty<Job>(); }
+            get { return _jobs ?? Enumerable.Empty<JobSummary>(); }
+            set { _jobs = value ?? Enumerable.Empty<JobSummary>(); }
         }
 
         public JobsViewModel(IMatchGuideApi api)
@@ -26,7 +26,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public async Task GetJobs()
 		{
-			Jobs = await _api.GetJobs();
+			Jobs = await _api.GetJobSummaries();
 		}
 
         public Task LoadJobs()

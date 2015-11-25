@@ -33,6 +33,13 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, jobs);
         }
 
+        [Route("Summary")]
+        public HttpResponseMessage GetJobSummaries()
+        {
+            var jobSummaries = _service.GetJobSummaries();
+            return Request.CreateResponse(HttpStatusCode.OK, jobSummaries);
+        }
+
         [Route("{id}")]
         public HttpResponseMessage GetJobsByClientID(int id)
         {

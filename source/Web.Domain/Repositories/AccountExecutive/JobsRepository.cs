@@ -17,6 +17,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id);
         IEnumerable<Contractor> GetProposedContractorsByJobId(int id);
         IEnumerable<Contractor> GetCalloutContractorsByJobId(int id);
+        IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id);
     }
 
     public class JobsRepository : IJobsRepository {
@@ -56,6 +57,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
         public IEnumerable<Contractor> GetCalloutContractorsByJobId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id)
         {
             throw new NotImplementedException();
         }
@@ -157,6 +163,32 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             return callouts;
         }
 
+        public IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id)
+        {
+            return new List<JobSummary>
+            {
+                CenovusSummary,
+                NexenSummary
+            };
+        }
+
+        private JobSummary CenovusSummary = new JobSummary
+        {
+            ClientId = 1,
+            ClientName = "Cenovus",
+            NumJobs = 8,
+            NumProposed = 3,
+            NumCallouts = 1
+        };
+        private JobSummary NexenSummary = new JobSummary
+        {
+            ClientId = 2,
+            ClientName = "Nexen",
+            NumJobs = 12,
+            NumProposed = 6,
+            NumCallouts = 0
+        };
+
         private UserContact LucyLu = new UserContact
         {
             FirstName = "Lucy",
@@ -192,6 +224,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             HasCallout = true,
             IsProposed = true
         };
+
         private Job ProjectManager = new Job
         {
             Id = 2,

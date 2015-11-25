@@ -9,62 +9,60 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 {
     public class JobsClientListTableViewModel
     {
-        private IEnumerable<IGrouping<string, Job>> _groupedJobs;
-        private IEnumerable<IGrouping<string, Job>> GroupedJobs
+        private IEnumerable<JobSummary> _jobSummaries; 
+        public IEnumerable<JobSummary> JobSummaries
         {
-            get { return _groupedJobs ?? Enumerable.Empty<IGrouping<string, Job>>(); }
-            set { _groupedJobs = value ?? Enumerable.Empty<IGrouping<string, Job>>(); }
+            get { return _jobSummaries ?? Enumerable.Empty<JobSummary>(); }
+            set { _jobSummaries = value ?? Enumerable.Empty<JobSummary>(); }
         }
 
-        public JobsClientListTableViewModel(IEnumerable<Job> jobs)
+        public JobsClientListTableViewModel(IEnumerable<JobSummary> jobs)
         {
-            GroupedJobs = jobs == null 
-                ? Enumerable.Empty<IGrouping<string, Job>>() 
-                : jobs.GroupBy(job => job.ClientName);
+            JobSummaries = jobs;
         }
 
         public bool IndexIsInBounds(int index)
         {
-            return index < GroupedJobs.Count() && index >= 0;
+            return index < JobSummaries.Count() && index >= 0;
         }
 
         public int NumberOfGroups()
         {
-            return GroupedJobs.Count();
+            return JobSummaries.Count();
         }
 
         public string ClientNameByRowNumber(int groupNumber)
         {
             return IndexIsInBounds(groupNumber) 
-                ? GroupedJobs.ElementAtOrDefault(groupNumber).Key 
+                ? JobSummaries.ElementAtOrDefault(groupNumber).ClientName
                 : string.Empty;
         }
 
         public int ClientIDByRowNumber(int groupNumber)
         {
             return IndexIsInBounds(groupNumber)
-                ? GroupedJobs.ElementAtOrDefault(groupNumber).ElementAt(0).Id
+                ? JobSummaries.ElementAtOrDefault(groupNumber).ClientId
                 : 0;
         }
 
         public int NumberOfJobsInSection(int groupNumber)
         {
-            return IndexIsInBounds(groupNumber)
-                ? GroupedJobs.ElementAtOrDefault(groupNumber).Count()
+            return IndexIsInBounds(groupNumber) 
+                ? JobSummaries.ElementAt(groupNumber).NumJobs
                 : 0;
         }
 
         public int NumberOfProposedJobsInSection(int groupNumber)
         {
-            return IndexIsInBounds(groupNumber)
-                ? GroupedJobs.ElementAtOrDefault(groupNumber).Count(job => job.IsProposed)
+            return IndexIsInBounds(groupNumber) 
+                ? JobSummaries.ElementAt(groupNumber).NumProposed
                 : 0;
         }
 
         public int NumberOfJobsWithCalloutsInSection(int groupNumber)
         {
             return IndexIsInBounds(groupNumber) 
-                ? GroupedJobs.ElementAtOrDefault(groupNumber).Count(job => job.HasCallout)
+                ? JobSummaries.ElementAt(groupNumber).NumCallouts
                 : 0;
         }
 
@@ -76,13 +74,6 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
                     NumberOfProposedJobsInSection(groupNumber), 
                     NumberOfJobsWithCalloutsInSection(groupNumber))
                 : string.Empty;
-        }
-
-        public IEnumerable<Job> JobsByRowNumber(int groupNumber)
-        {
-            return IndexIsInBounds(groupNumber)
-                ? GroupedJobs.ElementAtOrDefault(groupNumber)
-                : Enumerable.Empty<Job>();
         }
     }
 }
