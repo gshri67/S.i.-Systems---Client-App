@@ -46,19 +46,20 @@ namespace AccountExecutiveApp.iOS
 					mainText = _contract.Contractor.FullName;
 					subtitleText = "Contractor";
 				}
-				if (indexPath.Item == 1) 
+				else if (indexPath.Item == 1) 
+				{
+					mainText = _contract.DirectReport.FullName;
+					subtitleText = "Direct Report";					
+				}
+				else if (indexPath.Item == 2) 
 				{
 					mainText = _contract.ClientContact.FullName;
 					subtitleText = "Client Contact";
 				}
-				if (indexPath.Item == 2) {
+				else if (indexPath.Item == 3) {
 					mainText = _contract.BillingContact.FullName;
 					subtitleText = "Billing Contact";
-				} else if (indexPath.Item == 3) 
-				{
-					mainText = _contract.ClientContact.FullName;
-					subtitleText = "Direct Report";					
-				}
+				} 
 
 				cell.UpdateCell 
 				(

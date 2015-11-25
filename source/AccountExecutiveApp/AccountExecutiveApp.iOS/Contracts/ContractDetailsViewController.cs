@@ -55,7 +55,7 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        if (summaryView == null) return;
 
-            PeriodLabel.Text = _viewModel.ContractPeriod;
+			PeriodLabel.Text = string.Format("{0} {1} {2}", _viewModel.FormattedStartDate, StyleGuideConstants.DateSeperator ,_viewModel.FormattedEndDate);
             BillRateLabel.Text = _viewModel.FormattedBillRate;
             PayRateLabel.Text = _viewModel.FormattedPayRate;
             GrossMarginLabel.Text = _viewModel.FormattedGrossMargin;

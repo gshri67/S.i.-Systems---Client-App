@@ -33,10 +33,18 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                return string.Format("{0} - {1}", Contract.StartDate.ToString("MMM dd, yyyy"),
+				return string.Format("{0} - {2}", Contract.StartDate.ToString("MMM dd, yyyy"),
                     Contract.EndDate.ToString("MMM dd, yyyy"));
             }
         }
+		public string FormattedStartDate
+		{
+			get { return string.Format("{0}", Contract.StartDate.ToString("MMM dd, yyyy")); }
+		}
+		public string FormattedEndDate
+		{
+			get { return string.Format("{0}", Contract.EndDate.ToString("MMM dd, yyyy")); }
+		}
 
         public string FormattedBillRate
         {
