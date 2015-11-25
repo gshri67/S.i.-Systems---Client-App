@@ -20,6 +20,18 @@ namespace SiSystems.SharedModels
 		public int NumShortlisted { get; set; }
 		public int NumProposed { get; set; }
 		public int NumCallouts { get; set; }
+
+        public string Title { get; set; }
+        public UserContact ClientContact { get; set; }
+
+        public Job()
+        {
+            Id = 0;
+            Title = string.Empty;
+            ClientName = string.Empty;
+            ClientContact = new UserContact();
+            Status = JobStatus.Open;
+        }
     }
 
 	public enum JobStatus

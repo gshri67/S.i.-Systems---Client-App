@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -29,6 +30,13 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
         public HttpResponseMessage GetJobs()
         {
             var jobs = _service.GetJobs();
+            return Request.CreateResponse(HttpStatusCode.OK, jobs);
+        }
+
+        [Route("{id}")]
+        public HttpResponseMessage GetJobsByClientID(int id)
+        {
+            var jobs = _service.GetJobsByClientId(id);
             return Request.CreateResponse(HttpStatusCode.OK, jobs);
         }
 

@@ -41,6 +41,16 @@ namespace SiSystems.ClientApp.Web.Domain.Services
                 throw new UnauthorizedAccessException();
         }
 
+        public IEnumerable<Job> GetJobsByClientId(int id)
+        {
+            IEnumerable<Job> jobs = _jobsRepository.GetJobsByClientId(id);
+            //AssertCurrentUserHasPermissionsToViewJobDetails(jobDetails);
+
+            return jobs;
+
+            //return _jobsRepository.GetJobsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+        }
+
         public JobDetails GetJobDetailsById(int id)
         {
             var jobDetails = _jobsRepository.GetJobDetailsByJobId(id);

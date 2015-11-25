@@ -51,9 +51,9 @@ namespace AccountExecutiveApp.iOS
 			//TableView.ReloadData ();
 		}
 
-		public void SetJobs( IEnumerable<Job> jobs )
+		public void SetClientID( int ClientID )
 		{
-		    var task = _jobsListViewModel.SetJobs(jobs);
+		    var task = _jobsListViewModel.SetClientID(ClientID);
 
             task.ContinueWith(_ => UpdateUserInterface());
 		}

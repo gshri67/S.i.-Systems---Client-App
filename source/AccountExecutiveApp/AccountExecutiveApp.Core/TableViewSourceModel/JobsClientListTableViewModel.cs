@@ -40,6 +40,13 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
                 : string.Empty;
         }
 
+        public int ClientIDByRowNumber(int groupNumber)
+        {
+            return IndexIsInBounds(groupNumber)
+                ? GroupedJobs.ElementAtOrDefault(groupNumber).ElementAt(0).Id
+                : 0;
+        }
+
         public int NumberOfJobsInSection(int groupNumber)
         {
             return IndexIsInBounds(groupNumber)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.Core;
 using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.Core.ViewModel
@@ -10,28 +11,37 @@ namespace AccountExecutiveApp.Core.ViewModel
     public class JobsListViewModel
     {
         private IEnumerable<Job> _jobs;
-
+        private readonly IMatchGuideApi _api;
+        
         public IEnumerable<Job> Jobs
         {
             get { return _jobs ?? Enumerable.Empty<Job>(); }
             set { _jobs = value ?? Enumerable.Empty<Job>(); }
         } 
 
-        public JobsListViewModel()
-        {
-            
-        }
+        public JobsListViewModel(IMatchGuideApi api)
+		{
+			_api = api;
+		}
 
-        public Task SetJobs(IEnumerable<Job> jobs)
+        public Task SetClientID( int ClientID )
         {
-            var jobLoadingTask = LoadJobs(jobs);
+            var jobLoadingTask = LoadJobsWithClientID( ClientID );
 
             return jobLoadingTask;
         }
 
-        private async Task LoadJobs(IEnumerable<Job> jobs)
+        private async Task GetJobs( int ClientID )
         {
-            _jobs = jobs.OrderByDescending(job => job.IssueDate);
+            Jobs = await _api.GetJobs();
+            _jobs = Jobs.OrderByDescending(job => job.IssueDate);
+        }
+
+        public Task LoadJobsWithClientID( int ClientID )
+        {
+            var jobLoadingTask = GetJobs( ClientID );
+
+            return jobLoadingTask;
         }
 
         public string JobTitleByIndex(int index)

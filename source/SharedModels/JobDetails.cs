@@ -8,9 +8,6 @@ namespace SiSystems.SharedModels
 {
     public class JobDetails : Job
     {
-        public string Title { get; set; }
-        public UserContact ClientContact { get; set; }
-
         public IEnumerable<Contractor> Shortlisted { get; set; }
         public IEnumerable<Contractor> Proposed { get; set; }
         public IEnumerable<Contractor> Callouts{ get; set; }
