@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.Core;
 using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.Core.ViewModel
@@ -10,6 +11,9 @@ namespace AccountExecutiveApp.Core.ViewModel
     public class ContractorJobStatusListViewModel
     {
         private IEnumerable<Contractor> _contractors;
+        private readonly IMatchGuideApi _api;
+
+        public string ClientName { get; set; }
 
         private IEnumerable<Contractor> Contractors
         {
@@ -17,14 +21,33 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { _contractors = value ?? Enumerable.Empty<Contractor>(); }
         }
 
-        public ContractorJobStatusListViewModel()
-        {
-
-        }
+        public ContractorJobStatusListViewModel(IMatchGuideApi api)
+		{
+			_api = api;
+		}
 
         public void LoadContractors(IEnumerable<Contractor> contractors)
         {
             Contractors = contractors ?? Enumerable.Empty<Contractor>();
+        }
+
+        public Task LoadContractorsWithJobIDAndStatusAndClientName(int Id, JobStatus status, string clientName )
+        {
+            ClientName = clientName;
+
+            var task = GetContractorsWithJobIdAndStatus(Id, status);
+
+            return task;
+        }
+
+        private async Task GetContractorsWithJobIdAndStatus(int id, JobStatus status)
+        {
+            if( status == JobStatus.Shortlisted )
+                Contractors = await _api.GetShortlistedContractorsWithJobId( id );
+            else if (status == JobStatus.Proposed)
+                Contractors = await _api.GetProposedContractorsWithJobId(id);
+            else if (status == JobStatus.Callout)
+                Contractors = await _api.GetCalloutContractorsWithJobId(id);
         }
 
         public int NumberOfContractors()

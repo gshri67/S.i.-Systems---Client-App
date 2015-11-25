@@ -236,6 +236,22 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<Job>(new { id });
         }
 
+        [HttpGet("Job/Contractors/Shortlisted/{id}")]
+        public async Task<IEnumerable<Contractor>> GetShortlistedContractorsWithJobId(int id)
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<Contractor>>(new { id });
+        }
+        [HttpGet("Job/Contractors/Proposed/{id}")]
+        public async Task<IEnumerable<Contractor>> GetProposedContractorsWithJobId(int id)
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<Contractor>>(new { id });
+        }
+        [HttpGet("Job/Contractors/Callout/{id}")]
+        public async Task<IEnumerable<Contractor>> GetCalloutContractorsWithJobId(int id)
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<Contractor>>(new { id });
+        }
+
         [HttpGet("Job/Details/{id}")]
         public async Task<JobDetails> GetJobDetails(int id)
         {

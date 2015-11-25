@@ -44,6 +44,8 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
         public HttpResponseMessage GetJobWithJobId(int id)
         {
             var job = _service.GetJobWithJobId(id);
+            job.Status = JobStatus.Shortlisted;
+            
             return Request.CreateResponse(HttpStatusCode.OK, job);
         }
 
@@ -52,6 +54,26 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
         {
             var job = _service.GetJobDetailsById(id);
             return Request.CreateResponse(HttpStatusCode.OK, job);
+        }
+
+
+        [Route("Contractors/Shortlisted/{id}")]
+        public HttpResponseMessage GetShortlistedContractorsByJobId(int id)
+        {
+            var contractors = _service.GetShortlistedContractorsByJobId(id);
+            return Request.CreateResponse(HttpStatusCode.OK, contractors);
+        }
+        [Route("Contractors/Proposed/{id}")]
+        public HttpResponseMessage GetProposedContractorsByJobId(int id)
+        {
+            var contractors = _service.GetProposedContractorsByJobId(id);
+            return Request.CreateResponse(HttpStatusCode.OK, contractors);
+        }
+        [Route("Contractors/Callout/{id}")]
+        public HttpResponseMessage GetCalloutContractorsByJobId(int id)
+        {
+            var contractors = _service.GetCalloutContractorsByJobId(id);
+            return Request.CreateResponse(HttpStatusCode.OK, contractors);
         }
     }
 }

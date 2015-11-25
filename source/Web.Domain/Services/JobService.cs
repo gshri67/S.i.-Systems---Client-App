@@ -67,5 +67,26 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
             return job;
         }
+
+        public IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id)
+        {
+            var contractors = _jobsRepository.GetShortlistedContractorsByJobId(id);
+            
+            return contractors;
+        }
+
+        public IEnumerable<Contractor> GetProposedContractorsByJobId(int id)
+        {
+            var contractors = _jobsRepository.GetProposedContractorsByJobId(id);
+
+            return contractors;
+        }
+
+        public IEnumerable<Contractor> GetCalloutContractorsByJobId(int id)
+        {
+            var contractors = _jobsRepository.GetCalloutContractorsByJobId(id);
+
+            return contractors;
+        }
     }
 }
