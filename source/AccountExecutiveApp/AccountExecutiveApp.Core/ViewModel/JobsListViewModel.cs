@@ -85,6 +85,12 @@ namespace AccountExecutiveApp.Core.ViewModel
                 ? JobStatusDescription(Jobs.ElementAtOrDefault(rowNumber))
                 : string.Empty;
         }
+		public string FormattedJobStatusRatioByIndex( int rowNumber )
+		{
+			return IsInBounds(rowNumber) 
+				? string.Format("{0}/{1}/{2}", _jobs.ElementAt(rowNumber).NumShortlisted, _jobs.ElementAt(rowNumber).NumProposed, _jobs.ElementAt(rowNumber).NumCallouts )
+					: string.Empty;
+		}
 
         public string JobStatusDescription(Job job)
         {

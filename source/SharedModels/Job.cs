@@ -16,6 +16,10 @@ namespace SiSystems.SharedModels
         public DateTime IssueDate { get; set; }
 
 		public JobStatus Status { get; set; }
+
+		public int NumShortlisted { get; set; }
+		public int NumProposed { get; set; }
+		public int NumCallouts { get; set; }
     }
 
 	public enum JobStatus

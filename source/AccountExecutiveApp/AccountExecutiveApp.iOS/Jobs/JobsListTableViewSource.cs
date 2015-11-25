@@ -41,7 +41,7 @@ namespace AccountExecutiveApp.iOS
             (
                 mainText: _jobsListViewModel.JobTitleByIndex(rowNumber),
                 subtitleText: _jobsListViewModel.TimeDescriptionByIndex(rowNumber),
-                rightDetailText: _jobsListViewModel.JobStatusByIndex(rowNumber)
+				rightDetailText: _jobsListViewModel.FormattedJobStatusRatioByIndex(rowNumber)
             );
 
 		    return cell;
