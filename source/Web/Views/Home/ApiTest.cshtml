@@ -88,6 +88,7 @@
             <li role="presentation"><a id="jobsTabButton" href="#jobs" role="tab" data-toggle="tab">Jobs</a></li>
             <li role="presentation"><a id="jobDetailsTabButton" href="#jobDetails" role="tab" data-toggle="tab">Job Details</a></li>
             <li role="presentation"><a id="timesheetSummariesTabButton" href="#timesheetSummaries" role="tab" data-toggle="tab">TimesheetSummaries</a></li>
+            <li role="presentation"><a id="contractorTabButton" href="#contractor" role="tab" data-toggle="tab">Contractor</a></li>
         </ul>
 
         <div class="tab-content">
@@ -228,6 +229,17 @@
                     </div>
                 </div>
                 <div id="timesheetSummariesResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="contractor" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="contractorId" type="text" class="form-control" placeholder=""/>
+                    <div class="input-group-btn">
+                        <button id="contractorButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="contractorResults" class="code json well">
                 </div>
             </div>
         </div>
@@ -574,6 +586,28 @@
 
 
                     }).fail(function (err) { showError(err, 'timesheetSummariesResults') });
+                },
+                getContractor: function () {
+                    $('#contractorResults').html('Sending...');
+                    var id = $('#contractorId').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Contractor/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#contractorResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'contractorResults') });
                 }
             };
 
@@ -594,6 +628,7 @@
             $('#getJobDetailsButton').click(page.getJobDetails);
             $('#getJobsButton').click(page.getJobs);
             $('#timesheetSummariesButton').click(page.getTimesheetSummaries);
+            $('#contractorButton').click(page.getContractor);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {
