@@ -73,7 +73,7 @@ namespace AccountExecutiveApp.iOS
 
                 var job = source.JobSelected(TableView.IndexPathForSelectedRow);
 
-                destinationController.LoadJob(job);
+                destinationController.SetJobId(job.Id);
 
             }
 

@@ -59,5 +59,13 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
             return jobDetails;
         }
+
+        public Job GetJobWithJobId(int id)
+        {
+            var job = _jobsRepository.GetJobWithJobId(id);
+            //AssertCurrentUserHasPermissionsToViewJobDetails(jobDetails);
+
+            return job;
+        }
     }
 }

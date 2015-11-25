@@ -13,6 +13,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         JobDetails GetJobDetailsByJobId(int id);
         IEnumerable<Job> GetJobsByAccountExecutiveId(int id);
         IEnumerable<Job> GetJobsByClientId(int id);
+        Job GetJobWithJobId(int id);
     }
 
     public class JobsRepository : IJobsRepository {
@@ -32,6 +33,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
         public IEnumerable<Job> GetJobsByClientId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Job GetJobWithJobId(int id)
         {
             throw new NotImplementedException();
         }
@@ -93,6 +99,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 SolutionsDeveloper,
                 EnterpriseArchitect
             };
+        }
+
+        public Job GetJobWithJobId(int id)
+        {
+            return BusinessAnalyst;
         }
 
         private UserContact LucyLu = new UserContact

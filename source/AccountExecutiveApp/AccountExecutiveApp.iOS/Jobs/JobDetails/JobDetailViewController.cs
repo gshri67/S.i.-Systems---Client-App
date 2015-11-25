@@ -42,9 +42,9 @@ namespace AccountExecutiveApp.iOS
             UIApplication.SharedApplication.Windows[0].RootViewController = navigationController;
         }
 
-	    public void LoadJob(Job job)
+	    public void LoadJobWithJobId( int Id )
 	    {
-	        var task = _viewModel.LoadJob(job);
+	        var task = _viewModel.LoadJobWithJobID(Id);
 
             task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 	    }
@@ -105,7 +105,7 @@ namespace AccountExecutiveApp.iOS
 			if (destinationController != null) 
 			{
 				//destinationController.LoadContractors (consultants);
-				destinationController.LoadContractorStatusDetails (_viewModel.JobDetails, status);
+				//destinationController.LoadContractorStatusDetails (_viewModel.Job.Id, status);
 			}
 	    }
 
@@ -150,5 +150,10 @@ namespace AccountExecutiveApp.iOS
             _overlay = null;
         }
         #endregion
+
+	    public void SetJobId(int id)
+	    {
+	        LoadJobWithJobId(id);
+	    }
 	}
 }

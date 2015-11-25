@@ -12,19 +12,19 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private readonly IMatchGuideApi _api;
         
-        private JobDetails _jobDetails;
+        private Job _job;
 
-        public JobDetails JobDetails
+        public Job Job
         {
-            get { return _jobDetails ?? new JobDetails(); }
-            private set { _jobDetails = value ?? new JobDetails(); }
+            get { return _job ?? new Job(); }
+            private set { _job = value ?? new Job(); }
         }
 
         public string ClientContactName
         {
             get
             {
-                return string.Format(JobDetails.ClientContact.FullName);
+                return string.Format(Job.ClientContact.FullName);
             }
         }
 
@@ -32,43 +32,28 @@ namespace AccountExecutiveApp.Core.ViewModel
 		{
 			get
 			{
-				return string.Format(JobDetails.ClientName);
+				return string.Format(Job.ClientName);
 			}
 		}
 
         public int NumberOfShortlistedConsultants
         {
-            get { return JobDetails.Shortlisted.Count(); }
+            get { return Job.NumShortlisted; }
         }
 
         public int NumberOfProposedContractors
         {
-            get { return JobDetails.Proposed.Count(); }
+            get { return Job.NumProposed; }
         }
 
         public int NumberOfContractorsWithCallouts
         {
-            get { return JobDetails.Callouts.Count(); }
+            get { return Job.NumCallouts; }
         }
 
         public string JobTitle
         {
-            get { return JobDetails.Title; }
-        }
-
-        public IEnumerable<Contractor> ShortlistedContractors
-        {
-            get { return JobDetails.Shortlisted ?? Enumerable.Empty<Contractor>(); }
-        }
-
-        public IEnumerable<Contractor> ProposedContractors
-        {
-            get { return JobDetails.Proposed ?? Enumerable.Empty<Contractor>(); }
-        }
-
-        public IEnumerable<Contractor> ContractorsWithCallouts
-        {
-            get { return JobDetails.Callouts ?? Enumerable.Empty<Contractor>(); }
+            get { return Job.Title; }
         }
 
         public JobDetailViewModel(IMatchGuideApi api)
@@ -76,17 +61,16 @@ namespace AccountExecutiveApp.Core.ViewModel
             _api = api;
         }
 
-        public Task LoadJob(Job job)
+        public Task LoadJobWithJobID( int Id )
         {
-            var task = GetJobDetails(job);
+            var task = GetJobWithJobId( Id );
 
             return task;
         }
 
-        private async Task GetJobDetails(Job job)
+        private async Task GetJobWithJobId( int Id )
         {
-            if (job == null) return;
-            JobDetails = await _api.GetJobDetails(job.Id);
+            Job = await _api.GetJobWithJobId(Id);
         }
     }
 }
