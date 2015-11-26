@@ -7,12 +7,14 @@ namespace SiSystems.SharedModels
         public ContractSummarySet FullySourcedContracts { get; set; }
         public ContractSummarySet FlowThruContracts { get; set; }
         public JobsSummarySet Jobs { get; set; }
+		public string UserName { get; set; }
 
         public DashboardSummary()
         {
             FullySourcedContracts = new ContractSummarySet();
             FlowThruContracts = new ContractSummarySet();
             Jobs = new JobsSummarySet();
+			UserName = string.Empty;
         }
     }
 

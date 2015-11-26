@@ -12,6 +12,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 	    private const int MinimumValueToDisplay = 0;
 	    private DashboardSummary _dashboardStats;
+		public string UserName { get{ return _dashboardStats.UserName; } }
 
         private ContractSummarySet FullySourced 
         { 
