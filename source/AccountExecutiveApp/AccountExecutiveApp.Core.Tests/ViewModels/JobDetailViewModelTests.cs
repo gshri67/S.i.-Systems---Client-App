@@ -36,24 +36,14 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
         }
 
         [Test]
-        public async void LoadJob_WithNullJob_DoesNotCallApi()
-        {
-            _viewModel = new JobDetailViewModel(_apiMock.Object);
-
-            await _viewModel.LoadJob(null);
-
-            _apiMock.Verify(api => api.GetJobDetails(It.IsAny<int>()), Times.Never);
-        }
-
-        [Test]
         public async void LoadJob_WithValidJob_CallsMatchguideApiWithJobId()
         {
             const int id = 1;
             _viewModel = new JobDetailViewModel(_apiMock.Object);
 
-            await _viewModel.LoadJob(new Job {Id = id});
+            await _viewModel.LoadJobWithJobID(id);
 
-            _apiMock.Verify(api => api.GetJobDetails(id));
+            _apiMock.Verify(api => api.GetJobWithJobId(id));
         }
 
         [Test]
@@ -63,7 +53,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             const int id = 1;
             _viewModel = new JobDetailViewModel(_apiMock.Object);
 
-            var task = _viewModel.LoadJob(new Job { Id = id });
+            var task = _viewModel.LoadJobWithJobID(id);
             await task;
 
             Assert.AreEqual(TaskStatus.RanToCompletion, task.Status);
