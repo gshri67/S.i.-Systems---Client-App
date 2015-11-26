@@ -22,6 +22,11 @@ namespace AccountExecutiveApp.iOS
             _jobsViewModel = DependencyResolver.Current.Resolve<JobsViewModel>();
 
             TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellReuseIdentifier);
+
+            if (NavigationController != null)
+            {
+                this.NavigationController.TabBarItem.SelectedImage = UIImage.FromFile("tag-dark.png");
+            }
 		}
 
 		private void InstantiateTableViewSource()

@@ -43,6 +43,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+            this.NavigationController.TabBarItem.SelectedImage = UIImage.FromFile("paper-dark.png");
+
 			LogoutManager.CreateNavBarLeftButton (this);
 
             LoadContracts();

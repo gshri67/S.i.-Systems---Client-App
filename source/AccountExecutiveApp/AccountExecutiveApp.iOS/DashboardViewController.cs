@@ -45,7 +45,9 @@ namespace AccountExecutiveApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad();
-            
+
+	        this.NavigationController.TabBarItem.SelectedImage = UIImage.FromFile("home-dark.png");
+
 			LoadDashboardInfo();
 
 			IndicateLoading();
