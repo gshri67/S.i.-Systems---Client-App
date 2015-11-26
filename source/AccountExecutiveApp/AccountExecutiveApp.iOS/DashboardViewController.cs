@@ -66,8 +66,6 @@ namespace AccountExecutiveApp.iOS
 			AddImageToLabel( new UIImage ("plus-round-centred.png"), FT_plusLabel);
 			AddImageToLabel( new UIImage ("minus-round-centred.png"), FS_MinusLabel);
 			AddImageToLabel( new UIImage ("minus-round-centred.png"), FT_minusLabel);
-
-			Title = _dashboardViewmodel.UserName;
 		}
 
 		private void AddImageToLabel( UIImage image, UILabel label )
@@ -199,6 +197,9 @@ namespace AccountExecutiveApp.iOS
 		        SetFloThruLabels();
 		        SetJobsLabels();
 		        RemoveOverlay();
+
+                NavigationItem.Title = _dashboardViewmodel.UserName;
+		        TabBarItem.Title = "Dashboard";
 		    });
 		}
 
