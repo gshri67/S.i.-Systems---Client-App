@@ -140,11 +140,9 @@ namespace AccountExecutiveApp.iOS
 				}
 			};
 
-			var jobsListVC = (JobsClientListViewController)Storyboard.InstantiateViewController("JobsClientListViewController");
-
 			JobsButtonOverlay.TouchUpInside += delegate 
 			{
-				//contractListVC.setContracts( _dashboardViewmodel.EndingFullySourcedContracts );
+                var jobsListVC = (JobsClientListViewController)Storyboard.InstantiateViewController("JobsClientListViewController");
 				ShowViewController( jobsListVC, this );
 			};
 		}
