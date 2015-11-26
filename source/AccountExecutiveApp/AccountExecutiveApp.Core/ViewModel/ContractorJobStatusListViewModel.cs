@@ -42,12 +42,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task GetContractorsWithJobIdAndStatus(int id, JobStatus status)
         {
-            if( status == JobStatus.Shortlisted )
-                Contractors = await _api.GetShortlistedContractorsWithJobId( id );
-            else if (status == JobStatus.Proposed)
-                Contractors = await _api.GetProposedContractorsWithJobId(id);
-            else if (status == JobStatus.Callout)
-                Contractors = await _api.GetCalloutContractorsWithJobId(id);
+            Contractors = await _api.GetContractorsWithJobIdAndStatus(id, status);
         }
 
         public int NumberOfContractors()

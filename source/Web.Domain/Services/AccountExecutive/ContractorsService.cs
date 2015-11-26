@@ -9,12 +9,12 @@ using SiSystems.Web.Domain.Context;
 
 namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 {
-    public class ContractorService
+    public class ContractorsService
     {
         private readonly IContractorRepository _repo;
         private readonly ISessionContext _context;
         
-        public ContractorService(IContractorRepository repo, ISessionContext context)
+        public ContractorsService(IContractorRepository repo, ISessionContext context)
         {
             _repo = repo;
             _context = context;
@@ -34,6 +34,20 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             //todo: who isn't allowed to see which contractors?
             if(false)
                 throw new UnauthorizedAccessException();
+        }
+
+        public IEnumerable<Contractor> GetContractorsByJobIdAndStatus(int id, JobStatus status)
+        {
+            IEnumerable<Contractor> contractors = Enumerable.Empty<Contractor>();
+
+            if( status == JobStatus.Shortlisted )
+                contractors = _repo.GetShortlistedContractorsByJobId(id);
+            else if (status == JobStatus.Proposed)
+                contractors = _repo.GetProposedContractorsByJobId(id);
+            else if (status == JobStatus.Callout)
+                contractors = _repo.GetCalloutContractorsByJobId(id);
+
+            return contractors;
         }
     }
 }

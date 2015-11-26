@@ -10,11 +10,29 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public interface IContractorRepository
     {
         Contractor GetContractorById(int id);
+        IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id);
+        IEnumerable<Contractor> GetProposedContractorsByJobId(int id);
+        IEnumerable<Contractor> GetCalloutContractorsByJobId(int id); 
     }
     
     public class ContractorRepository : IContractorRepository
     {
         public Contractor GetContractorById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Contractor> GetProposedContractorsByJobId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Contractor> GetCalloutContractorsByJobId(int id)
         {
             throw new NotImplementedException();
         }
@@ -48,6 +66,57 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 }
             };
         }
+
+        public IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id)
+        {
+            IEnumerable<Contractor> shortlisted = new List<Contractor>
+            {
+                LouFerigno,
+                PeterGriffin,
+                SpiderMan
+            }.AsEnumerable();
+
+            return shortlisted;
+        }
+
+        public IEnumerable<Contractor> GetProposedContractorsByJobId(int id)
+        {
+            IEnumerable<Contractor> proposed = new List<Contractor>
+            {
+                LouFerigno,
+                PeterGriffin
+            }.AsEnumerable();
+
+            return proposed;
+        }
+
+        public IEnumerable<Contractor> GetCalloutContractorsByJobId(int id)
+        {
+            IEnumerable<Contractor> callouts = new List<Contractor>
+            {
+                LouFerigno
+            }.AsEnumerable();
+
+            return callouts;
+        }
+
+        private Contractor LouFerigno = new Contractor
+        {
+            FirstName = "Lou",
+            LastName = "Ferigno",
+        };
+
+        private Contractor PeterGriffin = new Contractor
+        {
+            FirstName = "Peter",
+            LastName = "Griffin",
+        };
+
+        private Contractor SpiderMan = new Contractor
+        {
+            FirstName = "Spider",
+            LastName = "Man",
+        };
 
         private Specialization DeveloperSpecialization = new Specialization
         {

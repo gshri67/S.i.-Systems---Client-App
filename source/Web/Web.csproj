@@ -189,12 +189,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Auth\CustomClaimTypes.cs" />
     <Compile Include="Caching\ObjectCache.cs" />
-    <Compile Include="Controllers\Api\ContractorController.cs" />
+    <Compile Include="Controllers\Api\ContractorsController.cs" />
     <Compile Include="Controllers\Api\ConsultantDetailsController.cs" />
     <Compile Include="Controllers\Api\ClientDetailsController.cs" />
     <Compile Include="Controllers\Api\ConsultantMessagesController.cs" />
     <Compile Include="Controllers\Api\DashboardController.cs" />
-    <Compile Include="Controllers\Api\JobController.cs" />
+    <Compile Include="Controllers\Api\JobsController.cs" />
     <Compile Include="Controllers\Api\RemittancesController .cs" />
     <Compile Include="Controllers\Api\PayPeriodsController.cs" />
     <Compile Include="Controllers\Api\TimesheetApproversController.cs" />
@@ -275,7 +275,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\ConsultantContracts\" />
     <Folder Include="Views\Dashboard\" />
-    <Folder Include="Views\Job\" />
+    <Folder Include="Views\Jobs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

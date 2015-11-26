@@ -206,19 +206,19 @@ namespace Shared.Core
 			return await ExecuteWithDefaultClient<DashboardSummary>();
 		}
 
-        [HttpGet("Job")]
+        [HttpGet("Jobs")]
         public async Task<IEnumerable<Job>> GetJobs()
         {
             return await ExecuteWithDefaultClient<IEnumerable<Job>>();
         }
 
-        [HttpGet("Job/Summary")]
+        [HttpGet("Jobs/Summaries")]
         public async Task<IEnumerable<JobSummary>> GetJobSummaries()
         {
             return await ExecuteWithDefaultClient<IEnumerable<JobSummary>>();
         }
 
-        [HttpGet("Job/{id}")]
+        [HttpGet("Jobs/Client/{id}")]
         public async Task<IEnumerable<Job>> GetJobsWithClientID( int id )
         {
             return await ExecuteWithDefaultClient<IEnumerable<Job>>(new {id} );
@@ -236,29 +236,19 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<ConsultantContract>(new {id});
         }
 
-        [HttpGet("Job/WithJobId/{id}")]
+        [HttpGet("Jobs/{id}")]
         public async Task<Job> GetJobWithJobId(int id)
         {
             return await ExecuteWithDefaultClient<Job>(new { id });
         }
 
-        [HttpGet("Job/Contractors/Shortlisted/{id}")]
-        public async Task<IEnumerable<Contractor>> GetShortlistedContractorsWithJobId(int id)
+        [HttpGet("Contractors/Job/{id}/Status/{status}")]
+        public async Task<IEnumerable<Contractor>> GetContractorsWithJobIdAndStatus(int id, JobStatus status )
         {
-            return await ExecuteWithDefaultClient<IEnumerable<Contractor>>(new { id });
-        }
-        [HttpGet("Job/Contractors/Proposed/{id}")]
-        public async Task<IEnumerable<Contractor>> GetProposedContractorsWithJobId(int id)
-        {
-            return await ExecuteWithDefaultClient<IEnumerable<Contractor>>(new { id });
-        }
-        [HttpGet("Job/Contractors/Callout/{id}")]
-        public async Task<IEnumerable<Contractor>> GetCalloutContractorsWithJobId(int id)
-        {
-            return await ExecuteWithDefaultClient<IEnumerable<Contractor>>(new { id });
+            return await ExecuteWithDefaultClient<IEnumerable<Contractor>>(new { id, status });
         }
 
-        [HttpGet("Job/Details/{id}")]
+        [HttpGet("Jobs/Details/{id}")]
         public async Task<JobDetails> GetJobDetails(int id)
         {
             return await ExecuteWithDefaultClient<JobDetails>(new { id });

@@ -17,12 +17,12 @@ using SiSystems.ClientApp.Web.Filters;
 namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
 {
     [AccountExecutiveAccessAuthorization]
-    [RoutePrefix("api/Job")]
-    public class JobController : ApiController
+    [RoutePrefix("api/Jobs")]
+    public class JobsController : ApiController
     {
 
         private readonly JobService _service;
-        public  JobController(JobService service)
+        public  JobsController(JobService service)
         {
            _service = service;
         }
@@ -33,21 +33,21 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, jobs);
         }
 
-        [Route("Summary")]
+        [Route("Summaries")]
         public HttpResponseMessage GetJobSummaries()
         {
             var jobSummaries = _service.GetJobSummaries();
             return Request.CreateResponse(HttpStatusCode.OK, jobSummaries);
         }
 
-        [Route("{id}")]
+        [Route("Client/{id}")]
         public HttpResponseMessage GetJobsByClientID(int id)
         {
             var jobs = _service.GetJobsByClientId(id);
             return Request.CreateResponse(HttpStatusCode.OK, jobs);
         }
 
-        [Route("WithJobId/{id}")]
+        [Route("{id}")]
         public HttpResponseMessage GetJobWithJobId(int id)
         {
             var job = _service.GetJobWithJobId(id);
@@ -61,26 +61,6 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
         {
             var job = _service.GetJobDetailsById(id);
             return Request.CreateResponse(HttpStatusCode.OK, job);
-        }
-
-
-        [Route("Contractors/Shortlisted/{id}")]
-        public HttpResponseMessage GetShortlistedContractorsByJobId(int id)
-        {
-            var contractors = _service.GetShortlistedContractorsByJobId(id);
-            return Request.CreateResponse(HttpStatusCode.OK, contractors);
-        }
-        [Route("Contractors/Proposed/{id}")]
-        public HttpResponseMessage GetProposedContractorsByJobId(int id)
-        {
-            var contractors = _service.GetProposedContractorsByJobId(id);
-            return Request.CreateResponse(HttpStatusCode.OK, contractors);
-        }
-        [Route("Contractors/Callout/{id}")]
-        public HttpResponseMessage GetCalloutContractorsByJobId(int id)
-        {
-            var contractors = _service.GetCalloutContractorsByJobId(id);
-            return Request.CreateResponse(HttpStatusCode.OK, contractors);
         }
     }
 }

@@ -14,9 +14,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<Job> GetJobsByAccountExecutiveId(int id);
         IEnumerable<Job> GetJobsByClientId(int id);
         Job GetJobWithJobId(int id);
-        IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id);
-        IEnumerable<Contractor> GetProposedContractorsByJobId(int id);
-        IEnumerable<Contractor> GetCalloutContractorsByJobId(int id);
         IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id);
     }
 
@@ -42,21 +39,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
         public Job GetJobWithJobId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Contractor> GetProposedContractorsByJobId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Contractor> GetCalloutContractorsByJobId(int id)
         {
             throw new NotImplementedException();
         }
@@ -128,39 +110,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public Job GetJobWithJobId(int id)
         {
             return BusinessAnalyst;
-        }
-
-        public IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id)
-        {
-            IEnumerable<Contractor> shortlisted = new List<Contractor>
-            {
-                LouFerigno,
-                PeterGriffin,
-                SpiderMan
-            }.AsEnumerable();
-
-            return shortlisted;
-        }
-
-        public IEnumerable<Contractor> GetProposedContractorsByJobId(int id)
-        {
-            IEnumerable<Contractor> proposed = new List<Contractor>
-            {
-                LouFerigno,
-                PeterGriffin
-            }.AsEnumerable();
-
-            return proposed;
-        }
-
-        public IEnumerable<Contractor> GetCalloutContractorsByJobId(int id)
-        {
-            IEnumerable<Contractor> callouts = new List<Contractor>
-            {
-                LouFerigno
-            }.AsEnumerable();
-
-            return callouts;
         }
 
         public IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id)

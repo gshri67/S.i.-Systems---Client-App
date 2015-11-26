@@ -9,16 +9,17 @@ using System.Web.Http;
 using SiSystems.AccountExecutiveApp.Web.Filters;
 using SiSystems.ClientApp.Web.Domain.Services;
 using SiSystems.ClientApp.Web.Domain.Services.AccountExecutive;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Controllers.Api
 {
     [AccountExecutiveAccessAuthorization]
-    [RoutePrefix("api/Contractor")]
-    public class ContractorController : ApiController
+    [RoutePrefix("api/Contractors")]
+    public class ContractorsController : ApiController
     {
-        private readonly ContractorService _service;
+        private readonly ContractorsService _service;
 
-        public ContractorController(ContractorService service)
+        public ContractorsController(ContractorsService service)
         {
             _service = service;
         }
@@ -28,6 +29,13 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
         {
             var contractor = _service.GetContractorById(id);
             return Request.CreateResponse(HttpStatusCode.OK, contractor);
+        }
+
+        [Route("Job/{id}/Status/{status}")]
+        public HttpResponseMessage GetContractorsByJobIdAndStatus( int id, JobStatus status )
+        {
+            var contractors = _service.GetContractorsByJobIdAndStatus(id, status);
+            return Request.CreateResponse(HttpStatusCode.OK, contractors);
         }
     }
 }
