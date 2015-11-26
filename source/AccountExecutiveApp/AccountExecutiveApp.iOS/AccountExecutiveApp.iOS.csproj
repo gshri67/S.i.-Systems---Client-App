@@ -241,6 +241,18 @@
     <BundleResource Include="Resources\tag-light.png" />
     <BundleResource Include="Resources\tag-light%402x.png" />
     <BundleResource Include="Resources\tag-light%403x.png" />
+    <BundleResource Include="Resources\clock-dark.png" />
+    <BundleResource Include="Resources\clock-dark%402x.png" />
+    <BundleResource Include="Resources\clock-dark%403x.png" />
+    <BundleResource Include="Resources\home-dark.png" />
+    <BundleResource Include="Resources\home-dark%402x.png" />
+    <BundleResource Include="Resources\home-dark%403x.png" />
+    <BundleResource Include="Resources\paper-dark.png" />
+    <BundleResource Include="Resources\paper-dark%402x.png" />
+    <BundleResource Include="Resources\paper-dark%403x.png" />
+    <BundleResource Include="Resources\tag-dark.png" />
+    <BundleResource Include="Resources\tag-dark%402x.png" />
+    <BundleResource Include="Resources\tag-dark%403x.png" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
