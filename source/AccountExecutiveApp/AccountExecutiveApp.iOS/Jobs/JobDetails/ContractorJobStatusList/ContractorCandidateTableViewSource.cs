@@ -24,7 +24,7 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
             cell.TextLabel.Text = _parentModel.ContractorNameByRowNumber(rowNumber);
 
             if (cell.DetailTextLabel != null)
-                cell.DetailTextLabel.Text = _parentModel.ContractorStatusByRowNumber(rowNumber);
+                cell.DetailTextLabel.Text = _parentModel.FormattedContractorStatusByRowNumber(rowNumber);
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -33,11 +33,11 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
 
 			cell.UpdateCell 
 			(
-				mainText: "Bob Smith",
-				billRate: "$188.88",
-				payRate: "$125.00",
-				grossMargin: "$50.00",
-				markup: "$76.12"
+				mainText: _parentModel.ContractorNameByRowNumber((int)indexPath.Item),
+				billRate: _parentModel.FormattedBillRateByRowNumber((int)indexPath.Item),
+				payRate: _parentModel.FormattedPayRateByRowNumber((int)indexPath.Item),
+				grossMargin: _parentModel.FormattedGrossMarginByRowNumber((int)indexPath.Item),
+				markup: _parentModel.FormattedMarkupByRowNumber((int)indexPath.Item)
 			);
             //SetCellTextByRowNumber(cell, (int)indexPath.Item);
 

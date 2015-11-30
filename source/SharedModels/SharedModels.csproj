@@ -72,6 +72,7 @@
     <Compile Include="AccountExecutive.cs" />
     <Compile Include="DashboardSummary.cs" />
     <Compile Include="Contractor.cs" />
+    <Compile Include="ProposedContractor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

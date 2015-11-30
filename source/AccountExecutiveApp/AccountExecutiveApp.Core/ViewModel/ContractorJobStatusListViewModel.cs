@@ -12,6 +12,7 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private IEnumerable<Contractor> _contractors;
         private readonly IMatchGuideApi _api;
+		public JobStatus Status;
 
         public string ClientName { get; set; }
 
@@ -36,6 +37,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             ClientName = clientName;
 
             var task = GetContractorsWithJobIdAndStatus(Id, status);
+			Status = status;
 
             return task;
         }
@@ -60,11 +62,74 @@ namespace AccountExecutiveApp.Core.ViewModel
             return contractor.FullName;
         }
 
-        public string ContractorStatusByRowNumber(int rowNumber)
+        public string FormattedContractorStatusByRowNumber(int rowNumber)
         {
-            //var contractor = Consultants.ElementAtOrDefault(rowNumber);
+			//var contractor = _contractors.ElementAtOrDefault(rowNumber);
             //return contractor == null ? string.Empty : contractor.FullName;
-            return string.Empty;
+			//return contractor == null ? string.Empty : contractor.;
+			return string.Empty;
         }
+
+
+		//Can access rates if proposed contractor
+		public string FormattedBillRateByRowNumber( int rowNumber )
+		{
+			if (Status == JobStatus.Proposed) 
+			{
+				try
+				{
+					ProposedContractor proposedContractor = (ProposedContractor)_contractors.ElementAt (rowNumber);
+					return proposedContractor.BillRate.ToString();
+				}
+				catch( Exception e ){}
+			}
+
+			return string.Empty;
+		}
+
+		public string FormattedPayRateByRowNumber( int rowNumber )
+		{
+			if (Status == JobStatus.Proposed) 
+			{
+				try
+				{
+					ProposedContractor proposedContractor = (ProposedContractor)_contractors.ElementAt (rowNumber);
+					return proposedContractor.PayRate.ToString();
+				}
+				catch( Exception e ){}
+			}
+
+			return string.Empty;
+		}
+
+		public string FormattedGrossMarginByRowNumber( int rowNumber )
+		{
+			if (Status == JobStatus.Proposed) 
+			{
+				try
+				{
+					ProposedContractor proposedContractor = (ProposedContractor)_contractors.ElementAt (rowNumber);
+					return proposedContractor.GrossMargin.ToString();
+				}
+				catch( Exception e ){}
+			}
+
+			return string.Empty;
+		}
+
+		public string FormattedMarkupByRowNumber( int rowNumber )
+		{
+			if (Status == JobStatus.Proposed) 
+			{
+				try
+				{
+					ProposedContractor proposedContractor = (ProposedContractor)_contractors.ElementAt (rowNumber);
+					return proposedContractor.Markup.ToString();
+				}
+				catch( Exception e ){}
+			}
+
+			return string.Empty;
+		}
     }
 }
