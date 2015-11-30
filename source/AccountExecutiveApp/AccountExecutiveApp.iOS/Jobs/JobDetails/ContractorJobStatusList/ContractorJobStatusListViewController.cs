@@ -15,7 +15,7 @@ namespace AccountExecutiveApp.iOS
     public partial class ContractorJobStatusListViewController : UITableViewController
 	{
 	    private readonly ContractorJobStatusListViewModel _viewModel;
-	    public const string CellIdentifier = "CandidateCell";
+	    public const string CellIdentifier = "ProposedContractorsTableViewCell";
 		private SubtitleHeaderView _subtitleHeaderView;
 		private string Subtitle;
         private JobStatus _status;
@@ -37,7 +37,7 @@ namespace AccountExecutiveApp.iOS
             if (TableView == null)
                 return;
 
-            TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellIdentifier);
+			TableView.RegisterClassForCellReuse(typeof(ProposedContractorsTableViewCell), CellIdentifier);
 
             TableView.Source = new ContractorCandidateTableViewSource(this, _viewModel);
 			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);

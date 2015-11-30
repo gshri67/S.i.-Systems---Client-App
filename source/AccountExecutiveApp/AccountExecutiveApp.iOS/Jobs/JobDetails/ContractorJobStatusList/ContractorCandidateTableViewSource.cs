@@ -29,9 +29,17 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = tableView.DequeueReusableCell(ContractorJobStatusListViewController.CellIdentifier) as RightDetailCell;
+			var cell = tableView.DequeueReusableCell(ContractorJobStatusListViewController.CellIdentifier) as ProposedContractorsTableViewCell;
 
-            SetCellTextByRowNumber(cell, (int)indexPath.Item);
+			cell.UpdateCell 
+			(
+				mainText: "Bob Smith",
+				billRate: "$188.88",
+				payRate: "$125.00",
+				grossMargin: "$50.00",
+				markup: "$76.12"
+			);
+            //SetCellTextByRowNumber(cell, (int)indexPath.Item);
 
             return cell;
         }

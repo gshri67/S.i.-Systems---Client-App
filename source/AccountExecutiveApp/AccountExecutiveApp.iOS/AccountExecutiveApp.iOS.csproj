@@ -196,6 +196,10 @@
       <DependentUpon>ContractDetailsViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Contracts\ContractDetailsTableViewSource.cs" />
+    <Compile Include="ProposedContractorsTableViewCell.cs" />
+    <Compile Include="ProposedContractorsTableViewCell.designer.cs">
+      <DependentUpon>ProposedContractorsTableViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
