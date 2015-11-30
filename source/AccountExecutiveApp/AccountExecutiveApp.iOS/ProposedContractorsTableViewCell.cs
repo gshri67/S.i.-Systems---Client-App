@@ -244,6 +244,16 @@ namespace AccountExecutiveApp.iOS
 			PayRateValueLabel.Text = payRate;
 			GrossMarginValueLabel.Text = grossMargin;
 			MarkupValueLabel.Text = markup;
+
+		    HideRateInformation(billRate == string.Empty);
 		}
+
+	    private void HideRateInformation( bool hide )
+	    {
+	        BillRateNameLabel.Hidden = hide;
+            PayRateNameLabel.Hidden = hide;
+            GrossMarginNameLabel.Hidden = hide;
+            MarkupNameLabel.Hidden = hide;
+	    }
 	}
 }

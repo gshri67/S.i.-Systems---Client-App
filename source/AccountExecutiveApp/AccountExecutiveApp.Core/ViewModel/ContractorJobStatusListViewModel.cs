@@ -74,60 +74,32 @@ namespace AccountExecutiveApp.Core.ViewModel
 		//Can access rates if proposed contractor
 		public string FormattedBillRateByRowNumber( int rowNumber )
 		{
-			if (Status == JobStatus.Proposed) 
-			{
-				try
-				{
-					ProposedContractor proposedContractor = (ProposedContractor)_contractors.ElementAt (rowNumber);
-					return proposedContractor.BillRate.ToString();
-				}
-				catch( Exception e ){}
-			}
+			if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
+                return _contractors.ElementAt(rowNumber).BillRate.ToString();
 
 			return string.Empty;
 		}
 
 		public string FormattedPayRateByRowNumber( int rowNumber )
 		{
-			if (Status == JobStatus.Proposed) 
-			{
-				try
-				{
-					ProposedContractor proposedContractor = (ProposedContractor)_contractors.ElementAt (rowNumber);
-					return proposedContractor.PayRate.ToString();
-				}
-				catch( Exception e ){}
-			}
+            if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
+                return _contractors.ElementAt(rowNumber).PayRate.ToString();
 
 			return string.Empty;
 		}
 
 		public string FormattedGrossMarginByRowNumber( int rowNumber )
 		{
-			if (Status == JobStatus.Proposed) 
-			{
-				try
-				{
-					ProposedContractor proposedContractor = (ProposedContractor)_contractors.ElementAt (rowNumber);
-					return proposedContractor.GrossMargin.ToString();
-				}
-				catch( Exception e ){}
-			}
+            if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
+                return _contractors.ElementAt(rowNumber).GrossMargin.ToString();
 
 			return string.Empty;
 		}
 
 		public string FormattedMarkupByRowNumber( int rowNumber )
 		{
-			if (Status == JobStatus.Proposed) 
-			{
-				try
-				{
-					ProposedContractor proposedContractor = (ProposedContractor)_contractors.ElementAt (rowNumber);
-					return proposedContractor.Markup.ToString();
-				}
-				catch( Exception e ){}
-			}
+            if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
+                return _contractors.ElementAt(rowNumber).Markup.ToString();
 
 			return string.Empty;
 		}

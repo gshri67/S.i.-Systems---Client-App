@@ -18,5 +18,10 @@ namespace SiSystems.SharedModels
 			Specializations = Enumerable.Empty<Specialization>();
 			Contracts = Enumerable.Empty<ConsultantContract>();
 		}
+
+        public float BillRate { get; set; }
+        public float PayRate { get; set; }
+        public float GrossMargin { get; set; }
+        public float Markup { get; set; }
 	}
 }

@@ -104,18 +104,30 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             FirstName = "Lou",
             LastName = "Ferigno",
+            BillRate = 176.22f,
+            PayRate = 180.00f,
+            GrossMargin = 30.00f,
+            Markup = 100.22f
         };
 
         private Contractor PeterGriffin = new Contractor
         {
             FirstName = "Peter",
             LastName = "Griffin",
+            BillRate = 176.22f,
+            PayRate = 180.00f,
+            GrossMargin = 30.00f,
+            Markup = 100.22f
         };
 
         private Contractor SpiderMan = new Contractor
         {
             FirstName = "Spider",
             LastName = "Man",
+            BillRate = 176.22f,
+            PayRate = 180.00f,
+            GrossMargin = 30.00f,
+            Markup = 100.22f
         };
 
         private Specialization DeveloperSpecialization = new Specialization
