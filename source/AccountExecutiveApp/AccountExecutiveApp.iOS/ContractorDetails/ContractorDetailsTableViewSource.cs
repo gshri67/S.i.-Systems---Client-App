@@ -23,9 +23,11 @@ namespace AccountExecutiveApp.iOS
 
 			cell.UpdateCell 
 			(
-				mainText: "Contact Info",
-                subtitleText:"Subtitle",
-                rightDetailText:"right detail"
+				mainContactText: "(403) 222-8818",
+                contactTypeText:"Subtitle",
+                canPhone: true,
+                canText: true,
+                canEmail: false
 			);
             return cell;
         }
