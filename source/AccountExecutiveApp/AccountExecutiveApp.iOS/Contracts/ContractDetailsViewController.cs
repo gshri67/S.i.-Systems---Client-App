@@ -61,7 +61,6 @@ namespace AccountExecutiveApp.iOS
             GrossMarginLabel.Text = _viewModel.FormattedGrossMargin;
 			MarkupLabel.Text = _viewModel.FormattedMarkup;
 
-			//ContractTitleLabel.Text = _viewModel.ContractTitle;
 			ClientAndStatusLabel.Text = _viewModel.FormattedClientAndStatus;
 		}
 
@@ -71,16 +70,8 @@ namespace AccountExecutiveApp.iOS
             {
                 _subtitleHeaderView = new SubtitleHeaderView();
                 NavigationItem.TitleView = _subtitleHeaderView;
-					/*
-					string title = _viewModel.ContractTitle;
-					if( title.Length > 25 )
-						title = title.Substring(0,25);
-*/
+
 				_subtitleHeaderView.TitleText = "Contract Details";
-
-				//if( _viewModel != null && _viewModel.CompanyName != null )
-				//	_subtitleHeaderView.SubtitleText = _viewModel.CompanyName;
-
 				_subtitleHeaderView.SubtitleText = "";
 
 				NavigationItem.Title = "";

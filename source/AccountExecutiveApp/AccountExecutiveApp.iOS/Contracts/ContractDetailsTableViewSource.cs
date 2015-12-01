@@ -71,13 +71,13 @@ namespace AccountExecutiveApp.iOS
 
 			return cell;
 		}
-		/*
+		
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			ContractDetailsViewController vc = (ContractDetailsViewController)_parentController.Storyboard.InstantiateViewController ("ContractDetailsViewController");
+            var vc = (ContractorDetailsTableViewController)_parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
 
 			_parentController.ShowViewController ( vc, _parentController );
-		}*/
+		}
 	}
 }
 
