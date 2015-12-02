@@ -18,99 +18,24 @@ namespace AccountExecutiveApp.iOS
         private ContractorDetailsTableViewModel _tableModel;
         private float _specializationCellHeight = -1;
 
-        public ContractorDetailsTableViewSource(ContractorDetailsTableViewController parentController,
-            Contractor contractor)
+        public ContractorDetailsTableViewSource(ContractorDetailsTableViewController parentController, Contractor contractor)
         {
             _parentController = parentController;
-            //_parentModel = parentModel;
-
             _tableModel = new ContractorDetailsTableViewModel(contractor);
-
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            if ((int) indexPath.Item < _tableModel.NumberOfPhoneNumbers())
-            {
-
-                var cell =
-                    tableView.DequeueReusableCell(ContractorDetailsTableViewController.CellIdentifier) as
-                        ContractorContactInfoCell;
-
-                cell.ParentViewController = _parentController;
-
-                cell.UpdateCell
-                    (
-                        mainContactText: _tableModel.FormattedPhoneNumberByRowNumber((int) indexPath.Item),
-                        contactTypeText: "Mobile",
-                        canPhone: true,
-                        canText: true,
-                        canEmail: false
-                    );
-
-                return cell;
-            }
-            if ((int) indexPath.Item < _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails())
-            {
-
-                var cell =
-                    tableView.DequeueReusableCell(ContractorDetailsTableViewController.CellIdentifier) as
-                        ContractorContactInfoCell;
-
-                cell.ParentViewController = _parentController;
-
-                cell.UpdateCell
-                    (
-                        mainContactText:
-                            _tableModel.FormattedEmailByRowNumber((int) indexPath.Item -
-                                                                  _tableModel.NumberOfPhoneNumbers()),
-                        contactTypeText: "Home",
-                        canPhone: false,
-                        canText: false,
-                        canEmail: true
-                    );
-
-                return cell;
-            }
-            else if ((int) indexPath.Item == _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails())
-            {
-                /*
-                var cell =
-                    tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
-                        RightDetailCell;
-
-                cell.TextLabel.Text = "Specialization";
-
-                return cell;
-                 */
-
-                var cell = tableView.DequeueReusableCell("UITableViewCell");
-
-                AddSpecializationAndSkills(_tableModel.Specializations, cell);
-
-                return cell;
-            }
-            else if ((int) indexPath.Item == _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails() + 1)
-            {
-                var cell =
-                    tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
-                        RightDetailCell;
-
-                cell.TextLabel.Text = "Resume";
-
-                return cell;
-            }
-            else if ((int) indexPath.Item == _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails() + 2)
-            {
-                var cell =
-                    tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
-                        RightDetailCell;
-
-                cell.TextLabel.Text = "Contracts";
-                cell.DetailTextLabel.Text = _tableModel.NumberOfContracts().ToString();
-
-                return cell;
-            }
+            if ( IsCallOrTextCell(indexPath) )
+                return GetCallOrTextContactCell(tableView, indexPath);
+            else if ( IsEmailCell(indexPath))
+                return GetEmailContactCell(tableView, indexPath);
+            else if (IsSpecializationCell(indexPath))
+                return GetSpecializationCell(tableView);
+            else if (IsResumeCell(indexPath))
+                return GetResumeCell(tableView);
+            else if (IsContractsCell(indexPath))
+                return GetContractsCell(tableView);
 
             return null;
         }
@@ -125,6 +50,16 @@ namespace AccountExecutiveApp.iOS
             return 1;
         }
 
+        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            if ((int)indexPath.Item == _specializationCellRow && _specializationCellHeight > 0)
+                return _specializationCellHeight;
+            return 44;
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+        }
 
         private void AddSpecializationAndSkills(IEnumerable<Specialization> specs, UITableViewCell cell)
         {
@@ -170,20 +105,89 @@ namespace AccountExecutiveApp.iOS
             return string.Join("\n", lines);
         }
 
-        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+
+        private UITableViewCell GetContractsCell(UITableView tableView)
         {
-            if ((int) indexPath.Item == _specializationCellRow && _specializationCellHeight > 0)
-                return _specializationCellHeight;
-            return 44;
+            var cell =
+                tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
+                    RightDetailCell;
+
+            cell.TextLabel.Text = "Contracts";
+            cell.DetailTextLabel.Text = _tableModel.NumberOfContracts().ToString();
+
+            return cell;
+        }
+
+        private static UITableViewCell GetResumeCell(UITableView tableView)
+        {
+            var cell =
+                tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
+                    RightDetailCell;
+
+            cell.TextLabel.Text = "Resume";
+
+            return cell;
+        }
+
+        private UITableViewCell GetSpecializationCell(UITableView tableView)
+        {
+            var cell = tableView.DequeueReusableCell("UITableViewCell");
+
+            AddSpecializationAndSkills(_tableModel.Specializations, cell);
+
+            return cell;
+        }
+
+        private UITableViewCell GetEmailContactCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell =
+                tableView.DequeueReusableCell(ContractorDetailsTableViewController.CellIdentifier) as
+                    ContractorContactInfoCell;
+
+            cell.ParentViewController = _parentController;
+
+            cell.UpdateCell
+                (
+                    mainContactText:
+                        _tableModel.FormattedEmailByRowNumber((int)indexPath.Item -
+                                                              _tableModel.NumberOfPhoneNumbers()),
+                    contactTypeText: "Home",
+                    canPhone: false,
+                    canText: false,
+                    canEmail: true
+                );
+
+            return cell;
+        }
+
+        private UITableViewCell GetCallOrTextContactCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell =
+                tableView.DequeueReusableCell(ContractorDetailsTableViewController.CellIdentifier) as
+                    ContractorContactInfoCell;
+
+            cell.ParentViewController = _parentController;
+
+            cell.UpdateCell
+                (
+                    mainContactText: _tableModel.FormattedPhoneNumberByRowNumber((int)indexPath.Item),
+                    contactTypeText: "Mobile",
+                    canPhone: true,
+                    canText: true,
+                    canEmail: false
+                );
+
+            return cell;
         }
 
         private int _specializationCellRow { get { return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails(); } }
-        private bool IsSpecializationCellRow(NSIndexPath indexPath)
-        {
-            if ((int) indexPath.Item == _specializationCellRow)
-                return true;
-            return false;
-        }
+        private bool IsSpecializationCell(NSIndexPath indexPath){ return (int) indexPath.Item == _specializationCellRow; }
+
+        private int _resumeCellRow { get { return _specializationCellRow + 1; } }
+        private bool IsResumeCell(NSIndexPath indexPath) { return (int)indexPath.Item == _resumeCellRow; }
+
+        private int _contractsCellRow { get { return _resumeCellRow + 1; } }
+        private bool IsContractsCell(NSIndexPath indexPath) { return (int)indexPath.Item == _contractsCellRow; }
 
         private int _firstPhoneNumberCellIndex { get { return 0; } }
         private int _numberOfPhoneNumberCells { get { return _tableModel.NumberOfPhoneNumbers(); } }
@@ -194,8 +198,13 @@ namespace AccountExecutiveApp.iOS
             return false;
         }
 
-        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        private int _firstEmailCellIndex { get { return _numberOfPhoneNumberCells; } }
+        private int _numberOfEmailCells { get { return _tableModel.NumberOfEmails(); } }
+        private bool IsEmailCell(NSIndexPath indexPath)
         {
+            if ((int)indexPath.Item >= _firstEmailCellIndex && (int)indexPath.Item < _firstEmailCellIndex + _numberOfEmailCells)
+                return true;
+            return false;
         }
     }
 }

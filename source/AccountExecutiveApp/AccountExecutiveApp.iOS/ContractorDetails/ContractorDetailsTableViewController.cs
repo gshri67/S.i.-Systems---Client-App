@@ -16,19 +16,18 @@ namespace AccountExecutiveApp.iOS
 	{
 	    private readonly ContractorDetailsViewModel _viewModel;
 	    public const string CellIdentifier = "ContractorContactInfoCell";
-        public int Id;
+        private int _id;
 
 		public ContractorDetailsTableViewController (IntPtr handle) : base (handle)
 		{
             _viewModel = DependencyResolver.Current.Resolve<ContractorDetailsViewModel>();
 		}
-    /*
-        public void LoadContractorsWithJobIdAndStatusAndClientName( int Id, JobStatus status, string clientName )
+
+        public void setContractorId(int Id)
         {
-            _status = status;
-            var task = _viewModel.LoadContractorsWithJobIDAndStatusAndClientName( Id, status, clientName );
-            task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
-        }*/
+            _id = Id;
+            LoadContractor();
+        }
 
         private void InstantiateTableViewSource()
         {
@@ -55,20 +54,16 @@ namespace AccountExecutiveApp.iOS
             base.ViewDidLoad();
 
 			UpdatePageTitle ();
-
-            LoadContractor();
         }
-
 
 		private void UpdatePageTitle()
 		{
 		    Title = _viewModel.PageTitle;
 		}
 
-
         public async void LoadContractor()
         {
-            var task = _viewModel.LoadContractor(Id);
+            var task = _viewModel.LoadContractor(_id);
             task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 	}
