@@ -13,3 +13,5 @@ INSERT INTO [dbo].[ActivityType]
      VALUES
            (284, 'DirectReportChange', 'Change of Direct Report', 'Direct Report Changed', 0, 1, 1, 0, -1)
 GO
+
+SET IDENTITY_INSERT [dbo].[ActivityType] OFF;
