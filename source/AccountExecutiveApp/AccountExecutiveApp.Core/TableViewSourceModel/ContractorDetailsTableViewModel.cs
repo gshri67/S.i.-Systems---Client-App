@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.Core.TableViewSourceModel
@@ -37,7 +38,12 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
         public int NumberOfContracts()
         {
-            return 3;
+            return _contractor.Contracts.Count();
+        }
+
+        public IEnumerable<Specialization> Specializations
+        {
+            get { return _contractor.Specializations; }
         }
     }
 }

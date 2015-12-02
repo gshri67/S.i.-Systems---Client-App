@@ -38,6 +38,7 @@ namespace AccountExecutiveApp.iOS
 			TableView.RegisterClassForCellReuse(typeof(ContractorContactInfoCell), CellIdentifier);
             TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleWithRightDetailCell.CellIdentifier);
             TableView.RegisterClassForCellReuse(typeof(RightDetailCell), RightDetailCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
             TableView.Source = new ContractorDetailsTableViewSource(this, _viewModel.Contractor);
 			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);

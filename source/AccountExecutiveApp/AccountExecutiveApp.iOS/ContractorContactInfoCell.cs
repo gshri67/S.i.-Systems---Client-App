@@ -16,6 +16,8 @@ namespace AccountExecutiveApp.iOS
         public UIButton LeftDetailIconButton;//also on right side, to the left of right detail icon
         public UIViewController ParentViewController;
 
+        public UIButton ButtonOverlay;
+
         public ContractorContactInfoCell(IntPtr handle)
             : base(handle)
         {
@@ -39,6 +41,7 @@ namespace AccountExecutiveApp.iOS
 
             CreateAndAddRightDetailIconButton();
             CreateAndAddLeftDetailIconButton();
+            CreateButtonOverlay();
         }
 
         private void CreateAndAddRightDetailIconButton()
@@ -90,6 +93,17 @@ namespace AccountExecutiveApp.iOS
             AddSubview(MainContactTextLabel);
         }
 
+        private void CreateButtonOverlay()
+        {
+            ButtonOverlay = new UIButton
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                TitleLabel = { Text = "" },
+                BackgroundColor = UIColor.Clear
+            };
+            AddSubview(ButtonOverlay);
+        }
+
         public ContractorContactInfoCell(string cellId)
             : base(UITableViewCellStyle.Default, cellId)
         {
@@ -103,6 +117,15 @@ namespace AccountExecutiveApp.iOS
 
             AddMainContactTextLabelConstraints();
             AddContactTypeTextLabelConstraints();
+            AddButtonOverlayConstraints();
+        }
+
+        private void AddButtonOverlayConstraints()
+        {
+            AddConstraint(NSLayoutConstraint.Create(ButtonOverlay, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Left, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(ButtonOverlay, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(ButtonOverlay, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(ButtonOverlay, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, 0f));
         }
 
         private void AddMainContactTextLabelConstraints()
@@ -153,13 +176,23 @@ namespace AccountExecutiveApp.iOS
         {
             RightDetailIconButton.SetAttributedTitle(GetAttributedStringWithImage(new UIImage("ios7-telephone-outline.png"), 25), UIControlState.Normal);
 
-            RightDetailIconButton.TouchUpInside += delegate
-            {
-                NSUrl url = new NSUrl( string.Format(@"telprompt://{0}", phoneNumber));
-                //NSUrl url = new NSUrl(string.Format(@"tel://{0}", phoneNumber));
-                if( UIApplication.SharedApplication.CanOpenUrl(url) )
-                    UIApplication.SharedApplication.OpenUrl(url);
-            };
+            RightDetailIconButton.TouchUpInside += delegate{ CallNumber(phoneNumber); };
+            ButtonOverlay.TouchUpInside += delegate { CallNumber(phoneNumber); }; 
+        }
+
+        public void CallNumber( string number )
+        {
+            NSUrl url = new NSUrl(string.Format(@"telprompt://{0}", number));
+            //NSUrl url = new NSUrl(string.Format(@"tel://{0}", phoneNumber));
+            if (UIApplication.SharedApplication.CanOpenUrl(url))
+                UIApplication.SharedApplication.OpenUrl(url);
+        }
+
+        public void TextNumber(string number)
+        {
+            NSUrl url = new NSUrl(string.Format(@"sms:{0}", number));
+            if (UIApplication.SharedApplication.CanOpenUrl(url))
+                UIApplication.SharedApplication.OpenUrl(url);
         }
 
         public void AddTextingIcon(string phoneNumber)
@@ -168,9 +201,7 @@ namespace AccountExecutiveApp.iOS
 
             LeftDetailIconButton.TouchUpInside += delegate
             {
-                NSUrl url = new NSUrl(string.Format(@"sms:{0}", phoneNumber));
-                if (UIApplication.SharedApplication.CanOpenUrl(url))
-                    UIApplication.SharedApplication.OpenUrl(url);
+                TextNumber(phoneNumber);
             };
         }
         public void AddEmailIcon(string emailAddress)
@@ -178,24 +209,27 @@ namespace AccountExecutiveApp.iOS
             RightDetailIconButton.SetAttributedTitle(GetAttributedStringWithImage(new UIImage("ios7-email-outline.png"), 25), UIControlState.Normal);
 
 
-            RightDetailIconButton.TouchUpInside += delegate
+            RightDetailIconButton.TouchUpInside += delegate{ EmailAtAddress(emailAddress); };
+            ButtonOverlay.TouchUpInside += delegate { EmailAtAddress(emailAddress); };
+        }
+
+        public void EmailAtAddress( string emailAddress )
+        {
+            if (MFMailComposeViewController.CanSendMail && ParentViewController != null)
             {
-                if (MFMailComposeViewController.CanSendMail && ParentViewController != null)
+                MFMailComposeViewController mailController = new MFMailComposeViewController();
+
+                mailController.SetToRecipients(new string[] { emailAddress });
+
+                mailController.Finished += (s, args) =>
                 {
-                    MFMailComposeViewController mailController = new MFMailComposeViewController();
-
-                    mailController.SetToRecipients(new string[] { emailAddress });
-
-                    mailController.Finished += (s, args) =>
-                    {
-                        Console.WriteLine(args.Result.ToString());
-                        args.Controller.DismissViewController(true, null);
-                    };
+                    Console.WriteLine(args.Result.ToString());
+                    args.Controller.DismissViewController(true, null);
+                };
 
 
-                    ParentViewController.PresentViewController(mailController, true, null);
-                }
-            };
+                ParentViewController.PresentViewController(mailController, true, null);
+            }
         }
 
         private NSAttributedString GetAttributedStringWithImage(UIImage image, float size)
