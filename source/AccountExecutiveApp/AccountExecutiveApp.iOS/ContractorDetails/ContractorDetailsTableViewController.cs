@@ -38,7 +38,7 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleWithRightDetailCell.CellIdentifier);
             TableView.RegisterClassForCellReuse(typeof(RightDetailCell), RightDetailCell.CellIdentifier);
 
-            TableView.Source = new ContractorDetailsTableViewSource(this);
+            TableView.Source = new ContractorDetailsTableViewSource(this, _viewModel.Consultant);
 			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
             TableView.ReloadData();
         }
