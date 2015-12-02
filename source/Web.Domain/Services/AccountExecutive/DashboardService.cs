@@ -27,7 +27,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             var dashboardInfo = new DashboardSummary
             {
 				UserName = _session.CurrentUser.FullName,
-                FlowThruContracts = _contractsRepository.GetFlowThruSummaryByAccountExecutiveId(_session.CurrentUser.Id),
+                FlowThruContracts = _contractsRepository.GetFloThruSummaryByAccountExecutiveId(_session.CurrentUser.Id),
                 FullySourcedContracts = _contractsRepository.GetFullySourcedSummaryByAccountExecutiveId(_session.CurrentUser.Id),
                 Jobs = _jobsRepository.GetJobsSummaryByAccountExecutiveId(_session.CurrentUser.Id)
             };

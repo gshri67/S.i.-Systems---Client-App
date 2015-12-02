@@ -40,7 +40,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
                 Starting = 17,
                 Ending = 12
             };
-            _contractsRepoMock.Setup(repository => repository.GetFlowThruSummaryByAccountExecutiveId(It.IsAny<int>()))
+            _contractsRepoMock.Setup(repository => repository.GetFloThruSummaryByAccountExecutiveId(It.IsAny<int>()))
                 .Returns(contractSummaryToReturn);
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
@@ -96,7 +96,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         [Test]
         public void GetDashboardSummary_CallsGetFlowThruSummary()
         {
-            _contractsRepoMock.Setup(repository => repository.GetFlowThruSummaryByAccountExecutiveId(It.IsAny<int>()));
+            _contractsRepoMock.Setup(repository => repository.GetFloThruSummaryByAccountExecutiveId(It.IsAny<int>()));
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
 
