@@ -192,7 +192,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             get
             {
-                return string.Format("{0} {1} {2}", 
+                return string.Format("{1} {0} {2} {0} {3}", 
+                    Environment.NewLine,
                     NumberOfContractsForAccountExecutiveQuery, 
                     FullySourcedFilter,
                     ActiveContractsFilter);
@@ -203,7 +204,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             get
             {
-                return string.Format("{0} {1} {2}", 
+                return string.Format("{1} {0} {2} {0} {3}",
+                    Environment.NewLine, 
                     NumberOfContractsForAccountExecutiveQuery, 
                     FullySourcedFilter,
                     StartingContractsFilter);
@@ -214,7 +216,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             get
             {
-                return string.Format("{0} {1} {2}", 
+                return string.Format("{1} {0} {2} {0} {3}",
+                    Environment.NewLine,
                     NumberOfContractsForAccountExecutiveQuery, 
                     FullySourcedFilter,
                     EndingContractsFilter);
@@ -225,7 +228,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             get
             {
-                return string.Format("{0} {1} {2}", 
+                return string.Format("{1} {0} {2} {0} {3}",
+                    Environment.NewLine,
                     NumberOfContractsForAccountExecutiveQuery, 
                     FloThruFilter,
                     ActiveContractsFilter);
@@ -236,7 +240,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             get
             {
-                return string.Format("{0} {1} {2}", 
+                return string.Format("{1} {0} {2} {0} {3}",
+                    Environment.NewLine,
                     NumberOfContractsForAccountExecutiveQuery, 
                     FloThruFilter,
                     StartingContractsFilter);
@@ -247,7 +252,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             get
             {
-                return string.Format("{0} {1} {2}", 
+                return string.Format("{1} {0} {2} {0} {3}",
+                    Environment.NewLine,
                     NumberOfContractsForAccountExecutiveQuery, 
                     FloThruFilter,
                     EndingContractsFilter);

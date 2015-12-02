@@ -61,8 +61,8 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<IObjectCache, ObjectCache>();
             container.RegisterType<HttpMessageHandler, HttpClientHandler>();
             
-            //container.RegisterType<IConsultantContractRepository, ConsultantContractRepository>();
-            container.RegisterType<IConsultantContractRepository, MockedConsultantContractRepository>();
+            container.RegisterType<IConsultantContractRepository, ConsultantContractRepository>();
+            //container.RegisterType<IConsultantContractRepository, MockedConsultantContractRepository>();
         }
     }
 }
