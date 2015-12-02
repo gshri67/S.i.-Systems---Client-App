@@ -47,8 +47,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 Id = 1,
                 FirstName = "Robert",
                 LastName = "Paulson", 
-                EmailAddress = "rp.consultant@email.com",
-                PhoneNumber = "(555)555-1231",
+                EmailAddresses = new List<string>(){ "rp.consultant@email.com"}.AsEnumerable(),
+                PhoneNumbers = new List<string>() { "(555)555-1231", "(555)222-2212" }.AsEnumerable(),
                 Rating = MatchGuideConstants.ResumeRating.Standard,
                 ResumeText = string.Empty,
                 Specializations = new List<Specialization>

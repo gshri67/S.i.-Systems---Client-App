@@ -1,14 +1,28 @@
-﻿using SiSystems.SharedModels;
+﻿using System.Linq;
+using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.Core.TableViewSourceModel
 {
     public class ContractorDetailsTableViewModel
     {
-        private Consultant _consultant;
+        private Contractor _contractor;
 
-        public ContractorDetailsTableViewModel( Consultant consultant )
+        public ContractorDetailsTableViewModel( Contractor contractor )
         {
-            _consultant = consultant;
+            _contractor = contractor;
+        }
+
+        public string FormattedPhoneNumberByRowNumber( int row )
+        {
+            if( _contractor.PhoneNumbers.Count() > row )
+                return _contractor.PhoneNumbers.ElementAt(row);
+            return string.Empty;
+        }
+        public string FormattedEmailByRowNumber(int row)
+        {
+            if (_contractor.EmailAddresses.Count() > row)
+                return _contractor.EmailAddresses.ElementAt(row);
+            return string.Empty;
         }
 
         public int NumberOfPhoneNumbers()

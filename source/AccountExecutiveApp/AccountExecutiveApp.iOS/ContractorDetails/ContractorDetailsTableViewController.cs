@@ -16,6 +16,7 @@ namespace AccountExecutiveApp.iOS
 	{
 	    private readonly ContractorDetailsViewModel _viewModel;
 	    public const string CellIdentifier = "ContractorContactInfoCell";
+        public int Id;
 
 		public ContractorDetailsTableViewController (IntPtr handle) : base (handle)
 		{
@@ -38,7 +39,7 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleWithRightDetailCell.CellIdentifier);
             TableView.RegisterClassForCellReuse(typeof(RightDetailCell), RightDetailCell.CellIdentifier);
 
-            TableView.Source = new ContractorDetailsTableViewSource(this, _viewModel.Consultant);
+            TableView.Source = new ContractorDetailsTableViewSource(this, _viewModel.Contractor);
 			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
             TableView.ReloadData();
         }
@@ -54,9 +55,7 @@ namespace AccountExecutiveApp.iOS
 
 			UpdatePageTitle ();
 
-
-            //remove later
-            UpdateUserInterface();
+            LoadContractor();
         }
 
 
@@ -64,5 +63,12 @@ namespace AccountExecutiveApp.iOS
 		{
 		    Title = _viewModel.PageTitle;
 		}
+
+
+        public async void LoadContractor()
+        {
+            var task = _viewModel.LoadContractor(Id);
+            task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
+        }
 	}
 }

@@ -237,8 +237,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         Id = 3,
                         FirstName = "Joe",
                         LastName = "Dirt",
-                        EmailAddress = "jd@email.com",
-                        PhoneNumber = "(555)555-1234"
+                        EmailAddresses = new List<string>(){ "jd@email.com" }.AsEnumerable(),
+                        PhoneNumbers = new List<string>(){ "(555)555-1234" }.AsEnumerable()
                     },
                     StartDate = DateTime.UtcNow.AddDays(-30),
                     EndDate = DateTime.UtcNow.AddDays(-15),
@@ -252,8 +252,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         Id = 3,
                         FirstName = "Joe",
                         LastName = "Dirt",
-                        EmailAddress = "jd@email.com",
-                        PhoneNumber = "(555)555-1234"
+                        EmailAddresses = new List<string>(){ "jd@email.com" }.AsEnumerable(),
+                        PhoneNumbers = new List<string>(){ "(555)555-1234" }.AsEnumerable()
                     },
                     StartDate = DateTime.UtcNow.AddDays(-14),
                     EndDate = DateTime.UtcNow,
@@ -267,8 +267,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         Id = 4,
                         FirstName = "Marlin",
                         LastName = "Monrow",
-                        EmailAddress = "mm@email.com",
-                        PhoneNumber = "(555)555-6543"
+                        EmailAddresses = new List<string>(){ "mm@email.com" }.AsEnumerable(),
+                        PhoneNumbers = new List<string>(){ "(555)555-6543" }.AsEnumerable()
                     },
                     StartDate = DateTime.UtcNow.AddDays(-30),
                     EndDate = DateTime.UtcNow.AddDays(-15),
@@ -282,8 +282,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         Id = 4,
                         FirstName = "Marlin",
                         LastName = "Monrow",
-                        EmailAddress = "mm@email.com",
-                        PhoneNumber = "(555)555-6543"
+                        EmailAddresses = new List<string>(){ "mm@email.com" }.AsEnumerable(),
+                        PhoneNumbers = new List<string>(){ "(555)555-6543" }.AsEnumerable()
                     },
                     StartDate = DateTime.UtcNow.AddDays(-14),
                     EndDate = DateTime.UtcNow,

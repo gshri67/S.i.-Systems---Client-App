@@ -59,5 +59,6 @@ namespace Shared.Core
         Task<ConsultantContract> GetContractDetailsById(int id);
         Task<Job> GetJobWithJobId(int id);
         Task<IEnumerable<Contractor>> GetContractorsWithJobIdAndStatus(int id, JobStatus status);
+        Task<Contractor> GetContractorById(int id);
     }
 }

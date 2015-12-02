@@ -14,24 +14,20 @@ namespace AccountExecutiveApp.iOS
     {
         private readonly ContractorDetailsTableViewController _parentController;
         private readonly ContractorDetailsTableViewModel _parentModel;
-        private IEnumerable<string> PhoneNumbers;
-        private IEnumerable<string> Emails;
         private ContractorDetailsTableViewModel _tableModel;
 
-        public ContractorDetailsTableViewSource(ContractorDetailsTableViewController parentController, Consultant consultant)
+        public ContractorDetailsTableViewSource(ContractorDetailsTableViewController parentController, Contractor contractor)
         {
             _parentController = parentController;
             //_parentModel = parentModel;
 
-            PhoneNumbers = new List<String>{"", ""}.AsEnumerable();
-            Emails = new List<String> { "" }.AsEnumerable();
-            _tableModel = new ContractorDetailsTableViewModel(consultant);
+            _tableModel = new ContractorDetailsTableViewModel(contractor);
 
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            if ((int)indexPath.Item < _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails())
+            if ((int)indexPath.Item < _tableModel.NumberOfPhoneNumbers())
             {
             
                 var cell =
@@ -40,11 +36,29 @@ namespace AccountExecutiveApp.iOS
 
                 cell.UpdateCell
                 (
-                    mainContactText: "(403) 222-8818",
-                    contactTypeText: "Subtitle",
+                    mainContactText: _tableModel.FormattedPhoneNumberByRowNumber((int)indexPath.Item),
+                    contactTypeText: "Mobile",
                     canPhone: true,
                     canText: true,
                     canEmail: false
+                );
+
+                return cell;
+            }
+            if ((int)indexPath.Item < _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails())
+            {
+
+                var cell =
+                    tableView.DequeueReusableCell(ContractorDetailsTableViewController.CellIdentifier) as
+                        ContractorContactInfoCell;
+
+                cell.UpdateCell
+                (
+                    mainContactText: _tableModel.FormattedEmailByRowNumber((int)indexPath.Item - _tableModel.NumberOfPhoneNumbers()),
+                    contactTypeText: "Home",
+                    canPhone: false,
+                    canText: false,
+                    canEmail: true
                 );
 
                 return cell;

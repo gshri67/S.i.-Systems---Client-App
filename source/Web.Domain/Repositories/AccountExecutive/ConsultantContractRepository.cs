@@ -266,7 +266,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             Id = 1,
             FirstName = "Jon",
             LastName = "Marketer",
-            EmailAddress = "jm@email.com",
+            EmailAddresses = new List<string>() { "jm@email.com" }.AsEnumerable(),
+            PhoneNumbers = Enumerable.Empty<string>(),
             Rating = MatchGuideConstants.ResumeRating.Standard
         };
 
@@ -274,24 +275,24 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             FirstName = "Janice",
             LastName = "McContact",
-            EmailAddress = "cc@email.com",
-            PhoneNumber = "(555)555-1234"
+            EmailAddresses = new List<string>(){ "cc@email.com" }.AsEnumerable(),
+            PhoneNumbers = new List<string>(){ "(555)555-1234" }.AsEnumerable()
         };
 
         private static readonly UserContact BillingContactWilliam = new UserContact
         {
             FirstName = "William",
             LastName = "Payerson",
-            EmailAddress = "will.payerson@email.com",
-            PhoneNumber = "(555)555-4321"
+            EmailAddresses = new List<string>(){ "will.payerson@email.com" }.AsEnumerable(),
+            PhoneNumbers = new List<string>(){ "(555)555-4321" }.AsEnumerable()
         };
 
         private static readonly UserContact DirectReportCandice = new UserContact
         {
             FirstName = "Candice",
             LastName = "Consulty",
-            EmailAddress = "candice.consulty@email.com",
-            PhoneNumber = "(555)555-9876"
+            EmailAddresses = new List<string>(){ "candice.consulty@email.com" }.AsEnumerable(),
+            PhoneNumbers = new List<string>(){ "(555)555-9876" }.AsEnumerable()
         };
 
         private static readonly ConsultantContract ActiveMarketerAtNexenContract = new ConsultantContract

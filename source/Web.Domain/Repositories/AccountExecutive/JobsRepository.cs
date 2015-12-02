@@ -142,8 +142,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             FirstName = "Lucy",
             LastName = "Lu",
-            EmailAddress = "lucy.lu@email.com",
-            PhoneNumber = "(555)555-1234"
+            EmailAddresses = new List<string>(){ "lucy.lu@email.com" }.AsEnumerable(),
+            PhoneNumbers = new List<string>(){ "(555)555-1234" }.AsEnumerable()
         };
 
         private Contractor LouFerigno = new Contractor

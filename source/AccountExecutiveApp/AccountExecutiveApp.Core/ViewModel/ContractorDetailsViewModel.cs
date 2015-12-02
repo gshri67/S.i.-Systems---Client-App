@@ -1,18 +1,44 @@
-﻿using SiSystems.SharedModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Shared.Core;
+using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.Core.ViewModel
 {
     public class ContractorDetailsViewModel
     {
-        private Consultant _consultant;
-        public Consultant Consultant
+        private readonly IMatchGuideApi _api;
+
+        private Contractor _contractor;
+        public Contractor Contractor
         {
-            get { return _consultant ?? new Consultant(); }
-            set { _consultant = value ?? new Consultant(); }
+            get { return _contractor ?? new Contractor(); }
+            set { _contractor = value ?? new Contractor(); }
         }
+
+        public ContractorDetailsViewModel(IMatchGuideApi api)
+		{
+			_api = api;
+		}
 
         public string PageTitle {
             get { return "Bob Smith"; }
         }
+
+        public Task LoadContractor( int Id )
+        {
+            var task = GetContractor( Id );
+
+            return task;
+        }
+
+        private async Task GetContractor( int Id )
+        {
+            Contractor = await _api.GetContractorById(Id);
+        }
+
     }
 }
