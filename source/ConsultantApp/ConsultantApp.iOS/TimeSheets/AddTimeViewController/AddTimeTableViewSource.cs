@@ -17,7 +17,8 @@ namespace ConsultantApp.iOS
 		public IEnumerable<string> ProjectCodes;
 		public IEnumerable<PayRate> PayRates;
 
-		public delegate void TableDelegate(IEnumerable<TimeEntry> timeEntries);
+		public 
+            void TableDelegate(IEnumerable<TimeEntry> timeEntries);
 		public  TableDelegate OnDataChanged;
 
 		private readonly int _normalCellHeight;

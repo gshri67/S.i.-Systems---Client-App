@@ -35,6 +35,8 @@ namespace AccountExecutiveApp.iOS
                 return;
 
 			TableView.RegisterClassForCellReuse(typeof(ContractorContactInfoCell), CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleWithRightDetailCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof(RightDetailCell), RightDetailCell.CellIdentifier);
 
             TableView.Source = new ContractorDetailsTableViewSource(this);
 			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
@@ -60,6 +62,7 @@ namespace AccountExecutiveApp.iOS
 
 		private void UpdatePageTitle()
 		{
+		    Title = _viewModel.PageTitle;
 		}
 	}
 }

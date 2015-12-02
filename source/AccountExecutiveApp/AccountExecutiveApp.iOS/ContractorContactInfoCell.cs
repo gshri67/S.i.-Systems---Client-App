@@ -10,8 +10,8 @@ namespace AccountExecutiveApp.iOS
     {
         public UILabel ContactTypeTextLabel;//mobile, home, etc..
         public UILabel MainContactTextLabel;
-        public UILabel RightDetailIconLabel;
-        public UILabel LeftDetailIconLabel;//also on right side, to the left of right detail icon
+        public UIButton RightDetailIconButton;
+        public UIButton LeftDetailIconButton;//also on right side, to the left of right detail icon
 
         public ContractorContactInfoCell(IntPtr handle)
             : base(handle)
@@ -34,31 +34,33 @@ namespace AccountExecutiveApp.iOS
 
             CreateAndAddContactTypeTextLabel();
 
-            CreateAndAddRightDetailIconLabel();
-            CreateAndAddLeftDetailIconLabel();
+            CreateAndAddRightDetailIconButton();
+            CreateAndAddLeftDetailIconButton();
         }
 
-        private void CreateAndAddRightDetailIconLabel()
+        private void CreateAndAddRightDetailIconButton()
         {
-            RightDetailIconLabel = new UILabel
+            RightDetailIconButton = new UIButton
             {
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                TextAlignment = UITextAlignment.Right,
+                TranslatesAutoresizingMaskIntoConstraints = false, 
+                HorizontalAlignment = UIControlContentHorizontalAlignment.Right,
+                //TextAlignment = UITextAlignment.Right,
                 Font = UIFont.FromName("Helvetica", 14f),
-                TextColor = StyleGuideConstants.MediumGrayUiColor
+                // StyleGuideConstants.MediumGrayUiColor
             };
-            AddSubview(RightDetailIconLabel);
+            AddSubview(RightDetailIconButton);
         }
-        private void CreateAndAddLeftDetailIconLabel()
+        private void CreateAndAddLeftDetailIconButton()
         {
-            LeftDetailIconLabel = new UILabel
+            LeftDetailIconButton = new UIButton
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                TextAlignment = UITextAlignment.Right,
+                HorizontalAlignment = UIControlContentHorizontalAlignment.Right,
+                //TextAlignment = UITextAlignment.Right,
                 Font = UIFont.FromName("Helvetica", 14f),
-                TextColor = StyleGuideConstants.MediumGrayUiColor
+                // StyleGuideConstants.MediumGrayUiColor
             };
-            AddSubview(LeftDetailIconLabel);
+            AddSubview(LeftDetailIconButton);
         }
 
         private void CreateAndAddContactTypeTextLabel()
@@ -103,7 +105,7 @@ namespace AccountExecutiveApp.iOS
         private void AddMainContactTextLabelConstraints()
         {
             AddConstraint(NSLayoutConstraint.Create(MainContactTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(MainContactTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, LeftDetailIconLabel, NSLayoutAttribute.Left, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(MainContactTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, LeftDetailIconButton, NSLayoutAttribute.Left, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(MainContactTextLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 9));
         }
 
@@ -116,18 +118,18 @@ namespace AccountExecutiveApp.iOS
 
         private void AddRightDetailTextLabelContstraints()
         {
-            AddConstraint(NSLayoutConstraint.Create(RightDetailIconLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(RightDetailIconLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(RightDetailIconLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 25f));
-            AddConstraint(NSLayoutConstraint.Create(RightDetailIconLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, RightDetailIconLabel, NSLayoutAttribute.Height,1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailIconButton, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailIconButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailIconButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 25f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailIconButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, RightDetailIconButton, NSLayoutAttribute.Height,1.0f, 0f));
         }
 
         private void AddLeftDetailTextLabelContstraints()
         {
-            AddConstraint(NSLayoutConstraint.Create(LeftDetailIconLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(LeftDetailIconLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, RightDetailIconLabel, NSLayoutAttribute.Left, 1.0f, 8f));
-            AddConstraint(NSLayoutConstraint.Create(LeftDetailIconLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, RightDetailIconLabel, NSLayoutAttribute.Height, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(LeftDetailIconLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, LeftDetailIconLabel, NSLayoutAttribute.Height, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(LeftDetailIconButton, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(LeftDetailIconButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, RightDetailIconButton, NSLayoutAttribute.Left, 1.0f, -10f));
+            AddConstraint(NSLayoutConstraint.Create(LeftDetailIconButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, RightDetailIconButton, NSLayoutAttribute.Height, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(LeftDetailIconButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, LeftDetailIconButton, NSLayoutAttribute.Height, 1.0f, 0f));
         }
 
         public void UpdateCell(string mainContactText, string contactTypeText, bool canText, bool canPhone, bool canEmail )
@@ -137,11 +139,34 @@ namespace AccountExecutiveApp.iOS
             
             if( canPhone )
                 AddPhoneIcon();
+            else if( canEmail )
+                AddEmailIcon();
+
+            if( canText )
+                AddTextingIcon();
         }
 
         public void AddPhoneIcon()
         {
-            RightDetailIconLabel.AttributedText = GetAttributedStringWithImage(new UIImage("plus-round-centred.png"), 25);
+            RightDetailIconButton.SetAttributedTitle( GetAttributedStringWithImage(new UIImage("plus-round-centred.png"), 25), UIControlState.Normal );
+
+            RightDetailIconButton.TouchUpInside += delegate
+            {
+                string phoneNumber = "1231231212332";
+                NSUrl url = new NSUrl( string.Format(@"telprompt://{0}", phoneNumber));
+                //NSUrl url = new NSUrl(string.Format(@"tel://{0}", phoneNumber));
+                if( UIApplication.SharedApplication.CanOpenUrl(url) )
+                    UIApplication.SharedApplication.OpenUrl(url);
+            };
+        }
+
+        public void AddTextingIcon()
+        {
+            LeftDetailIconButton.SetAttributedTitle(GetAttributedStringWithImage(new UIImage("minus-round-centred.png"), 25), UIControlState.Normal);
+        }
+        public void AddEmailIcon()
+        {
+            RightDetailIconButton.SetAttributedTitle(GetAttributedStringWithImage(new UIImage("minus-round-centred.png"), 25), UIControlState.Normal);
         }
 
         private NSAttributedString GetAttributedStringWithImage(UIImage image, float size)

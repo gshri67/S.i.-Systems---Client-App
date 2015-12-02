@@ -7,6 +7,8 @@ namespace AccountExecutiveApp.iOS
 {
 	partial class RightDetailCell : UITableViewCell
 	{
+        public const string CellIdentifier = "RightDetailCell";
+
 		public RightDetailCell (IntPtr handle) : base (handle)
 		{
 		}
