@@ -2,6 +2,8 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using Contacts;
+using MessageUI;
 using UIKit;
 
 namespace AccountExecutiveApp.iOS
@@ -12,6 +14,7 @@ namespace AccountExecutiveApp.iOS
         public UILabel MainContactTextLabel;
         public UIButton RightDetailIconButton;
         public UIButton LeftDetailIconButton;//also on right side, to the left of right detail icon
+        public UIViewController ParentViewController;
 
         public ContractorContactInfoCell(IntPtr handle)
             : base(handle)
@@ -138,21 +141,20 @@ namespace AccountExecutiveApp.iOS
             ContactTypeTextLabel.Text = contactTypeText;
             
             if( canPhone )
-                AddPhoneIcon();
+                AddPhoneIcon(mainContactText);
             else if( canEmail )
-                AddEmailIcon();
+                AddEmailIcon(mainContactText);
 
             if( canText )
-                AddTextingIcon();
+                AddTextingIcon(mainContactText);
         }
 
-        public void AddPhoneIcon()
+        public void AddPhoneIcon( string phoneNumber )
         {
-            RightDetailIconButton.SetAttributedTitle( GetAttributedStringWithImage(new UIImage("plus-round-centred.png"), 25), UIControlState.Normal );
+            RightDetailIconButton.SetAttributedTitle(GetAttributedStringWithImage(new UIImage("ios7-telephone-outline.png"), 25), UIControlState.Normal);
 
             RightDetailIconButton.TouchUpInside += delegate
             {
-                string phoneNumber = "1231231212332";
                 NSUrl url = new NSUrl( string.Format(@"telprompt://{0}", phoneNumber));
                 //NSUrl url = new NSUrl(string.Format(@"tel://{0}", phoneNumber));
                 if( UIApplication.SharedApplication.CanOpenUrl(url) )
@@ -160,13 +162,40 @@ namespace AccountExecutiveApp.iOS
             };
         }
 
-        public void AddTextingIcon()
+        public void AddTextingIcon(string phoneNumber)
         {
-            LeftDetailIconButton.SetAttributedTitle(GetAttributedStringWithImage(new UIImage("minus-round-centred.png"), 25), UIControlState.Normal);
+            LeftDetailIconButton.SetAttributedTitle(GetAttributedStringWithImage(new UIImage("ios7-chatbubble-outline.png"), 25), UIControlState.Normal);
+
+            LeftDetailIconButton.TouchUpInside += delegate
+            {
+                NSUrl url = new NSUrl(string.Format(@"sms:{0}", phoneNumber));
+                if (UIApplication.SharedApplication.CanOpenUrl(url))
+                    UIApplication.SharedApplication.OpenUrl(url);
+            };
         }
-        public void AddEmailIcon()
+        public void AddEmailIcon(string emailAddress)
         {
-            RightDetailIconButton.SetAttributedTitle(GetAttributedStringWithImage(new UIImage("minus-round-centred.png"), 25), UIControlState.Normal);
+            RightDetailIconButton.SetAttributedTitle(GetAttributedStringWithImage(new UIImage("ios7-email-outline.png"), 25), UIControlState.Normal);
+
+
+            RightDetailIconButton.TouchUpInside += delegate
+            {
+                if (MFMailComposeViewController.CanSendMail && ParentViewController != null)
+                {
+                    MFMailComposeViewController mailController = new MFMailComposeViewController();
+
+                    mailController.SetToRecipients(new string[] { emailAddress });
+
+                    mailController.Finished += (s, args) =>
+                    {
+                        Console.WriteLine(args.Result.ToString());
+                        args.Controller.DismissViewController(true, null);
+                    };
+
+
+                    ParentViewController.PresentViewController(mailController, true, null);
+                }
+            };
         }
 
         private NSAttributedString GetAttributedStringWithImage(UIImage image, float size)

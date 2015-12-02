@@ -34,6 +34,8 @@ namespace AccountExecutiveApp.iOS
                     tableView.DequeueReusableCell(ContractorDetailsTableViewController.CellIdentifier) as
                         ContractorContactInfoCell;
 
+                cell.ParentViewController = _parentController;
+
                 cell.UpdateCell
                 (
                     mainContactText: _tableModel.FormattedPhoneNumberByRowNumber((int)indexPath.Item),
@@ -51,6 +53,8 @@ namespace AccountExecutiveApp.iOS
                 var cell =
                     tableView.DequeueReusableCell(ContractorDetailsTableViewController.CellIdentifier) as
                         ContractorContactInfoCell;
+
+                cell.ParentViewController = _parentController;
 
                 cell.UpdateCell
                 (

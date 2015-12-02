@@ -266,6 +266,9 @@
     <BundleResource Include="Resources\tag-dark.png" />
     <BundleResource Include="Resources\tag-dark%402x.png" />
     <BundleResource Include="Resources\tag-dark%403x.png" />
+    <BundleResource Include="Resources\ios7-telephone-outline.png" />
+    <BundleResource Include="Resources\ios7-chatbubble-outline.png" />
+    <BundleResource Include="Resources\ios7-email-outline.png" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
