@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Repositories\AccountExecutive\ContractorRepository.cs" />
     <Compile Include="Repositories\AccountExecutive\JobsRepository.cs" />
+    <Compile Include="Repositories\AccountExecutive\UserContactRepository.cs" />
     <Compile Include="Repositories\ActivityRepository.cs" />
     <Compile Include="Repositories\AccountExecutive\ConsultantContractRepository.cs" />
     <Compile Include="Repositories\DirectReportRepository.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Services\AccountExecutive\ContractorsService.cs" />
     <Compile Include="Services\AccountExecutive\DashboardService.cs" />
     <Compile Include="Services\AccountExecutive\DateTimeService.cs" />
+    <Compile Include="Services\AccountExecutive\UserContactService.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\ConsultantContractService.cs" />
     <Compile Include="Services\ConsultantDetailsService.cs" />

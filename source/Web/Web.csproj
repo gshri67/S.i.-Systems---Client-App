@@ -205,6 +205,7 @@
     <Compile Include="Controllers\Api\LogoutController.cs" />
     <Compile Include="Controllers\Api\ConsultantsController.cs" />
     <Compile Include="Controllers\Api\ConsultantContractsController.cs" />
+    <Compile Include="Controllers\Api\UserContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Api\PayRatesController.cs" />
     <Compile Include="Filters\AccountExecutiveAccessAuthorizationAttribute.cs" />
@@ -276,6 +277,7 @@
     <Folder Include="Views\ConsultantContracts\" />
     <Folder Include="Views\Dashboard\" />
     <Folder Include="Views\Jobs\" />
+    <Folder Include="Views\UserContact\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

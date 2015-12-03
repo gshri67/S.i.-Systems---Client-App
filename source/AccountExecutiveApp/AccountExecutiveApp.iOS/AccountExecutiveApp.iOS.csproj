@@ -124,6 +124,11 @@
     <Compile Include="BorderedButton.designer.cs">
       <DependentUpon>BorderedButton.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClientContactDetails\ClientContactDetailsTableViewController.cs" />
+    <Compile Include="ClientContactDetails\ClientContactDetailsTableViewController.designer.cs">
+      <DependentUpon>ClientContactDetailsTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClientContactDetails\ClientContactDetailsTableViewSource.cs" />
     <Compile Include="ContactCell.cs" />
     <Compile Include="ContactCell.designer.cs">
       <DependentUpon>ContactCell.cs</DependentUpon>
