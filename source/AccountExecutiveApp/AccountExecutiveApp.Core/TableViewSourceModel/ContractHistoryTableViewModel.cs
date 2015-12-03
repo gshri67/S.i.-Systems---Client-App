@@ -76,5 +76,12 @@ namespace AccountExecutiveApp.Core.ViewModel
                 return 0;
             return Contracts.Count();
         }
+
+        public int ContractIdByRowNumber(int row)
+        {
+            return IndexIsInBounds(row)
+                ? Contracts.ElementAt(row).ContractId
+                : 0;
+        }
     }
 }

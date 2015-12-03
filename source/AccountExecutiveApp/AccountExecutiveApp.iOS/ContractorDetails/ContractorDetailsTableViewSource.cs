@@ -61,7 +61,9 @@ namespace AccountExecutiveApp.iOS
         {
             if (IsContractsCell(indexPath))
             {
-                ContractHistoryTableViewController vc = new ContractHistoryTableViewController();
+                ContractHistoryTableViewController vc =
+                    (ContractHistoryTableViewController)
+                        _parentController.Storyboard.InstantiateViewController("ContractHistoryTableViewController");
 
                 vc.setContracts(_tableModel.Contracts);
 

@@ -44,5 +44,14 @@ namespace AccountExecutiveApp.iOS
         {
             return 1;
         }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            ContractDetailsViewController vc = (ContractDetailsViewController)_parentController.Storyboard.InstantiateViewController("ContractDetailsViewController");
+
+            vc.LoadContract(_tableModel.ContractIdByRowNumber((int)indexPath.Item));
+
+            _parentController.ShowViewController(vc, _parentController);
+        }
     }
 }
