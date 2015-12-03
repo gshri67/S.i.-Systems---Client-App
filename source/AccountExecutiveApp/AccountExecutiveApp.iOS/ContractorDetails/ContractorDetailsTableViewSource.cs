@@ -59,6 +59,14 @@ namespace AccountExecutiveApp.iOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
+            if (IsContractsCell(indexPath))
+            {
+                ContractHistoryTableViewController vc = new ContractHistoryTableViewController();
+
+                vc.setContracts(_tableModel.Contracts);
+
+                _parentController.ShowViewController(vc, _parentController);
+            }
         }
 
         private void AddSpecializationAndSkills(IEnumerable<Specialization> specs, UITableViewCell cell)

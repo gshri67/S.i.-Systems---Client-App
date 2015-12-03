@@ -45,5 +45,10 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         {
             get { return _contractor.Specializations; }
         }
+
+        public IEnumerable<ConsultantContract> Contracts
+        {
+            get { return _contractor.Contracts; }
+        }
     }
 }

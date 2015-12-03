@@ -60,8 +60,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 {
                     new ConsultantContract
                     {
-                        ClientName = "Cenovus",
                         ClientId = 1,
+                        ContractId = 2,
+                        ClientName = "Cenovus",
+                        ContractorName = "Robert Paulson",
+                        Title = string.Format("{0} - Project Manager", 59326),
+                        AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
+                        StartDate = DateTime.UtcNow.AddDays(-15),
+                        EndDate = DateTime.UtcNow.AddMonths(3).AddDays(5)
                     }
                 }
             };
