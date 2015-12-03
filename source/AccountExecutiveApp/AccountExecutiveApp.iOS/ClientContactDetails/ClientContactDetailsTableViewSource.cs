@@ -35,7 +35,7 @@ namespace AccountExecutiveApp.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails() + 1 + 2;
+            return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails();
         }
 
         public override nint NumberOfSections(UITableView tableView)

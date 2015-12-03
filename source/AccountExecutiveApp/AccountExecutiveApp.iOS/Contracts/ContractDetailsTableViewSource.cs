@@ -74,9 +74,20 @@ namespace AccountExecutiveApp.iOS
 		
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-            var vc = (ContractorDetailsTableViewController)_parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
-            vc.setContractorId(_contract.Contractor.Id);
-			_parentController.ShowViewController ( vc, _parentController );
+		    if ((int) indexPath.Item == 0)
+		    {
+		        var vc =
+		            (ContractorDetailsTableViewController)
+		                _parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
+		        vc.setContractorId(_contract.Contractor.Id);
+		        _parentController.ShowViewController(vc, _parentController);
+		    }
+		    else
+		    {
+                var vc = (ClientContactDetailsTableViewController) _parentController.Storyboard.InstantiateViewController("ClientContactDetailsTableViewController");
+                vc.setContactId(_contract.Contractor.Id);
+                _parentController.ShowViewController(vc, _parentController);
+		    }
 		}
 	}
 }

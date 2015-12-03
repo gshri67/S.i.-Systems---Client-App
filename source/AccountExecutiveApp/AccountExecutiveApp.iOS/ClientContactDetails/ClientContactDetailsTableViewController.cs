@@ -24,7 +24,7 @@ namespace AccountExecutiveApp.iOS
             _viewModel = DependencyResolver.Current.Resolve<ClientContactDetailsViewModel>();
         }
 
-        public void setContractorId(int Id)
+        public void setContactId(int Id)
         {
             _id = Id;
             LoadContact();
