@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
@@ -20,7 +21,21 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public class JobsRepository : IJobsRepository {
         public JobsSummarySet GetJobsSummaryByAccountExecutiveId(int id)
         {
-            throw new NotImplementedException();
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var numJobs = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsQuery, new { Id = id }).FirstOrDefault();
+
+                var numProposed = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithProposedCandidatesQuery, new { Id = id }).FirstOrDefault();
+
+                var numCallouts = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithCalloutsQuery, new { Id = id }).FirstOrDefault();
+
+                return new JobsSummarySet
+                {
+                    All = numJobs,
+                    Proposed = numProposed,
+                    Callouts = numCallouts
+                };
+            }
         }
 
         public JobDetails GetJobDetailsByJobId(int id)
@@ -46,6 +61,62 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    internal static class AccountExecutiveJobsQueries
+    {
+        private const string NumberOfJobsForAccountExecutiveQuery =
+            @"SELECT COUNT(DISTINCT(Agreement.AgreementID))
+            FROM Agreement
+            JOIN PickList ON PickList.PickListID = Agreement.StatusType
+            JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
+            WHERE Agreement.AgreementType IN(
+	            SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+            )
+            AND PickList.PickListID IN (
+	            SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+            )
+            AND Agreement.AccountExecID = @Id";
+
+        private const string JobsWithCalloutsFilter =
+            @"AND ActivityTransaction.ActivityTypeID IN (
+                Select ActivityTypeID FROM ActivityType WHERE ActivityTypeName = 'OpportunityCallout' AND Inactive = 0
+            )";
+
+        private const string JobsWithProposedFilter =
+            @"AND ActivityTransaction.ActivityTypeID IN (
+                Select ActivityTypeID FROM ActivityType WHERE ActivityTypeName = 'CandidatePropose' AND Inactive = 0
+            )";
+
+        public static string NumberOfJobsWithCalloutsQuery
+        {
+            get
+            {
+                return string.Format("{1}{0}{2}", 
+                    Environment.NewLine,
+                    NumberOfJobsForAccountExecutiveQuery,
+                    JobsWithCalloutsFilter);
+            }
+        }
+
+        public static string NumberOfJobsWithProposedCandidatesQuery
+        {
+            get
+            {
+                return string.Format("{1}{0}{2}",
+                    Environment.NewLine, 
+                    NumberOfJobsForAccountExecutiveQuery,
+                    JobsWithProposedFilter);
+            }
+        }
+
+        public static string NumberOfJobsQuery
+        {
+            get
+            {
+                return string.Format("{0}", NumberOfJobsForAccountExecutiveQuery);
+            }
         }
     }
 
