@@ -1,8 +1,6 @@
-
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
-using Contacts;
 using MessageUI;
 using UIKit;
 
