@@ -16,7 +16,7 @@ namespace AccountExecutiveApp.iOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		AccountExecutiveApp.iOS.RightDetailCell Callouts { get; set; }
+		RightDetailCell Callouts { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -24,11 +24,11 @@ namespace AccountExecutiveApp.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		AccountExecutiveApp.iOS.RightDetailCell Proposed { get; set; }
+		RightDetailCell Proposed { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		AccountExecutiveApp.iOS.RightDetailCell ShortListed { get; set; }
+		RightDetailCell ShortListed { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

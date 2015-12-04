@@ -13,11 +13,11 @@ namespace AccountExecutiveApp.iOS
 {
     public class ClientContactDetailsTableViewSource : UITableViewSource
     {
-        private readonly ClientContactDetailsTableViewController _parentController;
+        private readonly ClientContactDetailsViewController _parentController;
         private readonly ClientContactDetailsTableViewModel _parentModel;
         private ClientContactDetailsTableViewModel _tableModel;
 
-        public ClientContactDetailsTableViewSource(ClientContactDetailsTableViewController parentController, UserContact ClientContact)
+        public ClientContactDetailsTableViewSource(ClientContactDetailsViewController parentController, UserContact ClientContact)
         {
             _parentController = parentController;
             _tableModel = new ClientContactDetailsTableViewModel(ClientContact);
@@ -61,7 +61,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetEmailContactCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell =
-                tableView.DequeueReusableCell(ClientContactDetailsTableViewController.CellIdentifier) as
+                tableView.DequeueReusableCell(ClientContactDetailsViewController.CellIdentifier) as
                     ContractorContactInfoCell;
 
             cell.ParentViewController = _parentController;
@@ -83,7 +83,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetCallOrTextContactCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell =
-                tableView.DequeueReusableCell(ClientContactDetailsTableViewController.CellIdentifier) as
+                tableView.DequeueReusableCell(ClientContactDetailsViewController.CellIdentifier) as
                     ContractorContactInfoCell;
 
             cell.ParentViewController = _parentController;

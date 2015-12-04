@@ -84,7 +84,7 @@ namespace AccountExecutiveApp.iOS
 		    }
 		    else
 		    {
-                var vc = (ClientContactDetailsTableViewController) _parentController.Storyboard.InstantiateViewController("ClientContactDetailsTableViewController");
+                var vc = (ClientContactDetailsViewController) _parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
                 vc.setContactId(_contract.Contractor.Id);
                 _parentController.ShowViewController(vc, _parentController);
 		    }

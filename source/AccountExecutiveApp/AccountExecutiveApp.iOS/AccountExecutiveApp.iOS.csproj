@@ -124,10 +124,6 @@
     <Compile Include="BorderedButton.designer.cs">
       <DependentUpon>BorderedButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClientContactDetails\ClientContactDetailsTableViewController.cs" />
-    <Compile Include="ClientContactDetails\ClientContactDetailsTableViewController.designer.cs">
-      <DependentUpon>ClientContactDetailsTableViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="ClientContactDetails\ClientContactDetailsTableViewSource.cs" />
     <Compile Include="ContactCell.cs" />
     <Compile Include="ContactCell.designer.cs">
@@ -218,6 +214,10 @@
     <Compile Include="ContractorDetails\ContractHistoryTableViewController.cs" />
     <Compile Include="ContractorDetails\ContractHistoryTableViewController.designer.cs">
       <DependentUpon>ContractHistoryTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClientContactDetails\ClientContactDetailsViewController.cs" />
+    <Compile Include="ClientContactDetails\ClientContactDetailsViewController.designer.cs">
+      <DependentUpon>ClientContactDetailsViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
