@@ -34,24 +34,37 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string contractSummaryQuery = @"SELECT agr.AgreementID as ContractId,
-	                                                    consultant.FirstName as FirstName,
-	                                                    consultant.LastName as LastName,
-                                                        Company.CompanyName,
-	                                                    agrDetail.JobTitle Title,
-	                                                    agr.StartDate StartDate,
-	                                                    agr.EndDate EndDate,
-	                                                    agr.AgreementSubType
-                                                    FROM [Agreement] agr
-                                                    LEFT JOIN [Users] consultant ON consultant.UserID = agr.CandidateID
-                                                    LEFT JOIN [Agreement_ContractDetail] agrDetail ON agr.AgreementID = agrDetail.AgreementID
-                                                    LEFT JOIN [Company]  ON agr.CompanyID = company.CompanyID
-                                                    WHERE agr.StatusType = @ACTIVE
-                                                    OR agr.StatusType = @PENDING
-                                                    ORDER BY agr.EndDate desc";
+                const string contractSummaryQuery = @"SELECT Agreement.AgreementID AS ContractId,
+	                                                            Candidate.FirstName AS ContractorName,
+	                                                            Company.CompanyName AS ClientName,
+	                                                            Details.JobTitle AS Title,
+	                                                            Agreement.StartDate,
+	                                                            Agreement.EndDate,
+	                                                            CASE WHEN ISNUMERIC(Agreement.AgreementSubType) = 1 THEN CAST(Agreement.AgreementSubType AS INT) ELSE 0 END AS AgreementSubType
+                                                            FROM Agreement
+                                                            JOIN PickList ON  Agreement.StatusType = PickList.PickListID
+                                                            JOIN Users AE ON Agreement.AccountExecID = AE.UserID
+                                                            JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
+                                                            JOIN Users Candidate ON Agreement.CandidateID = Candidate.UserID
+                                                            JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                                                            WHERE Agreement.AccountExecID = @Id
+                                                            AND Agreement.AgreementType IN (
+	                                                            SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
+                                                            )
+                                                            AND AE.verticalid = 4
+                                                            AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
+                                                            AND Agreement.AgreementSubType IN (
+	                                                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+	                                                            UNION
+	                                                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
+                                                            )
+                                                            AND (
+	                                                            PickList.Title = 'Active'
+	                                                            OR DATEDIFF(day, GetDate(), Agreement.StartDate) BETWEEN 0 AND 30 
+                                                            )";
 
 
-                var contracts = db.Connection.Query<ConsultantContractSummary>(Constants + contractSummaryQuery, new { Id = id });
+                var contracts = db.Connection.Query<ConsultantContractSummary>(contractSummaryQuery, new { Id = id });
 
                 return contracts;
             }
