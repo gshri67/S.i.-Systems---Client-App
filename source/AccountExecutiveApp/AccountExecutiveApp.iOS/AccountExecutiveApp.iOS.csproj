@@ -111,6 +111,13 @@
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchI18n>
     </MtouchI18n>
+    <MtouchLink>None</MtouchLink>
+    <MtouchProfiling>False</MtouchProfiling>
+    <MtouchFastDev>False</MtouchFastDev>
+    <MtouchUseLlvm>True</MtouchUseLlvm>
+    <MtouchUseThumb>False</MtouchUseThumb>
+    <MtouchUseSGen>False</MtouchUseSGen>
+    <MtouchUseRefCounting>True</MtouchUseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhone'">
     <OutputPath>bin\iPhone\Dev\</OutputPath>
@@ -318,7 +325,6 @@
     <BundleResource Include="Resources\app-button.png" />
     <BundleResource Include="Resources\app-button%402x.png" />
     <BundleResource Include="Resources\app-button%403x.png" />
-    <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\ios7-clock-outline%402x.png" />
     <BundleResource Include="Resources\leftArrow.png" />
     <BundleResource Include="Resources\leftArrow%402x.png" />
