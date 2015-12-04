@@ -26,7 +26,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string PageTitle
         {
-            get { return Contact.FullName; }
+            get { return Contact.FullName ?? string.Empty; }
         }
 
         public string PageSubtitle
@@ -48,12 +48,12 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 		public string ClientName
 		{
-			get { return Contact.ClientName; }
+			get { return Contact.ClientName ?? string.Empty; }
 		}
 
 		public string Address
 		{
-			get { return Contact.Address; }
+            get { return Contact.Address ?? string.Empty; }
 		}
 
     }

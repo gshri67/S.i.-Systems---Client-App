@@ -17,6 +17,17 @@ namespace SiSystems.SharedModels
 
         public IEnumerable<string> EmailAddresses { get; set; }
         public IEnumerable<string> PhoneNumbers { get; set; }
+
+        public UserContact()
+        {
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            ClientName = string.Empty;
+            Address = string.Empty;
+
+            EmailAddresses = Enumerable.Empty<string>();
+            PhoneNumbers = Enumerable.Empty<string>();
+        }
     }
 }
        
