@@ -45,17 +45,6 @@ namespace AccountExecutiveApp.iOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            /*
-            if (IsContractsCell(indexPath))
-            {
-                ContractHistoryTableViewController vc =
-                    (ContractHistoryTableViewController)
-                        _parentController.Storyboard.InstantiateViewController("ContractHistoryTableViewController");
-
-                vc.setContracts(_tableModel.Contracts);
-
-                _parentController.ShowViewController(vc, _parentController);
-            }*/
         }
 
         private UITableViewCell GetEmailContactCell(UITableView tableView, NSIndexPath indexPath)

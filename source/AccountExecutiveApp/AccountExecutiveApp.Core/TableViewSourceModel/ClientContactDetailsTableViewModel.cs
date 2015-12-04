@@ -28,12 +28,12 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
         public int NumberOfPhoneNumbers()
         {
-            return 2;
+            return _clientContract.PhoneNumbers.Count();
         }
 
         public int NumberOfEmails()
         {
-            return 1;
+            return _clientContract.EmailAddresses.Count();
         }
     }
 }

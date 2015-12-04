@@ -31,7 +31,16 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string PageSubtitle
         {
-            get { return "Client Contact"; }
+            get
+            {
+                if( Contact.ContactType == UserContactType.ClientContact )
+                    return "Client Contact";
+                else if (Contact.ContactType == UserContactType.DirectReport)
+                    return "Direct Report";
+                else if (Contact.ContactType == UserContactType.BillingContact)
+                    return "Billing Contact";
+                return string.Empty;
+            }
         }
 
         public Task LoadContact(int Id)

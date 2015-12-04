@@ -32,7 +32,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 EmailAddresses = new List<string>() { "rp.clientcontact@email.com" }.AsEnumerable(),
                 PhoneNumbers = new List<string>() { "(555)555-1231", "(555)222-2212" }.AsEnumerable(),
                 ClientName = "Cenovus",
-                Address = "999 Rainbow Road SE, Calgary, AB"
+                Address = "999 Rainbow Road SE, Calgary, AB",
+                ContactType = UserContactType.ClientContact
             };
         }
     }
