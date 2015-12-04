@@ -46,5 +46,15 @@ namespace AccountExecutiveApp.Core.ViewModel
             Contact = await _api.GetUserContactById(Id);
         }
 
+		public string ClientName
+		{
+			get { return Contact.ClientName; }
+		}
+
+		public string Address
+		{
+			get { return Contact.Address; }
+		}
+
     }
 }

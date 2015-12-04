@@ -12,6 +12,8 @@ namespace SiSystems.SharedModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName).Trim(); } }
+		public string ClientName { get; set; }
+		public string Address { get; set; }
 
         public IEnumerable<string> EmailAddresses { get; set; }
         public IEnumerable<string> PhoneNumbers { get; set; }
