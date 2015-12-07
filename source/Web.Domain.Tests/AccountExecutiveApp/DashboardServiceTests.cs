@@ -82,7 +82,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
                 Proposed = 9,
                 Callouts = 6
             };
-            _jobsRepoMock.Setup(repository => repository.GetJobsSummaryByAccountExecutiveId(It.IsAny<int>())).Returns(jobsToReturn);
+            _jobsRepoMock.Setup(repository => repository.GetSummaryCountsByAccountExecutiveId(It.IsAny<int>())).Returns(jobsToReturn);
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
 
@@ -120,7 +120,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         [Test]
         public void GetDashboardSummary_CallsGetJobsRepository()
         {
-            _jobsRepoMock.Setup(repository => repository.GetJobsSummaryByAccountExecutiveId(It.IsAny<int>()));
+            _jobsRepoMock.Setup(repository => repository.GetSummaryCountsByAccountExecutiveId(It.IsAny<int>()));
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
 

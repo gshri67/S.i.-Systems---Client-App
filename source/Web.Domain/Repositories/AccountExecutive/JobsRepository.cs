@@ -10,7 +10,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 {
     public interface IJobsRepository
     {
-        JobsSummarySet GetJobsSummaryByAccountExecutiveId(int id);
+        JobsSummarySet GetSummaryCountsByAccountExecutiveId(int id);
         JobDetails GetJobDetailsByJobId(int id);
         IEnumerable<Job> GetJobsByAccountExecutiveId(int id);
         IEnumerable<Job> GetJobsByClientId(int id);
@@ -19,7 +19,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     }
 
     public class JobsRepository : IJobsRepository {
-        public JobsSummarySet GetJobsSummaryByAccountExecutiveId(int id)
+        public JobsSummarySet GetSummaryCountsByAccountExecutiveId(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -60,12 +60,65 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         public IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id)
         {
-            throw new NotImplementedException();
+            const string listOfClientsWithJobsQuery =
+            @"SELECT Distinct(Company.CompanyID) AS ClientID, Company.CompanyName AS ClientName
+            FROM Agreement
+            JOIN PickList ON PickList.PickListID = Agreement.StatusType
+            JOIN Company ON Agreement.CompanyID = Company.CompanyID
+            WHERE Agreement.AgreementType IN(
+	            SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+            )
+            AND PickList.PickListID IN (
+	            SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+            )
+            AND Agreement.AccountExecID = @Id";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var clientsWithJobs = db.Connection.Query<JobSummary>(listOfClientsWithJobsQuery, new { Id = id });
+
+                foreach (var client in clientsWithJobs)
+                {
+                    client.NumJobs = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsForClient, new { Id = id }).FirstOrDefault();
+
+                    client.NumProposed = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithProposedForClient, new { Id = id }).FirstOrDefault();
+
+                    client.NumCallouts = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithCalloutsForClient, new { Id = id }).FirstOrDefault();
+                }
+
+                return clientsWithJobs;
+            }
         }
     }
 
     internal static class AccountExecutiveJobsQueries
     {
+        private const string JobCountForClientQuery =
+            @"SELECT COUNT(DISTINCT(Agreement.AgreementID))
+            FROM Agreement
+            JOIN PickList ON PickList.PickListID = Agreement.StatusType
+            WHERE Agreement.AgreementType IN(
+	            SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+            )
+            AND PickList.PickListID IN (
+	            SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+            )
+            AND Agreement.CompanyID = @Id";
+
+        private const string JobsSubsetCountForClientBaseQuery =
+            @"SELECT COUNT(DISTINCT(ActivityTransaction.AgreementID))
+            FROM Agreement
+            JOIN PickList ON PickList.PickListID = Agreement.StatusType
+            JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
+            JOIN ActivityType ON ActivityType.ActivityTypeID = ActivityTransaction.ActivityTypeID
+            WHERE Agreement.AgreementType IN(
+	            SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+            )
+            AND PickList.PickListID IN (
+	            SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+            )
+            AND Agreement.CompanyID = @Id";
+
         private const string NumberOfJobsForAccountExecutiveQuery =
             @"SELECT COUNT(DISTINCT(Agreement.AgreementID))
             FROM Agreement
@@ -118,11 +171,38 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 return string.Format("{0}", NumberOfJobsForAccountExecutiveQuery);
             }
         }
+
+        public static string NumberOfJobsForClient
+        {
+            get { return string.Format("{0}", JobCountForClientQuery); }
+        }
+
+        public static string NumberOfJobsWithProposedForClient
+        {
+            get
+            {
+                return string.Format("{1}{0}{2}", 
+                    Environment.NewLine, 
+                    JobsSubsetCountForClientBaseQuery, 
+                    JobsWithProposedFilter);
+            }
+        }
+
+        public static string NumberOfJobsWithCalloutsForClient
+        {
+            get
+            {
+                return string.Format("{1}{0}{2}",
+                    Environment.NewLine,
+                    JobsSubsetCountForClientBaseQuery,
+                    JobsWithCalloutsFilter);
+            }
+        }
     }
 
     public class MockJobsRepository : IJobsRepository
     {
-        public JobsSummarySet GetJobsSummaryByAccountExecutiveId(int id)
+        public JobsSummarySet GetSummaryCountsByAccountExecutiveId(int id)
         {
             return new JobsSummarySet
             {

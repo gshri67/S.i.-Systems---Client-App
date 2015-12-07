@@ -29,7 +29,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 				UserName = _session.CurrentUser.FullName,
                 FlowThruContracts = _contractsRepository.GetFloThruSummaryByAccountExecutiveId(_session.CurrentUser.Id),
                 FullySourcedContracts = _contractsRepository.GetFullySourcedSummaryByAccountExecutiveId(_session.CurrentUser.Id),
-                Jobs = _jobsRepository.GetJobsSummaryByAccountExecutiveId(_session.CurrentUser.Id)
+                Jobs = _jobsRepository.GetSummaryCountsByAccountExecutiveId(_session.CurrentUser.Id)
             };
 
             return dashboardInfo;
