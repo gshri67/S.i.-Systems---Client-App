@@ -79,11 +79,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 foreach (var client in clientsWithJobs)
                 {
-                    client.NumJobs = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsForClient, new { Id = id }).FirstOrDefault();
+                    client.NumJobs = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsForClient, new { Id = client.ClientId }).FirstOrDefault();
 
-                    client.NumProposed = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithProposedForClient, new { Id = id }).FirstOrDefault();
+                    client.NumProposed = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithProposedForClient, new { Id = client.ClientId }).FirstOrDefault();
 
-                    client.NumCallouts = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithCalloutsForClient, new { Id = id }).FirstOrDefault();
+                    client.NumCallouts = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithCalloutsForClient, new { Id = client.ClientId }).FirstOrDefault();
                 }
 
                 return clientsWithJobs;
