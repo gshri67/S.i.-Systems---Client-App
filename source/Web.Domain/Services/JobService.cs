@@ -26,11 +26,6 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             _sessionContext = sessionContext;
         }
 
-        public IEnumerable<Job> GetJobs()
-        {
-            return _jobsRepository.GetJobsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
-        }
-
         /// <summary>
         /// Validate that the current user is the Account Executive for the job being requested
         /// </summary>

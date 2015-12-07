@@ -12,7 +12,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     {
         JobsSummarySet GetSummaryCountsByAccountExecutiveId(int id);
         JobDetails GetJobDetailsByJobId(int id);
-        IEnumerable<Job> GetJobsByAccountExecutiveId(int id);
         IEnumerable<Job> GetJobsByClientId(int id);
         Job GetJobWithJobId(int id);
         IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id);
@@ -39,11 +38,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
         public JobDetails GetJobDetailsByJobId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Job> GetJobsByAccountExecutiveId(int id)
         {
             throw new NotImplementedException();
         }
@@ -236,16 +230,16 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             };
         }
 
-        public IEnumerable<Job> GetJobsByAccountExecutiveId(int id)
-        {
-            return new List<Job>
-            {
-                BusinessAnalyst,
-                ProjectManager,
-                SolutionsDeveloper,
-                EnterpriseArchitect
-            };
-        }
+        //public IEnumerable<Job> GetJobsByAccountExecutiveId(int id)
+        //{
+        //    return new List<Job>
+        //    {
+        //        BusinessAnalyst,
+        //        ProjectManager,
+        //        SolutionsDeveloper,
+        //        EnterpriseArchitect
+        //    };
+        //}
 
         public IEnumerable<Job> GetJobsByClientId(int id)
         {

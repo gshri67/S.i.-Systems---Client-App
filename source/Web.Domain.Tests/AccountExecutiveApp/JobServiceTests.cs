@@ -35,12 +35,13 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         [Test]
         public void GetJobs_CallsGetJobsByAccountExecutiveId_WithCurrentUsersId()
         {
-            _jobsRepo.Setup(repository => repository.GetJobsByAccountExecutiveId(It.IsAny<int>()));
+            const int clientId = 1;
+            _jobsRepo.Setup(repository => repository.GetJobsByClientId(It.IsAny<int>()));
 
             var service = new JobService(_jobsRepo.Object, _session.Object);
-            service.GetJobs();
+            service.GetJobsByClientId(clientId);
 
-            _jobsRepo.Verify(repository => repository.GetJobsByAccountExecutiveId(UserId));
+            _jobsRepo.Verify(repository => repository.GetJobsByClientId(clientId));
         }
 
         //todo: add a tests for GetJobDetailsById to test the logic within AssertCurrentUserHasPermissionsToViewJobDetails

@@ -27,12 +27,6 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
            _service = service;
         }
 
-        public HttpResponseMessage GetJobs()
-        {
-            var jobs = _service.GetJobs();
-            return Request.CreateResponse(HttpStatusCode.OK, jobs);
-        }
-
         [Route("Summaries")]
         public HttpResponseMessage GetJobSummaries()
         {

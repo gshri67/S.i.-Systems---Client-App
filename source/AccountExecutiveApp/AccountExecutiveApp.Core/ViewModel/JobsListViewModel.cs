@@ -33,7 +33,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task GetJobs( int ClientID )
         {
-            Jobs = await _api.GetJobs();
+            Jobs = await _api.GetJobsWithClientID(ClientID);
             _jobs = Jobs.OrderByDescending(job => job.IssueDate);
         }
 
