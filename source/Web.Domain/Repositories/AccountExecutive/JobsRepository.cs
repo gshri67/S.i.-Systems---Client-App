@@ -44,7 +44,54 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         public IEnumerable<Job> GetJobsByClientId(int id)
         {
-            throw new NotImplementedException();
+            const string jobsByClientIdQuery =
+                @"SELECT Agreement.AgreementID AS Id, Company.CompanyName AS ClientName, Detail.JobTitle AS Title, Agreement.CreateDate AS IssueDate
+                FROM Agreement
+                JOIN Agreement_OpportunityDetail AS Detail ON Agreement.AgreementID = Detail.AgreementID
+                JOIN PickList ON PickList.PickListID = Agreement.StatusType
+                JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                WHERE Agreement.AgreementType IN(
+	                SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+                )
+                AND PickList.PickListID IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+                )
+                AND Agreement.CompanyID = @Id";
+
+            const string numberOfShortlistedCandidadtesForJob =
+                @"SELECT COUNT(DISTINCT(Matrix.CandidateUserID))
+                FROM Agreement
+                JOIN PickList ON PickList.PickListID = Agreement.StatusType
+                JOIN Agreement_OpportunityCandidateMatrix Matrix on Agreement.AgreementID = Matrix.AgreementID
+                WHERE Agreement.AgreementType IN(
+	                SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+                )
+                AND PickList.PickListID IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+                )
+                AND Agreement.AgreementID = @Id
+                AND Matrix.StatusType IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('CandidateOpportunityStatusType', 'Short List', -1)
+                )
+                AND Matrix.StatusSubType IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('CandidateOpportunitySubStatusType', 'Pending,Placed,Proposed', -1)
+                )";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var jobs = db.Connection.Query<Job>(jobsByClientIdQuery, new { Id = id });
+
+                foreach (var job in jobs)
+                {
+                    job.NumShortlisted = db.Connection.Query<int>(numberOfShortlistedCandidadtesForJob, new { Id = job.Id }).FirstOrDefault();
+
+                    job.NumProposed = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfProposedCandidatesForJob, new { Id = job.Id }).FirstOrDefault();
+
+                    job.NumCallouts = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfCandidatesWithCalloutsForJob, new { Id = job.Id }).FirstOrDefault();
+                }
+
+                return jobs;
+            }
         }
 
         public Job GetJobWithJobId(int id)
@@ -126,6 +173,20 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             )
             AND Agreement.AccountExecID = @Id";
 
+        private const string NumberOfCandidatesForJob =
+            @"SELECT COUNT(DISTINCT(ActivityTransaction.CandidateUserID))
+            FROM Agreement
+            JOIN PickList ON PickList.PickListID = Agreement.StatusType
+            JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
+            JOIN ActivityType ON ActivityType.ActivityTypeID = ActivityTransaction.ActivityTypeID
+            WHERE Agreement.AgreementType IN(
+	            SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+            )
+            AND PickList.PickListID IN (
+	            SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+            )
+            AND Agreement.AgreementID = @Id";
+
         private const string JobsWithCalloutsFilter =
             @"AND ActivityTransaction.ActivityTypeID IN (
                 Select ActivityTypeID FROM ActivityType WHERE ActivityTypeName = 'OpportunityCallout' AND Inactive = 0
@@ -192,6 +253,38 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     JobsWithCalloutsFilter);
             }
         }
+
+        public static string NumberOfShortlistedCandidatesForJob
+        {
+            get
+            {
+                return string.Format("{1}{0}{2}", 
+                    Environment.NewLine,
+                    NumberOfCandidatesForJob, 
+                    JobsWithProposedFilter);
+            }
+        }
+
+        public static string NumberOfProposedCandidatesForJob
+        {
+            get
+            {
+                return string.Format("{1}{0}{2}",
+                    Environment.NewLine,
+                    NumberOfCandidatesForJob,
+                    JobsWithProposedFilter);
+            }
+        }
+        public static string NumberOfCandidatesWithCalloutsForJob
+        {
+            get
+            {
+                return string.Format("{1}{0}{2}",
+                    Environment.NewLine,
+                    NumberOfCandidatesForJob,
+                    JobsWithCalloutsFilter);
+            }
+        }
     }
 
     public class MockJobsRepository : IJobsRepository
@@ -213,7 +306,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             {
                 Id = ProjectManager.Id,
                 ClientName = ProjectManager.ClientName,
-                Title = ProjectManager.JobTitle,
+                Title = ProjectManager.Title,
                 ClientContact = LucyLu,
                 Shortlisted = new List<Contractor>
                 {
@@ -229,17 +322,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 }.AsEnumerable()
             };
         }
-
-        //public IEnumerable<Job> GetJobsByAccountExecutiveId(int id)
-        //{
-        //    return new List<Job>
-        //    {
-        //        BusinessAnalyst,
-        //        ProjectManager,
-        //        SolutionsDeveloper,
-        //        EnterpriseArchitect
-        //    };
-        //}
 
         public IEnumerable<Job> GetJobsByClientId(int id)
         {
@@ -312,7 +394,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         private Job BusinessAnalyst = new Job
         {
             Id = 1,
-            JobTitle = "60142 - Senior Financial Systems Business Analyst",
+            Title = "60142 - Senior Financial Systems Business Analyst",
             ClientName = "Cenovus",
             IssueDate = DateTime.UtcNow.AddDays(-14),
             HasCallout = true,
@@ -322,7 +404,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         private Job ProjectManager = new Job
         {
             Id = 2,
-            JobTitle = "60141 - Intermediate Project Manager (w/ Asset Management/Investment Planning/Analytics exp). - long term contract!!!",
+            Title = "60141 - Intermediate Project Manager (w/ Asset Management/Investment Planning/Analytics exp). - long term contract!!!",
             ClientName = "Cenovus",
             IssueDate = DateTime.UtcNow.AddDays(-7),
             HasCallout = false,
@@ -331,7 +413,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         private Job SolutionsDeveloper = new Job
         {
             Id = 3,
-            JobTitle = "60139 - ASP.NET MVC Developer - Bilingual",
+            Title = "60139 - ASP.NET MVC Developer - Bilingual",
             ClientName = "Cenovus",
             IssueDate = DateTime.UtcNow.AddDays(-1),
             HasCallout = false,
@@ -340,7 +422,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         private Job EnterpriseArchitect = new Job
         {
             Id = 4,
-            JobTitle = "60138 - Information Architect",
+            Title = "60138 - Information Architect",
             ClientName = "Nexen",
             IssueDate = new DateTime(2015, 11, 14),
             HasCallout = false,

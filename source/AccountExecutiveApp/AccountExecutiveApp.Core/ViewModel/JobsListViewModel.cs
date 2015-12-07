@@ -47,7 +47,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         public string JobTitleByIndex(int index)
         {
             return IsInBounds(index)
-                ? Jobs.ElementAt(index).JobTitle
+                ? Jobs.ElementAt(index).Title
                 : string.Empty;
         }
 

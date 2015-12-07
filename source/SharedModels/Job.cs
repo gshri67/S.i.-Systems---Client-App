@@ -10,7 +10,7 @@ namespace SiSystems.SharedModels
     {
         public int Id { get; set; }
         public string ClientName { get; set; }
-        public string JobTitle { get; set; }
+        public string Title { get; set; }
         public bool IsProposed { get; set; }
         public bool HasCallout { get; set; }
         public DateTime IssueDate { get; set; }
@@ -21,7 +21,6 @@ namespace SiSystems.SharedModels
 		public int NumProposed { get; set; }
 		public int NumCallouts { get; set; }
 
-        public string Title { get; set; }
         public UserContact ClientContact { get; set; }
 
         public Job()

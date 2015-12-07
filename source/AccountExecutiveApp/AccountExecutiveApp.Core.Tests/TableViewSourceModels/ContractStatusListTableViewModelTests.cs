@@ -22,7 +22,7 @@ namespace AccountExecutiveApp.Core.Tests.TableViewSourceModels
         private static Job _jobCompanyOneDeveloperWithoutProposed = new Job
         {
             ClientName = "Company One",
-            JobTitle = "Developer",
+            Title = "Developer",
             HasCallout = false,
             IsProposed = false,
             IssueDate = DateTime.Now
@@ -31,7 +31,7 @@ namespace AccountExecutiveApp.Core.Tests.TableViewSourceModels
         private static Job _jobCompanyTwoDeveloperWithoutProposed = new Job
         {
             ClientName = "Company Two",
-            JobTitle = "Developer",
+            Title = "Developer",
             HasCallout = false,
             IsProposed = false,
             IssueDate = DateTime.Now
