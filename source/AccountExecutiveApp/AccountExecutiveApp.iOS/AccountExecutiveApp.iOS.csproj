@@ -219,6 +219,10 @@
     <Compile Include="ClientContactDetails\ClientContactDetailsViewController.designer.cs">
       <DependentUpon>ClientContactDetailsViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ContractorDetails\ResumeViewController.cs" />
+    <Compile Include="ContractorDetails\ResumeViewController.designer.cs">
+      <DependentUpon>ResumeViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

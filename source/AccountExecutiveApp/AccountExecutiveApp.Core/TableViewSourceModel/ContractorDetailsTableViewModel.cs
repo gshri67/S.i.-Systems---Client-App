@@ -28,12 +28,12 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
         public int NumberOfPhoneNumbers()
         {
-            return 2;
+			return _contractor.PhoneNumbers.Count();
         }
 
         public int NumberOfEmails()
         {
-            return 1;
+			return _contractor.EmailAddresses.Count();
         }
 
         public int NumberOfContracts()
@@ -50,5 +50,10 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         {
             get { return _contractor.Contracts; }
         }
+
+		public string ContractorResume 
+		{
+			get{ return _contractor.ResumeText; }
+		}
     }
 }

@@ -69,6 +69,14 @@ namespace AccountExecutiveApp.iOS
 
                 _parentController.ShowViewController(vc, _parentController);
             }
+			if (IsResumeCell (indexPath)) 
+			{
+				ResumeViewController vc = (ResumeViewController) _parentController.Storyboard.InstantiateViewController("ResumeViewController");
+		
+				vc.Resume = _tableModel.ContractorResume;
+				_parentController.ShowViewController(vc, _parentController);
+
+			}
         }
 
         private void AddSpecializationAndSkills(IEnumerable<Specialization> specs, UITableViewCell cell)

@@ -536,7 +536,6 @@
                         <segue destination="MoB-tQ-ZLx" kind="relationship" relationship="viewControllers" id="0Ld-Q7-D3A"/>
                         <segue destination="DMD-u5-XdU" kind="relationship" relationship="viewControllers" id="a6I-AD-hMe"/>
                         <segue destination="ye2-B5-ILw" kind="relationship" relationship="viewControllers" id="mhD-oZ-Lob"/>
-                        <segue destination="GCV-He-Bwl" kind="relationship" relationship="viewControllers" id="tda-hR-8iH"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TcD-jd-ffr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1301,18 +1300,18 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="U5r-yD-NVD"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="16"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWE-Cr-d0s">
                                         <rect key="frame" x="17" y="68" width="295" height="58"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="16"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.88871669870000003" green="0.90214646470000004" blue="0.89207414019999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="fWE-Cr-d0s" firstAttribute="trailing" secondItem="6HS-rE-qRA" secondAttribute="trailing" id="97J-if-fRV"/>
                                     <constraint firstItem="6HS-rE-qRA" firstAttribute="top" secondItem="0eu-Pb-FqQ" secondAttribute="top" constant="4" id="FRy-av-4cE"/>
@@ -1349,6 +1348,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eRj-ad-YPt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2679" y="1584"/>
+        </scene>
+        <!--Resume View Controller-->
+        <scene sceneID="p3V-7m-bQN">
+            <objects>
+                <viewController storyboardIdentifier="ResumeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="57i-IS-512" customClass="ResumeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JU1-wd-nss"/>
+                        <viewControllerLayoutGuide type="bottom" id="xQV-WH-NeV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="O9r-7T-YEj">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Rm-sX-I7e">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7Rm-sX-I7e" firstAttribute="top" secondItem="JU1-wd-nss" secondAttribute="bottom" id="BN5-dS-k9M"/>
+                            <constraint firstItem="7Rm-sX-I7e" firstAttribute="leading" secondItem="O9r-7T-YEj" secondAttribute="leadingMargin" id="XcR-RE-vIe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="7Rm-sX-I7e" secondAttribute="trailing" id="l9C-qT-EBj"/>
+                            <constraint firstItem="xQV-WH-NeV" firstAttribute="top" secondItem="7Rm-sX-I7e" secondAttribute="bottom" id="o6B-le-JOv"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="ResumeView" destination="7Rm-sX-I7e" id="DMF-EQ-wb3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="50r-18-1b1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3055" y="1584"/>
         </scene>
         <!--Client Contact Details Table View Controller-->
         <scene sceneID="1045">
