@@ -60,8 +60,10 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
             _contractsDictionaryByTypeAndStatus =
                 new Dictionary<MatchGuideConstants.AgreementSubTypes, Dictionary<ContractStatusType, List<ConsultantContractSummary>>>();
-            _contractsDictionaryByTypeAndStatus[MatchGuideConstants.AgreementSubTypes.Consultant] = fsDict;
-            _contractsDictionaryByTypeAndStatus[MatchGuideConstants.AgreementSubTypes.FloThru] = ftDict;
+            if (fsDict.Any())
+                _contractsDictionaryByTypeAndStatus[MatchGuideConstants.AgreementSubTypes.Consultant] = fsDict;
+            if (ftDict.Any())
+                _contractsDictionaryByTypeAndStatus[MatchGuideConstants.AgreementSubTypes.FloThru] = ftDict;
         }
 
         private Dictionary<ContractStatusType, List<ConsultantContractSummary>> DictionaryWithContractsByStatus(IEnumerable<ConsultantContractSummary> contracts, MatchGuideConstants.AgreementSubTypes type)
