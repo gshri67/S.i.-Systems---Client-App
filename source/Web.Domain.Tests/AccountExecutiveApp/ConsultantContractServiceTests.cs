@@ -17,6 +17,8 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
     public class ConsultantContractServiceTests
     {
         private Mock<IConsultantContractRepository> _contractsRepoMock;
+        private Mock<IContractorRepository> _contractorRepoMock;
+        private Mock<IUserContactRepository> _userContactRepoMock;
         private Mock<IDateTimeService> _dateTimeMock;
         private Mock<ISessionContext> _session;
 
@@ -30,7 +32,9 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         public void Setup()
         {
             _contractsRepoMock = new Mock<IConsultantContractRepository>();
-            
+            _contractorRepoMock = new Mock<IContractorRepository>();
+            _userContactRepoMock = new Mock<IUserContactRepository>();
+
             _dateTimeMock = new Mock<IDateTimeService>();
             _dateTimeMock.Setup(timeService => timeService.DateIsWithinNextThirtyDays(OneWeekFromNow))
                 .Returns(true);
@@ -53,7 +57,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
                 EndDate = OneWeekFromNow
             };
 
-            var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
+            var service = new ConsultantContractService(_contractsRepoMock.Object, _contractorRepoMock.Object, _userContactRepoMock.Object, _dateTimeMock.Object, _session.Object);
 
             var actual = service.ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
 
@@ -69,7 +73,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
                 EndDate = TwoMonthsFromNow
             };
 
-            var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
+            var service = new ConsultantContractService(_contractsRepoMock.Object, _contractorRepoMock.Object, _userContactRepoMock.Object, _dateTimeMock.Object, _session.Object);
 
             var actual = service.ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
 
@@ -85,7 +89,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
                 EndDate = TwoWeeksFromNow
             };
 
-            var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
+            var service = new ConsultantContractService(_contractsRepoMock.Object, _contractorRepoMock.Object, _userContactRepoMock.Object, _dateTimeMock.Object, _session.Object); ;
 
             var actual = service.ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
 
@@ -101,7 +105,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
                 EndDate = TwoMonthsAgo
             };
 
-            var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
+            var service = new ConsultantContractService(_contractsRepoMock.Object, _contractorRepoMock.Object, _userContactRepoMock.Object, _dateTimeMock.Object, _session.Object);
 
             var actual = service.ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
             //todo: Is Active what we would actually want these to show as? Should there be another status?
@@ -117,7 +121,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
                 EndDate = TwoMonthsFromNow
             };
 
-            var service = new ConsultantContractService(_contractsRepoMock.Object, _dateTimeMock.Object, _session.Object);
+            var service = new ConsultantContractService(_contractsRepoMock.Object, _contractorRepoMock.Object, _userContactRepoMock.Object, _dateTimeMock.Object, _session.Object);
 
             var actual = service.ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
 

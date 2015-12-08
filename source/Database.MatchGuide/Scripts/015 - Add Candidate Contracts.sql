@@ -81,15 +81,16 @@ INSERT INTO [dbo].[Agreement_ContractAdminContactMatrix]
            ([ContractAdminMatrixID]
 		   ,[AgreementID]
            ,[DirectReportUserID]
+		   ,[BillingUserID]
            ,[Inactive]
 )
 VALUES
-(1, 1, 1, 0),
-(2, 2, 2, 0),
-(3, 3, 1, 0),
-(4, 4, 1, 0),
-(5, 5, 2, 0),
-(6, 6, 3, 0)
+(1, 1, 1, 1, 0),
+(2, 2, 2, 2, 0),
+(3, 3, 1, 1, 0),
+(4, 4, 1, 1, 0),
+(5, 5, 2, 2, 0),
+(6, 6, 3, 3, 0)
           
 
 SET IDENTITY_INSERT [dbo].[Agreement_ContractAdminContactMatrix] OFF;

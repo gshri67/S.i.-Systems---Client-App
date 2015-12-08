@@ -140,7 +140,7 @@ GO
 CREATE TABLE [dbo].[Agreement_ContractAdminContactMatrix](
 	[ContractAdminMatrixID] [int] IDENTITY(1,1) NOT NULL,
 	[AgreementID] [int] NOT NULL,
-	--[BillingUserID] [int] NOT NULL,
+	[BillingUserID] [int] NOT NULL,
 	[DirectReportUserID] [int] NOT NULL,
 	--[CreateDate] [datetime] NULL,
 	--[CreateUserID] [int] NULL,

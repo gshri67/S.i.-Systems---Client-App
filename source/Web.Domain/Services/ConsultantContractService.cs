@@ -19,12 +19,16 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     public class ConsultantContractService
     {
         private readonly IConsultantContractRepository _consultantContractRepository;
+        private readonly IContractorRepository _contractorRepository;
+        private readonly IUserContactRepository _userContactRepository;
         private readonly IDateTimeService _dateTimeService;
         private readonly ISessionContext _session;
 
-        public ConsultantContractService(IConsultantContractRepository consultantContractRepository, IDateTimeService dateTimeService, ISessionContext session)
+        public ConsultantContractService(IConsultantContractRepository consultantContractRepository, IContractorRepository contractorRepository, IUserContactRepository userContactRepository, IDateTimeService dateTimeService, ISessionContext session)
         {
             _consultantContractRepository = consultantContractRepository;
+            _contractorRepository = contractorRepository;
+            _userContactRepository = userContactRepository;
             _dateTimeService = dateTimeService;
             _session = session;
         }
@@ -58,6 +62,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             var details = _consultantContractRepository.GetContractDetailsById(id);
             
             details.StatusType = ContractStatusTypeForStartDateAndEndDate(details.StartDate, details.EndDate);
+
+            details.Contractor = _contractorRepository.GetContractorById(id);
+            details.DirectReport = _userContactRepository.GetDirectReportByAgreementId(details.ContractId);
+            details.ClientContact = _userContactRepository.GetClientContactByAgreementId(details.ContractId);
+            details.BillingContact = _userContactRepository.GetBillingContactByAgreementId(details.ContractId);
 
             AssertCurrentUserHasAccessToContractDetails(details);
 

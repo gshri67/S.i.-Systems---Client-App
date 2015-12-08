@@ -168,7 +168,38 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         public ConsultantContract GetContractDetailsById(int id)
         {
-            throw new NotImplementedException();
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                string constants = @"DECLARE @ACTIVE int = " + MatchGuideConstants.ContractStatusTypes.Active + ","
+                            + "@PENDING int = " + MatchGuideConstants.ContractStatusTypes.Pending + ","
+                            + "@FLOTHRU int = " + MatchGuideConstants.AgreementSubTypes.FloThru + ","
+                            + "@FULLYSOURCED int = " + MatchGuideConstants.AgreementSubTypes.Consultant + ","
+                            + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
+                            + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
+
+                const string query =
+                          @"SELECT ContractRateID AS Id
+	                        ,RateDescription AS RateDescription
+                            ,PayRate AS Rate	
+                        FROM Agreement_ContractRateDetail Dets";
+
+                const string contractsQuery =
+                                            @"SELECT agr.CandidateID ConsultantId,
+                                            agr.CompanyID ClientId,
+	                                        agrDetail.JobTitle Title,
+	                                        agr.StartDate StartDate,
+	                                        agr.EndDate EndDate,
+											company.CompanyName CompanyName
+                                            FROM [Agreement] agr
+                                            JOIN [Agreement_ContractAdminContactMatrix] agrContact on agrContact.AgreementID = agr.AgreementID
+                                            LEFT JOIN [Agreement_ContractDetail] agrDetail ON agr.AgreementID = agrDetail.AgreementID
+											LEFT JOIN [Company] company ON agr.CompanyID = company.CompanyID
+                                            ORDER BY agr.EndDate desc";
+
+                var contracts = db.Connection.Query<ConsultantContract>(constants + contractsQuery, param: new { Id = id });
+
+                return contracts.FirstOrDefault();
+            }
         }
     }
 

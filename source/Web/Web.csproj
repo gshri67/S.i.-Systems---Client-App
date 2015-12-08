@@ -223,6 +223,7 @@
     <Compile Include="Auth\Md5PasswordHasher.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="UserContactType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.min.css" />
