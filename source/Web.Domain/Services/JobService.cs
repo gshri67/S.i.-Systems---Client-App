@@ -18,11 +18,13 @@ namespace SiSystems.ClientApp.Web.Domain.Services
     public class JobService
     {
         private readonly IJobsRepository _jobsRepository;
+        private readonly IUserContactRepository _userRepository;
         private readonly ISessionContext _sessionContext;
 
-        public JobService(IJobsRepository jobsRepository, ISessionContext sessionContext)
+        public JobService(IJobsRepository jobsRepository, IUserContactRepository userRepository, ISessionContext sessionContext)
         {
             _jobsRepository = jobsRepository;
+            _userRepository = userRepository;
             _sessionContext = sessionContext;
         }
 
@@ -46,6 +48,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         public Job GetJobWithJobId(int id)
         {
             var job = _jobsRepository.GetJobWithJobId(id);
+
+            job.ClientContact = _userRepository.GetClientContactByAgreementId(id);
+
             AssertCurrentUserHasPermissionsToViewJobDetails(job);
 
             return job;

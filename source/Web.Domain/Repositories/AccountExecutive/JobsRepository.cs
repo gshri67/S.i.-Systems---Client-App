@@ -90,7 +90,29 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         public Job GetJobWithJobId(int id)
         {
-            throw new NotImplementedException();
+            const string jobByAgreementIdQuery =
+                @"SELECT Agreement.AgreementID AS Id, Company.CompanyName AS ClientName, Detail.JobTitle AS Title, Agreement.CreateDate AS IssueDate
+                FROM Agreement
+                JOIN Agreement_OpportunityDetail AS Detail ON Agreement.AgreementID = Detail.AgreementID
+                JOIN PickList ON PickList.PickListID = Agreement.StatusType
+                JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                WHERE Agreement.AgreementID = @Id";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var job = db.Connection.Query<Job>(jobByAgreementIdQuery, new { Id = id }).FirstOrDefault();
+
+                if(job == null)
+                    return new Job();
+
+                job.NumShortlisted = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfShortlistedCandidadtesForJob, new { Id = job.Id }).FirstOrDefault();
+
+                job.NumProposed = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfProposedCandidatesForJob, new { Id = job.Id }).FirstOrDefault();
+
+                job.NumCallouts = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfCandidatesWithCalloutsForJob, new { Id = job.Id }).FirstOrDefault();
+
+                return job;
+            }
         }
 
         public IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id)
@@ -191,6 +213,25 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 Select ActivityTypeID FROM ActivityType WHERE ActivityTypeName = 'CandidatePropose' AND Inactive = 0
             )";
 
+        private const string  NumberOfShortlistedCandidadtesForJobQuery =
+                @"SELECT COUNT(DISTINCT(Matrix.CandidateUserID))
+                FROM Agreement
+                JOIN PickList ON PickList.PickListID = Agreement.StatusType
+                JOIN Agreement_OpportunityCandidateMatrix Matrix on Agreement.AgreementID = Matrix.AgreementID
+                WHERE Agreement.AgreementType IN(
+	                SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+                )
+                AND PickList.PickListID IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+                )
+                AND Agreement.AgreementID = @Id
+                AND Matrix.StatusType IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('CandidateOpportunityStatusType', 'Short List', -1)
+                )
+                AND Matrix.StatusSubType IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('CandidateOpportunitySubStatusType', 'Pending,Placed,Proposed', -1)
+                )";
+
         public static string NumberOfJobsWithCalloutsQuery
         {
             get
@@ -278,6 +319,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     NumberOfCandidatesForJob,
                     JobsWithCalloutsFilter);
             }
+        }
+
+        public static string NumberOfShortlistedCandidadtesForJob
+        {
+            get { return NumberOfShortlistedCandidadtesForJobQuery; }
         }
     }
 
