@@ -1292,6 +1292,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uzc-Yc-a2n" userLabel="DetailsViewBackgroundContainer">
+                                <rect key="frame" x="0.0" y="206" width="320" height="156"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0eu-Pb-FqQ" userLabel="DetailsView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="141"/>
                                 <subviews>
@@ -1304,8 +1308,11 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWE-Cr-d0s">
-                                        <rect key="frame" x="17" y="68" width="295" height="58"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Address 4245435 54454 454545 54545 45545455 44545 road" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWE-Cr-d0s">
+                                        <rect key="frame" x="13" y="49" width="295" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="50" id="ufu-1m-bga"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="16"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1314,6 +1321,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="fWE-Cr-d0s" firstAttribute="trailing" secondItem="6HS-rE-qRA" secondAttribute="trailing" id="97J-if-fRV"/>
+                                    <constraint firstAttribute="bottom" secondItem="fWE-Cr-d0s" secondAttribute="bottom" id="C2L-uC-KaA"/>
                                     <constraint firstItem="6HS-rE-qRA" firstAttribute="top" secondItem="0eu-Pb-FqQ" secondAttribute="top" constant="4" id="FRy-av-4cE"/>
                                     <constraint firstItem="6HS-rE-qRA" firstAttribute="leading" secondItem="0eu-Pb-FqQ" secondAttribute="leading" constant="16" id="ICr-yJ-W3F"/>
                                     <constraint firstItem="fWE-Cr-d0s" firstAttribute="leading" secondItem="6HS-rE-qRA" secondAttribute="leading" id="Ony-oN-Rx1"/>
@@ -1328,14 +1336,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="0eu-Pb-FqQ" firstAttribute="top" secondItem="RAh-NR-w2p" secondAttribute="bottom" id="HM9-52-tQz"/>
-                            <constraint firstItem="cf8-pE-RTZ" firstAttribute="top" secondItem="0eu-Pb-FqQ" secondAttribute="bottom" id="OwE-jl-jkd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Uzc-Yc-a2n" secondAttribute="trailing" constant="-20" id="8du-X1-n8R"/>
+                            <constraint firstItem="0eu-Pb-FqQ" firstAttribute="centerY" secondItem="Uzc-Yc-a2n" secondAttribute="centerY" id="9jb-Z3-hkE"/>
+                            <constraint firstItem="Uzc-Yc-a2n" firstAttribute="bottom" secondItem="xXN-MF-KuD" secondAttribute="top" multiplier="0.2" id="Ij0-JO-gKM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cf8-pE-RTZ" secondAttribute="trailing" constant="-20" id="XQX-wK-nsZ"/>
                             <constraint firstItem="0eu-Pb-FqQ" firstAttribute="leading" secondItem="uGz-sW-UxI" secondAttribute="leadingMargin" constant="-20" id="cUc-hQ-8v7"/>
-                            <constraint firstItem="0eu-Pb-FqQ" firstAttribute="bottom" secondItem="xXN-MF-KuD" secondAttribute="top" multiplier="0.2" id="eaW-0Y-gDN"/>
                             <constraint firstItem="cf8-pE-RTZ" firstAttribute="leading" secondItem="uGz-sW-UxI" secondAttribute="leadingMargin" constant="-20" id="hSG-ny-8je"/>
+                            <constraint firstItem="Uzc-Yc-a2n" firstAttribute="top" secondItem="RAh-NR-w2p" secondAttribute="bottom" id="hut-ye-mMi"/>
+                            <constraint firstItem="Uzc-Yc-a2n" firstAttribute="leading" secondItem="uGz-sW-UxI" secondAttribute="leadingMargin" constant="-20" id="kKc-qk-H3l"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0eu-Pb-FqQ" secondAttribute="trailing" constant="-20" id="qi1-u4-BPR"/>
                             <constraint firstItem="xXN-MF-KuD" firstAttribute="top" secondItem="cf8-pE-RTZ" secondAttribute="bottom" id="rFA-Q5-1PX"/>
+                            <constraint firstItem="cf8-pE-RTZ" firstAttribute="top" secondItem="Uzc-Yc-a2n" secondAttribute="bottom" id="wal-mP-qnU"/>
                         </constraints>
                     </view>
                     <connections>
