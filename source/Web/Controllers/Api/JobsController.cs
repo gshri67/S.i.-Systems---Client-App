@@ -45,7 +45,6 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
         public HttpResponseMessage GetJobWithJobId(int id)
         {
             var job = _service.GetJobWithJobId(id);
-            job.Status = JobStatus.Shortlisted;
             
             return Request.CreateResponse(HttpStatusCode.OK, job);
         }

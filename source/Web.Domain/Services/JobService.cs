@@ -40,7 +40,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         public IEnumerable<Job> GetJobsByClientId(int id)
         {
-            IEnumerable<Job> jobs = _jobsRepository.GetJobsByClientId(id);
+            var jobs = _jobsRepository.GetJobsByClientId(id);
             
             return jobs;
         }
@@ -49,7 +49,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         {
             var job = _jobsRepository.GetJobWithJobId(id);
 
-            job.ClientContact = _userRepository.GetClientContactByAgreementId(id);
+            job.ClientContact = _userRepository.GetClientContactByAgreementId(job.Id);
 
             AssertCurrentUserHasPermissionsToViewJobDetails(job);
 

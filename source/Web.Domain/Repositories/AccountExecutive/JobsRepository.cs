@@ -413,8 +413,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             Title = "60142 - Senior Financial Systems Business Analyst",
             ClientName = "Cenovus",
             IssueDate = DateTime.UtcNow.AddDays(-14),
-            HasCallout = true,
-            IsProposed = true
+            NumProposed = 1,
+            NumCallouts = 1
         };
 
         private Job ProjectManager = new Job
@@ -423,8 +423,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             Title = "60141 - Intermediate Project Manager (w/ Asset Management/Investment Planning/Analytics exp). - long term contract!!!",
             ClientName = "Cenovus",
             IssueDate = DateTime.UtcNow.AddDays(-7),
-            HasCallout = false,
-            IsProposed = true
+            NumProposed = 1,
+            NumCallouts = 0
         };
         private Job SolutionsDeveloper = new Job
         {
@@ -432,8 +432,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             Title = "60139 - ASP.NET MVC Developer - Bilingual",
             ClientName = "Cenovus",
             IssueDate = DateTime.UtcNow.AddDays(-1),
-            HasCallout = false,
-            IsProposed = false
+            NumProposed = 0,
+            NumCallouts = 0
         };
         private Job EnterpriseArchitect = new Job
         {
@@ -441,8 +441,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             Title = "60138 - Information Architect",
             ClientName = "Nexen",
             IssueDate = new DateTime(2015, 11, 14),
-            HasCallout = false,
-            IsProposed = true
+            NumProposed = 1,
+            NumCallouts = 0
         };
 
 

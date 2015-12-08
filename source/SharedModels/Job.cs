@@ -11,13 +11,25 @@ namespace SiSystems.SharedModels
         public int Id { get; set; }
         public string ClientName { get; set; }
         public string Title { get; set; }
-        public bool IsProposed { get; set; }
-        public bool HasCallout { get; set; }
+
+        public bool IsProposed { get { return NumProposed > 0; } }
+        public bool HasCallout { get { return NumCallouts > 0; } }
         public DateTime IssueDate { get; set; }
 
-		public JobStatus Status { get; set; }
+        public JobStatus Status
+        {
+            get
+            {
+                if (IsProposed)
+                    return HasCallout
+                        ? JobStatus.Callout
+                        : JobStatus.Proposed;
+                
+                return JobStatus.Open;
+            }
+        }
 
-		public int NumShortlisted { get; set; }
+        public int NumShortlisted { get; set; }
 		public int NumProposed { get; set; }
 		public int NumCallouts { get; set; }
 
@@ -29,7 +41,6 @@ namespace SiSystems.SharedModels
             Title = string.Empty;
             ClientName = string.Empty;
             ClientContact = new UserContact();
-            Status = JobStatus.Open;
         }
     }
 
