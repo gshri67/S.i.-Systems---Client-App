@@ -130,8 +130,10 @@ namespace AccountExecutiveApp.iOS
                 tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
                     RightDetailCell;
 
-            cell.TextLabel.Text = "Contracts";
-            cell.DetailTextLabel.Text = _tableModel.NumberOfContracts().ToString();
+			cell.UpdateCell (
+				mainText: "Contracts",
+				rightDetailText: _tableModel.NumberOfContracts().ToString()
+			);
 
             return cell;
         }

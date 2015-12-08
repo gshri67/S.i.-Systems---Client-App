@@ -30,12 +30,12 @@ namespace AccountExecutiveApp.iOS
             return _listViewModel.NumberOfGroups();
         }
 
-        private void SetCellTextByRowNumber(UITableViewCell cell, int rowNumber)
+		private void SetCellTextByRowNumber(RightDetailCell cell, int rowNumber)
         {
-            cell.TextLabel.Text = _listViewModel.ClientNameByRowNumber(rowNumber);
-
-            if (cell.DetailTextLabel != null)
-                cell.DetailTextLabel.Text = _listViewModel.JobStateCountsByRowNumber(rowNumber);
+			cell.UpdateCell (
+				mainText: _listViewModel.ClientNameByRowNumber(rowNumber),
+				rightDetailText: _listViewModel.JobStateCountsByRowNumber(rowNumber)
+			);
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
