@@ -45,18 +45,5 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
 
             _apiMock.Verify(api => api.GetJobWithJobId(id));
         }
-
-        [Test]
-        public async void TaskStatus_AfterSuccessfullJobLoad_ReturnsRanToCompletion()
-        {
-            _apiMock.Setup(api => api.GetJobDetails(It.IsAny<int>())).ReturnsAsync(new JobDetails());
-            const int id = 1;
-            _viewModel = new JobDetailViewModel(_apiMock.Object);
-
-            var task = _viewModel.LoadJobWithJobID(id);
-            await task;
-
-            Assert.AreEqual(TaskStatus.RanToCompletion, task.Status);
-        }
     }
 }

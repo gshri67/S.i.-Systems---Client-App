@@ -11,7 +11,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public interface IJobsRepository
     {
         JobsSummarySet GetSummaryCountsByAccountExecutiveId(int id);
-        JobDetails GetJobDetailsByJobId(int id);
         IEnumerable<Job> GetJobsByClientId(int id);
         Job GetJobWithJobId(int id);
         IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id);
@@ -35,11 +34,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     Callouts = numCallouts
                 };
             }
-        }
-
-        public JobDetails GetJobDetailsByJobId(int id)
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<Job> GetJobsByClientId(int id)
@@ -296,30 +290,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 All = 4,
                 Proposed = 2,
                 Callouts = 1
-            };
-        }
-
-        public JobDetails GetJobDetailsByJobId(int jobId)
-        {
-            //todo: connect to DB, querying on selected id
-            return new JobDetails
-            {
-                Id = ProjectManager.Id,
-                ClientName = ProjectManager.ClientName,
-                Title = ProjectManager.Title,
-                ClientContact = LucyLu,
-                Shortlisted = new List<Contractor>
-                {
-                    LouFerigno,PeterGriffin,SpiderMan
-                }.AsEnumerable(),
-                Proposed = new List<Contractor>
-                {
-                    LouFerigno,PeterGriffin
-                }.AsEnumerable(),
-                Callouts = new List<Contractor>
-                {
-                    LouFerigno
-                }.AsEnumerable()
             };
         }
 

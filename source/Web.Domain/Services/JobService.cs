@@ -29,7 +29,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         /// <summary>
         /// Validate that the current user is the Account Executive for the job being requested
         /// </summary>
-        private void AssertCurrentUserHasPermissionsToViewJobDetails(JobDetails jobDetails)
+        private void AssertCurrentUserHasPermissionsToViewJobDetails(Job job)
         {
             //todo: add business rules regarding who can see which job details
             if(false)
@@ -39,26 +39,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         public IEnumerable<Job> GetJobsByClientId(int id)
         {
             IEnumerable<Job> jobs = _jobsRepository.GetJobsByClientId(id);
-            //AssertCurrentUserHasPermissionsToViewJobDetails(jobDetails);
-
+            
             return jobs;
-
-            //return _jobsRepository.GetJobsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
-        }
-
-        public JobDetails GetJobDetailsById(int id)
-        {
-            var jobDetails = _jobsRepository.GetJobDetailsByJobId(id);
-            jobDetails.Status = JobStatus.Shortlisted;
-            AssertCurrentUserHasPermissionsToViewJobDetails(jobDetails);
-
-            return jobDetails;
         }
 
         public Job GetJobWithJobId(int id)
         {
             var job = _jobsRepository.GetJobWithJobId(id);
-            //AssertCurrentUserHasPermissionsToViewJobDetails(jobDetails);
+            AssertCurrentUserHasPermissionsToViewJobDetails(job);
 
             return job;
         }

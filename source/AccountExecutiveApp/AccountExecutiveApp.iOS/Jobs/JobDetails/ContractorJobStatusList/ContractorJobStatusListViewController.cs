@@ -86,19 +86,5 @@ namespace AccountExecutiveApp.iOS
 					NavigationItem.Title = "";
 				});
 		}
-
-        public void LoadContractorStatusDetails(JobDetails jobDetails, JobStatus status)
-        {
-            if( status == JobStatus.Shortlisted )
-                _viewModel.LoadContractors(jobDetails.Shortlisted);
-            else if( status == JobStatus.Proposed )
-                _viewModel.LoadContractors(jobDetails.Proposed);
-            else if (status == JobStatus.Callout)
-                _viewModel.LoadContractors(jobDetails.Callouts);
-            else
-                _viewModel.LoadContractors( (new List<Contractor>()).AsEnumerable() );
-
-            _status = status;
-        }
 	}
 }

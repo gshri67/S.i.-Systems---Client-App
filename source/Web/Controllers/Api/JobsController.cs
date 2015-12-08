@@ -49,12 +49,5 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             
             return Request.CreateResponse(HttpStatusCode.OK, job);
         }
-
-        [Route("Details/{id}")]
-        public HttpResponseMessage GetJobDetails(int id)
-        {
-            var job = _service.GetJobDetailsById(id);
-            return Request.CreateResponse(HttpStatusCode.OK, job);
-        }
     }
 }
