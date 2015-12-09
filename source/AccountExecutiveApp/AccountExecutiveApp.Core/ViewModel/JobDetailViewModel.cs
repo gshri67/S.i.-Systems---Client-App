@@ -56,6 +56,11 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return Job.Title; }
         }
 
+		public int ClientContactId
+		{
+			get { return Job.ClientContact.Id; }
+		}
+
         public JobDetailViewModel(IMatchGuideApi api)
         {
             _api = api;

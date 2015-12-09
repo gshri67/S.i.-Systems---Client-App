@@ -94,7 +94,7 @@
                                         <rect key="frame" x="111" y="-4" width="106" height="177"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wYX-KT-KXh" userLabel="FS_startingButtonOverlay">
-                                        <rect key="frame" x="272" y="0.0" width="48" height="61"/>
+                                        <rect key="frame" x="216" y="0.0" width="104" height="145"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -874,6 +874,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="cyz-Yd-sMd" kind="push" identifier="ClientContactSegue" id="dc2-Qm-qJf"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="514" detailTextLabel="515" style="IBUITableViewCellStyleValue1" id="485" customClass="RightDetailCell">
                                         <rect key="frame" x="0.0" y="94" width="320" height="44"/>
@@ -1289,7 +1292,7 @@
                         <viewControllerLayoutGuide type="bottom" id="xXN-MF-KuD"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="uGz-sW-UxI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uzc-Yc-a2n" userLabel="DetailsViewBackgroundContainer">
@@ -1349,6 +1352,7 @@
                             <constraint firstItem="cf8-pE-RTZ" firstAttribute="top" secondItem="Uzc-Yc-a2n" secondAttribute="bottom" id="wal-mP-qnU"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="2E6-VT-1Jr"/>
                     <connections>
                         <outlet property="AddressLabel" destination="fWE-Cr-d0s" id="07q-Dy-OxT"/>
                         <outlet property="CompanyNameLabel" destination="6HS-rE-qRA" id="boP-UW-lLF"/>

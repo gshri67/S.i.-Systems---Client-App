@@ -21,6 +21,7 @@ namespace AccountExecutiveApp.iOS
 	    private const string ShortlistedSegueIdentifier = "ShortlistedSegue";
         private const string ProposedSegueIdentifier = "ProposedSegue";
         private const string CalloutSegueIdentifier = "CalloutSegue";
+		private const string ClientContactSegueIdentifier = "ClientContactSegue";
 
 		private string Subtitle;
 		private SubtitleHeaderView _subtitleHeaderView;
@@ -90,6 +91,11 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        base.PrepareForSegue(segue, sender);
 
+			if (segue.Identifier == ClientContactSegueIdentifier) 
+			{
+				var destinationController = segue.DestinationViewController as ClientContactDetailsViewController;
+				destinationController.SetContactId( _viewModel.ClientContactId, UserContactType.ClientContact);
+			}
 	        if (segue.Identifier == ShortlistedSegueIdentifier)
                 LoadContractorsIntoDestinationController(segue, JobStatus.Shortlisted);
 	        else if (segue.Identifier == ProposedSegueIdentifier)
