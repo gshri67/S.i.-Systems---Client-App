@@ -111,7 +111,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                return Contract.Contractor == null 
+                return Contract.Contractor == null || Contract.Contractor.ContactInformation == null
                     ? String.Empty
                     : Contract.Contractor.ContactInformation.FullName;
             }
