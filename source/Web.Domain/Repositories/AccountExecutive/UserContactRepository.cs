@@ -24,7 +24,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string emailsQuery =
-                    @"";
+                    @"SELECT PrimaryEmail
+                    FROM User_Email
+                    WHERE User_Email.UserID = @Id";
 
                 var emails = db.Connection.Query<string>(emailsQuery, param: new { Id = userId });
 
@@ -81,6 +83,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     WHERE Agreement.AgreementID = @Id";
 
                 var contact = db.Connection.Query<UserContact>(contractsQuery, param: new {Id = contractId}).FirstOrDefault();
+                
+                if (contact != null)
+                {
+                    contact.EmailAddresses = GetUserContactEmailsByUserId(contact.Id);
+                }
 
                 return contact;
             }
@@ -116,9 +123,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     ) Addr ON AddressMatrix.AddressID = Addr.AddressID
                     WHERE Agreement.AgreementID = @Id";
 
-                var contacts = db.Connection.Query<UserContact>(contractsQuery, param: new { Id = contractId });
+                var contact = db.Connection.Query<UserContact>(contractsQuery, param: new { Id = contractId }).FirstOrDefault();
 
-                return contacts.FirstOrDefault();
+                if (contact != null)
+                {
+                    contact.EmailAddresses = GetUserContactEmailsByUserId(contact.Id);
+                }
+
+                return contact;
             }
         }
 
@@ -151,9 +163,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     ) Addr ON AddressMatrix.AddressID = Addr.AddressID
                     WHERE Agreement.AgreementID = @Id";
 
-                var contacts = db.Connection.Query<UserContact>(contractsQuery, param: new { Id = contractId });
+                var contact = db.Connection.Query<UserContact>(contractsQuery, param: new { Id = contractId }).FirstOrDefault();
 
-                return contacts.FirstOrDefault();
+                if (contact != null)
+                {
+                    contact.EmailAddresses = GetUserContactEmailsByUserId(contact.Id);
+                }
+
+                return contact;
             }
         }
     }
