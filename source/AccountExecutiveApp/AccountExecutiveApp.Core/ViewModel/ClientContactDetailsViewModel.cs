@@ -12,6 +12,8 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private readonly IMatchGuideApi _api;
 
+        private UserContactType ContactType { get; set; }
+
         private UserContact _contact;
         public UserContact Contact
         {
@@ -33,12 +35,15 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                if( Contact.ContactType == UserContactType.ClientContact )
-                    return "Client Contact";
-                else if (Contact.ContactType == UserContactType.DirectReport)
-                    return "Direct Report";
-                else if (Contact.ContactType == UserContactType.BillingContact)
-                    return "Billing Contact";
+                switch (ContactType)
+                {
+                    case UserContactType.ClientContact:
+                        return "Client Contact";
+                    case UserContactType.DirectReport:
+                        return "Direct Report";
+                    case UserContactType.BillingContact:
+                        return "Billing Contact";
+                }
                 return string.Empty;
             }
         }
@@ -50,9 +55,9 @@ namespace AccountExecutiveApp.Core.ViewModel
             return task;
         }
 
-        private async Task GetContact(int Id)
+        private async Task GetContact(int id)
         {
-            Contact = await _api.GetUserContactById(Id);
+            Contact = await _api.GetUserContactById(id);
         }
 
 		public string ClientName
@@ -65,5 +70,9 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return Contact.Address ?? string.Empty; }
 		}
 
+        public void SetContactType(UserContactType contactType)
+        {
+            ContactType = contactType;
+        }
     }
 }

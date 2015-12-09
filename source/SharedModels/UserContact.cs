@@ -9,12 +9,13 @@ namespace SiSystems.SharedModels
     public class UserContact
     {
         public int Id { get; set; }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName).Trim(); } }
+
 		public string ClientName { get; set; }
 		public string Address { get; set; }
-        public UserContactType ContactType { get; set;  }
 
         public IEnumerable<string> EmailAddresses { get; set; }
         public IEnumerable<string> PhoneNumbers { get; set; }
@@ -28,8 +29,6 @@ namespace SiSystems.SharedModels
 
             EmailAddresses = Enumerable.Empty<string>();
             PhoneNumbers = Enumerable.Empty<string>();
-
-            ContactType = UserContactType.Contractor;
         }
     }
 }

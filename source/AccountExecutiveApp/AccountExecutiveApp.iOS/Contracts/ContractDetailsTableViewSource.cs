@@ -74,7 +74,7 @@ namespace AccountExecutiveApp.iOS
 		
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-		    if ((int) indexPath.Item == 0)
+            if ((int) indexPath.Item == 0)
 		    {
 		        var vc =
 		            (ContractorDetailsTableViewController)
@@ -84,11 +84,27 @@ namespace AccountExecutiveApp.iOS
 		    }
 		    else
 		    {
+                var contactTypeSelected = GetContactTypeForIndex(indexPath);
                 var vc = (ClientContactDetailsViewController) _parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
-                vc.setContactId(_contract.Contractor.Id);
+                vc.SetContactId(_contract.Contractor.Id, contactTypeSelected);
                 _parentController.ShowViewController(vc, _parentController);
 		    }
 		}
+
+	    private static UserContactType GetContactTypeForIndex(NSIndexPath indexPath)
+	    {
+	        switch (indexPath.Item)
+	        {
+                case 1:
+	                return UserContactType.DirectReport;
+                case 2:
+                    return UserContactType.ClientContact;
+                case 3:
+                    return UserContactType.BillingContact;
+                default: 
+                    return UserContactType.Contractor;
+	        }
+	    }
 	}
 }
 

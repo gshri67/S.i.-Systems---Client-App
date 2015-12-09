@@ -24,9 +24,7 @@ namespace SiSystems.SharedModels
 
     public class ConsultantContract : ConsultantContractSummary
     {
-        public int ConsultantId { get; set; }
-
-		public int ClientId { get; set; }
+        public int ClientId { get; set; }
 
         public UserContact DirectReport { get; set; }
         public UserContact ClientContact { get; set; }
