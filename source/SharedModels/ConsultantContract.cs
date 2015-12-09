@@ -39,7 +39,6 @@ namespace SiSystems.SharedModels
 
         public ConsultantContract()
         {
-            ConsultantId = 0;
             ClientId = 0;
             DirectReport = new UserContact();
             ClientContact = new UserContact();

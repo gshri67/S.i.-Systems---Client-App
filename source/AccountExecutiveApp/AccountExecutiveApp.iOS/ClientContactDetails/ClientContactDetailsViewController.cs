@@ -16,8 +16,7 @@ namespace AccountExecutiveApp.iOS
 	{
 		private readonly ClientContactDetailsViewModel _viewModel;
 		public const string CellIdentifier = "ContractorContactInfoCell";
-		private int _id;
-        private bool _needsUpdateInterface = false;
+		private bool _needsUpdateInterface = false;
 		private string Subtitle;
 		private SubtitleHeaderView _subtitleHeaderView;
 
@@ -27,10 +26,10 @@ namespace AccountExecutiveApp.iOS
 			_viewModel = DependencyResolver.Current.Resolve<ClientContactDetailsViewModel>();
 		}
 
-		public void setContactId(int Id)
+		public void SetContactId(int id, UserContactType contactType)
 		{
-			_id = Id;
-			LoadContact();
+			LoadContact(id);
+            _viewModel.SetContactType(contactType);
 		}
 
 		private void InstantiateTableViewSource()
@@ -83,9 +82,9 @@ namespace AccountExecutiveApp.iOS
 			Subtitle = _viewModel.PageSubtitle;
 		}
 
-		public async void LoadContact()
+		public void LoadContact(int id)
 		{
-			var task = _viewModel.LoadContact(_id);
+			var task = _viewModel.LoadContact(id);
 			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 		}
 
