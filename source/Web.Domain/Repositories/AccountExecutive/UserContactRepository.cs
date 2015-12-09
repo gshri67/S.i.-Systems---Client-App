@@ -89,7 +89,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 	                + ISNULL(Addr.Address3, '') 
 	                + ISNULL(Addr.Address4, '') AS Address
                 FROM Users 
-                JOIN Company ON Users.CompanyID = Company.CompanyID
+                LEFT JOIN Company ON Users.CompanyID = Company.CompanyID
                 LEFT JOIN (
 	                SELECT *
 	                FROM User_Address

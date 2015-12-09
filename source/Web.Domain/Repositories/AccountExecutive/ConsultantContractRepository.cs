@@ -18,6 +18,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         ContractSummarySet GetFloThruSummaryByAccountExecutiveId(int id);
         ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id);
         ConsultantContract GetContractDetailsById(int id);
+        IEnumerable<ConsultantContract> GetContractsByContractorId(int id);
     }
 
     public class ConsultantContractRepository : IConsultantContractRepository
@@ -127,6 +128,36 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 var contract = db.Connection.Query<ConsultantContract>(contractsQuery, param: new { Id = id }).FirstOrDefault();
 
                 return contract;
+            }
+        }
+
+        public IEnumerable<ConsultantContract> GetContractsByContractorId(int id)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string contractsQuery =
+                    @"SELECT Agreement.AgreementID AS ContractId,
+	                    Candidate.FirstName + ' '+ Candidate.LastName AS ContractorName,
+	                    Company.CompanyName AS ClientName,
+	                    Details.JobTitle AS Title,
+	                    Agreement.StartDate,
+	                    Agreement.EndDate,
+	                    CASE WHEN ISNUMERIC(Agreement.AgreementSubType) = 1 THEN CAST(Agreement.AgreementSubType AS INT) ELSE 0 END AS AgreementSubType,
+	                    Company.CompanyID ClientId,
+	                    RateDetails.BillRate,
+	                    RateDetails.PayRate,
+	                    RateDetails.BillRate - RateDetails.PayRate AS GrossMargin
+                    FROM Agreement
+                    JOIN PickList ON  Agreement.StatusType = PickList.PickListID
+                    JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
+                    JOIN Users Candidate ON Agreement.CandidateID = Candidate.UserID
+                    JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                    JOIN Agreement_ContractRateDetail RateDetails on Agreement.AgreementID = RateDetails.AgreementID
+                    WHERE Agreement.CandidateID = @Id";
+
+                var contracts = db.Connection.Query<ConsultantContract>(contractsQuery, param: new { Id = id });
+
+                return contracts;
             }
         }
     }
@@ -357,6 +388,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public ConsultantContract GetContractDetailsById(int id)
         {
             return ActiveMarketerAtNexenContract;
+        }
+
+        public IEnumerable<ConsultantContract> GetContractsByContractorId(int id)
+        {
+            return new List<ConsultantContract> {ActiveMarketerAtNexenContract};
         }
 
         private static readonly Contractor StandardMarketer = new Contractor

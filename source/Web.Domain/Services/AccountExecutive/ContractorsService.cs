@@ -13,23 +13,21 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
     {
         private readonly IContractorRepository _repo;
         private readonly IUserContactRepository _contactRepository;
-        private readonly ISessionContext _context;
+        private readonly IConsultantContractRepository _contractsRepository;
         
-        public ContractorsService(IContractorRepository repo, IUserContactRepository contactRepository, ISessionContext context)
+        public ContractorsService(IContractorRepository repo, IUserContactRepository contactRepository, IConsultantContractRepository contractsRepository)
         {
             _repo = repo;
             _contactRepository = contactRepository;
-            _context = context;
+            _contractsRepository = contractsRepository;
         }
 
         public Contractor GetContractorById(int id)
         {
-            var contact = _contactRepository.GetUserContactById(id);
-
-
-
             var contractor = _repo.GetContractorById(id);
-            
+            contractor.ContactInformation = _contactRepository.GetUserContactById(id);
+            contractor.Contracts = _contractsRepository.GetContractsByContractorId(id);
+
             AssertCurrentUserCanAccessContractor(contractor);
 
             return contractor;

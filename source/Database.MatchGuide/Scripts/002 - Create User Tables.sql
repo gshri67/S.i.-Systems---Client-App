@@ -114,3 +114,131 @@ GO
 
 ALTER TABLE [dbo].[User_Phone] CHECK CONSTRAINT [chkverticalid_User_Phone]
 GO
+
+
+
+
+CREATE TABLE [dbo].[Address](
+	[AddressID] [int] IDENTITY(1,1) NOT NULL,
+	[Address1] [varchar](100) NULL CONSTRAINT [DF_Address_Address1]  DEFAULT ('Need Address Information'),
+	[Address2] [varchar](100) NULL,
+	[Address3] [varchar](100) NULL,
+	[Address4] [varchar](100) NULL,
+	[City] [varchar](100) NULL,
+	[PostalCode] [varchar](6) NULL,
+	[ZipCode] [varchar](10) NULL,
+	[ProvinceType] [int] NULL,
+	[Country] [int] NULL CONSTRAINT [DF_Address_Country]  DEFAULT ((6)),
+	[AddressType] [int] NULL,
+	[CreateDate] [smalldatetime] NOT NULL CONSTRAINT [DF_Address_CreateDate]  DEFAULT (getdate()),
+	[CreateUserID] [int] NOT NULL,
+	[Updatedate] [smalldatetime] NULL,
+	[UpdateUserID] [int] NULL,
+	[Inactive] [bit] NOT NULL CONSTRAINT [DF_Address_Inactive]  DEFAULT ((0)),
+	[UserID] [int] NULL,
+	[verticalid] [int] NULL,
+ CONSTRAINT [PK_Addresses_1] PRIMARY KEY CLUSTERED 
+(
+	[AddressID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 97) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[Address]  WITH CHECK ADD  CONSTRAINT [chkverticalid_Address] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
+GO
+
+ALTER TABLE [dbo].[Address] CHECK CONSTRAINT [chkverticalid_Address]
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Identity for Addresses' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'AddressID'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Line 1 of address' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'Address1'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Line 2 of address' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'Address2'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Line 3 of address' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'Address3'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Line 4 of address' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'Address4'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'City' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'City'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PostalCode' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'PostalCode'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'ID from PickList of Province name' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'ProvinceType'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Country PickListID from PickList' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'Country'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'ID from PickList address types' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'AddressType'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Date address added to table' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'CreateDate'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'UserID for internal user who created the address record ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'CreateUserID'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Date record updated' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'Updatedate'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'UserID for internal user who updated the address record' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'UpdateUserID'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Date address was deleted (marked as invalid)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Address', @level2type=N'COLUMN',@level2name=N'Inactive'
+GO
+
+
+CREATE TABLE [dbo].[User_Address](
+	[UserID] [int] NOT NULL,
+	[AddressID] [int] NOT NULL,
+	[MainAddress] [bit] NULL CONSTRAINT [DF_User_Address_MainAddress]  DEFAULT (0),
+	[Inactive] [bit] NOT NULL CONSTRAINT [DF_User_Address_Inactive]  DEFAULT (0),
+	[verticalid] [int] NULL,
+ CONSTRAINT [PK_UserAddressIDs] PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC,
+	[AddressID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 97) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[User_Address]  WITH NOCHECK ADD  CONSTRAINT [FK_UserAddressIDs_Addresses] FOREIGN KEY([AddressID])
+REFERENCES [dbo].[Address] ([AddressID])
+GO
+
+ALTER TABLE [dbo].[User_Address] NOCHECK CONSTRAINT [FK_UserAddressIDs_Addresses]
+GO
+
+ALTER TABLE [dbo].[User_Address]  WITH CHECK ADD  CONSTRAINT [FK_UserAddressIDs_Users] FOREIGN KEY([UserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+
+ALTER TABLE [dbo].[User_Address] CHECK CONSTRAINT [FK_UserAddressIDs_Users]
+GO
+
+ALTER TABLE [dbo].[User_Address]  WITH CHECK ADD  CONSTRAINT [chkverticalid_User_Address] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
+GO
+
+ALTER TABLE [dbo].[User_Address] CHECK CONSTRAINT [chkverticalid_User_Address]
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'UserID from Users table of individual with the address' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User_Address', @level2type=N'COLUMN',@level2name=N'UserID'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'AddressID from Address table of the location address' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'User_Address', @level2type=N'COLUMN',@level2name=N'AddressID'
+GO
+
+
