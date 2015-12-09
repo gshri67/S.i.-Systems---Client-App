@@ -19,6 +19,32 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
     public class UserContactRepository : IUserContactRepository
     {
+        private IEnumerable<string> GetUserContactEmailsByUserId(int userId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string emailsQuery =
+                    @"";
+
+                var emails = db.Connection.Query<string>(emailsQuery, param: new { Id = userId });
+
+                return emails;
+            }
+        }
+
+        private IEnumerable<string> GetUserContactPhoneNumbersByUserId(int userId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string phoneNumbersQuery =
+                    @"";
+
+                var phoneNumbers = db.Connection.Query<string>(phoneNumbersQuery, param: new { Id = userId });
+
+                return phoneNumbers;
+            }
+        }
+
         public UserContact GetUserContactById(int id)
         {
             throw new NotImplementedException();
@@ -29,15 +55,30 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"SELECT
-	                    directReport.FirstName FirstName,
-                        directReport.LastName LastName,
-                        directReportEmail.PrimaryEmail EmailAddress
-                    FROM [Agreement] agr
-                    JOIN [Agreement_ContractAdminContactMatrix] agrContact on agrContact.AgreementID = agr.AgreementID
-	                LEFT JOIN [Users] directReport ON agrContact.DirectReportUserID = directReport.UserID
-                    JOIN [User_Email] directReportEmail on directReportEmail.UserID = directReport.UserID
-                    WHERE agr.AgreementID = @Id";
+                    @"SELECT Agreement.ContactID,
+	                    Users.FirstName, 
+	                    Users.LastName,
+	                    Company.CompanyName,
+	                    ISNULL(Addr.Address1, '') 
+	                    + ISNULL(Addr.Address2, '') 
+	                    + ISNULL(Addr.Address3, '') 
+	                    + ISNULL(Addr.Address4, '') AS Address
+                    FROM Agreement
+                    JOIN Agreement_ContractAdminContactMatrix Matrix on Matrix.AgreementID = Agreement.AgreementID
+                    JOIN Users ON Matrix.DirectReportUserID = Users.UserID
+                    JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                    LEFT JOIN (
+	                    SELECT *
+	                    FROM User_Address
+	                    WHERE User_Address.MainAddress = 1 
+	                    AND User_Address.Inactive = 0
+                    ) AddressMatrix ON Users.UserID = AddressMatrix.AddressID
+                    LEFT JOIN (
+	                    SELECT *
+	                    FROM Address	
+	                    WHERE Address.Inactive = 0
+                    ) Addr ON AddressMatrix.AddressID = Addr.AddressID
+                    WHERE Agreement.AgreementID = @Id";
 
                 var contact = db.Connection.Query<UserContact>(contractsQuery, param: new {Id = contractId}).FirstOrDefault();
 
@@ -50,15 +91,30 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"SELECT
-	                    billingContact.FirstName FirstName,
-                        billingContact.LastName LastName,
-                        billingContactEmail.PrimaryEmail EmailAddress
-                    FROM [Agreement] agr
-                    JOIN [Agreement_ContractAdminContactMatrix] agrContact on agrContact.AgreementID = agr.AgreementID
-	                LEFT JOIN [Users] billingContact ON agrContact.BillingUserID = billingContact.UserID
-                    JOIN [User_Email] billingContactEmail on billingContactEmail.UserID = billingContact.UserID
-                    WHERE agr.AgreementID = @Id";
+                    @"SELECT Agreement.ContactID,
+	                    Users.FirstName, 
+	                    Users.LastName,
+	                    Company.CompanyName,
+	                    ISNULL(Addr.Address1, '') 
+	                    + ISNULL(Addr.Address2, '') 
+	                    + ISNULL(Addr.Address3, '') 
+	                    + ISNULL(Addr.Address4, '') AS Address
+                    FROM Agreement
+                    JOIN Agreement_ContractAdminContactMatrix Matrix on Matrix.AgreementID = Agreement.AgreementID
+                    JOIN Users ON Matrix.BillingUserID = Users.UserID
+                    JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                    LEFT JOIN (
+	                    SELECT *
+	                    FROM User_Address
+	                    WHERE User_Address.MainAddress = 1 
+	                    AND User_Address.Inactive = 0
+                    ) AddressMatrix ON Users.UserID = AddressMatrix.AddressID
+                    LEFT JOIN (
+	                    SELECT *
+	                    FROM Address	
+	                    WHERE Address.Inactive = 0
+                    ) Addr ON AddressMatrix.AddressID = Addr.AddressID
+                    WHERE Agreement.AgreementID = @Id";
 
                 var contacts = db.Connection.Query<UserContact>(contractsQuery, param: new { Id = contractId });
 
@@ -71,14 +127,29 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"SELECT
-	                    clientContact.FirstName FirstName,
-                        clientContact.LastName LastName,
-                        clientContactEmail.PrimaryEmail EmailAddress
-                    FROM [Agreement] agr
-                    LEFT JOIN [Users] clientContact ON agr.CandidateID = clientContact.UserID
-                    JOIN [User_Email] clientContactEmail on clientContactEmail.UserID = clientContact.UserID
-                    WHERE agr.AgreementID = @Id";
+                    @"SELECT Agreement.ContactID,
+	                    Users.FirstName, 
+	                    Users.LastName,
+	                    Company.CompanyName,
+	                    ISNULL(Addr.Address1, '') 
+	                    + ISNULL(Addr.Address2, '') 
+	                    + ISNULL(Addr.Address3, '') 
+	                    + ISNULL(Addr.Address4, '') AS Address
+                    FROM Agreement
+                    JOIN Users ON Agreement.ContactID = Users.UserID
+                    JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                    LEFT JOIN (
+	                    SELECT *
+	                    FROM User_Address
+	                    WHERE User_Address.MainAddress = 1 
+	                    AND User_Address.Inactive = 0
+                    ) AddressMatrix ON Users.UserID = AddressMatrix.AddressID
+                    LEFT JOIN (
+	                    SELECT *
+	                    FROM Address	
+	                    WHERE Address.Inactive = 0
+                    ) Addr ON AddressMatrix.AddressID = Addr.AddressID
+                    WHERE Agreement.AgreementID = @Id";
 
                 var contacts = db.Connection.Query<UserContact>(contractsQuery, param: new { Id = contractId });
 
