@@ -56,10 +56,10 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             var contractor = Contractors.ElementAtOrDefault(rowNumber);
             
-            if (contractor == null || string.IsNullOrEmpty(contractor.FullName))
+            if (contractor == null || string.IsNullOrEmpty(contractor.ContactInformation.FullName))
                 return string.Empty;
 
-            return contractor.FullName;
+            return contractor.ContactInformation.FullName;
         }
 
         public string FormattedContractorStatusByRowNumber(int rowNumber)

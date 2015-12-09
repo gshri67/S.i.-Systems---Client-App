@@ -141,12 +141,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 	                    AND User_Address.Inactive = 0
                     ) AddressMatrix ON Users.UserID = AddressMatrix.AddressID
                     LEFT JOIN (
-	                    SELECT *
+	                    SELECT * 
 	                    FROM Address	
 	                    WHERE Address.Inactive = 0
                     ) Addr ON AddressMatrix.AddressID = Addr.AddressID
                     WHERE Agreement.AgreementID = @Id";
-
+                
                 var contact = db.Connection.Query<UserContact>(contractsQuery, param: new {Id = contractId}).FirstOrDefault();
                 
                 if (contact != null)

@@ -361,11 +361,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         private static readonly Contractor StandardMarketer = new Contractor
         {
-            Id = 1,
-            FirstName = "Jon",
-            LastName = "Marketer",
-            EmailAddresses = new List<string>() { "jm@email.com" }.AsEnumerable(),
-            PhoneNumbers = Enumerable.Empty<string>(),
+            ContactInformation = new UserContact
+            {
+                Id = 1,
+                FirstName = "Jon",
+                LastName = "Marketer",
+                EmailAddresses = new List<string>() { "jm@email.com" }.AsEnumerable(),
+                PhoneNumbers = Enumerable.Empty<string>()
+            },
             Rating = MatchGuideConstants.ResumeRating.Standard
         };
 

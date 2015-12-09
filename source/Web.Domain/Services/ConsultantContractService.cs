@@ -63,6 +63,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             
             details.StatusType = ContractStatusTypeForStartDateAndEndDate(details.StartDate, details.EndDate);
 
+            //todo: this is the wrong Id, I am passing in contract ID, but this function uses user id
             details.Contractor = _contractorRepository.GetContractorById(id);
             details.DirectReport = _userContactRepository.GetDirectReportByAgreementId(details.ContractId);
             details.ClientContact = _userContactRepository.GetClientContactByAgreementId(details.ContractId);

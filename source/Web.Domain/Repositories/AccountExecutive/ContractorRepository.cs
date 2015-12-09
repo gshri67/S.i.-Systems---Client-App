@@ -44,11 +44,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             return new Contractor
             {
-                Id = 1,
-                FirstName = "Robert",
-                LastName = "Paulson", 
-                EmailAddresses = new List<string>(){ "rp.consultant@email.com"}.AsEnumerable(),
-                PhoneNumbers = new List<string>() { "(555)555-1231", "(555)222-2212" }.AsEnumerable(),
+                ContactInformation = new UserContact
+                {
+                    Id = 1,
+                    FirstName = "Robert",
+                    LastName = "Paulson", 
+                    EmailAddresses = new List<string>(){ "rp.consultant@email.com"}.AsEnumerable(),
+                    PhoneNumbers = new List<string>() { "(555)555-1231", "(555)222-2212" }.AsEnumerable(),
+                },
                 Rating = MatchGuideConstants.ResumeRating.Standard,
                 ResumeText = string.Empty,
                 Specializations = new List<Specialization>
@@ -108,8 +111,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         private Contractor LouFerigno = new Contractor
         {
-            FirstName = "Lou",
-            LastName = "Ferigno",
+            ContactInformation = new UserContact
+            {
+                FirstName = "Lou",
+                LastName = "Ferigno"
+            },
             BillRate = 176.22f,
             PayRate = 180.00f,
             GrossMargin = 30.00f,
@@ -118,8 +124,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         private Contractor PeterGriffin = new Contractor
         {
-            FirstName = "Peter",
-            LastName = "Griffin",
+            ContactInformation = new UserContact
+            {
+                FirstName = "Peter",
+                LastName = "Griffin"
+            },
+            
             BillRate = 176.22f,
             PayRate = 180.00f,
             GrossMargin = 30.00f,
@@ -128,8 +138,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         private Contractor SpiderMan = new Contractor
         {
-            FirstName = "Spider",
-            LastName = "Man",
+            ContactInformation = new UserContact
+            {
+                FirstName = "Spider",
+                LastName = "Man"
+            },
             BillRate = 176.22f,
             PayRate = 180.00f,
             GrossMargin = 30.00f,

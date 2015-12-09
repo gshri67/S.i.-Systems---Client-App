@@ -43,7 +43,7 @@ namespace AccountExecutiveApp.iOS
 
 				if (indexPath.Item == 0) 
 				{
-					mainText = _contract.Contractor.FullName;
+                    mainText = _contract.Contractor.ContactInformation.FullName;
 					subtitleText = "Contractor";
 				}
 				else if (indexPath.Item == 1) 
@@ -79,14 +79,14 @@ namespace AccountExecutiveApp.iOS
 		        var vc =
 		            (ContractorDetailsTableViewController)
 		                _parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
-		        vc.setContractorId(_contract.Contractor.Id);
+                vc.setContractorId(_contract.Contractor.ContactInformation.Id);
 		        _parentController.ShowViewController(vc, _parentController);
 		    }
 		    else
 		    {
                 var contactTypeSelected = GetContactTypeForIndex(indexPath);
                 var vc = (ClientContactDetailsViewController) _parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
-                vc.SetContactId(_contract.Contractor.Id, contactTypeSelected);
+                vc.SetContactId(_contract.Contractor.ContactInformation.Id, contactTypeSelected);
                 _parentController.ShowViewController(vc, _parentController);
 		    }
 		}

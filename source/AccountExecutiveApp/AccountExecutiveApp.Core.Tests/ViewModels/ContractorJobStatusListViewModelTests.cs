@@ -39,7 +39,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             {
                 new Contractor
                 {
-                    FirstName = "Bob"
+                    ContactInformation = new UserContact{ FirstName = "Bob" }
                 }
             });
             var oneMoreThanNumberOfConsultants = _viewModel.NumberOfContractors() + 1;
@@ -63,7 +63,10 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             {
                 new Contractor
                 {
-                    FirstName = "Bob"
+                    ContactInformation = new UserContact
+                    {
+                        FirstName = "Bob"
+                    }
                 }
             });
 

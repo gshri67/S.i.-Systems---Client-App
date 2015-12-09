@@ -65,8 +65,8 @@ namespace AccountExecutiveApp.Core.ViewModel
         
         public string ConsultantsFullNameByRowNumber( int row )
         {
-           return IndexIsInBounds(row) 
-                ? Contracts.ElementAt(row).Contractor.FullName
+           return IndexIsInBounds(row)
+                ? Contracts.ElementAt(row).Contractor.ContactInformation.FullName
                 : string.Empty;
         }
 

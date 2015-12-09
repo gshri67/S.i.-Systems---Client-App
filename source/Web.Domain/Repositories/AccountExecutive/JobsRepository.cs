@@ -391,20 +391,29 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         private Contractor LouFerigno = new Contractor
         {
-            FirstName = "Lou",
-            LastName = "Ferigno",
+            ContactInformation = new UserContact
+            {
+                FirstName = "Lou",
+                LastName = "Ferigno"
+            }
         };
 
         private Contractor PeterGriffin = new Contractor
         {
-            FirstName = "Peter",
-            LastName = "Griffin",
+            ContactInformation = new UserContact
+            {
+                FirstName = "Peter",
+                LastName = "Griffin"
+            }
         };
 
         private Contractor SpiderMan = new Contractor
         {
-            FirstName = "Spider",
-            LastName = "Man",
+            ContactInformation = new UserContact
+            {
+                FirstName = "Spider",
+                LastName = "Man"
+            }
         };
 
         private Job BusinessAnalyst = new Job

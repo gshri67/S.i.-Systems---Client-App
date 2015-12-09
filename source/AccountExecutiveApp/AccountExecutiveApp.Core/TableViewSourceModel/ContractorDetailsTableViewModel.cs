@@ -15,25 +15,25 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
         public string FormattedPhoneNumberByRowNumber( int row )
         {
-            if( _contractor.PhoneNumbers.Count() > row )
-                return _contractor.PhoneNumbers.ElementAt(row);
+            if( _contractor.ContactInformation.PhoneNumbers.Count() > row )
+                return _contractor.ContactInformation.PhoneNumbers.ElementAt(row);
             return string.Empty;
         }
         public string FormattedEmailByRowNumber(int row)
         {
-            if (_contractor.EmailAddresses.Count() > row)
-                return _contractor.EmailAddresses.ElementAt(row);
+            if (_contractor.ContactInformation.EmailAddresses.Count() > row)
+                return _contractor.ContactInformation.EmailAddresses.ElementAt(row);
             return string.Empty;
         }
 
         public int NumberOfPhoneNumbers()
         {
-			return _contractor.PhoneNumbers.Count();
+            return _contractor.ContactInformation.PhoneNumbers.Count();
         }
 
         public int NumberOfEmails()
         {
-			return _contractor.EmailAddresses.Count();
+            return _contractor.ContactInformation.EmailAddresses.Count();
         }
 
         public int NumberOfContracts()
