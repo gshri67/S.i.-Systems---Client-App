@@ -24,7 +24,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         private readonly IDateTimeService _dateTimeService;
         private readonly ISessionContext _session;
 
-        public ConsultantContractService(IConsultantContractRepository consultantContractRepository, IContractorRepository contractorRepository, IUserContactRepository userContactRepository, IDateTimeService dateTimeService, ISessionContext session)
+        public ConsultantContractService(IConsultantContractRepository consultantContractRepository, IContractorRepository contractorRepository, IUserContactRepository userContactRepository,IDateTimeService dateTimeService, ISessionContext session)
         {
             _consultantContractRepository = consultantContractRepository;
             _contractorRepository = contractorRepository;
@@ -57,14 +57,23 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             return contracts;
         }
 
+        private Contractor GetContractorByContractId(int id)
+        {
+            var contractorId = _contractorRepository.GetContractorIdByContractId(id);
+            var contractor = _contractorRepository.GetContractorById(contractorId);
+            contractor.ContactInformation = _userContactRepository.GetUserContactById(contractorId);
+            contractor.Contracts = _consultantContractRepository.GetContractsByContractorId(contractorId);
+
+            return contractor;
+        }
+
         public ConsultantContract GetContractDetailsById(int id)
         {
             var details = _consultantContractRepository.GetContractDetailsById(id);
             
             details.StatusType = ContractStatusTypeForStartDateAndEndDate(details.StartDate, details.EndDate);
 
-            //todo: this is the wrong Id, I am passing in contract ID, but this function uses user id
-            details.Contractor = _contractorRepository.GetContractorById(id);
+            details.Contractor = GetContractorByContractId(id);
             details.DirectReport = _userContactRepository.GetDirectReportByAgreementId(details.ContractId);
             details.ClientContact = _userContactRepository.GetClientContactByAgreementId(details.ContractId);
             details.BillingContact = _userContactRepository.GetBillingContactByAgreementId(details.ContractId);

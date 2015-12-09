@@ -11,9 +11,10 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public interface IContractorRepository
     {
         Contractor GetContractorById(int id);
-        IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id);
-        IEnumerable<Contractor> GetProposedContractorsByJobId(int id);
-        IEnumerable<Contractor> GetCalloutContractorsByJobId(int id); 
+        IEnumerable<int> GetShortlistedContractorsByJobId(int id);
+        IEnumerable<int> GetProposedContractorsByJobId(int id);
+        IEnumerable<int> GetCalloutContractorsByJobId(int id);
+        int GetContractorIdByContractId(int contractId);
     }
     
     public class ContractorRepository : IContractorRepository
@@ -74,19 +75,106 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
-        public IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id)
+        public IEnumerable<int> GetShortlistedContractorsByJobId(int id)
         {
-            throw new NotImplementedException();
+            const string contractorsQuery =
+                @"SELECT DISTINCT(Matrix.CandidateUserID)
+                FROM Agreement
+                JOIN PickList ON PickList.PickListID = Agreement.StatusType
+                JOIN Agreement_OpportunityCandidateMatrix Matrix on Agreement.AgreementID = Matrix.AgreementID
+                WHERE Agreement.AgreementType IN(
+	                SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+                )
+                AND PickList.PickListID IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+                )
+                AND Agreement.AgreementID = @Id
+                AND Matrix.StatusType IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('CandidateOpportunityStatusType', 'Short List', -1)
+                )
+                AND Matrix.StatusSubType IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('CandidateOpportunitySubStatusType', 'Pending,Placed,Proposed', -1)
+                )";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+
+                var contractors = db.Connection.Query<int>(contractorsQuery, new { Id = id });
+                
+                return contractors;
+            }
         }
 
-        public IEnumerable<Contractor> GetProposedContractorsByJobId(int id)
+        public IEnumerable<int> GetProposedContractorsByJobId(int id)
         {
-            throw new NotImplementedException();
+            const string contractorsQuery =
+                @"SELECT DISTINCT(ActivityTransaction.CandidateUserID)
+                FROM Agreement
+                JOIN PickList ON PickList.PickListID = Agreement.StatusType
+                JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
+                JOIN ActivityType ON ActivityType.ActivityTypeID = ActivityTransaction.ActivityTypeID
+                WHERE Agreement.AgreementType IN(
+	                SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+                )
+                AND PickList.PickListID IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+                )
+                AND Agreement.AgreementID = @Id
+                AND ActivityTransaction.ActivityTypeID IN (
+                    Select ActivityTypeID FROM ActivityType WHERE ActivityTypeName = 'CandidatePropose' AND Inactive = 0
+                )";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+
+                var contractors = db.Connection.Query<int>(contractorsQuery, new { Id = id });
+
+                return contractors;
+            }
         }
 
-        public IEnumerable<Contractor> GetCalloutContractorsByJobId(int id)
+        public IEnumerable<int> GetCalloutContractorsByJobId(int id)
         {
-            throw new NotImplementedException();
+            const string contractorsQuery =
+                @"SELECT DISTINCT(ActivityTransaction.CandidateUserID)
+                FROM Agreement
+                JOIN PickList ON PickList.PickListID = Agreement.StatusType
+                JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
+                JOIN ActivityType ON ActivityType.ActivityTypeID = ActivityTransaction.ActivityTypeID
+                WHERE Agreement.AgreementType IN(
+	                SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
+                )
+                AND PickList.PickListID IN (
+	                SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
+                )
+                AND Agreement.AgreementID = @Id
+                AND ActivityTransaction.ActivityTypeID IN (
+                    Select ActivityTypeID FROM ActivityType WHERE ActivityTypeName = 'OpportunityCallout' AND Inactive = 0
+                )";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+
+                var contractors = db.Connection.Query<int>(contractorsQuery, new { Id = id });
+
+                return contractors;
+            }
+        }
+
+        public int GetContractorIdByContractId(int contractId)
+        {
+            const string contractorsQuery =
+                @"SELECT Agreement.CandidateID
+                FROM Agreement
+                WHERE Agreement.AgreementID = @Id";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+
+                var id = db.Connection.Query<int>(contractorsQuery, new { Id = contractId }).FirstOrDefault();
+
+                return id;
+            }
         }
     }
 
@@ -128,7 +216,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             };
         }
 
-        public IEnumerable<Contractor> GetShortlistedContractorsByJobId(int id)
+        public IEnumerable<int> GetShortlistedContractorsByJobId(int id)
         {
             IEnumerable<Contractor> shortlisted = new List<Contractor>
             {
@@ -137,10 +225,10 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 SpiderMan
             }.AsEnumerable();
 
-            return shortlisted;
+            return Enumerable.Empty<int>();
         }
 
-        public IEnumerable<Contractor> GetProposedContractorsByJobId(int id)
+        public IEnumerable<int> GetProposedContractorsByJobId(int id)
         {
             IEnumerable<Contractor> proposed = new List<Contractor>
             {
@@ -148,17 +236,22 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 PeterGriffin
             }.AsEnumerable();
 
-            return proposed;
+            return Enumerable.Empty<int>();
         }
 
-        public IEnumerable<Contractor> GetCalloutContractorsByJobId(int id)
+        public IEnumerable<int> GetCalloutContractorsByJobId(int id)
         {
             IEnumerable<Contractor> callouts = new List<Contractor>
             {
                 LouFerigno
             }.AsEnumerable();
 
-            return callouts;
+            return Enumerable.Empty<int>();
+        }
+
+        public int GetContractorIdByContractId(int contractId)
+        {
+            return 10;
         }
 
         private Contractor LouFerigno = new Contractor

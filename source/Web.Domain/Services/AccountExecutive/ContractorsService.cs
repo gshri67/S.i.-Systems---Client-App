@@ -42,14 +42,20 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
         public IEnumerable<Contractor> GetContractorsByJobIdAndStatus(int id, JobStatus status)
         {
-            IEnumerable<Contractor> contractors = Enumerable.Empty<Contractor>();
+            var contractors = new List<Contractor>();
+            var contractorIds = Enumerable.Empty<int>();
 
             if( status == JobStatus.Shortlisted )
-                contractors = _repo.GetShortlistedContractorsByJobId(id);
+                contractorIds = _repo.GetShortlistedContractorsByJobId(id);
             else if (status == JobStatus.Proposed)
-                contractors = _repo.GetProposedContractorsByJobId(id);
+                contractorIds = _repo.GetProposedContractorsByJobId(id);
             else if (status == JobStatus.Callout)
-                contractors = _repo.GetCalloutContractorsByJobId(id);
+                contractorIds = _repo.GetCalloutContractorsByJobId(id);
+
+            foreach (var contractorId in contractorIds)
+            {
+                contractors.Add(GetContractorById(contractorId));
+            }
 
             return contractors;
         }
