@@ -98,8 +98,8 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 		public string FormattedMarkupByRowNumber( int rowNumber )
 		{
-            if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
-                return _contractors.ElementAt(rowNumber).Markup.ToString();
+		    if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
+		        return "N/A";//_contractors.ElementAt(rowNumber).Markup.ToString();
 
 			return string.Empty;
 		}

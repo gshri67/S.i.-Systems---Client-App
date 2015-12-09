@@ -68,6 +68,9 @@ namespace AccountExecutiveApp.iOS
 			AddImageToLabel( new UIImage ("plus-round-centred.png"), FT_plusLabel);
 			AddImageToLabel( new UIImage ("minus-round-centred.png"), FS_MinusLabel);
 			AddImageToLabel( new UIImage ("minus-round-centred.png"), FT_minusLabel);
+
+		    OpenTimesheetsLabel.Text = "N/A";
+            SubmittedTimesheetsLabel.Text = "N/A";
 		}
 
 		private void AddImageToLabel( UIImage image, UILabel label )
