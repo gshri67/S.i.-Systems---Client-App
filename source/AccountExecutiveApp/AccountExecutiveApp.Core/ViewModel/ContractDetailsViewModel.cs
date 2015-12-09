@@ -11,7 +11,14 @@ namespace AccountExecutiveApp.Core.ViewModel
     public class ContractDetailsViewModel
     {
         private readonly IMatchGuideApi _api;
-
+        private bool _successfullyLoadedContracts {
+            get
+            {
+                if (Contract.ClientName == string.Empty)
+                    return false;
+                return true;
+            }
+        }
         private ConsultantContract _contract;
         public ConsultantContract Contract 
         {
@@ -33,17 +40,32 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-				return string.Format("{0} - {2}", Contract.StartDate.ToString("MMM dd, yyyy"),
+                if (!_successfullyLoadedContracts)
+                    return string.Empty;
+
+				return string.Format("{0} - {1}", Contract.StartDate.ToString("MMM dd, yyyy"),
                     Contract.EndDate.ToString("MMM dd, yyyy"));
             }
         }
 		public string FormattedStartDate
 		{
-			get { return string.Format("{0}", Contract.StartDate.ToString("MMM dd, yyyy")); }
+		    get
+		    {
+                if (!_successfullyLoadedContracts)
+                    return string.Empty;
+
+		        return string.Format("{0}", Contract.StartDate.ToString("MMM dd, yyyy"));
+		    }
 		}
 		public string FormattedEndDate
 		{
-			get { return string.Format("{0}", Contract.EndDate.ToString("MMM dd, yyyy")); }
+		    get
+		    {
+                if (!_successfullyLoadedContracts)
+                    return string.Empty;
+
+		        return string.Format("{0}", Contract.EndDate.ToString("MMM dd, yyyy"));
+		    }
 		}
 
         public string FormattedBillRate
@@ -68,7 +90,13 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 		public string FormattedClientAndStatus
 		{
-			get { return string.Format("{0} | {1}", Contract.ClientName, Contract.AgreementSubType.ToString()); }
+		    get
+		    {
+                if (!_successfullyLoadedContracts)
+                    return string.Empty;
+
+		        return string.Format("{0} | {1}", Contract.ClientName, Contract.AgreementSubType.ToString());
+		    }
 		}
 
         public string ContractTitle

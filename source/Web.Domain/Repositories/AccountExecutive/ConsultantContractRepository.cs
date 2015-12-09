@@ -189,7 +189,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 	                                        agrDetail.JobTitle Title,
 	                                        agr.StartDate StartDate,
 	                                        agr.EndDate EndDate,
-											company.CompanyName CompanyName
+											company.CompanyName ClientName
                                             FROM [Agreement] agr
                                             JOIN [Agreement_ContractAdminContactMatrix] agrContact on agrContact.AgreementID = agr.AgreementID
                                             LEFT JOIN [Agreement_ContractDetail] agrDetail ON agr.AgreementID = agrDetail.AgreementID

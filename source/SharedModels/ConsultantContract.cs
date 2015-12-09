@@ -38,5 +38,32 @@ namespace SiSystems.SharedModels
 		public float Markup { get; set; }
 
         public Contractor Contractor { get; set; }
+
+        public ConsultantContract()
+        {
+            ConsultantId = 0;
+            ClientId = 0;
+            DirectReport = new UserContact();
+            ClientContact = new UserContact();
+            BillingContact = new UserContact();
+            BillRate = 0;
+            PayRate = 0;
+            GrossMargin = 0;
+            Markup = 0;
+            Contractor = new Contractor();
+
+            ContractId = 0;
+
+            ContractorName = string.Empty;
+            ClientName  = string.Empty;
+            Title  = string.Empty;
+
+            StartDate = new DateTime();
+            EndDate = new DateTime();
+
+            AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru;
+
+            StatusType = ContractStatusType.Active; 
+        }
     }
 }
