@@ -85,7 +85,8 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 		public string FormattedMarkup
 		{
-			get { return string.Format("{0:C}", Contract.Markup); }
+            //get { return string.Format("{0:C}", Contract.Markup); }
+            get { return string.Format("N/A"); }
 		}
 
 		public string FormattedClientAndStatus
