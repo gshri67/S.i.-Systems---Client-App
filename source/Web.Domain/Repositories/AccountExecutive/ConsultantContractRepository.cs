@@ -14,7 +14,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 {
     public interface IConsultantContractRepository
     {
-        IEnumerable<ConsultantContract> GetContracts();
         IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id);
         ContractSummarySet GetFloThruSummaryByAccountExecutiveId(int id);
         ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id);
@@ -23,19 +22,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
     public class ConsultantContractRepository : IConsultantContractRepository
     {
-        private static readonly string Constants = @"DECLARE @ACTIVE int = " + MatchGuideConstants.ContractStatusTypes.Active + ","
-                            + "@PENDING int = " + MatchGuideConstants.ContractStatusTypes.Pending + ","
-                            + "@FLOTHRU int = " + MatchGuideConstants.AgreementSubTypes.FloThru + ","
-                            + "@FULLYSOURCED int = " + MatchGuideConstants.AgreementSubTypes.Consultant + ","
-                            + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
-                            + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
-
         public IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractSummaryQuery = @"SELECT Agreement.AgreementID AS ContractId,
-	                                                            Candidate.FirstName AS ContractorName,
+	                                                            Candidate.FirstName + ' '+ Candidate.LastName AS ContractorName,
 	                                                            Company.CompanyName AS ClientName,
 	                                                            Details.JobTitle AS Title,
 	                                                            Agreement.StartDate,
@@ -68,64 +60,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 return contracts;
             }
-        }
-
-        public IEnumerable<ConsultantContract> GetContracts()
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                string constants = @"DECLARE @ACTIVE int = " + MatchGuideConstants.ContractStatusTypes.Active + ","
-                            + "@PENDING int = " + MatchGuideConstants.ContractStatusTypes.Pending + ","
-                            + "@FLOTHRU int = " + MatchGuideConstants.AgreementSubTypes.FloThru + ","
-                            + "@FULLYSOURCED int = " + MatchGuideConstants.AgreementSubTypes.Consultant + ","
-                            + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
-                            + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
-
-              const string query =
-                        @"SELECT ContractRateID AS Id
-	                        ,RateDescription AS RateDescription
-                            ,PayRate AS Rate	
-                        FROM Agreement_ContractRateDetail Dets";
-
-
-              /*
-               * agr.CandidateID ConsultantId,
-                                          agr.CompanyID ClientId,
-                                            
-               */
-
-              /*
-               usr.FirstName consultant.FirstName
-                usr.LastName consultant.LastName
-               */
-
-                const string contractsQuery =
-                                            @"SELECT agr.CandidateID ConsultantId,
-                                            agr.CompanyID ClientId,
-	                                        agrDetail.JobTitle Title,
-	                                        agr.StartDate StartDate,
-	                                        agr.EndDate EndDate,
-											company.CompanyName CompanyName,
-	                                        directReport.FirstName FirstName,
-                                            directReport.LastName LastName,
-                                            directReportEmail.PrimaryEmail EmailAddress
-                                            FROM [Agreement] agr
-	                                        LEFT JOIN [Users] directReport ON agr.CandidateID = directReport.UserID
-                                            LEFT JOIN [Agreement_ContractDetail] agrDetail ON agr.AgreementID = agrDetail.AgreementID
-                                            JOIN [User_Email] directReportEmail on directReportEmail.UserID = directReport.UserID
-											LEFT JOIN [Company] company ON agr.CompanyID = company.CompanyID
-                                            ORDER BY agr.EndDate desc";
-
-                
-              var contracts = db.Connection.Query<ConsultantContract, UserContact, ConsultantContract>(constants + contractsQuery,
-                  (contract, directReport) =>
-                  {
-                      contract.DirectReport = directReport;
-                      return contract;
-                  }, splitOn: "FirstName");
-
-                return contracts;
-             }
         }
 
         public ContractSummarySet GetFloThruSummaryByAccountExecutiveId(int id)
@@ -170,35 +104,29 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                string constants = @"DECLARE @ACTIVE int = " + MatchGuideConstants.ContractStatusTypes.Active + ","
-                            + "@PENDING int = " + MatchGuideConstants.ContractStatusTypes.Pending + ","
-                            + "@FLOTHRU int = " + MatchGuideConstants.AgreementSubTypes.FloThru + ","
-                            + "@FULLYSOURCED int = " + MatchGuideConstants.AgreementSubTypes.Consultant + ","
-                            + "@CONTRACT int = " + MatchGuideConstants.AgreementTypes.Contract + ","
-                            + "@NOTCHECKED int = " + MatchGuideConstants.ResumeRating.NotChecked;
-
-                const string query =
-                          @"SELECT ContractRateID AS Id
-	                        ,RateDescription AS RateDescription
-                            ,PayRate AS Rate	
-                        FROM Agreement_ContractRateDetail Dets";
-
                 const string contractsQuery =
-                                            @"SELECT agr.CandidateID ConsultantId,
-                                            agr.CompanyID ClientId,
-	                                        agrDetail.JobTitle Title,
-	                                        agr.StartDate StartDate,
-	                                        agr.EndDate EndDate,
-											company.CompanyName ClientName
-                                            FROM [Agreement] agr
-                                            JOIN [Agreement_ContractAdminContactMatrix] agrContact on agrContact.AgreementID = agr.AgreementID
-                                            LEFT JOIN [Agreement_ContractDetail] agrDetail ON agr.AgreementID = agrDetail.AgreementID
-											LEFT JOIN [Company] company ON agr.CompanyID = company.CompanyID
-                                            ORDER BY agr.EndDate desc";
+                    @"SELECT Agreement.AgreementID AS ContractId,
+	                    Candidate.FirstName + ' '+ Candidate.LastName AS ContractorName,
+	                    Company.CompanyName AS ClientName,
+	                    Details.JobTitle AS Title,
+	                    Agreement.StartDate,
+	                    Agreement.EndDate,
+	                    CASE WHEN ISNUMERIC(Agreement.AgreementSubType) = 1 THEN CAST(Agreement.AgreementSubType AS INT) ELSE 0 END AS AgreementSubType,
+	                    Company.CompanyID ClientId,
+	                    RateDetails.BillRate,
+	                    RateDetails.PayRate,
+	                    RateDetails.BillRate - RateDetails.PayRate AS GrossMargin
+                    FROM Agreement
+                    JOIN PickList ON  Agreement.StatusType = PickList.PickListID
+                    JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
+                    JOIN Users Candidate ON Agreement.CandidateID = Candidate.UserID
+                    JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                    JOIN Agreement_ContractRateDetail RateDetails on Agreement.AgreementID = RateDetails.AgreementID
+                    WHERE Agreement.AgreementID = @Id";
 
-                var contracts = db.Connection.Query<ConsultantContract>(constants + contractsQuery, param: new { Id = id });
+                var contract = db.Connection.Query<ConsultantContract>(contractsQuery, param: new { Id = id }).FirstOrDefault();
 
-                return contracts.FirstOrDefault();
+                return contract;
             }
         }
     }
@@ -406,11 +334,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             EndDate = DateTime.UtcNow.AddMonths(3)
         };
 
-        public IEnumerable<ConsultantContract> GetContracts()
-        {
-            throw new NotImplementedException();
-        }
-
         public ContractSummarySet GetFloThruSummaryByAccountExecutiveId(int id)
         {
             return new ContractSummarySet
@@ -480,7 +403,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             BillRate = 150,
             GrossMargin = 50,
             Title = "123456 - Telecom Analyst/ Implementation Specialist",
-            ConsultantId = 1,
             Contractor = StandardMarketer,
             ClientContact = ContactJanice,
             BillingContact = BillingContactWilliam,
