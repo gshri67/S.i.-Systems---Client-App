@@ -38,12 +38,42 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string phoneNumbersQuery =
-                    @"";
+                const string homePhoneNumbersQuery =
+                    @"SELECT '('+cast(user_phone.home_areacode as varchar)+ ')'+ 
+	                    cast(left(user_phone.home_number,3) as varchar) + '-' + 
+	                    cast(right(user_phone.home_number,4) as varchar)
+                    FROM User_Phone
+                    WHERE User_Phone.UserID = @Id";
 
-                var phoneNumbers = db.Connection.Query<string>(phoneNumbersQuery, param: new { Id = userId });
+                const string cellPhoneNumbersQuery =
+                    @"SELECT '('+cast(user_phone.cell_areacode as varchar)+ ')'+ 
+	                    cast(left(user_phone.cell_number,3) as varchar) + '-' + 
+	                    cast(right(user_phone.cell_number,4) as varchar)
+                    FROM User_Phone
+                    WHERE User_Phone.UserID = @Id";
 
-                return phoneNumbers;
+                const string workPhoneNumbersQuery =
+                    @"SELECT '('+cast(user_phone.work_areacode as varchar)+ ')'+ 
+	                    cast(left(user_phone.work_number,3) as varchar) + '-' + 
+	                    cast(right(user_phone.work_number,4) as varchar)
+                    FROM User_Phone
+                    WHERE User_Phone.UserID = @Id";
+
+                var phoneNumbers = new List<string>();
+
+                var homePhoneNumber = db.Connection.Query<string>(homePhoneNumbersQuery, param: new { Id = userId }).FirstOrDefault();
+                if (homePhoneNumber!= null)
+                    phoneNumbers.Add(homePhoneNumber);
+
+                var workPhoneNumber = db.Connection.Query<string>(workPhoneNumbersQuery, param: new { Id = userId }).FirstOrDefault();
+                if(workPhoneNumber != null)
+                    phoneNumbers.Add(workPhoneNumber);
+
+                var cellPhoneNumber = db.Connection.Query<string>(cellPhoneNumbersQuery, param: new { Id = userId }).FirstOrDefault();
+                if(cellPhoneNumber != null)
+                    phoneNumbers.Add(cellPhoneNumber);
+
+                return phoneNumbers.AsEnumerable();
             }
         }
 
@@ -87,6 +117,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 if (contact != null)
                 {
                     contact.EmailAddresses = GetUserContactEmailsByUserId(contact.Id);
+                    contact.PhoneNumbers = GetUserContactPhoneNumbersByUserId(contact.Id);
                 }
 
                 return contact;
@@ -128,6 +159,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 if (contact != null)
                 {
                     contact.EmailAddresses = GetUserContactEmailsByUserId(contact.Id);
+                    contact.PhoneNumbers = GetUserContactPhoneNumbersByUserId(contact.Id);
                 }
 
                 return contact;
@@ -168,6 +200,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 if (contact != null)
                 {
                     contact.EmailAddresses = GetUserContactEmailsByUserId(contact.Id);
+                    contact.PhoneNumbers = GetUserContactPhoneNumbersByUserId(contact.Id);
                 }
 
                 return contact;
