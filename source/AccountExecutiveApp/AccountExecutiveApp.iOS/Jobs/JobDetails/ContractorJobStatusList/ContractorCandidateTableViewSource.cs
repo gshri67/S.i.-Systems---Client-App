@@ -48,5 +48,10 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
         {
             return _parentModel.NumberOfContractors();
         }
+
+        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 56;
+        }
     }
 }
