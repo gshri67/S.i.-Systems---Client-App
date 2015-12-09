@@ -30,5 +30,11 @@
 	<string></string>
 	<key>CFBundleDisplayName</key>
 	<string>I.M. S.i.</string>
+	<key>XSAppIconAssets</key>
+	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>Si-app-icon-80.png</string>
+	</array>
 </dict>
 </plist>
