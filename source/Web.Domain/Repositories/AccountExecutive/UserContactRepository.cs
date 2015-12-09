@@ -36,7 +36,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     FROM [Agreement] agr
                     JOIN [Agreement_ContractAdminContactMatrix] agrContact on agrContact.AgreementID = agr.AgreementID
 	                LEFT JOIN [Users] directReport ON agrContact.DirectReportUserID = directReport.UserID
-                    JOIN [User_Email] directReportEmail on directReportEmail.UserID = directReport.UserID";
+                    JOIN [User_Email] directReportEmail on directReportEmail.UserID = directReport.UserID
+                    WHERE agr.AgreementID = @Id";
 
                 var contact = db.Connection.Query<UserContact>(contractsQuery, param: new {Id = contractId}).FirstOrDefault();
 
@@ -56,7 +57,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     FROM [Agreement] agr
                     JOIN [Agreement_ContractAdminContactMatrix] agrContact on agrContact.AgreementID = agr.AgreementID
 	                LEFT JOIN [Users] billingContact ON agrContact.BillingUserID = billingContact.UserID
-                    JOIN [User_Email] billingContactEmail on billingContactEmail.UserID = billingContact.UserID";
+                    JOIN [User_Email] billingContactEmail on billingContactEmail.UserID = billingContact.UserID
+                    WHERE agr.AgreementID = @Id";
 
                 var contacts = db.Connection.Query<UserContact>(contractsQuery, param: new { Id = contractId });
 
@@ -75,7 +77,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                         clientContactEmail.PrimaryEmail EmailAddress
                     FROM [Agreement] agr
                     LEFT JOIN [Users] clientContact ON agr.CandidateID = clientContact.UserID
-                    JOIN [User_Email] clientContactEmail on clientContactEmail.UserID = clientContact.UserID";
+                    JOIN [User_Email] clientContactEmail on clientContactEmail.UserID = clientContact.UserID
+                    WHERE agr.AgreementID = @Id";
 
                 var contacts = db.Connection.Query<UserContact>(contractsQuery, param: new { Id = contractId });
 
