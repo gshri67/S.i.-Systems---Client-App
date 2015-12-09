@@ -79,3 +79,38 @@ CREATE TABLE [dbo].[User_Email](
 );
 
 GO
+CREATE TABLE [dbo].[User_Phone](
+	[UserID] [int] NOT NULL,
+	[Home_AreaCode] [decimal](3, 0) NULL CONSTRAINT [DF_User_Phone_Home_AreaCode]  DEFAULT (null),
+	[Home_Number] [decimal](7, 0) NULL CONSTRAINT [DF_User_Phone_Home_Number]  DEFAULT (null),
+	[Work_AreaCode] [decimal](3, 0) NULL CONSTRAINT [DF_User_Phone_Work_AreaCode]  DEFAULT (null),
+	[Work_Number] [decimal](7, 0) NULL CONSTRAINT [DF_User_Phone_Work_Number]  DEFAULT (null),
+	[Work_Extension] [int] NULL CONSTRAINT [DF_User_Phone_Work_Extension]  DEFAULT (null),
+	[Cell_AreaCode] [decimal](3, 0) NULL CONSTRAINT [DF_User_Phone_Cell_AreaCode]  DEFAULT (null),
+	[Cell_Number] [decimal](7, 0) NULL CONSTRAINT [DF_User_Phone_Cell_Number]  DEFAULT (null),
+	[Fax_AreaCode] [decimal](3, 0) NULL CONSTRAINT [DF_User_Phone_Fax_AreaCode]  DEFAULT (null),
+	[Fax_Number] [decimal](7, 0) NULL CONSTRAINT [DF_User_Phone_Fax_Number]  DEFAULT (null),
+	[Other_AreaCode] [decimal](3, 0) NULL CONSTRAINT [DF_User_Phone_Other_AreaCode]  DEFAULT (null),
+	[Other_Number] [decimal](7, 0) NULL CONSTRAINT [DF_User_Phone_Other_Number]  DEFAULT (null),
+	[Other_Extension] [int] NULL CONSTRAINT [DF_User_Phone_Other_Extension]  DEFAULT (null),
+	[verticalid] [int] NULL,
+ CONSTRAINT [PK_User_Phone] PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[User_Phone]  WITH NOCHECK ADD  CONSTRAINT [FK_User_Phone_Users] FOREIGN KEY([UserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+
+ALTER TABLE [dbo].[User_Phone] NOCHECK CONSTRAINT [FK_User_Phone_Users]
+GO
+
+ALTER TABLE [dbo].[User_Phone]  WITH CHECK ADD  CONSTRAINT [chkverticalid_User_Phone] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
+GO
+
+ALTER TABLE [dbo].[User_Phone] CHECK CONSTRAINT [chkverticalid_User_Phone]
+GO
