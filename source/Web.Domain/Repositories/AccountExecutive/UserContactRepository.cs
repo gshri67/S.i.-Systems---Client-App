@@ -80,7 +80,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public UserContact GetUserContactById(int id)
         {
             const string contactByUserIdQuery =
-                @"SELECT Users.UserId AS ContactId,
+                @"SELECT Users.UserId AS Id,
 	                Users.FirstName, 
 	                Users.LastName,
 	                Company.CompanyName,
