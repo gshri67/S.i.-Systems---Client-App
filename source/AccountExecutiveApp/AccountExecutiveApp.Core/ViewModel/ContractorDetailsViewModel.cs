@@ -25,7 +25,9 @@ namespace AccountExecutiveApp.Core.ViewModel
 		}
 
         public string PageTitle {
-            get { return "Bob Smith"; }
+            get {
+                return Contractor != null ? Contractor.ContactInformation.FullName : string.Empty;
+            }
         }
 
         public Task LoadContractor( int Id )
