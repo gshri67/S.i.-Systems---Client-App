@@ -27,8 +27,6 @@ function PackageBuild
 
     mv *.nupkg $packageDir\
 
-    rm *.ipa
-
     popd
 }
 
