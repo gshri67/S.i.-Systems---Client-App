@@ -25,8 +25,9 @@ namespace AccountExecutiveApp.iOS
 
 		private string Subtitle;
 		private SubtitleHeaderView _subtitleHeaderView;
+	    private bool _needsCreateTitleBar = false;
 
-		public JobDetailViewController (IntPtr handle) : base (handle)
+	    public JobDetailViewController (IntPtr handle) : base (handle)
 		{
             this._tokenExpiredObserver = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("TokenExpired"), this.OnTokenExpired);
             _viewModel = DependencyResolver.Current.Resolve<JobDetailViewModel>();
@@ -56,7 +57,7 @@ namespace AccountExecutiveApp.iOS
             RemoveOverlay();
 
 			UpdatePageTitle ();
-			CreateCustomTitleBar ();
+            InvokeOnMainThread(CreateTitleBarIfNeeded);
 	    }
 
         private void InstantiateTableViewSource()
@@ -85,6 +86,11 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        base.ViewDidLoad();
             IndicateLoading();
+	    }
+
+	    public override void ViewDidAppear(bool animated)
+        {
+            CreateTitleBarIfNeeded();
 	    }
 
 	    public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -121,6 +127,14 @@ namespace AccountExecutiveApp.iOS
 			Title = "Job Details";
 			Subtitle = string.Format("{0}", _viewModel.ClientName );
 		}
+
+        private void CreateTitleBarIfNeeded()
+        {
+            if (!_needsCreateTitleBar)
+                _needsCreateTitleBar = true;
+            else
+                InvokeOnMainThread(CreateCustomTitleBar);
+        }
 
 		private void CreateCustomTitleBar()
 		{

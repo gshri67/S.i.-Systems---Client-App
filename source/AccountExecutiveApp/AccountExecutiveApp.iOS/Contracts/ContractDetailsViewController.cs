@@ -15,8 +15,9 @@ namespace AccountExecutiveApp.iOS
 	{
 		private readonly ContractDetailsViewModel _viewModel;
         private SubtitleHeaderView _subtitleHeaderView;
+	    private bool _needsCreateTitleBar = false;
 
-		public void LoadContract(int id)
+	    public void LoadContract(int id)
 	    {
 	        var task = _viewModel.LoadContractDetails(id);
             task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
@@ -26,7 +27,7 @@ namespace AccountExecutiveApp.iOS
 	    {
             SetupTableViewSource();
             UpdateSummaryView();
-            CreateCustomTitleBar();
+            InvokeOnMainThread(CreateTitleBarIfNeeded);
 		}
 
 		public ContractDetailsViewController (IntPtr handle) : base (handle)
@@ -39,7 +40,12 @@ namespace AccountExecutiveApp.iOS
 			base.ViewDidLoad ();
 		}
 
-        private void SetupTableViewSource()
+	    public override void ViewDidAppear(bool animated)
+	    {
+            InvokeOnMainThread(CreateTitleBarIfNeeded);
+	    }
+
+	    private void SetupTableViewSource()
         {
             if (tableView == null)
                 return;
@@ -63,6 +69,14 @@ namespace AccountExecutiveApp.iOS
 
 			ClientAndStatusLabel.Text = _viewModel.FormattedClientAndStatus;
 		}
+
+        private void CreateTitleBarIfNeeded()
+        {
+            if (!_needsCreateTitleBar)
+                _needsCreateTitleBar = true;
+            else
+                InvokeOnMainThread(CreateCustomTitleBar);
+        }
 
         private void CreateCustomTitleBar()
         {
