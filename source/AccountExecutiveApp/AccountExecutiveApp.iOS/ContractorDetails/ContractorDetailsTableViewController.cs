@@ -47,13 +47,12 @@ namespace AccountExecutiveApp.iOS
 	    private void UpdateUserInterface()
 	    {
 	        InvokeOnMainThread(InstantiateTableViewSource);
+            InvokeOnMainThread(UpdatePageTitle);
 	    }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-			UpdatePageTitle ();
         }
 
 		private void UpdatePageTitle()
