@@ -528,7 +528,7 @@
 
                     $.ajax({
                         type: 'GET',
-                        url: '/api/Job/Details/' + id,
+                        url: '/api/Jobs/Details/' + id,
                         headers: {
                             Authorization: 'Bearer ' + page.token
                         }
@@ -549,7 +549,7 @@
                     $('#jobsResults').html('Sending...');
                     $.ajax({
                         type: 'GET',
-                        url: '/api/Jobs/',
+                        url: '/api/Jobs/Summaries',
                         headers: {
                             Authorization: 'Bearer ' + page.token
                         }
