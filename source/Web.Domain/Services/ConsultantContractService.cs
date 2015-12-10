@@ -78,6 +78,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             details.ClientContact = _userContactRepository.GetClientContactByAgreementId(details.ContractId);
             details.BillingContact = _userContactRepository.GetBillingContactByAgreementId(details.ContractId);
 
+            details.GrossMargin = details.BillRate - details.PayRate;
+            details.Markup = (details.BillRate - details.PayRate)/details.PayRate;
+            details.Margin = (details.BillRate - details.PayRate) / details.BillRate;
+
             AssertCurrentUserHasAccessToContractDetails(details);
 
             return details;

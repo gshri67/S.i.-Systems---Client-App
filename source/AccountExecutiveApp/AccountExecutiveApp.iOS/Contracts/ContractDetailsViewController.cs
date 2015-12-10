@@ -65,6 +65,8 @@ namespace AccountExecutiveApp.iOS
 
             summaryView.Hidden = false;
 
+	        ContractTitleLabel.Text = _viewModel.ContractTitle;
+
 			PeriodLabel.Text = string.Format("{0} {1} {2}", _viewModel.FormattedStartDate, StyleGuideConstants.DateSeperator ,_viewModel.FormattedEndDate);
             BillRateLabel.Text = _viewModel.FormattedBillRate;
             PayRateLabel.Text = _viewModel.FormattedPayRate;

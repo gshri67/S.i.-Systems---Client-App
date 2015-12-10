@@ -34,6 +34,7 @@ namespace SiSystems.SharedModels
         public float PayRate { get; set; }
         public float GrossMargin { get; set; }
 		public float Markup { get; set; }
+        public float Margin { get; set; }
 
         public Contractor Contractor { get; set; }
 
