@@ -20,6 +20,8 @@ namespace AccountExecutiveApp.iOS
 		private string Subtitle;
 		private SubtitleHeaderView _subtitleHeaderView;
 
+		private bool _needsCreateTitleBar = false;
+
 		public ClientContactDetailsViewController(IntPtr handle)
 			: base(handle)
 		{
@@ -57,9 +59,21 @@ namespace AccountExecutiveApp.iOS
 
 			InvokeOnMainThread(InstantiateTableViewSource);
             InvokeOnMainThread(UpdateDetailsView);
-
 			InvokeOnMainThread(UpdatePageTitle);
-			InvokeOnMainThread(CreateCustomTitleBar);
+			InvokeOnMainThread(CreateTitleBarIfNeeded);
+		}
+
+		private void CreateTitleBarIfNeeded()
+		{
+			if (!_needsCreateTitleBar)
+				_needsCreateTitleBar = true;
+			else
+				InvokeOnMainThread(CreateCustomTitleBar);
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			CreateTitleBarIfNeeded ();
 		}
 
 	    private void UpdateDetailsView()
