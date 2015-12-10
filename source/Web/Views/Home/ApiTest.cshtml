@@ -89,6 +89,7 @@
             <li role="presentation"><a id="jobDetailsTabButton" href="#jobDetails" role="tab" data-toggle="tab">Job Details</a></li>
             <li role="presentation"><a id="timesheetSummariesTabButton" href="#timesheetSummaries" role="tab" data-toggle="tab">TimesheetSummaries</a></li>
             <li role="presentation"><a id="contractorTabButton" href="#contractor" role="tab" data-toggle="tab">Contractor</a></li>
+            <li role="presentation"><a id="userContactTabButton" href="#userContact" role="tab" data-toggle="tab">UserContact</a></li>
         </ul>
 
         <div class="tab-content">
@@ -240,6 +241,17 @@
                     </div>
                 </div>
                 <div id="contractorResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="userContact" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="userContactId" type="text" class="form-control" placeholder="" />
+                    <div class="input-group-btn">
+                        <button id="userContactButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="userContactResults" class="code json well">
                 </div>
             </div>
         </div>
@@ -608,6 +620,28 @@
 
 
                     }).fail(function (err) { showError(err, 'contractorResults') });
+                },
+                getUserContact: function () {
+                    $('#userContactResults').html('Sending...');
+                    var id = $('#userContactId').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/UserContact/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#userContactResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'userContactResults') });
                 }
             };
 
@@ -629,6 +663,7 @@
             $('#getJobsButton').click(page.getJobs);
             $('#timesheetSummariesButton').click(page.getTimesheetSummaries);
             $('#contractorButton').click(page.getContractor);
+            $('#userContactButton').click(page.getUserContact);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {
