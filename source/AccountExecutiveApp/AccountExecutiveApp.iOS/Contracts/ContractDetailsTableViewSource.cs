@@ -39,7 +39,7 @@ namespace AccountExecutiveApp.iOS
 
 			if (_contract != null)
 			{
-				string mainText = "Bob Smith", subtitleText = "";
+				string mainText = "", subtitleText = "";
 
 				if (indexPath.Item == 0) 
 				{
