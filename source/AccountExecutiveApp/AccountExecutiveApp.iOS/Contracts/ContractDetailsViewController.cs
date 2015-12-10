@@ -38,6 +38,8 @@ namespace AccountExecutiveApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+		    summaryView.Hidden = true;
 		}
 
 	    public override void ViewDidAppear(bool animated)
@@ -60,6 +62,8 @@ namespace AccountExecutiveApp.iOS
 	    public void UpdateSummaryView()
 	    {
 	        if (summaryView == null) return;
+
+            summaryView.Hidden = false;
 
 			PeriodLabel.Text = string.Format("{0} {1} {2}", _viewModel.FormattedStartDate, StyleGuideConstants.DateSeperator ,_viewModel.FormattedEndDate);
             BillRateLabel.Text = _viewModel.FormattedBillRate;

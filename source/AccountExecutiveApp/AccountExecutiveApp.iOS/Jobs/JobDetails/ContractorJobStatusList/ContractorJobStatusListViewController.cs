@@ -38,6 +38,8 @@ namespace AccountExecutiveApp.iOS
                 return;
 
 			TableView.RegisterClassForCellReuse(typeof(ProposedContractorsTableViewCell), CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof(RightDetailCell), RightDetailCell.CellIdentifier);
+
 
             TableView.Source = new ContractorCandidateTableViewSource(this, _viewModel);
 			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);

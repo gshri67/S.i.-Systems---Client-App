@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AccountExecutiveApp.Core.ViewModel;
 using Foundation;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
@@ -29,19 +30,36 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-			var cell = tableView.DequeueReusableCell(ContractorJobStatusListViewController.CellIdentifier) as ProposedContractorsTableViewCell;
+            if (_parentModel.Status == JobStatus.Shortlisted)
+            {
+                var cell = tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as RightDetailCell;
 
-			cell.UpdateCell 
-			(
-				mainText: _parentModel.ContractorNameByRowNumber((int)indexPath.Item),
-				billRate: _parentModel.FormattedBillRateByRowNumber((int)indexPath.Item),
-				payRate: _parentModel.FormattedPayRateByRowNumber((int)indexPath.Item),
-				grossMargin: _parentModel.FormattedGrossMarginByRowNumber((int)indexPath.Item),
-				markup: _parentModel.FormattedMarkupByRowNumber((int)indexPath.Item)
-			);
-            //SetCellTextByRowNumber(cell, (int)indexPath.Item);
+                cell.UpdateCell
+                    (
+                        mainText: _parentModel.ContractorNameByRowNumber((int)indexPath.Item),
+                        rightDetailText: ""
+                    );
+                
+                return cell;
+            }
+            else
+            {
+                var cell =
+                    tableView.DequeueReusableCell(ContractorJobStatusListViewController.CellIdentifier) as
+                        ProposedContractorsTableViewCell;
 
-            return cell;
+                cell.UpdateCell
+                    (
+                        mainText: _parentModel.ContractorNameByRowNumber((int) indexPath.Item),
+                        billRate: _parentModel.FormattedBillRateByRowNumber((int) indexPath.Item),
+                        payRate: _parentModel.FormattedPayRateByRowNumber((int) indexPath.Item),
+                        grossMargin: _parentModel.FormattedGrossMarginByRowNumber((int) indexPath.Item),
+                        markup: _parentModel.FormattedMarkupByRowNumber((int) indexPath.Item)
+                    );
+                //SetCellTextByRowNumber(cell, (int)indexPath.Item);
+
+                return cell;
+            }
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
@@ -51,7 +69,10 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 56;
+            if (_parentModel.Status == JobStatus.Shortlisted)
+                return 44;
+            else
+                return 56;
         }
     }
 }
