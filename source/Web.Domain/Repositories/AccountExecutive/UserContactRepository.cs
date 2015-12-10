@@ -83,7 +83,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 @"SELECT Users.UserId AS Id,
 	                Users.FirstName, 
 	                Users.LastName,
-	                Company.CompanyName,
+	                Company.CompanyName AS ClientName,
 	                ISNULL(Addr.Address1, '') 
 	                + ISNULL(Addr.Address2, '') 
 	                + ISNULL(Addr.Address3, '') 
@@ -122,10 +122,10 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"SELECT Agreement.ContactID,
+                    @"SELECT Agreement.ContactID  AS Id,
 	                    Users.FirstName, 
 	                    Users.LastName,
-	                    Company.CompanyName,
+	                    Company.CompanyName AS ClientName,
 	                    ISNULL(Addr.Address1, '') 
 	                    + ISNULL(Addr.Address2, '') 
 	                    + ISNULL(Addr.Address3, '') 
@@ -164,10 +164,10 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"SELECT Agreement.ContactID,
+                    @"SELECT Agreement.ContactID AS Id,
 	                    Users.FirstName, 
 	                    Users.LastName,
-	                    Company.CompanyName,
+	                    Company.CompanyName AS ClientName,
 	                    ISNULL(Addr.Address1, '') 
 	                    + ISNULL(Addr.Address2, '') 
 	                    + ISNULL(Addr.Address3, '') 
@@ -206,10 +206,10 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"SELECT Agreement.ContactID,
+                    @"SELECT Agreement.ContactID AS Id,
 	                    Users.FirstName, 
 	                    Users.LastName,
-	                    Company.CompanyName,
+	                    Company.CompanyName AS ClientName,
 	                    ISNULL(Addr.Address1, '') 
 	                    + ISNULL(Addr.Address2, '') 
 	                    + ISNULL(Addr.Address3, '') 
