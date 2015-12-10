@@ -17,7 +17,7 @@ function PackageBuild
 
     pushd $rootDir\source\AccountExecutiveApp\AccountExecutiveApp.iOS\Octopus
 
-    copy $packageDir\*$configuration.ipa .\
+    copy $packageDir\*AccountExecutive*$configuration.ipa .\
 
     ls *.ipa | % { $_.Name -match '.*?(?<version>\d+(\.\d+)+).*'}
 
@@ -26,6 +26,8 @@ function PackageBuild
     nuget pack ".\$configuration.nuspec"
 
     mv *.nupkg $packageDir\
+
+    rm *.ipa
 
     popd
 }

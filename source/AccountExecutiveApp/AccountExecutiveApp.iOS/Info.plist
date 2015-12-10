@@ -34,6 +34,8 @@
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleIconFiles</key>
 	<array>
+		<string>Default@2x.png</string>
+		<string>Default-568h@2x.png</string>
 		<string>Si-app-icon-80.png</string>
 	</array>
 </dict>
