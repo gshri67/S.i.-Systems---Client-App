@@ -85,12 +85,12 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 		public string FormattedMarkup
 		{
-            get { return string.Format("{0:C}", Contract.Markup); }
+			get { return string.Format("{0:0.00}%", Contract.Markup*100f); }
 		}
 
         public string FormattedMargin
         {
-            get { return string.Format("{0:C}", Contract.Margin); }
+			get { return string.Format("{0:0.00}%", Contract.Margin*100f); }
         }
 
 		public string FormattedClientAndStatus

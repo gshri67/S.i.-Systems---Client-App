@@ -71,6 +71,7 @@ namespace AccountExecutiveApp.iOS
             BillRateLabel.Text = _viewModel.FormattedBillRate;
             PayRateLabel.Text = _viewModel.FormattedPayRate;
             GrossMarginLabel.Text = _viewModel.FormattedGrossMargin;
+			MarginLabel.Text = _viewModel.FormattedMargin;
 			MarkupLabel.Text = _viewModel.FormattedMarkup;
 
 			ClientAndStatusLabel.Text = _viewModel.FormattedClientAndStatus;
