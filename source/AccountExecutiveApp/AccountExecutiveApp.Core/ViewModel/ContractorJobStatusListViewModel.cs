@@ -103,5 +103,10 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 			return string.Empty;
 		}
+
+        public int ContractorContactIdByRowNumber(int item)
+        {
+            return _contractors.ElementAt(item).ContactInformation.Id;
+        }
     }
 }

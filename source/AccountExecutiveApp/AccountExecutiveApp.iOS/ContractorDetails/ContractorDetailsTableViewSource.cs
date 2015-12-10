@@ -144,7 +144,10 @@ namespace AccountExecutiveApp.iOS
                 tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
                     RightDetailCell;
 
-            cell.TextLabel.Text = "Resume";
+            cell.UpdateCell(
+                mainText: "Resume",
+                rightDetailText: ""
+            );
 
             return cell;
         }

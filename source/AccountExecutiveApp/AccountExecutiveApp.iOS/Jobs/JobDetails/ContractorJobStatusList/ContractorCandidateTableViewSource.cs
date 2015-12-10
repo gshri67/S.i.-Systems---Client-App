@@ -74,5 +74,12 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
             else
                 return 56;
         }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            var vc = (ContractorDetailsTableViewController) _parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
+            vc.setContractorId(_parentModel.ContractorContactIdByRowNumber((int)indexPath.Item));
+            _parentController.ShowViewController(vc, _parentController);
+        }
     }
 }
