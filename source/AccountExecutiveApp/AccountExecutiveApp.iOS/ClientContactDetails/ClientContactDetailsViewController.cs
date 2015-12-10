@@ -80,12 +80,16 @@ namespace AccountExecutiveApp.iOS
 	    {
             CompanyNameLabel.Text = _viewModel.ClientName;
 			AddressLabel.Text = _viewModel.Address;
+
+	        DetailsContainerView.Hidden = false;
 	    }
 
 	    public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-            
+
+	        DetailsContainerView.Hidden = true;
+
             if( _needsUpdateInterface )
                 UpdateUserInterface();
 		}

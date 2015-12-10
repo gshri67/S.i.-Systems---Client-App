@@ -79,17 +79,32 @@ namespace AccountExecutiveApp.iOS
 		        var vc =
 		            (ContractorDetailsTableViewController)
 		                _parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
-                vc.setContractorId(_contract.Contractor.ContactInformation.Id);
+                vc.setContractorId(GetContactIdForIndex(indexPath));
 		        _parentController.ShowViewController(vc, _parentController);
 		    }
 		    else
 		    {
                 var contactTypeSelected = GetContactTypeForIndex(indexPath);
                 var vc = (ClientContactDetailsViewController) _parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
-                vc.SetContactId(_contract.Contractor.ContactInformation.Id, contactTypeSelected);
+                vc.SetContactId( GetContactIdForIndex(indexPath), contactTypeSelected);
                 _parentController.ShowViewController(vc, _parentController);
 		    }
 		}
+
+	    private int GetContactIdForIndex(NSIndexPath indexPath)
+	    {
+            switch (indexPath.Item)
+            {
+                case 1:
+                    return _contract.DirectReport.Id;
+                case 2:
+                    return _contract.ClientContact.Id;
+                case 3:
+                    return _contract.BillingContact.Id;
+                default:
+                    return _contract.Contractor.ContactInformation.Id;
+            }
+	    }
 
 	    private static UserContactType GetContactTypeForIndex(NSIndexPath indexPath)
 	    {
