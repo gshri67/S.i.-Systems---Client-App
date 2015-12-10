@@ -19,7 +19,7 @@ function PackageBuild
 
     copy $packageDir\*$configuration.ipa .\
 
-    ls *.ipa | % { $_.Name -match '.*AccountExecutive.*?(?<version>\d+(\.\d+)+).*'}
+    ls *.ipa | % { $_.Name -match '.*AccountExecutiveApp.*?(?<version>\d+(\.\d+)+).*'}
 
     Update-Nuspec -FilePath ".\$configuration.nuspec" -Version $Matches['version']
 
