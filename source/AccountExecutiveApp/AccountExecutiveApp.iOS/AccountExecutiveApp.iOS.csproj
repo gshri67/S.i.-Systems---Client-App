@@ -73,7 +73,7 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <BuildIpa>True</BuildIpa>
-    <IpaIncludeArtwork>True</IpaIncludeArtwork>
+    <IpaIncludeArtwork>False</IpaIncludeArtwork>
     <CodesignProvision>
     </CodesignProvision>
     <CodesignExtraArgs>
@@ -89,7 +89,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|iPhone'">
     <OutputPath>bin\iPhone\Test\</OutputPath>
     <BuildIpa>True</BuildIpa>
-    <IpaIncludeArtwork>True</IpaIncludeArtwork>
+    <IpaIncludeArtwork>False</IpaIncludeArtwork>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignProvision>
     </CodesignProvision>
