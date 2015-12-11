@@ -9,7 +9,8 @@
     #elif DEV
         public const string MatchGuideApiAddress = "https://clientapidev.azurewebsites.net/api/";
     #elif TEST
-        public const string MatchGuideApiAddress = "https://clientapitest.azurewebsites.net/api/";
+        //public const string MatchGuideApiAddress = "https://clientapitest.azurewebsites.net/api/";
+        public const string MatchGuideApiAddress = "https://clientapidev.azurewebsites.net/api/";
     #elif PROD
         public const string MatchGuideApiAddress = "https://clientapi.azurewebsites.net/api/";
     #endif
