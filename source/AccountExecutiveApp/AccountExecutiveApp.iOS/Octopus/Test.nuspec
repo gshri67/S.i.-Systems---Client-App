@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>SiSystems.ConsultantApp.iOS.Test</id>
-    <title>S.i. Systems - Consultant App iOS - Test</title>
+    <id>SiSystems.AccountExecutiveApp.iOS.Test</id>
+    <title>S.i. Systems - Account Executive App iOS - Test</title>
     <version></version>
     <authors>S.i. Systems</authors>
     <owners>S.i. Systems</owners>
     <licenseUrl>http://www.sisystems.com/</licenseUrl>
     <projectUrl>http://www.sisystems.com/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>S.i. Systems iOS Consultant App - Targeting Test Environment</description>
+    <description>S.i. Systems iOS Account Executive App - Targeting Test Environment</description>
     <releaseNotes></releaseNotes>
   </metadata>
 </package>
