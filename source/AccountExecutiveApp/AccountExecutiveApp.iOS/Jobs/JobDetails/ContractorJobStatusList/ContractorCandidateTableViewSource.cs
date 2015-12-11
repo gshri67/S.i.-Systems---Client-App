@@ -51,7 +51,7 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
                 cell.UpdateCell
                     (
                         mainText: _parentModel.ContractorNameByRowNumber((int) indexPath.Item),
-						subtitleText: "Date Proposed",
+						subtitleText: _parentModel.FormattedDateByRowNumber((int)indexPath.Item),
                         billRate: _parentModel.FormattedBillRateByRowNumber((int) indexPath.Item),
                         payRate: _parentModel.FormattedPayRateByRowNumber((int) indexPath.Item),
                         grossMargin: _parentModel.FormattedGrossMarginByRowNumber((int) indexPath.Item),
@@ -73,7 +73,7 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
             if (_parentModel.Status == JobStatus.Shortlisted)
                 return 44;
             else
-                return 65;
+                return 85;
         }
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)

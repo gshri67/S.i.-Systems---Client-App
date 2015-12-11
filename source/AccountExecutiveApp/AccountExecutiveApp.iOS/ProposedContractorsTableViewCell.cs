@@ -192,7 +192,7 @@ namespace AccountExecutiveApp.iOS
 			float widthRatioPerLabel = 0.25f;
 
 			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, SubtitleTextLabel, NSLayoutAttribute.Left, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, SubtitleTextLabel, NSLayoutAttribute.Bottom, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, SubtitleTextLabel, NSLayoutAttribute.Bottom, 1.0f, 4f));
 			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, SubtitleTextLabel, NSLayoutAttribute.Width, widthRatioPerLabel, 0f));
 			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 10));
 

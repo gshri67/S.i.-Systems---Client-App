@@ -108,5 +108,13 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             return _contractors.ElementAt(item).ContactInformation.Id;
         }
+
+        public string FormattedDateByRowNumber(int rowNumber)
+        {/*
+            if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
+                return _contractors.ElementAt(rowNumber).BillRate.ToString();
+            */
+            return string.Empty;
+        }
     }
 }
