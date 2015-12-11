@@ -158,7 +158,7 @@ namespace AccountExecutiveApp.iOS
 		{
 			AddMainTextLabelConstraints();
 
-			//AddSubtitleTextLabelConstraints();
+			AddSubtitleTextLabelConstraints();
 
 			//AddRightDetailTextLabelContstraints();
 
@@ -191,9 +191,9 @@ namespace AccountExecutiveApp.iOS
 		{
 			float widthRatioPerLabel = 0.25f;
 
-			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Left, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Bottom, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Width, widthRatioPerLabel, 0f));
+			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, SubtitleTextLabel, NSLayoutAttribute.Left, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, SubtitleTextLabel, NSLayoutAttribute.Bottom, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, SubtitleTextLabel, NSLayoutAttribute.Width, widthRatioPerLabel, 0f));
 			AddConstraint(NSLayoutConstraint.Create(BillRateNameLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 10));
 
 			AddConstraint(NSLayoutConstraint.Create(PayRateNameLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, BillRateNameLabel, NSLayoutAttribute.Right, 1.0f, 0f));
@@ -237,9 +237,10 @@ namespace AccountExecutiveApp.iOS
 			AddConstraint(NSLayoutConstraint.Create(MarkupValueLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, BillRateValueLabel, NSLayoutAttribute.Height, 1.0f, 0));
 		}
 
-		public void UpdateCell(string mainText, string billRate, string payRate, string grossMargin, string markup)
+		public void UpdateCell(string mainText, string subtitleText, string billRate, string payRate, string grossMargin, string markup)
 		{
 			MainTextLabel.Text = mainText;
+			SubtitleTextLabel.Text = subtitleText;
 			BillRateValueLabel.Text = billRate;
 			PayRateValueLabel.Text = payRate;
 			GrossMarginValueLabel.Text = grossMargin;
