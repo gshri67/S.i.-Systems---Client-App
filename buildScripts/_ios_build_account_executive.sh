@@ -21,8 +21,8 @@ function CreateBuild {
 		/usr/libexec/PlistBuddy -c "Set :SIAlumniXamarinInsightsAPIKey '${1}'" $plist
 	done
 
-	mono ./source/.nuget/nuget.exe restore ./source/AccountExecutiveApp/AccountExecutiveApp.iOS/AccountExecutiveApp.iOS.csproj
-	/Applications/Xamarin\ Studio.app/Contents/MacOS/mdtool -v build "--configuration:${2}|iPhone" ./source/AccountExecutiveApp/AccountExecutiveApp.iOS/AccountExecutiveApp.iOS.csproj
+	mono ./source/.nuget/nuget.exe restore ./source/SiSystems.ClientApp.sln
+	/Applications/Xamarin\ Studio.app/Contents/MacOS/mdtool -v build "--configuration:${2}|iPhone" ./source/SiSystems.ClientApp.sln
 
 	find ./source -path "*/${2}/*" -name "*AccountExecutiveAppiOS*.ipa" | while read package; do
 		short_name=${package//*\///}
