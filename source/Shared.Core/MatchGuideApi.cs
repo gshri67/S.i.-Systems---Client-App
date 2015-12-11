@@ -253,5 +253,11 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<UserContact>(new { id });
         }
+
+        [HttpGet("ContractorRate/Job/{id}/Status/{status}")]
+        public async Task<IEnumerable<ContractorRateSummary>> GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status )
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<ContractorRateSummary>>(new { id, status });
+        }
     }
 }

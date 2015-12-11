@@ -10,28 +10,28 @@ namespace AccountExecutiveApp.Core.ViewModel
 {
     public class ContractorJobStatusListViewModel
     {
-        private IEnumerable<Contractor> _contractors;
         private readonly IMatchGuideApi _api;
 		public JobStatus Status;
+        private IEnumerable<ContractorRateSummary> _rateSummaries;
 
         public string ClientName { get; set; }
 
-        private IEnumerable<Contractor> Contractors
+        private IEnumerable<ContractorRateSummary> RateSummaries
         {
-            get { return _contractors ?? Enumerable.Empty<Contractor>(); }
-            set { _contractors = value ?? Enumerable.Empty<Contractor>(); }
+            get { return _rateSummaries ?? Enumerable.Empty<ContractorRateSummary>(); }
+            set { _rateSummaries = value ?? Enumerable.Empty<ContractorRateSummary>(); }
         }
 
         public ContractorJobStatusListViewModel(IMatchGuideApi api)
 		{
 			_api = api;
 		}
-
+/*
         public void LoadContractors(IEnumerable<Contractor> contractors)
         {
             Contractors = contractors ?? Enumerable.Empty<Contractor>();
         }
-
+        */
         public Task LoadContractorsWithJobIDAndStatusAndClientName(int Id, JobStatus status, string clientName )
         {
             ClientName = clientName;
@@ -44,22 +44,37 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task GetContractorsWithJobIdAndStatus(int id, JobStatus status)
         {
-            Contractors = await _api.GetContractorsWithJobIdAndStatus(id, status);
+            RateSummaries = await _api.GetContractorRateSummaryWithJobIdAndStatus(id, status);
+        }
+
+        public Task LoadContractorsWithJobIDAndStatusAndClientName(int Id, JobStatus status, string clientName)
+        {
+            ClientName = clientName;
+
+            var task = GetContractorRateSummaryWithJobIdAndStatus(Id, status);
+            Status = status;
+
+            return task;
+        }
+
+        private async Task GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status)
+        {
+            RateSummaries = await _api.GetContractorRateSummaryWithJobIdAndStatus()(id, status);
         }
 
         public int NumberOfContractors()
         {
-            return Contractors.Count();
+            return RateSummaries.Count();
         }
 
         public string ContractorNameByRowNumber(int rowNumber)
         {
-            var contractor = Contractors.ElementAtOrDefault(rowNumber);
+            var summary = RateSummaries.ElementAtOrDefault(rowNumber);
             
-            if (contractor == null || string.IsNullOrEmpty(contractor.ContactInformation.FullName))
+            if (summary == null || string.IsNullOrEmpty(summary.FullName))
                 return string.Empty;
 
-            return contractor.ContactInformation.FullName;
+            return summary.FullName;
         }
 
         public string FormattedContractorStatusByRowNumber(int rowNumber)
@@ -75,7 +90,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 		public string FormattedBillRateByRowNumber( int rowNumber )
 		{
 			if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
-                return _contractors.ElementAt(rowNumber).BillRate.ToString();
+                return RateSummaries.ElementAt(rowNumber).BillRate.ToString();
 
 			return string.Empty;
 		}
@@ -83,7 +98,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 		public string FormattedPayRateByRowNumber( int rowNumber )
 		{
             if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
-                return _contractors.ElementAt(rowNumber).PayRate.ToString();
+                return RateSummaries.ElementAt(rowNumber).PayRate.ToString();
 
 			return string.Empty;
 		}
@@ -91,7 +106,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 		public string FormattedGrossMarginByRowNumber( int rowNumber )
 		{
             if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
-                return _contractors.ElementAt(rowNumber).GrossMargin.ToString();
+                return RateSummaries.ElementAt(rowNumber).GrossMargin.ToString();
 
 			return string.Empty;
 		}
@@ -99,21 +114,29 @@ namespace AccountExecutiveApp.Core.ViewModel
 		public string FormattedMarkupByRowNumber( int rowNumber )
 		{
 		    if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
-		        return "N/A";//_contractors.ElementAt(rowNumber).Markup.ToString();
+                return RateSummaries.ElementAt(rowNumber).Markup.ToString();
 
 			return string.Empty;
 		}
 
-        public int ContractorContactIdByRowNumber(int item)
+        public string FormattedMarginByRowNumber(int rowNumber)
         {
-            return _contractors.ElementAt(item).ContactInformation.Id;
+            if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
+                return RateSummaries.ElementAt(rowNumber).Margin.ToString();
+
+            return string.Empty;
+        }
+
+        public int ContractorContactIdByRowNumber(int rowNumber)
+        {
+            return RateSummaries.ElementAt(rowNumber).ContractorId;
         }
 
         public string FormattedDateByRowNumber(int rowNumber)
-        {/*
+        {
             if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
-                return _contractors.ElementAt(rowNumber).BillRate.ToString();
-            */
+                return RateSummaries.ElementAt(rowNumber).Date.ToString("MMM d yyyy");
+            
             return string.Empty;
         }
     }

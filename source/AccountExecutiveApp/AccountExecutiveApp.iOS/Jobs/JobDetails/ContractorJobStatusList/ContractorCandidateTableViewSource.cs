@@ -57,7 +57,6 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
                         grossMargin: _parentModel.FormattedGrossMarginByRowNumber((int) indexPath.Item),
                         markup: _parentModel.FormattedMarkupByRowNumber((int) indexPath.Item)
                     );
-                //SetCellTextByRowNumber(cell, (int)indexPath.Item);
 
                 return cell;
             }
