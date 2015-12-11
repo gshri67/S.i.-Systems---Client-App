@@ -183,7 +183,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 	                                                SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
                                                 )";
 
-        private const string ActiveContractsFilter = @"AND PickList.Title = 'Active'";
+        private const string ActiveContractsFilter = @"AND PickList.Title = 'Active'
+            AND DATEDIFF(day, GetDate(), Agreement.EndDate) > 30";
 
         private const string EndingContractsFilter =
             @" AND DATEDIFF(day, GetDate(), Agreement.EndDate) BETWEEN 0 AND 30 -- Ending Contracts";
