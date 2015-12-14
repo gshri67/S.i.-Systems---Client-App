@@ -129,7 +129,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 	                    ISNULL(Addr.Address1, '') 
 	                    + ISNULL(Addr.Address2, '') 
 	                    + ISNULL(Addr.Address3, '') 
-	                    + ISNULL(Addr.Address4, '') AS Address
+	                    + ISNULL(Addr.Address4, '')
+                        + ISNULL(Addr.City, '') AS Address
                     FROM Agreement
                     JOIN Agreement_ContractAdminContactMatrix Matrix on Matrix.AgreementID = Agreement.AgreementID
                     JOIN Users ON Matrix.DirectReportUserID = Users.UserID
