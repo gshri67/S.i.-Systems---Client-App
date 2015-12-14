@@ -166,8 +166,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             @"SELECT COUNT(DISTINCT(ActivityTransaction.AgreementID))
             FROM Agreement
             JOIN PickList ON PickList.PickListID = Agreement.StatusType
-            JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
-            JOIN ActivityType ON ActivityType.ActivityTypeID = ActivityTransaction.ActivityTypeID
+            LEFT JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
+            LEFT JOIN ActivityType ON ActivityType.ActivityTypeID = ActivityTransaction.ActivityTypeID
             WHERE Agreement.AgreementType IN(
 	            SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
             )
@@ -180,7 +180,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             @"SELECT COUNT(DISTINCT(Agreement.AgreementID))
             FROM Agreement
             JOIN PickList ON PickList.PickListID = Agreement.StatusType
-            JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
+            LEFT JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
             WHERE Agreement.AgreementType IN(
 	            SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
             )
@@ -193,8 +193,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             @"SELECT COUNT(DISTINCT(ActivityTransaction.CandidateUserID))
             FROM Agreement
             JOIN PickList ON PickList.PickListID = Agreement.StatusType
-            JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
-            JOIN ActivityType ON ActivityType.ActivityTypeID = ActivityTransaction.ActivityTypeID
+            LEFT JOIN ActivityTransaction ON ActivityTransaction.AgreementID = Agreement.AgreementID
+            LEFT JOIN ActivityType ON ActivityType.ActivityTypeID = ActivityTransaction.ActivityTypeID
             WHERE Agreement.AgreementType IN(
 	            SELECT PickListId from dbo.udf_GetPickListIds('agreementtype', 'opportunity', -1)
             )
