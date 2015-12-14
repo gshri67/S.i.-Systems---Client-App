@@ -136,11 +136,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 foreach (var client in clientsWithJobs)
                 {
-                    client.NumJobs = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsForClient, new { Id = client.ClientId }).FirstOrDefault();
+                    client.NumJobs = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsForClient, new { Id = client.ClientId, UserId = id }).FirstOrDefault();
 
-                    client.NumProposed = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithProposedForClient, new { Id = client.ClientId }).FirstOrDefault();
+                    client.NumProposed = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithProposedForClient, new { Id = client.ClientId, UserId = id }).FirstOrDefault();
 
-                    client.NumCallouts = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithCalloutsForClient, new { Id = client.ClientId }).FirstOrDefault();
+                    client.NumCallouts = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfJobsWithCalloutsForClient, new { Id = client.ClientId, UserId = id }).FirstOrDefault();
                 }
 
                 return clientsWithJobs;
@@ -160,7 +160,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             AND PickList.PickListID IN (
 	            SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
             )
-            AND Agreement.CompanyID = @Id";
+            AND Agreement.CompanyID = @Id
+            AND Agreement.AccountExecID = @UserId";
 
         private const string JobsSubsetCountForClientBaseQuery =
             @"SELECT COUNT(DISTINCT(ActivityTransaction.AgreementID))
@@ -174,7 +175,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             AND PickList.PickListID IN (
 	            SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
             )
-            AND Agreement.CompanyID = @Id";
+            AND Agreement.CompanyID = @Id
+            AND Agreement.AccountExecID = @UserId";
 
         private const string NumberOfJobsForAccountExecutiveQuery =
             @"SELECT COUNT(DISTINCT(Agreement.AgreementID))
