@@ -155,3 +155,15 @@ VALUES
 (3, 3, 3, 731, 583, '2014-12-01', '2014-12-01', 0);
 
 SET IDENTITY_INSERT [dbo].[Agreement_OpportunityCandidateMatrix] OFF;
+
+
+
+INSERT INTO [dbo].[Agreement_OpportunityDetail](
+	[AgreementID]
+	,[NumberRequired]
+	,[verticalid]
+)
+VALUES
+(1, 1, 4),
+(2, 2, 4),
+(3, 3, 4);

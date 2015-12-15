@@ -282,3 +282,102 @@ GO
 --EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Details of any upcoming vacation the candidate has planned' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'UpcomingVacation'
 --GO
 
+
+
+
+
+
+
+CREATE TABLE [dbo].[Agreement_OpportunityDetail](
+	[AgreementID] [int] NOT NULL,
+	[Description] [ntext] NULL,
+	[JobTitle] [nvarchar](4000) NULL,
+	[SpecializationID] [int] NULL,
+	[NumberRequired] [smallint] NOT NULL,
+	[NiceHave] [ntext] NULL,
+	[StartDate] [datetime] NULL,
+	[EndDate] [datetime] NULL,
+	[ResumeDueDate] [datetime] NULL,
+	[InterviewProcess] [ntext] NULL,
+	[TimeFactorType] [int] NULL,
+	[HoursPerDay] [decimal](4, 2) NULL,
+	[WorkEnvironment] [nvarchar](1000) NULL,
+	--[Post_Rate] [int] NOT NULL,
+	--[Post_Web] [bit] NULL,
+	--[Post_Branch] [int] NULL,
+	--[NotifyContactNotes] [bit] NOT NULL CONSTRAINT [DF_Agreement_OpportunityDetail_NotifyContactNotes]  DEFAULT (0),
+	--[SolicitationReference] [varchar](250) NULL,
+	--[TaskAuthName] [varchar](250) NULL,
+	--[OppVersion] [int] NULL,
+	[verticalid] [int] NULL,
+	--[AverageTenure] [int] NULL,
+	--[SurveyUrlId] [int] NOT NULL DEFAULT ((0)),
+	[IsExistingJob] [int] NULL CONSTRAINT [DF_agreement_opportunitydetail_IsexistingJob]  DEFAULT ((2)),
+	--[Web_PostedDate] [datetime] NULL DEFAULT (NULL),
+ CONSTRAINT [PK_Opportunity_Details] PRIMARY KEY CLUSTERED 
+(
+	[AgreementID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 97) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Agreement_OpportunityDetail]  WITH NOCHECK ADD  CONSTRAINT [FK_Agreement_OpportunityDetail_Agreement] FOREIGN KEY([AgreementID])
+REFERENCES [dbo].[Agreement] ([AgreementID])
+GO
+
+ALTER TABLE [dbo].[Agreement_OpportunityDetail] NOCHECK CONSTRAINT [FK_Agreement_OpportunityDetail_Agreement]
+GO
+
+ALTER TABLE [dbo].[Agreement_OpportunityDetail]  WITH CHECK ADD  CONSTRAINT [chkverticalid_Agreement_OpportunityDetail] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
+GO
+
+ALTER TABLE [dbo].[Agreement_OpportunityDetail] CHECK CONSTRAINT [chkverticalid_Agreement_OpportunityDetail]
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Agreement ID from Agreements table' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'AgreementID'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Description of the opportunity' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'Description'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Job title of the position offered in the opportunity' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'JobTitle'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Specialty area from the Specialty table' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'SpecializationID'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Number of consultants required for this opportunity' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'NumberRequired'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Skills the applicant would have to to have an advantage for this opportunity' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'NiceHave'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Opportunity estimated start date' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'StartDate'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Opportunity estimated end date' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'EndDate'
+GO
+
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Date resume submission ends' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'ResumeDueDate'
+--GO
+
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Interview process description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'InterviewProcess'
+--GO
+
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Time factor type from PickList' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'TimeFactorType'
+--GO
+
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Work environment comment' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'WorkEnvironment'
+--GO
+
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Indicates that the opportunity is posted on the web' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'Post_Rate'
+--GO
+
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Flag to indicate that the rate for this opportunity is posted to the web' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'Post_Web'
+--GO
+
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Flag to indicate that this opportunity is posted to the branch' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityDetail', @level2type=N'COLUMN',@level2name=N'Post_Branch'
+--GO
+
+
