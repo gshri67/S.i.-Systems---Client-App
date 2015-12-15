@@ -203,17 +203,17 @@ CREATE TABLE [dbo].[Agreement_OpportunityCandidateMatrix](
 	[UpdateUserID] [int] NULL,
 	[ShortlistUserID] [int] NULL,
 	[Availability] [varchar](250) NULL,
-	[ReferenceComplete] [bit] NOT NULL CONSTRAINT [DF_Agreement_OpportunityCandidateMatrix_ReferenceComplete]  DEFAULT (0),
-	[ResumeComplete] [bit] NOT NULL CONSTRAINT [DF_Agreement_OpportunityCandidateMatrix_ResumeComplete]  DEFAULT (0),
-	[UpcomingVacation] [varchar](250) NULL,
-	[WebResponse] [bit] NOT NULL CONSTRAINT [DF_Agreement_OpportunityCandidateMatrix_WebResponse]  DEFAULT (0),
-	[Inactive] [bit] NOT NULL CONSTRAINT [DF_Agreement_OpportunityCandidateMatrix_Inactive]  DEFAULT (0),
+	--[ReferenceComplete] [bit] NOT NULL CONSTRAINT [DF_Agreement_OpportunityCandidateMatrix_ReferenceComplete]  DEFAULT (0),
+	--[ResumeComplete] [bit] NOT NULL CONSTRAINT [DF_Agreement_OpportunityCandidateMatrix_ResumeComplete]  DEFAULT (0),
+	--[UpcomingVacation] [varchar](250) NULL,
+	--[WebResponse] [bit] NOT NULL CONSTRAINT [DF_Agreement_OpportunityCandidateMatrix_WebResponse]  DEFAULT (0),
+	--[Inactive] [bit] NOT NULL CONSTRAINT [DF_Agreement_OpportunityCandidateMatrix_Inactive]  DEFAULT (0),
 	[ProposedSalary] [money] NULL,
 	[ProposedPlacementFee] [money] NULL,
 	[IsMDApprovedGM] [bit] NULL CONSTRAINT [DF_Agreement_OpportunityCandidateMatrix_IsMDApprovedGM]  DEFAULT ((0)),
 	[InterviewsJobOfferPending] [varchar](250) NULL,
-	[verticalid] [int] NULL,
-	[DisplayOrder] [tinyint] NOT NULL CONSTRAINT [DF__AgrOppCanMat__DisplayOrder]  DEFAULT ((0)),
+	--[verticalid] [int] NULL,
+	--[DisplayOrder] [tinyint] NOT NULL CONSTRAINT [DF__AgrOppCanMat__DisplayOrder]  DEFAULT ((0)),
 	--[IsAppliedFromMobile] [bit] NOT NULL DEFAULT ((0)),
  CONSTRAINT [PK_OpportunityCandidate] PRIMARY KEY CLUSTERED 
 (
@@ -231,11 +231,11 @@ GO
 ALTER TABLE [dbo].[Agreement_OpportunityCandidateMatrix] NOCHECK CONSTRAINT [FK_Agreement_OpportunityCandidateMatrix_Agreement]
 GO
 
-ALTER TABLE [dbo].[Agreement_OpportunityCandidateMatrix]  WITH CHECK ADD  CONSTRAINT [chkverticalid_Agreement_OpportunityCandidateMatrix] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
-GO
+--ALTER TABLE [dbo].[Agreement_OpportunityCandidateMatrix]  WITH CHECK ADD  CONSTRAINT [chkverticalid_Agreement_OpportunityCandidateMatrix] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
+--GO
 
-ALTER TABLE [dbo].[Agreement_OpportunityCandidateMatrix] CHECK CONSTRAINT [chkverticalid_Agreement_OpportunityCandidateMatrix]
-GO
+--ALTER TABLE [dbo].[Agreement_OpportunityCandidateMatrix] CHECK CONSTRAINT [chkverticalid_Agreement_OpportunityCandidateMatrix]
+--GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'AgreementID for opportunity from Agreements table' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'AgreementID'
 GO
@@ -270,15 +270,15 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'UserID of individual who shortlisted the candidate' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'ShortlistUserID'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Candidate’s availability' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'Availability'
-GO
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Candidate’s availability' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'Availability'
+--GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Flag indicating that the reference checks are complete' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'ReferenceComplete'
-GO
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Flag indicating that the reference checks are complete' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'ReferenceComplete'
+--GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Flag indicating that the resume is complete' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'ResumeComplete'
-GO
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Flag indicating that the resume is complete' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'ResumeComplete'
+--GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Details of any upcoming vacation the candidate has planned' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'UpcomingVacation'
-GO
+--EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Details of any upcoming vacation the candidate has planned' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Agreement_OpportunityCandidateMatrix', @level2type=N'COLUMN',@level2name=N'UpcomingVacation'
+--GO
 

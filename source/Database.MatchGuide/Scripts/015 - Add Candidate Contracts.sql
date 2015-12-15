@@ -137,19 +137,20 @@ VALUES
 SET IDENTITY_INSERT [dbo].[ContractInvoiceCode] OFF;
 
 
-
-
-
-SET IDENTITY_INSERT [dbo].Agreement_OpportunityCandidateMatrix] ON;
+SET IDENTITY_INSERT [dbo].[Agreement_OpportunityCandidateMatrix] ON;
 
 INSERT INTO [dbo].[Agreement_OpportunityCandidateMatrix](
+	OpportunityCandidateMatrixID,
 	AgreementID,
 	CandidateUserID,
-	ContractID
+	StatusType,
+	StatusSubType,
+	CreateDateTime,
+	CreateUserID
 )
 VALUES
-(0, 0, 0),
-(1, 1, 1),
-(2, 2, 2);
+(0, 0, 0, 0, 0, '2014-12-01', 0),
+(1, 1, 1, 0, 0, '2014-12-01', 0),
+(2, 2, 2, 1, 1, '2014-12-01', 0);
 
 SET IDENTITY_INSERT [dbo].[Agreement_OpportunityCandidateMatrix] OFF;

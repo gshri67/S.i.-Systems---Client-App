@@ -96,7 +96,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-
                 var summaries = db.Connection.Query<ContractorRateSummary>(contractorsQuery, new { Id = id });
 
                 return summaries;
