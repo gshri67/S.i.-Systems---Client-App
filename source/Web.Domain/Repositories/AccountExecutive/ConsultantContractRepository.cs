@@ -404,7 +404,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 FirstName = "Jon",
                 LastName = "Marketer",
                 EmailAddresses = new List<string>() { "jm@email.com" }.AsEnumerable(),
-                PhoneNumbers = Enumerable.Empty<string>()
+                PhoneNumbers = Enumerable.Empty<PhoneNumber>()
             },
             Rating = MatchGuideConstants.ResumeRating.Standard
         };
@@ -414,7 +414,22 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             FirstName = "Janice",
             LastName = "McContact",
             EmailAddresses = new List<string>(){ "cc@email.com" }.AsEnumerable(),
-            PhoneNumbers = new List<string>(){ "(555)555-1234" }.AsEnumerable()
+            PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
         };
 
         private static readonly UserContact BillingContactWilliam = new UserContact
@@ -422,7 +437,22 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             FirstName = "William",
             LastName = "Payerson",
             EmailAddresses = new List<string>(){ "will.payerson@email.com" }.AsEnumerable(),
-            PhoneNumbers = new List<string>(){ "(555)555-4321" }.AsEnumerable()
+            PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
         };
 
         private static readonly UserContact DirectReportCandice = new UserContact
@@ -430,7 +460,22 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             FirstName = "Candice",
             LastName = "Consulty",
             EmailAddresses = new List<string>(){ "candice.consulty@email.com" }.AsEnumerable(),
-            PhoneNumbers = new List<string>(){ "(555)555-9876" }.AsEnumerable()
+            PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
         };
 
         private static readonly ConsultantContract ActiveMarketerAtNexenContract = new ConsultantContract

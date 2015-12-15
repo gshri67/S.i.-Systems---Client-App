@@ -192,7 +192,22 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     FirstName = "Robert",
                     LastName = "Paulson", 
                     EmailAddresses = new List<string>(){ "rp.consultant@email.com"}.AsEnumerable(),
-                    PhoneNumbers = new List<string>() { "(555)555-1231", "(555)222-2212" }.AsEnumerable(),
+                    PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
                 },
                 Rating = MatchGuideConstants.ResumeRating.Standard,
                 ResumeText = string.Empty,

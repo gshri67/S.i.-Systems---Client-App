@@ -238,7 +238,22 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         FirstName = "Joe",
                         LastName = "Dirt",
                         EmailAddresses = new List<string>(){ "jd@email.com" }.AsEnumerable(),
-                        PhoneNumbers = new List<string>(){ "(555)555-1234" }.AsEnumerable()
+                        PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
                     },
                     StartDate = DateTime.UtcNow.AddDays(-30),
                     EndDate = DateTime.UtcNow.AddDays(-15),
@@ -253,7 +268,22 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         FirstName = "Joe",
                         LastName = "Dirt",
                         EmailAddresses = new List<string>(){ "jd@email.com" }.AsEnumerable(),
-                        PhoneNumbers = new List<string>(){ "(555)555-1234" }.AsEnumerable()
+                        PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
                     },
                     StartDate = DateTime.UtcNow.AddDays(-14),
                     EndDate = DateTime.UtcNow,
@@ -268,7 +298,22 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         FirstName = "Marlin",
                         LastName = "Monrow",
                         EmailAddresses = new List<string>(){ "mm@email.com" }.AsEnumerable(),
-                        PhoneNumbers = new List<string>(){ "(555)555-6543" }.AsEnumerable()
+                        PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
                     },
                     StartDate = DateTime.UtcNow.AddDays(-30),
                     EndDate = DateTime.UtcNow.AddDays(-15),
@@ -283,7 +328,22 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         FirstName = "Marlin",
                         LastName = "Monrow",
                         EmailAddresses = new List<string>(){ "mm@email.com" }.AsEnumerable(),
-                        PhoneNumbers = new List<string>(){ "(555)555-6543" }.AsEnumerable()
+                        PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
                     },
                     StartDate = DateTime.UtcNow.AddDays(-14),
                     EndDate = DateTime.UtcNow,

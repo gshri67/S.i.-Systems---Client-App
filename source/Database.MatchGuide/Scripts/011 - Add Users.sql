@@ -64,3 +64,34 @@ INSERT INTO [dbo].[User_Email]
 )
 VALUES
 (7, 'adam.si@email.com');
+
+INSERT INTO [dbo].[User_Phone]
+(
+	[UserID], [Home_AreaCode], [Home_Number]
+	, [Work_AreaCode], [Work_Number] ,[Work_Extension]
+    , [Cell_AreaCode], [Cell_Number]
+	, [Fax_AreaCode] ,[Fax_Number]
+    , [Other_AreaCode], [Other_Number], [Other_Extension]
+    ,[verticalid]
+)
+VALUES
+	(1, 555, 5551234
+	, 555, 5559876, 456
+	, 555, 2221234
+	, 555, 5555555
+	, 555, 5553333, null, 4),
+	(10, 555, 5551234
+	, 555, 5559876, 456
+	, 555, 2221234
+	, 555, 5555555
+	, 555, 5553333, null, 4),
+	(7, null, null
+	, null, null, null
+	, null, null
+	, null, null
+	, null, null, null, 4),
+	(4, 555, 5551234
+	, 555, 5559876, 456
+	, null, null
+	, null, null
+	, null, null, null, 4);

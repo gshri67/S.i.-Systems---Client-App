@@ -391,41 +391,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             NumCallouts = 0
         };
 
-        private UserContact LucyLu = new UserContact
-        {
-            FirstName = "Lucy",
-            LastName = "Lu",
-            EmailAddresses = new List<string>(){ "lucy.lu@email.com" }.AsEnumerable(),
-            PhoneNumbers = new List<string>(){ "(555)555-1234" }.AsEnumerable()
-        };
-
-        private Contractor LouFerigno = new Contractor
-        {
-            ContactInformation = new UserContact
-            {
-                FirstName = "Lou",
-                LastName = "Ferigno"
-            }
-        };
-
-        private Contractor PeterGriffin = new Contractor
-        {
-            ContactInformation = new UserContact
-            {
-                FirstName = "Peter",
-                LastName = "Griffin"
-            }
-        };
-
-        private Contractor SpiderMan = new Contractor
-        {
-            ContactInformation = new UserContact
-            {
-                FirstName = "Spider",
-                LastName = "Man"
-            }
-        };
-
         private Job BusinessAnalyst = new Job
         {
             Id = 1,

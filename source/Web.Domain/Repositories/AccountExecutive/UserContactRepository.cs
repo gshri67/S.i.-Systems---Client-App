@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,44 +35,63 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
-        private IEnumerable<string> GetUserContactPhoneNumbersByUserId(int userId)
+        private IEnumerable<PhoneNumber> GetUserContactPhoneNumbersByUserId(int userId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string homePhoneNumbersQuery =
-                    @"SELECT '('+cast(user_phone.home_areacode as varchar)+ ')'+ 
-	                    cast(left(user_phone.home_number,3) as varchar) + '-' + 
-	                    cast(right(user_phone.home_number,4) as varchar)
+                const string multiplePhoneNumbersQuery =
+                    @"SELECT 'Home' AS Title, 
+	                    CAST(Home_AreaCode AS INT) AS AreaCode, 
+	                    CAST(LEFT(Home_Number,3) AS INT) AS Prefix, 
+	                    CAST(RIGHT(Home_Number,4) as INT) AS LineNumber
                     FROM User_Phone
-                    WHERE User_Phone.UserID = @Id";
+                    WHERE User_Phone.UserID = @Id
+                    AND Home_Number IS NOT NULL
 
-                const string cellPhoneNumbersQuery =
-                    @"SELECT '('+cast(user_phone.cell_areacode as varchar)+ ')'+ 
-	                    cast(left(user_phone.cell_number,3) as varchar) + '-' + 
-	                    cast(right(user_phone.cell_number,4) as varchar)
+                    SELECT 'Cell' AS Title, 
+	                    CAST(Cell_AreaCode AS INT) AS AreaCode, 
+	                    CAST(LEFT(Cell_Number,3) AS INT) AS Prefix, 
+	                    CAST(RIGHT(Cell_Number,4) as INT) AS LineNumber
                     FROM User_Phone
-                    WHERE User_Phone.UserID = @Id";
+                    WHERE User_Phone.UserID = @Id
+                    AND Cell_Number IS NOT NULL
 
-                const string workPhoneNumbersQuery =
-                    @"SELECT '('+cast(user_phone.work_areacode as varchar)+ ')'+ 
-	                    cast(left(user_phone.work_number,3) as varchar) + '-' + 
-	                    cast(right(user_phone.work_number,4) as varchar)
+                    SELECT 'Work' AS Title, 
+	                    CAST(Work_AreaCode AS INT) AS AreaCode, 
+	                    CAST(LEFT(Work_Number,3) AS INT) AS Prefix, 
+	                    CAST(RIGHT(Work_Number,4) as INT) AS LineNumber,
+	                    CAST(Work_Extension as INT) AS Extension
                     FROM User_Phone
-                    WHERE User_Phone.UserID = @Id";
+                    WHERE User_Phone.UserID = @Id
+                    AND Work_Number IS NOT NULL
 
-                var phoneNumbers = new List<string>();
+                    SELECT 'Other' AS Title, 
+	                    CAST(Other_AreaCode AS INT) AS AreaCode, 
+	                    CAST(LEFT(Other_Number,3) AS INT) AS Prefix, 
+	                    CAST(RIGHT(Other_Number,4) as INT) AS LineNumber,
+	                    CAST(Other_Extension as INT) AS Extension
+                    FROM User_Phone
+                    WHERE User_Phone.UserID = @Id
+                    AND Other_Number IS NOT NULL
 
-                var homePhoneNumber = db.Connection.Query<string>(homePhoneNumbersQuery, param: new { Id = userId }).FirstOrDefault();
-                if (homePhoneNumber!= null)
-                    phoneNumbers.Add(homePhoneNumber);
+                    SELECT 'Fax' AS Title, 
+	                    CAST(Fax_AreaCode AS INT) AS AreaCode, 
+	                    CAST(LEFT(Fax_Number,3) AS INT) AS Prefix, 
+	                    CAST(RIGHT(Fax_Number,4) as INT) AS LineNumber
+                    FROM User_Phone
+                    WHERE User_Phone.UserID = @Id
+                    AND Fax_Number IS NOT NULL";
 
-                var workPhoneNumber = db.Connection.Query<string>(workPhoneNumbersQuery, param: new { Id = userId }).FirstOrDefault();
-                if(workPhoneNumber != null)
-                    phoneNumbers.Add(workPhoneNumber);
+                var phoneNumbers = new List<PhoneNumber>();
 
-                var cellPhoneNumber = db.Connection.Query<string>(cellPhoneNumbersQuery, param: new { Id = userId }).FirstOrDefault();
-                if(cellPhoneNumber != null)
-                    phoneNumbers.Add(cellPhoneNumber);
+                using (var multi = db.Connection.QueryMultiple(multiplePhoneNumbersQuery, new { Id = userId }, null))
+                {
+                    phoneNumbers.Add(multi.Read<PhoneNumber>().Single());
+                    phoneNumbers.Add(multi.Read<PhoneNumber>().Single());
+                    phoneNumbers.Add(multi.Read<PhoneNumber>().Single());
+                    phoneNumbers.Add(multi.Read<PhoneNumber>().Single());
+                    phoneNumbers.Add(multi.Read<PhoneNumber>().Single());
+                }  
 
                 return phoneNumbers.AsEnumerable();
             }
@@ -254,7 +274,22 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 FirstName = "Robert",
                 LastName = "Paulson",
                 EmailAddresses = new List<string>() { "rp.clientcontact@email.com" }.AsEnumerable(),
-                PhoneNumbers = new List<string>() { "(555)555-1231", "(555)222-2212" }.AsEnumerable(),
+                PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
                 ClientName = "Cenovus",
                 Address = "999 Rainbow Road SE, Calgary, AB"
             };
@@ -268,7 +303,22 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 FirstName = "Robert",
                 LastName = "Paulson",
                 EmailAddresses = new List<string>() { "rp.clientcontact@email.com" }.AsEnumerable(),
-                PhoneNumbers = new List<string>() { "(555)555-1231", "(555)222-2212" }.AsEnumerable(),
+                PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
                 ClientName = "Cenovus",
                 Address = "999 Rainbow Road SE, Calgary, AB"
             };
@@ -282,7 +332,22 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 FirstName = "Robert",
                 LastName = "Paulson",
                 EmailAddresses = new List<string>() { "rp.clientcontact@email.com" }.AsEnumerable(),
-                PhoneNumbers = new List<string>() { "(555)555-1231", "(555)222-2212" }.AsEnumerable(),
+                PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
                 ClientName = "Cenovus",
                 Address = "999 Rainbow Road SE, Calgary, AB"
             };
@@ -296,7 +361,22 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 FirstName = "Robert",
                 LastName = "Paulson",
                 EmailAddresses = new List<string>() { "rp.clientcontact@email.com" }.AsEnumerable(),
-                PhoneNumbers = new List<string>() { "(555)555-1231", "(555)222-2212" }.AsEnumerable(),
+                PhoneNumbers = new List<PhoneNumber> 
+                { 
+                    new PhoneNumber
+                    {
+                        Title = "Work",
+                        AreaCode = 555,
+                        Prefix = 555,
+                        LineNumber = 1231
+                    }, new PhoneNumber
+                    {
+                        Title = "Cell",
+                        AreaCode = 555,
+                        Prefix = 222,
+                        LineNumber = 2212
+                    }
+                }.AsEnumerable(),
                 ClientName = "Cenovus",
                 Address = "999 Rainbow Road SE, Calgary, AB"
             };

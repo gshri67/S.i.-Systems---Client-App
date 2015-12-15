@@ -16,7 +16,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         public string FormattedPhoneNumberByRowNumber( int row )
         {
             if( _contractor.ContactInformation.PhoneNumbers.Count() > row )
-                return _contractor.ContactInformation.PhoneNumbers.ElementAt(row);
+                return _contractor.ContactInformation.PhoneNumbers.ElementAt(row).FormattedNumber;
             return string.Empty;
         }
         public string FormattedEmailByRowNumber(int row)
