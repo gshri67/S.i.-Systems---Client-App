@@ -354,7 +354,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         public Job GetJobWithJobId(int id)
         {
-            return BusinessAnalyst;
+            if( id == 1 )
+                return BusinessAnalyst;
+            else if( id == 2 )
+                return ProjectManager;
+            else if( id == 3 )
+                return SolutionsDeveloper;
+            else
+                return EnterpriseArchitect;
         }
 
         public IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id)

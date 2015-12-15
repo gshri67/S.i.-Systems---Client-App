@@ -146,11 +146,12 @@ INSERT INTO [dbo].[Agreement_OpportunityCandidateMatrix](
 	StatusType,
 	StatusSubType,
 	CreateDateTime,
+	UpdateDateTime,
 	CreateUserID
 )
 VALUES
-(0, 0, 0, 0, 0, '2014-12-01', 0),
-(1, 1, 1, 0, 0, '2014-12-01', 0),
-(2, 2, 2, 1, 1, '2014-12-01', 0);
+(1, 1, 1, 0, 0, '2014-12-01',  '2014-12-01', 0),
+(2, 2, 2, 1, 1, '2014-12-01',  '2014-12-01', 0),
+(3, 3, 3, 731, 583, '2014-12-01', '2014-12-01', 0);
 
 SET IDENTITY_INSERT [dbo].[Agreement_OpportunityCandidateMatrix] OFF;
