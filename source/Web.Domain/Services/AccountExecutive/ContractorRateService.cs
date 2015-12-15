@@ -20,9 +20,17 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
         public object GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status)
         {
-            var rateSummary = _repo.GetContractorRateSummaryWithJobIdAndStatus(id, status);
+            var rateSummaries = Enumerable.Empty<ContractorRateSummary>();
 
-            return rateSummary;
+            if (status == JobStatus.Shortlisted)
+                rateSummaries = _repo.GetShortlistedContractorRateSummaryByJobId(id);
+            else if (status == JobStatus.Proposed)
+                rateSummaries= _repo.GetProposedContractorRateSummaryByJobId(id);
+            else if (status == JobStatus.Callout)
+                rateSummaries = _repo.GetCalloutContractorRateSummaryByJobId(id);
+            
+
+            return rateSummaries;
         }
     }
 }

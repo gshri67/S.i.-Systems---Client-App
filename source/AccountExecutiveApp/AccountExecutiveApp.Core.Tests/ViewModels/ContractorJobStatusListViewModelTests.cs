@@ -23,7 +23,7 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             _mockApi = new Mock<IMatchGuideApi>();
             _viewModel = new ContractorJobStatusListViewModel( _mockApi.Object);
         }
-
+        /*
         [Test]
         public void ContractorNameByRowNumber_EmptyConsultants_ReturnsEmptyString()
         {
@@ -71,6 +71,6 @@ namespace AccountExecutiveApp.Core.Tests.ViewModels
             });
 
             Assert.AreEqual(expectedNumberOfConsultants, _viewModel.NumberOfContractors());
-        }
+        }*/
     }
 }

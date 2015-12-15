@@ -135,3 +135,21 @@ VALUES
 (3, '[CC:55131][G:7030.334][A:-][WO:-]', 6);
 
 SET IDENTITY_INSERT [dbo].[ContractInvoiceCode] OFF;
+
+
+
+
+
+SET IDENTITY_INSERT [dbo].Agreement_OpportunityCandidateMatrix] ON;
+
+INSERT INTO [dbo].[Agreement_OpportunityCandidateMatrix](
+	AgreementID,
+	CandidateUserID,
+	ContractID
+)
+VALUES
+(0, 0, 0),
+(1, 1, 1),
+(2, 2, 2);
+
+SET IDENTITY_INSERT [dbo].[Agreement_OpportunityCandidateMatrix] OFF;

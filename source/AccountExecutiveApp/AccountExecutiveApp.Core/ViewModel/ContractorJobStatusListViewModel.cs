@@ -32,21 +32,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             Contractors = contractors ?? Enumerable.Empty<Contractor>();
         }
         */
-        public Task LoadContractorsWithJobIDAndStatusAndClientName(int Id, JobStatus status, string clientName )
-        {
-            ClientName = clientName;
-
-            var task = GetContractorsWithJobIdAndStatus(Id, status);
-			Status = status;
-
-            return task;
-        }
-
-        private async Task GetContractorsWithJobIdAndStatus(int id, JobStatus status)
-        {
-            RateSummaries = await _api.GetContractorRateSummaryWithJobIdAndStatus(id, status);
-        }
-
+        
         public Task LoadContractorsWithJobIDAndStatusAndClientName(int Id, JobStatus status, string clientName)
         {
             ClientName = clientName;
@@ -59,7 +45,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status)
         {
-            RateSummaries = await _api.GetContractorRateSummaryWithJobIdAndStatus()(id, status);
+            RateSummaries = await _api.GetContractorRateSummaryWithJobIdAndStatus(id, status);
         }
 
         public int NumberOfContractors()
