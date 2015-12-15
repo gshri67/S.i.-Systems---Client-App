@@ -40,7 +40,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         public IEnumerable<Job> GetJobsByClientId(int id)
         {
-            var jobs = _jobsRepository.GetJobsByClientId(id);
+            var jobs = _jobsRepository.GetJobsByClientIdAndAccountExecutiveId(id, _sessionContext.CurrentUser.Id);
             
             return jobs;
         }

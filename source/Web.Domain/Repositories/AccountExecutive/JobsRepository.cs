@@ -11,7 +11,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public interface IJobsRepository
     {
         JobsSummarySet GetSummaryCountsByAccountExecutiveId(int id);
-        IEnumerable<Job> GetJobsByClientId(int id);
+        IEnumerable<Job> GetJobsByClientIdAndAccountExecutiveId(int id, int aeId);
         Job GetJobWithJobId(int id);
         IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id);
     }
@@ -36,7 +36,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
-        public IEnumerable<Job> GetJobsByClientId(int id)
+        public IEnumerable<Job> GetJobsByClientIdAndAccountExecutiveId(int id, int aeId)
         {
             const string jobsByClientIdQuery =
                 @"SELECT Agreement.AgreementID AS Id, Company.CompanyName AS ClientName, Detail.JobTitle AS Title, Agreement.CreateDate AS IssueDate
@@ -50,7 +50,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 AND PickList.PickListID IN (
 	                SELECT PickListId from dbo.udf_GetPickListIds('OpportunityStatusType', 'Open,On Hold,Submissions Complete', -1)
                 )
-                AND Agreement.CompanyID = @Id";
+                AND Agreement.CompanyID = @Id
+                AND Agreement.AccountExecId = @AEID";
 
             const string numberOfShortlistedCandidadtesForJob =
                 @"SELECT COUNT(DISTINCT(Matrix.CandidateUserID))
@@ -73,7 +74,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var jobs = db.Connection.Query<Job>(jobsByClientIdQuery, new { Id = id });
+                var jobs = db.Connection.Query<Job>(jobsByClientIdQuery, new { Id = id, AEID = aeId });
 
                 foreach (var job in jobs)
                 {
@@ -341,7 +342,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             };
         }
 
-        public IEnumerable<Job> GetJobsByClientId(int id)
+        public IEnumerable<Job> GetJobsByClientIdAndAccountExecutiveId(int id, int aeId)
         {
             return new List<Job>
             {

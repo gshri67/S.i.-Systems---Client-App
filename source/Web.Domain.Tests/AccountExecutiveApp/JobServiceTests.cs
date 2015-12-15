@@ -38,12 +38,12 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         public void GetJobs_CallsGetJobsByAccountExecutiveId_WithCurrentUsersId()
         {
             const int clientId = 1;
-            _jobsRepo.Setup(repository => repository.GetJobsByClientId(It.IsAny<int>()));
+            _jobsRepo.Setup(repository => repository.GetJobsByClientIdAndAccountExecutiveId(It.IsAny<int>(), It.IsAny<int>()));
 
             var service = new JobService(_jobsRepo.Object, _userRepo.Object, _session.Object);
             service.GetJobsByClientId(clientId);
 
-            _jobsRepo.Verify(repository => repository.GetJobsByClientId(clientId));
+            _jobsRepo.Verify(repository => repository.GetJobsByClientIdAndAccountExecutiveId(clientId, _session.Object.CurrentUser.Id));
         }
     }
 }
