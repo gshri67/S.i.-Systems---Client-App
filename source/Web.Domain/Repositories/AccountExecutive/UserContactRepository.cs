@@ -20,16 +20,28 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
     public class UserContactRepository : IUserContactRepository
     {
-        private IEnumerable<string> GetUserContactEmailsByUserId(int userId)
+        private IEnumerable<EmailAddress> GetUserContactEmailsByUserId(int userId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string emailsQuery =
-                    @"SELECT PrimaryEmail
+                    @"SELECT 'Primary' AS Title, PrimaryEmail as Email
                     FROM User_Email
-                    WHERE User_Email.UserID = @Id";
+                    WHERE User_Email.UserID = @Id
+                    AND PrimaryEmail IS NOT NULL
 
-                var emails = db.Connection.Query<string>(emailsQuery, param: new { Id = userId });
+                    SELECT 'Secondary' AS Title, SecondaryEmail as Email
+                    FROM User_Email
+                    WHERE User_Email.UserID = @Id
+                    AND SecondaryEmail IS NOT NULL";
+
+                var emails = new List<EmailAddress>();
+
+                using (var multi = db.Connection.QueryMultiple(emailsQuery, new { Id = userId }, null))
+                {
+                    emails.Add(multi.Read<EmailAddress>().Single());
+                    emails.Add(multi.Read<EmailAddress>().Single());
+                }  
 
                 return emails;
             }
@@ -273,7 +285,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 Id = id,
                 FirstName = "Robert",
                 LastName = "Paulson",
-                EmailAddresses = new List<string>() { "rp.clientcontact@email.com" }.AsEnumerable(),
+                EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "rp.clientcontact@email.com", Title = "Primary"} }.AsEnumerable(),
                 PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber
@@ -302,7 +314,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 Id = contractId,
                 FirstName = "Robert",
                 LastName = "Paulson",
-                EmailAddresses = new List<string>() { "rp.clientcontact@email.com" }.AsEnumerable(),
+                EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "rp.clientcontact@email.com", Title = "Primary" } }.AsEnumerable(),
                 PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber
@@ -331,7 +343,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 Id = contractId,
                 FirstName = "Robert",
                 LastName = "Paulson",
-                EmailAddresses = new List<string>() { "rp.clientcontact@email.com" }.AsEnumerable(),
+                EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "rp.clientcontact@email.com", Title = "Primary" } }.AsEnumerable(),
                 PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber
@@ -360,7 +372,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 Id = contractId,
                 FirstName = "Robert",
                 LastName = "Paulson",
-                EmailAddresses = new List<string>() { "rp.clientcontact@email.com" }.AsEnumerable(),
+                EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "rp.clientcontact@email.com", Title = "Primary" } }.AsEnumerable(),
                 PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber

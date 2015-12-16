@@ -403,7 +403,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 Id = 1,
                 FirstName = "Jon",
                 LastName = "Marketer",
-                EmailAddresses = new List<string>() { "jm@email.com" }.AsEnumerable(),
+                EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "jm@email.com", Title = "Primary" } }.AsEnumerable(),
                 PhoneNumbers = Enumerable.Empty<PhoneNumber>()
             },
             Rating = MatchGuideConstants.ResumeRating.Standard
@@ -413,7 +413,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             FirstName = "Janice",
             LastName = "McContact",
-            EmailAddresses = new List<string>(){ "cc@email.com" }.AsEnumerable(),
+            EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "cc@email.com", Title = "Primary" } }.AsEnumerable(),
             PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber
@@ -436,7 +436,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             FirstName = "William",
             LastName = "Payerson",
-            EmailAddresses = new List<string>(){ "will.payerson@email.com" }.AsEnumerable(),
+            EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "will.payerson@email.com", Title = "Primary" } }.AsEnumerable(),
             PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber
@@ -459,7 +459,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             FirstName = "Candice",
             LastName = "Consulty",
-            EmailAddresses = new List<string>(){ "candice.consulty@email.com" }.AsEnumerable(),
+            EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "candice.consulty@email.com", Title = "Primary" } }.AsEnumerable(),
             PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber

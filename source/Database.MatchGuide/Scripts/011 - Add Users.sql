@@ -27,15 +27,15 @@ VALUES
 
 INSERT INTO [dbo].[User_Email]
 (
-	[UserID], [PrimaryEmail]
+	[UserID], [PrimaryEmail], [SecondaryEmail]
 )
 VALUES
-(1, 'bob.smith@email.com'),
-(2, 'tom.smith@email.com'),
-(3, 'sally.smitherson@email.com'),
-(4, 'joe.johnson@email.com'),
-(5, 'jessica.li@email.com'),
-(6, 'ed.maron@email.com');
+(1, 'bob.smith@email.com', 'b.s@email.com'),
+(2, 'tom.smith@email.com', 't.s@email.com'),
+(3, 'sally.smitherson@email.com', 's.s@email.com'),
+(4, 'joe.johnson@email.com', null),
+(5, 'jessica.li@email.com', null),
+(6, 'ed.maron@email.com', null);
 
 
 

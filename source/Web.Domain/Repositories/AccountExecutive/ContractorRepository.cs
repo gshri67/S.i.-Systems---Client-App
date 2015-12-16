@@ -190,8 +190,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 {
                     Id = 1,
                     FirstName = "Robert",
-                    LastName = "Paulson", 
-                    EmailAddresses = new List<string>(){ "rp.consultant@email.com"}.AsEnumerable(),
+                    LastName = "Paulson",
+                    EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "rp.clientcontact@email.com", Title = "Primary" } }.AsEnumerable(),
                     PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber

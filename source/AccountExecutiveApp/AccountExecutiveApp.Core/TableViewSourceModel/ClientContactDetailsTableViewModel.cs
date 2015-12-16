@@ -22,7 +22,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         public string FormattedEmailByRowNumber(int row)
         {
             if (_clientContract.EmailAddresses.Count() > row)
-                return _clientContract.EmailAddresses.ElementAt(row);
+                return _clientContract.EmailAddresses.ElementAt(row).Email;
             return string.Empty;
         }
 

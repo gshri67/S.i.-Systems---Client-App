@@ -237,7 +237,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         Id = 3,
                         FirstName = "Joe",
                         LastName = "Dirt",
-                        EmailAddresses = new List<string>(){ "jd@email.com" }.AsEnumerable(),
+                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "jd@email.com", Title = "Primary"} }.AsEnumerable(),
                         PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber
@@ -267,7 +267,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         Id = 3,
                         FirstName = "Joe",
                         LastName = "Dirt",
-                        EmailAddresses = new List<string>(){ "jd@email.com" }.AsEnumerable(),
+                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "jd@email.com", Title = "Primary"} }.AsEnumerable(),
                         PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber
@@ -297,7 +297,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         Id = 4,
                         FirstName = "Marlin",
                         LastName = "Monrow",
-                        EmailAddresses = new List<string>(){ "mm@email.com" }.AsEnumerable(),
+                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "mm@email.com", Title = "Primary"} }.AsEnumerable(),
                         PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber
@@ -327,7 +327,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         Id = 4,
                         FirstName = "Marlin",
                         LastName = "Monrow",
-                        EmailAddresses = new List<string>(){ "mm@email.com" }.AsEnumerable(),
+                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "mm@email.com", Title = "Primary"} }.AsEnumerable(),
                         PhoneNumbers = new List<PhoneNumber> 
                 { 
                     new PhoneNumber

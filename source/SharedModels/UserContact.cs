@@ -17,7 +17,7 @@ namespace SiSystems.SharedModels
 		public string ClientName { get; set; }
 		public string Address { get; set; }
 
-        public IEnumerable<string> EmailAddresses { get; set; }
+        public IEnumerable<EmailAddress> EmailAddresses { get; set; }
         public IEnumerable<PhoneNumber> PhoneNumbers { get; set; }
 
         public UserContact()
@@ -27,9 +27,15 @@ namespace SiSystems.SharedModels
             ClientName = string.Empty;
             Address = string.Empty;
 
-            EmailAddresses = Enumerable.Empty<string>();
+            EmailAddresses = Enumerable.Empty<EmailAddress>();
             PhoneNumbers = Enumerable.Empty<PhoneNumber>();
         }
+    }
+
+    public class EmailAddress
+    {
+        public string Email { get; set; }
+        public string Title { get; set; }
     }
 
     public class PhoneNumber
