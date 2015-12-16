@@ -175,7 +175,7 @@ namespace AccountExecutiveApp.iOS
 
         public void TextNumber(string number)
         {
-            var url = new NSUrl(string.Format("sms:{0}", number));
+            var url = new NSUrl(string.Format("sms:1{0}", number));
             if (UIApplication.SharedApplication.CanOpenUrl(url))
                 UIApplication.SharedApplication.OpenUrl(url);
         }
