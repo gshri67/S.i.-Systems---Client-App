@@ -55,6 +55,7 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
                         billRate: _parentModel.FormattedBillRateByRowNumber((int) indexPath.Item),
                         payRate: _parentModel.FormattedPayRateByRowNumber((int) indexPath.Item),
                         grossMargin: _parentModel.FormattedGrossMarginByRowNumber((int) indexPath.Item),
+						margin: _parentModel.FormattedMarginByRowNumber((int)indexPath.Item),
                         markup: _parentModel.FormattedMarkupByRowNumber((int) indexPath.Item)
                     );
 

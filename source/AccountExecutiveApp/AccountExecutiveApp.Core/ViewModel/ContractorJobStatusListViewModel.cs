@@ -100,7 +100,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 		public string FormattedMarkupByRowNumber( int rowNumber )
 		{
 		    if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
-                return RateSummaries.ElementAt(rowNumber).Markup.ToString();
+				return string.Format("{0:P2}", RateSummaries.ElementAt(rowNumber).Markup );
 
 			return string.Empty;
 		}
@@ -108,7 +108,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         public string FormattedMarginByRowNumber(int rowNumber)
         {
             if (Status == JobStatus.Proposed || Status == JobStatus.Callout)
-                return RateSummaries.ElementAt(rowNumber).Margin.ToString();
+				return string.Format("{0:P2}", RateSummaries.ElementAt(rowNumber).Margin );
 
             return string.Empty;
         }

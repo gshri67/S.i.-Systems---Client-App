@@ -13,11 +13,13 @@ namespace AccountExecutiveApp.iOS
 
 		private UILabel BillRateNameLabel;
 		private UILabel PayRateNameLabel;
+		private UILabel MarginNameLabel;
 		private UILabel MarkupNameLabel;
 		private UILabel GrossMarginNameLabel;
 
 		private UILabel BillRateValueLabel;
 		private UILabel PayRateValueLabel;
+		private UILabel MarginValueLabel;
 		private UILabel MarkupValueLabel;
 		private UILabel GrossMarginValueLabel;
 
@@ -54,12 +56,14 @@ namespace AccountExecutiveApp.iOS
 
 			PopulateAndAddRateNameLabel (BillRateNameLabel);
 			PopulateAndAddRateNameLabel (PayRateNameLabel);
+			PopulateAndAddRateNameLabel (MarginNameLabel);
 			PopulateAndAddRateNameLabel (MarkupNameLabel);
 			PopulateAndAddRateNameLabel (GrossMarginNameLabel);
 
 			BillRateNameLabel.Text = "Bill Rate";
 			PayRateNameLabel.Text = "Pay Rate";
 			GrossMarginNameLabel.Text = "Gross Margin";
+			MarginNameLabel.Text = "Margin";
 			MarkupNameLabel.Text = "Markup";
 		}
 		private void InitializeRateNameLabels()
@@ -67,6 +71,7 @@ namespace AccountExecutiveApp.iOS
 			BillRateNameLabel = new UILabel ();
 			PayRateNameLabel = new UILabel ();
 			GrossMarginNameLabel = new UILabel ();
+			MarginNameLabel = new UILabel ();
 			MarkupNameLabel = new UILabel ();
 		}
 		private void PopulateAndAddRateNameLabel( UILabel label )
@@ -85,19 +90,16 @@ namespace AccountExecutiveApp.iOS
 
 			PopulateAndAddRateValueLabel (BillRateValueLabel);
 			PopulateAndAddRateValueLabel (PayRateValueLabel);
+			PopulateAndAddRateValueLabel (MarginValueLabel);
 			PopulateAndAddRateValueLabel (MarkupValueLabel);
 			PopulateAndAddRateValueLabel (GrossMarginValueLabel);
-
-			BillRateValueLabel.Text = "$188.88";
-			PayRateValueLabel.Text = "$125.00";
-			GrossMarginValueLabel.Text = "$25.00";
-			MarkupValueLabel.Text = "$76.12";
 		}
 		private void InitializeRateValueLabels()
 		{
 			BillRateValueLabel = new UILabel ();
 			PayRateValueLabel = new UILabel ();
 			GrossMarginValueLabel = new UILabel ();
+			MarginValueLabel = new UILabel ();
 			MarkupValueLabel = new UILabel ();
 		}
 		private void PopulateAndAddRateValueLabel( UILabel label )
@@ -206,7 +208,12 @@ namespace AccountExecutiveApp.iOS
 			AddConstraint(NSLayoutConstraint.Create(GrossMarginNameLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, BillRateNameLabel, NSLayoutAttribute.Width, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(GrossMarginNameLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, BillRateNameLabel, NSLayoutAttribute.Height, 1.0f, 0));
 
-			AddConstraint(NSLayoutConstraint.Create(MarkupNameLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, GrossMarginNameLabel, NSLayoutAttribute.Right, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(MarginNameLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, GrossMarginNameLabel, NSLayoutAttribute.Right, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(MarginNameLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, BillRateNameLabel, NSLayoutAttribute.Top, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(MarginNameLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, BillRateNameLabel, NSLayoutAttribute.Width, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(MarginNameLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, BillRateNameLabel, NSLayoutAttribute.Height, 1.0f, 0));
+
+			AddConstraint(NSLayoutConstraint.Create(MarkupNameLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MarginNameLabel, NSLayoutAttribute.Right, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(MarkupNameLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, BillRateNameLabel, NSLayoutAttribute.Top, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(MarkupNameLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, BillRateNameLabel, NSLayoutAttribute.Width, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(MarkupNameLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, BillRateNameLabel, NSLayoutAttribute.Height, 1.0f, 0));
@@ -231,19 +238,25 @@ namespace AccountExecutiveApp.iOS
 			AddConstraint(NSLayoutConstraint.Create(GrossMarginValueLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, BillRateValueLabel, NSLayoutAttribute.Width, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(GrossMarginValueLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, BillRateValueLabel, NSLayoutAttribute.Height, 1.0f, 0));
 
-			AddConstraint(NSLayoutConstraint.Create(MarkupValueLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, GrossMarginValueLabel, NSLayoutAttribute.Right, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(MarginValueLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, GrossMarginValueLabel, NSLayoutAttribute.Right, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(MarginValueLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, BillRateValueLabel, NSLayoutAttribute.Top, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(MarginValueLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, BillRateValueLabel, NSLayoutAttribute.Width, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(MarginValueLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, BillRateValueLabel, NSLayoutAttribute.Height, 1.0f, 0));
+
+			AddConstraint(NSLayoutConstraint.Create(MarkupValueLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MarginValueLabel, NSLayoutAttribute.Right, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(MarkupValueLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, BillRateValueLabel, NSLayoutAttribute.Top, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(MarkupValueLabel, NSLayoutAttribute.Width, NSLayoutRelation.Equal, BillRateValueLabel, NSLayoutAttribute.Width, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(MarkupValueLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, BillRateValueLabel, NSLayoutAttribute.Height, 1.0f, 0));
 		}
 
-		public void UpdateCell(string mainText, string subtitleText, string billRate, string payRate, string grossMargin, string markup)
+		public void UpdateCell(string mainText, string subtitleText, string billRate, string payRate, string grossMargin, string margin, string markup)
 		{
 			MainTextLabel.Text = mainText;
 			SubtitleTextLabel.Text = subtitleText;
 			BillRateValueLabel.Text = billRate;
 			PayRateValueLabel.Text = payRate;
 			GrossMarginValueLabel.Text = grossMargin;
+			MarginValueLabel.Text = margin;
 			MarkupValueLabel.Text = markup;
 
 		    HideRateInformation(billRate == string.Empty);
@@ -255,6 +268,7 @@ namespace AccountExecutiveApp.iOS
             PayRateNameLabel.Hidden = hide;
             GrossMarginNameLabel.Hidden = hide;
             MarkupNameLabel.Hidden = hide;
+			MarginNameLabel.Hidden = hide;
 	    }
 	}
 }
