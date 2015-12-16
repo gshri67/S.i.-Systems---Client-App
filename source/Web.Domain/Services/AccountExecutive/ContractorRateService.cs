@@ -28,8 +28,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 rateSummaries= _repo.GetProposedContractorRateSummaryByJobId(id);
             else if (status == JobStatus.Callout)
                 rateSummaries = _repo.GetCalloutContractorRateSummaryByJobId(id);
-            
 
+            foreach (var rate in rateSummaries)
+            {
+
+                rate.GrossMargin = rate.BillRate - rate.PayRate;
+                rate.Markup = (rate.BillRate - rate.PayRate) / rate.PayRate;
+                rate.Margin = (rate.BillRate - rate.PayRate) / rate.BillRate;
+            }
             return rateSummaries;
         }
     }
