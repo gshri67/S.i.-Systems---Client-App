@@ -174,7 +174,7 @@ namespace AccountExecutiveApp.iOS
                     mainContactText:
                         _tableModel.FormattedEmailByRowNumber((int)indexPath.Item -
                                                               _tableModel.NumberOfPhoneNumbers()),
-                    contactTypeText:  _tableModel.EmailAddressContactTypeByRowNumber((int)indexPath.Item),,
+                    contactTypeText:  _tableModel.EmailAddressContactTypeByRowNumber((int)indexPath.Item),
                     canPhone: false,
                     canText: false,
                     canEmail: true
