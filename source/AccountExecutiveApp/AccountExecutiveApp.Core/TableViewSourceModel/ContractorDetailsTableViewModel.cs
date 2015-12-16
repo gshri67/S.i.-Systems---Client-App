@@ -55,5 +55,19 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 		{
 			get{ return _contractor.ResumeText; }
 		}
+
+        public string EmailAddressContactTypeByRowNumber(int row)
+        {
+            if (_contractor.ContactInformation.EmailAddresses.Count() > row)
+                return _contractor.ContactInformation.EmailAddresses.ElementAt(row).Title;
+            return string.Empty;
+        }
+
+        public string PhoneNumberContactTypeByRowNumber(int row)
+        {
+            if (_contractor.ContactInformation.PhoneNumbers.Count() > row)
+                return _contractor.ContactInformation.PhoneNumbers.ElementAt(row).Title;
+            return string.Empty;
+        }
     }
 }

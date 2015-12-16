@@ -174,7 +174,7 @@ namespace AccountExecutiveApp.iOS
                     mainContactText:
                         _tableModel.FormattedEmailByRowNumber((int)indexPath.Item -
                                                               _tableModel.NumberOfPhoneNumbers()),
-                    contactTypeText: "Home",
+                    contactTypeText:  _tableModel.EmailAddressContactTypeByRowNumber((int)indexPath.Item),,
                     canPhone: false,
                     canText: false,
                     canEmail: true
@@ -194,7 +194,7 @@ namespace AccountExecutiveApp.iOS
             cell.UpdateCell
                 (
                     mainContactText: _tableModel.FormattedPhoneNumberByRowNumber((int)indexPath.Item),
-                    contactTypeText: "Mobile",
+                    contactTypeText: _tableModel.PhoneNumberContactTypeByRowNumber((int)indexPath.Item),
                     canPhone: true,
                     canText: true,
                     canEmail: false
