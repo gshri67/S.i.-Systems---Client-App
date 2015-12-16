@@ -39,8 +39,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 using (var multi = db.Connection.QueryMultiple(emailsQuery, new { Id = userId }, null))
                 {
-                    emails.Add(multi.Read<EmailAddress>().Single());
-                    emails.Add(multi.Read<EmailAddress>().Single());
+                    for (var i = 0; i < 2; i++)
+                    {
+                        var emailsAddress = multi.Read<EmailAddress>().SingleOrDefault();
+                        if (emailsAddress != null)
+                            emails.Add(emailsAddress);
+                    }
                 }  
 
                 return emails;
@@ -98,11 +102,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 using (var multi = db.Connection.QueryMultiple(multiplePhoneNumbersQuery, new { Id = userId }, null))
                 {
-                    phoneNumbers.Add(multi.Read<PhoneNumber>().Single());
-                    phoneNumbers.Add(multi.Read<PhoneNumber>().Single());
-                    phoneNumbers.Add(multi.Read<PhoneNumber>().Single());
-                    phoneNumbers.Add(multi.Read<PhoneNumber>().Single());
-                    phoneNumbers.Add(multi.Read<PhoneNumber>().Single());
+                    for (var i = 0; i < 5; i++)
+                    {
+                        var phonenumber = multi.Read<PhoneNumber>().SingleOrDefault();
+                        if (phonenumber != null)
+                            phoneNumbers.Add(phonenumber);
+                    }
                 }  
 
                 return phoneNumbers.AsEnumerable();

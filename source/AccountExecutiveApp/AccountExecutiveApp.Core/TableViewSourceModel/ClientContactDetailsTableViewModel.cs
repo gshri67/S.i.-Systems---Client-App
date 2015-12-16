@@ -35,5 +35,19 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         {
             return _clientContract.EmailAddresses.Count();
         }
+
+        public string PhoneNumberContactTypeByRowNumber(int row)
+        {
+            if (_clientContract.PhoneNumbers.Count() > row)
+                return _clientContract.PhoneNumbers.ElementAt(row).Title;
+            return string.Empty;
+        }
+
+        public string EmailAddressContactTypeByRowNumber(int row)
+        {
+            if (_clientContract.EmailAddresses.Count() > row)
+                return _clientContract.EmailAddresses.ElementAt(row).Title;
+            return string.Empty;
+        }
     }
 }
