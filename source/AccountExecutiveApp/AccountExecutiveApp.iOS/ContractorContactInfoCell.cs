@@ -35,12 +35,10 @@ namespace AccountExecutiveApp.iOS
         private void CreateAndAddLabels()
         {
             CreateAndAddMainContactTextLabel();
-
             CreateAndAddContactTypeTextLabel();
-
+            CreateButtonOverlay();
             CreateAndAddRightDetailIconButton();
             CreateAndAddLeftDetailIconButton();
-            CreateButtonOverlay();
         }
 
         private void CreateAndAddRightDetailIconButton()
