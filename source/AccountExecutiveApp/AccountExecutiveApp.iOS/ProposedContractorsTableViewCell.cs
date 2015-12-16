@@ -133,7 +133,7 @@ namespace AccountExecutiveApp.iOS
 				TextAlignment = UITextAlignment.Left,
 				Font = UIFont.FromName("Helvetica", 12f),
 				TextColor = StyleGuideConstants.MediumGrayUiColor,
-				Hidden = true
+				Hidden = false
 			};
 			AddSubview(SubtitleTextLabel);
 		}
@@ -171,7 +171,7 @@ namespace AccountExecutiveApp.iOS
 		private void AddMainTextLabelConstraints()
 		{
 			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1f, 3f));
+			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1f, -10f));
 		}
 
 		private void AddSubtitleTextLabelConstraints()
