@@ -170,15 +170,9 @@ namespace AccountExecutiveApp.iOS
             cell.ParentViewController = _parentController;
 
             cell.UpdateCell
-                (
-                    mainContactText:
-                        _tableModel.FormattedEmailByRowNumber((int)indexPath.Item -
-                                                              _tableModel.NumberOfPhoneNumbers()),
-                    contactTypeText:  _tableModel.EmailAddressContactTypeByRowNumber((int)indexPath.Item),
-                    canPhone: false,
-                    canText: false,
-                    canEmail: true
-                );
+            (
+                _tableModel.EmailAddressByRowNumber((int)indexPath.Item - _tableModel.NumberOfPhoneNumbers()), null
+            );
 
             return cell;
         }
@@ -192,13 +186,9 @@ namespace AccountExecutiveApp.iOS
             cell.ParentViewController = _parentController;
 
             cell.UpdateCell
-                (
-                    mainContactText: _tableModel.FormattedPhoneNumberByRowNumber((int)indexPath.Item),
-                    contactTypeText: _tableModel.PhoneNumberContactTypeByRowNumber((int)indexPath.Item),
-                    canPhone: true,
-                    canText: true,
-                    canEmail: false
-                );
+            (
+                null, _tableModel.PhoneNumberByRowNumber((int)indexPath.Item)
+            );
 
             return cell;
         }

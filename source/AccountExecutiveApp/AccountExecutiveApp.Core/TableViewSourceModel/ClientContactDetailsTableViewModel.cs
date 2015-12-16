@@ -13,19 +13,6 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             _clientContract = clientContract;
         }
 
-        public string FormattedPhoneNumberByRowNumber(int row)
-        {
-            if (_clientContract.PhoneNumbers.Count() > row)
-                return _clientContract.PhoneNumbers.ElementAt(row).FormattedNumber;
-            return string.Empty;
-        }
-        public string FormattedEmailByRowNumber(int row)
-        {
-            if (_clientContract.EmailAddresses.Count() > row)
-                return _clientContract.EmailAddresses.ElementAt(row).Email;
-            return string.Empty;
-        }
-
         public int NumberOfPhoneNumbers()
         {
             return _clientContract.PhoneNumbers.Count();
@@ -36,18 +23,18 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             return _clientContract.EmailAddresses.Count();
         }
 
-        public string PhoneNumberContactTypeByRowNumber(int row)
-        {
-            if (_clientContract.PhoneNumbers.Count() > row)
-                return _clientContract.PhoneNumbers.ElementAt(row).Title;
-            return string.Empty;
-        }
-
-        public string EmailAddressContactTypeByRowNumber(int row)
+        public EmailAddress EmailAddressByRowNumber(int row)
         {
             if (_clientContract.EmailAddresses.Count() > row)
-                return _clientContract.EmailAddresses.ElementAt(row).Title;
-            return string.Empty;
+                return _clientContract.EmailAddresses.ElementAt(row);
+            return new EmailAddress();
+        }
+
+        public PhoneNumber PhoneNumberByRowNumber(int row)
+        {
+            if (_clientContract.PhoneNumbers.Count() > row)
+                return _clientContract.PhoneNumbers.ElementAt(row);
+            return new PhoneNumber();
         }
     }
 }

@@ -2,6 +2,7 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 using MessageUI;
+using SiSystems.SharedModels;
 using UIKit;
 
 namespace AccountExecutiveApp.iOS
@@ -156,20 +157,6 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(LeftDetailIconButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, LeftDetailIconButton, NSLayoutAttribute.Height, 1.0f, 0f));
         }
 
-        public void UpdateCell(string mainContactText, string contactTypeText, bool canText, bool canPhone, bool canEmail )
-        {
-            MainContactTextLabel.Text = mainContactText;
-            ContactTypeTextLabel.Text = contactTypeText;
-            
-            if( canPhone )
-                AddPhoneIcon(mainContactText);
-            else if( canEmail )
-                AddEmailIcon(mainContactText);
-
-            if( canText )
-                AddTextingIcon(mainContactText);
-        }
-
         public void AddPhoneIcon( string phoneNumber )
         {
             RightDetailIconButton.SetAttributedTitle(GetAttributedStringWithImage(new UIImage("ios7-telephone-outline.png"), 25), UIControlState.Normal);
@@ -188,7 +175,7 @@ namespace AccountExecutiveApp.iOS
 
         public void TextNumber(string number)
         {
-            NSUrl url = new NSUrl(string.Format(@"sms:{0}", number));
+            var url = new NSUrl(string.Format("sms:{0}", number));
             if (UIApplication.SharedApplication.CanOpenUrl(url))
                 UIApplication.SharedApplication.OpenUrl(url);
         }
@@ -237,6 +224,29 @@ namespace AccountExecutiveApp.iOS
             textAttachement.Bounds = new CoreGraphics.CGRect(0, 0, size, size);
             NSAttributedString attrStringWithImage = NSAttributedString.CreateFrom(textAttachement);
             return attrStringWithImage;
+        }
+
+        public void UpdateCell(EmailAddress emailAddress, PhoneNumber phoneNumber)
+        {
+            if (emailAddress != null)
+            {
+                //email contact cell
+                MainContactTextLabel.Text = emailAddress.Email;
+                ContactTypeTextLabel.Text = emailAddress.Title;
+
+                AddEmailIcon(emailAddress.Email);
+            }
+            else if (phoneNumber != null)
+            {
+                //phone number contact cell
+                MainContactTextLabel.Text = phoneNumber.FormattedNumber;
+                ContactTypeTextLabel.Text = phoneNumber.Title;
+
+                AddPhoneIcon(phoneNumber.FormattedNumber);
+
+                if(phoneNumber.Title == "Cell")
+                    AddTextingIcon(phoneNumber.UnFormattedNumber);
+            }
         }
     }
 }

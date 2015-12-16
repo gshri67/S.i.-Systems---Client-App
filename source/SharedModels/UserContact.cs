@@ -50,6 +50,11 @@ namespace SiSystems.SharedModels
         {
             get { return string.Format("({0}){1}-{2}", AreaCode, Prefix, LineNumber); }
         }
+
+        public string UnFormattedNumber
+        {
+            get { return string.Format("{0}{1}{2}", AreaCode, Prefix, LineNumber); }
+        }
     }
 }
        
