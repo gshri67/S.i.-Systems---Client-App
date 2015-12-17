@@ -239,8 +239,8 @@
     <Compile Include="ContractorDetails\ResumeViewController.designer.cs">
       <DependentUpon>ResumeViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimesheetStatusListTableViewController.cs" />
-    <Compile Include="TimesheetStatusListTableViewController.designer.cs">
+    <Compile Include="Timesheets\TimesheetStatusListTableViewController.cs" />
+    <Compile Include="Timesheets\TimesheetStatusListTableViewController.designer.cs">
       <DependentUpon>TimesheetStatusListTableViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
