@@ -243,6 +243,11 @@
     <Compile Include="Timesheets\TimesheetStatusListTableViewController.designer.cs">
       <DependentUpon>TimesheetStatusListTableViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Timesheets\TimesheetListTableViewController.cs" />
+    <Compile Include="Timesheets\TimesheetListTableViewController.designer.cs">
+      <DependentUpon>TimesheetListTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Timesheets\TimesheetListTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
