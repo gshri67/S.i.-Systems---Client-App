@@ -17,7 +17,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         Timesheet GetTimesheetsById(int timesheetId);
         int SubmitTimesheet(Timesheet timesheet, int userId);
         DirectReport GetDirectReportByTimesheetId(int timesheetId);
-        IEnumerable<TimesheetSummary> GetTimesheetSummariesByAccountExecutiveId(int id);
+        TimesheetSummarySet GetTimesheetSummaryByAccountExecutiveId(int id);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -225,8 +225,19 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             return number == 0 ? (int?)null : number;
         }
 
-        public IEnumerable<TimesheetSummary> GetTimesheetSummariesByAccountExecutiveId(int id)
+        public TimesheetSummarySet GetTimesheetSummaryByAccountExecutiveId(int id)
         {
+
+            return
+                new TimesheetSummarySet()
+                {
+                    Id = 1,
+                    NumOpen = 5,
+                    NumCancelled = 2,
+                    NumRejected = 0,
+                    NumSubmitted = 11
+                };
+            /*
             return new List<TimesheetSummary>
             {
                 new TimesheetSummary
@@ -349,7 +360,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     EndDate = DateTime.UtcNow,
                     Status = MatchGuideConstants.TimesheetStatus.Open
                 }
-            };
+            };*/
         }
     }
 }

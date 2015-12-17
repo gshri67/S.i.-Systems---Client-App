@@ -63,7 +63,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 		private async Task GetTimesheetSummary()
 		{
-			Timesheet = null;
+		    Timesheet = await _api.GetTimesheetSummary();
 		}
 	}
 }

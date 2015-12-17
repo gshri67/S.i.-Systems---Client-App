@@ -125,16 +125,16 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
 
 
-        public IEnumerable<TimesheetSummary> GetTimesheetsSummaries()
+        public TimesheetSummarySet GetTimesheetsSummary()
         {
-            var summaries = _timeSheetRepository.GetTimesheetSummariesByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+            var summary = _timeSheetRepository.GetTimesheetSummaryByAccountExecutiveId(_sessionContext.CurrentUser.Id);
 
-            AssertCurrentUserHasPermissionsToViewTimesheetSummaries(summaries);
+            AssertCurrentUserHasPermissionsToViewTimesheetSummaries(summary);
 
-            return summaries;
+            return summary;
         }
 
-        private void AssertCurrentUserHasPermissionsToViewTimesheetSummaries(IEnumerable<TimesheetSummary> summaries)
+        private void AssertCurrentUserHasPermissionsToViewTimesheetSummaries(TimesheetSummarySet summaries)
         {
             //todo: add business rules for an AE permissions
             if(false)

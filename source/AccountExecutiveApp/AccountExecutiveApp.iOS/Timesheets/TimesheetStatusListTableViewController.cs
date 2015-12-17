@@ -36,16 +36,28 @@ namespace AccountExecutiveApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			
+
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
-		public override void ViewDidAppear (bool animated)
+        public void LoadTimesheetSummary()
+        {
+            var task = _viewModel.LoadTimesheetSummary();
+
+            task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
+        }
+
+	    private void UpdateUserInterface()
+	    {
+            OpenTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfOpenTimesheets;
+            SubmittedTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfSubmittedTimesheets;
+            RejectedTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfRejectedTimesheets;
+            CancelledTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfCancelledTimesheets;   
+	    }
+
+	    public override void ViewDidAppear (bool animated)
 		{
-			OpenTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfOpenTimesheets;
-			SubmittedTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfSubmittedTimesheets;
-			RejectedTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfRejectedTimesheets;
-			CancelledTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfCancelledTimesheets;
+            LoadTimesheetSummary();
 		}
 	}
 }

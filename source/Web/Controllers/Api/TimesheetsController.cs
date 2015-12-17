@@ -44,10 +44,10 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             _service = service;
         }
 
-        [Route("Summaries")]
-        public HttpResponseMessage GetTimesheets()
+        [Route("Summary")]
+        public HttpResponseMessage GetTimesheetSummary()
         {
-            var timesheetsSummary = _service.GetTimesheetsSummaries();
+            var timesheetsSummary = _service.GetTimesheetsSummary();
             return Request.CreateResponse(HttpStatusCode.OK, timesheetsSummary);
         }
     }

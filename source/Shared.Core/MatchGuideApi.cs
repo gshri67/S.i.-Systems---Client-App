@@ -259,5 +259,11 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<IEnumerable<ContractorRateSummary>>(new { id, status });
         }
+
+        [HttpGet("Timesheets/Reporting/Summary")]
+        public async Task<TimesheetSummarySet> GetTimesheetSummary()
+        {
+            return await ExecuteWithDefaultClient<TimesheetSummarySet>();
+        }
     }
 }
