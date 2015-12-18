@@ -90,7 +90,7 @@
     <OutputPath>bin\iPhone\Test\</OutputPath>
     <BuildIpa>True</BuildIpa>
     <IpaIncludeArtwork>False</IpaIncludeArtwork>
-    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignProvision>
     </CodesignProvision>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
@@ -111,6 +111,7 @@
     <MtouchUseRefCounting>False</MtouchUseRefCounting>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchI18n />
+    <CodesignResourceRules />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhoneSimulator'">
     <OutputPath>bin\iPhoneSimulator\Dev\</OutputPath>
