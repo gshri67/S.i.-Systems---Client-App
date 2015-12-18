@@ -50,5 +50,12 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             var timesheetsSummary = _service.GetTimesheetsSummary();
             return Request.CreateResponse(HttpStatusCode.OK, timesheetsSummary);
         }
+
+        [Route("Timesheets/Reporting/Details/Status/{status}")]
+        public HttpResponseMessage GetTimesheetDetails( MatchGuideConstants.TimesheetStatus status )
+        {
+            var timesheetDetails = _service.GetTimesheetsDetails( status );
+            return Request.CreateResponse(HttpStatusCode.OK, timesheetDetails);
+        }
     }
 }

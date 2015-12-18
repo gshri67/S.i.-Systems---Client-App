@@ -12,19 +12,20 @@ namespace AccountExecutiveApp.Core.ViewModel
 	{
 		private readonly IMatchGuideApi _api;
 
-		private TimesheetDetails _timesheet;
+		private IEnumerable<TimesheetDetails> _timesheets;
+	    private MatchGuideConstants.TimesheetStatus _status;
 
-		public TimesheetDetails Timesheet
+        public IEnumerable<TimesheetDetails> Timesheets
 		{
-			get { return _timesheet ?? new TimesheetDetails(); }
-			private set { _timesheet = value ?? new TimesheetDetails(); }
+			get { return _timesheets ?? Enumerable.Empty<TimesheetDetails>(); }
+            private set { _timesheets = value ?? Enumerable.Empty<TimesheetDetails>(); }
 		}
 
 		public TimesheetListViewModel(IMatchGuideApi api)
 		{
 			_api = api;
 		}
-
+        /*
 		public string CompanyName{ get{ return Timesheet.CompanyName; } }
 
 		public string ContractorFullName{ get{ return Timesheet.ContractorFullName; } }
@@ -33,9 +34,10 @@ namespace AccountExecutiveApp.Core.ViewModel
 		public string FormattedEndDate{ get{ return Timesheet.StartDate.ToString ("MMM d"); } }
 		public string FormattedPeriod{ get{ return string.Format("{0} - {1}", FormattedStartDate, FormattedEndDate); } }
 
-		/*
+		*/
 		public Task LoadTimesheetDetails()
 		{
+            _status = MatchGuideConstants.TimesheetStatus.Open;
 			var task = GetTimesheetDetails();
 
 			return task;
@@ -43,7 +45,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 		private async Task GetTimesheetDetails()
 		{
-			Timesheet = await _api.GetTimesheetDetails();
-		}*/
+			Timesheets = await _api.GetTimesheetDetails( _status );
+		}
 	}
 }

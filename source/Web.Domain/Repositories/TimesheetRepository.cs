@@ -18,6 +18,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         int SubmitTimesheet(Timesheet timesheet, int userId);
         DirectReport GetDirectReportByTimesheetId(int timesheetId);
         TimesheetSummarySet GetTimesheetSummaryByAccountExecutiveId(int id);
+        IEnumerable<TimesheetDetails> GetOpenTimesheetDetailsByAccountExecutiveId(int id);
+        IEnumerable<TimesheetDetails> GetSubmittedTimesheetDetailsByAccountExecutiveId(int id);
+        IEnumerable<TimesheetDetails> GetCancelledTimesheetDetailsByAccountExecutiveId(int id);
+        IEnumerable<TimesheetDetails> GetRejectedTimesheetDetailsByAccountExecutiveId(int id);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -361,6 +365,66 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     Status = MatchGuideConstants.TimesheetStatus.Open
                 }
             };*/
+        }
+
+        public IEnumerable<TimesheetDetails> GetOpenTimesheetDetailsByAccountExecutiveId(int id)
+        {
+            return new List<TimesheetDetails>()
+            {
+                new TimesheetDetails()
+                {
+                    Id = 1,
+                    CompanyName = "Cenovus",
+                    ContractorFullName = "Bob Smith",
+                    StartDate = new DateTime(2015, 2, 12),
+                    EndDate = new DateTime(2015, 2, 12)
+                }
+            }.AsEnumerable();
+        }
+
+        public IEnumerable<TimesheetDetails> GetSubmittedTimesheetDetailsByAccountExecutiveId(int id)
+        {
+            return new List<TimesheetDetails>()
+            {
+                new TimesheetDetails()
+                {
+                    Id = 1,
+                    CompanyName = "Cenovus",
+                    ContractorFullName = "Bob Smith",
+                    StartDate = new DateTime(2015, 2, 12),
+                    EndDate = new DateTime(2015, 2, 12)
+                }
+            }.AsEnumerable();
+        }
+
+        public IEnumerable<TimesheetDetails> GetCancelledTimesheetDetailsByAccountExecutiveId(int id)
+        {
+            return new List<TimesheetDetails>()
+            {
+                new TimesheetDetails()
+                {
+                    Id = 1,
+                    CompanyName = "Cenovus",
+                    ContractorFullName = "Bob Smith",
+                    StartDate = new DateTime(2015, 2, 12),
+                    EndDate = new DateTime(2015, 2, 12)
+                }
+            }.AsEnumerable();
+        }
+
+        public IEnumerable<TimesheetDetails> GetRejectedTimesheetDetailsByAccountExecutiveId(int id)
+        {
+            return new List<TimesheetDetails>()
+            {
+                new TimesheetDetails()
+                {
+                    Id = 1,
+                    CompanyName = "Cenovus",
+                    ContractorFullName = "Bob Smith",
+                    StartDate = new DateTime(2015, 2, 12),
+                    EndDate = new DateTime(2015, 2, 12)
+                }
+            }.AsEnumerable();
         }
     }
 }

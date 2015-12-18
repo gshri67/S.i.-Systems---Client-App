@@ -265,5 +265,11 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<TimesheetSummarySet>();
         }
+
+        [HttpGet("Timesheets/Reporting/Details/Status/{status}")]
+        public async Task<IEnumerable<TimesheetDetails>> GetTimesheetDetails( MatchGuideConstants.TimesheetStatus status)
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<TimesheetDetails>>(new { status });
+        }
     }
 }

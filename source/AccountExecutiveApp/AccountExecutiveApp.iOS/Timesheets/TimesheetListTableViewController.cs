@@ -4,6 +4,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
+using AccountExecutiveApp.Core;
 using CoreGraphics;
 using HealthKit;
 using Microsoft.Practices.Unity;
@@ -26,7 +27,7 @@ namespace AccountExecutiveApp.iOS
 			if (TableView == null) return;
 
 			RegisterCellsForReuse();
-			TableView.Source = new TimesheetListTableViewSource(this);
+			TableView.Source = new TimesheetListTableViewSource(this, _viewModel.Timesheets);
 			TableView.ReloadData();
 			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 		}
@@ -64,9 +65,9 @@ namespace AccountExecutiveApp.iOS
 
 		public void LoadTimesheetDetails()
 		{
-			//var task = _viewModel.LoadTimesheetDetails();
+			var task = _viewModel.LoadTimesheetDetails();
 
-			InvokeOnMainThread (UpdateUserInterface);//task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
+			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 		}
 	}
 }

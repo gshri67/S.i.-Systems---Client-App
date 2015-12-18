@@ -140,5 +140,23 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             if(false)
                 throw new UnauthorizedAccessException();
         }
+
+        public IEnumerable<TimesheetDetails> GetTimesheetsDetails(MatchGuideConstants.TimesheetStatus status)
+        {
+            IEnumerable<TimesheetDetails> details;
+            
+            if( status == MatchGuideConstants.TimesheetStatus.Open )    
+                details = _timeSheetRepository.GetOpenTimesheetDetailsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+            else if (status == MatchGuideConstants.TimesheetStatus.Submitted)
+                details = _timeSheetRepository.GetSubmittedTimesheetDetailsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+            else if (status == MatchGuideConstants.TimesheetStatus.Cancelled)
+                details = _timeSheetRepository.GetCancelledTimesheetDetailsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+            else if (status == MatchGuideConstants.TimesheetStatus.Rejected)
+                details = _timeSheetRepository.GetRejectedTimesheetDetailsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+            else
+                details = Enumerable.Empty<TimesheetDetails>();
+
+            return details;
+        }
     }
 }
