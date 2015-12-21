@@ -9,18 +9,65 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 {
 	public class TimesheetContactsTableViewModel
 	{
-		private Dictionary<int, IEnumerable<TimesheetDetails>> _timesheetByYear;
-		private Dictionary<int, IEnumerable<TimesheetDetails>> TimesheetByYear
+		private TimesheetContact _contact;
+
+		//private ClientContactDetailsTableViewModel _contractorTableModel;
+		//private ClientContactDetailsTableViewModel _directReportTableModel;
+
+		public TimesheetContactsTableViewModel(TimesheetContact contact )
 		{
-			get { return _timesheetByYear ?? new Dictionary<int, IEnumerable<TimesheetDetails>>(); }
-			set { _timesheetByYear = value ?? new Dictionary<int, IEnumerable<TimesheetDetails>>(); }
+			_contact = contact;
+
+			//_contractorTableModel = new ClientContactDetailsTableViewModel (_contact.Contractor.ContactInformation);
+			//_contractorTableModel = new ClientContactDetailsTableViewModel (_contact.DirectReport);
 		}
 
-		public TimesheetContactsTableViewModel(IEnumerable<TimesheetDetails> timesheetDetails)
+
+		public int NumberOfContractorPhoneNumbers()
 		{
-			_timesheetByYear = timesheetDetails.ToDictionary(x => x.StartDate.Year, x => timesheetDetails.Where(d => d.StartDate.Year == x.StartDate.Year ));
+			return  _contact.Contractor.ContactInformation.PhoneNumbers.Count (); 
+		}
+		public int NumberOfDirectReportPhoneNumbers()
+		{
+			return  _contact.DirectReport.PhoneNumbers.Count (); 
 		}
 
+		public int NumberOfContractorEmails()
+		{
+			return  _contact.Contractor.ContactInformation.EmailAddresses.Count();
+		}
+		public int NumberOfDirectReportEmails()
+		{
+			return  _contact.DirectReport.EmailAddresses.Count();
+		}
+
+		public EmailAddress ContractorEmailAddressByRowNumber(int row)
+		{
+			if (_contact.Contractor.ContactInformation.EmailAddresses.Count() > row)
+				return _contact.Contractor.ContactInformation.EmailAddresses.ElementAt(row);
+			return new EmailAddress();
+		}
+		public EmailAddress DirectReportEmailAddressByRowNumber(int row)
+		{
+			if (_contact.DirectReport.EmailAddresses.Count() > row)
+				return _contact.DirectReport.EmailAddresses.ElementAt(row);
+			return new EmailAddress();
+		}
+
+		public PhoneNumber ContractorPhoneNumberByRowNumber(int row)
+		{
+			if (_contact.Contractor.ContactInformation.PhoneNumbers.Count() > row)
+				return _contact.Contractor.ContactInformation.PhoneNumbers.ElementAt(row);
+			return new PhoneNumber();
+		}
+		public PhoneNumber DirectReportPhoneNumberByRowNumber(int row)
+		{
+			if (_contact.DirectReport.PhoneNumbers.Count() > row)
+				return _contact.DirectReport.PhoneNumbers.ElementAt(row);
+			return new PhoneNumber();
+		}
+
+		/*
 		public bool RowIsInBounds(int section, int rowNumber)
 		{
 			return section < NumberOfGroups() && rowNumber >= 0 && rowNumber < TimesheetByYear[section].Count();
@@ -58,6 +105,6 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 			return RowIsInBounds(section, 0)
 				? TimesheetByYear[section].Count()
 					: 0;
-		}
+		}*/
 	}
 }

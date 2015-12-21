@@ -14,7 +14,6 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 		private IEnumerable<TimesheetDetails> _timesheets;
 	    private MatchGuideConstants.TimesheetStatus _status;
-		private MatchGuideConstants.TimesheetStatus Status { get{ return _status; } }
 
         public IEnumerable<TimesheetDetails> Timesheets
 		{
@@ -29,7 +28,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 		public Task LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus status )
 		{
-            Status = status;
+			_status = status;
 
 			var task = GetTimesheetDetails();
 
@@ -41,7 +40,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 			Timesheets = await _api.GetTimesheetDetails( _status );
 		}
 
-		public string PageTitle { get{ return string.Format("{0} Timesheets", Status.ToString ); } }
+		public string PageTitle { get{ return string.Format("{0} Timesheets", _status.ToString() ); } }
 
 
 	}

@@ -12,36 +12,35 @@ namespace AccountExecutiveApp.Core.ViewModel
 	{
 		private readonly IMatchGuideApi _api;
 
-		private IEnumerable<TimesheetDetails> _timesheets;
-		private MatchGuideConstants.TimesheetStatus _status;
-		private MatchGuideConstants.TimesheetStatus Status { get{ return _status; } }
+		private IEnumerable<TimesheetContact> _timesheets;
+		private int Id;
 
-		public IEnumerable<TimesheetDetails> Timesheets
+		public IEnumerable<TimesheetContact> Timesheets
 		{
-			get { return _timesheets ?? Enumerable.Empty<TimesheetDetails>(); }
-			private set { _timesheets = value ?? Enumerable.Empty<TimesheetDetails>(); }
+			get { return _timesheets ?? Enumerable.Empty<TimesheetContact>(); }
+			private set { _timesheets = value ?? Enumerable.Empty<TimesheetContact>(); }
 		}
 
 		public TimesheetContactsViewModel(IMatchGuideApi api)
 		{
 			_api = api;
 		}
-
-		public Task LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus status )
+		/*
+		public Task LoadTimesheetContacts( MatchGuideConstants.TimesheetStatus status )
 		{
 			Status = status;
 
-			var task = GetTimesheetDetails();
+			var task = GetTimesheetContacts();
 
 			return task;
 		}
 
-		private async Task GetTimesheetDetails()
+		private async Task GetTimesheetContacts()
 		{
-			Timesheets = await _api.GetTimesheetDetails( _status );
+			Timesheets = await _api.GetTimesheetContacts( Id );
 		}
-
-		public string PageTitle { get{ return string.Format("{0} Timesheets", Status.ToString ); } }
+*/
+		//public string PageTitle { get{ return string.Format("{0} Timesheets", Status.ToString ); } }
 
 
 	}
