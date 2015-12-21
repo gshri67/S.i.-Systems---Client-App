@@ -8,28 +8,28 @@ using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.Core.ViewModel
 {
-	public class TimesheetListViewModel
+	public class TimesheetContactsViewModel
 	{
 		private readonly IMatchGuideApi _api;
 
 		private IEnumerable<TimesheetDetails> _timesheets;
-	    private MatchGuideConstants.TimesheetStatus _status;
+		private MatchGuideConstants.TimesheetStatus _status;
 		private MatchGuideConstants.TimesheetStatus Status { get{ return _status; } }
 
-        public IEnumerable<TimesheetDetails> Timesheets
+		public IEnumerable<TimesheetDetails> Timesheets
 		{
 			get { return _timesheets ?? Enumerable.Empty<TimesheetDetails>(); }
-            private set { _timesheets = value ?? Enumerable.Empty<TimesheetDetails>(); }
+			private set { _timesheets = value ?? Enumerable.Empty<TimesheetDetails>(); }
 		}
 
-		public TimesheetListViewModel(IMatchGuideApi api)
+		public TimesheetContactsViewModel(IMatchGuideApi api)
 		{
 			_api = api;
 		}
 
 		public Task LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus status )
 		{
-            Status = status;
+			Status = status;
 
 			var task = GetTimesheetDetails();
 

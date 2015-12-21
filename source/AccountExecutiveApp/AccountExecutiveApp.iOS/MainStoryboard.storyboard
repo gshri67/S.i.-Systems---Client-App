@@ -942,6 +942,34 @@
             </objects>
             <point key="canvasLocation" x="1816" y="1579"/>
         </scene>
+        <!--Timesheet Contacts Table View Controller-->
+        <scene sceneID="Yr5-PH-6km">
+            <objects>
+                <tableViewController id="PjJ-55-EjR" customClass="TimesheetContactsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="6T5-cn-qBf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="zBL-dF-oie">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zBL-dF-oie" id="S9g-61-O48">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="PjJ-55-EjR" id="Vwp-ux-SLt"/>
+                            <outlet property="delegate" destination="PjJ-55-EjR" id="SQB-6F-Gif"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6H3-ia-Tcm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2237" y="1579"/>
+        </scene>
         <!--Timesheets-->
         <scene sceneID="6df-YL-QfC">
             <objects>
@@ -1511,7 +1539,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eRj-ad-YPt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2679" y="1584"/>
+            <point key="canvasLocation" x="3730" y="1609"/>
         </scene>
         <!--Resume View Controller-->
         <scene sceneID="p3V-7m-bQN">
@@ -1544,7 +1572,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="50r-18-1b1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3055" y="1584"/>
+            <point key="canvasLocation" x="4106" y="1609"/>
         </scene>
         <!--Client Contact Details Table View Controller-->
         <scene sceneID="1045">
@@ -1572,7 +1600,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1052" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2304" y="1584"/>
+            <point key="canvasLocation" x="3355" y="1609"/>
         </scene>
     </scenes>
     <resources>

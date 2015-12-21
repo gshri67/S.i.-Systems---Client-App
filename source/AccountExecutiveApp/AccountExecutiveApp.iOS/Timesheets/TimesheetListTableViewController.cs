@@ -46,26 +46,24 @@ namespace AccountExecutiveApp.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			LoadTimesheetDetails();
+			LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus.Open);
 		}
 
 		public void UpdateUserInterface()
 		{
 			InvokeOnMainThread(InstantiateTableViewSource);
+			Title = _viewModel.PageTitle;
 		}
 
 
 		public override void DidReceiveMemoryWarning ()
 		{
-			// Releases the view if it doesn't have a superview.
 			base.DidReceiveMemoryWarning ();
-
-			// Release any cached data, images, etc that aren't in use.
 		}
 
-		public void LoadTimesheetDetails()
+		public void LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus status )
 		{
-			var task = _viewModel.LoadTimesheetDetails();
+			var task = _viewModel.LoadTimesheetDetails( status );
 
 			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 		}

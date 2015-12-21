@@ -81,6 +81,8 @@
     <Compile Include="ViewModel\TimesheetStatusListViewModel.cs" />
     <Compile Include="ViewModel\TimesheetListViewModel.cs" />
     <Compile Include="TableViewSourceModel\TimesheetListTableViewModel.cs" />
+    <Compile Include="ViewModel\TimesheetContactsViewModel.cs" />
+    <Compile Include="TableViewSourceModel\TimesheetContactsTableViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
