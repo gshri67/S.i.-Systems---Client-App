@@ -235,7 +235,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             return
                 new TimesheetSummarySet()
                 {
-                    Id = 1,
                     NumOpen = 5,
                     NumCancelled = 2,
                     NumRejected = 0,
