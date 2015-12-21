@@ -73,7 +73,6 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <BuildIpa>True</BuildIpa>
-    <IpaIncludeArtwork>False</IpaIncludeArtwork>
     <CodesignProvision>
     </CodesignProvision>
     <CodesignExtraArgs>
@@ -89,8 +88,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|iPhone'">
     <OutputPath>bin\iPhone\Test\</OutputPath>
     <BuildIpa>True</BuildIpa>
+<<<<<<< HEAD
     <IpaIncludeArtwork>False</IpaIncludeArtwork>
     <CodesignKey>iPhone Developer</CodesignKey>
+=======
+    <CodesignKey>iPhone Distribution</CodesignKey>
+>>>>>>> Beginning foundation for Timsheet status list UI.
     <CodesignProvision>
     </CodesignProvision>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
@@ -100,18 +103,15 @@
     <Optimize>true</Optimize>
     <WarningLevel>4</WarningLevel>
     <MtouchSdkVersion>8.4</MtouchSdkVersion>
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchDebug>False</MtouchDebug>
-    <MtouchProfiling>False</MtouchProfiling>
-    <MtouchFastDev>False</MtouchFastDev>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <MtouchUseLlvm>False</MtouchUseLlvm>
-    <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
-    <MtouchUseRefCounting>False</MtouchUseRefCounting>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+<<<<<<< HEAD
     <MtouchI18n />
     <CodesignResourceRules />
+=======
+    <MtouchI18n>
+    </MtouchI18n>
+>>>>>>> Beginning foundation for Timsheet status list UI.
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhoneSimulator'">
     <OutputPath>bin\iPhoneSimulator\Dev\</OutputPath>
@@ -125,11 +125,7 @@
     <MtouchI18n>
     </MtouchI18n>
     <MtouchLink>None</MtouchLink>
-    <MtouchProfiling>False</MtouchProfiling>
-    <MtouchFastDev>False</MtouchFastDev>
     <MtouchUseLlvm>True</MtouchUseLlvm>
-    <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
     <MtouchUseRefCounting>True</MtouchUseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhone'">
@@ -243,6 +239,10 @@
     <Compile Include="ContractorDetails\ResumeViewController.designer.cs">
       <DependentUpon>ResumeViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimesheetStatusListTableViewController.cs" />
+    <Compile Include="TimesheetStatusListTableViewController.designer.cs">
+      <DependentUpon>TimesheetStatusListTableViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
@@ -313,21 +313,11 @@
     <BundleResource Include="Resources\Default%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources/Images.xcassets/AppIcons.appiconset/Contents.json">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources/Images.xcassets/AppIcons.appiconset/Si-app-icon-120.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources/Images.xcassets/AppIcons.appiconset/Si-app-icon-180.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources/Images.xcassets/AppIcons.appiconset/Si-app-icon-80.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources/Images.xcassets/LaunchImages.launchimage/Contents.json">
-      <InProject>false</InProject>
-    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Si-app-icon-120.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Si-app-icon-180.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Si-app-icon-80.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccountExecutiveApp.Core\AccountExecutiveApp.Core.csproj">
@@ -376,5 +366,8 @@
     <BundleResource Include="Resources\ios7-plus-empty-centred.png" />
     <BundleResource Include="Resources\plus-round-centred.png" />
     <BundleResource Include="Resources\minus-round-centred.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Timesheets\" />
   </ItemGroup>
 </Project>
