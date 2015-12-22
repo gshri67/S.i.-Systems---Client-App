@@ -14,7 +14,7 @@ namespace AccountExecutiveApp.iOS
         public UIButton RightDetailIconButton;
         public UIButton LeftDetailIconButton;//also on right side, to the left of right detail icon
         public UIViewController ParentViewController;
-
+        public const string CellIdentifier = "ContractorContactInfoCell";
         public UIButton ButtonOverlay;
 
         public ContractorContactInfoCell(IntPtr handle)

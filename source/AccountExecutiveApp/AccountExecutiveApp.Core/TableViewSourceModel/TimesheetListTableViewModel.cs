@@ -16,7 +16,14 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 			set { _timesheetByYear = value ?? new Dictionary<int, IEnumerable<TimesheetDetails>>(); }
 		}
 
-		public TimesheetListTableViewModel(IEnumerable<TimesheetDetails> timesheetDetails)
+	    public int TimesheetIdBySectionAndRow(int section, int rowNumber)
+	    {
+            return RowIsInBounds(section, rowNumber)
+            ? TimesheetByYear.Values.ElementAt(section).ElementAt(rowNumber).Id
+                : 0;
+	    }
+
+	    public TimesheetListTableViewModel(IEnumerable<TimesheetDetails> timesheetDetails)
 		{
 			_timesheetByYear = timesheetDetails.ToDictionary(x => x.StartDate.Year, x => timesheetDetails.Where(d => d.StartDate.Year == x.StartDate.Year ));
 		}

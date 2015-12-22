@@ -158,5 +158,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             return details;
         }
+
+        public TimesheetContact GetTimesheetContactById(int Id)
+        {
+            TimesheetContact contact = _timeSheetRepository.GetTimesheetContactById(Id);
+
+            return contact;
+        }
     }
 }

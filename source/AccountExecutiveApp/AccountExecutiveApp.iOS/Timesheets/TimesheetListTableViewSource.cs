@@ -55,6 +55,7 @@ namespace AccountExecutiveApp.iOS
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
 		{
             var viewController = (TimesheetContactsTableViewController)_parentController.Storyboard.InstantiateViewController("TimesheetContactsTableViewController");
+            viewController.LoadTimesheetContact(_listViewModel.TimesheetIdBySectionAndRow((int)indexPath.Section, (int)indexPath.Item));
 			_parentController.ShowViewController(viewController, _parentController);
 		}
 	}

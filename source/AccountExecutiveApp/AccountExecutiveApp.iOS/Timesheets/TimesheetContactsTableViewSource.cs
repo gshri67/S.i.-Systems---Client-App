@@ -26,6 +26,8 @@ namespace AccountExecutiveApp.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
+		    if (IsDetailsCell(indexPath))
+		        return GetDetailsCell( tableView, indexPath );
 			if (IsCallOrTextCell(indexPath))
 				return GetCallOrTextContactCell(tableView, indexPath);
 			else if (IsEmailCell(indexPath))
@@ -48,6 +50,30 @@ namespace AccountExecutiveApp.iOS
 		{
 		}
 
+        private UITableViewCell GetDetailsCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell =
+                tableView.DequeueReusableCell(SubtitleWithRightDetailCell.CellIdentifier) as
+                SubtitleWithRightDetailCell;
+
+            if (IsContractorSubCell(indexPath))
+                cell.UpdateCell
+                (
+                    mainText: _tableModel.ContractorFullName, 
+                    subtitleText: "Contractor",
+                    rightDetailText: "" 
+                );
+            else
+                cell.UpdateCell
+                (
+                    mainText: _tableModel.DirectReportFullName,
+                    subtitleText: "Direct Report",
+                    rightDetailText: ""
+                );
+
+            return cell;
+        }
+
 		private UITableViewCell GetEmailContactCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			var cell =
@@ -56,15 +82,15 @@ namespace AccountExecutiveApp.iOS
 
 			cell.ParentViewController = _parentController;
 
-			if( IsContractorCell(indexPath) )
+			if( IsContractorSubCell(indexPath) )
 				cell.UpdateCell
 				(
-					_tableModel.ContractorEmailAddressByRowNumber((int)indexPath.Item - _numberOfContractorPhoneNumberCells), null
+					_tableModel.ContractorEmailAddressByRowNumber((int)indexPath.Item - _firstContractorEmailCellIndex), null
 				);
 			else
 				cell.UpdateCell
 				(
-					_tableModel.DirectReportEmailAddressByRowNumber((int)indexPath.Item - _directReportDetailsIndex - _numberOfDirectReportPhoneNumberCells), null
+                    _tableModel.DirectReportEmailAddressByRowNumber((int)indexPath.Item - _firstDirectReportEmailCellIndex), null
 				);
 			
 			return cell;
@@ -78,15 +104,15 @@ namespace AccountExecutiveApp.iOS
 
 			cell.ParentViewController = _parentController;
 
-			if( IsContractorCell(indexPath) )
+			if( IsContractorSubCell(indexPath) )
 				cell.UpdateCell
 				(
-					null, _tableModel.ContractorPhoneNumberByRowNumber((int)indexPath.Item)
+                    null, _tableModel.ContractorPhoneNumberByRowNumber((int)indexPath.Item - _firstContractorPhoneNumberCellIndex)
 				);
 			else
 				cell.UpdateCell
 				(
-					null, _tableModel.DirectReportPhoneNumberByRowNumber((int)indexPath.Item)
+                    null, _tableModel.DirectReportPhoneNumberByRowNumber((int)indexPath.Item - _firstDirectReportPhoneNumberCellIndex)
 				);
 
 			return cell;
@@ -95,31 +121,48 @@ namespace AccountExecutiveApp.iOS
 		//private int _specializationCellRow { get { return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails(); } }
 		//private bool IsSpecializationCell(NSIndexPath indexPath) { return (int)indexPath.Item == _specializationCellRow; }
 
-		private int _firstContractorPhoneNumberCellIndex { get { return 1; } }
+		private int _firstContractorPhoneNumberCellIndex { get { return _contractorDetailsIndex+1; } }
 		private int _numberOfContractorPhoneNumberCells { get { return _tableModel.NumberOfContractorPhoneNumbers(); } }
 
-		private int _firstDirectReportPhoneNumberCellIndex { get { return 1; } }
+        private int _firstDirectReportPhoneNumberCellIndex { get { return _directReportDetailsIndex + 1; } }
 		private int _numberOfDirectReportPhoneNumberCells { get { return _tableModel.NumberOfDirectReportPhoneNumbers(); } }
 
 		private bool IsCallOrTextCell(NSIndexPath indexPath)
 		{
 			if ((int)indexPath.Item >= _firstContractorPhoneNumberCellIndex && (int)indexPath.Item < _firstContractorPhoneNumberCellIndex + _numberOfContractorPhoneNumberCells || 
 				(int)indexPath.Item >= _firstDirectReportPhoneNumberCellIndex && (int)indexPath.Item < _firstDirectReportPhoneNumberCellIndex + _numberOfDirectReportPhoneNumberCells )
+				    return true;
+
+			return false;
+		}
+
+		private bool IsContractorSubCell(NSIndexPath indexPath)
+		{
+			if ((int)indexPath.Item < _directReportDetailsIndex)
 				return true;
 			return false;
 		}
 
-		private bool IsContractorCell(NSIndexPath indexPath)
-		{
-			if ((int)indexPath.Item < _firstDirectReportPhoneNumberCellIndex)
-				return true;
-			return false;
-		}
+        private bool IsDirectReportSubCell(NSIndexPath indexPath)
+        {
+            if ((int)indexPath.Item >= _directReportDetailsIndex )
+                return true;
+
+            return false;
+        }
+
+        private bool IsDetailsCell(NSIndexPath indexPath)
+        {
+            if ((int)indexPath.Item == _directReportDetailsIndex || (int)indexPath.Item == _contractorDetailsIndex )
+                return true;
+
+            return false;
+        }
 
 		private int _firstContractorEmailCellIndex { get { return _firstContractorPhoneNumberCellIndex + _numberOfContractorPhoneNumberCells; } }
 		private int _numberOfContractorEmailCells { get { return _tableModel.NumberOfContractorEmails(); } }
 
-		private int _firstDirectReportEmailCellIndex { get { return _numberOfDirectReportPhoneNumberCells + _directReportDetailsIndex; } }
+        private int _firstDirectReportEmailCellIndex { get { return _firstDirectReportPhoneNumberCellIndex + _numberOfDirectReportPhoneNumberCells; } }
 		private int _numberOfDirectReportEmailCells { get { return _tableModel.NumberOfDirectReportEmails(); } }
 
 		private int _directReportDetailsIndex { get{ return _numContractorCells; } }

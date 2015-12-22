@@ -22,6 +22,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<TimesheetDetails> GetSubmittedTimesheetDetailsByAccountExecutiveId(int id);
         IEnumerable<TimesheetDetails> GetCancelledTimesheetDetailsByAccountExecutiveId(int id);
         IEnumerable<TimesheetDetails> GetRejectedTimesheetDetailsByAccountExecutiveId(int id);
+        TimesheetContact GetTimesheetContactById(int id);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -424,6 +425,84 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     EndDate = new DateTime(2015, 2, 12)
                 }
             }.AsEnumerable();
+        }
+
+        public TimesheetContact GetTimesheetContactById(int id)
+        {
+            return new TimesheetContact()
+            {
+                Id = 1,
+                Contractor = new Contractor
+                {
+                    ContactInformation = new UserContact
+                    {
+                        Id = 1,
+                        FirstName = "Robert",
+                        LastName = "Paulson",
+                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "rp.clientcontact@email.com", Title = "Primary" } }.AsEnumerable(),
+                        PhoneNumbers = new List<PhoneNumber> 
+                    { 
+                        new PhoneNumber
+                        {
+                            Title = "Work",
+                            AreaCode = 555,
+                            Prefix = 555,
+                            LineNumber = 1231
+                        }, new PhoneNumber
+                        {
+                            Title = "Cell",
+                            AreaCode = 555,
+                            Prefix = 222,
+                            LineNumber = 2212
+                        }
+                    }.AsEnumerable(),
+                    },
+                    Rating = MatchGuideConstants.ResumeRating.Standard,
+                    ResumeText = string.Empty,
+                    Specializations = new List<Specialization>
+                    {
+                    },
+                    Contracts = new List<ConsultantContract>
+                    {
+                        new ConsultantContract
+                        {
+                            ClientId = 1,
+                            ContractId = 2,
+                            ClientName = "Cenovus",
+                            ContractorName = "Robert Paulson",
+                            Title = string.Format("{0} - Project Manager", 59326),
+                            AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
+                            StartDate = DateTime.UtcNow.AddDays(-15),
+                            EndDate = DateTime.UtcNow.AddMonths(3).AddDays(5)
+                        }
+                    }
+                },
+                    DirectReport = new UserContact
+                    {
+                        Id = id,
+                        FirstName = "Robert",
+                        LastName = "Paulson",
+                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "rp.clientcontact@email.com", Title = "Primary" } }.AsEnumerable(),
+                        PhoneNumbers = new List<PhoneNumber> 
+                        { 
+                            new PhoneNumber
+                            {
+                                Title = "Work",
+                                AreaCode = 555,
+                                Prefix = 555,
+                                LineNumber = 1231
+                            }, new PhoneNumber
+                            {
+                                Title = "Cell",
+                                AreaCode = 555,
+                                Prefix = 222,
+                                LineNumber = 2212
+                            }
+                        }.AsEnumerable(),
+                        ClientName = "Cenovus",
+                        Address = "999 Rainbow Road SE, Calgary, AB"
+                    }
+            };
         }
     }
 }

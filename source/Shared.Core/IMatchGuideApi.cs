@@ -63,5 +63,6 @@ namespace Shared.Core
         Task<IEnumerable<ContractorRateSummary>> GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status);
         Task<TimesheetSummarySet> GetTimesheetSummary();
         Task<IEnumerable<TimesheetDetails>> GetTimesheetDetails(MatchGuideConstants.TimesheetStatus timesheetStatus);
+        Task<TimesheetContact> GetTimesheetContactById(int id);
     }
 }

@@ -25,23 +25,23 @@ namespace AccountExecutiveApp.Core.ViewModel
 		{
 			_api = api;
 		}
-		/*
-		public Task LoadTimesheetContact( MatchGuideConstants.TimesheetStatus status )
+		
+		public Task LoadTimesheetContact( int newId )
 		{
-			Status = status;
+		    Id = newId;
 
-			var task = GetTimesheetContact();
+			var task = GetTimesheetContactById( Id );
 
 			return task;
 		}
 
-		private async Task GetTimesheetContact()
+		private async Task GetTimesheetContactById( int Id )
 		{
-			contact = await _api.GetTimesheetContact( Id );
+			Contact = await _api.GetTimesheetContactById( Id );
 		}
 
 		//public string PageTitle { get{ return string.Format("{0} contact", Status.ToString ); } }
 
-        */
+        
 	}
 }

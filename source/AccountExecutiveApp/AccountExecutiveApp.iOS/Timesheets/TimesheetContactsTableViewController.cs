@@ -38,7 +38,7 @@ namespace AccountExecutiveApp.iOS
 			if (TableView == null) return;
 		
 			TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), "SubtitleWithRightDetailCell");
-            //TableView.RegisterClassForCellReuse(typeof(ContactCell), "ContactCell");
+            TableView.RegisterClassForCellReuse(typeof(ContractorContactInfoCell), ContractorContactInfoCell.CellIdentifier);
 		}
 
 		public override void ViewDidLoad ()
@@ -61,13 +61,13 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.DidReceiveMemoryWarning ();
 		}
-        /*
-		public void LoadTimesheetContacts( int Id )
+        
+		public void LoadTimesheetContact( int Id )
 		{
-			var task = _viewModel.LoadTimesheetContacts( Id );
+			var task = _viewModel.LoadTimesheetContact( Id );
 
 			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
-		}*/
+		}
 	}
 }
 

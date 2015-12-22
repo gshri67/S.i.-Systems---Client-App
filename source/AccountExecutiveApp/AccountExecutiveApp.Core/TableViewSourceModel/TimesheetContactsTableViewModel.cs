@@ -14,7 +14,10 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 		//private ClientContactDetailsTableViewModel _contractorTableModel;
 		//private ClientContactDetailsTableViewModel _directReportTableModel;
 
-		public TimesheetContactsTableViewModel(TimesheetContact contact )
+	    public string ContractorFullName{ get { return _contact.Contractor.ContactInformation.FullName; } }
+        public string DirectReportFullName { get { return _contact.DirectReport.FullName; } }
+
+	    public TimesheetContactsTableViewModel(TimesheetContact contact )
 		{
 			_contact = contact;
 
