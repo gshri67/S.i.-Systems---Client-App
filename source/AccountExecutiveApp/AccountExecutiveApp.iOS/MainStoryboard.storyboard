@@ -945,7 +945,7 @@
         <!--Timesheet Contacts Table View Controller-->
         <scene sceneID="Yr5-PH-6km">
             <objects>
-                <tableViewController id="PjJ-55-EjR" customClass="TimesheetContactsTableViewController" sceneMemberID="viewController">
+                <tableViewController id="PjJ-55-EjR" customClass="TimesheetContactsTableViewController" sceneMemberID="viewController" storyboardIdentifier="TimesheetContactsTableViewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="6T5-cn-qBf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

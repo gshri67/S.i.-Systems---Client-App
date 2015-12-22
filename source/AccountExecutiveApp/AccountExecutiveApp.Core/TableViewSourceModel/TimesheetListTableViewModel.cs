@@ -23,7 +23,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 		public bool RowIsInBounds(int section, int rowNumber)
 		{
-			return section < NumberOfGroups() && rowNumber >= 0 && rowNumber < TimesheetByYear[section].Count();
+			return section < NumberOfGroups() && rowNumber >= 0 && rowNumber < TimesheetByYear.Values.ElementAt(section).Count();
 		}
 
 		public int NumberOfGroups()
@@ -33,30 +33,30 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 		public string CompanyNameBySectionAndRow(int section, int rowNumber )
 		{
-			return RowIsInBounds(section, rowNumber) 
-				? TimesheetByYear[section].ElementAt(rowNumber).CompanyName
+			return RowIsInBounds(section, rowNumber)
+                ? TimesheetByYear.Values.ElementAt(section).ElementAt(rowNumber).CompanyName
 					: string.Empty;
 		}
 
         public string ContractorFullNameBySectionAndRow(int section, int rowNumber)
         {
             return RowIsInBounds(section, rowNumber)
-                ? TimesheetByYear[section].ElementAt(rowNumber).ContractorFullName
+                ? TimesheetByYear.Values.ElementAt(section).ElementAt(rowNumber).ContractorFullName
                     : string.Empty;
         }
 
         public string FormattedPeriodBySectionAndRow(int section, int rowNumber)
         {
             return RowIsInBounds(section, rowNumber)
-                ? string.Format("{0}-{1}", TimesheetByYear[section].ElementAt(rowNumber).StartDate.ToString("MMM d"),
-                    TimesheetByYear[section].ElementAt(rowNumber).EndDate.ToString("d")) 
+                ? string.Format("{0}-{1}", TimesheetByYear.Values.ElementAt(section).ElementAt(rowNumber).StartDate.ToString("MMM d"),
+                    TimesheetByYear.Values.ElementAt(section).ElementAt(rowNumber).EndDate.ToString("dd")) 
                     : string.Empty;
         }
 
 	    public int NumberOfTimesheetsInSection(int section)
 	    {
 	        return RowIsInBounds(section, 0)
-                ? TimesheetByYear[section].Count()
+                ? TimesheetByYear.Values.ElementAt(section).Count()
 					: 0;
 	    }
 	}

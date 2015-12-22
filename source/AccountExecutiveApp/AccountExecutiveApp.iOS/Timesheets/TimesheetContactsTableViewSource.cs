@@ -13,12 +13,12 @@ namespace AccountExecutiveApp.iOS
 {
 	public class TimesheetContactsTableViewSource : UITableViewSource
 	{
-		private readonly ClientContactDetailsViewController _parentController;
-		private readonly ClientContactDetailsTableViewModel _parentModel;
+        private readonly TimesheetContactsTableViewController _parentController;
+		private readonly TimesheetContactsTableViewModel _parentModel;
 		private TimesheetContactsTableViewModel _tableModel;
 
 		public TimesheetContactsTableViewSource
-		(ClientContactDetailsViewController parentController, TimesheetContact contact)
+		(TimesheetContactsTableViewController parentController, TimesheetContact contact)
 		{
 			_parentController = parentController;
 			_tableModel = new TimesheetContactsTableViewModel(contact);

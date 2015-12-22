@@ -51,15 +51,12 @@ namespace AccountExecutiveApp.iOS
 			return cell;
 		}
 
-		/*
+		
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
 		{
-			var viewController = (JobsListViewController)_parentController.Storyboard.InstantiateViewController("JobsListViewController");
-
-			viewController.SetClientID(_listViewModel.ClientIDByRowNumber((int)indexPath.Item));
-			viewController.Subtitle = _listViewModel.ClientNameByRowNumber((int)indexPath.Item);
+            var viewController = (TimesheetContactsTableViewController)_parentController.Storyboard.InstantiateViewController("TimesheetContactsTableViewController");
 			_parentController.ShowViewController(viewController, _parentController);
-		}*/
+		}
 	}
 }
 

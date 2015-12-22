@@ -12,13 +12,13 @@ namespace AccountExecutiveApp.Core.ViewModel
 	{
 		private readonly IMatchGuideApi _api;
 
-		private IEnumerable<TimesheetContact> _timesheets;
+		private TimesheetContact _contact;
 		private int Id;
 
-		public IEnumerable<TimesheetContact> Timesheets
+		public TimesheetContact Contact
 		{
-			get { return _timesheets ?? Enumerable.Empty<TimesheetContact>(); }
-			private set { _timesheets = value ?? Enumerable.Empty<TimesheetContact>(); }
+			get { return _contact ?? new TimesheetContact(); }
+			private set { _contact = value ?? new TimesheetContact(); }
 		}
 
 		public TimesheetContactsViewModel(IMatchGuideApi api)
@@ -26,22 +26,22 @@ namespace AccountExecutiveApp.Core.ViewModel
 			_api = api;
 		}
 		/*
-		public Task LoadTimesheetContacts( MatchGuideConstants.TimesheetStatus status )
+		public Task LoadTimesheetContact( MatchGuideConstants.TimesheetStatus status )
 		{
 			Status = status;
 
-			var task = GetTimesheetContacts();
+			var task = GetTimesheetContact();
 
 			return task;
 		}
 
-		private async Task GetTimesheetContacts()
+		private async Task GetTimesheetContact()
 		{
-			Timesheets = await _api.GetTimesheetContacts( Id );
+			contact = await _api.GetTimesheetContact( Id );
 		}
-*/
-		//public string PageTitle { get{ return string.Format("{0} Timesheets", Status.ToString ); } }
 
+		//public string PageTitle { get{ return string.Format("{0} contact", Status.ToString ); } }
 
+        */
 	}
 }
