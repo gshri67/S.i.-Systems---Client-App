@@ -51,7 +51,7 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, timesheetsSummary);
         }
 
-        [Route("Timesheets/Reporting/Details/Status/{status}")]
+        [Route("Details/Status/{status}")]
         public HttpResponseMessage GetTimesheetDetails( MatchGuideConstants.TimesheetStatus status )
         {
             var timesheetDetails = _service.GetTimesheetsDetails( status );

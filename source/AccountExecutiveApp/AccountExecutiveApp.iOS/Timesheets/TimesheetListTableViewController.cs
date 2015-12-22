@@ -46,7 +46,6 @@ namespace AccountExecutiveApp.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
-			LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus.Open);
 		}
 
 		public void UpdateUserInterface()

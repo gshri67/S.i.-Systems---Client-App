@@ -50,6 +50,7 @@ namespace AccountExecutiveApp.iOS
 
 			return cell;
 		}
+
 		/*
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
 		{

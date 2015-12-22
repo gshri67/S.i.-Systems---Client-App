@@ -59,6 +59,25 @@ namespace AccountExecutiveApp.iOS
 		{
             LoadTimesheetSummary();
 		}
+
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        {
+            var destinationController = segue.DestinationViewController as TimesheetListTableViewController;
+
+            if (segue.Identifier == "OpenTimesheetsSelectedSegue")
+                destinationController.LoadTimesheetDetails(MatchGuideConstants.TimesheetStatus.Open);
+
+            else if (segue.Identifier == "SubmittedTimesheetsSelectedSegue")
+                destinationController.LoadTimesheetDetails(MatchGuideConstants.TimesheetStatus.Submitted);
+
+            else if (segue.Identifier == "CancelledTimesheetsSelectedSegue")
+                destinationController.LoadTimesheetDetails(MatchGuideConstants.TimesheetStatus.Cancelled);
+
+            else if (segue.Identifier == "RejectedTimesheetsSelectedSegue")
+                destinationController.LoadTimesheetDetails(MatchGuideConstants.TimesheetStatus.Rejected);
+
+            base.PrepareForSegue(segue, sender);
+        }
 	}
 }
 
