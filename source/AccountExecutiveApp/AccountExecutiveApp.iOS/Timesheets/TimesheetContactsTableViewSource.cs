@@ -180,6 +180,11 @@ namespace AccountExecutiveApp.iOS
 		private int _numContractorCells { get { return _numberOfContractorPhoneNumberCells + _numberOfContractorEmailCells + 1; } }
 		private int _numDirectReportCells { get { return _numberOfDirectReportPhoneNumberCells + _numberOfDirectReportEmailCells + 1; } }
 
-
+		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		{
+			if ( IsDetailsCell(indexPath) )
+				return 65;
+			return 44;
+		}
 	}
 }
