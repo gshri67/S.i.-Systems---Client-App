@@ -58,6 +58,11 @@ namespace AccountExecutiveApp.iOS
             viewController.LoadTimesheetContact(_listViewModel.TimesheetIdBySectionAndRow((int)indexPath.Section, (int)indexPath.Item));
 			_parentController.ShowViewController(viewController, _parentController);
 		}
+
+	    public override string TitleForHeader(UITableView tableView, nint section)
+	    {
+	        return _listViewModel.YearBySection((int) section);
+	    }
 	}
 }
 

@@ -38,6 +38,13 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 			return TimesheetByYear.Keys.Count;
 		}
 
+        public string YearBySection(int section)
+        {
+            return RowIsInBounds(section, 0)
+                ? TimesheetByYear.Keys.ElementAt(section).ToString()
+                    : string.Empty;
+        }
+
 		public string CompanyNameBySectionAndRow(int section, int rowNumber )
 		{
 			return RowIsInBounds(section, rowNumber)
@@ -56,7 +63,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         {
             return RowIsInBounds(section, rowNumber)
                 ? string.Format("{0}-{1}", TimesheetByYear.Values.ElementAt(section).ElementAt(rowNumber).StartDate.ToString("MMM d"),
-                    TimesheetByYear.Values.ElementAt(section).ElementAt(rowNumber).EndDate.ToString("dd")) 
+                    TimesheetByYear.Values.ElementAt(section).ElementAt(rowNumber).EndDate.ToString("dd").TrimStart('0')) 
                     : string.Empty;
         }
 

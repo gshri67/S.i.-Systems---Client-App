@@ -432,6 +432,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             return new TimesheetContact()
             {
                 Id = 1,
+                CompanyName = "Cenovus",
+                StartDate = new DateTime(2015, 2, 2),
+                EndDate = new DateTime(2015, 2, 9),
+                Status = MatchGuideConstants.TimesheetStatus.Open,
                 Contractor = new Contractor
                 {
                     ContactInformation = new UserContact

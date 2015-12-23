@@ -16,8 +16,10 @@ namespace AccountExecutiveApp.iOS
 	public partial class TimesheetContactsTableViewController : UITableViewController
 	{
 		private readonly TimesheetContactsViewModel _viewModel;
+	    private SubtitleHeaderView _subtitleHeaderView;
+        private bool _needsCreateTitleBar = false;
 
-        public TimesheetContactsTableViewController(IntPtr handle)
+	    public TimesheetContactsTableViewController(IntPtr handle)
             : base(handle)
 		{
 		    _viewModel = DependencyResolver.Current.Resolve<TimesheetContactsViewModel>();
@@ -30,7 +32,7 @@ namespace AccountExecutiveApp.iOS
 			RegisterCellsForReuse();
 			TableView.Source = new TimesheetContactsTableViewSource(this, _viewModel.Contact );
 			TableView.ReloadData();
-			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
+			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 		}
 
 		private void RegisterCellsForReuse()
@@ -48,12 +50,13 @@ namespace AccountExecutiveApp.iOS
 
 		public override void ViewDidAppear (bool animated)
 		{
+            CreateTitleBarIfNeeded();
 		}
 
 		public void UpdateUserInterface()
 		{
+            InvokeOnMainThread( CreateTitleBarIfNeeded );
 			InvokeOnMainThread(InstantiateTableViewSource);
-			//Title = _viewModel.PageTitle;
 		}
 
 
@@ -68,6 +71,26 @@ namespace AccountExecutiveApp.iOS
 
 			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 		}
+
+        private void CreateTitleBarIfNeeded()
+        {
+            if (!_needsCreateTitleBar)
+                _needsCreateTitleBar = true;
+            else
+                InvokeOnMainThread(CreateCustomTitleBar);
+        }
+
+        private void CreateCustomTitleBar()
+        {
+            InvokeOnMainThread(() =>
+            {
+                _subtitleHeaderView = new SubtitleHeaderView();
+                NavigationItem.TitleView = _subtitleHeaderView;
+                _subtitleHeaderView.TitleText = _viewModel.PageTitle;
+                _subtitleHeaderView.SubtitleText = _viewModel.PageSubtitle;
+                NavigationItem.Title = "";
+            });
+        }
 	}
 }
 

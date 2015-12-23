@@ -40,8 +40,19 @@ namespace AccountExecutiveApp.Core.ViewModel
 			Contact = await _api.GetTimesheetContactById( Id );
 		}
 
-		//public string PageTitle { get{ return string.Format("{0} contact", Status.ToString ); } }
+	    public string CompanyName { get { return Contact.CompanyName; } }
+        public string FormattedPeriod
+        {
+            get
+            {
+                return string.Format("{0}-{1} {2}", _contact.StartDate.ToString("MMM d"),
+                    _contact.EndDate.ToString("dd").TrimStart('0'), _contact.StartDate.ToString("yyyy"));
+            }
+        }
 
+       
+	    public string PageTitle { get{ return string.Format("{0} Timesheet", _contact.Status.ToString() ); } }
+        public string PageSubtitle { get { return string.Format("{0}, {1}", CompanyName, FormattedPeriod); } }
         
 	}
 }
