@@ -15,8 +15,9 @@ namespace AccountExecutiveApp.iOS
 	public partial class TimesheetStatusListTableViewController : UITableViewController
 	{
 		private readonly TimesheetStatusListViewModel _viewModel;
+	    private LoadingOverlay _overlay;
 
-		public TimesheetStatusListTableViewController () : base ("TimesheetStatusListTableViewController", null)
+	    public TimesheetStatusListTableViewController () : base ("TimesheetStatusListTableViewController", null)
 		{
 		}
 
@@ -50,6 +51,8 @@ namespace AccountExecutiveApp.iOS
 
 	    private void UpdateUserInterface()
 	    {
+            RemoveOverlay();
+
             OpenTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfOpenTimesheets;
             SubmittedTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfSubmittedTimesheets;
             RejectedTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfRejectedTimesheets;
@@ -80,6 +83,7 @@ namespace AccountExecutiveApp.iOS
 
 	    public override void ViewDidAppear (bool animated)
 		{
+            IndicateLoading();
             LoadTimesheetSummary();
 		}
 
@@ -101,6 +105,31 @@ namespace AccountExecutiveApp.iOS
 
             base.PrepareForSegue(segue, sender);
         }
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(TableView.Frame.X, TableView.Frame.Y, TableView.Frame.Width, TableView.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }
 

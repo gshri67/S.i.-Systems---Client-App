@@ -8,6 +8,7 @@ using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using CoreGraphics;
 using CoreText;
 
 namespace AccountExecutiveApp.iOS
@@ -25,8 +26,9 @@ namespace AccountExecutiveApp.iOS
 	    ContractsViewModel _contractsViewModel;
         public ContractStatusType StatusType;//atm only used when loading contracts because they were not passed in
         public MatchGuideConstants.AgreementSubTypes TypeOfContract;
+	    private LoadingOverlay _overlay;
 
-        public ContractsListViewController(IntPtr handle)
+	    public ContractsListViewController(IntPtr handle)
             : base(handle)
 		{
             _contractsViewModel = DependencyResolver.Current.Resolve<ContractsViewModel>();
@@ -136,6 +138,8 @@ namespace AccountExecutiveApp.iOS
 
             var contracts = await _contractsViewModel.getContracts();
 
+            IndicateLoading();
+
 			if (!_contractsWereSet) 
 			{
 				_contracts = contracts.Where (c => c.StatusType == StatusType && c.AgreementSubType == TypeOfContract).ToList ();
@@ -158,6 +162,8 @@ namespace AccountExecutiveApp.iOS
 
 		public void UpdateUI()
 		{
+            RemoveOverlay();
+
 			if (_contracts != null && TableView != null)
 			{
 				SetupTableViewSource ();
@@ -181,5 +187,31 @@ namespace AccountExecutiveApp.iOS
                 NavigationItem.Title = "";
             });
         }
+
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(View.Frame.X, View.Frame.Y, View.Frame.Width, View.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }

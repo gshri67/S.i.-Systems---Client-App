@@ -18,6 +18,7 @@ namespace AccountExecutiveApp.iOS
 		private readonly TimesheetContactsViewModel _viewModel;
 	    private SubtitleHeaderView _subtitleHeaderView;
         private bool _needsCreateTitleBar = false;
+	    private LoadingOverlay _overlay;
 
 	    public TimesheetContactsTableViewController(IntPtr handle)
             : base(handle)
@@ -55,6 +56,7 @@ namespace AccountExecutiveApp.iOS
 
 		public void UpdateUserInterface()
 		{
+            InvokeOnMainThread(RemoveOverlay);
             InvokeOnMainThread( CreateTitleBarIfNeeded );
 			InvokeOnMainThread(InstantiateTableViewSource);
 		}
@@ -67,6 +69,7 @@ namespace AccountExecutiveApp.iOS
         
 		public void LoadTimesheetContact( int Id )
 		{
+            IndicateLoading();
 			var task = _viewModel.LoadTimesheetContact( Id );
 
 			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
@@ -91,6 +94,31 @@ namespace AccountExecutiveApp.iOS
                 NavigationItem.Title = "";
             });
         }
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(TableView.Frame.X, TableView.Frame.Y, TableView.Frame.Width, TableView.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }
 

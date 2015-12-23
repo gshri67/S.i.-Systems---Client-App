@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
 using AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList;
+using CoreGraphics;
 using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using UIKit;
@@ -17,8 +18,9 @@ namespace AccountExecutiveApp.iOS
 	    private readonly ContractorDetailsViewModel _viewModel;
 	    public const string CellIdentifier = "ContractorContactInfoCell";
         private int _id;
+        private LoadingOverlay _overlay;
 
-		public ContractorDetailsTableViewController (IntPtr handle) : base (handle)
+        public ContractorDetailsTableViewController (IntPtr handle) : base (handle)
 		{
             _viewModel = DependencyResolver.Current.Resolve<ContractorDetailsViewModel>();
 		}
@@ -26,6 +28,7 @@ namespace AccountExecutiveApp.iOS
         public void setContractorId(int Id)
         {
             _id = Id;
+            IndicateLoading();
             LoadContractor();
         }
 
@@ -48,6 +51,7 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        InvokeOnMainThread(InstantiateTableViewSource);
             InvokeOnMainThread(UpdatePageTitle);
+            InvokeOnMainThread(RemoveOverlay);
 	    }
 
         public override void ViewDidLoad()
@@ -65,5 +69,30 @@ namespace AccountExecutiveApp.iOS
             var task = _viewModel.LoadContractor(_id);
             task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
         }
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(TableView.Frame.X, TableView.Frame.Y, TableView.Frame.Width, TableView.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }

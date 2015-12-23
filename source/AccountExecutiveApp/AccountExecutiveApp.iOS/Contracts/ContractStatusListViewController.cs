@@ -7,6 +7,7 @@ using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using CoreGraphics;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -15,6 +16,7 @@ namespace AccountExecutiveApp.iOS
 		private ContractStatusListTableViewSource _clientListTableViewSource;
         private ContractsViewModel _contractsViewModel;
         private IEnumerable<ConsultantContractSummary> _contracts;
+	    private LoadingOverlay _overlay;
 
 		public ContractStatusListViewController (IntPtr handle) : base (handle)
 		{
@@ -48,6 +50,7 @@ namespace AccountExecutiveApp.iOS
 			LogoutManager.CreateNavBarLeftButton (this);
 
             LoadContracts();
+            IndicateLoading();
 
 			//SetupTableViewSource ();
 
@@ -68,6 +71,7 @@ namespace AccountExecutiveApp.iOS
             { 
 				SetupTableViewSource ();
 				TableView.ReloadData ();
+                RemoveOverlay();
 			}
         }
 
@@ -80,5 +84,30 @@ namespace AccountExecutiveApp.iOS
 
             UpdateUI();
         }
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(View.Frame.X, View.Frame.Y, View.Frame.Width, View.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }

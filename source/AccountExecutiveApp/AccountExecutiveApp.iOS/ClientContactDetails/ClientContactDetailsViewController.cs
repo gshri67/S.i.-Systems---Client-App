@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
 using AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList;
+using CoreGraphics;
 using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using UIKit;
@@ -21,8 +22,9 @@ namespace AccountExecutiveApp.iOS
 		private SubtitleHeaderView _subtitleHeaderView;
 
 		private bool _needsCreateTitleBar = false;
+	    private LoadingOverlay _overlay;
 
-		public ClientContactDetailsViewController(IntPtr handle)
+	    public ClientContactDetailsViewController(IntPtr handle)
 			: base(handle)
 		{
 			_viewModel = DependencyResolver.Current.Resolve<ClientContactDetailsViewModel>();
@@ -30,6 +32,7 @@ namespace AccountExecutiveApp.iOS
 
 		public void SetContactId(int id, UserContactType contactType)
 		{
+            IndicateLoading();
 			LoadContact(id);
             _viewModel.SetContactType(contactType);
 		}
@@ -51,6 +54,8 @@ namespace AccountExecutiveApp.iOS
 
 		private void UpdateUserInterface()
 		{
+            InvokeOnMainThread(RemoveOverlay);
+
 		    if (TableView == null || DetailsContainerView == null)
 		    {
 		        _needsUpdateInterface = true;
@@ -118,6 +123,31 @@ namespace AccountExecutiveApp.iOS
 					NavigationItem.Title = "";
 				});
 		}
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(View.Frame.X, View.Frame.Y, View.Frame.Width, View.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }
 

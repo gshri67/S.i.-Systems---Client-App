@@ -7,6 +7,7 @@ using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using CoreGraphics;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -16,8 +17,9 @@ namespace AccountExecutiveApp.iOS
         private SubtitleHeaderView _subtitleHeaderView;
 	    public const string SubtitleCellIdentifier = "SubtitleWithRightDetailCell";
         public string Subtitle;
+        private LoadingOverlay _overlay;
 
-		public JobsListViewController (IntPtr handle) : base (handle)
+        public JobsListViewController (IntPtr handle) : base (handle)
 		{
 			_jobsListViewModel = DependencyResolver.Current.Resolve<JobsListViewModel>();
 		    Title = "Jobs";
@@ -53,6 +55,8 @@ namespace AccountExecutiveApp.iOS
 
 		public void SetClientID( int ClientID )
 		{
+            IndicateLoading();
+
 		    var task = _jobsListViewModel.SetClientID(ClientID);
 
             task.ContinueWith(_ => UpdateUserInterface());
@@ -61,6 +65,7 @@ namespace AccountExecutiveApp.iOS
 		public void UpdateUserInterface()
 		{
             InvokeOnMainThread(SetupTableViewSource);
+            InvokeOnMainThread(RemoveOverlay);
 		}
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -91,5 +96,30 @@ namespace AccountExecutiveApp.iOS
                 NavigationItem.Title = "";
             });
         }
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(View.Frame.X, View.Frame.Y, View.Frame.Width, View.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }

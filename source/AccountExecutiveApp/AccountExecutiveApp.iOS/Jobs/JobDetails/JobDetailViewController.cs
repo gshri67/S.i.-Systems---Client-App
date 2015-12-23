@@ -46,6 +46,8 @@ namespace AccountExecutiveApp.iOS
 
 	    public void LoadJobWithJobId( int Id )
 	    {
+            IndicateLoading();
+
 	        var task = _viewModel.LoadJobWithJobID(Id);
 
             task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
@@ -54,7 +56,7 @@ namespace AccountExecutiveApp.iOS
 	    private void UpdateUserInterface()
 	    {
 	        InstantiateTableViewSource();
-            RemoveOverlay();
+            InvokeOnMainThread(RemoveOverlay);
 
 			UpdatePageTitle ();
             InvokeOnMainThread(CreateTitleBarIfNeeded);
@@ -85,7 +87,6 @@ namespace AccountExecutiveApp.iOS
 	    public override void ViewDidLoad()
 	    {
 	        base.ViewDidLoad();
-            IndicateLoading();
 	    }
 
 	    public override void ViewDidAppear(bool animated)
@@ -176,5 +177,7 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        LoadJobWithJobId(id);
 	    }
+
+
 	}
 }

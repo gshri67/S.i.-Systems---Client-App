@@ -7,12 +7,14 @@ using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using CoreGraphics;
 
 namespace AccountExecutiveApp.iOS
 {
     public partial class JobsClientListViewController : UITableViewController
 	{
 		private readonly JobsViewModel _jobsViewModel;
+        private LoadingOverlay _overlay;
         private const string ClientSelectedFromJobListSegueIdentifier = "ClientSelectedSegue";
 
         public const string CellReuseIdentifier = "JobsClientListCell";
@@ -46,12 +48,14 @@ namespace AccountExecutiveApp.iOS
 	            LogoutManager.CreateNavBarLeftButton(this);
 
 	        LoadJobs();
+            IndicateLoading();
 		}
 
 
         public void UpdateUserInterface()
         {
             InvokeOnMainThread(InstantiateTableViewSource);
+            InvokeOnMainThread(RemoveOverlay);
         }
 
         public void LoadJobs()
@@ -69,5 +73,30 @@ namespace AccountExecutiveApp.iOS
 
             return base.ShouldPerformSegue(segueIdentifier, sender);
 	    }
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(View.Frame.X, View.Frame.Y, View.Frame.Width, View.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }

@@ -16,8 +16,9 @@ namespace AccountExecutiveApp.iOS
 	public partial class TimesheetListTableViewController : UITableViewController
 	{
 		private readonly TimesheetListViewModel _viewModel;
+	    private LoadingOverlay _overlay;
 
-		public TimesheetListTableViewController (IntPtr handle) : base (handle)
+	    public TimesheetListTableViewController (IntPtr handle) : base (handle)
 		{
 			_viewModel = DependencyResolver.Current.Resolve<TimesheetListViewModel>();
 		}
@@ -50,6 +51,7 @@ namespace AccountExecutiveApp.iOS
 
 		public void UpdateUserInterface()
 		{
+            InvokeOnMainThread(RemoveOverlay);
 			InvokeOnMainThread(InstantiateTableViewSource);
 			Title = _viewModel.PageTitle;
 		}
@@ -62,10 +64,36 @@ namespace AccountExecutiveApp.iOS
 
 		public void LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus status )
 		{
+            IndicateLoading();
 			var task = _viewModel.LoadTimesheetDetails( status );
 
 			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 		}
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(TableView.Frame.X, TableView.Frame.Y, TableView.Frame.Width, TableView.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }
 

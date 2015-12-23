@@ -8,6 +8,7 @@ using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreGraphics;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -16,9 +17,12 @@ namespace AccountExecutiveApp.iOS
 		private readonly ContractDetailsViewModel _viewModel;
         private SubtitleHeaderView _subtitleHeaderView;
 	    private bool _needsCreateTitleBar = false;
+	    private LoadingOverlay _overlay;
 
 	    public void LoadContract(int id)
 	    {
+            IndicateLoading();
+
 	        var task = _viewModel.LoadContractDetails(id);
             task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 	    }
@@ -28,6 +32,7 @@ namespace AccountExecutiveApp.iOS
             SetupTableViewSource();
             UpdateSummaryView();
             InvokeOnMainThread(CreateTitleBarIfNeeded);
+            InvokeOnMainThread(RemoveOverlay);
 		}
 
 		public ContractDetailsViewController (IntPtr handle) : base (handle)
@@ -98,5 +103,30 @@ namespace AccountExecutiveApp.iOS
 				NavigationItem.Title = "";
             });
         }
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(View.Frame.X, View.Frame.Y, View.Frame.Width, View.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }
