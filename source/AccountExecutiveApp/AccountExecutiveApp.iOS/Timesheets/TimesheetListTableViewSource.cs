@@ -48,6 +48,8 @@ namespace AccountExecutiveApp.iOS
                     rightDetailText: _listViewModel.FormattedPeriodBySectionAndRow((int)indexPath.Section, (int)indexPath.Item)
                 );
 
+            
+
 			return cell;
 		}
 

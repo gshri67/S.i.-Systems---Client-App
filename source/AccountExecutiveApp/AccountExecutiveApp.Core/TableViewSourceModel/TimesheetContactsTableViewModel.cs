@@ -16,6 +16,8 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 	    public string ContractorFullName{ get { return _contact.Contractor.ContactInformation.FullName; } }
         public string DirectReportFullName { get { return _contact.DirectReport.FullName; } }
+	    public int ContractorId { get { return _contact.Contractor.ContactInformation.Id; } }
+        public int DirectReportId { get { return _contact.DirectReport.Id; } }
 
 	    public TimesheetContactsTableViewModel(TimesheetContact contact )
 		{

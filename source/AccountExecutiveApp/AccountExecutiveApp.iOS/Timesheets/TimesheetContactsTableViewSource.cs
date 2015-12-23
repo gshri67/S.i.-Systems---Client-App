@@ -46,11 +46,23 @@ namespace AccountExecutiveApp.iOS
 			return 1;
 		}
 
-		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-		{
-		}
+	    public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+	    {
+            if (IsDetailsCell(indexPath) && IsContractorSubCell(indexPath))
+	        {
+                var vc = (ContractorDetailsTableViewController)_parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
+                vc.setContractorId(_tableModel.ContractorId);
+                _parentController.ShowViewController(vc, _parentController);
+	        }
+            else if (IsDetailsCell(indexPath) && IsDirectReportSubCell(indexPath))
+            {
+                var vc = (ClientContactDetailsViewController)_parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
+                vc.SetContactId(_tableModel.DirectReportId, UserContactType.DirectReport);
+                _parentController.ShowViewController(vc, _parentController);
+            }
+	    }
 
-        private UITableViewCell GetDetailsCell(UITableView tableView, NSIndexPath indexPath)
+	    private UITableViewCell GetDetailsCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell =
                 tableView.DequeueReusableCell(SubtitleWithRightDetailCell.CellIdentifier) as

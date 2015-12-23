@@ -37,7 +37,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
-			// Perform any additional setup after loading the view, typically from a nib.
+            LogoutManager.CreateNavBarLeftButton(this);
+            TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
 		}
 
         public void LoadTimesheetSummary()
@@ -52,7 +53,29 @@ namespace AccountExecutiveApp.iOS
             OpenTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfOpenTimesheets;
             SubmittedTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfSubmittedTimesheets;
             RejectedTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfRejectedTimesheets;
-            CancelledTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfCancelledTimesheets;   
+            CancelledTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfCancelledTimesheets;
+
+            //Make cell not selectable if there are no timesheets available
+	        if (_viewModel.FormattedNumberOfOpenTimesheets == "0")
+	        {
+	            OpenTimesheetsCell.UserInteractionEnabled = false;
+                OpenTimesheetsCell.Accessory =  UITableViewCellAccessory.None;
+	        }
+	        if (_viewModel.FormattedNumberOfSubmittedTimesheets == "0")
+	        {
+	            SubmittedTimesheetsCell.UserInteractionEnabled = false;
+                SubmittedTimesheetsCell.Accessory = UITableViewCellAccessory.None;
+	        }
+	        if (_viewModel.FormattedNumberOfRejectedTimesheets == "0")
+            {
+                RejectedTimesheetsCell.UserInteractionEnabled = false;
+                RejectedTimesheetsCell.Accessory = UITableViewCellAccessory.None;
+	        }
+            if (_viewModel.FormattedNumberOfCancelledTimesheets == "0")
+            {
+                CancelledTimesheetsCell.UserInteractionEnabled = false;
+                CancelledTimesheetsCell.Accessory = UITableViewCellAccessory.None;
+	        }
 	    }
 
 	    public override void ViewDidAppear (bool animated)
