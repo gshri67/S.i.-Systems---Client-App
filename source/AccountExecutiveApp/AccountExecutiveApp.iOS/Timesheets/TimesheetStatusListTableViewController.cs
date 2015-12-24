@@ -39,6 +39,7 @@ namespace AccountExecutiveApp.iOS
 			base.ViewDidLoad ();
 
             LogoutManager.CreateNavBarLeftButton(this);
+            SearchManager.CreateNavBarRightButton(this);
             TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
 		}
 

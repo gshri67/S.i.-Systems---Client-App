@@ -53,6 +53,7 @@ namespace AccountExecutiveApp.iOS
 			IndicateLoading();
 
 			LogoutManager.CreateNavBarLeftButton(this);
+            SearchManager.CreateNavBarRightButton(this);
 
 			SetupSegueConnections ();
 

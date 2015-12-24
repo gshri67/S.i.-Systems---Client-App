@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -163,6 +163,7 @@
       <DependentUpon>JobDetailViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadingOverlay.cs" />
+    <Compile Include="SearchManager.cs" />
     <Compile Include="LogoutManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -381,7 +382,5 @@
     <BundleResource Include="Resources\plus-round-centred.png" />
     <BundleResource Include="Resources\minus-round-centred.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Timesheets\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

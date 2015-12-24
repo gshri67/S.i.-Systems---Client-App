@@ -48,6 +48,7 @@ namespace AccountExecutiveApp.iOS
             this.NavigationController.TabBarItem.SelectedImage = UIImage.FromFile("paper-dark.png");
 
 			LogoutManager.CreateNavBarLeftButton (this);
+            SearchManager.CreateNavBarRightButton(this);
 
             LoadContracts();
             IndicateLoading();

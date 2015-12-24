@@ -44,10 +44,13 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
-			if( TabBarController != null && TabBarController.SelectedIndex == 1 )
-	            LogoutManager.CreateNavBarLeftButton(this);
+		    if (TabBarController != null && TabBarController.SelectedIndex == 1)
+		    {
+		        LogoutManager.CreateNavBarLeftButton(this);
+                SearchManager.CreateNavBarRightButton(this);
+		    }
 
-	        LoadJobs();
+		    LoadJobs();
             IndicateLoading();
 		}
 
