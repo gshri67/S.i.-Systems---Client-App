@@ -44,16 +44,15 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+            //only show logout button if navigated from tab bar, not dashboard
 		    if (TabBarController != null && TabBarController.SelectedIndex == 1)
-		    {
 		        LogoutManager.CreateNavBarLeftButton(this);
-                SearchManager.CreateNavBarRightButton(this);
-		    }
+		    
+            SearchManager.CreateNavBarRightButton(this);
 
 		    LoadJobs();
             IndicateLoading();
 		}
-
 
         public void UpdateUserInterface()
         {

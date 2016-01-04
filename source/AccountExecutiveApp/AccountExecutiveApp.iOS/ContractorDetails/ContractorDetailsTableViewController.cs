@@ -57,6 +57,8 @@ namespace AccountExecutiveApp.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            SearchManager.CreateNavBarRightButton(this);
         }
 
 		private void UpdatePageTitle()

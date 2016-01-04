@@ -44,6 +44,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+            SearchManager.CreateNavBarRightButton(this);
+
 		    summaryView.Hidden = true;
 		}
 

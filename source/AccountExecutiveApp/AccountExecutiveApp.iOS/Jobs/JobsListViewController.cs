@@ -41,6 +41,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+            SearchManager.CreateNavBarRightButton(this);
+
             CreateCustomTitleBar();
 
 			UpdateUserInterface ();

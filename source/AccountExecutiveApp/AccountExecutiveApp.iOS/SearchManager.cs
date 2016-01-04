@@ -16,7 +16,7 @@ namespace AccountExecutiveApp.iOS
 
         public static void CreateNavBarRightButton(UIViewController viewController)
         {
-            var buttonImage = UIImage.FromBundle("ios7-clock-outline").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
+            var buttonImage = UIImage.FromBundle("searchStrongIcon").ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
             viewController.NavigationItem.SetRightBarButtonItem(
                 new UIBarButtonItem(buttonImage
                 , UIBarButtonItemStyle.Plain
@@ -26,9 +26,10 @@ namespace AccountExecutiveApp.iOS
                 })
             , true);
         }
-        /*
-        private void LogoutDelegate(UIAlertAction action)
+        
+        private void SearchDelegate(UIAlertAction action)
         {
+            /*
             _logoutViewModel.Logout();
             var rootController =
                 UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle)
@@ -39,8 +40,10 @@ namespace AccountExecutiveApp.iOS
             };
             UIApplication.SharedApplication.Windows[0].RootViewController =
                 navigationController;
-        }
+             */
 
+        }
+        /*
         private void LogoutDelegate(object sender, UIButtonEventArgs args)
         {
             if (args.ButtonIndex == 0)
@@ -51,6 +54,8 @@ namespace AccountExecutiveApp.iOS
 
 		private static void AdditionalActions_Pressed( UIViewController vc )
 		{
+            UITableViewController searchVC = new UITableViewController();
+            vc.NavigationController.PresentViewController(searchVC, true, null);
             /*
 			Action<UIAlertAction> logoutDelegate = delegate { //copied down below
 				LogoutViewModel logoutViewModel = DependencyResolver.Current.Resolve<LogoutViewModel> ();

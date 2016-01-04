@@ -93,6 +93,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad();
 
+            SearchManager.CreateNavBarRightButton(this);
+
 	        DetailsContainerView.Hidden = true;
 
             if( _needsUpdateInterface )
