@@ -88,7 +88,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|iPhone'">
     <OutputPath>bin\iPhone\Test\</OutputPath>
     <BuildIpa>True</BuildIpa>
-    <IpaIncludeArtwork>False</IpaIncludeArtwork>
     <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignProvision>
@@ -103,7 +102,6 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchI18n />
-    <CodesignResourceRules />
     <MtouchI18n>
     </MtouchI18n>
   </PropertyGroup>
@@ -248,6 +246,11 @@
       <DependentUpon>TimesheetContactsTableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Timesheets\TimesheetContactsTableViewSource.cs" />
+    <Compile Include="Search\SearchTableViewController.cs" />
+    <Compile Include="Search\SearchTableViewController.designer.cs">
+      <DependentUpon>SearchTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Search\SearchTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
@@ -385,4 +388,7 @@
     <BundleResource Include="Resources\minus-round-centred.png" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Search\" />
+  </ItemGroup>
 </Project>

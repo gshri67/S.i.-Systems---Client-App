@@ -54,7 +54,7 @@ namespace AccountExecutiveApp.iOS
 
 		private static void AdditionalActions_Pressed( UIViewController vc )
 		{
-            UITableViewController searchVC = new UITableViewController();
+			var searchVC = (SearchTableViewController)vc.NavigationController.Storyboard.InstantiateViewController("SearchTableViewController");
             vc.NavigationController.PresentViewController(searchVC, true, null);
             /*
 			Action<UIAlertAction> logoutDelegate = delegate { //copied down below

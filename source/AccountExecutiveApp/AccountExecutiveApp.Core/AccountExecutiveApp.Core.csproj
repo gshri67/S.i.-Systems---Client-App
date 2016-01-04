@@ -83,6 +83,7 @@
     <Compile Include="TableViewSourceModel\TimesheetListTableViewModel.cs" />
     <Compile Include="ViewModel\TimesheetContactsViewModel.cs" />
     <Compile Include="TableViewSourceModel\TimesheetContactsTableViewModel.cs" />
+    <Compile Include="TableViewSourceModel\SearchTableViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
