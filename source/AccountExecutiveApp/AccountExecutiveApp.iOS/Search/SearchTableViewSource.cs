@@ -44,20 +44,33 @@ namespace AccountExecutiveApp.iOS
 				return GetContractsCell(tableView);
 			*/
 
-            UITableViewCell cell = new UITableViewCell();
+            var cell = (RightDetailCell)tableView.DequeueReusableCell(RightDetailCell.CellIdentifier, indexPath);
 
+		    string mainText = string.Empty, rightDetailText = string.Empty;
 
 		    if (IsCategoryCell(indexPath))
 		    {
-                if (IsClientContactCell(indexPath))
-                    cell.TextLabel.Text = @"Client Contacts";
-                else if (IsContractorCell(indexPath))
-                    cell.TextLabel.Text = @"Contractors";
+		        if (IsClientContactCell(indexPath))
+		        {
+		            mainText = @"Client Contacts";
+		            rightDetailText = _tableModel.NumberOfTotalFilteredContractors.ToString();
+		        }
+		        else if (IsContractorCell(indexPath))
+		        {
+		            mainText = @"Contractors";
+
+		            rightDetailText = _tableModel.NumberOfTotalFilteredClientContacts.ToString();
+		        }
 		    }
-		    else if ( IsClientContactCell(indexPath) )
-		        cell.TextLabel.Text = _tableModel.ClientContactNameByRowNumber((int) indexPath.Item-1);
-            else if( IsContractorCell(indexPath) )
-                cell.TextLabel.Text = _tableModel.ContractorNameByRowNumber((int)indexPath.Item-_firstIsContractorCellIndex+1);
+		    else if (IsClientContactCell(indexPath))
+		    {
+		        mainText = _tableModel.ClientContactNameByRowNumber((int) indexPath.Item - 1);
+		        rightDetailText = _tableModel.ClientCompanyNameByRowNumber((int) indexPath.Item - 1);
+		    }
+		    else if (IsContractorCell(indexPath))
+		        mainText = _tableModel.ContractorNameByRowNumber((int) indexPath.Item - _firstIsContractorCellIndex - 1);
+
+		    cell.UpdateCell( mainText: mainText, rightDetailText: rightDetailText );
 
 		    return cell;
 		}
@@ -65,7 +78,7 @@ namespace AccountExecutiveApp.iOS
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
 		    if (_tableModel != null)
-		        return _tableModel.NumberOfClientContacts + _tableModel.NumberOfContractors;
+		        return _tableModel.NumberOfClientContacts + _tableModel.NumberOfContractors + 2;
 
             return 0;
 		}

@@ -17,25 +17,18 @@ namespace AccountExecutiveApp.iOS
 		private LoadingOverlay _overlay;
 		private const string ClientSelectedFromJobListSegueIdentifier = "ClientSelectedSegue";
 
-		public const string CellReuseIdentifier = "JobsClientListCell";
+		public const string CellReuseIdentifier = RightDetailCell.CellIdentifier;
 
 		public SearchTableViewController (IntPtr handle) : base (handle)
 		{
-			
 			_viewModel = DependencyResolver.Current.Resolve<SearchViewModel>();
-            /*
-			TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellReuseIdentifier);
-
-			if (NavigationController != null)
-			{
-				this.NavigationController.TabBarItem.SelectedImage = UIImage.FromFile("tag-dark.png");
-			}*/
 		}
 
 		private void InstantiateTableViewSource()
 		{
 			if (TableView == null) return;
 
+            TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellReuseIdentifier);
 			TableView.Source = new SearchTableViewSource(this, _viewModel.ClientContacts, _viewModel.Contractors);
 			TableView.ReloadData();
 			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
