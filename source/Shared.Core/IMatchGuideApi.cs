@@ -64,5 +64,7 @@ namespace Shared.Core
         Task<TimesheetSummarySet> GetTimesheetSummary();
         Task<IEnumerable<TimesheetDetails>> GetTimesheetDetails(MatchGuideConstants.TimesheetStatus timesheetStatus);
         Task<TimesheetContact> GetTimesheetContactById(int id);
+        Task<IEnumerable<Contractor>> GetContractors();
+        Task<IEnumerable<UserContact>> GetClientContacts();
     }
 }

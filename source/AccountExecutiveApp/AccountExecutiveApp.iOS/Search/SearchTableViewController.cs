@@ -36,7 +36,7 @@ namespace AccountExecutiveApp.iOS
 		{
 			if (TableView == null) return;
 
-			TableView.Source = new SearchTableViewSource(this);
+			TableView.Source = new SearchTableViewSource(this, null, null);
 			TableView.ReloadData();
 			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 		}
@@ -63,7 +63,7 @@ namespace AccountExecutiveApp.iOS
 			InvokeOnMainThread(RemoveOverlay);
 		}
 
-		public void LoadJobs()
+		public void LoadSearchData()
 		{
 			var task = _jobsViewModel.LoadJobs();
 			task.ContinueWith(_ => UpdateUserInterface());

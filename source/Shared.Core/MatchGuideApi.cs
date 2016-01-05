@@ -277,5 +277,17 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<TimesheetContact>(new { id });
         }
+
+        [HttpGet("Contractors")]
+        public async Task<IEnumerable<Contractor>> GetContractors()
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<Contractor>>();
+        }
+
+        [HttpGet("UserContact")]
+        public async Task<IEnumerable<UserContact>> GetClientContacts()
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<UserContact>>();
+        }
     }
 }

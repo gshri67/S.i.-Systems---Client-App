@@ -31,6 +31,12 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, contractor);
         }
 
+        public HttpResponseMessage GetContractors()
+        {
+            var contractors = _service.GetContractors();
+            return Request.CreateResponse(HttpStatusCode.OK, contractors);
+        }
+
         [Route("Job/{id}/Status/{status}")]
         public HttpResponseMessage GetContractorsByJobIdAndStatus( int id, JobStatus status )
         {

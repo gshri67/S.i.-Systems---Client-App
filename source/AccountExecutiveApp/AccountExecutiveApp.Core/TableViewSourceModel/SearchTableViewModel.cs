@@ -7,11 +7,31 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 {
 	public class SearchTableViewModel
 	{
-		public SearchTableViewModel ()
-		{
-		}
+        private IEnumerable<Contact> _clientContacts;
+        private IEnumerable<Contractor> _contractors;
+
+        public SearchTableViewModel(IEnumerable<Contact> clientContacts, IEnumerable<Contractor> contractors)
+        {
+            _clientContacts = clientContacts;
+            _contractors = contractors;
+        }
 
 		public int NumberOfClientContacts {get{ return 5; }}
+        public int NumberOfContractors { get { return 5; } }
+
+        public string ClientContactNameByRowNumber(int row)
+        {
+            if ( row >= 0 && row < _clientContacts.Count() ) 
+                return _clientContacts.ElementAt(row).FullName;
+            return string.Empty;
+        }
+
+        public string ContractorNameByRowNumber(int row)
+        {
+            if (row >= 0 && row < _contractors.Count())
+                return _contractors.ElementAt(row).ContactInformation.FullName;
+            return string.Empty;
+        }
 	}
 }
 

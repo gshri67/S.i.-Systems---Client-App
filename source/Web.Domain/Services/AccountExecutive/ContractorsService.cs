@@ -59,5 +59,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
             return contractors;
         }
+
+        public IEnumerable<Contractor> GetContractors()
+        {
+            return _repo.GetContractors();
+        }
     }
 }

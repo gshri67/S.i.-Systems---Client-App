@@ -17,6 +17,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         int GetContractorIdByContractId(int contractId);
         //ContractorRateSummary GetContractorRateSummaryByContractId(int contractId);
         //ContractorRateSummary GetContractorRateSummaryByJobId(int contractId);
+        IEnumerable<Contractor> GetContractors();
     }
     
     public class ContractorRepository : IContractorRepository
@@ -178,6 +179,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 return id;
             }
         }
+
+        public IEnumerable<Contractor> GetContractors()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class MockContractorRepository : IContractorRepository
@@ -269,6 +275,18 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public int GetContractorIdByContractId(int contractId)
         {
             return 10;
+        }
+
+        public IEnumerable<Contractor> GetContractors()
+        {
+            IEnumerable<Contractor> allContractors = new List<Contractor>
+            {
+                LouFerigno,
+                PeterGriffin,
+                SpiderMan
+            }.AsEnumerable();
+
+            return allContractors;
         }
 
         private Contractor LouFerigno = new Contractor

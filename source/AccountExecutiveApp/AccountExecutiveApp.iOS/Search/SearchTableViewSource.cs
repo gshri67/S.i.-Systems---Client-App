@@ -18,10 +18,10 @@ namespace AccountExecutiveApp.iOS
 		private SearchTableViewModel _tableModel;
 		private Dictionary<string, int> categoryIndex;
 
-		public SearchTableViewSource(SearchTableViewController parentController)
+		public SearchTableViewSource(SearchTableViewController parentController, IEnumerable<Contact> clientContacts, IEnumerable<Contractor> contractors )
 		{
 			_parentController = parentController;
-			_tableModel = new SearchTableViewModel();
+			_tableModel = new SearchTableViewModel( clientContacts, contractors );
 			categoryIndex = new Dictionary<string, int> ();
 
 			categoryIndex ["Client Contacts"] = 0;

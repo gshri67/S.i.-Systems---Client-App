@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         UserContact GetDirectReportByAgreementId(int contractId);
         UserContact GetClientContactByAgreementId(int contractId);
         UserContact GetBillingContactByAgreementId(int contractId);
+        IEnumerable<UserContact> GetClientContacts();
     }
 
     public class UserContactRepository : IUserContactRepository
@@ -239,6 +241,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
+        public IEnumerable<UserContact> GetClientContacts()
+        {
+            throw new NotImplementedException();
+        }
+
         public UserContact GetClientContactByAgreementId(int contractId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -397,6 +404,16 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 ClientName = "Cenovus",
                 Address = "999 Rainbow Road SE, Calgary, AB"
             };
+        }
+
+        public IEnumerable<UserContact> GetClientContacts()
+        {
+            IEnumerable<UserContact> clientContacts = new List<UserContact>
+            {
+                GetUserContactById(0)
+            }.AsEnumerable();
+
+            return clientContacts;
         }
     }
 }

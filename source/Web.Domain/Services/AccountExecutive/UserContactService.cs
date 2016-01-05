@@ -26,5 +26,12 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
             return contact;
         }
+
+        public IEnumerable<UserContact> GetClientContacts()
+        {
+            var clientContacts = _repo.GetClientContacts();
+
+            return clientContacts;
+        }
     }
 }

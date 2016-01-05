@@ -78,6 +78,7 @@
     <Compile Include="ViewModel\LogoutViewModel.cs" />
     <Compile Include="ViewModel\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
+    <Compile Include="ViewModel\SearchViewModel.cs" />
     <Compile Include="ViewModel\TimesheetStatusListViewModel.cs" />
     <Compile Include="ViewModel\TimesheetListViewModel.cs" />
     <Compile Include="TableViewSourceModel\TimesheetListTableViewModel.cs" />

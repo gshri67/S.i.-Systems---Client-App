@@ -31,5 +31,11 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
             var userContact = _service.GetUserContactById(id);
             return Request.CreateResponse(HttpStatusCode.OK, userContact);
         }
+
+        public HttpResponseMessage GetClientContacts()
+        {
+            var userContacts = _service.GetClientContacts();
+            return Request.CreateResponse(HttpStatusCode.OK, userContacts);
+        }
     }
 }
