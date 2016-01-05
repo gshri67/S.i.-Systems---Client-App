@@ -24,8 +24,7 @@ namespace AccountExecutiveApp.iOS
 			_tableModel = new SearchTableViewModel( clientContacts, contractors );
 			categoryIndex = new Dictionary<string, int> ();
 
-			categoryIndex ["Client Contacts"] = 0;
-			categoryIndex ["Contractors"] = _tableModel.NumberOfClientContacts+1;
+			SetupCategoryIndexDictionary();
 		}
 
 
@@ -144,74 +143,6 @@ namespace AccountExecutiveApp.iOS
 			);
 
 			return cell;
-		}
-
-		private UITableViewCell GetSpecializationCell(UITableView tableView)
-		{
-			var cell = tableView.DequeueReusableCell("UITableViewCell");
-
-			AddSpecializationAndSkills(_tableModel.Specializations, cell);
-
-			return cell;
-		}
-
-		private UITableViewCell GetEmailContactCell(UITableView tableView, NSIndexPath indexPath)
-		{
-			var cell =
-				tableView.DequeueReusableCell(ContractorDetailsTableViewController.CellIdentifier) as
-				ContractorContactInfoCell;
-
-			cell.ParentViewController = _parentController;
-
-			cell.UpdateCell
-			(
-				_tableModel.EmailAddressByRowNumber((int)indexPath.Item - _tableModel.NumberOfPhoneNumbers()), null
-			);
-
-			return cell;
-		}
-
-		private UITableViewCell GetCallOrTextContactCell(UITableView tableView, NSIndexPath indexPath)
-		{
-			var cell =
-				tableView.DequeueReusableCell(ContractorDetailsTableViewController.CellIdentifier) as
-				ContractorContactInfoCell;
-
-			cell.ParentViewController = _parentController;
-
-			cell.UpdateCell
-			(
-				null, _tableModel.PhoneNumberByRowNumber((int)indexPath.Item)
-			);
-
-			return cell;
-		}
-
-		private int _specializationCellRow { get { return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails(); } }
-		private bool IsSpecializationCell(NSIndexPath indexPath){ return (int) indexPath.Item == _specializationCellRow; }
-
-		private int _resumeCellRow { get { return _specializationCellRow + 1; } }
-		private bool IsResumeCell(NSIndexPath indexPath) { return (int)indexPath.Item == _resumeCellRow; }
-
-		private int _contractsCellRow { get { return _resumeCellRow + 1; } }
-		private bool IsContractsCell(NSIndexPath indexPath) { return (int)indexPath.Item == _contractsCellRow; }
-
-		private int _firstPhoneNumberCellIndex { get { return 0; } }
-		private int _numberOfPhoneNumberCells { get { return _tableModel.NumberOfPhoneNumbers(); } }
-		private bool IsCallOrTextCell(NSIndexPath indexPath)
-		{
-			if ((int)indexPath.Item >= _firstPhoneNumberCellIndex && (int)indexPath.Item < _firstPhoneNumberCellIndex + _numberOfPhoneNumberCells)
-				return true;
-			return false;
-		}
-
-		private int _firstEmailCellIndex { get { return _numberOfPhoneNumberCells; } }
-		private int _numberOfEmailCells { get { return _tableModel.NumberOfEmails(); } }
-		private bool IsEmailCell(NSIndexPath indexPath)
-		{
-			if ((int)indexPath.Item >= _firstEmailCellIndex && (int)indexPath.Item < _firstEmailCellIndex + _numberOfEmailCells)
-				return true;
-			return false;
 		}*/
 
 		private bool IsCategoryCell(NSIndexPath indexPath)
@@ -235,5 +166,19 @@ namespace AccountExecutiveApp.iOS
 
         private int _firstIsContractorCellIndex { get { return categoryIndex["Contractors"]; } }
         private int _firstIsClientContactCellIndex { get { return categoryIndex["Client Contacts"]; } }
+
+	    public void ApplyFilterWithText(string text)
+	    {
+	        _tableModel.ApplyFilterWithText(text);
+
+            SetupCategoryIndexDictionary();
+	    }
+
+	    public void SetupCategoryIndexDictionary()
+	    {
+            categoryIndex.Clear();
+            categoryIndex["Client Contacts"] = 0;
+            categoryIndex["Contractors"] = _tableModel.NumberOfClientContacts + 1;
+	    }
 	}
 }

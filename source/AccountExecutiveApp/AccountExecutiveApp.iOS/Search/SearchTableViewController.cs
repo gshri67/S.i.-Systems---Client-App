@@ -15,7 +15,7 @@ namespace AccountExecutiveApp.iOS
 	{
 		private readonly SearchViewModel _viewModel;
 		private LoadingOverlay _overlay;
-		private const string ClientSelectedFromJobListSegueIdentifier = "ClientSelectedSegue";
+	    private SearchTableViewSource _tableSource;
 
 		public const string CellReuseIdentifier = RightDetailCell.CellIdentifier;
 
@@ -29,9 +29,16 @@ namespace AccountExecutiveApp.iOS
 			if (TableView == null) return;
 
             TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellReuseIdentifier);
-			TableView.Source = new SearchTableViewSource(this, _viewModel.ClientContacts, _viewModel.Contractors);
+			_tableSource = new SearchTableViewSource(this, _viewModel.ClientContacts, _viewModel.Contractors);
+		    TableView.Source = _tableSource;
 			TableView.ReloadData();
 			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
+
+		    SearchBar.TextChanged += delegate
+		    {
+		        _tableSource.ApplyFilterWithText(SearchBar.Text);
+		        TableView.ReloadData();
+		    };
 		}
 
 		public override void ViewDidLoad ()
@@ -56,10 +63,11 @@ namespace AccountExecutiveApp.iOS
 
 		public override bool ShouldPerformSegue(string segueIdentifier, NSObject sender)
 		{
+            /*
 			if (segueIdentifier == ClientSelectedFromJobListSegueIdentifier)
 			{
 				return false;
-			}
+			}*/
 
 			return base.ShouldPerformSegue(segueIdentifier, sender);
 		}

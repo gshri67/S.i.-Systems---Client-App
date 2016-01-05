@@ -16,6 +16,8 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         private IEnumerable<UserContact> _totalFilteredClientContacts;
         private IEnumerable<Contractor> _totalFilteredContractors;
 
+	    private int _cellCap = 3;//how many maximum cells per section do we show on this screen?
+
         public SearchTableViewModel(IEnumerable<UserContact> clientContacts, IEnumerable<Contractor> contractors)
         {
             _clientContacts = clientContacts;
@@ -28,7 +30,24 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             _totalFilteredContractors = Enumerable.Empty<Contractor>();
         }
 
-		public int NumberOfClientContacts {get{ return _clientContacts.Count(); }}
+	    public void ApplyFilterWithText( string filter )
+	    {
+	        _totalFilteredClientContacts = _totalClientContacts.Where(contact => contact.FirstName.StartsWith(filter));
+            _totalFilteredContractors = _totalContractors.Where(contractor => contractor.ContactInformation.FirstName.StartsWith(filter));
+
+	        if (_totalFilteredClientContacts.Count() <= _cellCap)
+	            _clientContacts = _totalFilteredClientContacts;
+	        else
+	            _clientContacts = _totalFilteredClientContacts.Take(_cellCap);
+
+            if (_totalFilteredContractors.Count() <= _cellCap)
+                _contractors = _totalFilteredContractors;
+            else
+                _contractors = _totalFilteredContractors.Take(_cellCap);
+	    }
+
+
+	    public int NumberOfClientContacts {get{ return _clientContacts.Count(); }}
         public int NumberOfContractors { get { return _contractors.Count(); } }
 
         public int NumberOfTotalFilteredContractors { get { return _totalFilteredContractors.Count(); } }
