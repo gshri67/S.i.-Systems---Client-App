@@ -20,35 +20,30 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { _contractors = value ?? Enumerable.Empty<Contractor>(); }
         }
 
+        private IEnumerable<UserContact> _clientContacts;
+
+        public IEnumerable<UserContact> ClientContacts
+        {
+            get { return _clientContacts ?? Enumerable.Empty<UserContact>(); }
+            set { _clientContacts = value ?? Enumerable.Empty<UserContact>(); }
+        }
+
         public SearchViewModel(IMatchGuideApi api)
 		{
 			_api = api;
 		}
-        
-        public Task LoadContractors()
+
+        public Task LoadSearchData()
         {
-            var task = GetContractors();
+            var task = GetSearchData();
 
             return task;
         }
 
-        private async Task GetContractors()
+        private async Task GetSearchData()
         {
             Contractors = await _api.GetContractors();
-        }
-
-
-
-        public Task LoadClientContacts()
-        {
-            var task = GetClientContacts();
-
-            return task;
-        }
-
-        private async Task GetClientContacts()
-        {
-            Contractors = await _api.GetContractors();
+            ClientContacts = await _api.GetClientContacts();
         }
     }
 }

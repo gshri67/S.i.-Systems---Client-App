@@ -7,17 +7,17 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 {
 	public class SearchTableViewModel
 	{
-        private IEnumerable<Contact> _clientContacts;
+        private IEnumerable<UserContact> _clientContacts;
         private IEnumerable<Contractor> _contractors;
 
-        public SearchTableViewModel(IEnumerable<Contact> clientContacts, IEnumerable<Contractor> contractors)
+        public SearchTableViewModel(IEnumerable<UserContact> clientContacts, IEnumerable<Contractor> contractors)
         {
             _clientContacts = clientContacts;
             _contractors = contractors;
         }
 
-		public int NumberOfClientContacts {get{ return 5; }}
-        public int NumberOfContractors { get { return 5; } }
+		public int NumberOfClientContacts {get{ return _clientContacts.Count(); }}
+        public int NumberOfContractors { get { return _contractors.Count(); } }
 
         public string ClientContactNameByRowNumber(int row)
         {

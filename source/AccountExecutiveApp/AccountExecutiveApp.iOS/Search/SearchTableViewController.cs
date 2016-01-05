@@ -13,7 +13,7 @@ namespace AccountExecutiveApp.iOS
 {
 	public partial class SearchTableViewController : UIViewController
 	{
-		private readonly JobsViewModel _jobsViewModel;
+		private readonly SearchViewModel _viewModel;
 		private LoadingOverlay _overlay;
 		private const string ClientSelectedFromJobListSegueIdentifier = "ClientSelectedSegue";
 
@@ -21,9 +21,9 @@ namespace AccountExecutiveApp.iOS
 
 		public SearchTableViewController (IntPtr handle) : base (handle)
 		{
-			/*
-			_jobsViewModel = DependencyResolver.Current.Resolve<JobsViewModel>();
-
+			
+			_viewModel = DependencyResolver.Current.Resolve<SearchViewModel>();
+            /*
 			TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellReuseIdentifier);
 
 			if (NavigationController != null)
@@ -36,7 +36,7 @@ namespace AccountExecutiveApp.iOS
 		{
 			if (TableView == null) return;
 
-			TableView.Source = new SearchTableViewSource(this, null, null);
+			TableView.Source = new SearchTableViewSource(this, _viewModel.ClientContacts, _viewModel.Contractors);
 			TableView.ReloadData();
 			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 		}
@@ -44,17 +44,9 @@ namespace AccountExecutiveApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
-			InstantiateTableViewSource ();
-			/*
-			//only show logout button if navigated from tab bar, not dashboard
-			if (TabBarController != null && TabBarController.SelectedIndex == 1)
-				LogoutManager.CreateNavBarLeftButton(this);
-
-			SearchManager.CreateNavBarRightButton(this);
-
-			LoadJobs();
-			IndicateLoading();*/
+			
+			LoadSearchData();
+			IndicateLoading();
 		}
 
 		public void UpdateUserInterface()
@@ -65,7 +57,7 @@ namespace AccountExecutiveApp.iOS
 
 		public void LoadSearchData()
 		{
-			var task = _jobsViewModel.LoadJobs();
+			var task = _viewModel.LoadSearchData();
 			task.ContinueWith(_ => UpdateUserInterface());
 		}
 

@@ -18,7 +18,7 @@ namespace AccountExecutiveApp.iOS
 		private SearchTableViewModel _tableModel;
 		private Dictionary<string, int> categoryIndex;
 
-		public SearchTableViewSource(SearchTableViewController parentController, IEnumerable<Contact> clientContacts, IEnumerable<Contractor> contractors )
+		public SearchTableViewSource(SearchTableViewController parentController, IEnumerable<UserContact> clientContacts, IEnumerable<Contractor> contractors )
 		{
 			_parentController = parentController;
 			_tableModel = new SearchTableViewModel( clientContacts, contractors );
@@ -44,14 +44,30 @@ namespace AccountExecutiveApp.iOS
 				return GetContractsCell(tableView);
 			*/
 
-			return new UITableViewCell ();
+            UITableViewCell cell = new UITableViewCell();
 
-			return null;
+
+		    if (IsCategoryCell(indexPath))
+		    {
+                if (IsClientContactCell(indexPath))
+                    cell.TextLabel.Text = @"Client Contacts";
+                else if (IsContractorCell(indexPath))
+                    cell.TextLabel.Text = @"Contractors";
+		    }
+		    else if ( IsClientContactCell(indexPath) )
+		        cell.TextLabel.Text = _tableModel.ClientContactNameByRowNumber((int) indexPath.Item-1);
+            else if( IsContractorCell(indexPath) )
+                cell.TextLabel.Text = _tableModel.ContractorNameByRowNumber((int)indexPath.Item-_firstIsContractorCellIndex+1);
+
+		    return cell;
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return 5;
+		    if (_tableModel != null)
+		        return _tableModel.NumberOfClientContacts + _tableModel.NumberOfContractors;
+
+            return 0;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -191,5 +207,20 @@ namespace AccountExecutiveApp.iOS
 				return true;
 			return false;
 		}
+        private bool IsClientContactCell(NSIndexPath indexPath)
+        {
+            if ( indexPath.Item >= _firstIsClientContactCellIndex && indexPath.Item < _firstIsClientContactCellIndex + _tableModel.NumberOfClientContacts+1)
+                return true;
+            return false;
+        }
+        private bool IsContractorCell(NSIndexPath indexPath)
+        {
+            if (indexPath.Item >= _firstIsContractorCellIndex && indexPath.Item < _firstIsContractorCellIndex + _tableModel.NumberOfContractors + 1)
+                return true;
+            return false;
+        }
+
+        private int _firstIsContractorCellIndex { get { return categoryIndex["Contractors"]; } }
+        private int _firstIsClientContactCellIndex { get { return categoryIndex["Client Contacts"]; } }
 	}
 }
