@@ -32,8 +32,12 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 	    public void ApplyFilterWithText( string filter )
 	    {
-	        _totalFilteredClientContacts = _totalClientContacts.Where(contact => contact.FirstName.StartsWith(filter));
-            _totalFilteredContractors = _totalContractors.Where(contractor => contractor.ContactInformation.FirstName.StartsWith(filter));
+	        filter = filter.ToLower();
+
+            _totalFilteredClientContacts = _totalClientContacts.Where(contact => contact.FullName.ToLower().Contains(filter)).OrderBy(x => x.FullName.ToLower().IndexOf(filter));
+            _totalFilteredContractors = _totalContractors.Where(contractor => contractor.ContactInformation.FullName.ToLower().Contains(filter)).OrderBy(x => x.ContactInformation.FullName.ToLower().IndexOf(filter));
+
+
 
 	        if (_totalFilteredClientContacts.Count() <= _cellCap)
 	            _clientContacts = _totalFilteredClientContacts;
@@ -45,7 +49,6 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             else
                 _contractors = _totalFilteredContractors.Take(_cellCap);
 	    }
-
 
 	    public int NumberOfClientContacts {get{ return _clientContacts.Count(); }}
         public int NumberOfContractors { get { return _contractors.Count(); } }
@@ -74,61 +77,3 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         }
 	}
 }
-
-/*
-namespace AccountExecutiveApp.Core.TableViewSourceModel
-{
-	public class ContractorDetailsTableViewModel
-	{
-		private Contractor _contractor;
-
-		public ContractorDetailsTableViewModel( Contractor contractor )
-		{
-			_contractor = contractor;
-		}
-
-		public int NumberOfPhoneNumbers()
-		{
-			return _contractor.ContactInformation.PhoneNumbers.Count();
-		}
-
-		public int NumberOfEmails()
-		{
-			return _contractor.ContactInformation.EmailAddresses.Count();
-		}
-
-		public int NumberOfContracts()
-		{
-			return _contractor.Contracts.Count();
-		}
-
-		public IEnumerable<Specialization> Specializations
-		{
-			get { return _contractor.Specializations; }
-		}
-
-		public IEnumerable<ConsultantContract> Contracts
-		{
-			get { return _contractor.Contracts; }
-		}
-
-		public string ContractorResume 
-		{
-			get{ return _contractor.ResumeText; }
-		}
-
-		public EmailAddress EmailAddressByRowNumber(int row)
-		{
-			if (_contractor.ContactInformation.EmailAddresses.Count() > row)
-				return _contractor.ContactInformation.EmailAddresses.ElementAt(row);
-			return new EmailAddress();
-		}
-
-		public PhoneNumber PhoneNumberByRowNumber(int row)
-		{
-			if (_contractor.ContactInformation.PhoneNumbers.Count() > row)
-				return _contractor.ContactInformation.PhoneNumbers.ElementAt(row);
-			return new PhoneNumber();
-		}
-	}
-}*/
