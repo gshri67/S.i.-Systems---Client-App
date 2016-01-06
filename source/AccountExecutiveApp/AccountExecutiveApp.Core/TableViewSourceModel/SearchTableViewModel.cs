@@ -26,8 +26,10 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             _totalClientContacts = clientContacts;
             _totalContractors = contractors;
 
-            _totalFilteredClientContacts = Enumerable.Empty<UserContact>();
-            _totalFilteredContractors = Enumerable.Empty<Contractor>();
+            _totalFilteredClientContacts = clientContacts;
+            _totalFilteredContractors = contractors;
+
+            CapContacts();
         }
 
 	    public void ApplyFilterWithText( string filter )
@@ -37,17 +39,20 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             _totalFilteredClientContacts = _totalClientContacts.Where(contact => contact.FullName.ToLower().Contains(filter)).OrderBy(x => x.FullName.ToLower().IndexOf(filter));
             _totalFilteredContractors = _totalContractors.Where(contractor => contractor.ContactInformation.FullName.ToLower().Contains(filter)).OrderBy(x => x.ContactInformation.FullName.ToLower().IndexOf(filter));
 
+	        CapContacts();
+	    }
 
-
+	    private void CapContacts()
+	    {
 	        if (_totalFilteredClientContacts.Count() <= _cellCap)
 	            _clientContacts = _totalFilteredClientContacts;
 	        else
 	            _clientContacts = _totalFilteredClientContacts.Take(_cellCap);
 
-            if (_totalFilteredContractors.Count() <= _cellCap)
-                _contractors = _totalFilteredContractors;
-            else
-                _contractors = _totalFilteredContractors.Take(_cellCap);
+	        if (_totalFilteredContractors.Count() <= _cellCap)
+	            _contractors = _totalFilteredContractors;
+	        else
+	            _contractors = _totalFilteredContractors.Take(_cellCap);
 	    }
 
 	    public int NumberOfClientContacts {get{ return _clientContacts.Count(); }}
@@ -93,5 +98,14 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 	    {
             return UserContactType.ClientContact;
 	    }
+
+	    public IEnumerable<UserContact> GetFilteredResultsForClientContacts()
+	    {
+	        return _totalFilteredClientContacts;
+	    }
+        public IEnumerable<UserContact> GetFilteredResultsForContractors()
+        {
+            return _totalFilteredContractors.Select( contractor => contractor.ContactInformation );
+        }
 	}
 }

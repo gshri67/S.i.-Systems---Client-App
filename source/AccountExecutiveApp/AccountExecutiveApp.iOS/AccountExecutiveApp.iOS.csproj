@@ -165,6 +165,7 @@
     <Compile Include="LogoutManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Search\SectionSearchResultsTableViewSource.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Startup\LoginViewController.cs" />
     <Compile Include="Startup\LoginViewController.designer.cs">
@@ -392,7 +393,5 @@
     <BundleResource Include="Resources\minus-round-centred.png" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Search\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

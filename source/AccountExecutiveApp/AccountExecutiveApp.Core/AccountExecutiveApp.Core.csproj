@@ -65,6 +65,7 @@
     <Compile Include="TableViewSourceModel\ContractorDetailsTableViewModel.cs" />
     <Compile Include="TableViewSourceModel\ContractStatusListTableViewModel.cs" />
     <Compile Include="TableViewSourceModel\JobsClientListTableViewModel.cs" />
+    <Compile Include="TableViewSourceModel\SectionSearchResultsTableViewModel.cs" />
     <Compile Include="ViewModel\ClientContactDetailsViewModel.cs" />
     <Compile Include="ViewModel\ContractDetailsViewModel.cs" />
     <Compile Include="TableViewSourceModel\ContractHistoryTableViewModel.cs" />

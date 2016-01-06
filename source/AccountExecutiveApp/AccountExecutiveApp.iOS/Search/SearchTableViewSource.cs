@@ -52,13 +52,13 @@ namespace AccountExecutiveApp.iOS
 		        if (IsClientContactCell(indexPath))
 		        {
 		            mainText = @"Client Contacts";
-		            rightDetailText = _tableModel.NumberOfTotalFilteredContractors.ToString();
+		            rightDetailText = _tableModel.NumberOfTotalFilteredClientContacts.ToString();
 		        }
 		        else if (IsContractorCell(indexPath))
 		        {
 		            mainText = @"Contractors";
 
-		            rightDetailText = _tableModel.NumberOfTotalFilteredClientContacts.ToString();
+		            rightDetailText = _tableModel.NumberOfTotalFilteredContractors.ToString();
 		        }
 
                 cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
@@ -102,10 +102,8 @@ namespace AccountExecutiveApp.iOS
             {
                 if (IsClientContactCell(indexPath))
                 {
-                    var vc =
-                        (SearchSectionTotalResultsTableViewController)
-                        _parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
-
+                    var vc = (SearchSectionTotalResultsTableViewController)_parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
+                    vc.SetData(_tableModel.GetFilteredResultsForClientContacts(), true);
                     UINavigationController navVC = new UINavigationController(vc);
 
                     _parentController.ShowViewController(vc, _parentController);
@@ -114,10 +112,8 @@ namespace AccountExecutiveApp.iOS
                 }
                 else if (IsContractorCell(indexPath))
                 {
-                    var vc =
-                        (SearchSectionTotalResultsTableViewController)
-                        _parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
-
+                    var vc = (SearchSectionTotalResultsTableViewController)_parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
+                    vc.SetData( _tableModel.GetFilteredResultsForContractors(), false );
                     _parentController.ShowViewController(vc, _parentController);
                 }
             }
@@ -137,64 +133,6 @@ namespace AccountExecutiveApp.iOS
                 }
             }
         }
-
-		/*
-		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-		{
-			if ((int)indexPath.Item == _specializationCellRow && _specializationCellHeight > 0)
-				return _specializationCellHeight;
-			return 44;
-		}
-
-		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-		{
-			if (IsContractsCell(indexPath))
-			{
-				ContractHistoryTableViewController vc =
-					(ContractHistoryTableViewController)
-					_parentController.Storyboard.InstantiateViewController("ContractHistoryTableViewController");
-
-				vc.setContracts(_tableModel.Contracts);
-
-				_parentController.ShowViewController(vc, _parentController);
-			}
-			if (IsResumeCell (indexPath)) 
-			{
-				ResumeViewController vc = (ResumeViewController) _parentController.Storyboard.InstantiateViewController("ResumeViewController");
-
-				vc.Resume = _tableModel.ContractorResume;
-				_parentController.ShowViewController(vc, _parentController);
-
-			}
-		}
-
-		private UITableViewCell GetContractsCell(UITableView tableView)
-		{
-			var cell =
-				tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
-				RightDetailCell;
-
-			cell.UpdateCell (
-				mainText: "Contracts",
-				rightDetailText: _tableModel.NumberOfContracts().ToString()
-			);
-
-			return cell;
-		}
-
-		private static UITableViewCell GetResumeCell(UITableView tableView)
-		{
-			var cell =
-				tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
-				RightDetailCell;
-
-			cell.UpdateCell(
-				mainText: "Resume",
-				rightDetailText: ""
-			);
-
-			return cell;
-		}*/
 
 		private bool IsCategoryCell(NSIndexPath indexPath)
 		{

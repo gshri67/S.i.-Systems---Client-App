@@ -1,33 +1,58 @@
-﻿
+﻿using Foundation;
 using System;
-
-using Foundation;
+using System.CodeDom.Compiler;
 using UIKit;
+using AccountExecutiveApp.Core.ViewModel;
+using Microsoft.Practices.Unity;
+using SiSystems.SharedModels;
+using System.Collections.Generic;
+using System.Linq;
+using CoreGraphics;
 
 namespace AccountExecutiveApp.iOS
 {
 	public partial class SearchSectionTotalResultsTableViewController : UITableViewController
 	{
-		public SearchSectionTotalResultsTableViewController (IntPtr handle) : base (handle)
-		{
-			//_viewModel = DependencyResolver.Current.Resolve<SearchViewModel>();
-		}
+		private LoadingOverlay _overlay;
+	    IEnumerable<UserContact> _contacts;
 
+		public const string CellReuseIdentifier = RightDetailCell.CellIdentifier;
 
-		public override void DidReceiveMemoryWarning ()
+        public SearchSectionTotalResultsTableViewController(IntPtr handle)
+            : base(handle){}
+
+	    private bool instantiatedTableView = false;
+
+        public void SetData(IEnumerable<UserContact> contacts, bool isClientContacts)
+        {
+            _contacts = contacts;
+
+            if (isClientContacts)
+                Title = "Client Contacts";
+            else
+                Title = "Contractors";
+
+            InstantiateTableViewSource();
+        }
+
+		private void InstantiateTableViewSource()
 		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-			
-			// Release any cached data, images, etc that aren't in use.
+			if (TableView == null || _contacts == null || instantiatedTableView) return;
+
+            instantiatedTableView = true;
+
+            TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellReuseIdentifier);
+            TableView.Source = new SectionSearchResultsTableViewSource(this, _contacts);
+			TableView.ReloadData();
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			
-			// Perform any additional setup after loading the view, typically from a nib.
+
+            InstantiateTableViewSource();
 		}
 	}
 }
+
 
