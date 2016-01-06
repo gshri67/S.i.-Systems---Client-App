@@ -51,6 +51,8 @@ namespace AccountExecutiveApp.iOS
 			CancelSearchButton.TouchUpInside += delegate {
 				DismissViewController( true, null );
 			};
+
+            SearchBar.SearchBarStyle = UISearchBarStyle.Minimal;
 		}
 
 		public void UpdateUserInterface()

@@ -75,5 +75,23 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
                 return _contractors.ElementAt(row).ContactInformation.FullName;
             return string.Empty;
         }
+
+	    public int GetClientContactIdForIndex(int row)
+	    {
+	        if (row >= 0 && row < _clientContacts.Count())
+	            return _clientContacts.ElementAt(row).Id;
+	        return 0;
+	    }
+        public int GetContractorIdForIndex(int row)
+        {
+            if (row >= 0 && row < _contractors.Count())
+                return _contractors.ElementAt(row).ContactInformation.Id;
+            return 0;
+        }
+
+	    public UserContactType GetClientContactTypeForIndex(int row)
+	    {
+            return UserContactType.ClientContact;
+	    }
 	}
 }

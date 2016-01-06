@@ -60,14 +60,23 @@ namespace AccountExecutiveApp.iOS
 
 		            rightDetailText = _tableModel.NumberOfTotalFilteredClientContacts.ToString();
 		        }
+
+                cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 		    }
-		    else if (IsClientContactCell(indexPath))
+		    else
 		    {
-		        mainText = _tableModel.ClientContactNameByRowNumber((int) indexPath.Item - 1);
-		        rightDetailText = _tableModel.ClientCompanyNameByRowNumber((int) indexPath.Item - 1);
+		        cell.Accessory = UITableViewCellAccessory.None;
+		 
+		        if (IsClientContactCell(indexPath))
+		        {
+		            mainText = _tableModel.ClientContactNameByRowNumber((int) indexPath.Item - 1);
+		            rightDetailText = _tableModel.ClientCompanyNameByRowNumber((int) indexPath.Item - 1);
+
+
+		        }
+		        else if (IsContractorCell(indexPath))
+		            mainText = _tableModel.ContractorNameByRowNumber((int) indexPath.Item - _firstIsContractorCellIndex - 1);
 		    }
-		    else if (IsContractorCell(indexPath))
-		        mainText = _tableModel.ContractorNameByRowNumber((int) indexPath.Item - _firstIsContractorCellIndex - 1);
 
 		    cell.UpdateCell( mainText: mainText, rightDetailText: rightDetailText );
 
@@ -86,6 +95,48 @@ namespace AccountExecutiveApp.iOS
 		{
 			return 1;
 		}
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (IsCategoryCell(indexPath))
+            {
+                if (IsClientContactCell(indexPath))
+                {
+                    var vc =
+                        (SearchSectionTotalResultsTableViewController)
+                        _parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
+
+                    UINavigationController navVC = new UINavigationController(vc);
+
+                    _parentController.ShowViewController(vc, _parentController);
+                    //_parentController.PresentViewController(vc, true, null);
+                    //_parentController.NavigationController.PushViewController( vc, true );
+                }
+                else if (IsContractorCell(indexPath))
+                {
+                    var vc =
+                        (SearchSectionTotalResultsTableViewController)
+                        _parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
+
+                    _parentController.ShowViewController(vc, _parentController);
+                }
+            }
+            else
+            {
+                if (IsClientContactCell(indexPath))
+                {
+                    var vc = (ClientContactDetailsViewController)_parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
+                    vc.SetContactId(_tableModel.GetClientContactIdForIndex((int)indexPath.Item), _tableModel.GetClientContactTypeForIndex((int)indexPath.Item));
+                    _parentController.ShowViewController(vc, _parentController);
+                }
+                else if (IsContractorCell(indexPath))
+                {
+                    var vc = (ContractorDetailsTableViewController)_parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
+                    vc.setContractorId(_tableModel.GetContractorIdForIndex((int)indexPath.Item));
+                    _parentController.ShowViewController(vc, _parentController);
+                }
+            }
+        }
 
 		/*
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
@@ -180,33 +231,5 @@ namespace AccountExecutiveApp.iOS
             categoryIndex["Client Contacts"] = 0;
             categoryIndex["Contractors"] = _tableModel.NumberOfClientContacts + 1;
 	    }
-
-		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-		{
-			if (IsCategoryCell(indexPath))
-			{
-				if (IsClientContactCell(indexPath))
-				{
-					var vc =
-						(SearchSectionTotalResultsTableViewController)
-						_parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
-
-					UINavigationController navVC = new UINavigationController (vc);
-
-					_parentController.ShowViewController (vc, _parentController);
-					//_parentController.PresentViewController(vc, true, null);
-					//_parentController.NavigationController.PushViewController( vc, true );
-				}
-				else if (IsContractorCell(indexPath))
-				{
-					var vc =
-						(SearchSectionTotalResultsTableViewController)
-						_parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
-
-					_parentController.ShowViewController(vc, _parentController);
-				}
-			}
-
-		}
 	}
 }
