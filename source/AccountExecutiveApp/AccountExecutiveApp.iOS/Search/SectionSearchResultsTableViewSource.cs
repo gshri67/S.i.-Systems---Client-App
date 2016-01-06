@@ -17,10 +17,10 @@ namespace AccountExecutiveApp.iOS
         private readonly ContractorDetailsTableViewModel _parentModel;
         private SectionSearchResultsTableViewModel _tableModel;
 
-        public SectionSearchResultsTableViewSource(SearchSectionTotalResultsTableViewController parentController, IEnumerable<UserContact> contacts )
+        public SectionSearchResultsTableViewSource(SearchSectionTotalResultsTableViewController parentController, IEnumerable<UserContact> contacts, bool isClientContact )
         {
             _parentController = parentController;
-            _tableModel = new SectionSearchResultsTableViewModel( contacts );
+            _tableModel = new SectionSearchResultsTableViewModel( contacts, isClientContact );
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -30,6 +30,9 @@ namespace AccountExecutiveApp.iOS
             string mainText = string.Empty, rightDetailText = string.Empty;
 
             mainText = _tableModel.ContactNameByRowNumber((int)indexPath.Item);
+            
+            if( _tableModel.IsClientContact )
+                rightDetailText = _tableModel.ContactCompanyNameByRowNumber((int)indexPath.Item);
 
             cell.UpdateCell(mainText: mainText, rightDetailText: rightDetailText);
 
@@ -51,25 +54,23 @@ namespace AccountExecutiveApp.iOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            /*
-                if (IsClientContactCell(indexPath))
-                {
-                    var vc =
-                        (ClientContactDetailsViewController)
-                            _parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
-                    vc.SetContactId(_tableModel.GetClientContactIdForIndex((int) indexPath.Item),
-                        _tableModel.GetClientContactTypeForIndex((int) indexPath.Item));
-                    _parentController.ShowViewController(vc, _parentController);
-                }
-                else if (IsContractorCell(indexPath))
-                {
-                    var vc =
-                        (ContractorDetailsTableViewController)
-                            _parentController.Storyboard.InstantiateViewController(
-                                "ContractorDetailsTableViewController");
-                    vc.setContractorId(_tableModel.GetContractorIdForIndex((int) indexPath.Item));
-                    _parentController.ShowViewController(vc, _parentController);
-                }*/
+            if (_tableModel.IsClientContact)
+            {
+                var vc =
+                    (ClientContactDetailsViewController)
+                        _parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
+                vc.SetContactId(_tableModel.GetContactIdForIndex((int) indexPath.Item), _tableModel.GetClientContactTypeForIndex((int) indexPath.Item));
+                _parentController.ShowViewController(vc, _parentController);
+            }
+            else
+            {
+                var vc =
+                    (ContractorDetailsTableViewController)
+                        _parentController.Storyboard.InstantiateViewController(
+                            "ContractorDetailsTableViewController");
+                vc.setContractorId(_tableModel.GetContactIdForIndex((int) indexPath.Item));
+                _parentController.ShowViewController(vc, _parentController);
+            }
         }
   
     }

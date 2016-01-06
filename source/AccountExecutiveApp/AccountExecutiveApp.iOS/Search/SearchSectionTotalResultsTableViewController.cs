@@ -22,10 +22,12 @@ namespace AccountExecutiveApp.iOS
             : base(handle){}
 
 	    private bool instantiatedTableView = false;
+	    private bool _isClientContacts;
 
-        public void SetData(IEnumerable<UserContact> contacts, bool isClientContacts)
+	    public void SetData(IEnumerable<UserContact> contacts, bool isClientContacts)
         {
             _contacts = contacts;
+	        _isClientContacts = isClientContacts;
 
             if (isClientContacts)
                 Title = "Client Contacts";
@@ -42,7 +44,7 @@ namespace AccountExecutiveApp.iOS
             instantiatedTableView = true;
 
             TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellReuseIdentifier);
-            TableView.Source = new SectionSearchResultsTableViewSource(this, _contacts);
+            TableView.Source = new SectionSearchResultsTableViewSource(this, _contacts, _isClientContacts );
 			TableView.ReloadData();
 		}
 
