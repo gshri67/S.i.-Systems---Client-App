@@ -30,19 +30,6 @@ namespace AccountExecutiveApp.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			/*
-			if ( IsCallOrTextCell(indexPath) )
-				return GetCallOrTextContactCell(tableView, indexPath);
-			else if ( IsEmailCell(indexPath))
-				return GetEmailContactCell(tableView, indexPath);
-			else if (IsSpecializationCell(indexPath))
-				return GetSpecializationCell(tableView);
-			else if (IsResumeCell(indexPath))
-				return GetResumeCell(tableView);
-			else if (IsContractsCell(indexPath))
-				return GetContractsCell(tableView);
-			*/
-
             var cell = (RightDetailCell)tableView.DequeueReusableCell(RightDetailCell.CellIdentifier, indexPath);
 
 		    string mainText = string.Empty, rightDetailText = string.Empty;
@@ -75,7 +62,7 @@ namespace AccountExecutiveApp.iOS
 
 		        }
 		        else if (IsContractorCell(indexPath))
-		            mainText = _tableModel.ContractorNameByRowNumber((int) indexPath.Item - _firstIsContractorCellIndex - 1);
+		            mainText = _tableModel.ContractorNameByRowNumber((int) indexPath.Item - _firstContractorCellIndex - 1);
 		    }
 
 		    cell.UpdateCell( mainText: mainText, rightDetailText: rightDetailText );
@@ -86,9 +73,17 @@ namespace AccountExecutiveApp.iOS
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
 		    if (_tableModel != null)
-		        return _tableModel.NumberOfClientContacts + _tableModel.NumberOfContractors + 2;
+		    {
+		        int rows = _tableModel.NumberOfClientContacts + _tableModel.NumberOfContractors;
 
-            return 0;
+		        if (_tableModel.NumberOfClientContacts > 0)
+		            rows ++;
+                if (_tableModel.NumberOfContractors > 0)
+                    rows++;
+
+		        return rows;
+		    }
+		    return 0;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -119,16 +114,22 @@ namespace AccountExecutiveApp.iOS
             }
             else
             {
+                int index;
+
                 if (IsClientContactCell(indexPath))
                 {
+                    index = (int) indexPath.Item - _firstClientContactCellIndex - 1;
+
                     var vc = (ClientContactDetailsViewController)_parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
-                    vc.SetContactId(_tableModel.GetClientContactIdForIndex((int)indexPath.Item), _tableModel.GetClientContactTypeForIndex((int)indexPath.Item));
+                    vc.SetContactId(_tableModel.GetClientContactIdForIndex(index), _tableModel.GetClientContactTypeForIndex(index));
                     _parentController.ShowViewController(vc, _parentController);
                 }
                 else if (IsContractorCell(indexPath))
                 {
+                    index = (int)indexPath.Item - _firstContractorCellIndex - 1;
+
                     var vc = (ContractorDetailsTableViewController)_parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
-                    vc.setContractorId(_tableModel.GetContractorIdForIndex((int)indexPath.Item));
+                    vc.setContractorId(_tableModel.GetContractorIdForIndex(index));
                     _parentController.ShowViewController(vc, _parentController);
                 }
             }
@@ -142,19 +143,34 @@ namespace AccountExecutiveApp.iOS
 		}
         private bool IsClientContactCell(NSIndexPath indexPath)
         {
-            if ( indexPath.Item >= _firstIsClientContactCellIndex && indexPath.Item < _firstIsClientContactCellIndex + _tableModel.NumberOfClientContacts+1)
+            if ( _tableModel.NumberOfClientContacts > 0 && indexPath.Item >= _firstClientContactCellIndex && indexPath.Item < _firstClientContactCellIndex + _tableModel.NumberOfClientContacts+1)
                 return true;
             return false;
         }
         private bool IsContractorCell(NSIndexPath indexPath)
         {
-            if (indexPath.Item >= _firstIsContractorCellIndex && indexPath.Item < _firstIsContractorCellIndex + _tableModel.NumberOfContractors + 1)
+            if (_tableModel.NumberOfContractors > 0 && indexPath.Item >= _firstContractorCellIndex && indexPath.Item < _firstContractorCellIndex + _tableModel.NumberOfContractors + 1)
                 return true;
             return false;
         }
 
-        private int _firstIsContractorCellIndex { get { return categoryIndex["Contractors"]; } }
-        private int _firstIsClientContactCellIndex { get { return categoryIndex["Client Contacts"]; } }
+	    private int _firstContractorCellIndex
+	    {
+	        get
+	        {
+	            if (categoryIndex.ContainsKey("Contractors")) return categoryIndex["Contractors"];
+	            else return -1;
+	        }
+	    }
+
+	    private int _firstClientContactCellIndex
+	    {
+	        get
+	        {
+	            if (categoryIndex.ContainsKey("Client Contacts")) return categoryIndex["Client Contacts"];
+	            else return -1;
+	        }
+	    }
 
 	    public void ApplyFilterWithText(string text)
 	    {
@@ -166,8 +182,19 @@ namespace AccountExecutiveApp.iOS
 	    public void SetupCategoryIndexDictionary()
 	    {
             categoryIndex.Clear();
-            categoryIndex["Client Contacts"] = 0;
-            categoryIndex["Contractors"] = _tableModel.NumberOfClientContacts + 1;
+
+	        bool existsClientContacts = _tableModel.NumberOfClientContacts > 0;
+            bool existsContractors = _tableModel.NumberOfContractors > 0;
+
+	        if (existsClientContacts)
+	        {
+                categoryIndex["Client Contacts"] = 0;
+
+                if( existsContractors )
+                    categoryIndex["Contractors"] = _tableModel.NumberOfClientContacts + 1;
+	        }
+	        else
+                categoryIndex["Contractors"] = 0;   
 	    }
 	}
 }
