@@ -13,6 +13,9 @@ namespace AccountExecutiveApp.iOS
 	partial class SearchTableViewController
 	{
 		[Outlet]
+		UIKit.UIButton CancelSearchButton { get; set; }
+
+		[Outlet]
 		UIKit.UISearchBar SearchBar { get; set; }
 
 		[Outlet]
@@ -20,14 +23,19 @@ namespace AccountExecutiveApp.iOS
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (SearchBar != null) {
+				SearchBar.Dispose ();
+				SearchBar = null;
+			}
+
 			if (TableView != null) {
 				TableView.Dispose ();
 				TableView = null;
 			}
 
-			if (SearchBar != null) {
-				SearchBar.Dispose ();
-				SearchBar = null;
+			if (CancelSearchButton != null) {
+				CancelSearchButton.Dispose ();
+				CancelSearchButton = null;
 			}
 		}
 	}

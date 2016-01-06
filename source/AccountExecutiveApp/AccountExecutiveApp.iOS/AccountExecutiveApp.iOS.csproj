@@ -251,6 +251,10 @@
       <DependentUpon>SearchTableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Search\SearchTableViewSource.cs" />
+    <Compile Include="Search\SearchSectionTotalResults.designer.cs">
+      <DependentUpon>SearchSectionTotalResultsTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Search\SearchSectionTotalResultsTableViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

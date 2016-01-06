@@ -180,5 +180,33 @@ namespace AccountExecutiveApp.iOS
             categoryIndex["Client Contacts"] = 0;
             categoryIndex["Contractors"] = _tableModel.NumberOfClientContacts + 1;
 	    }
+
+		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+		{
+			if (IsCategoryCell(indexPath))
+			{
+				if (IsClientContactCell(indexPath))
+				{
+					var vc =
+						(SearchSectionTotalResultsTableViewController)
+						_parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
+
+					UINavigationController navVC = new UINavigationController (vc);
+
+					_parentController.ShowViewController (vc, _parentController);
+					//_parentController.PresentViewController(vc, true, null);
+					//_parentController.NavigationController.PushViewController( vc, true );
+				}
+				else if (IsContractorCell(indexPath))
+				{
+					var vc =
+						(SearchSectionTotalResultsTableViewController)
+						_parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
+
+					_parentController.ShowViewController(vc, _parentController);
+				}
+			}
+
+		}
 	}
 }

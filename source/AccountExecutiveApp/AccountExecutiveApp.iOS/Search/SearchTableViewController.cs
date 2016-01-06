@@ -47,6 +47,10 @@ namespace AccountExecutiveApp.iOS
 			
 			LoadSearchData();
 			IndicateLoading();
+
+			CancelSearchButton.TouchUpInside += delegate {
+				DismissViewController( true, null );
+			};
 		}
 
 		public void UpdateUserInterface()
