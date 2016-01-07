@@ -233,138 +233,26 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         public TimesheetSummarySet GetTimesheetSummaryByAccountExecutiveId(int id)
         {
 
-            return
-                new TimesheetSummarySet()
-                {
-                    NumOpen = 5,
-                    NumCancelled = 2,
-                    NumRejected = 0,
-                    NumSubmitted = 11
-                };
-            /*
-            return new List<TimesheetSummary>
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                new TimesheetSummary
-                {
-                    Id = 1,
-                    ClientContact = new UserContact
+                var openTimesheets = 0; //db.Connection.Query<int>(AccountExecutiveTimesheetQueries.OpenTimesheetsCountByAccountExecutiveId, new { Id = id }).FirstOrDefault();
+
+                var cancelledTimesheets = db.Connection.Query<int>(AccountExecutiveTimesheetQueries.CancelledTimesheetsCountByAccountExecutiveId, new { Id = id }).FirstOrDefault();
+
+                var rejectedTimesheets = db.Connection.Query<int>(AccountExecutiveTimesheetQueries.RejectedTimesheetsCountByAccountExecutiveId, new { Id = id }).FirstOrDefault();
+
+                var submittedTimesheets = db.Connection.Query<int>(AccountExecutiveTimesheetQueries.SubmittedTimesheetsCountByAccountExecutiveId, new { Id = id }).FirstOrDefault();
+
+
+                return
+                    new TimesheetSummarySet()
                     {
-                        Id = 3,
-                        FirstName = "Joe",
-                        LastName = "Dirt",
-                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "jd@email.com", Title = "Primary"} }.AsEnumerable(),
-                        PhoneNumbers = new List<PhoneNumber> 
-                { 
-                    new PhoneNumber
-                    {
-                        Title = "Work",
-                        AreaCode = 555,
-                        Prefix = 555,
-                        LineNumber = 1231
-                    }, new PhoneNumber
-                    {
-                        Title = "Cell",
-                        AreaCode = 555,
-                        Prefix = 222,
-                        LineNumber = 2212
-                    }
-                }.AsEnumerable(),
-                    },
-                    StartDate = DateTime.UtcNow.AddDays(-30),
-                    EndDate = DateTime.UtcNow.AddDays(-15),
-                    Status = MatchGuideConstants.TimesheetStatus.Approved
-                },
-                new TimesheetSummary
-                {
-                    Id = 2,
-                    ClientContact = new UserContact
-                    {
-                        Id = 3,
-                        FirstName = "Joe",
-                        LastName = "Dirt",
-                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "jd@email.com", Title = "Primary"} }.AsEnumerable(),
-                        PhoneNumbers = new List<PhoneNumber> 
-                { 
-                    new PhoneNumber
-                    {
-                        Title = "Work",
-                        AreaCode = 555,
-                        Prefix = 555,
-                        LineNumber = 1231
-                    }, new PhoneNumber
-                    {
-                        Title = "Cell",
-                        AreaCode = 555,
-                        Prefix = 222,
-                        LineNumber = 2212
-                    }
-                }.AsEnumerable(),
-                    },
-                    StartDate = DateTime.UtcNow.AddDays(-14),
-                    EndDate = DateTime.UtcNow,
-                    Status = MatchGuideConstants.TimesheetStatus.Submitted
-                },
-                new TimesheetSummary
-                {
-                    Id = 3,
-                    ClientContact = new UserContact
-                    {
-                        Id = 4,
-                        FirstName = "Marlin",
-                        LastName = "Monrow",
-                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "mm@email.com", Title = "Primary"} }.AsEnumerable(),
-                        PhoneNumbers = new List<PhoneNumber> 
-                { 
-                    new PhoneNumber
-                    {
-                        Title = "Work",
-                        AreaCode = 555,
-                        Prefix = 555,
-                        LineNumber = 1231
-                    }, new PhoneNumber
-                    {
-                        Title = "Cell",
-                        AreaCode = 555,
-                        Prefix = 222,
-                        LineNumber = 2212
-                    }
-                }.AsEnumerable(),
-                    },
-                    StartDate = DateTime.UtcNow.AddDays(-30),
-                    EndDate = DateTime.UtcNow.AddDays(-15),
-                    Status = MatchGuideConstants.TimesheetStatus.Rejected
-                },
-                new TimesheetSummary
-                {
-                    Id = 4,
-                    ClientContact = new UserContact
-                    {
-                        Id = 4,
-                        FirstName = "Marlin",
-                        LastName = "Monrow",
-                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "mm@email.com", Title = "Primary"} }.AsEnumerable(),
-                        PhoneNumbers = new List<PhoneNumber> 
-                { 
-                    new PhoneNumber
-                    {
-                        Title = "Work",
-                        AreaCode = 555,
-                        Prefix = 555,
-                        LineNumber = 1231
-                    }, new PhoneNumber
-                    {
-                        Title = "Cell",
-                        AreaCode = 555,
-                        Prefix = 222,
-                        LineNumber = 2212
-                    }
-                }.AsEnumerable(),
-                    },
-                    StartDate = DateTime.UtcNow.AddDays(-14),
-                    EndDate = DateTime.UtcNow,
-                    Status = MatchGuideConstants.TimesheetStatus.Open
-                }
-            };*/
+                        NumOpen = openTimesheets,
+                        NumCancelled = cancelledTimesheets,
+                        NumRejected = rejectedTimesheets,
+                        NumSubmitted = submittedTimesheets
+                    };
+            }
         }
 
         public IEnumerable<TimesheetDetails> GetOpenTimesheetDetailsByAccountExecutiveId(int id)
@@ -507,6 +395,71 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         Address = "999 Rainbow Road SE, Calgary, AB"
                     }
             };
+        }
+    }
+
+    internal static class AccountExecutiveTimesheetQueries
+    {
+        private const string TimesheetCountByAccountExecutiveBaseQuery = 
+            @"SELECT COUNT(TimeSheetId)
+            FROM Agreement 
+            JOIN PickList ON Agreement.StatusType = PickList.PickListID
+            LEFT JOIN Timesheet ON Timesheet.AgreementID = Agreement.AgreementID
+            WHERE Agreement.AccountExecID = @Id
+            AND Agreement.AgreementType IN (SELECT PickListId FROM udf_GetPickListIds('agreementtype','contract',4))
+            AND (
+	            Agreement.AgreementSubType IN (SELECT PickListId FROM udf_GetPickListIds('contracttype','consultant,contract to hire',4))
+	            OR
+	            Agreement.AgreementSubType IN (SELECT PickListId FROM udf_GetPickListIds('contracttype','Flo Thru',4))
+            )
+            AND Timesheet.TimeSheetAvailablePeriodID IN (
+	            SELECT TimeSheetAvailablePeriodID 
+	            FROM TimeSheetAvailablePeriod Periods
+	            WHERE DATEDIFF(MONTH, Periods.TimeSheetAvailablePeriodEndDate, GETDATE()) < 3
+            )";
+
+        private const string TimesheetStatusSubmittedFilter = 
+                @"AND Timesheet.StatusID IN (
+	            SELECT PickListID
+	            FROM PickList 
+	            WHERE PickList.PickTypeID IN (SELECT PickTypeID from PickType WHERE Type='TimeSheetStatusType')
+	            AND PickList.Title IN ('Submitted')
+            )";
+
+        private const string TimesheetStatusRejectedFilter =
+            @"AND Timesheet.StatusID IN (
+	            SELECT PickListID
+	            FROM PickList 
+	            WHERE PickList.PickTypeID IN (SELECT PickTypeID from PickType WHERE Type='TimeSheetStatusType')
+	            AND PickList.Title IN ('Rejected')
+            )";
+
+        private const string TimesheetStatusCancelledFilter =
+            @"AND Timesheet.StatusID IN (
+	            SELECT PickListID
+	            FROM PickList 
+	            WHERE PickList.PickTypeID IN (SELECT PickTypeID from PickType WHERE Type='TimeSheetStatusType')
+	            AND PickList.Title IN ('Cancelled')
+            )";
+
+        public static string OpenTimesheetsCountByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetCountByAccountExecutiveBaseQuery); }
+        }
+
+        public static string CancelledTimesheetsCountByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetCountByAccountExecutiveBaseQuery, TimesheetStatusCancelledFilter); }
+        }
+
+        public static string RejectedTimesheetsCountByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetCountByAccountExecutiveBaseQuery, TimesheetStatusRejectedFilter); }
+        }
+
+        public static string SubmittedTimesheetsCountByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetCountByAccountExecutiveBaseQuery, TimesheetStatusSubmittedFilter); }
         }
     }
 }
