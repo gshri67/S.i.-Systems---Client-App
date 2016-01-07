@@ -15,6 +15,7 @@ namespace AccountExecutiveApp.iOS
 	{
 		private LoadingOverlay _overlay;
 	    IEnumerable<UserContact> _contacts;
+		SubtitleHeaderView _subtitleHeaderView;
 
 		public const string CellReuseIdentifier = RightDetailCell.CellIdentifier;
 
@@ -29,11 +30,6 @@ namespace AccountExecutiveApp.iOS
             _contacts = contacts;
 	        _isClientContacts = isClientContacts;
 
-            if (isClientContacts)
-                Title = "Client Contacts";
-            else
-                Title = "Contractors";
-
             InstantiateTableViewSource();
         }
 
@@ -46,13 +42,33 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellReuseIdentifier);
             TableView.Source = new SectionSearchResultsTableViewSource(this, _contacts, _isClientContacts );
 			TableView.ReloadData();
+
+			if (_isClientContacts)
+				Title = "Client Contacts";
+			else
+				Title = "Contractors";
 		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
+			NavigationItem.Title = "";
             InstantiateTableViewSource();
+			CreateCustomTitleBar ();
+		}
+
+		private void CreateCustomTitleBar()
+		{
+			InvokeOnMainThread(() =>
+				{
+					_subtitleHeaderView = new SubtitleHeaderView();
+					NavigationItem.TitleView = _subtitleHeaderView;
+
+					_subtitleHeaderView.TitleText = Title;
+					_subtitleHeaderView.SubtitleText = string.Empty;
+					NavigationItem.Title = string.Empty;
+				});
 		}
 	}
 }

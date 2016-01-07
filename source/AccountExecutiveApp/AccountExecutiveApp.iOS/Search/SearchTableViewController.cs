@@ -44,7 +44,9 @@ namespace AccountExecutiveApp.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			
+
+			NavigationItem.Title = "";
+
 			LoadSearchData();
 			IndicateLoading();
 

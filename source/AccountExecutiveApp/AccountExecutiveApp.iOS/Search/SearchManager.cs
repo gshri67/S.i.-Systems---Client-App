@@ -60,7 +60,6 @@ namespace AccountExecutiveApp.iOS
 			navVC.SetNavigationBarHidden (true, false);
 			navVC.NavigationBar.Translucent = false;
 
-
 			vc.NavigationController.ShowViewController(navVC, vc.NavigationController);
             //vc.NavigationController.PresentViewController(searchVC, true, null);
             /*
