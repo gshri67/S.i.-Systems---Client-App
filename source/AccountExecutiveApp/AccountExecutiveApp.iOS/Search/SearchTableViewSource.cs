@@ -38,17 +38,22 @@ namespace AccountExecutiveApp.iOS
 		    {
 		        if (IsClientContactCell(indexPath))
 		        {
-		            mainText = @"Client Contacts";
+		            mainText = @"CLIENT CONTACTS";
 		            rightDetailText = _tableModel.NumberOfTotalFilteredClientContacts.ToString();
 		        }
 		        else if (IsContractorCell(indexPath))
 		        {
-		            mainText = @"Contractors";
+		            mainText = @"CONTRACTORS";
 
 		            rightDetailText = _tableModel.NumberOfTotalFilteredContractors.ToString();
 		        }
 
                 cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+				cell.MainTextLabel.Font = UIFont.FromName ("Helvetica", 11f);
+				cell.RightDetailTextLabel.Font = UIFont.FromName ("Helvetica", 11f);
+
+				cell.MainTextLabel.TextColor = UIColor.DarkTextColor;
+				cell.RightDetailTextLabel.TextColor = UIColor.DarkTextColor;
 		    }
 		    else
 		    {
