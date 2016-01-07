@@ -51,9 +51,13 @@ namespace AccountExecutiveApp.iOS
 			IndicateLoading();
 
 			CancelSearchButton.TouchUpInside += delegate {
-				DismissViewController( true, null );
+				//DismissViewController( true, null );
+		
+				NavigationController.SetNavigationBarHidden(false, false);
+				NavigationController.PopViewController(true);
 			};
 
+		
 			CancelSearchButton.SetTitleColor( StyleGuideConstants.RedUiColor, UIControlState.Normal );
 
             SearchBar.SearchBarStyle = UISearchBarStyle.Minimal;

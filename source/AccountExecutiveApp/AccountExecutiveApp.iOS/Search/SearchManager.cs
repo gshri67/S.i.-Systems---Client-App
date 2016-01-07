@@ -55,54 +55,26 @@ namespace AccountExecutiveApp.iOS
 		private static void AdditionalActions_Pressed( UIViewController vc )
 		{
 			var searchVC = (SearchTableViewController)vc.NavigationController.Storyboard.InstantiateViewController("SearchTableViewController");
-		
+		/*
 			UINavigationController navVC = new UINavigationController(searchVC);
 			navVC.SetNavigationBarHidden (true, false);
 			navVC.NavigationBar.Translucent = false;
-			navVC.SetToolbarHidden (false, false);
+			//navVC.SetToolbarHidden (false, false);
 
 			//var navVC = (SearchTableNavigationController)vc.NavigationController.Storyboard.InstantiateViewController("SearchTableNavigationController");
 
+			//vc.NavigationController.ShowViewController(navVC, vc.NavigationController);
+
+			//vc.NavigationController.AddChildViewController (searchVC);
+			//vc.ShowViewController(searchVC, vc);
+			//vc.NavigationController.ShowViewController(searchVC, vc.NavigationController);
+
+			vc.TabBarController.AddChildViewController (navVC);
 			vc.NavigationController.ShowViewController(navVC, vc.NavigationController);
-            //vc.NavigationController.PresentViewController(searchVC, true, null);
-            /*
-			Action<UIAlertAction> logoutDelegate = delegate { //copied down below
-				LogoutViewModel logoutViewModel = DependencyResolver.Current.Resolve<LogoutViewModel> ();
-				logoutViewModel.Logout();
+*/
 
-                vc.NavigationController.PushViewController(vc.NavigationController.Storyboard.InstantiateViewController("LoginView"), false);
-			};
-
-			if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
-			{
-				var controller = UIAlertController.Create(null, null, UIAlertControllerStyle.ActionSheet);
-				var logoutAction = UIAlertAction.Create("Logout", UIAlertActionStyle.Destructive, logoutDelegate);
-				var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
-				controller.AddAction(logoutAction);
-				controller.AddAction(cancelAction);
-				vc.PresentViewController(controller, true, null);
-			}
-			else
-			{
-				var sheet = new UIActionSheet();
-				sheet.AddButton("Logout");
-				sheet.AddButton("Cancel");
-				sheet.DestructiveButtonIndex = 0;
-				sheet.CancelButtonIndex = 1;
-				sheet.Clicked += delegate (object sender, UIButtonEventArgs args)
-				{
-					//if logout button tapped
-					if (args.ButtonIndex == 0)
-					{
-						LogoutViewModel logoutViewModel = DependencyResolver.Current.Resolve<LogoutViewModel> ();
-						logoutViewModel.Logout();
-
-                        vc.NavigationController.PushViewController(vc.NavigationController.Storyboard.InstantiateViewController("LoginView"), false);
-					}
-				};
-				sheet.ShowFromTabBar(vc.NavigationController.TabBarController.TabBar);// ShowInView(View);
-			}*/
-		}
+			vc.ShowViewController(searchVC, vc);
+        }
 	}
 }
 
