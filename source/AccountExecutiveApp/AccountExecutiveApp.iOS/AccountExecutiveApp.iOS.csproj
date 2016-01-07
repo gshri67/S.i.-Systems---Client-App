@@ -256,6 +256,18 @@
     </Compile>
     <Compile Include="Search\SearchSectionTotalResultsTableViewController.cs" />
     <Compile Include="Search\SearchManager.cs" />
+    <Compile Include="Search\SearchTableNavigationController.cs" />
+    <Compile Include="Search\SearchTableNavigationController.designer.cs">
+      <DependentUpon>SearchTableNavigationController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Si_ViewController.cs" />
+    <Compile Include="Si_ViewController.designer.cs">
+      <DependentUpon>Si_ViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Si_TableViewController.cs" />
+    <Compile Include="Si_TableViewController.designer.cs">
+      <DependentUpon>Si_TableViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

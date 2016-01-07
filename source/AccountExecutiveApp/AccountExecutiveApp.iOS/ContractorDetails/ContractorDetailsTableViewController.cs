@@ -19,6 +19,7 @@ namespace AccountExecutiveApp.iOS
 	    public const string CellIdentifier = "ContractorContactInfoCell";
         private int _id;
         private LoadingOverlay _overlay;
+		public bool showSearchIcon = true;
 
         public ContractorDetailsTableViewController (IntPtr handle) : base (handle)
 		{
@@ -58,8 +59,8 @@ namespace AccountExecutiveApp.iOS
         {
             base.ViewDidLoad();
 
-            SearchManager.CreateNavBarRightButton(this);
-
+			if( showSearchIcon )
+	            SearchManager.CreateNavBarRightButton(this);
 
 			EdgesForExtendedLayout = UIRectEdge.None;
 			ExtendedLayoutIncludesOpaqueBars = false;

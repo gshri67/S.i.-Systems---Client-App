@@ -55,11 +55,13 @@ namespace AccountExecutiveApp.iOS
 		private static void AdditionalActions_Pressed( UIViewController vc )
 		{
 			var searchVC = (SearchTableViewController)vc.NavigationController.Storyboard.InstantiateViewController("SearchTableViewController");
-
+		
 			UINavigationController navVC = new UINavigationController(searchVC);
 			navVC.SetNavigationBarHidden (true, false);
 			navVC.NavigationBar.Translucent = false;
 			navVC.SetToolbarHidden (false, false);
+
+			//var navVC = (SearchTableNavigationController)vc.NavigationController.Storyboard.InstantiateViewController("SearchTableNavigationController");
 
 			vc.NavigationController.ShowViewController(navVC, vc.NavigationController);
             //vc.NavigationController.PresentViewController(searchVC, true, null);

@@ -59,6 +59,7 @@ namespace AccountExecutiveApp.iOS
                 var vc =
                     (ClientContactDetailsViewController)
                         _parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
+				vc.showSearchIcon = false;
                 vc.SetContactId(_tableModel.GetContactIdForIndex((int) indexPath.Item), _tableModel.GetClientContactTypeForIndex((int) indexPath.Item));
                 _parentController.ShowViewController(vc, _parentController);
             }
@@ -68,6 +69,7 @@ namespace AccountExecutiveApp.iOS
                     (ContractorDetailsTableViewController)
                         _parentController.Storyboard.InstantiateViewController(
                             "ContractorDetailsTableViewController");
+				vc.showSearchIcon = false;
                 vc.setContractorId(_tableModel.GetContactIdForIndex((int) indexPath.Item));
                 _parentController.ShowViewController(vc, _parentController);
             }

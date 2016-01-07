@@ -9,11 +9,11 @@ namespace AccountExecutiveApp.iOS
 {
 	public class ContractDetailsTableViewSource : UITableViewSource
 	{
-		private readonly UIViewController _parentController;
+		private readonly Si_ViewController _parentController;
 
 		private ConsultantContract _contract;
 
-		public ContractDetailsTableViewSource(UIViewController parentVC, ConsultantContract contract)
+		public ContractDetailsTableViewSource(Si_ViewController parentVC, ConsultantContract contract)
 		{
 			_parentController = parentVC;
 			_contract = contract;
@@ -78,7 +78,8 @@ namespace AccountExecutiveApp.iOS
 		    {
 		        var vc =
 		            (ContractorDetailsTableViewController)
-		                _parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
+		                _parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController"); 
+				vc.showSearchIcon = _parentController.ShowSearchIcon;
                 vc.setContractorId(GetContactIdForIndex(indexPath));
 		        _parentController.ShowViewController(vc, _parentController);
 		    }
@@ -86,6 +87,7 @@ namespace AccountExecutiveApp.iOS
 		    {
                 var contactTypeSelected = GetContactTypeForIndex(indexPath);
                 var vc = (ClientContactDetailsViewController) _parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
+				vc.showSearchIcon = _parentController.ShowSearchIcon;
                 vc.SetContactId( GetContactIdForIndex(indexPath), contactTypeSelected);
                 _parentController.ShowViewController(vc, _parentController);
 		    }

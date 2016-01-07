@@ -14,7 +14,7 @@ using CoreText;
 namespace AccountExecutiveApp.iOS
 {
 	[Register ("ContractsListViewController")]
-	partial class ContractsListViewController : UITableViewController
+	partial class ContractsListViewController : Si_TableViewController
 	{
         private ContractsListTableViewSource _listTableViewSource;
 		public IEnumerable<ConsultantContractSummary> _contracts;

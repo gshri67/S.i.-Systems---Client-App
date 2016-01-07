@@ -12,7 +12,7 @@ using CoreGraphics;
 
 namespace AccountExecutiveApp.iOS
 {
-	partial class ContractDetailsViewController : UIViewController
+	partial class ContractDetailsViewController : Si_ViewController
 	{
 		private readonly ContractDetailsViewModel _viewModel;
         private SubtitleHeaderView _subtitleHeaderView;
@@ -44,7 +44,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
-            SearchManager.CreateNavBarRightButton(this);
+			if( ShowSearchIcon )
+	            SearchManager.CreateNavBarRightButton(this);
 
 		    summaryView.Hidden = true;
 		}

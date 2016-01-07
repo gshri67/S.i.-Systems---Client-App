@@ -23,6 +23,7 @@ namespace AccountExecutiveApp.iOS
 
 		private bool _needsCreateTitleBar = false;
 	    private LoadingOverlay _overlay;
+		public bool showSearchIcon = true;
 
 	    public ClientContactDetailsViewController(IntPtr handle)
 			: base(handle)
@@ -93,7 +94,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad();
 
-            SearchManager.CreateNavBarRightButton(this);
+			if( showSearchIcon )
+	            SearchManager.CreateNavBarRightButton(this);
 
 	        DetailsContainerView.Hidden = true;
 

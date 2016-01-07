@@ -124,6 +124,7 @@ namespace AccountExecutiveApp.iOS
                     index = (int) indexPath.Item - _firstClientContactCellIndex - 1;
 
                     var vc = (ClientContactDetailsViewController)_parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
+					vc.showSearchIcon = false;
                     vc.SetContactId(_tableModel.GetClientContactIdForIndex(index), _tableModel.GetClientContactTypeForIndex(index));
                     _parentController.ShowViewController(vc, _parentController);
                 }
@@ -132,7 +133,8 @@ namespace AccountExecutiveApp.iOS
                     index = (int)indexPath.Item - _firstContractorCellIndex - 1;
 
                     var vc = (ContractorDetailsTableViewController)_parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
-                    vc.setContractorId(_tableModel.GetContractorIdForIndex(index));
+					vc.showSearchIcon = false;
+					vc.setContractorId(_tableModel.GetContractorIdForIndex(index));
                     _parentController.ShowViewController(vc, _parentController);
                 }
             }

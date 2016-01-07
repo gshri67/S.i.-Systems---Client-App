@@ -993,7 +993,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Pbi-7y-GLe"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Lvn-l9-crc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="aGj-m4-Yql">
@@ -1710,18 +1710,22 @@
             </objects>
             <point key="canvasLocation" x="3887" y="1609"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Search Table Navigation Controller-->
         <scene sceneID="SN8-vo-pFE">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="4UN-0v-3ls" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="SearchTableNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="4UN-0v-3ls" customClass="SearchTableNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Uis-i0-qFf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Uis-i0-qFf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="aLm-oU-D1D">
+                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="dyz-4N-yEQ" kind="relationship" relationship="rootViewController" id="7Ho-Kb-u2r"/>
                     </connections>
