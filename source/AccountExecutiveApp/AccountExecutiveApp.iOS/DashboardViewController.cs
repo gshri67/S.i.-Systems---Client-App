@@ -74,6 +74,13 @@ namespace AccountExecutiveApp.iOS
             SubmittedTimesheetsLabel.Text = "N/A";
 		}
 
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			NavigationController.SetNavigationBarHidden (false, false);
+		}
+
 		private void AddImageToLabel( UIImage image, UILabel label )
 		{
 			NSTextAttachment textAttachement = new NSTextAttachment ();

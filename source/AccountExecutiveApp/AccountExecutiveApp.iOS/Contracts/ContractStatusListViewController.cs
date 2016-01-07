@@ -45,6 +45,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+			NavigationController.SetNavigationBarHidden (false, false);
+
             this.NavigationController.TabBarItem.SelectedImage = UIImage.FromFile("paper-dark.png");
 
 			LogoutManager.CreateNavBarLeftButton (this);
@@ -56,6 +58,13 @@ namespace AccountExecutiveApp.iOS
 			//SetupTableViewSource ();
 
 			//TableView.ReloadData ();
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			NavigationController.SetNavigationBarHidden (false, false);
 		}
 
 		private void RegisterCellsForReuse()

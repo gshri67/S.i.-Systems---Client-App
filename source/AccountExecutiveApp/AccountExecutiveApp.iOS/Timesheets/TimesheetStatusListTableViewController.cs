@@ -38,10 +38,19 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+			NavigationController.SetNavigationBarHidden (false, false);
+
             LogoutManager.CreateNavBarLeftButton(this);
             SearchManager.CreateNavBarRightButton(this);
 
             TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			NavigationController.SetNavigationBarHidden (false, false);
 		}
 
         public void LoadTimesheetSummary()

@@ -56,8 +56,7 @@ namespace AccountExecutiveApp.iOS
 				NavigationController.SetNavigationBarHidden(false, false);
 				NavigationController.PopViewController(true);
 			};
-
-		
+				
 			CancelSearchButton.SetTitleColor( StyleGuideConstants.RedUiColor, UIControlState.Normal );
 
             SearchBar.SearchBarStyle = UISearchBarStyle.Minimal;

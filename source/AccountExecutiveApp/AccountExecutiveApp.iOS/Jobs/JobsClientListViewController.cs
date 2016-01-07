@@ -44,6 +44,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad ();
 
+			NavigationController.SetNavigationBarHidden (false, false);
+
             //only show logout button if navigated from tab bar, not dashboard
 		    if (TabBarController != null && TabBarController.SelectedIndex == 1)
 		        LogoutManager.CreateNavBarLeftButton(this);
@@ -52,6 +54,13 @@ namespace AccountExecutiveApp.iOS
 
 		    LoadJobs();
             IndicateLoading();
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			NavigationController.SetNavigationBarHidden (false, false);
 		}
 
         public void UpdateUserInterface()
