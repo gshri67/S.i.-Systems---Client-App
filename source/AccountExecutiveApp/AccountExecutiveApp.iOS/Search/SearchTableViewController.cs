@@ -54,6 +54,8 @@ namespace AccountExecutiveApp.iOS
 				DismissViewController( true, null );
 			};
 
+			CancelSearchButton.SetTitleColor( StyleGuideConstants.RedUiColor, UIControlState.Normal );
+
             SearchBar.SearchBarStyle = UISearchBarStyle.Minimal;
 
 			AutomaticallyAdjustsScrollViewInsets = false;
@@ -61,6 +63,7 @@ namespace AccountExecutiveApp.iOS
 			SearchHeaderView.Layer.ShadowOffset = new CGSize ( 0, 1.0f);
 			SearchHeaderView.Layer.ShadowOpacity = 0.3f;
 			SearchHeaderView.Layer.ShadowRadius = 0.0f;
+			SearchHeaderView.Layer.ShadowColor = UIColor.Gray.CGColor;
 		}
 
 		public override void ViewWillAppear (bool animated)

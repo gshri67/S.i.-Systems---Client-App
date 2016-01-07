@@ -65,7 +65,7 @@ namespace AccountExecutiveApp.iOS
                     (ContractHistoryTableViewController)
                         _parentController.Storyboard.InstantiateViewController("ContractHistoryTableViewController");
 
-				vc.showSearchIcon = _parentController.showSearchIcon;
+				vc.ShowSearchIcon = _parentController.ShowSearchIcon;
                 vc.setContracts(_tableModel.Contracts);
 
                 _parentController.ShowViewController(vc, _parentController);

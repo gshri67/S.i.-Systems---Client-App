@@ -13,13 +13,12 @@ using UIKit;
 
 namespace AccountExecutiveApp.iOS
 {
-    public partial class ContractorDetailsTableViewController : UITableViewController
+	public partial class ContractorDetailsTableViewController : Si_TableViewController
 	{
 	    private readonly ContractorDetailsViewModel _viewModel;
 	    public const string CellIdentifier = "ContractorContactInfoCell";
         private int _id;
         private LoadingOverlay _overlay;
-		public bool showSearchIcon = true;
 
         public ContractorDetailsTableViewController (IntPtr handle) : base (handle)
 		{
@@ -59,7 +58,7 @@ namespace AccountExecutiveApp.iOS
         {
             base.ViewDidLoad();
 
-			if( showSearchIcon )
+			if( ShowSearchIcon )
 	            SearchManager.CreateNavBarRightButton(this);
 
 			EdgesForExtendedLayout = UIRectEdge.None;

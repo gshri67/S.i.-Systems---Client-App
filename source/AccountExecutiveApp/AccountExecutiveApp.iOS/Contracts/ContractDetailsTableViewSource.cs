@@ -79,7 +79,7 @@ namespace AccountExecutiveApp.iOS
 		        var vc =
 		            (ContractorDetailsTableViewController)
 		                _parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController"); 
-				vc.showSearchIcon = _parentController.ShowSearchIcon;
+				vc.ShowSearchIcon = _parentController.ShowSearchIcon;
                 vc.setContractorId(GetContactIdForIndex(indexPath));
 		        _parentController.ShowViewController(vc, _parentController);
 		    }

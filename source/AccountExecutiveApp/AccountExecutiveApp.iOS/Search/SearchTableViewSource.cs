@@ -133,7 +133,7 @@ namespace AccountExecutiveApp.iOS
                     index = (int)indexPath.Item - _firstContractorCellIndex - 1;
 
                     var vc = (ContractorDetailsTableViewController)_parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
-					vc.showSearchIcon = false;
+					vc.ShowSearchIcon = false;
 					vc.setContractorId(_tableModel.GetContractorIdForIndex(index));
                     _parentController.ShowViewController(vc, _parentController);
                 }
