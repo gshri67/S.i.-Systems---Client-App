@@ -32,7 +32,7 @@ namespace AccountExecutiveApp.iOS
 			_tableSource = new SearchTableViewSource(this, _viewModel.ClientContacts, _viewModel.Contractors);
 		    TableView.Source = _tableSource;
 			TableView.ReloadData();
-			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
+			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 
 		    SearchBar.TextChanged += delegate
 		    {
@@ -56,12 +56,10 @@ namespace AccountExecutiveApp.iOS
 
             SearchBar.SearchBarStyle = UISearchBarStyle.Minimal;
 
-
-			EdgesForExtendedLayout = UIRectEdge.None;
 			AutomaticallyAdjustsScrollViewInsets = false;
 
 			SearchHeaderView.Layer.ShadowOffset = new CGSize ( 0, 1.0f);
-			SearchHeaderView.Layer.ShadowOpacity = 0.5f;
+			SearchHeaderView.Layer.ShadowOpacity = 0.3f;
 			SearchHeaderView.Layer.ShadowRadius = 0.0f;
 		}
 

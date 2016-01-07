@@ -41,6 +41,7 @@ namespace AccountExecutiveApp.iOS
 
             TableView.RegisterClassForCellReuse(typeof(RightDetailCell), CellReuseIdentifier);
             TableView.Source = new SectionSearchResultsTableViewSource(this, _contacts, _isClientContacts );
+			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 			TableView.ReloadData();
 
 			if (_isClientContacts)
