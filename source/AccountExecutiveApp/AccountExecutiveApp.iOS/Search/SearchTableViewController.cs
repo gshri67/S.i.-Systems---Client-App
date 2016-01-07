@@ -53,6 +53,20 @@ namespace AccountExecutiveApp.iOS
 			};
 
             SearchBar.SearchBarStyle = UISearchBarStyle.Minimal;
+
+
+			EdgesForExtendedLayout = UIRectEdge.None;
+			AutomaticallyAdjustsScrollViewInsets = false;
+
+			SearchHeaderView.Layer.ShadowOffset = new CGSize ( 0, 1.0f);
+			SearchHeaderView.Layer.ShadowOpacity = 0.5f;
+			SearchHeaderView.Layer.ShadowRadius = 0.0f;
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			NavigationController.SetNavigationBarHidden(true, true);
 		}
 
 		public void UpdateUserInterface()

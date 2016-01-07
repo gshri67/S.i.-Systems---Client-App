@@ -19,10 +19,18 @@ namespace AccountExecutiveApp.iOS
 		UIKit.UISearchBar SearchBar { get; set; }
 
 		[Outlet]
+		UIKit.UIView SearchHeaderView { get; set; }
+
+		[Outlet]
 		UIKit.UITableView TableView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (CancelSearchButton != null) {
+				CancelSearchButton.Dispose ();
+				CancelSearchButton = null;
+			}
+
 			if (SearchBar != null) {
 				SearchBar.Dispose ();
 				SearchBar = null;
@@ -33,9 +41,9 @@ namespace AccountExecutiveApp.iOS
 				TableView = null;
 			}
 
-			if (CancelSearchButton != null) {
-				CancelSearchButton.Dispose ();
-				CancelSearchButton = null;
+			if (SearchHeaderView != null) {
+				SearchHeaderView.Dispose ();
+				SearchHeaderView = null;
 			}
 		}
 	}

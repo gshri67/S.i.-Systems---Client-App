@@ -59,6 +59,11 @@ namespace AccountExecutiveApp.iOS
             base.ViewDidLoad();
 
             SearchManager.CreateNavBarRightButton(this);
+
+
+			EdgesForExtendedLayout = UIRectEdge.None;
+			ExtendedLayoutIncludesOpaqueBars = false;
+			AutomaticallyAdjustsScrollViewInsets = false;
         }
 
 		private void UpdatePageTitle()

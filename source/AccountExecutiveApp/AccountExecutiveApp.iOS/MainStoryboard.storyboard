@@ -1013,10 +1013,8 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="69V-eu-hTC" firstAttribute="top" secondItem="dTX-y4-jIN" secondAttribute="top" id="Cat-fl-CMF"/>
                                     <constraint firstItem="69V-eu-hTC" firstAttribute="trailing" secondItem="dTX-y4-jIN" secondAttribute="trailing" constant="-8" id="iZg-Su-9VV"/>
-                                    <constraint firstAttribute="height" constant="75" id="mmb-ST-Vdx"/>
-                                    <constraint firstAttribute="bottom" secondItem="69V-eu-hTC" secondAttribute="bottom" id="v02-Am-WHr"/>
+                                    <constraint firstAttribute="height" constant="44" id="mmb-ST-Vdx"/>
                                 </constraints>
                             </view>
                             <searchBar contentMode="redraw" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3x6-9s-UTC">
@@ -1026,13 +1024,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="69V-eu-hTC" firstAttribute="top" secondItem="3x6-9s-UTC" secondAttribute="top" id="7ZS-fA-FsL"/>
                             <constraint firstItem="aGj-m4-Yql" firstAttribute="leading" secondItem="Lvn-l9-crc" secondAttribute="leadingMargin" constant="-20" id="AX8-ex-Twk"/>
                             <constraint firstItem="aGj-m4-Yql" firstAttribute="top" secondItem="dTX-y4-jIN" secondAttribute="bottom" constant="-1" id="AbJ-Ug-Upv"/>
                             <constraint firstAttribute="trailingMargin" secondItem="aGj-m4-Yql" secondAttribute="trailing" constant="-20" id="I41-nA-EyA"/>
                             <constraint firstItem="Pbi-7y-GLe" firstAttribute="top" secondItem="aGj-m4-Yql" secondAttribute="bottom" id="Qxd-Is-997"/>
-                            <constraint firstItem="dTX-y4-jIN" firstAttribute="top" secondItem="Sh9-wn-YSA" secondAttribute="bottom" constant="-20" id="Sq7-Lm-caG"/>
+                            <constraint firstItem="dTX-y4-jIN" firstAttribute="top" secondItem="Sh9-wn-YSA" secondAttribute="bottom" id="Sq7-Lm-caG"/>
                             <constraint firstItem="3x6-9s-UTC" firstAttribute="leading" secondItem="dTX-y4-jIN" secondAttribute="leading" constant="8" id="X4J-UY-jIS"/>
                             <constraint firstItem="dTX-y4-jIN" firstAttribute="leading" secondItem="Lvn-l9-crc" secondAttribute="leadingMargin" constant="-20" id="YFH-OU-4PZ"/>
+                            <constraint firstItem="69V-eu-hTC" firstAttribute="bottom" secondItem="3x6-9s-UTC" secondAttribute="bottom" id="hCj-L2-Hf2"/>
                             <constraint firstItem="3x6-9s-UTC" firstAttribute="centerY" secondItem="dTX-y4-jIN" secondAttribute="centerY" id="iuD-t8-mc9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dTX-y4-jIN" secondAttribute="trailing" constant="-20" id="s0g-08-t0z"/>
                             <constraint firstItem="69V-eu-hTC" firstAttribute="leading" secondItem="3x6-9s-UTC" secondAttribute="trailing" constant="4" id="ulz-om-Mz3"/>
@@ -1042,6 +1042,7 @@
                     <connections>
                         <outlet property="CancelSearchButton" destination="69V-eu-hTC" id="WpB-aj-YJB"/>
                         <outlet property="SearchBar" destination="3x6-9s-UTC" id="5FC-fU-JqB"/>
+                        <outlet property="SearchHeaderView" destination="dTX-y4-jIN" id="ANN-bf-5p1"/>
                         <outlet property="TableView" destination="aGj-m4-Yql" id="MRc-Be-U5t"/>
                     </connections>
                 </viewController>

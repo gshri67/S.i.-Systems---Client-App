@@ -161,7 +161,6 @@
       <DependentUpon>JobDetailViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadingOverlay.cs" />
-    <Compile Include="SearchManager.cs" />
     <Compile Include="LogoutManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -256,6 +255,7 @@
       <DependentUpon>SearchSectionTotalResultsTableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Search\SearchSectionTotalResultsTableViewController.cs" />
+    <Compile Include="Search\SearchManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

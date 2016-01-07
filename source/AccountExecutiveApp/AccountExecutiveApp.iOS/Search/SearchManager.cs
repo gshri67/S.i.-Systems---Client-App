@@ -55,7 +55,13 @@ namespace AccountExecutiveApp.iOS
 		private static void AdditionalActions_Pressed( UIViewController vc )
 		{
 			var searchVC = (SearchTableViewController)vc.NavigationController.Storyboard.InstantiateViewController("SearchTableViewController");
-            vc.NavigationController.ShowViewController(searchVC, vc.NavigationController);
+
+			UINavigationController navVC = new UINavigationController(searchVC);
+			navVC.SetNavigationBarHidden (true, false);
+			navVC.NavigationBar.Translucent = false;
+
+
+			vc.NavigationController.ShowViewController(navVC, vc.NavigationController);
             //vc.NavigationController.PresentViewController(searchVC, true, null);
             /*
 			Action<UIAlertAction> logoutDelegate = delegate { //copied down below

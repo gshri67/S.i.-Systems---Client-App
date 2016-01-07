@@ -93,23 +93,21 @@ namespace AccountExecutiveApp.iOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
+			_parentController.NavigationController.SetNavigationBarHidden(false, false);
+
             if (IsCategoryCell(indexPath))
             {
                 if (IsClientContactCell(indexPath))
                 {
                     var vc = (SearchSectionTotalResultsTableViewController)_parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
                     vc.SetData(_tableModel.GetFilteredResultsForClientContacts(), true);
-                    UINavigationController navVC = new UINavigationController(vc);
-
-                    _parentController.ShowViewController(vc, _parentController);
-                    //_parentController.PresentViewController(vc, true, null);
-                    //_parentController.NavigationController.PushViewController( vc, true );
+					_parentController.ShowViewController(vc, _parentController);
                 }
                 else if (IsContractorCell(indexPath))
                 {
                     var vc = (SearchSectionTotalResultsTableViewController)_parentController.Storyboard.InstantiateViewController("SearchSectionTotalResultsTableViewController");
                     vc.SetData( _tableModel.GetFilteredResultsForContractors(), false );
-                    _parentController.ShowViewController(vc, _parentController);
+					_parentController.ShowViewController(vc, _parentController);
                 }
             }
             else
