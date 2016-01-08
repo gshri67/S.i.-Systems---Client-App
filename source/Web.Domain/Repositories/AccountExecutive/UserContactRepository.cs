@@ -18,6 +18,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         UserContact GetClientContactByAgreementId(int contractId);
         UserContact GetBillingContactByAgreementId(int contractId);
         IEnumerable<UserContact> GetClientContacts();
+        IEnumerable<int> FindUserIds(string query);
     }
 
     public class UserContactRepository : IUserContactRepository
@@ -246,6 +247,31 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             throw new NotImplementedException();
         }
 
+        public IEnumerable<int> FindUserIds(string query)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string contractsQuery =
+                    @"SELECT Users.UserID
+                    FROM Users 
+                    JOIN PickList ON PickList.PickListID = Users.UserType
+                    WHERE ((PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Candidate'))
+                    AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')
+                    UNION
+                    SELECT Users.UserID
+                    FROM Users
+                    JOIN Company ON Company.CompanyID = Users.CompanyID
+                    JOIN PickList ON PickList.PickListID = Users.UserType
+                    WHERE Company.Inactive = 0
+                    AND (PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Client Contact')
+                    AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')";
+
+                var userIds = db.Connection.Query<int>(contractsQuery, param: new { Query = query });
+                
+                return userIds ?? Enumerable.Empty<int>();
+            }
+        }
+
         public UserContact GetClientContactByAgreementId(int contractId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -414,6 +440,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }.AsEnumerable();
 
             return clientContacts;
+        }
+
+        public IEnumerable<int> FindUserIds(string query)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
         [Route("Filter/{filter}")]
         public HttpResponseMessage GetClientContactsWithFilter( string filter )
         {
-            var userContacts = _service.GetClientContacts();
+            var userContacts = _service.Find(filter);
             return Request.CreateResponse(HttpStatusCode.OK, userContacts);
         }
     }

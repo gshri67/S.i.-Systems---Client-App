@@ -33,5 +33,17 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
             return clientContacts;
         }
+
+        public IEnumerable<UserContact> Find(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Enumerable.Empty<UserContact>();
+
+            var userIds = _repo.FindUserIds(query);
+
+            var contacts = userIds.Select(GetUserContactById);
+
+            return contacts; 
+        }
     }
 }
