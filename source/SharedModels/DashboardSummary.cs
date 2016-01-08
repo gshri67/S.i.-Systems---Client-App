@@ -8,6 +8,7 @@ namespace SiSystems.SharedModels
         public ContractSummarySet FlowThruContracts { get; set; }
         public JobsSummarySet Jobs { get; set; }
 		public string UserName { get; set; }
+        public TimesheetSummarySet Timesheets { get; set; }
 
         public DashboardSummary()
         {
@@ -15,6 +16,7 @@ namespace SiSystems.SharedModels
             FlowThruContracts = new ContractSummarySet();
             Jobs = new JobsSummarySet();
 			UserName = string.Empty;
+            Timesheets = new TimesheetSummarySet();
         }
     }
 

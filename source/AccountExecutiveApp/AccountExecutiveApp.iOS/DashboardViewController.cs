@@ -56,7 +56,6 @@ namespace AccountExecutiveApp.iOS
             SearchManager.CreateNavBarRightButton(this);
 
 			SetupSegueConnections ();
-
 			SetupPageAutoLayout();
 
 			/*
@@ -69,9 +68,6 @@ namespace AccountExecutiveApp.iOS
 			AddImageToLabel( new UIImage ("plus-round-centred.png"), FT_plusLabel);
 			AddImageToLabel( new UIImage ("minus-round-centred.png"), FS_MinusLabel);
 			AddImageToLabel( new UIImage ("minus-round-centred.png"), FT_minusLabel);
-
-		    OpenTimesheetsLabel.Text = "N/A";
-            SubmittedTimesheetsLabel.Text = "N/A";
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -198,6 +194,12 @@ namespace AccountExecutiveApp.iOS
             jobsLabel.Text = _dashboardViewmodel.AllJobs;
             proposedJobsLabel.Text = _dashboardViewmodel.ProposedJobs;
             calloutJobsLabel.Text = _dashboardViewmodel.JobsWithCallouts;
+	    }
+
+        private void SetTimesheetLabels()
+	    {
+            OpenTimesheetsLabel.Text = _dashboardViewmodel.OpenTimesheets;
+            SubmittedTimesheetsLabel.Text = _dashboardViewmodel.SubmittedTimesheets;
 	    }
 
 		private void UpdateUserInterface()

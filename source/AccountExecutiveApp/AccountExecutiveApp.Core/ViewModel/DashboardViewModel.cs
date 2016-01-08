@@ -44,6 +44,16 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
 
+        private TimesheetSummarySet Timesheets
+        {
+            get
+            {
+                if (_dashboardStats == null)
+                    return new TimesheetSummarySet();
+                return _dashboardStats.Timesheets ?? new TimesheetSummarySet();
+            }
+        }
+
 	    private Task DashboardIsLoading { get; set; }
 
 	    public DashboardViewModel(IMatchGuideApi api)
@@ -122,6 +132,16 @@ namespace AccountExecutiveApp.Core.ViewModel
 	    {
             get { return MaxOfValueOrZeroToString(Jobs.Callouts); }
 	    }
+
+        public string OpenTimesheets
+        {
+            get { return MaxOfValueOrZeroToString(Timesheets.NumOpen); }
+        }
+
+        public string SubmittedTimesheets
+        {
+            get { return MaxOfValueOrZeroToString(Timesheets.NumSubmitted); }
+        }
 	}
 }
 
