@@ -56,14 +56,13 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<IActivityRepository, ActivityRepository>();
             container.RegisterType<IPayRateRepository, PayRateRepository>();
             container.RegisterType<IJobsRepository, JobsRepository>();
-            container.RegisterType<IContractorRepository, MockContractorRepository>();
+            container.RegisterType<IContractorRepository, ContractorRepository>();
             container.RegisterType<IContractorRateRepository, ContractorRateRepository>();
             container.RegisterType<IUserContactRepository, UserContactRepository>();
             container.RegisterType<IObjectCache, ObjectCache>();
             container.RegisterType<HttpMessageHandler, HttpClientHandler>();
             
             container.RegisterType<IConsultantContractRepository, ConsultantContractRepository>();
-            //container.RegisterType<IConsultantContractRepository, MockedConsultantContractRepository>();
         }
     }
 }
