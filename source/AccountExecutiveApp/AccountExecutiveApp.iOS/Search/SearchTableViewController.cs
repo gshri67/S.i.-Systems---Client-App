@@ -7,7 +7,12 @@ using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using CoreGraphics;
+using System.Timers;
+
+
+
 
 namespace AccountExecutiveApp.iOS
 {
@@ -16,6 +21,7 @@ namespace AccountExecutiveApp.iOS
 		private readonly SearchViewModel _viewModel;
 		private LoadingOverlay _overlay;
 	    private SearchTableViewSource _tableSource;
+        private const int SearchTimerInterval = 1000;
 
 		public const string CellReuseIdentifier = RightDetailCell.CellIdentifier;
 
@@ -34,10 +40,16 @@ namespace AccountExecutiveApp.iOS
 			TableView.ReloadData();
 			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 
+            var timer = CreateTimer();
+
 		    SearchBar.TextChanged += delegate
 		    {
 		        LoadSearchDataWithFilter(SearchBar.Text);
-		    };
+
+
+                timer.Stop();
+                timer.Start();
+            };
 		}
 
 		public override void ViewDidLoad ()
@@ -96,6 +108,26 @@ namespace AccountExecutiveApp.iOS
             _tableSource.ReloadWithFilteredContacts( _viewModel.FilteredClientContacts, _viewModel.FilteredContractors );
             TableView.ReloadData();
 	    }
+
+        private System.Timers.Timer CreateTimer()
+        {
+            var timer = new System.Timers.Timer()
+            {
+                Interval = SearchTimerInterval,
+                AutoReset = false,
+                Enabled = false //we don't want to start the timer until we change search text
+            };
+
+            timer.Elapsed += delegate
+            {
+                InvokeOnMainThread(delegate
+                {
+                    LoadSearchDataWithFilter(SearchBar.Text);
+                });
+            };
+     
+            return timer;
+        }
 
 	    public override bool ShouldPerformSegue(string segueIdentifier, NSObject sender)
 		{
