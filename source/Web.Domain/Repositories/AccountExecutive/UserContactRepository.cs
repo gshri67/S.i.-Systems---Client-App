@@ -253,13 +253,13 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"SELECT Users.UserID
+                    @"SELECT TOP 500 Users.UserID
                     FROM Users 
                     JOIN PickList ON PickList.PickListID = Users.UserType
                     WHERE ((PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Candidate'))
                     AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')
                     UNION
-                    SELECT Users.UserID
+                    SELECT TOP 500 Users.UserID
                     FROM Users
                     JOIN Company ON Company.CompanyID = Users.CompanyID
                     JOIN PickList ON PickList.PickListID = Users.UserType
