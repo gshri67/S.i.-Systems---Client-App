@@ -91,6 +91,7 @@
             <li role="presentation"><a id="timesheetContactsTabButton" href="#timesheetContacts" role="tab" data-toggle="tab">Timesheet Contacts</a></li>
             <li role="presentation"><a id="contractorTabButton" href="#contractor" role="tab" data-toggle="tab">Contractor</a></li>
             <li role="presentation"><a id="userContactTabButton" href="#userContact" role="tab" data-toggle="tab">UserContact</a></li>
+            <li role="presentation"><a id="aeSearchTabButton" href="#aeSearch" role="tab" data-toggle="tab">Contact Search</a></li>
         </ul>
 
         <div class="tab-content">
@@ -258,12 +259,22 @@
 
             <div id="userContact" role="details" class="tab-pane">
                 <div class="input-group">
-                    <input id="userContactId" type="text" class="form-control" placeholder="" />
+                    <input id="userContactId" type="text" class="form-control" placeholder=""/>
                     <div class="input-group-btn">
                         <button id="userContactButton" type="button" class="btn btn-primary">Go</button>
                     </div>
                 </div>
                 <div id="userContactResults" class="code json well">
+                </div>
+            </div>
+            <div id="aeSearch" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="aeSearchId" type="text" class="form-control" placeholder="" />
+                    <div class="input-group-btn">
+                        <button id="aeSearchButton" type="button" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <div id="aeSearchResults" class="code json well">
                 </div>
             </div>
         </div>
@@ -677,6 +688,28 @@
 
 
                     }).fail(function (err) { showError(err, 'userContactResults') });
+                },
+                aeSearch: function () {
+                    $('#aeSearchResults').html('Sending...');
+                    var query = $('#aeSearchId').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/UserContact/Filter/' + query,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#aeSearchResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'aeSearchResults') });
                 }
             };
 
@@ -700,6 +733,7 @@
             $('#timesheetContactsButton').click(page.getTimesheetContacts);
             $('#contractorButton').click(page.getContractor);
             $('#userContactButton').click(page.getUserContact);
+            $('#aeSearchButton').click(page.aeSearch);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {
