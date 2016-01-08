@@ -267,9 +267,9 @@ namespace Shared.Core
         }
 
         [HttpGet("Timesheets/Reporting/Details/Status/{status}")]
-        public async Task<IEnumerable<TimesheetDetails>> GetTimesheetDetails( MatchGuideConstants.TimesheetStatus status)
+        public async Task<IEnumerable<TimesheetDetails>> GetTimesheetDetails( MatchGuideConstants.TimesheetStatus ts)
         {
-            return await ExecuteWithDefaultClient<IEnumerable<TimesheetDetails>>(new { status });
+            return await ExecuteWithDefaultClient<IEnumerable<TimesheetDetails>>(new { status = ts.ToString() });
         }
 
         [HttpGet("Timesheets/Reporting/Contact/{id}")]

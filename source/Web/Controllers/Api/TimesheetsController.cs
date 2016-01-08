@@ -52,11 +52,8 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         }
 
         [Route("Details/Status/{status}")]
-        public HttpResponseMessage GetTimesheetDetails( MatchGuideConstants.TimesheetStatus status )
+        public HttpResponseMessage GetTimesheetDetails( string status )
         {
-            if( status.ToString() == "Open" )
-                status = MatchGuideConstants.TimesheetStatus.Open;
-
             var timesheetDetails = _service.GetTimesheetsDetails( status );
             return Request.CreateResponse(HttpStatusCode.OK, timesheetDetails);
         }

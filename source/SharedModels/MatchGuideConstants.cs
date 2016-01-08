@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace SiSystems.SharedModels
@@ -759,12 +760,23 @@ namespace SiSystems.SharedModels
                 m_value = value;
             }
 
+            private TimesheetStatus(string value)
+            {
+                string description;
+                m_value = DescriptionDictionary.Where(p => p.Value == value).Select(p => p.Key).FirstOrDefault();
+            }
+
             public static implicit operator TimesheetStatus(long val)
+            {
+                return new TimesheetStatus(val); 
+            }
+
+            public static implicit operator TimesheetStatus(int val)
             {
                 return new TimesheetStatus(val);
             }
 
-            public static implicit operator TimesheetStatus(int val)
+            public static implicit operator TimesheetStatus(string val)
             {
                 return new TimesheetStatus(val);
             }
