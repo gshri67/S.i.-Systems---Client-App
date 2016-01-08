@@ -44,10 +44,7 @@ namespace AccountExecutiveApp.iOS
 
 		    SearchBar.TextChanged += delegate
 		    {
-		        LoadSearchDataWithFilter(SearchBar.Text);
-
-
-                timer.Stop();
+		        timer.Stop();
                 timer.Start();
             };
 		}
