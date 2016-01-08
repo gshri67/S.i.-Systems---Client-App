@@ -272,47 +272,35 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
         public IEnumerable<TimesheetDetails> GetSubmittedTimesheetDetailsByAccountExecutiveId(int id)
         {
-            return new List<TimesheetDetails>()
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                new TimesheetDetails()
-                {
-                    Id = 1,
-                    CompanyName = "Cenovus",
-                    ContractorFullName = "Bob Smith",
-                    StartDate = new DateTime(2015, 2, 12),
-                    EndDate = new DateTime(2015, 2, 12)
-                }
-            }.AsEnumerable();
+                var timesheets = db.Connection.Query<TimesheetDetails>(
+                    AccountExecutiveTimesheetQueries.SubmittedTimesheetsByAccountExecutiveId, new { Id = id });
+
+                return timesheets;
+            }
         }
 
         public IEnumerable<TimesheetDetails> GetCancelledTimesheetDetailsByAccountExecutiveId(int id)
         {
-            return new List<TimesheetDetails>()
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                new TimesheetDetails()
-                {
-                    Id = 1,
-                    CompanyName = "Cenovus",
-                    ContractorFullName = "Bob Smith",
-                    StartDate = new DateTime(2015, 2, 12),
-                    EndDate = new DateTime(2015, 2, 12)
-                }
-            }.AsEnumerable();
+                var timesheets = db.Connection.Query<TimesheetDetails>(
+                    AccountExecutiveTimesheetQueries.CancelledTimesheetsByAccountExecutiveId, new { Id = id });
+
+                return timesheets;
+            }
         }
 
         public IEnumerable<TimesheetDetails> GetRejectedTimesheetDetailsByAccountExecutiveId(int id)
         {
-            return new List<TimesheetDetails>()
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                new TimesheetDetails()
-                {
-                    Id = 1,
-                    CompanyName = "Cenovus",
-                    ContractorFullName = "Bob Smith",
-                    StartDate = new DateTime(2015, 2, 12),
-                    EndDate = new DateTime(2015, 2, 12)
-                }
-            }.AsEnumerable();
+                var timesheets = db.Connection.Query<TimesheetDetails>(
+                    AccountExecutiveTimesheetQueries.RejectedTimesheetsByAccountExecutiveId, new { Id = id });
+
+                return timesheets;
+            }
         }
 
         public TimesheetContact GetTimesheetContactById(int id)
@@ -418,6 +406,27 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 	            WHERE DATEDIFF(MONTH, Periods.TimeSheetAvailablePeriodEndDate, GETDATE()) < 3
             )";
 
+        private const string TimesheetDetailsByAccountExecutiveBaseQuery =
+            @"SELECT TimeSheet.TimeSheetID as Id, Period.TimeSheetAvailablePeriodStartDate as StartDate, Period.TimeSheetAvailablePeriodEndDate as EndDate, Company.CompanyName, Users.FirstName +' '+ Users.LastName AS ContractorFullName
+            FROM Agreement 
+            JOIN PickList ON Agreement.StatusType = PickList.PickListID
+            LEFT JOIN Timesheet ON Timesheet.AgreementID = Agreement.AgreementID
+            LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TimeSheet.TimeSheetAvailablePeriodID
+            LEFT JOIN Company ON Company.CompanyID = Agreement.CompanyID
+            LEFT JOIN Users ON Users.UserID = Agreement.CandidateID
+            WHERE Agreement.AccountExecID = @Id
+            AND Agreement.AgreementType IN (SELECT PickListId FROM udf_GetPickListIds('agreementtype','contract',4))
+            AND (
+	            Agreement.AgreementSubType IN (SELECT PickListId FROM udf_GetPickListIds('contracttype','consultant,contract to hire',4))
+	            OR
+	            Agreement.AgreementSubType IN (SELECT PickListId FROM udf_GetPickListIds('contracttype','Flo Thru',4))
+            )
+            AND Timesheet.TimeSheetAvailablePeriodID IN (
+	            SELECT TimeSheetAvailablePeriodID 
+	            FROM TimeSheetAvailablePeriod Periods
+	            WHERE DATEDIFF(MONTH, Periods.TimeSheetAvailablePeriodEndDate, GETDATE()) < 3
+            )";
+
         private const string TimesheetStatusSubmittedFilter = 
                 @"AND Timesheet.StatusID IN (
 	            SELECT PickListID
@@ -460,6 +469,21 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         public static string SubmittedTimesheetsCountByAccountExecutiveId
         {
             get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetCountByAccountExecutiveBaseQuery, TimesheetStatusSubmittedFilter); }
+        }
+
+        public static string SubmittedTimesheetsByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetDetailsByAccountExecutiveBaseQuery, TimesheetStatusSubmittedFilter); }
+        }
+
+        public static string CancelledTimesheetsByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetDetailsByAccountExecutiveBaseQuery, TimesheetStatusCancelledFilter); }
+        }
+
+        public static string RejectedTimesheetsByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetDetailsByAccountExecutiveBaseQuery, TimesheetStatusRejectedFilter); }
         }
     }
 }
