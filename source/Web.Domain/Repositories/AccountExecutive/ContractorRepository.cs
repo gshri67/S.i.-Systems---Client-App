@@ -182,7 +182,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         public IEnumerable<Contractor> GetContractors()
         {
-            throw new NotImplementedException();
+            return Enumerable.Empty<Contractor>();
+            //throw new NotImplementedException();
         }
     }
 

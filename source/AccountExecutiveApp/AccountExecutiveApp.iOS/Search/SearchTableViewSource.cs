@@ -18,7 +18,7 @@ namespace AccountExecutiveApp.iOS
 		private SearchTableViewModel _tableModel;
 		private Dictionary<string, int> categoryIndex;
 
-		public SearchTableViewSource(SearchTableViewController parentController, IEnumerable<UserContact> clientContacts, IEnumerable<Contractor> contractors )
+		public SearchTableViewSource(SearchTableViewController parentController, IEnumerable<UserContact> clientContacts, IEnumerable<UserContact> contractors )
 		{
 			_parentController = parentController;
 			_tableModel = new SearchTableViewModel( clientContacts, contractors );
@@ -202,7 +202,7 @@ namespace AccountExecutiveApp.iOS
                 categoryIndex["Contractors"] = 0;   
 	    }
 
-	    public void ReloadWithFilteredContacts(IEnumerable<UserContact> filteredClientContacts, IEnumerable<Contractor> filteredContractors)
+	    public void ReloadWithFilteredContacts(IEnumerable<UserContact> filteredClientContacts, IEnumerable<UserContact> filteredContractors)
 	    {
 	        _tableModel.ReloadWithFilteredContacts(filteredClientContacts, filteredContractors);
 	        SetupCategoryIndexDictionary(); 

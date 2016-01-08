@@ -12,12 +12,12 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private readonly IMatchGuideApi _api;
 
-        private IEnumerable<Contractor> _contractors;
+        private IEnumerable<UserContact> _contractors;
 
-        public IEnumerable<Contractor> Contractors
+        public IEnumerable<UserContact> Contractors
         {
-            get { return _contractors ?? Enumerable.Empty<Contractor>(); }
-            set { _contractors = value ?? Enumerable.Empty<Contractor>(); }
+            get { return _contractors ?? Enumerable.Empty<UserContact>(); }
+            set { _contractors = value ?? Enumerable.Empty<UserContact>(); }
         }
 
         private IEnumerable<UserContact> _clientContacts;
@@ -30,12 +30,12 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 
 
-        private IEnumerable<Contractor> _filteredContractors;
+        private IEnumerable<UserContact> _filteredContractors;
 
-        public IEnumerable<Contractor> FilteredContractors
+        public IEnumerable<UserContact> FilteredContractors
         {
-            get { return _contractors ?? Enumerable.Empty<Contractor>(); }
-            set { _contractors = value ?? Enumerable.Empty<Contractor>(); }
+            get { return _contractors ?? Enumerable.Empty<UserContact>(); }
+            set { _contractors = value ?? Enumerable.Empty<UserContact>(); }
         }
 
         private IEnumerable<UserContact> _filteredClientContacts;
@@ -61,7 +61,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task GetSearchData()
         {
-            Contractors = await _api.GetContractors();
+            //Contractors = await _api.GetContractors();
             ClientContacts = await _api.GetClientContacts();
         }
 
@@ -82,7 +82,10 @@ namespace AccountExecutiveApp.Core.ViewModel
         private async Task GetSearchDataWithFilter( string filter )
         {
             //FilteredContractors = await _api.GetContractorsWithFilter( filter );
-            FilteredClientContacts = await _api.GetClientContactsWithFilter( filter );
+            IEnumerable<UserContact> FilteredContacts = await _api.GetClientContactsWithFilter( filter );
+
+            FilteredClientContacts = FilteredContacts.Where(contact => !string.IsNullOrEmpty(contact.ClientName));
+            FilteredContractors = FilteredContacts.Where(contact => string.IsNullOrEmpty(contact.ClientName));
         }
     }
 }

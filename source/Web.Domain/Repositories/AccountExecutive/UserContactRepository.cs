@@ -244,7 +244,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         public IEnumerable<UserContact> GetClientContacts()
         {
-            throw new NotImplementedException();
+            return Enumerable.Empty<UserContact>();
+            //throw new NotImplementedException();
         }
 
         public IEnumerable<int> FindUserIds(string query)

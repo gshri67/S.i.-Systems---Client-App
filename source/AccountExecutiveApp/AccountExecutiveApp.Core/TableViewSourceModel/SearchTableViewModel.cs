@@ -8,17 +8,17 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 	public class SearchTableViewModel
 	{
         private IEnumerable<UserContact> _clientContacts;
-        private IEnumerable<Contractor> _contractors;
+        private IEnumerable<UserContact> _contractors;
 
         private IEnumerable<UserContact> _totalClientContacts;
-        private IEnumerable<Contractor> _totalContractors;
+        private IEnumerable<UserContact> _totalContractors;
 
         private IEnumerable<UserContact> _totalFilteredClientContacts;
-        private IEnumerable<Contractor> _totalFilteredContractors;
+        private IEnumerable<UserContact> _totalFilteredContractors;
 
 	    private int _cellCap = 3;//how many maximum cells per section do we show on this screen?
 
-        public SearchTableViewModel(IEnumerable<UserContact> clientContacts, IEnumerable<Contractor> contractors)
+        public SearchTableViewModel(IEnumerable<UserContact> clientContacts, IEnumerable<UserContact> contractors)
         {
             _clientContacts = clientContacts;
             _contractors = contractors;
@@ -37,7 +37,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 	        filter = filter.ToLower();
 
             _totalFilteredClientContacts = _totalClientContacts.Where(contact => contact.FullName.ToLower().Contains(filter)).OrderBy(x => x.FullName.ToLower().IndexOf(filter));
-            _totalFilteredContractors = _totalContractors.Where(contractor => contractor.ContactInformation.FullName.ToLower().Contains(filter)).OrderBy(x => x.ContactInformation.FullName.ToLower().IndexOf(filter));
+            _totalFilteredContractors = _totalContractors.Where(contractor => contractor.FullName.ToLower().Contains(filter)).OrderBy(x => x.FullName.ToLower().IndexOf(filter));
 
 	        CapContacts();
 	    }
@@ -77,7 +77,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         public string ContractorNameByRowNumber(int row)
         {
             if (row >= 0 && row < _contractors.Count())
-                return _contractors.ElementAt(row).ContactInformation.FullName;
+                return _contractors.ElementAt(row).FullName;
             return string.Empty;
         }
 
@@ -90,7 +90,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         public int GetContractorIdForIndex(int row)
         {
             if (row >= 0 && row < _contractors.Count())
-                return _contractors.ElementAt(row).ContactInformation.Id;
+                return _contractors.ElementAt(row).Id;
             return 0;
         }
 
@@ -105,10 +105,10 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 	    }
         public IEnumerable<UserContact> GetFilteredResultsForContractors()
         {
-            return _totalFilteredContractors.Select( contractor => contractor.ContactInformation );
+            return _totalFilteredContractors.Select( contractor => contractor );
         }
 
-	    public void ReloadWithFilteredContacts(IEnumerable<UserContact> filteredClientContacts, IEnumerable<Contractor> filteredContractors)
+	    public void ReloadWithFilteredContacts(IEnumerable<UserContact> filteredClientContacts, IEnumerable<UserContact> filteredContractors)
 	    {
 	        _totalFilteredClientContacts = filteredClientContacts;
 	        _totalFilteredContractors = filteredContractors;
