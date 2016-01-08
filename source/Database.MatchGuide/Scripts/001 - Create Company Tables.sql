@@ -13,7 +13,7 @@ CREATE TABLE [dbo].[Company] (
     --[CreateUserID]         INT           NOT NULL,
     --[UpdateDate]           SMALLDATETIME NULL,
     --[UpdateUserID]         INT           NULL,
-    --[Inactive]             BIT           NOT NULL,
+    [Inactive]             BIT           NOT NULL,
     --[PAM]                  BIT           NULL,
     --[GST_Applicable]       BIT           NOT NULL,
     --[FTFeeType]            INT           NULL,
@@ -41,6 +41,9 @@ CREATE TABLE [dbo].[Company] (
     CONSTRAINT [PK_Clients] PRIMARY KEY CLUSTERED ([CompanyID] ASC) WITH (FILLFACTOR = 97)
 );
 
+GO
+
+ALTER TABLE [dbo].[Company] ADD  CONSTRAINT [DF_Company_InActive]  DEFAULT ((0)) FOR [InActive]
 GO
 
 CREATE TABLE [dbo].[Company_ParentChildRelationship](

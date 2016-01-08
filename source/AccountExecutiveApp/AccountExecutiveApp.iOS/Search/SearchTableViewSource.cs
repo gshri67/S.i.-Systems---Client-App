@@ -177,13 +177,6 @@ namespace AccountExecutiveApp.iOS
 	        }
 	    }
 
-	    public void ApplyFilterWithText(string text)
-	    {
-	        _tableModel.ApplyFilterWithText(text);
-
-            SetupCategoryIndexDictionary();
-	    }
-
 	    public void SetupCategoryIndexDictionary()
 	    {
             categoryIndex.Clear();

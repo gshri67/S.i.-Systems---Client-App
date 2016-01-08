@@ -10,9 +10,6 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         private IEnumerable<UserContact> _clientContacts;
         private IEnumerable<UserContact> _contractors;
 
-        private IEnumerable<UserContact> _totalClientContacts;
-        private IEnumerable<UserContact> _totalContractors;
-
         private IEnumerable<UserContact> _totalFilteredClientContacts;
         private IEnumerable<UserContact> _totalFilteredContractors;
 
@@ -23,26 +20,13 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             _clientContacts = clientContacts;
             _contractors = contractors;
 
-            _totalClientContacts = clientContacts;
-            _totalContractors = contractors;
-
             _totalFilteredClientContacts = clientContacts;
             _totalFilteredContractors = contractors;
 
             CapContacts();
         }
 
-	    public void ApplyFilterWithText( string filter )
-	    {
-	        filter = filter.ToLower();
-
-            _totalFilteredClientContacts = _totalClientContacts.Where(contact => contact.FullName.ToLower().Contains(filter)).OrderBy(x => x.FullName.ToLower().IndexOf(filter));
-            _totalFilteredContractors = _totalContractors.Where(contractor => contractor.FullName.ToLower().Contains(filter)).OrderBy(x => x.FullName.ToLower().IndexOf(filter));
-
-	        CapContacts();
-	    }
-
-	    private void CapContacts()
+        private void CapContacts()
 	    {
 	        if (_totalFilteredClientContacts.Count() <= _cellCap)
 	            _clientContacts = _totalFilteredClientContacts;

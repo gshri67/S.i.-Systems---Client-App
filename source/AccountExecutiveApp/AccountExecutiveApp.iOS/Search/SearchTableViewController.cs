@@ -37,8 +37,6 @@ namespace AccountExecutiveApp.iOS
 		    SearchBar.TextChanged += delegate
 		    {
 		        LoadSearchDataWithFilter(SearchBar.Text);
-		        //_tableSource.ApplyFilterWithText(SearchBar.Text);
-		        //TableView.ReloadData();
 		    };
 		}
 
@@ -52,7 +50,6 @@ namespace AccountExecutiveApp.iOS
 			IndicateLoading();
 
 			CancelSearchButton.TouchUpInside += delegate {
-				//DismissViewController( true, null );
 		
 				NavigationController.SetNavigationBarHidden(false, false);
 				NavigationController.PopViewController(true);
@@ -91,12 +88,11 @@ namespace AccountExecutiveApp.iOS
         public void LoadSearchDataWithFilter( string filter )
         {
             var task = _viewModel.LoadSearchDataWithFilter( filter );
-            task.ContinueWith(_ => OnFilteredSearchResultsReturned());
+            task.ContinueWith(_ => InvokeOnMainThread(OnFilteredSearchResultsReturned));
         }
 
 	    public void OnFilteredSearchResultsReturned()
 	    {
-            //_tableSource.ApplyFilterWithText(SearchBar.Text);
             _tableSource.ReloadWithFilteredContacts( _viewModel.FilteredClientContacts, _viewModel.FilteredContractors );
             TableView.ReloadData();
 	    }
