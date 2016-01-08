@@ -7,6 +7,7 @@ using Moq;
 using NUnit.Framework;
 using SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive;
 using SiSystems.ClientApp.Web.Domain.Services.AccountExecutive;
+using SiSystems.ConsultantApp.Web.Domain.Repositories;
 using SiSystems.SharedModels;
 using SiSystems.Web.Domain.Context;
 
@@ -17,12 +18,14 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
     {
         private Mock<IJobsRepository> _jobsRepoMock;
         private Mock<IConsultantContractRepository> _contractsRepoMock;
+        private Mock<ITimesheetRepository> _timesheetsRepoMock;
         private Mock<ISessionContext> _sessionMock;
         
         [SetUp]
         public void Setup()
         {
             _jobsRepoMock = new Mock<IJobsRepository>();
+            _timesheetsRepoMock = new Mock<ITimesheetRepository>();
             _contractsRepoMock = new Mock<IConsultantContractRepository>();
             _sessionMock = new Mock<ISessionContext>();
             _sessionMock.Setup(context => context.CurrentUser).Returns(new User
@@ -43,7 +46,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
             _contractsRepoMock.Setup(repository => repository.GetFloThruSummaryByAccountExecutiveId(It.IsAny<int>()))
                 .Returns(contractSummaryToReturn);
 
-            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
+            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object,_timesheetsRepoMock.Object ,_sessionMock.Object);
 
             var summary = service.GetDashboardSummary();
 
@@ -64,7 +67,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
             _contractsRepoMock.Setup(repository => repository.GetFullySourcedSummaryByAccountExecutiveId(It.IsAny<int>()))
                 .Returns(contractSummaryToReturn);
 
-            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
+            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _timesheetsRepoMock.Object, _sessionMock.Object);
 
             var summary = service.GetDashboardSummary();
 
@@ -84,7 +87,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
             };
             _jobsRepoMock.Setup(repository => repository.GetSummaryCountsByAccountExecutiveId(It.IsAny<int>())).Returns(jobsToReturn);
 
-            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
+            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _timesheetsRepoMock.Object, _sessionMock.Object);
 
             var summary = service.GetDashboardSummary();
 
@@ -98,7 +101,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         {
             _contractsRepoMock.Setup(repository => repository.GetFloThruSummaryByAccountExecutiveId(It.IsAny<int>()));
 
-            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
+            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _timesheetsRepoMock.Object, _sessionMock.Object);
 
             var summary = service.GetDashboardSummary();
 
@@ -110,7 +113,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         {
             _contractsRepoMock.Setup(repository => repository.GetFullySourcedSummaryByAccountExecutiveId(It.IsAny<int>()));
 
-            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
+            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _timesheetsRepoMock.Object, _sessionMock.Object);
 
             var summary = service.GetDashboardSummary();
 
@@ -122,7 +125,7 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         {
             _jobsRepoMock.Setup(repository => repository.GetSummaryCountsByAccountExecutiveId(It.IsAny<int>()));
 
-            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _sessionMock.Object);
+            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _timesheetsRepoMock.Object, _sessionMock.Object);
 
             var summary = service.GetDashboardSummary();
 
