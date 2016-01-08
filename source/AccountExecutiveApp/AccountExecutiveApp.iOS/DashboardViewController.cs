@@ -209,6 +209,7 @@ namespace AccountExecutiveApp.iOS
 		        SetFullySourcedLabels();
 		        SetFloThruLabels();
 		        SetJobsLabels();
+                SetTimesheetLabels();
 		        RemoveOverlay();
 
                 NavigationItem.Title = _dashboardViewmodel.UserName;
