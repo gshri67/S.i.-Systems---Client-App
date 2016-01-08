@@ -107,5 +107,13 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         {
             return _totalFilteredContractors.Select( contractor => contractor.ContactInformation );
         }
+
+	    public void ReloadWithFilteredContacts(IEnumerable<UserContact> filteredClientContacts, IEnumerable<Contractor> filteredContractors)
+	    {
+	        _totalFilteredClientContacts = filteredClientContacts;
+	        _totalFilteredContractors = filteredContractors;
+
+            CapContacts();
+	    }
 	}
 }

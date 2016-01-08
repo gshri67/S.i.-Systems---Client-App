@@ -66,5 +66,6 @@ namespace Shared.Core
         Task<TimesheetContact> GetTimesheetContactById(int id);
         Task<IEnumerable<Contractor>> GetContractors();
         Task<IEnumerable<UserContact>> GetClientContacts();
+        Task<IEnumerable<UserContact>> GetClientContactsWithFilter( string filter );
     }
 }

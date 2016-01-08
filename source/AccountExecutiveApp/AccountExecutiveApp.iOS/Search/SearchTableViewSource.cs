@@ -201,5 +201,11 @@ namespace AccountExecutiveApp.iOS
 	        else
                 categoryIndex["Contractors"] = 0;   
 	    }
+
+	    public void ReloadWithFilteredContacts(IEnumerable<UserContact> filteredClientContacts, IEnumerable<Contractor> filteredContractors)
+	    {
+	        _tableModel.ReloadWithFilteredContacts(filteredClientContacts, filteredContractors);
+	        SetupCategoryIndexDictionary(); 
+	    }
 	}
 }

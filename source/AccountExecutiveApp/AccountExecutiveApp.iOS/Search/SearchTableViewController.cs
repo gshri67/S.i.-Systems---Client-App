@@ -36,8 +36,9 @@ namespace AccountExecutiveApp.iOS
 
 		    SearchBar.TextChanged += delegate
 		    {
-		        _tableSource.ApplyFilterWithText(SearchBar.Text);
-		        TableView.ReloadData();
+		        LoadSearchDataWithFilter(SearchBar.Text);
+		        //_tableSource.ApplyFilterWithText(SearchBar.Text);
+		        //TableView.ReloadData();
 		    };
 		}
 
@@ -87,7 +88,20 @@ namespace AccountExecutiveApp.iOS
 			task.ContinueWith(_ => UpdateUserInterface());
 		}
 
-		public override bool ShouldPerformSegue(string segueIdentifier, NSObject sender)
+        public void LoadSearchDataWithFilter( string filter )
+        {
+            var task = _viewModel.LoadSearchDataWithFilter( filter );
+            task.ContinueWith(_ => OnFilteredSearchResultsReturned());
+        }
+
+	    public void OnFilteredSearchResultsReturned()
+	    {
+            //_tableSource.ApplyFilterWithText(SearchBar.Text);
+            _tableSource.ReloadWithFilteredContacts( _viewModel.FilteredClientContacts, _viewModel.FilteredContractors );
+            TableView.ReloadData();
+	    }
+
+	    public override bool ShouldPerformSegue(string segueIdentifier, NSObject sender)
 		{
             /*
 			if (segueIdentifier == ClientSelectedFromJobListSegueIdentifier)

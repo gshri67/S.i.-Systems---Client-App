@@ -37,5 +37,12 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
             var userContacts = _service.GetClientContacts();
             return Request.CreateResponse(HttpStatusCode.OK, userContacts);
         }
+
+        [Route("Filter/{filter}")]
+        public HttpResponseMessage GetClientContactsWithFilter( string filter )
+        {
+            var userContacts = _service.GetClientContacts();
+            return Request.CreateResponse(HttpStatusCode.OK, userContacts);
+        }
     }
 }

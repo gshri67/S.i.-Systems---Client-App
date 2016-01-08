@@ -289,5 +289,11 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<IEnumerable<UserContact>>();
         }
+
+        [HttpGet("UserContact/Filter/{filter}")]
+        public async Task<IEnumerable<UserContact>> GetClientContactsWithFilter( string filter )
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<UserContact>>( new {filter} );
+        }
     }
 }
