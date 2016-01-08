@@ -35,7 +35,7 @@ namespace AccountExecutiveApp.iOS
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			string CellIdentifier = "SubtitleWithRightDetailCell";
-			var cell = tableView.DequeueReusableCell (CellIdentifier) as SubtitleWithRightDetailCell;
+            var cell = tableView.DequeueReusableCell(CellIdentifier) as SubtitleWithRightDetailCell ?? new SubtitleWithRightDetailCell(CellIdentifier);
 
 			if (_contract != null)
 			{

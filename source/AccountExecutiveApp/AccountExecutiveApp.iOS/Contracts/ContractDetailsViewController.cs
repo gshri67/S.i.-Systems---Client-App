@@ -24,7 +24,7 @@ namespace AccountExecutiveApp.iOS
             IndicateLoading();
 
 	        var task = _viewModel.LoadContractDetails(id);
-            task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
+            task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface));
 	    }
 
 	    private void UpdateUserInterface()
