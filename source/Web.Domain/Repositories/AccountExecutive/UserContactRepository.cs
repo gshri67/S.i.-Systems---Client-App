@@ -253,13 +253,13 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contactsQuery =
-                    @"SELECT TOP 500 Users.UserID, Users.FirstName, Users.LastName , NULL as ClientName
+                    @"SELECT TOP 500 Users.UserID AS Id, Users.FirstName, Users.LastName , NULL as ClientName
                     FROM Users 
                     JOIN PickList ON PickList.PickListID = Users.UserType
                     WHERE ((PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Candidate'))
                     AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')
                     UNION
-                    SELECT TOP 500 Users.UserID, Users.FirstName, Users.LastName, Company.CompanyName AS ClientName
+                    SELECT TOP 500 Users.UserID AS Id, Users.FirstName, Users.LastName, Company.CompanyName AS ClientName
                     FROM Users
                     JOIN Company ON Company.CompanyID = Users.CompanyID
                     JOIN PickList ON PickList.PickListID = Users.UserType
