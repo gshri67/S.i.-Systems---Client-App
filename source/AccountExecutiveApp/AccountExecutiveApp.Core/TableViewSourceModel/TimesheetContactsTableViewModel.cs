@@ -14,9 +14,9 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 		//private ClientContactDetailsTableViewModel _contractorTableModel;
 		//private ClientContactDetailsTableViewModel _directReportTableModel;
 
-	    public string ContractorFullName{ get { return _contact.Contractor.ContactInformation.FullName; } }
+	    public string ContractorFullName{ get { return _contact.Contractor.FullName; } }
         public string DirectReportFullName { get { return _contact.DirectReport.FullName; } }
-	    public int ContractorId { get { return _contact.Contractor.ContactInformation.Id; } }
+	    public int ContractorId { get { return _contact.Contractor.Id; } }
         public int DirectReportId { get { return _contact.DirectReport.Id; } }
 
 	    public TimesheetContactsTableViewModel(TimesheetContact contact )
@@ -30,7 +30,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 		public int NumberOfContractorPhoneNumbers()
 		{
-			return  _contact.Contractor.ContactInformation.PhoneNumbers.Count (); 
+			return  _contact.Contractor.PhoneNumbers.Count (); 
 		}
 		public int NumberOfDirectReportPhoneNumbers()
 		{
@@ -39,7 +39,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 		public int NumberOfContractorEmails()
 		{
-			return  _contact.Contractor.ContactInformation.EmailAddresses.Count();
+			return  _contact.Contractor.EmailAddresses.Count();
 		}
 		public int NumberOfDirectReportEmails()
 		{
@@ -48,8 +48,8 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 		public EmailAddress ContractorEmailAddressByRowNumber(int row)
 		{
-			if (_contact.Contractor.ContactInformation.EmailAddresses.Count() > row)
-				return _contact.Contractor.ContactInformation.EmailAddresses.ElementAt(row);
+			if (_contact.Contractor.EmailAddresses.Count() > row)
+				return _contact.Contractor.EmailAddresses.ElementAt(row);
 			return new EmailAddress();
 		}
 		public EmailAddress DirectReportEmailAddressByRowNumber(int row)
@@ -61,8 +61,8 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 		public PhoneNumber ContractorPhoneNumberByRowNumber(int row)
 		{
-			if (_contact.Contractor.ContactInformation.PhoneNumbers.Count() > row)
-				return _contact.Contractor.ContactInformation.PhoneNumbers.ElementAt(row);
+			if (_contact.Contractor.PhoneNumbers.Count() > row)
+				return _contact.Contractor.PhoneNumbers.ElementAt(row);
 			return new PhoneNumber();
 		}
 		public PhoneNumber DirectReportPhoneNumberByRowNumber(int row)

@@ -88,6 +88,7 @@
             <li role="presentation"><a id="jobsTabButton" href="#jobs" role="tab" data-toggle="tab">Jobs</a></li>
             <li role="presentation"><a id="jobDetailsTabButton" href="#jobDetails" role="tab" data-toggle="tab">Job Details</a></li>
             <li role="presentation"><a id="timesheetSummariesTabButton" href="#timesheetSummaries" role="tab" data-toggle="tab">TimesheetSummaries</a></li>
+            <li role="presentation"><a id="timesheetContactsTabButton" href="#timesheetContacts" role="tab" data-toggle="tab">Timesheet Contacts</a></li>
             <li role="presentation"><a id="contractorTabButton" href="#contractor" role="tab" data-toggle="tab">Contractor</a></li>
             <li role="presentation"><a id="userContactTabButton" href="#userContact" role="tab" data-toggle="tab">UserContact</a></li>
         </ul>
@@ -230,6 +231,17 @@
                     </div>
                 </div>
                 <div id="timesheetSummariesResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="timesheetContacts" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="timesheetContactsId" type="text" class="form-control" placeholder=""/>
+                    <div class="input-group-btn">
+                        <button id="timesheetContactsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="timesheetContactsResults" class="code json well">
                 </div>
             </div>
 
@@ -582,7 +594,7 @@
                     $('#timesheetSummariesResults').html('Sending...');
                     $.ajax({
                         type: 'GET',
-                        url: '/api/Timesheets/Reporting/Summaries',
+                        url: '/api/Timesheets/Reporting/Summary',
                         headers: {
                             Authorization: 'Bearer ' + page.token
                         }
@@ -598,6 +610,29 @@
 
 
                     }).fail(function (err) { showError(err, 'timesheetSummariesResults') });
+                },
+                getTimesheetContacts: function () {
+                    var id = $('#timesheetContactsId').val();
+
+                    $('#timesheetContactsResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Timesheets/Reporting/Contact/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#timesheetContactsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'timesheetContactsResults') });
                 },
                 getContractor: function () {
                     $('#contractorResults').html('Sending...');
@@ -662,6 +697,7 @@
             $('#getJobDetailsButton').click(page.getJobDetails);
             $('#getJobsButton').click(page.getJobs);
             $('#timesheetSummariesButton').click(page.getTimesheetSummaries);
+            $('#timesheetContactsButton').click(page.getTimesheetContacts);
             $('#contractorButton').click(page.getContractor);
             $('#userContactButton').click(page.getUserContact);
 

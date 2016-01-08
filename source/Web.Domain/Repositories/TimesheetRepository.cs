@@ -305,84 +305,37 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
         public TimesheetContact GetTimesheetContactById(int id)
         {
-            return new TimesheetContact()
+            const string timesheetContactQuery =
+                @"SELECT TimeSheet.TimeSheetID AS Id, Agreement.AgreementID AS AgreementId, Company.CompanyName, Period.TimeSheetAvailablePeriodStartDate AS StartDate, Period.TimeSheetAvailablePeriodEndDate AS EndDate, TimeSheet.StatusID AS Status
+                FROM TimeSheet 
+                LEFT JOIN Agreement ON Agreement.AgreementID = TimeSheet.AgreementID
+                LEFT JOIN Company on Company.CompanyID = Agreement.CompanyID
+                LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TimeSheet.TimeSheetAvailablePeriodID
+                WHERE TimeSheet.TimeSheetID = @Id";
+
+            const string consultantFromTimesheetId = 
+                @"SELECT TimeSheet.CandidateUserID AS Id
+                FROM TimeSheet 
+                WHERE TimeSheet.TimeSheetID = @Id";
+
+            const string directReportFromTimesheetId =
+                @"SELECT DirectReport.UserID AS Id
+                FROM TimeSheet 
+                LEFT JOIN Agreement_ContractAdminContactMatrix Matrix ON Matrix.AgreementID = TimeSheet.AgreementID
+                LEFT JOIN Users DirectReport ON DirectReport.UserID = Matrix.DirectReportUserID
+                WHERE TimeSheet.TimeSheetID = @Id";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                Id = 1,
-                CompanyName = "Cenovus",
-                StartDate = new DateTime(2015, 2, 2),
-                EndDate = new DateTime(2015, 2, 9),
-                Status = MatchGuideConstants.TimesheetStatus.Open,
-                Contractor = new Contractor
-                {
-                    ContactInformation = new UserContact
-                    {
-                        Id = 1,
-                        FirstName = "Robert",
-                        LastName = "Paulson",
-                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "rp.clientcontact@email.com", Title = "Primary" } }.AsEnumerable(),
-                        PhoneNumbers = new List<PhoneNumber> 
-                    { 
-                        new PhoneNumber
-                        {
-                            Title = "Work",
-                            AreaCode = 555,
-                            Prefix = 555,
-                            LineNumber = 1231
-                        }, new PhoneNumber
-                        {
-                            Title = "Cell",
-                            AreaCode = 555,
-                            Prefix = 222,
-                            LineNumber = 2212
-                        }
-                    }.AsEnumerable(),
-                    },
-                    Rating = MatchGuideConstants.ResumeRating.Standard,
-                    ResumeText = string.Empty,
-                    Specializations = new List<Specialization>
-                    {
-                    },
-                    Contracts = new List<ConsultantContract>
-                    {
-                        new ConsultantContract
-                        {
-                            ClientId = 1,
-                            ContractId = 2,
-                            ClientName = "Cenovus",
-                            ContractorName = "Robert Paulson",
-                            Title = string.Format("{0} - Project Manager", 59326),
-                            AgreementSubType = MatchGuideConstants.AgreementSubTypes.FloThru,
-                            StartDate = DateTime.UtcNow.AddDays(-15),
-                            EndDate = DateTime.UtcNow.AddMonths(3).AddDays(5)
-                        }
-                    }
-                },
-                    DirectReport = new UserContact
-                    {
-                        Id = id,
-                        FirstName = "Robert",
-                        LastName = "Paulson",
-                        EmailAddresses = new List<EmailAddress>() { new EmailAddress { Email = "rp.clientcontact@email.com", Title = "Primary" } }.AsEnumerable(),
-                        PhoneNumbers = new List<PhoneNumber> 
-                        { 
-                            new PhoneNumber
-                            {
-                                Title = "Work",
-                                AreaCode = 555,
-                                Prefix = 555,
-                                LineNumber = 1231
-                            }, new PhoneNumber
-                            {
-                                Title = "Cell",
-                                AreaCode = 555,
-                                Prefix = 222,
-                                LineNumber = 2212
-                            }
-                        }.AsEnumerable(),
-                        ClientName = "Cenovus",
-                        Address = "999 Rainbow Road SE, Calgary, AB"
-                    }
-            };
+                var contact = db.Connection.Query<TimesheetContact>(timesheetContactQuery, param: new { Id = id }).FirstOrDefault();
+                if (contact == null)
+                    return new TimesheetContact();
+
+                contact.Contractor = new UserContact{Id = db.Connection.Query<int>(consultantFromTimesheetId, param: new { Id = id }).FirstOrDefault()};
+                contact.DirectReport = new UserContact { Id = db.Connection.Query<int>(directReportFromTimesheetId, param: new { Id = id }).FirstOrDefault() };
+
+                return contact;
+            }
         }
     }
 
