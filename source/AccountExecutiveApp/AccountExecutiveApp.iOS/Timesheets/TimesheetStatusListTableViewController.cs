@@ -42,8 +42,6 @@ namespace AccountExecutiveApp.iOS
 
             LogoutManager.CreateNavBarLeftButton(this);
             SearchManager.CreateNavBarRightButton(this);
-
-            TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -51,6 +49,8 @@ namespace AccountExecutiveApp.iOS
 			base.ViewWillAppear (animated);
 
 			NavigationController.SetNavigationBarHidden (false, false);
+
+            IndicateLoading();
 		}
 
         public void LoadTimesheetSummary()
@@ -63,6 +63,8 @@ namespace AccountExecutiveApp.iOS
 	    private void UpdateUserInterface()
 	    {
             RemoveOverlay();
+
+            TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
 
             OpenTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfOpenTimesheets;
             SubmittedTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfSubmittedTimesheets;
@@ -94,7 +96,6 @@ namespace AccountExecutiveApp.iOS
 
 	    public override void ViewDidAppear (bool animated)
 		{
-            IndicateLoading();
             LoadTimesheetSummary();
 		}
 
@@ -126,8 +127,8 @@ namespace AccountExecutiveApp.iOS
             {
                 if (_overlay != null) return;
 
-
-                var frame = new CGRect(TableView.Frame.X, TableView.Frame.Y, TableView.Frame.Width, TableView.Frame.Height);
+                //The table is offset vertically by 64 points. So i reset it to 0.
+                var frame = new CGRect(0, 0, View.Frame.Width, View.Frame.Height);
                 _overlay = new LoadingOverlay(frame, null);
                 View.Add(_overlay);
             });
