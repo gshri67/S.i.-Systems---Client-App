@@ -39,9 +39,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             if (string.IsNullOrWhiteSpace(query))
                 return Enumerable.Empty<UserContact>();
 
-            var userIds = _repo.FindUserIds(query);
-
-            var contacts = userIds.Select(GetUserContactById);
+            var contacts = _repo.FindUsers(query);
 
             return contacts; 
         }

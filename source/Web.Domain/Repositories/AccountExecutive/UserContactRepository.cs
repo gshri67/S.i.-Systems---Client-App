@@ -18,7 +18,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         UserContact GetClientContactByAgreementId(int contractId);
         UserContact GetBillingContactByAgreementId(int contractId);
         IEnumerable<UserContact> GetClientContacts();
-        IEnumerable<int> FindUserIds(string query);
+        IEnumerable<UserContact> FindUsers(string query);
     }
 
     public class UserContactRepository : IUserContactRepository
@@ -248,18 +248,18 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             //throw new NotImplementedException();
         }
 
-        public IEnumerable<int> FindUserIds(string query)
+        public IEnumerable<UserContact> FindUsers(string query)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string contractsQuery =
-                    @"SELECT TOP 500 Users.UserID
+                const string contactsQuery =
+                    @"SELECT TOP 500 Users.UserID, Users.FirstName, Users.LastName , NULL as ClientName
                     FROM Users 
                     JOIN PickList ON PickList.PickListID = Users.UserType
                     WHERE ((PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Candidate'))
                     AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')
                     UNION
-                    SELECT TOP 500 Users.UserID
+                    SELECT TOP 500 Users.UserID, Users.FirstName, Users.LastName, Company.CompanyName AS ClientName
                     FROM Users
                     JOIN Company ON Company.CompanyID = Users.CompanyID
                     JOIN PickList ON PickList.PickListID = Users.UserType
@@ -267,9 +267,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     AND (PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Client Contact')
                     AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')";
 
-                var userIds = db.Connection.Query<int>(contractsQuery, param: new { Query = query });
+                var contacts = db.Connection.Query<UserContact>(contactsQuery, param: new { Query = query });
                 
-                return userIds ?? Enumerable.Empty<int>();
+                return contacts;
             }
         }
 
@@ -443,7 +443,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             return clientContacts;
         }
 
-        public IEnumerable<int> FindUserIds(string query)
+        public IEnumerable<UserContact> FindUsers(string query)
         {
             throw new NotImplementedException();
         }
