@@ -33,8 +33,14 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 	    public TimesheetListTableViewModel(IEnumerable<TimesheetDetails> timesheetDetails, MatchGuideConstants.TimesheetStatus status)
 		{
-			_timesheetByYear = timesheetDetails.ToDictionary(x => x.StartDate.Year, x => timesheetDetails.Where(d => d.StartDate.Year == x.StartDate.Year ));
+            _timesheetByYear = new Dictionary<int, IEnumerable<TimesheetDetails>>();
 	        Status = status;
+            var yearList = timesheetDetails.GroupBy(d => d.StartDate.Year).Select(grp => grp.First().StartDate.Year);
+
+	        foreach (var year in yearList)
+	        {
+	            _timesheetByYear.Add(year, timesheetDetails.Where(d=>d.St2artDate.Year == year));
+	        }
 		}
 
 		public bool RowIsInBounds(int section, int rowNumber)
