@@ -86,21 +86,22 @@ SET IDENTITY_INSERT [dbo].[Agreement_ContractRateDetail] OFF;
 INSERT INTO [dbo].[Agreement_ContractDetail](
 	[AgreementID],
 	[JobTitle],
-	[SpecializationID]
+	[SpecializationID],
+	[TimeSheetType]
 )
 VALUES
-(1, 'Senior Project Manager',  4),
-(2, 'Junior Java Jiver', 5),
-(3, 'Project Management Consultant', 4),
-(4, 'C# Afficionado', 4),
-(5, 'Humble Developer', 4),
-(6, 'SUPER Developer', 4),
-(7, 'Senior Project Manager',  4),
-(8, 'Junior Java Jiver', 5),
-(9, 'Project Management Consultant', 4),
-(10, 'C# Afficionado', 4),
-(11, 'Humble Developer', 4),
-(12, 'SUPER Developer', 4);
+(1, 'Senior Project Manager',  4, 851),
+(2, 'Junior Java Jiver', 5, 851),
+(3, 'Project Management Consultant', 4, 851),
+(4, 'C# Afficionado', 4, 851),
+(5, 'Humble Developer', 4, 851),
+(6, 'SUPER Developer', 4, 851),
+(7, 'Senior Project Manager',  4, 851),
+(8, 'Junior Java Jiver', 5, 851),
+(9, 'Project Management Consultant', 4, 851),
+(10, 'C# Afficionado', 4, 851),
+(11, 'Humble Developer', 4, 851),
+(12, 'SUPER Developer', 4, 851);
 
 SET IDENTITY_INSERT [dbo].[Agreement_ContractAdminContactMatrix] ON;
 

@@ -63,7 +63,7 @@ CREATE TABLE [dbo].[TimeSheetAvailablePeriod](
 	[TimeSheetAvailablePeriodID] [int] IDENTITY(1,1) NOT NULL,
 	[TimeSheetAvailablePeriodStartDate] [datetime] NULL,
 	[TimeSheetAvailablePeriodEndDate] [datetime] NULL,
-	--[TimeSheetPaymentType] [int] NOT NULL,
+	[TimeSheetPaymentType] [int] NOT NULL,
 	--[verticalid] [int] NULL,
  CONSTRAINT [PK_TimeSheetAvailablePeriod] PRIMARY KEY CLUSTERED 
 (
@@ -147,6 +147,17 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
+
+
+CREATE TABLE [dbo].[pammanualtimesheet](
+	[timesheetentereddate] [datetime] NULL,
+	[candidateid] [int] NULL,
+	[agreementid] [int] NULL,
+	[TimeSheetAvailablePeriodID] [int] NULL
+) ON [PRIMARY]
+
+GO
+
 
 
 /*
