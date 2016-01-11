@@ -489,5 +489,10 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             throw new NotImplementedException();
         }
+
+        public UserContact GetCandidateUserContactByAgreementId(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
