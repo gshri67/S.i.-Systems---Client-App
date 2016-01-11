@@ -28,7 +28,7 @@ namespace AccountExecutiveApp.iOS
 			if (TableView == null) return;
 
 			RegisterCellsForReuse();
-			TableView.Source = new TimesheetListTableViewSource(this, _viewModel.Timesheets);
+			TableView.Source = new TimesheetListTableViewSource(this, _viewModel.Timesheets, _viewModel.Status);
 			TableView.ReloadData();
 			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 		}
@@ -67,8 +67,8 @@ namespace AccountExecutiveApp.iOS
 		public void LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus status )
 		{
             IndicateLoading();
-			var task = _viewModel.LoadTimesheetDetails( status );
-
+			
+            var task = _viewModel.LoadTimesheetDetails( status );
 			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 		}
 

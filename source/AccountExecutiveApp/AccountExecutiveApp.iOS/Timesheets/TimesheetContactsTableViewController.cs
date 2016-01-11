@@ -69,10 +69,11 @@ namespace AccountExecutiveApp.iOS
 			base.DidReceiveMemoryWarning ();
 		}
         
-		public void LoadTimesheetContact( int Id )
+
+		public void LoadTimesheetContactWithIdAndStatus( int Id, MatchGuideConstants.TimesheetStatus status )
 		{
             IndicateLoading();
-			var task = _viewModel.LoadTimesheetContact( Id );
+			var task = _viewModel.LoadTimesheetContactWithIdAndStatus( Id, status );
 
 			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 		}

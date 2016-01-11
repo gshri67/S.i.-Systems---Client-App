@@ -23,6 +23,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<TimesheetDetails> GetCancelledTimesheetDetailsByAccountExecutiveId(int id);
         IEnumerable<TimesheetDetails> GetRejectedTimesheetDetailsByAccountExecutiveId(int id);
         TimesheetContact GetTimesheetContactById(int id);
+        TimesheetContact GetOpenTimesheetContactByAgreementId(int id);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -303,6 +304,43 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
+        //Get Open Timesheet with Agreement Id
+        public TimesheetContact GetOpenTimesheetContactByAgreementId(int id)
+        {
+            const string timesheetContactQuery =
+                @"SELECT TimeSheet.TimeSheetID AS Id, Agreement.AgreementID AS AgreementId, Company.CompanyName, Period.TimeSheetAvailablePeriodStartDate AS StartDate, Period.TimeSheetAvailablePeriodEndDate AS EndDate, TimeSheet.StatusID AS Status
+                FROM TimeSheet 
+                LEFT JOIN Agreement ON Agreement.AgreementID = TimeSheet.AgreementID
+                LEFT JOIN Company on Company.CompanyID = Agreement.CompanyID
+                LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TimeSheet.TimeSheetAvailablePeriodID
+                WHERE TimeSheet.AgreementID = @Id";
+
+            const string consultantFromTimesheetId = 
+                @"SELECT TimeSheet.CandidateUserID AS Id
+                FROM TimeSheet 
+                WHERE TimeSheet.AgreementID = @Id";
+
+            const string directReportFromTimesheetId =
+                @"SELECT DirectReport.UserID AS Id
+                FROM TimeSheet 
+                LEFT JOIN Agreement_ContractAdminContactMatrix Matrix ON Matrix.AgreementID = TimeSheet.AgreementID
+                LEFT JOIN Users DirectReport ON DirectReport.UserID = Matrix.DirectReportUserID
+                WHERE TimeSheet.AgreementID = @Id";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var contact = db.Connection.Query<TimesheetContact>(timesheetContactQuery, param: new { Id = id }).FirstOrDefault();
+                if (contact == null)
+                    return new TimesheetContact();
+
+                contact.Contractor = new UserContact{Id = db.Connection.Query<int>(consultantFromTimesheetId, param: new { Id = id }).FirstOrDefault()};
+                contact.DirectReport = new UserContact { Id = db.Connection.Query<int>(directReportFromTimesheetId, param: new { Id = id }).FirstOrDefault() };
+
+                return contact;
+            }
+        }
+
+        //Get unopen timesheet with timesheet Id
         public TimesheetContact GetTimesheetContactById(int id)
         {
             const string timesheetContactQuery =

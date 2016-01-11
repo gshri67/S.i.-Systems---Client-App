@@ -278,6 +278,12 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<TimesheetContact>(new { id });
         }
 
+        [HttpGet("Timesheets/Reporting/Contact/Open/{id}")]
+        public async Task<TimesheetContact> GetOpenTimesheetContactByAgreementId(int id)
+        {
+            return await ExecuteWithDefaultClient<TimesheetContact>(new { id });
+        }
+
         [HttpGet("Contractors")]
         public async Task<IEnumerable<Contractor>> GetContractors()
         {

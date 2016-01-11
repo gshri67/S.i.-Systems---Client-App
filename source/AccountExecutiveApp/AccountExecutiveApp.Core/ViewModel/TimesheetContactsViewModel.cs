@@ -25,12 +25,17 @@ namespace AccountExecutiveApp.Core.ViewModel
 		{
 			_api = api;
 		}
-		
-		public Task LoadTimesheetContact( int newId )
+
+		public Task LoadTimesheetContactWithIdAndStatus( int newId, MatchGuideConstants.TimesheetStatus status )
 		{
 		    Id = newId;
 
-			var task = GetTimesheetContactById( Id );
+		    Task task;
+			
+            if( status != MatchGuideConstants.TimesheetStatus.Open )
+                task = GetTimesheetContactById( Id );
+            else
+                task = GetOpenTimesheetContactByAgreementId(Id);
 
 			return task;
 		}
@@ -38,6 +43,10 @@ namespace AccountExecutiveApp.Core.ViewModel
 		private async Task GetTimesheetContactById( int Id )
 		{
 			Contact = await _api.GetTimesheetContactById( Id );
+		}
+        private async Task GetOpenTimesheetContactByAgreementId( int Id )
+		{
+			Contact = await _api.GetOpenTimesheetContactByAgreementId( Id );
 		}
 
 	    public string CompanyName { get { return Contact.CompanyName; } }
@@ -53,6 +62,5 @@ namespace AccountExecutiveApp.Core.ViewModel
        
 	    public string PageTitle { get{ return string.Format("{0} Timesheet", _contact.Status.ToString() ); } }
         public string PageSubtitle { get { return string.Format("{0}, {1}", CompanyName, FormattedPeriod); } }
-        
 	}
 }

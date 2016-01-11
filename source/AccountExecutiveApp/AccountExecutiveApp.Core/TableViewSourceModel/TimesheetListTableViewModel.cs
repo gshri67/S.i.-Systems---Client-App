@@ -10,7 +10,9 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 	public class TimesheetListTableViewModel
 	{
 		private Dictionary<int, IEnumerable<TimesheetDetails>> _timesheetByYear;
-		private Dictionary<int, IEnumerable<TimesheetDetails>> TimesheetByYear
+	    public MatchGuideConstants.TimesheetStatus Status;
+
+	    private Dictionary<int, IEnumerable<TimesheetDetails>> TimesheetByYear
 		{
 			get { return _timesheetByYear ?? new Dictionary<int, IEnumerable<TimesheetDetails>>(); }
 			set { _timesheetByYear = value ?? new Dictionary<int, IEnumerable<TimesheetDetails>>(); }
@@ -22,10 +24,17 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             ? TimesheetByYear.Values.ElementAt(section).ElementAt(rowNumber).Id
                 : 0;
 	    }
+        public int AgreementIdBySectionAndRow(int section, int rowNumber)
+        {
+            return RowIsInBounds(section, rowNumber)
+            ? TimesheetByYear.Values.ElementAt(section).ElementAt(rowNumber).AgreementId
+                : 0;
+        }
 
-	    public TimesheetListTableViewModel(IEnumerable<TimesheetDetails> timesheetDetails)
+	    public TimesheetListTableViewModel(IEnumerable<TimesheetDetails> timesheetDetails, MatchGuideConstants.TimesheetStatus status)
 		{
 			_timesheetByYear = timesheetDetails.ToDictionary(x => x.StartDate.Year, x => timesheetDetails.Where(d => d.StartDate.Year == x.StartDate.Year ));
+	        Status = status;
 		}
 
 		public bool RowIsInBounds(int section, int rowNumber)

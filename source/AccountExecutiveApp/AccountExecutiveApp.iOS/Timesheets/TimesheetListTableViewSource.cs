@@ -15,9 +15,9 @@ namespace AccountExecutiveApp.iOS
 		private readonly TimesheetListTableViewController _parentController;
 		private readonly TimesheetListTableViewModel _listViewModel;
 
-		public TimesheetListTableViewSource(TimesheetListTableViewController parentViewController, IEnumerable<TimesheetDetails> details )
+		public TimesheetListTableViewSource(TimesheetListTableViewController parentViewController, IEnumerable<TimesheetDetails> details, MatchGuideConstants.TimesheetStatus status )
 		{
-			_listViewModel = new TimesheetListTableViewModel(details);
+			_listViewModel = new TimesheetListTableViewModel(details, status);
 
 			_parentController = parentViewController;
 		}
@@ -57,8 +57,13 @@ namespace AccountExecutiveApp.iOS
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
 		{
             var viewController = (TimesheetContactsTableViewController)_parentController.Storyboard.InstantiateViewController("TimesheetContactsTableViewController");
-            viewController.LoadTimesheetContact(_listViewModel.TimesheetIdBySectionAndRow((int)indexPath.Section, (int)indexPath.Item));
-			_parentController.ShowViewController(viewController, _parentController);
+            
+            if( _listViewModel.Status == MatchGuideConstants.TimesheetStatus.Open )
+                viewController.LoadTimesheetContactWithIdAndStatus(_listViewModel.AgreementIdBySectionAndRow((int)indexPath.Section, (int)indexPath.Item), _listViewModel.Status);
+            else
+                viewController.LoadTimesheetContactWithIdAndStatus(_listViewModel.TimesheetIdBySectionAndRow((int)indexPath.Section, (int)indexPath.Item), _listViewModel.Status);
+	
+            _parentController.ShowViewController(viewController, _parentController);
 		}
 
 	    public override string TitleForHeader(UITableView tableView, nint section)

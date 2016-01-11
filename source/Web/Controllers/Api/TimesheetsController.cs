@@ -64,5 +64,12 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             var contact = _service.GetTimesheetContactById( id );
             return Request.CreateResponse(HttpStatusCode.OK, contact );
         }
+
+        [Route("Contact/Open/{id}")]
+        public HttpResponseMessage GetOpenTimesheetContactByAgreementId(int id)
+        {
+            var contact = _service.GetOpenTimesheetContactByAgreementId(id);
+            return Request.CreateResponse(HttpStatusCode.OK, contact);
+        }
     }
 }

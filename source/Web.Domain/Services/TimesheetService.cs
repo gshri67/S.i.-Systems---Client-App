@@ -162,6 +162,23 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return details;
         }
 
+        //get open Timesheet
+        public TimesheetContact GetOpenTimesheetContactByAgreementId(int id)
+        {
+            var contact = _timeSheetRepository.GetOpenTimesheetContactByAgreementId(id);
+
+            if (contact.Contractor == null)
+                contact.Contractor = new UserContact();
+            contact.Contractor = _userContactRepository.GetUserContactById(contact.Contractor.Id);
+
+            if (contact.DirectReport == null)
+                contact.DirectReport = new UserContact();
+            contact.DirectReport = _userContactRepository.GetUserContactById(contact.DirectReport.Id);
+
+            return contact;
+        }
+
+        //get unopen Timesheet
         public TimesheetContact GetTimesheetContactById(int id)
         {
             var contact = _timeSheetRepository.GetTimesheetContactById(id);
