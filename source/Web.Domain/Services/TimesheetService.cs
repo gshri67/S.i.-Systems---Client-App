@@ -169,11 +169,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             if (contact.Contractor == null)
                 contact.Contractor = new UserContact();
-            contact.Contractor = _userContactRepository.GetUserContactById(contact.Contractor.Id);
+            contact.Contractor = _userContactRepository.GetCandidateUserContactByAgreementId(id);
 
             if (contact.DirectReport == null)
                 contact.DirectReport = new UserContact();
-            contact.DirectReport = _userContactRepository.GetUserContactById(contact.DirectReport.Id);
+            contact.DirectReport = _userContactRepository.GetDirectReportByAgreementId(id);
 
             return contact;
         }

@@ -19,6 +19,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         UserContact GetBillingContactByAgreementId(int contractId);
         IEnumerable<UserContact> GetClientContacts();
         IEnumerable<UserContact> FindUsers(string query);
+        UserContact GetCandidateUserContactByAgreementId(int id);
     }
 
     public class UserContactRepository : IUserContactRepository
@@ -270,6 +271,47 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 var contacts = db.Connection.Query<UserContact>(contactsQuery, param: new { Query = query });
                 
                 return contacts;
+            }
+        }
+
+        public UserContact GetCandidateUserContactByAgreementId(int id)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string contractsQuery =
+                    @"SELECT Agreement.ContactID AS Id,
+	                    Users.FirstName, 
+	                    Users.LastName,
+	                    Company.CompanyName AS ClientName,
+	                    ISNULL(Addr.Address1, '') 
+	                    + ISNULL(Addr.Address2, '') 
+	                    + ISNULL(Addr.Address3, '') 
+	                    + ISNULL(Addr.Address4, '') AS Address
+                    FROM Agreement
+                    JOIN Users ON Agreement.CandidateID = Users.UserID
+                    JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                    LEFT JOIN (
+	                    SELECT *
+	                    FROM User_Address
+	                    WHERE User_Address.MainAddress = 1 
+	                    AND User_Address.Inactive = 0
+                    ) AddressMatrix ON Users.UserID = AddressMatrix.AddressID
+                    LEFT JOIN (
+	                    SELECT *
+	                    FROM Address	
+	                    WHERE Address.Inactive = 0
+                    ) Addr ON AddressMatrix.AddressID = Addr.AddressID
+                    WHERE Agreement.AgreementID = @Id";
+
+                var contact = db.Connection.Query<UserContact>(contractsQuery, param: new { Id = id }).FirstOrDefault();
+
+                if (contact != null)
+                {
+                    contact.EmailAddresses = GetUserContactEmailsByUserId(contact.Id);
+                    contact.PhoneNumbers = GetUserContactPhoneNumbersByUserId(contact.Id);
+                }
+
+                return contact;
             }
         }
 

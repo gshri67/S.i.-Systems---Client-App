@@ -10,7 +10,8 @@ namespace SiSystems.SharedModels
         public string CompanyName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-	    public MatchGuideConstants.TimesheetStatus Status { get; set; }public UserContact Contractor { get; set; }
+	    public MatchGuideConstants.TimesheetStatus Status { get; set; }
+        public UserContact Contractor { get; set; }
         public UserContact DirectReport { get; set; }
 
 
