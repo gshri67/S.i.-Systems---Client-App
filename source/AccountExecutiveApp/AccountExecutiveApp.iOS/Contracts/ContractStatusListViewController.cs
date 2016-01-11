@@ -89,6 +89,9 @@ namespace AccountExecutiveApp.iOS
         {
             if (_contracts != null) return;
 
+            if (RefreshControl == null || !RefreshControl.Refreshing)
+            IndicateLoading();
+
             _contracts = await _contractsViewModel.getContracts();
 
 

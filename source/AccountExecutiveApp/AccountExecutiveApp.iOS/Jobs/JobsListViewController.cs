@@ -18,6 +18,7 @@ namespace AccountExecutiveApp.iOS
 	    public const string SubtitleCellIdentifier = "SubtitleWithRightDetailCell";
         public string Subtitle;
         private LoadingOverlay _overlay;
+        private int _clientId;
 
         public JobsListViewController (IntPtr handle) : base (handle)
 		{
@@ -45,7 +46,14 @@ namespace AccountExecutiveApp.iOS
 
             CreateCustomTitleBar();
 
-			UpdateUserInterface ();
+            RefreshControl = new UIRefreshControl();
+            RefreshControl.ValueChanged += delegate
+            {
+                if (_overlay != null)
+                    _overlay.Hidden = true;
+
+                SetClientID(_clientId);
+            };
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -57,7 +65,10 @@ namespace AccountExecutiveApp.iOS
 
 		public void SetClientID( int ClientID )
 		{
-            IndicateLoading();
+            if (RefreshControl == null || !RefreshControl.Refreshing)
+                IndicateLoading();
+
+		    _clientId = ClientID;
 
 		    var task = _jobsListViewModel.SetClientID(ClientID);
 
@@ -68,7 +79,14 @@ namespace AccountExecutiveApp.iOS
 		{
             InvokeOnMainThread(SetupTableViewSource);
             InvokeOnMainThread(RemoveOverlay);
-		}
+            InvokeOnMainThread(StopRefreshing);
+        }
+
+        public void StopRefreshing()
+        {
+            if (RefreshControl != null && RefreshControl.Refreshing)
+                RefreshControl.EndRefreshing();
+        }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
         {

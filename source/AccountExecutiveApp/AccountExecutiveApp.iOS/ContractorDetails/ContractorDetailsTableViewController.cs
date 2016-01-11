@@ -43,7 +43,6 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
             TableView.Source = new ContractorDetailsTableViewSource(this, _viewModel.Contractor);
-			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
             TableView.ReloadData();
         }
 
@@ -52,7 +51,14 @@ namespace AccountExecutiveApp.iOS
 	        InvokeOnMainThread(InstantiateTableViewSource);
             InvokeOnMainThread(UpdatePageTitle);
             InvokeOnMainThread(RemoveOverlay);
-	    }
+            InvokeOnMainThread(StopRefreshing);
+        }
+
+        public void StopRefreshing()
+        {
+            if (RefreshControl != null && RefreshControl.Refreshing)
+                RefreshControl.EndRefreshing();
+        }
 
         public override void ViewDidLoad()
         {
@@ -64,6 +70,17 @@ namespace AccountExecutiveApp.iOS
 			EdgesForExtendedLayout = UIRectEdge.None;
 			ExtendedLayoutIncludesOpaqueBars = false;
 			AutomaticallyAdjustsScrollViewInsets = false;
+
+            RefreshControl = new UIRefreshControl();
+            RefreshControl.ValueChanged += delegate
+            {
+                if (_overlay != null)
+                    _overlay.Hidden = true;
+
+                LoadContractor();
+            };
+
+            TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
         }
 
 		private void UpdatePageTitle()
@@ -85,7 +102,6 @@ namespace AccountExecutiveApp.iOS
             InvokeOnMainThread(delegate
             {
                 if (_overlay != null) return;
-
 
                 var frame = new CGRect(TableView.Frame.X, TableView.Frame.Y, TableView.Frame.Width, TableView.Frame.Height);
                 _overlay = new LoadingOverlay(frame, null);

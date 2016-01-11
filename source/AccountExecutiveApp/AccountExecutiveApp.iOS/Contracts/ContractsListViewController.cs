@@ -64,8 +64,7 @@ namespace AccountExecutiveApp.iOS
 
             if( !_contractsWereSet )
                 LoadContracts();
-			
-            
+
             CreateCustomTitleBar();
 
 			UpdateUI ();

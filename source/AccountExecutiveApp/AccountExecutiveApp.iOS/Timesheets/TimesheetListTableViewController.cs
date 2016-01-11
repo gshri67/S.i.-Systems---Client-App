@@ -45,6 +45,15 @@ namespace AccountExecutiveApp.iOS
 			base.ViewDidLoad ();
 
             SearchManager.CreateNavBarRightButton(this);
+
+            RefreshControl = new UIRefreshControl();
+            RefreshControl.ValueChanged += delegate
+            {
+                if (_overlay != null)
+                    _overlay.Hidden = true;
+
+                LoadTimesheetDetails(_viewModel.Status);
+            };
 		}
 
 		public override void ViewDidAppear (bool animated)
@@ -55,11 +64,22 @@ namespace AccountExecutiveApp.iOS
 		{
             InvokeOnMainThread(RemoveOverlay);
 			InvokeOnMainThread(InstantiateTableViewSource);
-			Title = _viewModel.PageTitle;
+			InvokeOnMainThread(UpdateTitle);
+            InvokeOnMainThread(StopRefreshing);
+        }
+
+        public void StopRefreshing()
+        {
+            if (RefreshControl != null && RefreshControl.Refreshing)
+                RefreshControl.EndRefreshing();
 		}
 
+	    public void UpdateTitle()
+	    {
+            Title = _viewModel.PageTitle;
+	    }
 
-		public override void DidReceiveMemoryWarning ()
+	    public override void DidReceiveMemoryWarning ()
 		{
 			base.DidReceiveMemoryWarning ();
 		}

@@ -71,6 +71,8 @@ namespace AccountExecutiveApp.iOS
 
         public void LoadJobs()
         {
+            if( RefreshControl == null || !RefreshControl.Refreshing )
+            IndicateLoading();
             var task = _jobsViewModel.LoadJobs();
             task.ContinueWith(_ => UpdateUserInterface());
         }
