@@ -39,7 +39,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 	        foreach (var year in yearList)
 	        {
-	            _timesheetByYear.Add(year, timesheetDetails.Where(d=>d.St2artDate.Year == year));
+	            _timesheetByYear.Add(year, timesheetDetails.Where(d=>d.StartDate.Year == year));
 	        }
 		}
 
