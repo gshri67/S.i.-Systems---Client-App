@@ -126,10 +126,7 @@ namespace AccountExecutiveApp.iOS
             InvokeOnMainThread(delegate
             {
                 if (_overlay != null) return;
-
-                //The table is offset vertically by 64 points. So i reset it to 0.
-                var frame = new CGRect(0, 0, View.Frame.Width, View.Frame.Height);
-                _overlay = new LoadingOverlay(frame, null);
+                _overlay = new LoadingOverlay(View.Bounds, null);
                 View.Add(_overlay);
             });
         }
