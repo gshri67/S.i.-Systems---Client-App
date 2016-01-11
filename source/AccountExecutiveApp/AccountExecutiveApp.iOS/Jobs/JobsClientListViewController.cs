@@ -53,7 +53,15 @@ namespace AccountExecutiveApp.iOS
             SearchManager.CreateNavBarRightButton(this);
 
 		    LoadJobs();
-            IndicateLoading();
+
+            RefreshControl = new UIRefreshControl();
+            RefreshControl.ValueChanged += delegate
+            {
+                if (_overlay != null)
+                    _overlay.Hidden = true;
+
+                LoadJobs();
+            };
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -67,6 +75,13 @@ namespace AccountExecutiveApp.iOS
         {
             InvokeOnMainThread(InstantiateTableViewSource);
             InvokeOnMainThread(RemoveOverlay);
+            InvokeOnMainThread(StopRefreshing);
+        }
+
+        public void StopRefreshing()
+        {
+            if (RefreshControl != null && RefreshControl.Refreshing)
+                RefreshControl.EndRefreshing();
         }
 
         public void LoadJobs()

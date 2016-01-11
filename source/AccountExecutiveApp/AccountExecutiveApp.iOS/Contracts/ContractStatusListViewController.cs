@@ -53,11 +53,15 @@ namespace AccountExecutiveApp.iOS
             SearchManager.CreateNavBarRightButton(this);
 
             LoadContracts();
-            IndicateLoading();
 
-			//SetupTableViewSource ();
+            RefreshControl = new UIRefreshControl();
+            RefreshControl.ValueChanged += delegate
+            {
+                if (_overlay != null)
+                    _overlay.Hidden = true;
 
-			//TableView.ReloadData ();
+                LoadContracts();
+            };
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -81,19 +85,20 @@ namespace AccountExecutiveApp.iOS
             { 
 				SetupTableViewSource ();
 				TableView.ReloadData ();
-                RemoveOverlay();
 			}
+
+            RemoveOverlay();
+
+            if (RefreshControl != null && RefreshControl.Refreshing)
+                RefreshControl.EndRefreshing();
         }
 
         public async void LoadContracts()
         {
-            if (_contracts != null) return;
-
             if (RefreshControl == null || !RefreshControl.Refreshing)
-            IndicateLoading();
+               IndicateLoading();
 
             _contracts = await _contractsViewModel.getContracts();
-
 
             UpdateUI();
         }
