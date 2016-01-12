@@ -43,6 +43,8 @@ namespace AccountExecutiveApp.iOS
             LogoutManager.CreateNavBarLeftButton(this);
             SearchManager.CreateNavBarRightButton(this);
 
+            TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
+
             RefreshControl = new UIRefreshControl();
             RefreshControl.ValueChanged += delegate
             {
@@ -57,7 +59,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewWillAppear (animated);
 
-			NavigationController.SetNavigationBarHidden (false, false);
+            if( NavigationController != null )
+    			NavigationController.SetNavigationBarHidden (false, false);
 		}
 
         public void LoadTimesheetSummary()
@@ -76,8 +79,6 @@ namespace AccountExecutiveApp.iOS
 
             if (RefreshControl != null && RefreshControl.Refreshing)
                 RefreshControl.EndRefreshing();
-
-            TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
 
             OpenTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfOpenTimesheets;
             SubmittedTimesheetsCell.DetailTextLabel.Text = _viewModel.FormattedNumberOfSubmittedTimesheets;
@@ -106,11 +107,6 @@ namespace AccountExecutiveApp.iOS
                 CancelledTimesheetsCell.Accessory = UITableViewCellAccessory.None;
 	        }
 	    }
-
-	    public override void ViewDidAppear (bool animated)
-		{
-            LoadTimesheetSummary();
-		}
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
         {
