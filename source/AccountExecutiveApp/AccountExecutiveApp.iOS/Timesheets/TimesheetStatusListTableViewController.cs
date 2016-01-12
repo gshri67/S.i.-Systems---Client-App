@@ -54,6 +54,8 @@ namespace AccountExecutiveApp.iOS
 
                 LoadTimesheetSummary();
             };
+
+            LoadTimesheetSummary();
 		}
 
 		public override void ViewWillAppear (bool animated)
