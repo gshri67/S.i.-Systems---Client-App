@@ -206,7 +206,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"SELECT Agreement.ContactID AS Id,
+                    @"SELECT Matrix.BillingUserID AS Id,
 	                    Users.FirstName, 
 	                    Users.LastName,
 	                    Company.CompanyName AS ClientName,
