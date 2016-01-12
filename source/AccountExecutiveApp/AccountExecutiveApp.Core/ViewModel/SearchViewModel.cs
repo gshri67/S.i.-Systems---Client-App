@@ -84,8 +84,8 @@ namespace AccountExecutiveApp.Core.ViewModel
             //FilteredContractors = await _api.GetContractorsWithFilter( filter );
             IEnumerable<UserContact> FilteredContacts = await _api.GetClientContactsWithFilter( filter );
 
-            FilteredClientContacts = FilteredContacts.Where(contact => !string.IsNullOrEmpty(contact.ClientName));
-            FilteredContractors = FilteredContacts.Where(contact => string.IsNullOrEmpty(contact.ClientName));
+            FilteredClientContacts = FilteredContacts.Where(contact => !string.IsNullOrEmpty(contact.ClientName)).OrderBy(contact => contact.FullName);
+            FilteredContractors = FilteredContacts.Where(contact => string.IsNullOrEmpty(contact.ClientName)).OrderBy(contact => contact.FullName);
         }
     }
 }
