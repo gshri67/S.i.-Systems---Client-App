@@ -35,11 +35,14 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 		{
             _timesheetByYear = new Dictionary<int, IEnumerable<TimesheetDetails>>();
 	        Status = status;
-            var yearList = timesheetDetails.GroupBy(d => d.StartDate.Year).Select(grp => grp.First().StartDate.Year);
+            var yearList = timesheetDetails.GroupBy(d => d.StartDate.Year).Select(grp => grp.First().StartDate.Year).OrderByDescending(year=>year);
 
 	        foreach (var year in yearList)
 	        {
-	            _timesheetByYear.Add(year, timesheetDetails.Where(d=>d.StartDate.Year == year));
+	            _timesheetByYear.Add(year, 
+                    timesheetDetails.Where(d=>d.StartDate.Year == year)
+                    .OrderByDescending(details => details.EndDate)
+                    .ThenBy(details => details.StartDate));
 	        }
 		}
 
