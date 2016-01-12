@@ -74,7 +74,8 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewWillAppear (animated);
 
-			NavigationController.SetNavigationBarHidden (false, false);
+            if( NavigationController != null )
+    			NavigationController.SetNavigationBarHidden (false, false);
 		}
 
 		private void AddImageToLabel( UIImage image, UILabel label )

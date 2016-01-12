@@ -86,7 +86,8 @@ namespace AccountExecutiveApp.iOS
 
 		public void LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus status )
 		{
-            IndicateLoading();
+            if( RefreshControl == null || !RefreshControl.Refreshing )
+                IndicateLoading();
 			
             var task = _viewModel.LoadTimesheetDetails( status );
 			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
