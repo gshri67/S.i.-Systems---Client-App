@@ -10,6 +10,7 @@ namespace AccountExecutiveApp.iOS
         public const string CellIdentifier = "RightDetailCell";
 		public UILabel MainTextLabel;
 		public UILabel RightDetailTextLabel;
+	    private bool shrinkRightDetailText = true;
 
 		public RightDetailCell(IntPtr handle)
 			: base(handle)
@@ -65,8 +66,18 @@ namespace AccountExecutiveApp.iOS
 
 		public void SetupConstraints()
 		{
-			AddRightDetailTextLabelConstraints();
-			AddMainTextLabelConstraints();
+		    if (shrinkRightDetailText)
+		    {
+		        RightDetailTextLabel.AdjustsFontSizeToFitWidth = true;
+		        RightDetailTextLabel.MinimumFontSize = 10;
+                AddMainTextLabelConstraintsWithShrunkRightDetail();
+                AddShrunkRightDetailTextLabelConstraints();
+		    }
+		    else
+		    {
+		        AddRightDetailTextLabelConstraints();
+		        AddMainTextLabelConstraints();
+		    }
 		}
 
 		private void AddMainTextLabelConstraints()
@@ -75,14 +86,25 @@ namespace AccountExecutiveApp.iOS
 			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, RightDetailTextLabel, NSLayoutAttribute.Left, 1.0f, 0f));
 		}
+        private void AddMainTextLabelConstraintsWithShrunkRightDetail()
+        {
+            AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.LessThanOrEqual, this, NSLayoutAttribute.Right, 0.7f, 0f));
+        }
 
 		private void AddRightDetailTextLabelConstraints()
 		{
-
-			AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, this, NSLayoutAttribute.Right, 0.65f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
+    		AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, this, NSLayoutAttribute.Right, 0.6f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
 		}
+        private void AddShrunkRightDetailTextLabelConstraints()
+        {
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 5f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
+        }
 
 		public void UpdateCell(string mainText, string rightDetailText)
 		{
