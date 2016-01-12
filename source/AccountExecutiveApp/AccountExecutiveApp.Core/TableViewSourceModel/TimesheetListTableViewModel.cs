@@ -42,7 +42,9 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 	            _timesheetByYear.Add(year, 
                     timesheetDetails.Where(d=>d.StartDate.Year == year)
                     .OrderByDescending(details => details.EndDate)
-                    .ThenBy(details => details.StartDate));
+                    .ThenBy(details => details.StartDate)
+                    .ThenBy(details => details.CompanyName)
+                    .ThenBy(details => details.ContractorFullName));
 	        }
 		}
 
