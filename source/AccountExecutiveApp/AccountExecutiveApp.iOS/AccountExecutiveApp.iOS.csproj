@@ -93,9 +93,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|iPhone'">
     <OutputPath>bin\iPhone\Test\</OutputPath>
     <BuildIpa>True</BuildIpa>
-    <CodesignKey>iPhone Developer: Andrew Wilson (EEUJM7BNHG)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <CodesignProvision>188b2dea-fb9a-469a-92a8-e9cc721332de</CodesignProvision>
+    <CodesignProvision>
+    </CodesignProvision>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
