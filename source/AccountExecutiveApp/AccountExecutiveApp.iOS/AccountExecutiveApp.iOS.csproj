@@ -94,7 +94,6 @@
     <OutputPath>bin\iPhone\Test\</OutputPath>
     <BuildIpa>True</BuildIpa>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignProvision>
     </CodesignProvision>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
