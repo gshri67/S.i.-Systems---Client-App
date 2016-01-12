@@ -11,7 +11,22 @@ namespace AccountExecutiveApp.iOS
 	    private NSAttributedString _attributedTitleText;
 
 		public string TitleText{ get{ return _titleText; } set{ _titleText = value; titleLabel.Text = TitleText; updateUI(); } }
-		public string SubtitleText{ get{ return _subtitleText; } set{ _subtitleText = value; subtitleLabel.Text = SubtitleText; updateUI(); } }
+
+	    public string SubtitleText
+	    {
+	        get{ return _subtitleText; }
+	        set
+	        {
+	            _subtitleText = value;
+
+                if ( _subtitleText != null && _subtitleText.Length > 35)
+                    _subtitleText = _subtitleText.Substring(0, 34);
+
+                subtitleLabel.Text = SubtitleText; 
+                updateUI();
+	        }
+	    }
+
         public NSAttributedString AttributedTitleText { get { return _attributedTitleText; } set { _attributedTitleText = value; titleLabel.AttributedText = _attributedTitleText; updateUI(); } }
 	    public UIFont TitleFont {
             get { return _titleFont; }

@@ -42,6 +42,15 @@ namespace AccountExecutiveApp.iOS
 
             LogoutManager.CreateNavBarLeftButton(this);
             SearchManager.CreateNavBarRightButton(this);
+
+            RefreshControl = new UIRefreshControl();
+            RefreshControl.ValueChanged += delegate
+            {
+                if (_overlay != null)
+                    _overlay.Hidden = true;
+
+                LoadTimesheetSummary();
+            };
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -49,12 +58,13 @@ namespace AccountExecutiveApp.iOS
 			base.ViewWillAppear (animated);
 
 			NavigationController.SetNavigationBarHidden (false, false);
-
-            IndicateLoading();
 		}
 
         public void LoadTimesheetSummary()
         {
+            if( RefreshControl == null || !RefreshControl.Refreshing )
+                IndicateLoading();
+
             var task = _viewModel.LoadTimesheetSummary();
 
             task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
@@ -63,6 +73,9 @@ namespace AccountExecutiveApp.iOS
 	    private void UpdateUserInterface()
 	    {
             RemoveOverlay();
+
+            if (RefreshControl != null && RefreshControl.Refreshing)
+                RefreshControl.EndRefreshing();
 
             TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
 
