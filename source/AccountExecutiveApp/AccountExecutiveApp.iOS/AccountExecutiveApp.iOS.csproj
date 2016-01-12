@@ -84,7 +84,7 @@
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;TEST</DefineConstants>
     <Optimize>true</Optimize>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Andrew Wilson (EEUJM7BNHG)</CodesignKey>
     <CodesignProvision>188b2dea-fb9a-469a-92a8-e9cc721332de</CodesignProvision>
     <CodesignEntitlements />
     <CodesignResourceRules />
