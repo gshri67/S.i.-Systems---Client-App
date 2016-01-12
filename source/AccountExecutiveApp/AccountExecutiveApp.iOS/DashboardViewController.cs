@@ -154,6 +154,26 @@ namespace AccountExecutiveApp.iOS
                 var jobsListVC = (JobsClientListViewController)Storyboard.InstantiateViewController("JobsClientListViewController");
 				ShowViewController( jobsListVC, this );
 			};
+
+			OpenTimesheetsButtonOverlay.TouchUpInside += delegate 
+			{
+				if( int.Parse(_dashboardViewmodel.OpenTimesheets) > 0 )
+				{
+					var openTimesheetsListVC = (TimesheetListTableViewController)Storyboard.InstantiateViewController("TimesheetListTableViewController");
+					openTimesheetsListVC.LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus.Open );
+					ShowViewController( openTimesheetsListVC, this );
+				}
+			};
+
+			SubmittedTimesheetsButtonOverlay.TouchUpInside += delegate 
+			{
+				if( int.Parse(_dashboardViewmodel.SubmittedTimesheets) > 0 )
+				{
+					var submittedTimesheetsListVC = (TimesheetListTableViewController)Storyboard.InstantiateViewController("TimesheetListTableViewController");
+					submittedTimesheetsListVC.LoadTimesheetDetails( MatchGuideConstants.TimesheetStatus.Submitted );
+					ShowViewController( submittedTimesheetsListVC, this );
+				}
+			};
 		}
 
 	    private void SetupPageAutoLayout()
