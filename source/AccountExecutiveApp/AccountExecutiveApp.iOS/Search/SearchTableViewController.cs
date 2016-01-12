@@ -49,7 +49,13 @@ namespace AccountExecutiveApp.iOS
             };
 		}
 
-		public override void ViewDidLoad ()
+	    public override void ViewWillDisappear(bool animated)
+        {
+            NavigationController.SetNavigationBarHidden(false, true);
+	        base.ViewWillDisappear(animated);
+	    }
+
+	    public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
