@@ -32,7 +32,6 @@ namespace AccountExecutiveApp.iOS
 				return;
 
             TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleCellIdentifier);
-			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
             TableView.Source = new JobsListTableViewSource(this, _jobsListViewModel);
 
             TableView.ReloadData();
@@ -46,7 +45,10 @@ namespace AccountExecutiveApp.iOS
 
             CreateCustomTitleBar();
 
+            TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
+
             RefreshControl = new UIRefreshControl();
+            RefreshControl.Bounds = new CGRect(RefreshControl.Bounds.X, RefreshControl.Bounds.Y - 35, RefreshControl.Bounds.Width, RefreshControl.Bounds.Height);
             RefreshControl.ValueChanged += delegate
             {
                 if (_overlay != null)
