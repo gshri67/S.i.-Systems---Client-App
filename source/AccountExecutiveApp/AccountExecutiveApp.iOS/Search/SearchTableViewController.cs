@@ -47,7 +47,19 @@ namespace AccountExecutiveApp.iOS
 		        timer.Stop();
                 timer.Start();
             };
+
+		    SearchBar.SearchButtonClicked += delegate
+		    {
+                SearchBar.ResignFirstResponder();
+		    };
+
+            TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 		}
+
+	    public override void TouchesBegan(NSSet touches, UIEvent evt)
+	    {
+            SearchBar.ResignFirstResponder();
+	    }
 
 	    public override void ViewWillDisappear(bool animated)
         {
