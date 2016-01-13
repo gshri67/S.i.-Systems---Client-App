@@ -16,7 +16,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         public IEnumerable<ConsultantContract> Contracts
         {
             get { return _contracts ?? Enumerable.Empty<ConsultantContract>(); }
-            set { _contracts = value ?? Enumerable.Empty<ConsultantContract>(); }
+            set { _contracts = value.OrderByDescending(contract=>contract.EndDate) ?? Enumerable.Empty<ConsultantContract>(); }
         }
         
         public ContractHistoryTableViewModel( IEnumerable<ConsultantContract> contracts )
