@@ -32,6 +32,8 @@ namespace AccountExecutiveApp.iOS
                 return GetEmailContactCell(tableView, indexPath);
             else if (IsSpecializationCell(indexPath))
                 return GetSpecializationCell(tableView);
+            else if (IsLinkedInCell(indexPath))
+                return GetLinkedInCell(tableView);
             else if (IsResumeCell(indexPath))
                 return GetResumeCell(tableView);
             else if (IsContractsCell(indexPath))
@@ -153,6 +155,21 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
+        private static UITableViewCell GetLinkedInCell(UITableView tableView)
+        {
+            var cell =
+                tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
+                    RightDetailCell;
+
+            cell.UpdateCell(
+                mainText: "LinkedIn Search",
+                rightDetailText: ""
+            );
+
+            return cell;
+        }
+
+
         private UITableViewCell GetSpecializationCell(UITableView tableView)
         {
             var cell = tableView.DequeueReusableCell("UITableViewCell");
@@ -197,7 +214,10 @@ namespace AccountExecutiveApp.iOS
         private int _specializationCellRow { get { return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails(); } }
         private bool IsSpecializationCell(NSIndexPath indexPath){ return (int) indexPath.Item == _specializationCellRow; }
 
-        private int _resumeCellRow { get { return _specializationCellRow + 1; } }
+        private int _LinkedInCellRow { get { return _specializationCellRow + 1; } }
+        private bool IsLinkedInCell(NSIndexPath indexPath) { return (int)indexPath.Item == _LinkedInCellRow; }
+
+        private int _resumeCellRow { get { return _LinkedInCellRow + 1; } }
         private bool IsResumeCell(NSIndexPath indexPath) { return (int)indexPath.Item == _resumeCellRow; }
 
         private int _contractsCellRow { get { return _resumeCellRow + 1; } }
