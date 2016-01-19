@@ -56,5 +56,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
                 return _contractor.ContactInformation.PhoneNumbers.ElementAt(row);
             return new PhoneNumber();
         }
+
+        public string LinkedInString { get { return _contractor.LinkedInWebString; } }
     }
 }

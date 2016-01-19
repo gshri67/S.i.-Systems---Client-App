@@ -15,16 +15,20 @@ namespace SiSystems.SharedModels
 
 		public IEnumerable<ConsultantContract> Contracts { get; set; }
 
-		public Contractor()
-		{
-			Specializations = Enumerable.Empty<Specialization>();
-			Contracts = Enumerable.Empty<ConsultantContract>();
-            ContactInformation = new UserContact();
-		}
 
         public float BillRate { get; set; }
         public float PayRate { get; set; }
         public float GrossMargin { get; set; }
         public float Markup { get; set; }
+
+	    public string LinkedInWebString { get; set; }
+
+	    public Contractor()
+		{
+			Specializations = Enumerable.Empty<Specialization>();
+			Contracts = Enumerable.Empty<ConsultantContract>();
+            ContactInformation = new UserContact();
+	        LinkedInWebString = string.Empty;
+		}
 	}
 }

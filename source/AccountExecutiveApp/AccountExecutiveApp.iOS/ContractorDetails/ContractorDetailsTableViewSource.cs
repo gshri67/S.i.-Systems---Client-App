@@ -80,6 +80,13 @@ namespace AccountExecutiveApp.iOS
 				_parentController.ShowViewController(vc, _parentController);
 
 			}
+            if ( IsLinkedInCell(indexPath) )
+            {
+                
+                NSUrl LinkedInWebUrl = NSUrl.FromString( _tableModel.LinkedInString );
+                if (UIApplication.SharedApplication.CanOpenUrl(LinkedInWebUrl))
+                    UIApplication.SharedApplication.OpenUrl(LinkedInWebUrl);
+            }
         }
 
         private void AddSpecializationAndSkills(IEnumerable<Specialization> specs, UITableViewCell cell)
