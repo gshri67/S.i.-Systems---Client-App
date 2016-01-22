@@ -84,14 +84,13 @@ namespace AccountExecutiveApp.iOS
             {
                 
                 NSUrl LinkedInWebUrl = NSUrl.FromString( _tableModel.LinkedInString );
+
                 if (UIApplication.SharedApplication.CanOpenUrl(LinkedInWebUrl))
                     UIApplication.SharedApplication.OpenUrl(LinkedInWebUrl);
                 else
                 {
-                    UIAlertController alertController = UIAlertController.Create("Error", "Could not open LinkedIn",
+                    UIAlertController alertController = UIAlertController.Create("Error", "Could not launch LinkedIn at this time.",
                         UIAlertControllerStyle.Alert);
-                    alertController.Message = "Cannot open LinkedIn";
-
 
                     UIAlertAction okAction = UIAlertAction.Create("OK", UIAlertActionStyle.Default, delegate { alertController.DismissViewController(true, null);});
                     alertController.AddAction(okAction);

@@ -21,6 +21,8 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { _contact = value ?? new UserContact(); }
         }
 
+        public string LinkedInString { get { return Contact.LinkedInUrl; } }
+
         public ClientContactDetailsViewModel(IMatchGuideApi api)
         {
             _api = api;
@@ -74,5 +76,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             ContactType = contactType;
         }
+
+
     }
 }

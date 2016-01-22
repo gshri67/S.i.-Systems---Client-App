@@ -21,14 +21,11 @@ namespace SiSystems.SharedModels
         public float GrossMargin { get; set; }
         public float Markup { get; set; }
 
-	    public string LinkedInWebString { get; set; }
-
 	    public Contractor()
 		{
 			Specializations = Enumerable.Empty<Specialization>();
 			Contracts = Enumerable.Empty<ConsultantContract>();
             ContactInformation = new UserContact();
-	        LinkedInWebString = string.Empty;
 		}
 	}
 }

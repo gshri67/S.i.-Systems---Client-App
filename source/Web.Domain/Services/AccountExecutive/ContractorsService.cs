@@ -27,7 +27,6 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             var contractor = _repo.GetContractorById(id);
             contractor.ContactInformation = _contactRepository.GetUserContactById(id);
             contractor.Contracts = _contractsRepository.GetContractsByContractorId(id);
-            PopulateLinkedInUrl(contractor);
 
             AssertCurrentUserCanAccessContractor(contractor);
 
@@ -65,12 +64,6 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
         public IEnumerable<Contractor> GetContractors()
         {
             return _repo.GetContractors();
-        }
-
-        private void PopulateLinkedInUrl(Contractor contractor)
-        {
-            contractor.LinkedInWebString = string.Format("{0}{1}",
-                "https://www.linkedin.com/vsearch/f?type=all&keywords=", contractor.ContactInformation.FullName.Replace(" ", "+"));
         }
     }
 }
