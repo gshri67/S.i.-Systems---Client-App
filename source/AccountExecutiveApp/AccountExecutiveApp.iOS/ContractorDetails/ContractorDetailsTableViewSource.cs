@@ -207,6 +207,11 @@ namespace AccountExecutiveApp.iOS
                 tableView.DequeueReusableCell(LinkedInSearchCell.CellIdentifier) as
                     LinkedInSearchCell;
         
+            UIImage LinkedInLogo = new UIImage("LinkedInLogo.png");
+            UIImageView LinkedInImageView = new UIImageView(LinkedInLogo);
+            LinkedInImageView.ContentMode = UIViewContentMode.Left;
+            cell.BackgroundView = LinkedInImageView;
+            
             return cell;
         }
 
