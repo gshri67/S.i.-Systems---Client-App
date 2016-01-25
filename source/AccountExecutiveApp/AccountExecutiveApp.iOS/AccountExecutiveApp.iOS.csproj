@@ -349,6 +349,7 @@
     <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\searchStrongIcon.png" />
     <BundleResource Include="Resources\searchStrongIcon%402x.png" />
+    <BundleResource Include="Resources\LinkedInLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">

@@ -14,17 +14,9 @@ namespace SiSystems.SharedModels
         public string LastName { get; set; }
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName).Trim(); } }
 
-        public string LinkedInUrl
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(FullName))
-                    return "https://www.linkedin.com";
-                return string.Format("{0}{1}", "https://www.linkedin.com/vsearch/f?type=all&keywords=", FullName.Replace(" ", "+"));
-            }
-        }
-
-		public string ClientName { get; set; }
+        public string LinkedInUrl { get; set; }
+   
+        public string ClientName { get; set; }
 		public string Address { get; set; }
 
         public IEnumerable<EmailAddress> EmailAddresses { get; set; }

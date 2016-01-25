@@ -97,6 +97,9 @@ namespace AccountExecutiveApp.iOS
 
                     _parentController.PresentViewController( alertController, true, null);
                 }
+
+                var cell = tableView.CellAt(indexPath);
+                cell.SetSelected(false, true);
             }
         }
 
@@ -178,12 +181,12 @@ namespace AccountExecutiveApp.iOS
             var cell =
                 tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
                     RightDetailCell;
-
-            cell.UpdateCell(
-                mainText: "LinkedIn Search",
-                rightDetailText: ""
-            );
-
+        
+            UIImage LinkedInLogo = new UIImage("LinkedInLogo.png");
+            UIImageView LinkedInImageView = new UIImageView(LinkedInLogo);
+            LinkedInImageView.ContentMode = UIViewContentMode.Left;
+            cell.BackgroundView = LinkedInImageView;
+            
             return cell;
         }
 
