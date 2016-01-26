@@ -432,4 +432,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Contracts\New Folder\" />
+    <Folder Include="Contract Creation\" />
+  </ItemGroup>
 </Project>
