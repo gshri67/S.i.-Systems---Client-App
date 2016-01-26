@@ -69,6 +69,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
         private void PopulateLinkedInUrl(Contractor contractor)
         {
+            if (contractor == null)
+                return;
+
             contractor.ContactInformation.LinkedInUrl = string.Format("{0}{1}",
                 "https://www.linkedin.com/vsearch/f?type=all&keywords=", contractor.ContactInformation.FullName.Replace(" ", "+"));
         }

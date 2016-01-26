@@ -185,8 +185,8 @@ namespace AccountExecutiveApp.iOS
             UIImage LinkedInLogo = new UIImage("LinkedInLogo.png");
             UIImageView LinkedInImageView = new UIImageView(LinkedInLogo);
             LinkedInImageView.ContentMode = UIViewContentMode.Left;
-            cell.BackgroundView = LinkedInImageView;
-            
+            //cell.BackgroundView = LinkedInImageView;
+
             return cell;
         }
 

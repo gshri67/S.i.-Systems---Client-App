@@ -24,6 +24,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
         {
             var contact = _repo.GetUserContactById(id);
 
+            PopulateLinkedInUrl(contact);
+
             return contact;
         }
 
@@ -42,6 +44,15 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             var contacts = _repo.FindUsers(query);
 
             return contacts; 
+        }
+
+        private void PopulateLinkedInUrl(UserContact contact)
+        {
+            if (contact == null)
+                return;
+
+            contact.LinkedInUrl = string.Format("{0}{1}",
+                "https://www.linkedin.com/vsearch/f?type=all&keywords=", contact.FullName.Replace(" ", "+"));
         }
     }
 }
