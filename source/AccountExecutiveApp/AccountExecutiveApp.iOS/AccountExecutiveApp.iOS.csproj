@@ -86,9 +86,8 @@
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer: Andrew Wilson (EEUJM7BNHG)</CodesignKey>
     <CodesignProvision>188b2dea-fb9a-469a-92a8-e9cc721332de</CodesignProvision>
-    <CodesignEntitlements />
-    <CodesignResourceRules />
-    <CodesignExtraArgs />
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|iPhone'">
     <OutputPath>bin\iPhone\Test\</OutputPath>
@@ -108,7 +107,6 @@
     <MtouchI18n />
     <MtouchI18n>
     </MtouchI18n>
-    <CodesignResourceRules />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhoneSimulator'">
     <OutputPath>bin\iPhoneSimulator\Dev\</OutputPath>
@@ -127,9 +125,8 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignProvision>
     </CodesignProvision>
-    <CodesignEntitlements />
-    <CodesignResourceRules />
-    <CodesignExtraArgs />
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhone'">
     <OutputPath>bin\iPhone\Dev\</OutputPath>
@@ -279,6 +276,11 @@
     <Compile Include="Si_TableViewController.designer.cs">
       <DependentUpon>Si_TableViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Contract Creation\ContractCreationDetailsTableViewController.cs" />
+    <Compile Include="Contract Creation\ContractCreationDetailsTableViewController.designer.cs">
+      <DependentUpon>ContractCreationDetailsTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contract Creation\ContractCreationDetailsTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
@@ -418,4 +420,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Contracts\New Folder\" />
+    <Folder Include="Contract Creation\" />
+  </ItemGroup>
 </Project>

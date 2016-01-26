@@ -103,6 +103,31 @@ namespace AccountExecutiveApp.iOS
             }
         }
 
+		public override UIView GetViewForHeader (UITableView tableView, nint section)
+		{
+			UIButton createContractHeader = new UIButton ( new CGRect(0, 0, tableView.Frame.Width, 100));
+			createContractHeader.BackgroundColor = UIColor.LightGray;
+
+			createContractHeader.TouchUpInside += delegate {
+				ContractCreationDetailsTableViewController vc =
+					(ContractCreationDetailsTableViewController)
+					_parentController.Storyboard.InstantiateViewController("ContractCreationDetailsTableViewController");
+
+				//vc.ShowSearchIcon = _parentController.ShowSearchIcon;
+				//vc.setContracts(_tableModel.Contracts);
+
+				_parentController.ShowViewController(vc, _parentController);
+			};
+			
+
+			return createContractHeader;
+		}
+
+		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
+		{
+			return 100.0f;
+		}
+
         private void AddSpecializationAndSkills(IEnumerable<Specialization> specs, UITableViewCell cell)
         {
             var specFont = UIFont.SystemFontOfSize(17f);
