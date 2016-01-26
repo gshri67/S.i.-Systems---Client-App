@@ -194,6 +194,7 @@
     <Compile Include="Controllers\Api\ConsultantDetailsController.cs" />
     <Compile Include="Controllers\Api\ClientDetailsController.cs" />
     <Compile Include="Controllers\Api\ConsultantMessagesController.cs" />
+    <Compile Include="Controllers\Api\ContractCreationSupportController.cs" />
     <Compile Include="Controllers\Api\DashboardController.cs" />
     <Compile Include="Controllers\Api\JobsController.cs" />
     <Compile Include="Controllers\Api\RemittancesController .cs" />

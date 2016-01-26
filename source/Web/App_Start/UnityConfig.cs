@@ -59,6 +59,9 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<IContractorRepository, ContractorRepository>();
             container.RegisterType<IContractorRateRepository, ContractorRateRepository>();
             container.RegisterType<IUserContactRepository, UserContactRepository>();
+
+            container.RegisterType<IInternalEmployeesRepository, MockedInternalEmployeesRepository>();
+
             container.RegisterType<IObjectCache, ObjectCache>();
             container.RegisterType<HttpMessageHandler, HttpClientHandler>();
             

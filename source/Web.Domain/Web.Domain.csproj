@@ -54,6 +54,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\AccountExecutive\InternalEmployeesRepository.cs" />
     <Compile Include="Repositories\AccountExecutive\ContractorRateRepository.cs" />
     <Compile Include="Repositories\AccountExecutive\ContractorRepository.cs" />
     <Compile Include="Repositories\AccountExecutive\JobsRepository.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Repositories\TimesheetRepository.cs" />
     <Compile Include="Services\AccountExecutive\ContractorRateService.cs" />
     <Compile Include="Services\AccountExecutive\ContractorsService.cs" />
+    <Compile Include="Services\AccountExecutive\AccountExecutiveService.cs" />
     <Compile Include="Services\AccountExecutive\DashboardService.cs" />
     <Compile Include="Services\AccountExecutive\DateTimeService.cs" />
     <Compile Include="Services\AccountExecutive\UserContactService.cs" />
