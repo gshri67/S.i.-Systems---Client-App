@@ -24,29 +24,69 @@ namespace AccountExecutiveApp.iOS
 			//_tableModel = new ContractorDetailsTableViewModel(contractor);
 		}
 
-		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-		{
-			UITableViewCell cell = new UITableViewCell ();
-			cell.TextLabel.Text = "Field";
-			return cell;
-			/*
-			if ( IsCallOrTextCell(indexPath) )
-				return GetCallOrTextContactCell(tableView, indexPath);
-			else if ( IsEmailCell(indexPath))
-				return GetEmailContactCell(tableView, indexPath);
-			else if (IsSpecializationCell(indexPath))
-				return GetSpecializationCell(tableView);
-			else if (IsLinkedInCell(indexPath))
-				return GetLinkedInCell(tableView);
-			else if (IsResumeCell(indexPath))
-				return GetResumeCell(tableView);
-			else if (IsContractsCell(indexPath))
-				return GetContractsCell(tableView);
-*/
-			return null;
+	    public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+	    {
+	        int row = (int) indexPath.Item;
+
+            if (IsJobTitleCell(indexPath))
+                return GetJobTitleCell(tableView, indexPath);
+            else if (IsStartDateCell(indexPath))
+                return GetStartDateCell(tableView, indexPath);
+
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+
+            if (row == 2)
+                cell.UpdateCell( "End Date", "08/02/2002");
+            else if (row == 3)
+                cell.UpdateCell( "Time Factor", "Full Time");
+            else if (row == 4)
+                cell.UpdateCell( "Days Cancellation", "10");
+            else if (row == 5)
+                cell.UpdateCell( "Limitation Expense", "Regular");
+            else if (row == 6)
+                cell.UpdateCell( "Limitation of Contract", "????");
+            else if (row == 7)
+                cell.UpdateCell( "Payment Plan", "Monthly Standard");
+            else if (row == 8)
+                cell.UpdateCell( "Account Executive", "Bob Smith");
+            else if (row == 9)
+                cell.UpdateCell( "GM Assigned", "Bob Smith");
+            else if (row == 10)
+                cell.UpdateCell( "Comission Assigned", "Bob Smith");
+            else if (row == 11)
+                cell.UpdateCell( "Invoice Frequency", "Semi-Monthly");
+            else if (row == 12)
+                cell.UpdateCell( "Invoice Format", "1 invoice per contract");
+            else if (row == 13)
+                cell.UpdateCell( "Project/PO codes required", "Yes");
+            else if (row == 14)
+                cell.UpdateCell("Quick Pay", "No");
+            
+            return cell;
 		}
 
-		public override UIView GetViewForHeader (UITableView tableView, nint section)
+
+        private int _jobTitleCellRow { get { return 0; } }
+        private bool IsJobTitleCell(NSIndexPath indexPath) { return (int)indexPath.Item == _jobTitleCellRow; }
+
+        private int _startDateCellRow { get { return _jobTitleCellRow+1; } }
+        private bool IsStartDateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _startDateCellRow; }
+
+
+	    private UITableViewCell GetJobTitleCell(UITableView tableView, NSIndexPath indexPath)
+	    {
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Job Title", "Developer");
+	        return cell;
+	    }
+        private UITableViewCell GetStartDateCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Start Date", "08/02/2002");
+            return cell;
+        }
+
+	    public override UIView GetViewForHeader (UITableView tableView, nint section)
 		{
 			UIView createContractHeader = new UIView ( new CGRect(0, 0, tableView.Frame.Width, 100));
 			createContractHeader.BackgroundColor = UIColor.Cyan;
@@ -61,7 +101,7 @@ namespace AccountExecutiveApp.iOS
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return 5;
+			return 15;
 			//return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails() + 1 + 2;
 		}
 

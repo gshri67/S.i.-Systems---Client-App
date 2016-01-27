@@ -26,8 +26,10 @@ namespace AccountExecutiveApp.iOS
 
 			TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleWithRightDetailCell.CellIdentifier);
 			TableView.RegisterClassForCellReuse(typeof(RightDetailCell), RightDetailCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof(EditableTextFieldCell), EditableTextFieldCell.CellIdentifier);
 			TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
+            TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 			TableView.Source = new ContractCreationDetailsTableViewSource(this);
 			TableView.ReloadData();
 		}

@@ -159,6 +159,10 @@
     <Compile Include="ContractorContactInfoCell.designer.cs">
       <DependentUpon>ContractorContactInfoCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditableTextFieldCell.cs" />
+    <Compile Include="EditableTextFieldCell.designer.cs">
+      <DependentUpon>EditableTextFieldCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorCandidateTableViewSource.cs" />
     <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorJobStatusListViewController.cs" />
     <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorJobStatusListViewController.designer.cs">
