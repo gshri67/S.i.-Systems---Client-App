@@ -168,6 +168,10 @@
     <Compile Include="Jobs\JobDetails\JobDetailViewController.designer.cs">
       <DependentUpon>JobDetailViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="LinkedInSearchCell.cs" />
+    <Compile Include="LinkedInSearchCell.designer.cs">
+      <DependentUpon>LinkedInSearchCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoadingOverlay.cs" />
     <Compile Include="LogoutManager.cs" />
     <Compile Include="Main.cs" />
@@ -418,10 +422,9 @@
     <BundleResource Include="Resources\plus-round-centred.png" />
     <BundleResource Include="Resources\minus-round-centred.png" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup />
   <ItemGroup>
     <Folder Include="Contracts\New Folder\" />
-    <Folder Include="Contract Creation\" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
 </Project>

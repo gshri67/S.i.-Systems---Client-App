@@ -204,17 +204,15 @@ namespace AccountExecutiveApp.iOS
         private static UITableViewCell GetLinkedInCell(UITableView tableView)
         {
             var cell =
-                tableView.DequeueReusableCell(RightDetailCell.CellIdentifier) as
-                    RightDetailCell;
+                tableView.DequeueReusableCell(LinkedInSearchCell.CellIdentifier) as
+                    LinkedInSearchCell;
         
-            UIImage LinkedInLogo = new UIImage("LinkedInLogo.png");
-            UIImageView LinkedInImageView = new UIImageView(LinkedInLogo);
-            LinkedInImageView.ContentMode = UIViewContentMode.Left;
-            //cell.BackgroundView = LinkedInImageView;
-
             return cell;
         }
 
+        public override void WillDisplay(UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
+        {
+        }
 
         private UITableViewCell GetSpecializationCell(UITableView tableView)
         {
