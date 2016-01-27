@@ -43,10 +43,10 @@ SET IDENTITY_INSERT [dbo].[Users] ON;
 
 INSERT INTO [dbo].[Users]
 (
-	[UserID], [FirstName], [Middle], [LastName], [UserType], [CompanyID], [Inactive], [ClientPortalTypeID], [ClientPortalFTAlumniTypeID], [verticalid]
+	[UserID], [FirstName], [Middle], [LastName], [UserType], [CompanyID], [Inactive], [ClientPortalTypeID], [ClientPortalFTAlumniTypeID], [verticalid], [Title], [UserOfficeID]
 )
 VALUES
-(7, 'Adam', 'H.', 'Si', 693, null, 0, null, null, 4);
+(7, 'Adam', 'H.', 'Si', 693, null, 0, null, null, 4, 'Account Executive', 1);
 
 SET IDENTITY_INSERT [dbo].[Users] OFF;
 

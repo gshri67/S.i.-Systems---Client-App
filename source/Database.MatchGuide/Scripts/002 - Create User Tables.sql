@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[Users](
 	[LastName] [nvarchar](30) NOT NULL CONSTRAINT [DF_Users_LastName]  DEFAULT ('Need Last Name'),
 	--[Nickname] [varchar](50) NULL,
 	[UserType] [int] NOT NULL,
-	--[Title] [nvarchar](250) NULL,
+	[Title] [nvarchar](250) NULL,
 	[CompanyID] [int] NULL,
 	--[PrefLangType] [int] NULL CONSTRAINT [DF_Users_PrefLang]  DEFAULT (196),
 	[UserOfficeID] [int] NULL CONSTRAINT [DF_Users_OfficeID]  DEFAULT (0),
