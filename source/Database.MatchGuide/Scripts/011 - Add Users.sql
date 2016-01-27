@@ -46,7 +46,10 @@ INSERT INTO [dbo].[Users]
 	[UserID], [FirstName], [Middle], [LastName], [UserType], [CompanyID], [Inactive], [ClientPortalTypeID], [ClientPortalFTAlumniTypeID], [verticalid], [Title], [UserOfficeID]
 )
 VALUES
-(7, 'Adam', 'H.', 'Si', 693, null, 0, null, null, 4, 'Account Executive', 1);
+(7, 'Adam', 'H.', 'Si', 693, null, 0, null, null, 4, 'Account Executive', 1),
+(20, 'Pauline', '', 'Frazzle', 693, null, 0, null, null, 4, 'Account Executive', 1),
+(21, 'Frank', '', 'Drabble', 693, null, 0, null, null, 4, 'Managing Director', 1),
+(22, 'Jacob', '', 'Ladders', 693, null, 0, null, null, 4, 'Account Executive', 2);
 
 SET IDENTITY_INSERT [dbo].[Users] OFF;
 
