@@ -92,6 +92,7 @@
             <li role="presentation"><a id="contractorTabButton" href="#contractor" role="tab" data-toggle="tab">Contractor</a></li>
             <li role="presentation"><a id="userContactTabButton" href="#userContact" role="tab" data-toggle="tab">UserContact</a></li>
             <li role="presentation"><a id="aeSearchTabButton" href="#aeSearch" role="tab" data-toggle="tab">Contact Search</a></li>
+            <li role="presentation"><a id="colleaguesTabButton" href="#colleagues" role="tab" data-toggle="tab">Colleagues</a></li>
         </ul>
 
         <div class="tab-content">
@@ -269,12 +270,22 @@
             </div>
             <div id="aeSearch" role="details" class="tab-pane">
                 <div class="input-group">
-                    <input id="aeSearchId" type="text" class="form-control" placeholder="" />
+                    <input id="aeSearchId" type="text" class="form-control" placeholder=""/>
                     <div class="input-group-btn">
                         <button id="aeSearchButton" type="button" class="btn btn-primary">Search</button>
                     </div>
                 </div>
                 <div id="aeSearchResults" class="code json well">
+                </div>
+            </div>
+            <div id="colleagues" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="colleaguesId" type="text" class="form-control" placeholder="" disabled/>
+                    <div class="input-group-btn">
+                        <button id="colleaguesButton" type="button" class="btn btn-primary">Find Colleagues by Id</button>
+                    </div>
+                </div>
+                <div id="colleaguesResults" class="code json well">
                 </div>
             </div>
         </div>
@@ -710,6 +721,27 @@
 
 
                     }).fail(function (err) { showError(err, 'aeSearchResults') });
+                },
+                colleagues: function () {
+                    $('#colleaguesResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/ContractSupport/AccountExecutives',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#colleaguesResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'colleaguesResults') });
                 }
             };
 
@@ -734,6 +766,7 @@
             $('#contractorButton').click(page.getContractor);
             $('#userContactButton').click(page.getUserContact);
             $('#aeSearchButton').click(page.aeSearch);
+            $('#colleaguesButton').click(page.colleagues);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {
