@@ -22,7 +22,21 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     {
         public IEnumerable<InternalEmployee> GetAccountExecutivesThatShareBranchWithUserId(int id)
         {
-            throw new NotImplementedException();
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string contractSummaryQuery =
+                    @"SELECT UserId as Id, FirstName, LastName, Title 
+                    FROM Users 
+                    WHERE Users.UserOfficeID IN 
+                    (
+	                    SELECT UserOfficeID FROM Users WHERE UserID = @Id
+                    )
+                    AND Title IN ('Account Executive','Managing Director')";
+
+                var employees = db.Connection.Query<InternalEmployee>(contractSummaryQuery, new { Id = id });
+
+                return employees;
+            }
         }
     }
 

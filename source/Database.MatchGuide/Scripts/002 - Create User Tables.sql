@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[Users](
 	--[Title] [nvarchar](250) NULL,
 	[CompanyID] [int] NULL,
 	--[PrefLangType] [int] NULL CONSTRAINT [DF_Users_PrefLang]  DEFAULT (196),
-	--[UserOfficeID] [int] NULL CONSTRAINT [DF_Users_OfficeID]  DEFAULT (0),
+	[UserOfficeID] [int] NULL CONSTRAINT [DF_Users_OfficeID]  DEFAULT (0),
 	--[StatusType] [int] NULL,
 	--[JoinCandidateID] [int] NULL,
 	--[JoinClientContactID] [int] NULL,
