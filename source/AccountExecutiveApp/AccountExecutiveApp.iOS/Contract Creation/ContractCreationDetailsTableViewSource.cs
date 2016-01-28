@@ -40,29 +40,27 @@ namespace AccountExecutiveApp.iOS
                 return GetDaysCancellationCell(tableView, indexPath);
             else if (IsLimitationExpenseCell(indexPath))
                 return GetLimitationExpenseCell(tableView, indexPath);
-
+            else if (IsLimitationOfContractCell(indexPath))
+                return GetLimitationOfContractCell(tableView, indexPath);
+            else if (IsPaymentPlanCell(indexPath))
+                return GetPaymentPlanCell(tableView, indexPath);
+            else if (IsAccountExecutiveCell(indexPath))
+                return GetAccountExecutiveCell(tableView, indexPath);
+            else if (IsGMAssignedCell(indexPath))
+                return GetGMAssignedCell(tableView, indexPath);
+            else if (IsComissionAssignedCell(indexPath))
+                return GetCommisionAssignedCell(tableView, indexPath);
+            else if (IsInvoiceFrequencyCell(indexPath))
+                return GetInvoiceFrequencyCell(tableView, indexPath);
+            else if (IsInvoiceFormatCell(indexPath))
+                return GetInvoiceFormatCell(tableView, indexPath);
+            else if (IsProjectCodeCell(indexPath))
+                return GetProjectCodesCell(tableView, indexPath);
+            else if (IsQuickPayCell(indexPath))
+                return GetQuickPayCell(tableView, indexPath);
+            
             EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
 
-
-            if (row == 6)
-                cell.UpdateCell( "Limitation of Contract", "????");
-            else if (row == 7)
-                cell.UpdateCell( "Payment Plan", "Monthly Standard");
-            else if (row == 8)
-                cell.UpdateCell( "Account Executive", "Bob Smith");
-            else if (row == 9)
-                cell.UpdateCell( "GM Assigned", "Bob Smith");
-            else if (row == 10)
-                cell.UpdateCell( "Comission Assigned", "Bob Smith");
-            else if (row == 11)
-                cell.UpdateCell( "Invoice Frequency", "Semi-Monthly");
-            else if (row == 12)
-                cell.UpdateCell( "Invoice Format", "1 invoice per contract");
-            else if (row == 13)
-                cell.UpdateCell( "Project/PO codes required", "Yes");
-            else if (row == 14)
-                cell.UpdateCell("Quick Pay", "No");
-            
             return cell;
 		}
 
@@ -85,11 +83,32 @@ namespace AccountExecutiveApp.iOS
         private int _limitationExpenseCellRow { get { return _daysCancellationCellRow + 1; } }
         private bool IsLimitationExpenseCell(NSIndexPath indexPath) { return (int)indexPath.Item == _limitationExpenseCellRow; }
 
-        private int _LimitationOfContractCellRow { get { return _limitationExpenseCellRow + 1; } }
-        private bool IsLimitationOfContractCell(NSIndexPath indexPath) { return (int)indexPath.Item == _LimitationOfContractCellRow; }
+        private int _limitationOfContractCellRow { get { return _limitationExpenseCellRow + 1; } }
+        private bool IsLimitationOfContractCell(NSIndexPath indexPath) { return (int)indexPath.Item == _limitationOfContractCellRow; }
 
-        private int _PaymentPlanCellRow { get { return _LimitationOfContractCellRow + 1; } }
-        private bool IsPaymentPlanCell(NSIndexPath indexPath) { return (int)indexPath.Item == _PaymentPlanCellRow; }
+        private int _paymentPlanCellRow { get { return _limitationOfContractCellRow + 1; } }
+        private bool IsPaymentPlanCell(NSIndexPath indexPath) { return (int)indexPath.Item == _paymentPlanCellRow; }
+
+        private int _accountExecutiveCellRow { get { return _paymentPlanCellRow + 1; } }
+        private bool IsAccountExecutiveCell(NSIndexPath indexPath) { return (int)indexPath.Item == _accountExecutiveCellRow; }
+
+        private int _GMAssignedCellRow { get { return _accountExecutiveCellRow + 1; } }
+        private bool IsGMAssignedCell(NSIndexPath indexPath) { return (int)indexPath.Item == _GMAssignedCellRow; }
+
+        private int _comissionAssignedCellRow { get { return _GMAssignedCellRow + 1; } }
+        private bool IsComissionAssignedCell(NSIndexPath indexPath) { return (int)indexPath.Item == _comissionAssignedCellRow; }
+
+        private int _invoiceFrequencyCellRow { get { return _comissionAssignedCellRow + 1; } }
+        private bool IsInvoiceFrequencyCell(NSIndexPath indexPath) { return (int)indexPath.Item == _invoiceFrequencyCellRow; }
+
+        private int _invoiceFormatCellRow { get { return _invoiceFrequencyCellRow + 1; } }
+        private bool IsInvoiceFormatCell(NSIndexPath indexPath) { return (int)indexPath.Item == _invoiceFormatCellRow; }
+
+        private int _projectCodeCellRow { get { return _invoiceFormatCellRow + 1; } }
+        private bool IsProjectCodeCell(NSIndexPath indexPath) { return (int)indexPath.Item == _projectCodeCellRow; }
+
+        private int _quickPayCellRow { get { return _projectCodeCellRow + 1; } }
+        private bool IsQuickPayCell(NSIndexPath indexPath) { return (int)indexPath.Item == _quickPayCellRow; }
 
 
 	    private UITableViewCell GetJobTitleCell(UITableView tableView, NSIndexPath indexPath)
@@ -118,7 +137,7 @@ namespace AccountExecutiveApp.iOS
         }
         private UITableViewCell GetDaysCancellationCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            EditableNumberFieldCell cell = (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
             cell.UpdateCell("Days Cancellation", "10");
             return cell;
         }
@@ -126,6 +145,60 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Limitation Expense", "Regular");
+            return cell;
+        }
+        private UITableViewCell GetLimitationOfContractCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Limitation of Contract", "????");
+            return cell;
+        }
+        private UITableViewCell GetPaymentPlanCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Payment Plan", "Monthly Standard");
+            return cell;
+        }
+        private UITableViewCell GetAccountExecutiveCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Account Executive", "Bob Smith");
+            return cell;
+        }
+        private UITableViewCell GetGMAssignedCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("GM Assigned", "Bob Smith");
+            return cell;
+        }
+        private UITableViewCell GetCommisionAssignedCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Comission Assigned", "Bob Smith"); 
+            return cell;
+        }
+        private UITableViewCell GetInvoiceFrequencyCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Invoice Frequency", "Semi-Monthly");
+            return cell;
+        }
+        private UITableViewCell GetInvoiceFormatCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Invoice Format", "1 invoice per contract"); 
+            return cell;
+        }
+        private UITableViewCell GetProjectCodesCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableBooleanCell cell = (EditableBooleanCell)tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Project/PO codes required", "Yes");
+            return cell;
+        }
+        private UITableViewCell GetQuickPayCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableBooleanCell cell = (EditableBooleanCell)tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Quick Pay", "No");
             return cell;
         }
 
