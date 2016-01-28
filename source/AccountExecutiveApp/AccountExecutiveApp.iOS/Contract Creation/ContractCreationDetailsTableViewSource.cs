@@ -32,18 +32,19 @@ namespace AccountExecutiveApp.iOS
                 return GetJobTitleCell(tableView, indexPath);
             else if (IsStartDateCell(indexPath))
                 return GetStartDateCell(tableView, indexPath);
+            else if (IsEndDateCell(indexPath))
+                return GetEndDateCell(tableView, indexPath);
+            else if (IsTimeFactorCell(indexPath))
+                return GetTimeFactorCell(tableView, indexPath);
+            else if (IsDaysCancellationCell(indexPath))
+                return GetDaysCancellationCell(tableView, indexPath);
+            else if (IsLimitationExpenseCell(indexPath))
+                return GetLimitationExpenseCell(tableView, indexPath);
 
             EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
 
-            if (row == 2)
-                cell.UpdateCell( "End Date", "08/02/2002");
-            else if (row == 3)
-                cell.UpdateCell( "Time Factor", "Full Time");
-            else if (row == 4)
-                cell.UpdateCell( "Days Cancellation", "10");
-            else if (row == 5)
-                cell.UpdateCell( "Limitation Expense", "Regular");
-            else if (row == 6)
+
+            if (row == 6)
                 cell.UpdateCell( "Limitation of Contract", "????");
             else if (row == 7)
                 cell.UpdateCell( "Payment Plan", "Monthly Standard");
@@ -72,6 +73,24 @@ namespace AccountExecutiveApp.iOS
         private int _startDateCellRow { get { return _jobTitleCellRow+1; } }
         private bool IsStartDateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _startDateCellRow; }
 
+        private int _endDateCellRow { get { return _startDateCellRow + 1; } }
+        private bool IsEndDateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _endDateCellRow; }
+
+        private int _timeFactorCellRow { get { return _endDateCellRow + 1; } }
+        private bool IsTimeFactorCell(NSIndexPath indexPath) { return (int)indexPath.Item == _timeFactorCellRow; }
+
+        private int _daysCancellationCellRow { get { return _timeFactorCellRow + 1; } }
+        private bool IsDaysCancellationCell(NSIndexPath indexPath) { return (int)indexPath.Item == _daysCancellationCellRow; }
+
+        private int _limitationExpenseCellRow { get { return _daysCancellationCellRow + 1; } }
+        private bool IsLimitationExpenseCell(NSIndexPath indexPath) { return (int)indexPath.Item == _limitationExpenseCellRow; }
+
+        private int _LimitationOfContractCellRow { get { return _limitationExpenseCellRow + 1; } }
+        private bool IsLimitationOfContractCell(NSIndexPath indexPath) { return (int)indexPath.Item == _LimitationOfContractCellRow; }
+
+        private int _PaymentPlanCellRow { get { return _LimitationOfContractCellRow + 1; } }
+        private bool IsPaymentPlanCell(NSIndexPath indexPath) { return (int)indexPath.Item == _PaymentPlanCellRow; }
+
 
 	    private UITableViewCell GetJobTitleCell(UITableView tableView, NSIndexPath indexPath)
 	    {
@@ -81,8 +100,32 @@ namespace AccountExecutiveApp.iOS
 	    }
         private UITableViewCell GetStartDateCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            EditableDatePickerCell cell = (EditableDatePickerCell)tableView.DequeueReusableCell(EditableDatePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Start Date", "08/02/2002");
+            return cell;
+        }
+        private UITableViewCell GetEndDateCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableDatePickerCell cell = (EditableDatePickerCell)tableView.DequeueReusableCell(EditableDatePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("End Date", "08/02/2003");
+            return cell;
+        }
+        private UITableViewCell GetTimeFactorCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Time Factor", "Full Time");
+            return cell;
+        }
+        private UITableViewCell GetDaysCancellationCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Days Cancellation", "10");
+            return cell;
+        }
+        private UITableViewCell GetLimitationExpenseCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Limitation Expense", "Regular");
             return cell;
         }
 
@@ -90,15 +133,15 @@ namespace AccountExecutiveApp.iOS
 		{
 			UIView createContractHeader = new UIView ( new CGRect(0, 0, tableView.Frame.Width, 100));
 			createContractHeader.BackgroundColor = UIColor.Cyan;
-
+	        tableView.TableHeaderView = createContractHeader;
 			return createContractHeader;
 		}
-
+        
 		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
 		{
 			return 100.0f;
 		}
-
+        
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
 			return 15;

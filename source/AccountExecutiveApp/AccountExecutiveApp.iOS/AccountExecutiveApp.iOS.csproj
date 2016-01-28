@@ -159,6 +159,14 @@
     <Compile Include="ContractorContactInfoCell.designer.cs">
       <DependentUpon>ContractorContactInfoCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditableDatePickerCell.cs" />
+    <Compile Include="EditableDatePickerCell.designer.cs">
+      <DependentUpon>EditableDatePickerCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditablePickerCell.cs" />
+    <Compile Include="EditablePickerCell.designer.cs">
+      <DependentUpon>EditablePickerCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditableTextFieldCell.cs" />
     <Compile Include="EditableTextFieldCell.designer.cs">
       <DependentUpon>EditableTextFieldCell.cs</DependentUpon>

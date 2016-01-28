@@ -5,15 +5,20 @@ using UIKit;
 
 namespace AccountExecutiveApp.iOS
 {
-    partial class EditableTextFieldCell : UITableViewCell
+    partial class EditableDatePickerCell : UITableViewCell
     {
-        public const string CellIdentifier = "EditableTextFieldCell";
+        public const string CellIdentifier = "EditableDatePickerCell";
         public UILabel MainTextLabel;
         public UITextField RightDetailTextField;
         private bool shrinkRightDetailText = true;
 
-        public EditableTextFieldCell(IntPtr handle)
+        public EditableDatePickerCell(IntPtr handle)
             : base(handle)
+        {
+            InitializeCell();
+        }
+        public EditableDatePickerCell(string cellId)
+            : base(UITableViewCellStyle.Default, cellId)
         {
             InitializeCell();
         }
@@ -39,12 +44,15 @@ namespace AccountExecutiveApp.iOS
             RightDetailTextField = new UITextField
             {
                 TranslatesAutoresizingMaskIntoConstraints = false
-                    //TextAlignment = UITextAlignment.Right,
+                //TextAlignment = UITextAlignment.Right,
                 //Font = UIFont.FromName("Helvetica", 14f),
                 //TextColor = StyleGuideConstants.MediumGrayUiColor
             };
 
             RightDetailTextField.Text = "Text Field";
+
+            UIDatePicker picker = new UIDatePicker();
+            RightDetailTextField.InputView = picker;
 
             AddSubview(RightDetailTextField);
         }
@@ -59,12 +67,6 @@ namespace AccountExecutiveApp.iOS
                 TextColor = UIColor.Black
             };
             AddSubview(MainTextLabel);
-        }
-
-        public EditableTextFieldCell(string cellId)
-            : base(UITableViewCellStyle.Default, cellId)
-        {
-            InitializeCell();
         }
 
         public void SetupConstraints()
