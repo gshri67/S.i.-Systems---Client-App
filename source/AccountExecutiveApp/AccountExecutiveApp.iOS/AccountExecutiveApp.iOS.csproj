@@ -200,6 +200,7 @@
     <Compile Include="LogoutManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="PickerViewModel.cs" />
     <Compile Include="Search\SectionSearchResultsTableViewSource.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Startup\LoginViewController.cs" />

@@ -132,7 +132,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetTimeFactorCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Time Factor", "Full Time");
+            cell.UpdateCell("Time Factor", new List<string>(new string[] { "full-time", "half-time", "part-time" }), 1);
             return cell;
         }
         private UITableViewCell GetDaysCancellationCell(UITableView tableView, NSIndexPath indexPath)
@@ -144,49 +144,49 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetLimitationExpenseCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation Expense", "Regular");
+            cell.UpdateCell("Limitation Expense", new List<string>(new string[] { "Regular", "half-time", "part-time" }), 0);
             return cell;
         }
         private UITableViewCell GetLimitationOfContractCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation of Contract", "????");
+            cell.UpdateCell("Limitation of Contract", new List<string>(new string[] { "????", "half-time", "part-time" }), 0);
             return cell;
         }
         private UITableViewCell GetPaymentPlanCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Payment Plan", "Monthly Standard");
+            cell.UpdateCell("Payment Plan", new List<string>(new string[] { "Monthly Standard", "half-time", "part-time" }), 0);
             return cell;
         }
         private UITableViewCell GetAccountExecutiveCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Account Executive", "Bob Smith");
+            cell.UpdateCell("Account Executive", new List<string>(new string[] { "Bob Smith", "Anna Young", "Fred Flintstone" }), 0);
             return cell;
         }
         private UITableViewCell GetGMAssignedCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("GM Assigned", "Bob Smith");
+            cell.UpdateCell("GM Assigned", new List<string>(new string[] { "Bob Smith", "Anna Young", "Fred Flintstone" }), 0);
             return cell;
         }
         private UITableViewCell GetCommisionAssignedCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Comission Assigned", "Bob Smith"); 
+            cell.UpdateCell("Comission Assigned", new List<string>(new string[] { "Bob Smith", "Anna Young", "Fred Flintstone" }), 0); 
             return cell;
         }
         private UITableViewCell GetInvoiceFrequencyCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Frequency", "Semi-Monthly");
+            cell.UpdateCell("Invoice Frequency", new List<string>(new string[] { "Semi-Monthly", "Monthly", "Bi-Weekly" }), 0);
             return cell;
         }
         private UITableViewCell GetInvoiceFormatCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Format", "1 invoice per contract"); 
+            cell.UpdateCell("Invoice Format", new List<string>(new string[] { "1 invoice per contract" }), 0); 
             return cell;
         }
         private UITableViewCell GetProjectCodesCell(UITableView tableView, NSIndexPath indexPath)

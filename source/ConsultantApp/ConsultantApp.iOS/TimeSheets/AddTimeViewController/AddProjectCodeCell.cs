@@ -182,7 +182,6 @@ namespace ConsultantApp.iOS
 
 		public void SetupConstraints()
 		{
-		
 			const int pickerHeight = 162;
 
 			AddConstraint (NSLayoutConstraint.Create (_picker, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Left, 1.0f, 0f));

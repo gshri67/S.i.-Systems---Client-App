@@ -1,6 +1,7 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using UIKit;
 
 namespace AccountExecutiveApp.iOS
@@ -11,6 +12,11 @@ namespace AccountExecutiveApp.iOS
         public UILabel MainTextLabel;
         public UITextField RightDetailTextField;
         private bool shrinkRightDetailText = true;
+        public UIPickerView _picker;
+        PickerViewModel _pickerModel;
+
+        public List<string> Values;
+        public int selectedIndex = 0;
 
         public EditablePickerCell(IntPtr handle)
             : base(handle)
@@ -51,8 +57,10 @@ namespace AccountExecutiveApp.iOS
 
             RightDetailTextField.Text = "Text Field";
 
-            UIPickerView picker = new UIPickerView();
-            RightDetailTextField.InputView = picker;
+            _picker = new UIPickerView();
+            _pickerModel = new PickerViewModel();
+            _picker.Model = _pickerModel;
+            RightDetailTextField.InputView = _picker;
 
             AddSubview(RightDetailTextField);
         }
@@ -111,10 +119,19 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
         }
 
-        public void UpdateCell(string mainText, string rightDetailText)
+        public void UpdateCell(string mainText, List<string> newValues, int newSelectedIndex)
         {
             MainTextLabel.Text = mainText;
-            RightDetailTextField.Text = rightDetailText;
+            RightDetailTextField.Text = newValues[newSelectedIndex];
+
+            Values = newValues;
+            selectedIndex = newSelectedIndex;
+
+            List<List<string>> items = new List<List<string>>();
+            items.Add(Values);
+
+            if (_picker != null && _pickerModel != null)
+                _pickerModel.items = items;
         }
     }
 }
