@@ -46,6 +46,7 @@ namespace AccountExecutiveApp.iOS
 			TableView.RegisterClassForCellReuse(typeof(ContractorContactInfoCell), CellIdentifier);
 			TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleWithRightDetailCell.CellIdentifier);
 			TableView.RegisterClassForCellReuse(typeof(RightDetailCell), RightDetailCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof(LinkedInSearchCell), LinkedInSearchCell.CellIdentifier);
 			TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
 			TableView.Source = new ClientContactDetailsTableViewSource(this, _viewModel.Contact);

@@ -25,7 +25,9 @@ namespace AccountExecutiveApp.iOS
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            if (IsCallOrTextCell(indexPath))
+            if (IsLinkedInCell(indexPath))
+                return GetLinkedInCell(tableView);
+            else if (IsCallOrTextCell(indexPath))
                 return GetCallOrTextContactCell(tableView, indexPath);
             else if (IsEmailCell(indexPath))
                 return GetEmailContactCell(tableView, indexPath);
@@ -35,7 +37,7 @@ namespace AccountExecutiveApp.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails();
+            return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails() + 1;
         }
 
         public override nint NumberOfSections(UITableView tableView)
@@ -45,6 +47,36 @@ namespace AccountExecutiveApp.iOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
+            if (IsLinkedInCell(indexPath))
+            {
+
+                NSUrl LinkedInWebUrl = NSUrl.FromString(_tableModel.LinkedInString);
+
+                if (UIApplication.SharedApplication.CanOpenUrl(LinkedInWebUrl))
+                    UIApplication.SharedApplication.OpenUrl(LinkedInWebUrl);
+                else
+                {
+                    UIAlertController alertController = UIAlertController.Create("Error", "Could not launch LinkedIn at this time.",
+                        UIAlertControllerStyle.Alert);
+
+                    UIAlertAction okAction = UIAlertAction.Create("OK", UIAlertActionStyle.Default, delegate { alertController.DismissViewController(true, null); });
+                    alertController.AddAction(okAction);
+
+                    _parentController.PresentViewController(alertController, true, null);
+                }
+
+                var cell = tableView.CellAt(indexPath);
+                cell.SetSelected(false, true);
+            }
+        }
+
+        private static UITableViewCell GetLinkedInCell(UITableView tableView)
+        {
+            var cell =
+                tableView.DequeueReusableCell(LinkedInSearchCell.CellIdentifier) as
+                    LinkedInSearchCell;
+
+            return cell;
         }
 
         private UITableViewCell GetEmailContactCell(UITableView tableView, NSIndexPath indexPath)
@@ -57,7 +89,7 @@ namespace AccountExecutiveApp.iOS
 
             cell.UpdateCell
                 (
-                    _tableModel.EmailAddressByRowNumber((int)indexPath.Item - _tableModel.NumberOfPhoneNumbers()), null
+                    _tableModel.EmailAddressByRowNumber((int)indexPath.Item - _firstEmailCellIndex), null
                 );
 
             return cell;
@@ -73,7 +105,7 @@ namespace AccountExecutiveApp.iOS
 
             cell.UpdateCell
             (
-                null, _tableModel.PhoneNumberByRowNumber((int)indexPath.Item)
+                null, _tableModel.PhoneNumberByRowNumber((int)indexPath.Item - _firstPhoneNumberCellIndex)
             );
 
             return cell;
@@ -82,7 +114,10 @@ namespace AccountExecutiveApp.iOS
         //private int _specializationCellRow { get { return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails(); } }
         //private bool IsSpecializationCell(NSIndexPath indexPath) { return (int)indexPath.Item == _specializationCellRow; }
 
-        private int _firstPhoneNumberCellIndex { get { return 0; } }
+        private int _LinkedInCellRow { get { return 0; } }
+        private bool IsLinkedInCell(NSIndexPath indexPath) { return (int)indexPath.Item == _LinkedInCellRow; }
+
+        private int _firstPhoneNumberCellIndex { get { return _LinkedInCellRow + 1; } }
         private int _numberOfPhoneNumberCells { get { return _tableModel.NumberOfPhoneNumbers(); } }
         private bool IsCallOrTextCell(NSIndexPath indexPath)
         {
@@ -91,7 +126,7 @@ namespace AccountExecutiveApp.iOS
             return false;
         }
 
-        private int _firstEmailCellIndex { get { return _numberOfPhoneNumberCells; } }
+        private int _firstEmailCellIndex { get { return _numberOfPhoneNumberCells + _firstPhoneNumberCellIndex; } }
         private int _numberOfEmailCells { get { return _tableModel.NumberOfEmails(); } }
         private bool IsEmailCell(NSIndexPath indexPath)
         {
