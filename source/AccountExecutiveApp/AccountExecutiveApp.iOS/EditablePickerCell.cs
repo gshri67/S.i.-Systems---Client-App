@@ -62,6 +62,11 @@ namespace AccountExecutiveApp.iOS
             _picker.Model = _pickerModel;
             RightDetailTextField.InputView = _picker;
 
+            _pickerModel.OnValueChanged += delegate(string value)
+            {
+                RightDetailTextField.Text = value;
+            };
+
             AddSubview(RightDetailTextField);
         }
 

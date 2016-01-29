@@ -210,11 +210,27 @@ namespace AccountExecutiveApp.iOS
 	        tableView.TableHeaderView = createContractHeader;
 			return createContractHeader;
 		}
-        
+        /*
+        public override UIView GetViewForFooter(UITableView tableView, nint section)
+        {
+            UIButton nextButton = new UIButton();
+            nextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
+            nextButton.SetTitle("Next", UIControlState.Normal);
+
+            tableView.TableFooterView = nextButton;
+            return nextButton;
+        }*/
+
 		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
 		{
 			return 100.0f;
 		}
+        /*
+        public override nfloat GetHeightForFooter(UITableView tableView, nint section)
+        {
+            return 100.0f;
+        }*/
+        
         
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{

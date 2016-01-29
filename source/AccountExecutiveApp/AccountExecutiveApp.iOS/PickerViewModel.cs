@@ -14,6 +14,9 @@ namespace AccountExecutiveApp.iOS
         public List<List<string>> items;
         public List<int> selectedItemIndex;
 
+        public delegate void PickerDelegate( string newValue);
+        public PickerDelegate OnValueChanged;
+
         public PickerViewModel()
         {
             selectedItemIndex = new List<int>();
@@ -86,6 +89,9 @@ namespace AccountExecutiveApp.iOS
 
             if (component == 0)
                 Console.WriteLine("Selected item index: " + selectedItemIndex[0]);
+
+            if( OnValueChanged != null )
+                OnValueChanged( items[(int)component][(int)row] );
         }
 
         public override UIView GetView(UIPickerView pickerView, nint row, nint component, UIView view)

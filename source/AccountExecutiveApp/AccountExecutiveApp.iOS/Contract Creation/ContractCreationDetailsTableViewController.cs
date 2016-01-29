@@ -35,7 +35,14 @@ namespace AccountExecutiveApp.iOS
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 			TableView.Source = new ContractCreationDetailsTableViewSource(this);
-			TableView.ReloadData();
+
+            UIButton nextButton = new UIButton();
+            nextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
+            nextButton.SetTitle("Next", UIControlState.Normal);
+
+            TableView.TableFooterView = nextButton;
+            
+            TableView.ReloadData();
 		}
 
 		public override void ViewDidLoad ()
