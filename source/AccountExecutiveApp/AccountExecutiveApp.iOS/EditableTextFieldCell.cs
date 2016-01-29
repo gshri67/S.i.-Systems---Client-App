@@ -12,6 +12,8 @@ namespace AccountExecutiveApp.iOS
         public UITextField RightDetailTextField;
         private bool shrinkRightDetailText = true;
 
+        public delegate void EditableCellDelegate(string newValue);
+        public EditableCellDelegate OnValueChanged;
 
         public EditableTextFieldCell(IntPtr handle)
             : base(handle)
@@ -58,6 +60,11 @@ namespace AccountExecutiveApp.iOS
 			};
 
             RightDetailTextField.InputAccessoryView = toolbar;
+
+            RightDetailTextField.EditingChanged += delegate
+            {
+                OnValueChanged(RightDetailTextField.Text);
+            };
         }
 
         private void CreateAndAddMainTextLabel()

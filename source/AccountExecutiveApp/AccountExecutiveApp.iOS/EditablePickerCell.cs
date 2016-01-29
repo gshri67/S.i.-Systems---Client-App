@@ -18,6 +18,9 @@ namespace AccountExecutiveApp.iOS
         public List<string> Values;
         public int selectedIndex = 0;
 
+        public delegate void EditableCellDelegate(string newValue);
+        public EditableCellDelegate OnValueChanged;
+
         public EditablePickerCell(IntPtr handle)
             : base(handle)
         {

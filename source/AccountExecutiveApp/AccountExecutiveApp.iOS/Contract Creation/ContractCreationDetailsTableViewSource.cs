@@ -18,6 +18,8 @@ namespace AccountExecutiveApp.iOS
 		private ContractorDetailsTableViewModel _tableModel;
 		private float _specializationCellHeight = -1;
 
+	    public ContractCreationDetails Contract = new ContractCreationDetails();
+
 		public ContractCreationDetailsTableViewSource (ContractCreationDetailsTableViewController parentController)//, Contractor contractor)
 		{
 			_parentController = parentController;
@@ -64,8 +66,7 @@ namespace AccountExecutiveApp.iOS
             return cell;
 		}
 
-
-        private int _jobTitleCellRow { get { return 0; } }
+	    private int _jobTitleCellRow { get { return 0; } }
         private bool IsJobTitleCell(NSIndexPath indexPath) { return (int)indexPath.Item == _jobTitleCellRow; }
 
         private int _startDateCellRow { get { return _jobTitleCellRow+1; } }
@@ -115,6 +116,8 @@ namespace AccountExecutiveApp.iOS
 	    {
             EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
             cell.UpdateCell("Job Title", "Developer");
+	        cell.OnValueChanged += delegate(string newValue) { Contract.JobTitle = newValue; };
+
 	        return cell;
 	    }
         private UITableViewCell GetStartDateCell(UITableView tableView, NSIndexPath indexPath)

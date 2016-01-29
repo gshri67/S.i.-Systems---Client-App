@@ -12,6 +12,9 @@ namespace AccountExecutiveApp.iOS
         public UITextField RightDetailTextField;
         private bool shrinkRightDetailText = true;
 
+        public delegate void EditableCellDelegate(string newValue);
+        public EditableCellDelegate OnValueChanged;
+
         public EditableNumberFieldCell(IntPtr handle)
             : base(handle)
         {

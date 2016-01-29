@@ -12,6 +12,9 @@ namespace AccountExecutiveApp.iOS
         public UITextField RightDetailTextField;
         private bool shrinkRightDetailText = true;
 
+        public delegate void EditableCellDelegate(DateTime newValue);
+        public EditableCellDelegate OnValueChanged;
+
         public EditableDatePickerCell(IntPtr handle)
             : base(handle)
         {

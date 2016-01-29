@@ -12,6 +12,9 @@ namespace AccountExecutiveApp.iOS
         public UISwitch RightSwitch;
         private bool shrinkRightDetailText = true;
 
+        public delegate void EditableCellDelegate(bool newValue);
+        public EditableCellDelegate OnValueChanged;
+
         public EditableBooleanCell(IntPtr handle)
             : base(handle)
         {
