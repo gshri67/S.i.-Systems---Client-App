@@ -52,7 +52,18 @@ namespace AccountExecutiveApp.iOS
             RightDetailTextField.Text = "Text Field";
 
             UIDatePicker picker = new UIDatePicker();
+            
             RightDetailTextField.InputView = picker;
+            
+            picker.ValueChanged += delegate
+            {
+                NSDateFormatter dateFormatter = new NSDateFormatter();
+                dateFormatter.DateFormat = "MMM dd, YYYY";
+                string dateString = dateFormatter.ToString(picker.Date);
+
+                RightDetailTextField.Text =  dateString;
+            };
+            picker.Mode = UIDatePickerMode.Date;
 
             AddSubview(RightDetailTextField);
         }
