@@ -149,6 +149,7 @@
     <Compile Include="ContactCell.designer.cs">
       <DependentUpon>ContactCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Contract Creation\ContractCreationDetailsHeaderView.cs" />
     <Compile Include="ContractorDetails\ContractHistoryTableViewSource.cs" />
     <Compile Include="ContractorDetails\ContractorDetailsTableViewController.cs" />
     <Compile Include="ContractorDetails\ContractorDetailsTableViewController.designer.cs">
