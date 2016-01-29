@@ -25,10 +25,6 @@ namespace AccountExecutiveApp.iOS
         }
 
         public UILabel MainTextLabel;
-        public UILabel SubtitleTextLabel;
-        public UILabel RightDetailTextLabel;
-
-        public const string CellIdentifier = "SubtitleWithRightDetailCell";
 
         private void InitializeCell()
         {

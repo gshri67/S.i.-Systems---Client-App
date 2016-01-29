@@ -160,6 +160,7 @@
     <Compile Include="ContractorContactInfoCell.designer.cs">
       <DependentUpon>ContractorContactInfoCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="ContractorDetails\CreateContractJobDescriptionView.cs" />
     <Compile Include="EditableBooleanCell.cs" />
     <Compile Include="EditableBooleanCell.designer.cs">
       <DependentUpon>EditableBooleanCell.cs</DependentUpon>

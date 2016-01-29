@@ -205,7 +205,7 @@ namespace AccountExecutiveApp.iOS
 	    public override UIView GetViewForHeader (UITableView tableView, nint section)
 	    {
 	        ContractCreationDetailsHeaderView createContractHeader = new ContractCreationDetailsHeaderView("Please use the Matchguide System if you want to use Third Party Billing to create a contract");
-            createContractHeader.Frame = new CGRect(0, 0, tableView.Frame.Width, 100);
+            //createContractHeader.Frame = new CGRect(0, 0, tableView.Frame.Width, 100);
 
 	        tableView.TableHeaderView = createContractHeader;
 			return createContractHeader;
