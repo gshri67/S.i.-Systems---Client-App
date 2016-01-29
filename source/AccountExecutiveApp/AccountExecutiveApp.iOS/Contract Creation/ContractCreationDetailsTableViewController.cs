@@ -45,13 +45,13 @@ namespace AccountExecutiveApp.iOS
             TableView.ReloadData();
 		}
 
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
+	    public override void ViewDidLoad()
+	    {
+	        base.ViewDidLoad();
 
-			InstantiateTableViewSource ();
-			// Perform any additional setup after loading the view, typically from a nib.
-		}
+	        InstantiateTableViewSource();
+	        // Perform any additional setup after loading the view, typically from a nib.
+	    }
 	}
 }
 

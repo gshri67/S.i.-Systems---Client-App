@@ -159,9 +159,9 @@
     <Compile Include="Third-Party Components\FMCalendar\CalendarDayView.cs" />
     <Compile Include="Third-Party Components\FMCalendar\FMCalendar.cs" />
     <Compile Include="Third-Party Components\FMCalendar\MonthGridView.cs" />
-    <Compile Include="TimeSheets\AddTimeViewController\AddTimeViewController.cs" />
-    <Compile Include="TimeSheets\AddTimeViewController\AddTimeViewController.designer.cs">
-      <DependentUpon>AddTimeViewController.cs</DependentUpon>
+    <Compile Include="TimeSheets\AddTimeViewController\accessory.cs" />
+    <Compile Include="TimeSheets\AddTimeViewController\accessory.designer.cs">
+      <DependentUpon>accessory.cs</DependentUpon>
     </Compile>
     <Compile Include="TimeSheets\AddTimeViewController\TimeEntryCell.cs" />
     <Compile Include="TimeSheets\AddTimeViewController\AddTimeTableViewSource.cs" />

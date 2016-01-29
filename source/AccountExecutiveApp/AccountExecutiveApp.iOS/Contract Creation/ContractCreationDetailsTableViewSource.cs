@@ -225,6 +225,7 @@ namespace AccountExecutiveApp.iOS
 		{
 			return 100.0f;
 		}
+
         /*
         public override nfloat GetHeightForFooter(UITableView tableView, nint section)
         {

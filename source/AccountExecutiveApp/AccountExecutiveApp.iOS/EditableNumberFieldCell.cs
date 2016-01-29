@@ -49,6 +49,21 @@ namespace AccountExecutiveApp.iOS
             RightDetailTextField.Text = "Text Field";
 
             AddSubview(RightDetailTextField);
+
+            var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, Frame.Size.Width, 44.0f));
+
+            toolbar.Items = new[]
+			{
+				new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace),
+				new UIBarButtonItem(UIBarButtonSystemItem.Done, doneButtonTapped)
+			};
+
+            RightDetailTextField.InputAccessoryView = toolbar;
+        }
+
+        public void doneButtonTapped(object sender, EventArgs args)
+        {
+            RightDetailTextField.ResignFirstResponder();
         }
 
         private void CreateAndAddMainTextLabel()
