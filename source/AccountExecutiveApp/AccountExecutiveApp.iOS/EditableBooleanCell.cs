@@ -51,6 +51,11 @@ namespace AccountExecutiveApp.iOS
             };
 
             AddSubview(RightSwitch);
+
+            RightSwitch.ValueChanged += delegate
+            {
+                OnValueChanged(RightSwitch.On);
+            };
         }
 
         private void CreateAndAddMainTextLabel()

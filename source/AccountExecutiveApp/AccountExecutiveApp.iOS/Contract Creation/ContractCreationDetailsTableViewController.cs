@@ -1,15 +1,21 @@
 ﻿
 using System;
-
+using AccountExecutiveApp.Core.ViewModel;
 using Foundation;
 using UIKit;
+using Microsoft.Practices.Unity;
 
 namespace AccountExecutiveApp.iOS
 {
 	public partial class ContractCreationDetailsTableViewController : UITableViewController
 	{
-		public ContractCreationDetailsTableViewController(IntPtr handle)
-			: base(handle) { }
+	    ContractCreationViewModel _viewModel;
+
+	    public ContractCreationDetailsTableViewController(IntPtr handle)
+	        : base(handle)
+	    {
+            _viewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
+	    }
 		
 		public override void DidReceiveMemoryWarning ()
 		{
@@ -34,7 +40,7 @@ namespace AccountExecutiveApp.iOS
 			TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-			TableView.Source = new ContractCreationDetailsTableViewSource(this);
+			TableView.Source = new ContractCreationDetailsTableViewSource(this, _viewModel);
 
             UIButton nextButton = new UIButton();
             nextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);

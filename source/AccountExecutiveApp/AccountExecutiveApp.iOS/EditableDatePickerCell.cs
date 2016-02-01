@@ -65,6 +65,8 @@ namespace AccountExecutiveApp.iOS
                 string dateString = dateFormatter.ToString(picker.Date);
 
                 RightDetailTextField.Text =  dateString;
+
+                OnValueChanged( DateTimeFromNSDate(picker.Date) );
             };
             picker.Mode = UIDatePickerMode.Date;
 
@@ -79,6 +81,12 @@ namespace AccountExecutiveApp.iOS
 			};
 
             RightDetailTextField.InputAccessoryView = toolbar;
+        }
+
+        public DateTime DateTimeFromNSDate( NSDate nsDate )
+        {
+            DateTime dateTime = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
+            return dateTime.AddSeconds(nsDate.SecondsSinceReferenceDate);
         }
 
         public void doneButtonTapped(object sender, EventArgs args)

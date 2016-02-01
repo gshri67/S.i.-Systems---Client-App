@@ -14,16 +14,13 @@ namespace AccountExecutiveApp.iOS
 	public class ContractCreationDetailsTableViewSource : UITableViewSource
 	{
 		private readonly ContractCreationDetailsTableViewController _parentController;
-		private readonly ContractorDetailsTableViewModel _parentModel;
-		private ContractorDetailsTableViewModel _tableModel;
+		private readonly ContractCreationViewModel _contractModel;
 		private float _specializationCellHeight = -1;
 
-	    public ContractCreationDetails Contract = new ContractCreationDetails();
-
-		public ContractCreationDetailsTableViewSource (ContractCreationDetailsTableViewController parentController)//, Contractor contractor)
+		public ContractCreationDetailsTableViewSource (ContractCreationDetailsTableViewController parentController, ContractCreationViewModel model)
 		{
 			_parentController = parentController;
-			//_tableModel = new ContractorDetailsTableViewModel(contractor);
+		    _contractModel = model;
 		}
 
 	    public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -116,7 +113,7 @@ namespace AccountExecutiveApp.iOS
 	    {
             EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
             cell.UpdateCell("Job Title", "Developer");
-	        cell.OnValueChanged += delegate(string newValue) { Contract.JobTitle = newValue; };
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.JobTitle = newValue; };
 
 	        return cell;
 	    }
@@ -124,48 +121,66 @@ namespace AccountExecutiveApp.iOS
         {
             EditableDatePickerCell cell = (EditableDatePickerCell)tableView.DequeueReusableCell(EditableDatePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Start Date", "08/02/2002");
+            cell.OnValueChanged += delegate(DateTime newValue) { _contractModel.StartDate = newValue; };
+
             return cell;
         }
         private UITableViewCell GetEndDateCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableDatePickerCell cell = (EditableDatePickerCell)tableView.DequeueReusableCell(EditableDatePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("End Date", "08/02/2003");
+            cell.OnValueChanged += delegate(DateTime newValue) { _contractModel.EndDate = newValue; };
+
             return cell;
         }
         private UITableViewCell GetTimeFactorCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Time Factor", new List<string>(new string[] { "full-time", "half-time", "part-time" }), 1);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.TimeFactor = newValue; };
+
             return cell;
         }
         private UITableViewCell GetDaysCancellationCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableNumberFieldCell cell = (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
             cell.UpdateCell("Days Cancellation", "10");
+            cell.OnValueChanged += delegate(float newValue) { _contractModel.DaysCancellation = (int)newValue; };
+
             return cell;
         }
         private UITableViewCell GetLimitationExpenseCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Limitation Expense", new List<string>(new string[] { "Regular", "half-time", "part-time" }), 0);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationExpense = newValue; };
+
             return cell;
         }
         private UITableViewCell GetLimitationOfContractCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Limitation of Contract", new List<string>(new string[] { "????", "half-time", "part-time" }), 0);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationOfContract = newValue; };
+
             return cell;
         }
         private UITableViewCell GetPaymentPlanCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Payment Plan", new List<string>(new string[] { "Monthly Standard", "half-time", "part-time" }), 0);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.PaymentPlan = newValue; };
+            
             return cell;
         }
         private UITableViewCell GetAccountExecutiveCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            List<UserContact> accountExecutives =
+                new List<UserContact>(new UserContact[] {new UserContact(), new UserContact(), new UserContact() });
             cell.UpdateCell("Account Executive", new List<string>(new string[] { "Bob Smith", "Anna Young", "Fred Flintstone" }), 0);
+            //cell.OnValueChanged += delegate(string newValue) { _contractModel.AccountExecutive = newValue; };
+
             return cell;
         }
         private UITableViewCell GetGMAssignedCell(UITableView tableView, NSIndexPath indexPath)
@@ -184,24 +199,32 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Invoice Frequency", new List<string>(new string[] { "Semi-Monthly", "Monthly", "Bi-Weekly" }), 0);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFrequency = newValue; };
+
             return cell;
         }
         private UITableViewCell GetInvoiceFormatCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Format", new List<string>(new string[] { "1 invoice per contract" }), 0); 
+            cell.UpdateCell("Invoice Format", new List<string>(new string[] { "1 invoice per contract" }), 0);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFormat = newValue; };
+            
             return cell;
         }
         private UITableViewCell GetProjectCodesCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableBooleanCell cell = (EditableBooleanCell)tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
             cell.UpdateCell("Project/PO codes required", "Yes");
+            cell.OnValueChanged += delegate(bool newValue) { _contractModel.UsingProjectCode = newValue; };
+
             return cell;
         }
         private UITableViewCell GetQuickPayCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableBooleanCell cell = (EditableBooleanCell)tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
             cell.UpdateCell("Quick Pay", "No");
+            cell.OnValueChanged += delegate(bool newValue) { _contractModel.UsingQuickPay = newValue; };
+
             return cell;
         }
 

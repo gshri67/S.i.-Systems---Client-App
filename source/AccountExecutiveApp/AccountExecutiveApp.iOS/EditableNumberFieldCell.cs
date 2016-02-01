@@ -12,7 +12,7 @@ namespace AccountExecutiveApp.iOS
         public UITextField RightDetailTextField;
         private bool shrinkRightDetailText = true;
 
-        public delegate void EditableCellDelegate(string newValue);
+        public delegate void EditableCellDelegate(float newValue);
         public EditableCellDelegate OnValueChanged;
 
         public EditableNumberFieldCell(IntPtr handle)
@@ -62,6 +62,11 @@ namespace AccountExecutiveApp.iOS
 			};
 
             RightDetailTextField.InputAccessoryView = toolbar;
+
+            RightDetailTextField.EditingChanged += delegate
+            {
+                OnValueChanged( float.Parse( RightDetailTextField.Text ) );
+            };
         }
 
         public void doneButtonTapped(object sender, EventArgs args)
