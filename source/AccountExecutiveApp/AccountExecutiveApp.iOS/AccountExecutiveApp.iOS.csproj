@@ -356,6 +356,7 @@
     <BundleResource Include="Resources\searchStrongIcon.png" />
     <BundleResource Include="Resources\searchStrongIcon%402x.png" />
     <BundleResource Include="Resources\LinkedInLogo.png" />
+    <Content Include="iTunesMetadata.plist" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">
