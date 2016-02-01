@@ -18,6 +18,25 @@ namespace SiSystems.SharedModels
         public string InvoiceFrequency { get; set; }
         public string InvoiceFormat { get; set; }
         public Boolean UsingProjectCode { get; set; }
-        public Boolean UsingQuickPay { get; set; }   
+        public Boolean UsingQuickPay { get; set; }
+
+        public ContractCreationDetails()
+        {
+            JobTitle = string.Empty;
+            StartDate = DateTime.Now;
+            EndDate = DateTime.Now;
+            TimeFactor = string.Empty;
+            DaysCancellation = 10;
+            LimitationExpense = string.Empty;
+            LimitationOfContract = string.Empty;
+            PaymentPlan = string.Empty;
+            AccountExecutive = new UserContact();
+            GMAssigned = new UserContact();
+            ComissionAssigned = new UserContact();
+            InvoiceFrequency = string.Empty;
+            InvoiceFormat = string.Empty;
+            UsingProjectCode = false;
+            UsingQuickPay = true;
+        }
     }
 }

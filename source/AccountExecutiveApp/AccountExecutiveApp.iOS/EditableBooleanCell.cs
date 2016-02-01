@@ -90,10 +90,10 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(RightSwitch, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
         }
 
-        public void UpdateCell(string mainText, string rightDetailText)
+        public void UpdateCell(string mainText, bool isTrue )
         {
             MainTextLabel.Text = mainText;
-            //RightDetailTextField.Text = rightDetailText;
+            RightSwitch.On = isTrue;
         }
     }
 }

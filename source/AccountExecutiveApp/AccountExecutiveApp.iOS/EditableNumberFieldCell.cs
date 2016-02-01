@@ -65,7 +65,14 @@ namespace AccountExecutiveApp.iOS
 
             RightDetailTextField.EditingChanged += delegate
             {
-                OnValueChanged( float.Parse( RightDetailTextField.Text ) );
+                float textValue;
+
+                if (RightDetailTextField.Text != string.Empty)
+                    textValue = float.Parse(RightDetailTextField.Text);
+                else
+                    textValue = 0;
+
+                OnValueChanged( textValue );
             };
         }
 

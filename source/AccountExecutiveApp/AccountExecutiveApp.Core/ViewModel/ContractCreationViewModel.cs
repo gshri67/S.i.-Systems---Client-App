@@ -13,7 +13,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         private readonly IMatchGuideApi _api;
 
         private ContractCreationDetails _contract;
-        private ContractCreationDetails Contract
+        public ContractCreationDetails Contract
         {
             get { return _contract ?? new ContractCreationDetails(); }
             set { _contract = value ?? new ContractCreationDetails(); }
@@ -47,21 +47,29 @@ namespace AccountExecutiveApp.Core.ViewModel
         }
 
 
-        public DateTime StartDate {               set { Contract.StartDate = value; }}
-        public DateTime EndDate {                 set { Contract.EndDate = value; } }
+        public DateTime StartDate {             set { Contract.StartDate = value; }}
+        public DateTime EndDate {               set { Contract.EndDate = value; } }
 
         public string JobTitle {                get { return Contract.JobTitle; }
                                                 set { Contract.JobTitle = value; }}
+
         public string TimeFactor {              get { return Contract.TimeFactor; }
                                                 set { Contract.TimeFactor = value; }}
+        public List<string> TimeFactorOptions { get { return new List<string>(new string[] { "full-time", "half-time", "part-time" }); } }
+        public int TimeFactorSelectedIndex {    get { return IndexSelectionFromOptions(TimeFactorOptions, TimeFactor); } }
+
         public int DaysCancellation {           get { return Contract.DaysCancellation; }
                                                 set { Contract.DaysCancellation = value; }}
         public string LimitationExpense {       get { return Contract.LimitationExpense; }
                                                 set { Contract.LimitationExpense = value; }}
         public string LimitationOfContract {    get { return Contract.LimitationOfContract; } 
                                                 set { Contract.LimitationOfContract = value; } }
+
         public string PaymentPlan {             get { return Contract.PaymentPlan; }
                                                 set { Contract.PaymentPlan = value; }}
+        public List<string> PaymentPlanOptions {get { return new List<string>(new string[] { "Monthly Standard", "half-time", "part-time" }); } }
+        public int PaymentPlanSelectedIndex {   get { return IndexSelectionFromOptions(PaymentPlanOptions, PaymentPlan); } }
+
         public UserContact AccountExecutive {   get { return Contract.AccountExecutive; }
                                                 set { Contract.AccountExecutive = value; }}
         public UserContact GMAssigned {         get { return Contract.GMAssigned; } 
@@ -76,6 +84,14 @@ namespace AccountExecutiveApp.Core.ViewModel
                                                 set { Contract.UsingProjectCode = value; }}
         public Boolean UsingQuickPay {          get { return Contract.UsingQuickPay; } 
                                                 set { Contract.UsingQuickPay = value; } }
+
+        private int IndexSelectionFromOptions( List<string> options, string value )
+        {
+            if( options != null && options.Contains(value))
+                return options.FindIndex((string option) => { return option == value; });
+           
+            return 0;
+        }
 
         /*
         public Task LoadContract(int Id)

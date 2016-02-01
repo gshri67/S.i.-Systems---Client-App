@@ -4,6 +4,7 @@ using AccountExecutiveApp.Core.ViewModel;
 using Foundation;
 using UIKit;
 using Microsoft.Practices.Unity;
+using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -51,11 +52,33 @@ namespace AccountExecutiveApp.iOS
             TableView.ReloadData();
 		}
 
+        public async void LoadContractCreationDetails()
+        {
+            //var task = _viewModel.LoadContractCreationDetails(_id);
+            //task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
+            _viewModel.Contract = new ContractCreationDetails
+            {
+                JobTitle = "Developer",
+                StartDate = new DateTime(2016, 1, 22),
+                PaymentPlan = "part-time"
+            };
+            UpdateUserInterface();
+        }
+
+
+        private void UpdateUserInterface()
+        {
+            InvokeOnMainThread(InstantiateTableViewSource);
+            //InvokeOnMainThread(UpdatePageTitle);
+            //InvokeOnMainThread(RemoveOverlay);
+            //InvokeOnMainThread(StopRefreshing);
+        }
+
 	    public override void ViewDidLoad()
 	    {
 	        base.ViewDidLoad();
 
-	        InstantiateTableViewSource();
+            LoadContractCreationDetails();
 	        // Perform any additional setup after loading the view, typically from a nib.
 	    }
 	}
