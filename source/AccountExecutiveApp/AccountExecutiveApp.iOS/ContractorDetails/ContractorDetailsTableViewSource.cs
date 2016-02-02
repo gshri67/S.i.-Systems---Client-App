@@ -113,7 +113,11 @@ namespace AccountExecutiveApp.iOS
                     _parentController.Storyboard.InstantiateViewController("ContractCreationDetailsTableViewController");
 
                 //_parentController.ShowViewController(vc, _parentController);
-                _parentController.PresentViewController( vc, true, null);
+                //_parentController.PresentViewController( vc, true, null);
+
+				UINavigationController navVc = new UINavigationController(vc);
+
+				_parentController.PresentViewController( navVc, true, null);
             };
 
 			return headerView;
@@ -202,12 +206,7 @@ namespace AccountExecutiveApp.iOS
             var cell =
                 tableView.DequeueReusableCell(LinkedInSearchCell.CellIdentifier) as
                     LinkedInSearchCell;
-        
-            UIImage LinkedInLogo = new UIImage("LinkedInLogo.png");
-            UIImageView LinkedInImageView = new UIImageView(LinkedInLogo);
-            LinkedInImageView.ContentMode = UIViewContentMode.Left;
-            cell.BackgroundView = LinkedInImageView;
-            
+       
             return cell;
         }
 

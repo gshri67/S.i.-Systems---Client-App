@@ -245,7 +245,7 @@ namespace AccountExecutiveApp.iOS
         
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return _quickPayCellRow;
+			return _quickPayCellRow+1;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)

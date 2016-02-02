@@ -47,6 +47,7 @@ namespace AccountExecutiveApp.iOS
             UIButton nextButton = new UIButton( new CGRect(0, 0, 100, 100));
             nextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
             nextButton.SetTitle("Next", UIControlState.Normal);
+			nextButton.BackgroundColor = UIColor.FromWhiteAlpha (0.9f, 0.5f);
 
             TableView.TableFooterView = nextButton;
             
@@ -81,6 +82,17 @@ namespace AccountExecutiveApp.iOS
 
             LoadContractCreationDetails();
 	        // Perform any additional setup after loading the view, typically from a nib.
+
+
+			UIBarButtonItem cancelButton = new UIBarButtonItem("Cancel", UIBarButtonItemStyle.Plain, delegate(object sender, EventArgs e) {
+				DismissViewController(true, null);
+			} );
+
+
+
+			NavigationItem.SetLeftBarButtonItem(cancelButton, true);
+
+
 	    }
 	}
 }

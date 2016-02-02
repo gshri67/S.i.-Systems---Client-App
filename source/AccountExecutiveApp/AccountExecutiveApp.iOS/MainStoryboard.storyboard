@@ -1579,7 +1579,7 @@
             </objects>
             <point key="canvasLocation" x="3533" y="923"/>
         </scene>
-        <!--Contract Creation Details Table View Controller-->
+        <!--Contract Creation-->
         <scene sceneID="6yI-vF-4nf">
             <objects>
                 <tableViewController storyboardIdentifier="ContractCreationDetailsTableViewController" id="BjX-Si-MNo" customClass="ContractCreationDetailsTableViewController" sceneMemberID="viewController">
@@ -1602,10 +1602,13 @@
                             <outlet property="delegate" destination="BjX-Si-MNo" id="Dfd-x2-7uC"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Contract Creation" id="j7z-9p-SeT">
+                        <barButtonItem key="leftBarButtonItem" title="cancel" id="tzD-nk-e7w"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ktu-yt-8E4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4200" y="830"/>
+            <point key="canvasLocation" x="4732" y="830"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="G21-i2-T9o">
@@ -1633,7 +1636,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wuZ-2J-Mfg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4605" y="831"/>
+            <point key="canvasLocation" x="5137" y="831"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="4fC-Rm-kU0">
@@ -1661,7 +1664,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zsj-sW-L65" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5015" y="832"/>
+            <point key="canvasLocation" x="5547" y="832"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="Pam-dQ-qfc">
@@ -1689,7 +1692,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1B-Si-fM7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5416" y="834"/>
+            <point key="canvasLocation" x="5948" y="834"/>
         </scene>
         <!--Client Contact Details View Controller-->
         <scene sceneID="7Hd-IO-EcZ">
