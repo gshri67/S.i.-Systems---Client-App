@@ -105,21 +105,6 @@ namespace AccountExecutiveApp.iOS
 
 		public override UIView GetViewForHeader (UITableView tableView, nint section)
 		{
-            /*
-			UIButton createContractHeader = new UIButton ( new CGRect(0, 0, tableView.Frame.Width, 100));
-			createContractHeader.BackgroundColor = UIColor.LightGray;
-
-			createContractHeader.TouchUpInside += delegate {
-				ContractCreationDetailsTableViewController vc =
-					(ContractCreationDetailsTableViewController)
-					_parentController.Storyboard.InstantiateViewController("ContractCreationDetailsTableViewController");
-
-				//vc.ShowSearchIcon = _parentController.ShowSearchIcon;
-				//vc.setContracts(_tableModel.Contracts);
-
-				_parentController.ShowViewController(vc, _parentController);
-			};
-			*/
             CreateContractJobDescriptionView headerView = new CreateContractJobDescriptionView();
             headerView.CreateContractButton.TouchUpInside += delegate
             {
@@ -127,7 +112,8 @@ namespace AccountExecutiveApp.iOS
                     (ContractCreationDetailsTableViewController)
                     _parentController.Storyboard.InstantiateViewController("ContractCreationDetailsTableViewController");
 
-                _parentController.ShowViewController(vc, _parentController);
+                //_parentController.ShowViewController(vc, _parentController);
+                _parentController.PresentViewController( vc, true, null);
             };
 
 			return headerView;

@@ -60,10 +60,17 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public int DaysCancellation {           get { return Contract.DaysCancellation; }
                                                 set { Contract.DaysCancellation = value; }}
+
         public string LimitationExpense {       get { return Contract.LimitationExpense; }
                                                 set { Contract.LimitationExpense = value; }}
+        public List<string> LimitationExpenseOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
+        public int LimitationExpenseSelectedIndex {    get { return IndexSelectionFromOptions(LimitationExpenseOptions, LimitationExpense); } }
+
         public string LimitationOfContract {    get { return Contract.LimitationOfContract; } 
                                                 set { Contract.LimitationOfContract = value; } }
+        public List<string> LimitationOfContractOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
+        public int LimitationOfContractSelectedIndex { get { return IndexSelectionFromOptions(LimitationOfContractOptions, LimitationOfContract); } }
+
 
         public string PaymentPlan {             get { return Contract.PaymentPlan; }
                                                 set { Contract.PaymentPlan = value; }}
@@ -183,8 +190,14 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string InvoiceFrequency {        get { return Contract.InvoiceFrequency; } 
                                                 set { Contract.InvoiceFrequency = value; } }
+        public List<string> InvoiceFrequencyOptions { get { return new List<string>(new string[] { "Semi-Monthly", "Monthly", "Bi-Weekly" }); } }
+        public int InvoiceFrequencySelectedIndex { get { return IndexSelectionFromOptions(InvoiceFrequencyOptions, InvoiceFrequency); } }
+
         public string InvoiceFormat {           get { return Contract.InvoiceFormat; } 
                                                 set { Contract.InvoiceFormat = value; } }
+        public List<string> InvoiceFormatOptions { get { return new List<string>(new string[] { "1 invoice per contract" }); } }
+        public int InvoiceFormatSelectedIndex { get { return IndexSelectionFromOptions(InvoiceFormatOptions, InvoiceFormat); } }
+
         public Boolean UsingProjectCode {       get { return Contract.UsingProjectCode; }
                                                 set { Contract.UsingProjectCode = value; }}
         public Boolean UsingQuickPay {          get { return Contract.UsingQuickPay; } 

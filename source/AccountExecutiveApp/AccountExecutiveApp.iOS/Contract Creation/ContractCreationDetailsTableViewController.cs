@@ -1,6 +1,7 @@
 ﻿
 using System;
 using AccountExecutiveApp.Core.ViewModel;
+using CoreGraphics;
 using Foundation;
 using UIKit;
 using Microsoft.Practices.Unity;
@@ -43,7 +44,7 @@ namespace AccountExecutiveApp.iOS
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 			TableView.Source = new ContractCreationDetailsTableViewSource(this, _viewModel);
 
-            UIButton nextButton = new UIButton();
+            UIButton nextButton = new UIButton( new CGRect(0, 0, 100, 100));
             nextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
             nextButton.SetTitle("Next", UIControlState.Normal);
 

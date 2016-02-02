@@ -152,7 +152,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetLimitationExpenseCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation Expense", new List<string>(new string[] { "Regular", "half-time", "part-time" }), 0);
+            cell.UpdateCell("Limitation Expense", _contractModel.LimitationExpenseOptions, _contractModel.LimitationExpenseSelectedIndex);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationExpense = newValue; };
 
             return cell;
@@ -160,7 +160,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetLimitationOfContractCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation of Contract", new List<string>(new string[] { "????", "half-time", "part-time" }), 0);
+            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractOptions, _contractModel.LimitationOfContractSelectedIndex);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationOfContract = newValue; };
 
             return cell;
@@ -198,7 +198,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetInvoiceFrequencyCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Frequency", new List<string>(new string[] { "Semi-Monthly", "Monthly", "Bi-Weekly" }), 0);
+            cell.UpdateCell("Invoice Frequency", _contractModel.InvoiceFrequencyOptions, _contractModel.InvoiceFrequencySelectedIndex);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFrequency = newValue; };
 
             return cell;
@@ -206,7 +206,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetInvoiceFormatCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Format", new List<string>(new string[] { "1 invoice per contract" }), 0);
+            cell.UpdateCell("Invoice Format", _contractModel.InvoiceFormatOptions, _contractModel.InvoiceFormatSelectedIndex);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFormat = newValue; };
             
             return cell;
@@ -236,33 +236,16 @@ namespace AccountExecutiveApp.iOS
 	        tableView.TableHeaderView = createContractHeader;
 			return createContractHeader;
 		}
-        /*
-        public override UIView GetViewForFooter(UITableView tableView, nint section)
-        {
-            UIButton nextButton = new UIButton();
-            nextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
-            nextButton.SetTitle("Next", UIControlState.Normal);
-
-            tableView.TableFooterView = nextButton;
-            return nextButton;
-        }*/
 
 		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
 		{
 			return 100.0f;
 		}
 
-        /*
-        public override nfloat GetHeightForFooter(UITableView tableView, nint section)
-        {
-            return 100.0f;
-        }*/
-        
         
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return 15;
-			//return _tableModel.NumberOfPhoneNumbers() + _tableModel.NumberOfEmails() + 1 + 2;
+			return _quickPayCellRow;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
