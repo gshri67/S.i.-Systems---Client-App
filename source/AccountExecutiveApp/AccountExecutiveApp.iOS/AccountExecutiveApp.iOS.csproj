@@ -78,6 +78,8 @@
     <CodesignExtraArgs>
     </CodesignExtraArgs>
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;PROD</DefineConstants>
+    <IpaIncludeArtwork>True</IpaIncludeArtwork>
+    <IpaMetadata>iTunesMetadata.plist</IpaMetadata>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|iPhoneSimulator'">
     <OutputPath>bin\iPhoneSimulator\Test\</OutputPath>
@@ -107,6 +109,8 @@
     <MtouchI18n />
     <MtouchI18n>
     </MtouchI18n>
+    <IpaIncludeArtwork>True</IpaIncludeArtwork>
+    <IpaMetadata>iTunesMetadata.plist</IpaMetadata>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhoneSimulator'">
     <OutputPath>bin\iPhoneSimulator\Dev\</OutputPath>
