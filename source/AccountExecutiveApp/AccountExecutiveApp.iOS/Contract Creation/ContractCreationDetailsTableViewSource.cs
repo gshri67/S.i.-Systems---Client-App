@@ -178,21 +178,21 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             List<UserContact> accountExecutives =
                 new List<UserContact>(new UserContact[] {new UserContact(), new UserContact(), new UserContact() });
-            cell.UpdateCell("Account Executive", new List<string>(new string[] { "Bob Smith", "Anna Young", "Fred Flintstone" }), 0);
-            //cell.OnValueChanged += delegate(string newValue) { _contractModel.AccountExecutive = newValue; };
+            cell.UpdateCell("Account Executive", _contractModel.AccountExecutiveOptionDescriptions, _contractModel.AccountExecutiveIndex);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetAccountExecutiveWithName( newValue ); };
 
             return cell;
         }
         private UITableViewCell GetGMAssignedCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("GM Assigned", new List<string>(new string[] { "Bob Smith", "Anna Young", "Fred Flintstone" }), 0);
+            cell.UpdateCell("GM Assigned", _contractModel.GMAssignedOptionDescriptions, _contractModel.GMAssignedIndex);
             return cell;
         }
         private UITableViewCell GetCommisionAssignedCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Comission Assigned", new List<string>(new string[] { "Bob Smith", "Anna Young", "Fred Flintstone" }), 0); 
+            cell.UpdateCell("Comission Assigned", _contractModel.ComissionAssignedOptionDescriptions, _contractModel.ComissionAssignedIndex); 
             return cell;
         }
         private UITableViewCell GetInvoiceFrequencyCell(UITableView tableView, NSIndexPath indexPath)

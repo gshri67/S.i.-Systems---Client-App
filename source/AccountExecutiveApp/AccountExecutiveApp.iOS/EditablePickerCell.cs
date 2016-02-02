@@ -155,7 +155,10 @@ namespace AccountExecutiveApp.iOS
             items.Add(Values);
 
             if (_picker != null && _pickerModel != null)
+            {
                 _pickerModel.items = items;
+                _pickerModel.scrollToItemIndex( _picker, newSelectedIndex, 0);
+            }
         }
     }
 }

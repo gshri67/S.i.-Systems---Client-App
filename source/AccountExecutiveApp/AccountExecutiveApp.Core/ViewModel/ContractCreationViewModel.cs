@@ -72,10 +72,115 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public UserContact AccountExecutive {   get { return Contract.AccountExecutive; }
                                                 set { Contract.AccountExecutive = value; }}
+        private List<UserContact> AccountExecutiveOptions { get { return new List<UserContact>(new UserContact[] { new UserContact
+            {
+                Id = 1,
+                FirstName = "Robert",
+                LastName = "Paulson"
+            },
+            new UserContact
+            {
+                Id = 2,
+                FirstName = "Bob",
+                LastName = "Smith"
+            },
+            new UserContact
+            {
+                Id = 3,
+                FirstName = "Fred",
+                LastName = "Flintstone"
+            }
+        }); } }
+        public List<string> AccountExecutiveOptionDescriptions
+        {
+            get { return  AccountExecutiveOptions.Select( c => c.FullName ).ToList(); }
+        }
+
+        public int AccountExecutiveIndex { get { return IndexSelectionFromOptions(AccountExecutiveOptionDescriptions, AccountExecutive.FullName); } }
+        public void SetAccountExecutiveWithName(string newValue)
+        {
+            int selectedIndex = IndexSelectionFromOptions(AccountExecutiveOptionDescriptions, newValue);
+            AccountExecutive = AccountExecutiveOptions[selectedIndex];
+        }
+
         public UserContact GMAssigned {         get { return Contract.GMAssigned; } 
                                                 set { Contract.GMAssigned = value; } }
+        private List<UserContact> GMAssignedOptions
+        {
+            get
+            {
+                return new List<UserContact>(new UserContact[] { new UserContact
+            {
+                Id = 1,
+                FirstName = "Robert",
+                LastName = "Paulson"
+            },
+            new UserContact
+            {
+                Id = 2,
+                FirstName = "Bob",
+                LastName = "Smith"
+            },
+            new UserContact
+            {
+                Id = 3,
+                FirstName = "Fred",
+                LastName = "Flintstone"
+            }
+        });
+            }
+        }
+        public List<string> GMAssignedOptionDescriptions
+        {
+            get { return GMAssignedOptions.Select(c => c.FullName).ToList(); }
+        }
+
+        public int GMAssignedIndex { get { return IndexSelectionFromOptions(GMAssignedOptionDescriptions, GMAssigned.FullName); } }
+        public void SetGMAssignedWithName(string newValue)
+        {
+            int selectedIndex = IndexSelectionFromOptions(GMAssignedOptionDescriptions, newValue);
+            GMAssigned = GMAssignedOptions[selectedIndex];
+        }
+
         public UserContact ComissionAssigned {  get { return Contract.ComissionAssigned; } 
                                                 set { Contract.ComissionAssigned = value; } }
+        private List<UserContact> ComissionAssignedOptions
+        {
+            get
+            {
+                return new List<UserContact>(new UserContact[] { new UserContact
+            {
+                Id = 1,
+                FirstName = "Robert",
+                LastName = "Paulson"
+            },
+            new UserContact
+            {
+                Id = 2,
+                FirstName = "Bob",
+                LastName = "Smith"
+            },
+            new UserContact
+            {
+                Id = 3,
+                FirstName = "Fred",
+                LastName = "Flintstone"
+            }
+        });
+            }
+        }
+        public List<string> ComissionAssignedOptionDescriptions
+        {
+            get { return ComissionAssignedOptions.Select(c => c.FullName).ToList(); }
+        }
+
+        public int ComissionAssignedIndex { get { return IndexSelectionFromOptions(ComissionAssignedOptionDescriptions, ComissionAssigned.FullName); } }
+        public void SetComissionAssignedWithName(string newValue)
+        {
+            int selectedIndex = IndexSelectionFromOptions(ComissionAssignedOptionDescriptions, newValue);
+            ComissionAssigned = ComissionAssignedOptions[selectedIndex];
+        }
+
         public string InvoiceFrequency {        get { return Contract.InvoiceFrequency; } 
                                                 set { Contract.InvoiceFrequency = value; } }
         public string InvoiceFormat {           get { return Contract.InvoiceFormat; } 
@@ -92,7 +197,6 @@ namespace AccountExecutiveApp.Core.ViewModel
            
             return 0;
         }
-
         /*
         public Task LoadContract(int Id)
         {
@@ -100,8 +204,6 @@ namespace AccountExecutiveApp.Core.ViewModel
 
             return task;
         }*/
-
-
 
     }
 }
