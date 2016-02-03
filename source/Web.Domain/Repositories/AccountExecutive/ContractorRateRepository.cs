@@ -14,6 +14,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<ContractorRateSummary> GetProposedContractorRateSummaryByJobId(int id);
         IEnumerable<ContractorRateSummary> GetShortlistedContractorRateSummaryByJobId(int id);
         IEnumerable<ContractorRateSummary> GetCalloutContractorRateSummaryByJobId(int id);
+        ContractorRateSummary GetRateSummaryByJobIdAndContractorId(int jobId, int contractorId);
     }
 
     public class ContractorRateRepository : IContractorRateRepository
@@ -96,6 +97,24 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 return summaries;
             }
         }
+
+        public ContractorRateSummary GetRateSummaryByJobIdAndContractorId(int jobId, int contractorId)
+        {
+            const string contractorsQuery =
+               @"SELECT CandidateUserID AS ContractorId, 
+		            Matrix.ProposedBillRate BillRate,
+		            Matrix.ProposedPayRate PayRate
+            FROM Agreement_OpportunityCandidateMatrix Matrix
+            WHERE Matrix.AgreementID = @JobId
+            AND Matrix.CandidateUserID = @CandidateId";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var summary = db.Connection.Query<ContractorRateSummary>(contractorsQuery, new { JobId = jobId, CandidateId = contractorId }).FirstOrDefault();
+
+                return summary;
+            }
+        }
     }
 
     public class MockContractorRateRepository : IContractorRateRepository
@@ -114,6 +133,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public IEnumerable<ContractorRateSummary> GetCalloutContractorRateSummaryByJobId(int id)
         {
             return Enumerable.Empty<ContractorRateSummary>();
+        }
+
+        public ContractorRateSummary GetRateSummaryByJobIdAndContractorId(int jobId, int contractorId)
+        {
+            return new ContractorRateSummary();
         }
     }
 }
