@@ -63,7 +63,8 @@ namespace AccountExecutiveApp.iOS
             {
                 JobTitle = "Developer",
                 StartDate = new DateTime(2016, 1, 22),
-                PaymentPlan = "part-time"
+                PaymentPlan = "part-time",
+                DaysCancellation = 10
             };
             UpdateUserInterface();
         }

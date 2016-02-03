@@ -47,8 +47,14 @@ namespace AccountExecutiveApp.Core.ViewModel
         }
 
 
-        public DateTime StartDate {             set { Contract.StartDate = value; }}
-        public DateTime EndDate {               set { Contract.EndDate = value; } }
+        public DateTime StartDate {
+                                                get { return Contract.StartDate; }
+                                                set { Contract.StartDate = value; } }
+        public DateTime EndDate
+        {
+            get { return Contract.EndDate; }
+            set { Contract.EndDate = value; }
+        }
 
         public string JobTitle {                get { return Contract.JobTitle; }
                                                 set { Contract.JobTitle = value; }}
@@ -60,6 +66,8 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public int DaysCancellation {           get { return Contract.DaysCancellation; }
                                                 set { Contract.DaysCancellation = value; }}
+        public List<string> DaysCancellationOptions { get { return new List<string>(new string[] { "5", "10", "15" }); } }
+        public int DaysCancellationSelectedIndex { get { return IndexSelectionFromOptions(DaysCancellationOptions, DaysCancellation.ToString()); } }
 
         public string LimitationExpense {       get { return Contract.LimitationExpense; }
                                                 set { Contract.LimitationExpense = value; }}
