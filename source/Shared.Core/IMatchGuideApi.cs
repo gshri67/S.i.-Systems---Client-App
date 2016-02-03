@@ -68,5 +68,8 @@ namespace Shared.Core
         Task<IEnumerable<Contractor>> GetContractors();
         Task<IEnumerable<UserContact>> GetClientContacts();
         Task<IEnumerable<UserContact>> GetClientContactsWithFilter( string filter );
+
+        Task<ContractCreationDetails> GetContractCreationDetailInfo( int jobId);
+        Task<ContractCreationOptions> GetContractCreationDetailOptions( int jobId);
     }
 }

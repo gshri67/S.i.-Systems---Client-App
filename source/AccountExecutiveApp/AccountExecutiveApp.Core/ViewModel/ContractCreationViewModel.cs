@@ -19,6 +19,12 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { _contract = value ?? new ContractCreationDetails(); }
         }
 
+        private ContractCreationOptions _contractOptions;
+        private ContractCreationOptions ContractOptions
+        {
+            get { return _contractOptions ?? new ContractCreationOptions(); }
+            set { _contractOptions = value ?? new ContractCreationOptions(); }
+        }
 
         public ContractCreationViewModel(IMatchGuideApi api)
         {
@@ -218,13 +224,24 @@ namespace AccountExecutiveApp.Core.ViewModel
            
             return 0;
         }
-        /*
-        public Task LoadContract(int Id)
+        
+        public Task LoadContractCreationDetails( int jobId )
         {
-            var task = GetContract(Id);
+            GetContractCreationDetailInfo( jobId );
+            var task = GetContractCreationDetailOptions(jobId);
 
             return task;
-        }*/
+        }
+
+
+        private async Task GetContractCreationDetailInfo(int jobId )
+        {
+            //Contract = await _api.GetContractCreationDetailInfo(jobId);
+        }
+        private async Task GetContractCreationDetailOptions(int jobId)
+        {
+            //await _api.GetContractCreationDetailOptions(jobId);
+        }
 
     }
 }
