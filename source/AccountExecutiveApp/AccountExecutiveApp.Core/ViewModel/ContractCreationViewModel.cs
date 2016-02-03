@@ -67,9 +67,6 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string TimeFactor {              get { return Contract.TimeFactor; }
                                                 set { Contract.TimeFactor = value; }}
-        public List<string> TimeFactorOptions { get { return new List<string>(new string[] { "full-time", "half-time", "part-time" }); } }
-        public int TimeFactorSelectedIndex {    get { return IndexSelectionFromOptions(TimeFactorOptions, TimeFactor); } }
-
         public int DaysCancellation {           get { return Contract.DaysCancellation; }
                                                 set { Contract.DaysCancellation = value; }}
         public List<string> DaysCancellationOptions { get { return new List<string>(new string[] { "5", "10", "15" }); } }
@@ -77,23 +74,71 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string LimitationExpense {       get { return Contract.LimitationExpense; }
                                                 set { Contract.LimitationExpense = value; }}
-        public List<string> LimitationExpenseOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
-        public int LimitationExpenseSelectedIndex {    get { return IndexSelectionFromOptions(LimitationExpenseOptions, LimitationExpense); } }
-
         public string LimitationOfContract {    get { return Contract.LimitationOfContract; } 
                                                 set { Contract.LimitationOfContract = value; } }
-        public List<string> LimitationOfContractOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
-        public int LimitationOfContractSelectedIndex { get { return IndexSelectionFromOptions(LimitationOfContractOptions, LimitationOfContract); } }
-
 
         public string PaymentPlan {             get { return Contract.PaymentPlan; }
                                                 set { Contract.PaymentPlan = value; }}
-        public List<string> PaymentPlanOptions {get { return new List<string>(new string[] { "Monthly Standard", "half-time", "part-time" }); } }
-        public int PaymentPlanSelectedIndex {   get { return IndexSelectionFromOptions(PaymentPlanOptions, PaymentPlan); } }
-
         public UserContact AccountExecutive {   get { return Contract.AccountExecutive; }
                                                 set { Contract.AccountExecutive = value; }}
-        private List<UserContact> AccountExecutiveOptions { get { return new List<UserContact>(new UserContact[] { new UserContact
+
+        public int AccountExecutiveIndex { get { return IndexSelectionFromOptions(AccountExecutiveOptionDescriptions, AccountExecutive.FullName); } }
+        public void SetAccountExecutiveWithName(string newValue)
+        {
+            int selectedIndex = IndexSelectionFromOptions(AccountExecutiveOptionDescriptions, newValue);
+            AccountExecutive = AccountExecutiveOptions[selectedIndex];
+        }
+
+        public UserContact GMAssigned {         get { return Contract.GMAssigned; } 
+                                                set { Contract.GMAssigned = value; } }
+
+        public int GMAssignedIndex { get { return IndexSelectionFromOptions(GMAssignedOptionDescriptions, GMAssigned.FullName); } }
+        public void SetGMAssignedWithName(string newValue)
+        {
+            int selectedIndex = IndexSelectionFromOptions(GMAssignedOptionDescriptions, newValue);
+            GMAssigned = GMAssignedOptions[selectedIndex];
+        }
+
+        public UserContact ComissionAssigned {  get { return Contract.ComissionAssigned; } 
+                                                set { Contract.ComissionAssigned = value; } }
+
+        public int ComissionAssignedIndex { get { return IndexSelectionFromOptions(ComissionAssignedOptionDescriptions, ComissionAssigned.FullName); } }
+        public void SetComissionAssignedWithName(string newValue)
+        {
+            int selectedIndex = IndexSelectionFromOptions(ComissionAssignedOptionDescriptions, newValue);
+            ComissionAssigned = ComissionAssignedOptions[selectedIndex];
+        }
+
+        public string InvoiceFrequency {        get { return Contract.InvoiceFrequency; } 
+                                                set { Contract.InvoiceFrequency = value; } }
+        public string InvoiceFormat {           get { return Contract.InvoiceFormat; } 
+                                                set { Contract.InvoiceFormat = value; } }
+        public Boolean UsingProjectCode {       get { return Contract.UsingProjectCode; }
+                                                set { Contract.UsingProjectCode = value; }}
+        public Boolean UsingQuickPay {          get { return Contract.UsingQuickPay; } 
+                                                set { Contract.UsingQuickPay = value; } }
+
+
+#region SupportData
+
+        public List<string> TimeFactorOptions { get { return new List<string>(new string[] { "Full Time", "Half Time", "Part Time" }); } }
+        public int TimeFactorSelectedIndex { get { return IndexSelectionFromOptions(TimeFactorOptions, TimeFactor); } }
+
+        public List<string> LimitationExpenseOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
+        public int LimitationExpenseSelectedIndex { get { return IndexSelectionFromOptions(LimitationExpenseOptions, LimitationExpense); } }
+
+        public List<string> LimitationOfContractOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
+        public int LimitationOfContractSelectedIndex { get { return IndexSelectionFromOptions(LimitationOfContractOptions, LimitationOfContract); } }
+
+        public List<string> PaymentPlanOptions { get { return new List<string>(new string[] { "Monthly Standard Last Business Day", "half-time", "part-time" }); } }
+        public int PaymentPlanSelectedIndex { get { return IndexSelectionFromOptions(PaymentPlanOptions, PaymentPlan); } }
+
+
+        private List<UserContact> AccountExecutiveOptions
+        {
+            get
+            {
+                return new List<UserContact>(new UserContact[] { new UserContact
             {
                 Id = 1,
                 FirstName = "Robert",
@@ -111,21 +156,14 @@ namespace AccountExecutiveApp.Core.ViewModel
                 FirstName = "Fred",
                 LastName = "Flintstone"
             }
-        }); } }
+        });
+            }
+        }
         public List<string> AccountExecutiveOptionDescriptions
         {
-            get { return  AccountExecutiveOptions.Select( c => c.FullName ).ToList(); }
+            get { return AccountExecutiveOptions.Select(c => c.FullName).ToList(); }
         }
 
-        public int AccountExecutiveIndex { get { return IndexSelectionFromOptions(AccountExecutiveOptionDescriptions, AccountExecutive.FullName); } }
-        public void SetAccountExecutiveWithName(string newValue)
-        {
-            int selectedIndex = IndexSelectionFromOptions(AccountExecutiveOptionDescriptions, newValue);
-            AccountExecutive = AccountExecutiveOptions[selectedIndex];
-        }
-
-        public UserContact GMAssigned {         get { return Contract.GMAssigned; } 
-                                                set { Contract.GMAssigned = value; } }
         private List<UserContact> GMAssignedOptions
         {
             get
@@ -151,20 +189,12 @@ namespace AccountExecutiveApp.Core.ViewModel
         });
             }
         }
+
         public List<string> GMAssignedOptionDescriptions
         {
             get { return GMAssignedOptions.Select(c => c.FullName).ToList(); }
         }
 
-        public int GMAssignedIndex { get { return IndexSelectionFromOptions(GMAssignedOptionDescriptions, GMAssigned.FullName); } }
-        public void SetGMAssignedWithName(string newValue)
-        {
-            int selectedIndex = IndexSelectionFromOptions(GMAssignedOptionDescriptions, newValue);
-            GMAssigned = GMAssignedOptions[selectedIndex];
-        }
-
-        public UserContact ComissionAssigned {  get { return Contract.ComissionAssigned; } 
-                                                set { Contract.ComissionAssigned = value; } }
         private List<UserContact> ComissionAssignedOptions
         {
             get
@@ -190,32 +220,20 @@ namespace AccountExecutiveApp.Core.ViewModel
         });
             }
         }
+
         public List<string> ComissionAssignedOptionDescriptions
         {
             get { return ComissionAssignedOptions.Select(c => c.FullName).ToList(); }
         }
 
-        public int ComissionAssignedIndex { get { return IndexSelectionFromOptions(ComissionAssignedOptionDescriptions, ComissionAssigned.FullName); } }
-        public void SetComissionAssignedWithName(string newValue)
-        {
-            int selectedIndex = IndexSelectionFromOptions(ComissionAssignedOptionDescriptions, newValue);
-            ComissionAssigned = ComissionAssignedOptions[selectedIndex];
-        }
-
-        public string InvoiceFrequency {        get { return Contract.InvoiceFrequency; } 
-                                                set { Contract.InvoiceFrequency = value; } }
-        public List<string> InvoiceFrequencyOptions { get { return new List<string>(new string[] { "Semi-Monthly", "Monthly", "Bi-Weekly" }); } }
+        public List<string> InvoiceFrequencyOptions { get { return new List<string>(new string[] { "Monthly", "Semi Monthly", "Weekly Invoicing" }); } }
         public int InvoiceFrequencySelectedIndex { get { return IndexSelectionFromOptions(InvoiceFrequencyOptions, InvoiceFrequency); } }
 
-        public string InvoiceFormat {           get { return Contract.InvoiceFormat; } 
-                                                set { Contract.InvoiceFormat = value; } }
         public List<string> InvoiceFormatOptions { get { return new List<string>(new string[] { "1 invoice per contract" }); } }
         public int InvoiceFormatSelectedIndex { get { return IndexSelectionFromOptions(InvoiceFormatOptions, InvoiceFormat); } }
 
-        public Boolean UsingProjectCode {       get { return Contract.UsingProjectCode; }
-                                                set { Contract.UsingProjectCode = value; }}
-        public Boolean UsingQuickPay {          get { return Contract.UsingQuickPay; } 
-                                                set { Contract.UsingQuickPay = value; } }
+#endregion
+
 
         private int IndexSelectionFromOptions( List<string> options, string value )
         {

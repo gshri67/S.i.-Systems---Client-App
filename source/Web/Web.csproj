@@ -189,6 +189,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Auth\CustomClaimTypes.cs" />
     <Compile Include="Caching\ObjectCache.cs" />
+    <Compile Include="Controllers\Api\ContractCreationInfoController.cs" />
     <Compile Include="Controllers\Api\ContractorRateController.cs" />
     <Compile Include="Controllers\Api\ContractorsController.cs" />
     <Compile Include="Controllers\Api\ConsultantDetailsController.cs" />
@@ -278,6 +279,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\ConsultantContracts\" />
+    <Folder Include="Views\ContractCreationInfo\" />
     <Folder Include="Views\ContractorRate\" />
     <Folder Include="Views\Dashboard\" />
     <Folder Include="Views\Jobs\" />

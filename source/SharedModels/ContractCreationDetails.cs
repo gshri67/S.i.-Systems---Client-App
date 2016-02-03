@@ -26,7 +26,7 @@ namespace SiSystems.SharedModels
             StartDate = DateTime.Now;
             EndDate = DateTime.Now;
             TimeFactor = string.Empty;
-            DaysCancellation = 10;
+            DaysCancellation = 2;
             LimitationExpense = string.Empty;
             LimitationOfContract = string.Empty;
             PaymentPlan = string.Empty;

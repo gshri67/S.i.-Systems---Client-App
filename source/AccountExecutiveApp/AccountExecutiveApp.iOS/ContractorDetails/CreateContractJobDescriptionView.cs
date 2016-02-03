@@ -46,8 +46,8 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 0.5f, 0f));
 
-            AddConstraint(NSLayoutConstraint.Create(CreateContractButton, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Left, 1.0f, 8f));
-            AddConstraint(NSLayoutConstraint.Create(CreateContractButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 1.0f, -8f));
+            AddConstraint(NSLayoutConstraint.Create(CreateContractButton, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterX, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(CreateContractButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 175f));
             AddConstraint(NSLayoutConstraint.Create(CreateContractButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, TextView, NSLayoutAttribute.Bottom, 1.0f, 8f));
             AddConstraint(NSLayoutConstraint.Create(CreateContractButton, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, -8f));
         }
