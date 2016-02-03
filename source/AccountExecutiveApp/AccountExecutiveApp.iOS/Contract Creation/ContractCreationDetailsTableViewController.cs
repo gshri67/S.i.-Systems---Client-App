@@ -43,6 +43,7 @@ namespace AccountExecutiveApp.iOS
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 			TableView.Source = new ContractCreationDetailsTableViewSource(this, _viewModel);
+		    TableView.AllowsSelection = false;
 
             UIButton nextButton = new UIButton( new CGRect(0, 0, 100, 100));
             nextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);

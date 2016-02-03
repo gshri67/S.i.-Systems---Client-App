@@ -23,8 +23,6 @@ namespace AccountExecutiveApp.iOS
 
         private void InitializeCell()
         {
-            this.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-
             CreateAndAddLabels();
 
             SetupConstraints();

@@ -34,8 +34,6 @@ namespace AccountExecutiveApp.iOS
 
         private void InitializeCell()
         {
-            this.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-
             CreateAndAddLabels();
 
             SetupConstraints();
@@ -61,6 +59,7 @@ namespace AccountExecutiveApp.iOS
             RightDetailTextField.Text = "Text Field";
 
             _picker = new UIPickerView();
+            _picker.BackgroundColor = UIColor.White;
             _pickerModel = new PickerViewModel();
             _picker.Model = _pickerModel;
             RightDetailTextField.InputView = _picker;
