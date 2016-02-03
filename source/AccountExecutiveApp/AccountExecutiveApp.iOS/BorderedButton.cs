@@ -6,7 +6,7 @@ using UIKit;
 
 namespace AccountExecutiveApp.iOS
 {
-    partial class BorderedButton : UIButton
+    public partial class BorderedButton : UIButton
     {
         public BorderedButton() : base() { }
 

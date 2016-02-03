@@ -384,6 +384,7 @@
     <BundleResource Include="Resources\searchStrongIcon%402x.png" />
     <BundleResource Include="Resources\LinkedInLogo.png" />
     <Content Include="iTunesMetadata.plist" />
+    <BundleResource Include="Resources\ios7-arrow-forward.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">
@@ -455,7 +456,5 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Contract Creation\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

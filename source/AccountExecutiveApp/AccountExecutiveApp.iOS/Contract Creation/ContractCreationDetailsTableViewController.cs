@@ -45,13 +45,42 @@ namespace AccountExecutiveApp.iOS
 			TableView.Source = new ContractCreationDetailsTableViewSource(this, _viewModel);
 		    TableView.AllowsSelection = false;
 
-            UIButton nextButton = new UIButton( new CGRect(0, 0, 100, 100));
-            nextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
-            nextButton.SetTitle("Next", UIControlState.Normal);
-			nextButton.BackgroundColor = UIColor.FromWhiteAlpha (0.9f, 0.5f);
+		    TableView.AlwaysBounceVertical = false;
+		    TableView.Bounces = false;
 
-            TableView.TableFooterView = nextButton;
+            UIButton nextButton = new UIButton( new CGRect(0, 0, 50, 50));
+            nextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
+            nextButton.SetBackgroundImage( new UIImage("ios7-arrow-forward.png"), UIControlState.Normal);
+            //nextButton.SetTitle("Next", UIControlState.Normal);
+			//nextButton.BackgroundColor = UIColor.FromWhiteAlpha (0.9f, 0.5f);
+		    nextButton.TranslatesAutoresizingMaskIntoConstraints = false;
+
+
+            UIView tableFooter = new UIView(new CGRect(0, 0, 100, 50));
+            tableFooter.AddSubview(nextButton);
+		    tableFooter.BackgroundColor = UIColor.FromWhiteAlpha(0.9f, 1.0f);
+		    /*
+            tableFooter.Layer.ShadowColor = UIColor.Black.CGColor;
+		    tableFooter.Layer.ShadowRadius = 1.0f;
+            tableFooter.Layer.ShadowOffset = new CGSize(0, 10);
+            tableFooter.Layer.ShadowOpacity = 1.0f;
+            */
+		    tableFooter.AddConstraint(NSLayoutConstraint.Create( nextButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Right, 1.0f, 0 ));
+            tableFooter.AddConstraint(NSLayoutConstraint.Create(nextButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, nextButton, NSLayoutAttribute.Height, 0.9f, 0));
+            tableFooter.AddConstraint(NSLayoutConstraint.Create(nextButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Top, 1.0f, 0));
+            tableFooter.AddConstraint(NSLayoutConstraint.Create(nextButton, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Bottom, 1.0f, 0));
+
+		    UIView LineView = new UIView( new CGRect(0, 0, 200, 1) );
+            LineView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
+		    LineView.BackgroundColor = UIColor.Black;
+		    tableFooter.AddSubview(LineView);
+
+            TableView.TableFooterView = tableFooter;
             
+
+		    //UIToolbar tableToolbar = new UIToolbar( new CGRect(0, 0, TableView.Frame.Size.Width, 50));
+            //tableToolbar.add
+
             TableView.ReloadData();
 		}
 
