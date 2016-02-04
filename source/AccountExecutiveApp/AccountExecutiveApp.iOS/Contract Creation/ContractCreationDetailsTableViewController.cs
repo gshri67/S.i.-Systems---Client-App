@@ -55,10 +55,16 @@ namespace AccountExecutiveApp.iOS
 			//nextButton.BackgroundColor = UIColor.FromWhiteAlpha (0.9f, 0.5f);
 		    nextButton.TranslatesAutoresizingMaskIntoConstraints = false;
 
+		    UIButton nextTextButton = new UIButton();
+            nextTextButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+            nextTextButton.SetTitle("Next", UIControlState.Normal);
+            nextTextButton.TitleLabel.TextAlignment = UITextAlignment.Right;
+		    nextTextButton.TranslatesAutoresizingMaskIntoConstraints = false;
 
             UIView tableFooter = new UIView(new CGRect(0, 0, 100, 50));
             tableFooter.AddSubview(nextButton);
-		    tableFooter.BackgroundColor = UIColor.FromWhiteAlpha(0.9f, 1.0f);
+            tableFooter.AddSubview(nextTextButton);
+		    tableFooter.BackgroundColor = UIColor.FromWhiteAlpha(0.95f, 1.0f);
 		    /*
             tableFooter.Layer.ShadowColor = UIColor.Black.CGColor;
 		    tableFooter.Layer.ShadowRadius = 1.0f;
@@ -69,6 +75,11 @@ namespace AccountExecutiveApp.iOS
             tableFooter.AddConstraint(NSLayoutConstraint.Create(nextButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, nextButton, NSLayoutAttribute.Height, 0.9f, 0));
             tableFooter.AddConstraint(NSLayoutConstraint.Create(nextButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Top, 1.0f, 0));
             tableFooter.AddConstraint(NSLayoutConstraint.Create(nextButton, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Bottom, 1.0f, 0));
+
+            tableFooter.AddConstraint(NSLayoutConstraint.Create(nextTextButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, nextButton, NSLayoutAttribute.Left, 1.0f, 0));
+            tableFooter.AddConstraint(NSLayoutConstraint.Create(nextTextButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Top, 1.0f, 0));
+            tableFooter.AddConstraint(NSLayoutConstraint.Create(nextTextButton, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Bottom, 1.0f, 0));
+
 
 		    UIView LineView = new UIView( new CGRect(0, 0, 200, 1) );
             LineView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
@@ -118,7 +129,7 @@ namespace AccountExecutiveApp.iOS
 			UIBarButtonItem cancelButton = new UIBarButtonItem("Cancel", UIBarButtonItemStyle.Plain, delegate(object sender, EventArgs e) {
 				DismissViewController(true, null);
 			} );
-
+	        cancelButton.TintColor = StyleGuideConstants.RedUiColor;
 
 
 			NavigationItem.SetLeftBarButtonItem(cancelButton, true);

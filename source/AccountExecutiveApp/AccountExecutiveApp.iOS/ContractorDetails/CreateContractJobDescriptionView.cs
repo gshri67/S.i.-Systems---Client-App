@@ -39,8 +39,7 @@ namespace AccountExecutiveApp.iOS
 
             CreateContractButton = new BorderedButton();
             CreateContractButton.SetTitle("Create Contract", UIControlState.Normal);
-            CreateContractButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
-            //CreateContractButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
+            CreateContractButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
             CreateContractButton.TranslatesAutoresizingMaskIntoConstraints = false;
             AddSubview(CreateContractButton);
 
