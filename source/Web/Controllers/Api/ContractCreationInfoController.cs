@@ -10,7 +10,7 @@ using SiSystems.AccountExecutiveApp.Web.Filters;
 using SiSystems.ClientApp.Web.Domain.Services;
 using SiSystems.ClientApp.Web.Domain.Services.AccountExecutive;
 using SiSystems.SharedModels;
-
+/*
 namespace SiSystems.ClientApp.Web.Controllers.Api
 {
     [AccountExecutiveAccessAuthorization]
@@ -32,3 +32,4 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
         }
     }
 }
+*/

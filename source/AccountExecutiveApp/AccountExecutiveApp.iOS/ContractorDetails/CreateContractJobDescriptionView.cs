@@ -7,6 +7,8 @@ namespace AccountExecutiveApp.iOS
 {
     public class CreateContractJobDescriptionView : UIView
     {
+        private string _description = string.Empty; 
+
         public CreateContractJobDescriptionView(IntPtr handle)
             : base(handle)
         {
@@ -18,6 +20,12 @@ namespace AccountExecutiveApp.iOS
             InitializeCell();
         }
 
+        public CreateContractJobDescriptionView( string text )
+        {
+            _description = text;
+            InitializeCell();
+        }
+
         public ContractCreationDetailsHeaderView TextView;
         public BorderedButton CreateContractButton;
 
@@ -25,13 +33,14 @@ namespace AccountExecutiveApp.iOS
         {
             BackgroundColor = UIColor.FromWhiteAlpha(0.95f, 1.0f);
 
-            TextView = new ContractCreationDetailsHeaderView("Please use the Matchguide System to use Third-Party billing");
+            TextView = new ContractCreationDetailsHeaderView(_description);
             TextView.TranslatesAutoresizingMaskIntoConstraints = false;
             AddSubview(TextView);
 
             CreateContractButton = new BorderedButton();
             CreateContractButton.SetTitle("Create Contract", UIControlState.Normal);
             CreateContractButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
+            //CreateContractButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
             CreateContractButton.TranslatesAutoresizingMaskIntoConstraints = false;
             AddSubview(CreateContractButton);
 

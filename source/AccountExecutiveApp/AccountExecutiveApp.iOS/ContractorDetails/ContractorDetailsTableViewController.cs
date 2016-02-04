@@ -18,6 +18,9 @@ namespace AccountExecutiveApp.iOS
 	    private readonly ContractorDetailsViewModel _viewModel;
 	    public const string CellIdentifier = "ContractorContactInfoCell";
         private int _id;
+        private string _jobDescription;
+	    private bool _jobDescriptionWasSet = false;
+
         private LoadingOverlay _overlay;
 
         public ContractorDetailsTableViewController (IntPtr handle) : base (handle)
@@ -25,7 +28,14 @@ namespace AccountExecutiveApp.iOS
             _viewModel = DependencyResolver.Current.Resolve<ContractorDetailsViewModel>();
 		}
 
-        public void setContractorId(int Id)
+	    public void setContractorIdAndJobDescription( int Id, string jobDescription )
+	    {
+	        _jobDescription = jobDescription;
+	        _jobDescriptionWasSet = true;
+            setContractorId(Id);
+	    }
+
+	    public void setContractorId(int Id)
         {
             _id = Id;
             IndicateLoading();
@@ -43,7 +53,11 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(LinkedInSearchCell), LinkedInSearchCell.CellIdentifier);
             TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
-            TableView.Source = new ContractorDetailsTableViewSource(this, _viewModel.Contractor);
+            if( _jobDescriptionWasSet )
+                TableView.Source = new ContractorDetailsTableViewSource(this, _viewModel.Contractor, _jobDescription);
+            else
+                TableView.Source = new ContractorDetailsTableViewSource(this, _viewModel.Contractor);
+
             TableView.ReloadData();
         }
 

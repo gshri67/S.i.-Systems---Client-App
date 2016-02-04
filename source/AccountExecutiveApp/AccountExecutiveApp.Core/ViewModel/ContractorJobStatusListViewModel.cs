@@ -15,6 +15,13 @@ namespace AccountExecutiveApp.Core.ViewModel
         private IEnumerable<ContractorRateSummary> _rateSummaries;
 
         public string ClientName { get; set; }
+        public string _jobTitle;
+
+        public string JobTitle
+        {
+            get { return _jobTitle ?? string.Empty; }
+            set { _jobTitle = value ?? string.Empty; }
+        }
 
         private IEnumerable<ContractorRateSummary> RateSummaries
         {

@@ -121,7 +121,7 @@ namespace AccountExecutiveApp.iOS
 			{
 				//destinationController.LoadContractors (consultants);
 				//destinationController.LoadContractorStatusDetails (_viewModel.Job.Id, status);
-                destinationController.LoadContractorsWithJobIdAndStatusAndClientName( _viewModel.Job.Id, status, _viewModel.ClientName );
+                destinationController.LoadContractorsWithJobIdAndStatusAndClientNameAndTitle( _viewModel.Job.Id, status, _viewModel.ClientName, _viewModel.JobTitle );
 			}
 	    }
 

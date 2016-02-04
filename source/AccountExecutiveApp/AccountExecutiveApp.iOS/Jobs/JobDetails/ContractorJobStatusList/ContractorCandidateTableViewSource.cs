@@ -79,7 +79,11 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             var vc = (ContractorDetailsTableViewController) _parentController.Storyboard.InstantiateViewController("ContractorDetailsTableViewController");
-            vc.setContractorId(_parentModel.ContractorContactIdByRowNumber((int)indexPath.Item));
+
+            if (_parentModel.Status == JobStatus.Shortlisted)
+                vc.setContractorId(_parentModel.ContractorContactIdByRowNumber((int)indexPath.Item));
+            else
+                vc.setContractorIdAndJobDescription(_parentModel.ContractorContactIdByRowNumber((int)indexPath.Item), _parentModel.JobTitle);
             _parentController.ShowViewController(vc, _parentController);
         }
     }

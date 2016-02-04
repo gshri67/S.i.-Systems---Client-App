@@ -27,10 +27,11 @@ namespace AccountExecutiveApp.iOS
             _viewModel = DependencyResolver.Current.Resolve<ContractorJobStatusListViewModel>();
 		}
 
-        public void LoadContractorsWithJobIdAndStatusAndClientName( int Id, JobStatus status, string clientName )
+        public void LoadContractorsWithJobIdAndStatusAndClientNameAndTitle( int Id, JobStatus status, string clientName, string jobTitle )
         {
             IndicateLoading();
             _status = status;
+            _viewModel.JobTitle = jobTitle;
             var task = _viewModel.LoadContractorsWithJobIDAndStatusAndClientName( Id, status, clientName );
             task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
         }

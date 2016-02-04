@@ -17,11 +17,22 @@ namespace AccountExecutiveApp.iOS
         private readonly ContractorDetailsTableViewModel _parentModel;
         private ContractorDetailsTableViewModel _tableModel;
         private float _specializationCellHeight = -1;
+        private string _jobDescription = string.Empty;
+        private bool _hasCreateContractHeader = false;
 
         public ContractorDetailsTableViewSource(ContractorDetailsTableViewController parentController, Contractor contractor)
         {
             _parentController = parentController;
             _tableModel = new ContractorDetailsTableViewModel(contractor);
+        }
+
+        public ContractorDetailsTableViewSource(ContractorDetailsTableViewController parentController, Contractor contractor, string jobDescription )
+        {
+            _parentController = parentController;
+            _tableModel = new ContractorDetailsTableViewModel(contractor);
+
+            _jobDescription = jobDescription;
+            _hasCreateContractHeader = true;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -82,7 +93,6 @@ namespace AccountExecutiveApp.iOS
 			}
             if ( IsLinkedInCell(indexPath) )
             {
-                
                 NSUrl LinkedInWebUrl = NSUrl.FromString( _tableModel.LinkedInString );
 
                 if (UIApplication.SharedApplication.CanOpenUrl(LinkedInWebUrl))
@@ -105,27 +115,35 @@ namespace AccountExecutiveApp.iOS
 
 		public override UIView GetViewForHeader (UITableView tableView, nint section)
 		{
-            CreateContractJobDescriptionView headerView = new CreateContractJobDescriptionView();
-            headerView.CreateContractButton.TouchUpInside += delegate
-            {
-                ContractCreationDetailsTableViewController vc =
-                    (ContractCreationDetailsTableViewController)
-                    _parentController.Storyboard.InstantiateViewController("ContractCreationDetailsTableViewController");
+		    if (_hasCreateContractHeader)
+		    {
+		        CreateContractJobDescriptionView headerView = new CreateContractJobDescriptionView(_jobDescription);
+		        headerView.CreateContractButton.TouchUpInside += delegate
+		        {
+		            ContractCreationDetailsTableViewController vc =
+		                (ContractCreationDetailsTableViewController)
+		                    _parentController.Storyboard.InstantiateViewController(
+		                        "ContractCreationDetailsTableViewController");
 
-                //_parentController.ShowViewController(vc, _parentController);
-                //_parentController.PresentViewController( vc, true, null);
+		            //_parentController.ShowViewController(vc, _parentController);
+		            //_parentController.PresentViewController( vc, true, null);
 
-				UINavigationController navVc = new UINavigationController(vc);
+		            UINavigationController navVc = new UINavigationController(vc);
 
-				_parentController.PresentViewController( navVc, true, null);
-            };
+		            _parentController.PresentViewController(navVc, true, null);
+		        };
 
-			return headerView;
+		        return headerView;
+		    }
+            return new UIView();
 		}
 
 		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
 		{
-			return 100.0f;
+		    if (_hasCreateContractHeader)
+		        return 100.0f;
+		    else
+		        return 0;
 		}
 
         private void AddSpecializationAndSkills(IEnumerable<Specialization> specs, UITableViewCell cell)
