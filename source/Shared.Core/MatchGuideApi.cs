@@ -302,16 +302,10 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<IEnumerable<UserContact>>( new {filter} );
         }
 
-        [HttpGet("ContractCreationInfo/Details/{Id}")]
-        public async Task<ContractCreationDetails> GetContractCreationDetailInfo(int jobId)
+        [HttpGet("ContractCreationSupport/PossibleValues/Job/{jobId}/Candidate/{candidateId}")]
+        public async Task<ContractCreationOptions> GetContractCreationDetailOptions(int jobId, int candidateId)
         {
-            return await ExecuteWithDefaultClient<ContractCreationDetails>(new { jobId });
-        }
-
-        [HttpGet("ContractCreationSupport/Details/{Id}")]
-        public async Task<ContractCreationOptions> GetContractCreationDetailOptions(int jobId)
-        {
-            return await ExecuteWithDefaultClient<ContractCreationOptions>(new { jobId });
+            return await ExecuteWithDefaultClient<ContractCreationOptions>(new { jobId, candidateId });
         }
     }
 }

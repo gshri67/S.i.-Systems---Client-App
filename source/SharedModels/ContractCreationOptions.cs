@@ -10,9 +10,7 @@ namespace SiSystems.SharedModels
         public IEnumerable<string> LimitationExpenseOptions { get; set; }
         public IEnumerable<string> LimitationOfContractOptions { get; set; }
         public IEnumerable<string> PaymentPlan { get; set; }
-        public IEnumerable<UserContact> AccountExecutiveOptions { get; set; }
-        public IEnumerable<UserContact> GMAssignedOptions { get; set; }
-        public IEnumerable<UserContact> ComissionAssignedOptions { get; set; }
+        public IEnumerable<InternalEmployee> Colleagues { get; set; }
         public IEnumerable<string> InvoiceFrequencyOptions { get; set; }
         public IEnumerable<string> InvoiceFormatOptions { get; set; }
 

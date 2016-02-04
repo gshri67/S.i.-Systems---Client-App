@@ -34,6 +34,14 @@ namespace SiSystems.SharedModels
         }
     }
 
+    public class InternalEmployee
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Title { get; set; }
+    }
+
     public class EmailAddress
     {
         public string Email { get; set; }

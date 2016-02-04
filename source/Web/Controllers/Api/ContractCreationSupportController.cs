@@ -10,21 +10,28 @@ using SiSystems.SharedModels;
 namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
 {
     [AccountExecutiveAccessAuthorization]
-    [RoutePrefix("api/ContractSupport")]
+    [RoutePrefix("api/ContractCreationSupport")]
     public class ContractCreationSupportController: ApiController
     {
 
-        private readonly AccountExecutiveService _accountExecutiveService;
+        private readonly ContractCreationSupportService _contractCreationSupportService;
 
-        public ContractCreationSupportController(AccountExecutiveService accountExecutiveService)
+        public ContractCreationSupportController(ContractCreationSupportService contractCreationSupportService)
         {
-            _accountExecutiveService = accountExecutiveService;
+            _contractCreationSupportService = contractCreationSupportService;
+        }
+
+        [Route("PossibleValues/Job/{jobId}/Candidate/{candidateId}")]
+        public HttpResponseMessage GetContractCreationSupportOptions(int jobId, int candidateId)
+        {
+            var options = _contractCreationSupportService.GetContractOptionsForJobAndCandidate(jobId, candidateId);
+            return Request.CreateResponse(HttpStatusCode.OK, options);
         }
 
         [Route("AccountExecutives")]
         public HttpResponseMessage GetAccountExecutives()
         {
-            var accountExecutives = _accountExecutiveService.GetAccountExecutives();
+            var accountExecutives = _contractCreationSupportService.GetColleaguesForCurrentUser();
             return Request.CreateResponse(HttpStatusCode.OK, accountExecutives);
         }
     }

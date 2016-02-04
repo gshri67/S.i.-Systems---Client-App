@@ -69,7 +69,7 @@
     <Compile Include="Repositories\TimesheetRepository.cs" />
     <Compile Include="Services\AccountExecutive\ContractorRateService.cs" />
     <Compile Include="Services\AccountExecutive\ContractorsService.cs" />
-    <Compile Include="Services\AccountExecutive\AccountExecutiveService.cs" />
+    <Compile Include="Services\AccountExecutive\ContractCreationSupportService.cs" />
     <Compile Include="Services\AccountExecutive\DashboardService.cs" />
     <Compile Include="Services\AccountExecutive\DateTimeService.cs" />
     <Compile Include="Services\AccountExecutive\UserContactService.cs" />
