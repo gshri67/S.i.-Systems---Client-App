@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
 using Foundation;
@@ -9,11 +8,11 @@ using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.iOS
 {
-	public partial class ContractCreationDetailsTableViewController : UITableViewController
+	public partial class ContractCreationPayRatesTableViewController : UITableViewController
 	{
 	    ContractCreationViewModel _viewModel;
 
-	    public ContractCreationDetailsTableViewController(IntPtr handle)
+        public ContractCreationPayRatesTableViewController(IntPtr handle)
 	        : base(handle)
 	    {
             _viewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
@@ -32,17 +31,11 @@ namespace AccountExecutiveApp.iOS
 			if (TableView == null)
 				return;
 
-			TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), SubtitleWithRightDetailCell.CellIdentifier);
-			TableView.RegisterClassForCellReuse(typeof(RightDetailCell), RightDetailCell.CellIdentifier);
-            TableView.RegisterClassForCellReuse(typeof(EditableTextFieldCell), EditableTextFieldCell.CellIdentifier);
-            TableView.RegisterClassForCellReuse(typeof(EditablePickerCell), EditablePickerCell.CellIdentifier);
-            TableView.RegisterClassForCellReuse(typeof(EditableDatePickerCell), EditableDatePickerCell.CellIdentifier);
-            TableView.RegisterClassForCellReuse(typeof(EditableNumberFieldCell), EditableNumberFieldCell.CellIdentifier);
-            TableView.RegisterClassForCellReuse(typeof(EditableBooleanCell), EditableBooleanCell.CellIdentifier);
-			TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
+            TableView.RegisterClassForCellReuse(typeof(ContractCreationRateCell), ContractCreationRateCell.CellIdentifier);
+
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-			TableView.Source = new ContractCreationDetailsTableViewSource(this, _viewModel);
+			TableView.Source = new ContractCreationPayRatesTableViewSource(this, _viewModel);
 		    TableView.AllowsSelection = false;
 
 		    TableView.AlwaysBounceVertical = false;
@@ -54,12 +47,6 @@ namespace AccountExecutiveApp.iOS
             //nextButton.SetTitle("Next", UIControlState.Normal);
 			//nextButton.BackgroundColor = UIColor.FromWhiteAlpha (0.9f, 0.5f);
 		    nextButton.TranslatesAutoresizingMaskIntoConstraints = false;
-
-		    nextButton.TouchUpInside += delegate
-		    {
-                var vc = (ContractCreationPayRatesTableViewController)Storyboard.InstantiateViewController("ContractCreationPayRatesTableViewController");
-                ShowViewController(vc, this);
-		    };
 
 		    UIButton nextTextButton = new UIButton();
             nextTextButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
