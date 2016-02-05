@@ -41,5 +41,12 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             var formats = _contractCreationSupportService.GetInvoiceFormats();
             return Request.CreateResponse(HttpStatusCode.OK, formats);
         }
+
+        [Route("InvoiceFrequencies")]
+        public HttpResponseMessage GetInvoiceFrequencies()
+        {
+            var frequencies = _contractCreationSupportService.GetInvoiceFrequencies();
+            return Request.CreateResponse(HttpStatusCode.OK, frequencies);
+        }
     }
 }

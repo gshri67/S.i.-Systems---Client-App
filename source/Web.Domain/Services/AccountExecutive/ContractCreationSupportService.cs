@@ -35,12 +35,18 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return _pickListValuesRepository.GetInvoiceFormats();
         }
 
+        public IEnumerable<string> GetInvoiceFrequencies()
+        {
+            return _pickListValuesRepository.GetInvoiceFrequencies();
+        }
+
         public ContractCreationOptions GetContractOptionsForJobAndCandidate(int jobId, int candidateId)
         {
             return new ContractCreationOptions
             {
                 Colleagues = GetColleaguesForCurrentUser(),
-                InvoiceFormatOptions = GetInvoiceFormats()
+                InvoiceFormatOptions = GetInvoiceFormats(),
+                InvoiceFrequencyOptions = GetInvoiceFrequencies()
             };
         }
     }

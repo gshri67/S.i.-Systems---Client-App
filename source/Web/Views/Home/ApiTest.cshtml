@@ -94,6 +94,7 @@
             <li role="presentation"><a id="aeSearchTabButton" href="#aeSearch" role="tab" data-toggle="tab">Contact Search</a></li>
             <li role="presentation"><a id="colleaguesTabButton" href="#colleagues" role="tab" data-toggle="tab">Colleagues</a></li>
             <li role="presentation"><a id="invoiceFormatsTabButton" href="#invoiceFormats" role="tab" data-toggle="tab">Invoice Formats</a></li>
+            <li role="presentation"><a id="invoiceFrequenciesTabButton" href="#invoiceFrequencies" role="tab" data-toggle="tab">Invoice Frequencies</a></li>
         </ul>
 
         <div class="tab-content">
@@ -289,15 +290,24 @@
                 <div id="colleaguesResults" class="code json well">
                 </div>
             </div>
-
             <div id="invoiceFormats" role="details" class="tab-pane">
                 <div class="input-group">
-                    <input id="invoiceFormatsId" type="text" class="form-control" placeholder="" disabled />
+                    <input id="invoiceFormatsId" type="text" class="form-control" placeholder="" disabled/>
                     <div class="input-group-btn">
                         <button id="invoiceFormatsButton" type="button" class="btn btn-primary">Go</button>
                     </div>
                 </div>
                 <div id="invoiceFormatsResults" class="code json well">
+                </div>
+            </div>
+            <div id="invoiceFrequencies" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="invoiceFrequenciesId" type="text" class="form-control" placeholder="" disabled />
+                    <div class="input-group-btn">
+                        <button id="invoiceFrequenciesButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="invoiceFrequenciesResults" class="code json well">
                 </div>
             </div>
         </div>
@@ -775,6 +785,27 @@
 
 
                     }).fail(function (err) { showError(err, 'invoiceFormatsResults') });
+                },
+                invoiceFrequencies: function () {
+                    $('#invoiceFrequenciesResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/ContractCreationSupport/InvoiceFrequencies',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#invoiceFrequenciesResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'invoiceFrequenciesResults') });
                 }
             };
 
@@ -801,6 +832,7 @@
             $('#aeSearchButton').click(page.aeSearch);
             $('#colleaguesButton').click(page.colleagues);
             $('#invoiceFormatsButton').click(page.invoiceFormats);
+            $('#invoiceFrequenciesButton').click(page.invoiceFrequencies);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {

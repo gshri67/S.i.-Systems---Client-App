@@ -11,6 +11,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public interface IPickListValuesRepository
     {
         IEnumerable<string> GetInvoiceFormats();
+        IEnumerable<string> GetInvoiceFrequencies();
     }
 
     public class PickListValuesRepository : IPickListValuesRepository
@@ -38,6 +39,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             return GetPickListDisplayTitlesForType("InvoiceFormat");
         }
+
+        public IEnumerable<string> GetInvoiceFrequencies()
+        {
+            return GetPickListDisplayTitlesForType("ClientInvoiceFrequency");
+        }
     }
 
     public class MockPickListValuesRepository : IPickListValuesRepository
@@ -45,6 +51,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public IEnumerable<string> GetInvoiceFormats()
         {
             return new List<string> {"1 Invoice Per Client", "1 Credit Per Client"};
+        }
+
+        public IEnumerable<string> GetInvoiceFrequencies()
+        {
+            return new List<string> {"Monthly", "Weekly"};
         }
     }
 }
