@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
 using Foundation;
@@ -8,63 +8,63 @@ using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.iOS
 {
-	public partial class ContractCreationPayRatesTableViewController : UITableViewController
-	{
-	    ContractCreationViewModel _viewModel;
+    public partial class ContractCreationPayRatesTableViewController : UITableViewController
+    {
+        ContractCreationViewModel _viewModel;
 
         public ContractCreationPayRatesTableViewController(IntPtr handle)
-	        : base(handle)
-	    {
+            : base(handle)
+        {
             _viewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
-	    }
-		
-		public override void DidReceiveMemoryWarning ()
-		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-			
-			// Release any cached data, images, etc that aren't in use.
-		}
+        }
 
-		private void InstantiateTableViewSource()
-		{
-			if (TableView == null)
-				return;
+        public override void DidReceiveMemoryWarning()
+        {
+            // Releases the view if it doesn't have a superview.
+            base.DidReceiveMemoryWarning();
+
+            // Release any cached data, images, etc that aren't in use.
+        }
+
+        private void InstantiateTableViewSource()
+        {
+            if (TableView == null)
+                return;
 
             TableView.RegisterClassForCellReuse(typeof(ContractCreationRateCell), ContractCreationRateCell.CellIdentifier);
 
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-			TableView.Source = new ContractCreationPayRatesTableViewSource(this, _viewModel);
-		    TableView.AllowsSelection = false;
+            TableView.Source = new ContractCreationPayRatesTableViewSource(this, _viewModel);
+            TableView.AllowsSelection = false;
 
-		    TableView.AlwaysBounceVertical = false;
-		    TableView.Bounces = false;
+            TableView.AlwaysBounceVertical = false;
+            TableView.Bounces = false;
 
-            UIButton nextButton = new UIButton( new CGRect(0, 0, 50, 50));
+            UIButton nextButton = new UIButton(new CGRect(0, 0, 50, 50));
             nextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
-            nextButton.SetBackgroundImage( new UIImage("ios7-arrow-forward.png"), UIControlState.Normal);
+            nextButton.SetBackgroundImage(new UIImage("ios7-arrow-forward.png"), UIControlState.Normal);
             //nextButton.SetTitle("Next", UIControlState.Normal);
-			//nextButton.BackgroundColor = UIColor.FromWhiteAlpha (0.9f, 0.5f);
-		    nextButton.TranslatesAutoresizingMaskIntoConstraints = false;
+            //nextButton.BackgroundColor = UIColor.FromWhiteAlpha (0.9f, 0.5f);
+            nextButton.TranslatesAutoresizingMaskIntoConstraints = false;
 
-		    UIButton nextTextButton = new UIButton();
+            UIButton nextTextButton = new UIButton();
             nextTextButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
             nextTextButton.SetTitle("Next", UIControlState.Normal);
             nextTextButton.TitleLabel.TextAlignment = UITextAlignment.Right;
-		    nextTextButton.TranslatesAutoresizingMaskIntoConstraints = false;
+            nextTextButton.TranslatesAutoresizingMaskIntoConstraints = false;
 
             UIView tableFooter = new UIView(new CGRect(0, 0, 100, 50));
             tableFooter.AddSubview(nextButton);
             tableFooter.AddSubview(nextTextButton);
-		    tableFooter.BackgroundColor = UIColor.FromWhiteAlpha(0.95f, 1.0f);
-		    /*
+            tableFooter.BackgroundColor = UIColor.FromWhiteAlpha(0.95f, 1.0f);
+            /*
             tableFooter.Layer.ShadowColor = UIColor.Black.CGColor;
-		    tableFooter.Layer.ShadowRadius = 1.0f;
+            tableFooter.Layer.ShadowRadius = 1.0f;
             tableFooter.Layer.ShadowOffset = new CGSize(0, 10);
             tableFooter.Layer.ShadowOpacity = 1.0f;
             */
-		    tableFooter.AddConstraint(NSLayoutConstraint.Create( nextButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Right, 1.0f, 0 ));
+            tableFooter.AddConstraint(NSLayoutConstraint.Create(nextButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Right, 1.0f, 0));
             tableFooter.AddConstraint(NSLayoutConstraint.Create(nextButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, nextButton, NSLayoutAttribute.Height, 0.9f, 0));
             tableFooter.AddConstraint(NSLayoutConstraint.Create(nextButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Top, 1.0f, 0));
             tableFooter.AddConstraint(NSLayoutConstraint.Create(nextButton, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Bottom, 1.0f, 0));
@@ -74,19 +74,19 @@ namespace AccountExecutiveApp.iOS
             tableFooter.AddConstraint(NSLayoutConstraint.Create(nextTextButton, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, tableFooter, NSLayoutAttribute.Bottom, 1.0f, 0));
 
 
-		    UIView LineView = new UIView( new CGRect(0, 0, 200, 1) );
+            UIView LineView = new UIView(new CGRect(0, 0, 200, 1));
             LineView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
-		    LineView.BackgroundColor = UIColor.Black;
-		    tableFooter.AddSubview(LineView);
+            LineView.BackgroundColor = UIColor.Black;
+            tableFooter.AddSubview(LineView);
 
             TableView.TableFooterView = tableFooter;
-            
 
-		    //UIToolbar tableToolbar = new UIToolbar( new CGRect(0, 0, TableView.Frame.Size.Width, 50));
+
+            //UIToolbar tableToolbar = new UIToolbar( new CGRect(0, 0, TableView.Frame.Size.Width, 50));
             //tableToolbar.add
 
             TableView.ReloadData();
-		}
+        }
 
         public async void LoadContractCreationDetails()
         {
@@ -111,24 +111,25 @@ namespace AccountExecutiveApp.iOS
             //InvokeOnMainThread(StopRefreshing);
         }
 
-	    public override void ViewDidLoad()
-	    {
-	        base.ViewDidLoad();
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
 
             LoadContractCreationDetails();
-	        // Perform any additional setup after loading the view, typically from a nib.
+            // Perform any additional setup after loading the view, typically from a nib.
 
 
-			UIBarButtonItem cancelButton = new UIBarButtonItem("Cancel", UIBarButtonItemStyle.Plain, delegate(object sender, EventArgs e) {
-				DismissViewController(true, null);
-			} );
-	        cancelButton.TintColor = StyleGuideConstants.RedUiColor;
+            UIBarButtonItem cancelButton = new UIBarButtonItem("Cancel", UIBarButtonItemStyle.Plain, delegate(object sender, EventArgs e)
+            {
+                DismissViewController(true, null);
+            });
+            cancelButton.TintColor = StyleGuideConstants.RedUiColor;
 
 
-			NavigationItem.SetLeftBarButtonItem(cancelButton, true);
+            NavigationItem.SetLeftBarButtonItem(cancelButton, true);
 
 
-	    }
-	}
+        }
+    }
 }
 

@@ -11,8 +11,8 @@ using UIKit;
 
 namespace AccountExecutiveApp.iOS
 {
-	[Register ("ContractCreationDetailsTableViewController")]
-	partial class ContractCreationDetailsTableViewController
+	[Register ("ContractCreationPayRatesTableViewController")]
+	partial class ContractCreationPayRatesTableViewController
 	{
 		void ReleaseDesignerOutlets ()
 		{

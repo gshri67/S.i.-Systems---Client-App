@@ -150,11 +150,14 @@
       <DependentUpon>ContactCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Contract Creation\ContractCreationDetailsHeaderView.cs" />
-    <Compile Include="Contract Creation\ContractCreationPayRatesTableViewController.cs" />
     <Compile Include="Contract Creation\ContractCreationPayRatesTableViewSource.cs" />
     <Compile Include="Contract Creation\ContractCreationRateCell.cs" />
     <Compile Include="Contract Creation\ContractCreationRateCell.designer.cs">
       <DependentUpon>ContractCreationRateCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contract Creation\ContractCreationPayRatesTableViewController.cs" />
+    <Compile Include="Contract Creation\ContractCreationPayRatesTableViewController.designer.cs">
+      <DependentUpon>ContractCreationPayRatesTableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ContractorDetails\ContractHistoryTableViewSource.cs" />
     <Compile Include="ContractorDetails\ContractorDetailsTableViewController.cs" />
