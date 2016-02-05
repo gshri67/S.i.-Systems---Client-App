@@ -93,6 +93,7 @@
             <li role="presentation"><a id="userContactTabButton" href="#userContact" role="tab" data-toggle="tab">UserContact</a></li>
             <li role="presentation"><a id="aeSearchTabButton" href="#aeSearch" role="tab" data-toggle="tab">Contact Search</a></li>
             <li role="presentation"><a id="colleaguesTabButton" href="#colleagues" role="tab" data-toggle="tab">Colleagues</a></li>
+            <li role="presentation"><a id="invoiceFormatsTabButton" href="#invoiceFormats" role="tab" data-toggle="tab">Invoice Formats</a></li>
         </ul>
 
         <div class="tab-content">
@@ -286,6 +287,17 @@
                     </div>
                 </div>
                 <div id="colleaguesResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="invoiceFormats" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="invoiceFormatsId" type="text" class="form-control" placeholder="" disabled />
+                    <div class="input-group-btn">
+                        <button id="invoiceFormatsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="invoiceFormatsResults" class="code json well">
                 </div>
             </div>
         </div>
@@ -726,7 +738,7 @@
                     $('#colleaguesResults').html('Sending...');
                     $.ajax({
                         type: 'GET',
-                        url: '/api/ContractSupport/AccountExecutives',
+                        url: '/api/ContractCreationSupport/AccountExecutives',
                         headers: {
                             Authorization: 'Bearer ' + page.token
                         }
@@ -742,6 +754,27 @@
 
 
                     }).fail(function (err) { showError(err, 'colleaguesResults') });
+                },
+                invoiceFormats: function () {
+                    $('#invoiceFormatsResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/ContractCreationSupport/InvoiceFormats',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#invoiceFormatsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'invoiceFormatsResults') });
                 }
             };
 
@@ -767,6 +800,7 @@
             $('#userContactButton').click(page.getUserContact);
             $('#aeSearchButton').click(page.aeSearch);
             $('#colleaguesButton').click(page.colleagues);
+            $('#invoiceFormatsButton').click(page.invoiceFormats);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {

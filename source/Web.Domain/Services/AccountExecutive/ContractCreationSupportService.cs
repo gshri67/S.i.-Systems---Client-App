@@ -13,12 +13,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
     public class ContractCreationSupportService
     {
         private readonly IInternalEmployeesRepository _internalEmployeesRepository;
+        private readonly IPickListValuesRepository _pickListValuesRepository;
         private readonly ISessionContext _session;
 
-        public ContractCreationSupportService(ISessionContext session, IInternalEmployeesRepository repo)
+        public ContractCreationSupportService(ISessionContext session, IInternalEmployeesRepository repo, IPickListValuesRepository pickListValuesRepository)
         {
             _session = session;
             _internalEmployeesRepository = repo;
+            _pickListValuesRepository = pickListValuesRepository;
         }
 
         public IEnumerable<InternalEmployee> GetColleaguesForCurrentUser()
@@ -28,11 +30,17 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return accountExecutives.OrderBy(employee => employee.FirstName).ThenBy(employee => employee.LastName);
         }
 
+        public IEnumerable<string> GetInvoiceFormats()
+        {
+            return _pickListValuesRepository.GetInvoiceFormats();
+        }
+
         public ContractCreationOptions GetContractOptionsForJobAndCandidate(int jobId, int candidateId)
         {
             return new ContractCreationOptions
             {
-                Colleagues = GetColleaguesForCurrentUser()
+                Colleagues = GetColleaguesForCurrentUser(),
+                InvoiceFormatOptions = GetInvoiceFormats()
             };
         }
     }

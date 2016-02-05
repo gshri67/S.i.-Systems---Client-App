@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -34,5 +34,12 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             var accountExecutives = _contractCreationSupportService.GetColleaguesForCurrentUser();
             return Request.CreateResponse(HttpStatusCode.OK, accountExecutives);
         }
+
+        [Route("InvoiceFormats")]
+        public HttpResponseMessage GetInvoiceFormats()
+        {
+            var formats = _contractCreationSupportService.GetInvoiceFormats();
+            return Request.CreateResponse(HttpStatusCode.OK, formats);
+        }
     }
-}*/
+}
