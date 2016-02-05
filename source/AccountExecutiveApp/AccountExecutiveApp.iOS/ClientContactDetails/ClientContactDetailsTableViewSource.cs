@@ -49,7 +49,6 @@ namespace AccountExecutiveApp.iOS
         {
             if (IsLinkedInCell(indexPath))
             {
-
                 NSUrl LinkedInWebUrl = NSUrl.FromString(_tableModel.LinkedInString);
 
                 if (UIApplication.SharedApplication.CanOpenUrl(LinkedInWebUrl))

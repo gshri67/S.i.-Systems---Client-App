@@ -57,6 +57,15 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             return new PhoneNumber();
         }
 
-        public string LinkedInString { get { return _contractor.ContactInformation.LinkedInUrl; } }
+        public string LinkedInString {
+            get
+            {
+                string LinkedInUrl = string.Format("{0}{1}",
+"https://www.linkedin.com/vsearch/f?type=all&keywords=", _contractor.ContactInformation.FullName.Replace(" ", "+"));
+
+                return LinkedInUrl;
+                //return _contractor.ContactInformation.LinkedInUrl;
+            } 
+        }
     }
 }

@@ -119,14 +119,14 @@ namespace AccountExecutiveApp.iOS
             // Perform any additional setup after loading the view, typically from a nib.
 
 
-            UIBarButtonItem cancelButton = new UIBarButtonItem("Cancel", UIBarButtonItemStyle.Plain, delegate(object sender, EventArgs e)
+            UIBarButtonItem addButton = new UIBarButtonItem("Add", UIBarButtonItemStyle.Plain, delegate(object sender, EventArgs e)
             {
-                DismissViewController(true, null);
+                //DismissViewController(true, null);
             });
-            cancelButton.TintColor = StyleGuideConstants.RedUiColor;
+            addButton.TintColor = StyleGuideConstants.RedUiColor;
 
 
-            NavigationItem.SetLeftBarButtonItem(cancelButton, true);
+            NavigationItem.SetRightBarButtonItem(addButton, true);
 
 
         }
