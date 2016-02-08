@@ -37,14 +37,6 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
             return new PhoneNumber();
         }
 
-        public string LinkedInString {
-            get
-            {
-                string LinkedInUrl = string.Format("{0}{1}",
-"https://www.linkedin.com/vsearch/f?type=all&keywords=", _clientContract.FullName.Replace(" ", "+"));
-
-                return LinkedInUrl;// _clientContract.LinkedInUrl;
-            } 
-        }
+        public string LinkedInString { get { return _clientContract.LinkedInUrl; } }
     }
 }
