@@ -45,5 +45,28 @@ namespace Shared.Core
         Task<Timesheet> SaveTimesheet(Timesheet timesheet);
         
         Task<Timesheet> SubmitTimesheet(Timesheet timesheet);
+
+		Task<DashboardSummary> getDashboardInfo();
+
+        Task<IEnumerable<JobSummary>> GetJobSummaries();
+
+        Task<IEnumerable<Job>> GetJobsWithClientID( int ClientID );
+        
+        Task<IEnumerable<ConsultantContractSummary>> GetContracts();
+        
+        Task<ConsultantContract> GetContractDetailsById(int id);
+        Task<Job> GetJobWithJobId(int id);
+        Task<IEnumerable<Contractor>> GetContractorsWithJobIdAndStatus(int id, JobStatus status);
+        Task<Contractor> GetContractorById(int id);
+        Task<UserContact> GetUserContactById(int id);
+
+        Task<IEnumerable<ContractorRateSummary>> GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status);
+        Task<TimesheetSummarySet> GetTimesheetSummary();
+        Task<IEnumerable<TimesheetDetails>> GetTimesheetDetails(MatchGuideConstants.TimesheetStatus timesheetStatus);
+        Task<TimesheetContact> GetTimesheetContactById(int id);
+        Task<TimesheetContact> GetOpenTimesheetContactByAgreementId(int id);
+        Task<IEnumerable<Contractor>> GetContractors();
+        Task<IEnumerable<UserContact>> GetClientContacts();
+        Task<IEnumerable<UserContact>> GetClientContactsWithFilter( string filter );
     }
 }

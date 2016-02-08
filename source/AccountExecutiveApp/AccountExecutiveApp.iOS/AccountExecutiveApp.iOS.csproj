@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProjectGuid>{63B538C6-8DA9-40D8-AD47-F00EDB1AE14F}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>AccountExecutiveApp.iOS</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>AccountExecutiveAppiOS</AssemblyName>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>166d53c6</NuGetPackageImportStamp>
+    <ReleaseVersion>0.2</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;LOCAL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>i386</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>true</MtouchDebug>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>i386</MtouchArch>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignProvision>
+    </CodesignProvision>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;PROD</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignProvision>
+    </CodesignProvision>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <BuildIpa>True</BuildIpa>
+    <CodesignProvision>
+    </CodesignProvision>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;PROD</DefineConstants>
+    <IpaIncludeArtwork>True</IpaIncludeArtwork>
+    <IpaMetadata>iTunesMetadata.plist</IpaMetadata>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|iPhoneSimulator'">
+    <OutputPath>bin\iPhoneSimulator\Test\</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;TEST</DefineConstants>
+    <Optimize>true</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer: Andrew Wilson (EEUJM7BNHG)</CodesignKey>
+    <CodesignProvision>188b2dea-fb9a-469a-92a8-e9cc721332de</CodesignProvision>
+    <CodesignEntitlements />
+    <CodesignResourceRules />
+    <CodesignExtraArgs />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|iPhone'">
+    <OutputPath>bin\iPhone\Test\</OutputPath>
+    <BuildIpa>True</BuildIpa>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignProvision>
+    </CodesignProvision>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;TEST</DefineConstants>
+    <Optimize>true</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <MtouchSdkVersion>8.4</MtouchSdkVersion>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
+    <CodesignResourceRules />
+    <IpaIncludeArtwork>True</IpaIncludeArtwork>
+    <IpaMetadata>iTunesMetadata.plist</IpaMetadata>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhoneSimulator'">
+    <OutputPath>bin\iPhoneSimulator\Dev\</OutputPath>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__; DEV</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+    <MtouchSdkVersion>8.4</MtouchSdkVersion>
+    <MtouchDebug>True</MtouchDebug>
+    <MtouchArch>i386</MtouchArch>
+    <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <MtouchI18n>
+    </MtouchI18n>
+    <MtouchLink>None</MtouchLink>
+    <MtouchUseLlvm>True</MtouchUseLlvm>
+    <MtouchUseRefCounting>True</MtouchUseRefCounting>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignProvision>
+    </CodesignProvision>
+    <CodesignEntitlements />
+    <CodesignResourceRules />
+    <CodesignExtraArgs />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhone'">
+    <OutputPath>bin\iPhone\Dev\</OutputPath>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__; DEV</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ActivityManager.cs" />
+    <Compile Include="BorderedButton.cs" />
+    <Compile Include="BorderedButton.designer.cs">
+      <DependentUpon>BorderedButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClientContactDetails\ClientContactDetailsTableViewSource.cs" />
+    <Compile Include="ContactCell.cs" />
+    <Compile Include="ContactCell.designer.cs">
+      <DependentUpon>ContactCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContractorDetails\ContractHistoryTableViewSource.cs" />
+    <Compile Include="ContractorDetails\ContractorDetailsTableViewController.cs" />
+    <Compile Include="ContractorDetails\ContractorDetailsTableViewController.designer.cs">
+      <DependentUpon>ContractorDetailsTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContractorDetails\ContractorDetailsTableViewSource.cs" />
+    <Compile Include="ContractorContactInfoCell.cs" />
+    <Compile Include="ContractorContactInfoCell.designer.cs">
+      <DependentUpon>ContractorContactInfoCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorCandidateTableViewSource.cs" />
+    <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorJobStatusListViewController.cs" />
+    <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorJobStatusListViewController.designer.cs">
+      <DependentUpon>ContractorJobStatusListViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contracts\ContractsListTableViewSource.cs" />
+    <Compile Include="Contracts\ContractsListViewController.cs" />
+    <Compile Include="DependencyResolver.cs" />
+    <Compile Include="ErrorReporter.cs" />
+    <Compile Include="Jobs\JobDetails\JobDetailViewController.cs" />
+    <Compile Include="Jobs\JobDetails\JobDetailViewController.designer.cs">
+      <DependentUpon>JobDetailViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoadingOverlay.cs" />
+    <Compile Include="LogoutManager.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="Search\SectionSearchResultsTableViewSource.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Startup\LoginViewController.cs" />
+    <Compile Include="Startup\LoginViewController.designer.cs">
+      <DependentUpon>LoginViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\ResetPasswordViewController.cs" />
+    <Compile Include="Startup\ResetPasswordViewController.designer.cs">
+      <DependentUpon>ResetPasswordViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\TokenStore.cs" />
+    <Compile Include="StyleGuideConstants.cs" />
+    <None Include="app.config" />
+    <None Include="Info.plist" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Octopus\Deploy.ps1" />
+    <None Include="Octopus\Release.nuspec" />
+    <None Include="Octopus\Test.nuspec" />
+    <None Include="packages.config" />
+    <Compile Include="DashboardViewController.cs" />
+    <Compile Include="DashboardViewController.designer.cs">
+      <DependentUpon>DashboardViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Jobs\JobsClientListViewController.cs" />
+    <Compile Include="Jobs\JobsClientListViewController.designer.cs">
+      <DependentUpon>JobsClientListViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Jobs\JobsClientListTableViewSource.cs" />
+    <Compile Include="Contracts\ContractStatusListViewController.cs" />
+    <Compile Include="Contracts\ContractStatusListViewController.designer.cs">
+      <DependentUpon>ContractStatusListViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contracts\ContractStatusListTableViewSource.cs" />
+    <Compile Include="RightDetailCell.cs" />
+    <Compile Include="RightDetailCell.designer.cs">
+      <DependentUpon>RightDetailCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Jobs\JobsListViewController.cs" />
+    <Compile Include="Jobs\JobsListViewController.designer.cs">
+      <DependentUpon>JobsListViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Jobs\JobsListTableViewSource.cs" />
+    <Compile Include="SubtitleHeaderView.cs" />
+    <Compile Include="SubtitleWithRightDetailCell.cs" />
+    <Compile Include="SubtitleWithRightDetailCell.designer.cs">
+      <DependentUpon>SubtitleWithRightDetailCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contracts\ContractDetailsViewController.cs" />
+    <Compile Include="Contracts\ContractDetailsViewController.designer.cs">
+      <DependentUpon>ContractDetailsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contracts\ContractDetailsTableViewSource.cs" />
+    <Compile Include="ProposedContractorsTableViewCell.cs" />
+    <Compile Include="ProposedContractorsTableViewCell.designer.cs">
+      <DependentUpon>ProposedContractorsTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContractorDetails\ContractHistoryTableViewController.cs" />
+    <Compile Include="ContractorDetails\ContractHistoryTableViewController.designer.cs">
+      <DependentUpon>ContractHistoryTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClientContactDetails\ClientContactDetailsViewController.cs" />
+    <Compile Include="ClientContactDetails\ClientContactDetailsViewController.designer.cs">
+      <DependentUpon>ClientContactDetailsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContractorDetails\ResumeViewController.cs" />
+    <Compile Include="ContractorDetails\ResumeViewController.designer.cs">
+      <DependentUpon>ResumeViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Timesheets\TimesheetStatusListTableViewController.cs" />
+    <Compile Include="Timesheets\TimesheetStatusListTableViewController.designer.cs">
+      <DependentUpon>TimesheetStatusListTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Timesheets\TimesheetListTableViewController.cs" />
+    <Compile Include="Timesheets\TimesheetListTableViewController.designer.cs">
+      <DependentUpon>TimesheetListTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Timesheets\TimesheetListTableViewSource.cs" />
+    <Compile Include="Timesheets\TimesheetContactsTableViewController.cs" />
+    <Compile Include="Timesheets\TimesheetContactsTableViewController.designer.cs">
+      <DependentUpon>TimesheetContactsTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Timesheets\TimesheetContactsTableViewSource.cs" />
+    <Compile Include="Search\SearchTableViewController.cs" />
+    <Compile Include="Search\SearchTableViewController.designer.cs">
+      <DependentUpon>SearchTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Search\SearchTableViewSource.cs" />
+    <Compile Include="Search\SearchSectionTotalResults.designer.cs">
+      <DependentUpon>SearchSectionTotalResultsTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Search\SearchSectionTotalResultsTableViewController.cs" />
+    <Compile Include="Search\SearchManager.cs" />
+    <Compile Include="Search\SearchTableNavigationController.cs" />
+    <Compile Include="Search\SearchTableNavigationController.designer.cs">
+      <DependentUpon>SearchTableNavigationController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Si_ViewController.cs" />
+    <Compile Include="Si_ViewController.designer.cs">
+      <DependentUpon>Si_ViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Si_TableViewController.cs" />
+    <Compile Include="Si_TableViewController.designer.cs">
+      <DependentUpon>Si_TableViewController.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="MainStoryboard.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=59d6d24383174ac4">
+      <HintPath>..\..\packages\CommonServiceLocation.1.0.0\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\..\packages\Unity.3.5.1404.0\lib\portable-net45+wp80+win8+MonoAndroid10+MonoTouch10\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="PLCrashReporterUnifiedBinding, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Xamarin.Insights.1.10.2.110\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Insights, Version=1.10.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Xamarin.Insights.1.10.2.110\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entitlements.plist" />
+    <BundleResource Include="Resources\clock-light.png" />
+    <BundleResource Include="Resources\clock-light%402x.png" />
+    <BundleResource Include="Resources\clock-light%403x.png" />
+    <BundleResource Include="Resources\home-light.png" />
+    <BundleResource Include="Resources\home-light%402x.png" />
+    <BundleResource Include="Resources\home-light%403x.png" />
+    <BundleResource Include="Resources\paper-light.png" />
+    <BundleResource Include="Resources\paper-light%402x.png" />
+    <BundleResource Include="Resources\paper-light%403x.png" />
+    <BundleResource Include="Resources\tag-light.png" />
+    <BundleResource Include="Resources\tag-light%402x.png" />
+    <BundleResource Include="Resources\tag-light%403x.png" />
+    <BundleResource Include="Resources\clock-dark.png" />
+    <BundleResource Include="Resources\clock-dark%402x.png" />
+    <BundleResource Include="Resources\clock-dark%403x.png" />
+    <BundleResource Include="Resources\home-dark.png" />
+    <BundleResource Include="Resources\home-dark%402x.png" />
+    <BundleResource Include="Resources\home-dark%403x.png" />
+    <BundleResource Include="Resources\paper-dark.png" />
+    <BundleResource Include="Resources\paper-dark%402x.png" />
+    <BundleResource Include="Resources\paper-dark%403x.png" />
+    <BundleResource Include="Resources\tag-dark.png" />
+    <BundleResource Include="Resources\tag-dark%402x.png" />
+    <BundleResource Include="Resources\tag-dark%403x.png" />
+    <BundleResource Include="Resources\ios7-telephone-outline.png" />
+    <BundleResource Include="Resources\ios7-chatbubble-outline.png" />
+    <BundleResource Include="Resources\ios7-email-outline.png" />
+    <BundleResource Include="Resources\Si-app-icon-40.png" />
+    <BundleResource Include="Resources\Si-app-icon-76.png" />
+    <BundleResource Include="Resources\Si-app-icon-80.png" />
+    <BundleResource Include="Resources\Si-app-icon-120.png" />
+    <BundleResource Include="Resources\Si-app-icon-152.png" />
+    <BundleResource Include="Resources\Si-app-icon-180.png" />
+    <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Resources\Default%402x.png" />
+    <BundleResource Include="Resources\searchStrongIcon.png" />
+    <BundleResource Include="Resources\searchStrongIcon%402x.png" />
+    <Content Include="iTunesMetadata.plist" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Si-app-icon-120.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Si-app-icon-180.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Si-app-icon-80.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AccountExecutiveApp.Core\AccountExecutiveApp.Core.csproj">
+      <Project>{D9C2EDAA-2BB0-4FE3-BF21-23BEAD4208D5}</Project>
+      <Name>AccountExecutiveApp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared.Core\Shared.Core.csproj">
+      <Project>{256E615C-7B6F-4477-B215-C00676F278E0}</Project>
+      <Name>Shared.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SharedModels\SharedModels.csproj">
+      <Project>{A274548B-6CCA-4841-B167-21625D1179B3}</Project>
+      <Name>SharedModels</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <ItemGroup>
+    <BundleResource Include="Resources\app-button.png" />
+    <BundleResource Include="Resources\app-button%402x.png" />
+    <BundleResource Include="Resources\app-button%403x.png" />
+    <BundleResource Include="Resources\ios7-clock-outline%402x.png" />
+    <BundleResource Include="Resources\leftArrow.png" />
+    <BundleResource Include="Resources\leftArrow%402x.png" />
+    <BundleResource Include="Resources\rightArrow.png" />
+    <BundleResource Include="Resources\rightArrow%402x.png" />
+    <BundleResource Include="Resources\sisystems_logo.jpg" />
+    <BundleResource Include="Resources\social-usd%402x.png" />
+    <BundleResource Include="Resources\Sprint2_SS_1.0.pdf" />
+    <BundleResource Include="Resources\ios7-plus-empty.png" />
+    <BundleResource Include="Resources\ios7-minus-empty.png" />
+    <BundleResource Include="Resources\ios7-minus-empty-centred.png" />
+    <BundleResource Include="Resources\ios7-plus-empty-centred.png" />
+    <BundleResource Include="Resources\plus-round-centred.png" />
+    <BundleResource Include="Resources\minus-round-centred.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
+</Project>

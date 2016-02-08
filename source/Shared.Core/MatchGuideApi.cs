@@ -193,11 +193,113 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<Timesheet>(timesheet);
         }
-
+			
         [HttpPost("Timesheets/Submit")]
         public async Task<Timesheet> SubmitTimesheet(Timesheet timesheet)
         {
             return await ExecuteWithDefaultClient<Timesheet>(timesheet);
+        }
+
+		[HttpGet("Dashboard")]
+		public async Task<DashboardSummary> getDashboardInfo()
+		{
+			return await ExecuteWithDefaultClient<DashboardSummary>();
+		}
+
+        [HttpGet("Jobs/Summaries")]
+        public async Task<IEnumerable<JobSummary>> GetJobSummaries()
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<JobSummary>>();
+        }
+
+        [HttpGet("Jobs/Client/{id}")]
+        public async Task<IEnumerable<Job>> GetJobsWithClientID( int id )
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<Job>>(new {id} );
+        }
+
+        [HttpGet("ConsultantContracts")]
+        public async Task<IEnumerable<ConsultantContractSummary>> GetContracts()
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<ConsultantContractSummary>>();
+        }
+         
+        [HttpGet("ConsultantContracts/Details/{id}")]
+        public async Task<ConsultantContract> GetContractDetailsById(int id)
+        {
+            return await ExecuteWithDefaultClient<ConsultantContract>(new {id});
+        }
+
+        [HttpGet("Jobs/{id}")]
+        public async Task<Job> GetJobWithJobId(int id)
+        {
+            return await ExecuteWithDefaultClient<Job>(new { id });
+        }
+
+        [HttpGet("Contractors/Job/{id}/Status/{status}")]
+        public async Task<IEnumerable<Contractor>> GetContractorsWithJobIdAndStatus(int id, JobStatus status )
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<Contractor>>(new { id, status });
+        }
+
+        [HttpGet("Contractors/{id}")]
+        public async Task<Contractor> GetContractorById(int id)
+        {
+            return await ExecuteWithDefaultClient<Contractor>(new { id });
+        }
+
+        [HttpGet("UserContact/{id}")]
+        public async Task<UserContact> GetUserContactById(int id)
+        {
+            return await ExecuteWithDefaultClient<UserContact>(new { id });
+        }
+
+        [HttpGet("ContractorRate/Job/{id}/Status/{status}")]
+        public async Task<IEnumerable<ContractorRateSummary>> GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status )
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<ContractorRateSummary>>(new { id, status });
+        }
+
+        [HttpGet("Timesheets/Reporting/Summary")]
+        public async Task<TimesheetSummarySet> GetTimesheetSummary()
+        {
+            return await ExecuteWithDefaultClient<TimesheetSummarySet>();
+        }
+
+        [HttpGet("Timesheets/Reporting/Details/Status/{status}")]
+        public async Task<IEnumerable<TimesheetDetails>> GetTimesheetDetails( MatchGuideConstants.TimesheetStatus ts)
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<TimesheetDetails>>(new { status = ts.ToString() });
+        }
+
+        [HttpGet("Timesheets/Reporting/Contact/{id}")]
+        public async Task<TimesheetContact> GetTimesheetContactById(int id)
+        {
+            return await ExecuteWithDefaultClient<TimesheetContact>(new { id });
+        }
+
+        [HttpGet("Timesheets/Reporting/Contact/Open/{id}")]
+        public async Task<TimesheetContact> GetOpenTimesheetContactByAgreementId(int id)
+        {
+            return await ExecuteWithDefaultClient<TimesheetContact>(new { id });
+        }
+
+        [HttpGet("Contractors")]
+        public async Task<IEnumerable<Contractor>> GetContractors()
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<Contractor>>();
+        }
+
+        [HttpGet("UserContact")]
+        public async Task<IEnumerable<UserContact>> GetClientContacts()
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<UserContact>>();
+        }
+
+        [HttpGet("UserContact/Filter/{filter}")]
+        public async Task<IEnumerable<UserContact>> GetClientContactsWithFilter( string filter )
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<UserContact>>( new {filter} );
         }
     }
 }

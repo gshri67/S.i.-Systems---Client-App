@@ -6,7 +6,10 @@ using SiSystems.ClientApp.Web.Domain.Caching;
 using SiSystems.Web.Domain.Context;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using System.Net.Http;
+using SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive;
+using SiSystems.ClientApp.Web.Domain.Services.AccountExecutive;
 using SiSystems.ConsultantApp.Web.Domain.Repositories;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ClientApp.Web
 {
@@ -39,6 +42,8 @@ namespace SiSystems.ClientApp.Web
         public static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterType<ISessionContext, SessionContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IDateTimeService, DateTimeService>();
+
             container.RegisterType<IConsultantRepository, ConsultantRepository>();
             container.RegisterType<ICompanyRepository, CompanyRepository>();
             container.RegisterType<IClientDetailsRepository, ClientDetailsRepository>();
@@ -49,9 +54,15 @@ namespace SiSystems.ClientApp.Web
             container.RegisterType<IConsultantDetailsRepository, ConsultantDetailsRepository>();
             container.RegisterType<IDirectReportRepository, DirectReportRepository>();
             container.RegisterType<IActivityRepository, ActivityRepository>();
-            container.RegisterType<IPayRateRepository, PayRateRepository>();            
+            container.RegisterType<IPayRateRepository, PayRateRepository>();
+            container.RegisterType<IJobsRepository, JobsRepository>();
+            container.RegisterType<IContractorRepository, ContractorRepository>();
+            container.RegisterType<IContractorRateRepository, ContractorRateRepository>();
+            container.RegisterType<IUserContactRepository, UserContactRepository>();
             container.RegisterType<IObjectCache, ObjectCache>();
             container.RegisterType<HttpMessageHandler, HttpClientHandler>();
+            
+            container.RegisterType<IConsultantContractRepository, ConsultantContractRepository>();
         }
     }
 }

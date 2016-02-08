@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive;
 using SiSystems.Web.Domain.Context;
 using SiSystems.ConsultantApp.Web.Domain.Repositories;
 using SiSystems.SharedModels;
@@ -20,6 +21,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private readonly ITimeEntryRepository _timeEntryRepository;
         private readonly IDirectReportRepository _directReportRepository;
         private readonly IActivityRepository _activityRepository;
+        private readonly IUserContactRepository _userContactRepository;
         private readonly ISessionContext _sessionContext;
 
         /// <summary>
@@ -28,13 +30,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private const float Tolerance = 0.00001F;
 
         public TimesheetService(ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository,
-            IDirectReportRepository directReportRepository, IActivityRepository activityRepository, ISessionContext sessionContext)
+            IDirectReportRepository directReportRepository, IActivityRepository activityRepository, ISessionContext sessionContext, IUserContactRepository userContactRepository)
         {
             _timeSheetRepository = timesheetRepository;
             _timeEntryRepository = timeEntryRepository;
             _directReportRepository = directReportRepository;
             _activityRepository = activityRepository;
             _sessionContext = sessionContext;
+            _userContactRepository = userContactRepository;
         }
 
         public Timesheet SaveTimesheet(Timesheet timesheet)
@@ -121,6 +124,74 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             }
 
             return true;
+        }
+
+
+
+        public TimesheetSummarySet GetTimesheetsSummary()
+        {
+            var summary = _timeSheetRepository.GetTimesheetSummaryByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+
+            AssertCurrentUserHasPermissionsToViewTimesheetSummaries(summary);
+
+            return summary;
+        }
+
+        private void AssertCurrentUserHasPermissionsToViewTimesheetSummaries(TimesheetSummarySet summaries)
+        {
+            //todo: add business rules for an AE permissions
+            if(false)
+                throw new UnauthorizedAccessException();
+        }
+
+        public IEnumerable<TimesheetDetails> GetTimesheetsDetails(MatchGuideConstants.TimesheetStatus status)
+        {
+            IEnumerable<TimesheetDetails> details;
+            
+            if( status == MatchGuideConstants.TimesheetStatus.Open )    
+                details = _timeSheetRepository.GetOpenTimesheetDetailsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+            else if (status == MatchGuideConstants.TimesheetStatus.Submitted)
+                details = _timeSheetRepository.GetSubmittedTimesheetDetailsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+            else if (status == MatchGuideConstants.TimesheetStatus.Cancelled)
+                details = _timeSheetRepository.GetCancelledTimesheetDetailsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+            else if (status == MatchGuideConstants.TimesheetStatus.Rejected)
+                details = _timeSheetRepository.GetRejectedTimesheetDetailsByAccountExecutiveId(_sessionContext.CurrentUser.Id);
+            else
+                details = Enumerable.Empty<TimesheetDetails>();
+
+            return details;
+        }
+
+        //get open Timesheet
+        public TimesheetContact GetOpenTimesheetContactByAgreementId(int id)
+        {
+            var contact = _timeSheetRepository.GetOpenTimesheetContactByAgreementId(id);
+
+            if (contact.Contractor == null)
+                contact.Contractor = new UserContact();
+            contact.Contractor = _userContactRepository.GetCandidateUserContactByAgreementId(id);
+
+            if (contact.DirectReport == null)
+                contact.DirectReport = new UserContact();
+            contact.DirectReport = _userContactRepository.GetDirectReportByAgreementId(id);
+
+            return contact;
+        }
+
+        //get unopen Timesheet
+        public TimesheetContact GetTimesheetContactById(int id)
+        {
+            var contact = _timeSheetRepository.GetTimesheetContactById(id);
+
+            if(contact.Contractor == null)
+                contact.Contractor = new UserContact();
+            contact.Contractor = _userContactRepository.GetUserContactById(contact.Contractor.Id);
+
+            if (contact.DirectReport == null)
+                contact.DirectReport = new UserContact();
+            contact.DirectReport = _userContactRepository.GetUserContactById(contact.DirectReport.Id);
+
+            return contact;
         }
     }
 }

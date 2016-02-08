@@ -82,6 +82,16 @@
             <li role="presentation"><a id="specializationTabButton" href="#specialization" role="tab" data-toggle="tab">Specializations</a></li>
             <li role="presentation"><a id="timesheetsTabButton" href="#timesheets" role="tab" data-toggle="tab">Timesheets</a></li>
             <li role="presentation"><a id="payPeriodsTabButton" href="#payPeriods" role="tab" data-toggle="tab">PayPeriods</a></li>
+            <li role="presentation"><a id="dashboardTabButton" href="#dashboard" role="tab" data-toggle="tab">IM Si Dashboard</a></li>
+            <li role="presentation"><a id="consultantContractsTabButton" href="#consultantContracts" role="tab" data-toggle="tab">Consultant Contracts</a></li>
+            <li role="presentation"><a id="consultantContractDetailsTabButton" href="#consultantContractDetails" role="tab" data-toggle="tab">Contract Details</a></li>
+            <li role="presentation"><a id="jobsTabButton" href="#jobs" role="tab" data-toggle="tab">Jobs</a></li>
+            <li role="presentation"><a id="jobDetailsTabButton" href="#jobDetails" role="tab" data-toggle="tab">Job Details</a></li>
+            <li role="presentation"><a id="timesheetSummariesTabButton" href="#timesheetSummaries" role="tab" data-toggle="tab">TimesheetSummaries</a></li>
+            <li role="presentation"><a id="timesheetContactsTabButton" href="#timesheetContacts" role="tab" data-toggle="tab">Timesheet Contacts</a></li>
+            <li role="presentation"><a id="contractorTabButton" href="#contractor" role="tab" data-toggle="tab">Contractor</a></li>
+            <li role="presentation"><a id="userContactTabButton" href="#userContact" role="tab" data-toggle="tab">UserContact</a></li>
+            <li role="presentation"><a id="aeSearchTabButton" href="#aeSearch" role="tab" data-toggle="tab">Contact Search</a></li>
         </ul>
 
         <div class="tab-content">
@@ -150,7 +160,7 @@
 
             <div id="payPeriods" role="details" class="tab-pane">
                 <div class="input-group">
-                    <input id="payPeriodsId" type="text" class="form-control" placeholder="" />
+                    <input id="payPeriodsId" type="text" class="form-control" placeholder=""/>
                     <div class="input-group-btn">
                         <button id="getPayPeriodsButton" type="button" class="btn btn-primary">Search</button>
                     </div>
@@ -159,6 +169,114 @@
                 </div>
             </div>
 
+            <div id="dashboard" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="dashboardId" type="text" class="form-control" placeholder="" disabled/>
+                    <div class="input-group-btn">
+                        <button id="getDashboardButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="dashboardResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="consultantContracts" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="consultantContractId" type="text" class="form-control" placeholder="" disabled/>
+                    <div class="input-group-btn">
+                        <button id="getConsultantContractsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="consultantContractsResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="consultantContractDetails" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="consultantContractDetailsId" type="text" class="form-control" placeholder="" />
+                    <div class="input-group-btn">
+                        <button id="getConsultantContractDetailsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="consultantContractDetailsResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="jobDetails" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="jobDetailsId" type="text" class="form-control" placeholder=""/>
+                    <div class="input-group-btn">
+                        <button id="getJobDetailsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="jobDetailsResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="jobs" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="jobsId" type="text" class="form-control" placeholder="" disabled/>
+                    <div class="input-group-btn">
+                        <button id="getJobsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="jobsResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="timesheetSummaries" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="timesheetSummariesId" type="text" class="form-control" placeholder="" disabled/>
+                    <div class="input-group-btn">
+                        <button id="timesheetSummariesButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="timesheetSummariesResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="timesheetContacts" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="timesheetContactsId" type="text" class="form-control" placeholder=""/>
+                    <div class="input-group-btn">
+                        <button id="timesheetContactsButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="timesheetContactsResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="contractor" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="contractorId" type="text" class="form-control" placeholder=""/>
+                    <div class="input-group-btn">
+                        <button id="contractorButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="contractorResults" class="code json well">
+                </div>
+            </div>
+
+            <div id="userContact" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="userContactId" type="text" class="form-control" placeholder=""/>
+                    <div class="input-group-btn">
+                        <button id="userContactButton" type="button" class="btn btn-primary">Go</button>
+                    </div>
+                </div>
+                <div id="userContactResults" class="code json well">
+                </div>
+            </div>
+            <div id="aeSearch" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="aeSearchId" type="text" class="form-control" placeholder="" />
+                    <div class="input-group-btn">
+                        <button id="aeSearchButton" type="button" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <div id="aeSearchResults" class="code json well">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -370,6 +488,228 @@
 
 
                     }).fail(function (err) { showError(err, 'payPeriodsResults') });
+                },
+                getDashboard: function () {
+                    $('#dashboardResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Dashboard/',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#dashboardResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'dashboardResults') });
+                },
+
+                getConsultantContracts: function () {
+                    $('#consultantContractsResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/ConsultantContracts/',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#consultantContractsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'consultantContractsResults') });
+                },
+
+                getConsultantContractDetails: function () {
+                    $('#consultantContractDetailsResults').html('Sending...');
+                    var id = $('#consultantContractDetailsId').val();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/ConsultantContracts/Details/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#consultantContractDetailsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'consultantContractDetailsResults') });
+                },
+
+                getJobDetails: function () {
+                    $('#jobDetailsResults').html('Sending...');
+                    var id = $('#jobDetailsId').val();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Jobs/Details/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#jobDetailsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'jobDetailsResults') });
+                },
+                getJobs: function () {
+                    $('#jobsResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Jobs/Summaries',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#jobsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'jobsResults') });
+                },
+                getTimesheetSummaries: function () {
+                    $('#timesheetSummariesResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Timesheets/Reporting/Summary',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#timesheetSummariesResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'timesheetSummariesResults') });
+                },
+                getTimesheetContacts: function () {
+                    var id = $('#timesheetContactsId').val();
+
+                    $('#timesheetContactsResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Timesheets/Reporting/Contact/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#timesheetContactsResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'timesheetContactsResults') });
+                },
+                getContractor: function () {
+                    $('#contractorResults').html('Sending...');
+                    var id = $('#contractorId').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Contractors/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#contractorResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'contractorResults') });
+                },
+                getUserContact: function () {
+                    $('#userContactResults').html('Sending...');
+                    var id = $('#userContactId').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/UserContact/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#userContactResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'userContactResults') });
+                },
+                aeSearch: function () {
+                    $('#aeSearchResults').html('Sending...');
+                    var query = $('#aeSearchId').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/UserContact/Filter/' + query,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#aeSearchResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'aeSearchResults') });
                 }
             };
 
@@ -384,6 +724,16 @@
             $('#getSpecializationsButton').click(page.getSpecializations);
             $('#getTimesheetsButton').click(page.getTimesheets);
             $('#getPayPeriodsButton').click(page.getPayPeriods);
+            $('#getDashboardButton').click(page.getDashboard);
+            $('#getConsultantContractsButton').click(page.getConsultantContracts);
+            $('#getConsultantContractDetailsButton').click(page.getConsultantContractDetails);
+            $('#getJobDetailsButton').click(page.getJobDetails);
+            $('#getJobsButton').click(page.getJobs);
+            $('#timesheetSummariesButton').click(page.getTimesheetSummaries);
+            $('#timesheetContactsButton').click(page.getTimesheetContacts);
+            $('#contractorButton').click(page.getContractor);
+            $('#userContactButton').click(page.getUserContact);
+            $('#aeSearchButton').click(page.aeSearch);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {

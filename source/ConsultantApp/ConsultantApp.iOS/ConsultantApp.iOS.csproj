@@ -85,8 +85,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhone'">
     <OutputPath>bin\iPhone\Dev\</OutputPath>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__; DEV</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|iPhoneSimulator'">
     <OutputPath>bin\iPhoneSimulator\Test\</OutputPath>

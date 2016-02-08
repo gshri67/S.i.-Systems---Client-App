@@ -3,6 +3,23 @@ using System.Collections.Generic;
 
 namespace SiSystems.SharedModels
 {
+    public class TimesheetSummary
+    {
+        public int Id { get; set; }
+        
+        public MatchGuideConstants.TimesheetStatus Status { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string TimePeriod { get { return string.Format("{0:MMM d} - {1:MMM d}", StartDate, EndDate); } }
+
+        public UserContact ClientContact { get; set; }
+
+        public TimesheetSummary()
+        {
+            ClientContact = new UserContact();
+        }
+    }
+
 	public class Timesheet
 	{
         public int Id { get; set; }

@@ -38,7 +38,11 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountExecutive.cs" />
+    <Compile Include="ConsultantContractType.cs" />
+    <Compile Include="ContractorRateSummary.cs" />
+    <Compile Include="JobSummary.cs" />
+    <Compile Include="UserContact.cs" />
+    <Compile Include="ConsultantContract.cs" />
     <Compile Include="ConsultantDetails.cs" />
     <Compile Include="ClientAccountDetails.cs" />
     <Compile Include="Consultant.cs" />
@@ -48,6 +52,7 @@
     <Compile Include="Contact.cs" />
     <Compile Include="Contract.cs" />
     <Compile Include="ContractProposal.cs" />
+    <Compile Include="Job.cs" />
     <Compile Include="PayRate.cs" />
     <Compile Include="Eula.cs" />
     <Compile Include="FloThruAgreement.cs" />
@@ -64,6 +69,13 @@
     <Compile Include="Client.cs" />
     <Compile Include="ProjectCode.cs" />
     <Compile Include="Remittance.cs" />
+    <Compile Include="AccountExecutive.cs" />
+    <Compile Include="DashboardSummary.cs" />
+    <Compile Include="Contractor.cs" />
+    <Compile Include="UserContactType.cs" />
+    <Compile Include="TimesheetSummarySet.cs" />
+    <Compile Include="TimesheetDetails.cs" />
+    <Compile Include="TimesheetContact.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Dapper;
 using SiSystems.ClientApp.Web.Domain;
 using SiSystems.ClientApp.Web.Domain.Repositories;
@@ -17,6 +18,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         Timesheet GetTimesheetsById(int timesheetId);
         int SubmitTimesheet(Timesheet timesheet, int userId);
         DirectReport GetDirectReportByTimesheetId(int timesheetId);
+        TimesheetSummarySet GetTimesheetSummaryByAccountExecutiveId(int id);
+        IEnumerable<TimesheetDetails> GetOpenTimesheetDetailsByAccountExecutiveId(int id);
+        IEnumerable<TimesheetDetails> GetSubmittedTimesheetDetailsByAccountExecutiveId(int id);
+        IEnumerable<TimesheetDetails> GetCancelledTimesheetDetailsByAccountExecutiveId(int id);
+        IEnumerable<TimesheetDetails> GetRejectedTimesheetDetailsByAccountExecutiveId(int id);
+        TimesheetContact GetTimesheetContactById(int id);
+        TimesheetContact GetOpenTimesheetContactByAgreementId(int id);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -222,6 +230,392 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         private static int? IntegerOrNullIfZero(int number)
         {
             return number == 0 ? (int?)null : number;
+        }
+
+        public TimesheetSummarySet GetTimesheetSummaryByAccountExecutiveId(int id)
+        {
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var openTimesheets = db.Connection.Query<int>(AccountExecutiveTimesheetQueries.OpenTimesheetsCountByAccountExecutiveId, new { Id = id }).FirstOrDefault();
+
+                var cancelledTimesheets = db.Connection.Query<int>(AccountExecutiveTimesheetQueries.CancelledTimesheetsCountByAccountExecutiveId, new { Id = id }).FirstOrDefault();
+
+                var rejectedTimesheets = db.Connection.Query<int>(AccountExecutiveTimesheetQueries.RejectedTimesheetsCountByAccountExecutiveId, new { Id = id }).FirstOrDefault();
+
+                var submittedTimesheets = db.Connection.Query<int>(AccountExecutiveTimesheetQueries.SubmittedTimesheetsCountByAccountExecutiveId, new { Id = id }).FirstOrDefault();
+
+
+                return
+                    new TimesheetSummarySet()
+                    {
+                        NumOpen = openTimesheets,
+                        NumCancelled = cancelledTimesheets,
+                        NumRejected = rejectedTimesheets,
+                        NumSubmitted = submittedTimesheets
+                    };
+            }
+        }
+
+        public IEnumerable<TimesheetDetails> GetOpenTimesheetDetailsByAccountExecutiveId(int id)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var timesheets = db.Connection.Query<TimesheetDetails>(
+                    AccountExecutiveTimesheetQueries.OpenTimesheetDetailsByAccountExecutiveId, new { Id = id });
+
+                return timesheets;
+            }
+        }
+
+        public IEnumerable<TimesheetDetails> GetSubmittedTimesheetDetailsByAccountExecutiveId(int id)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var timesheets = db.Connection.Query<TimesheetDetails>(
+                    AccountExecutiveTimesheetQueries.SubmittedTimesheetsByAccountExecutiveId, new { Id = id });
+
+                return timesheets;
+            }
+        }
+
+        public IEnumerable<TimesheetDetails> GetCancelledTimesheetDetailsByAccountExecutiveId(int id)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var timesheets = db.Connection.Query<TimesheetDetails>(
+                    AccountExecutiveTimesheetQueries.CancelledTimesheetsByAccountExecutiveId, new { Id = id });
+
+                return timesheets;
+            }
+        }
+
+        public IEnumerable<TimesheetDetails> GetRejectedTimesheetDetailsByAccountExecutiveId(int id)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var timesheets = db.Connection.Query<TimesheetDetails>(
+                    AccountExecutiveTimesheetQueries.RejectedTimesheetsByAccountExecutiveId, new { Id = id });
+
+                return timesheets;
+            }
+        }
+
+        //Get Open Timesheet with Agreement Id
+        public TimesheetContact GetOpenTimesheetContactByAgreementId(int id)
+        {
+            const string timesheetContactQuery =
+                @"SELECT Agreement.AgreementID AS AgreementId, 
+	                    Company.CompanyName,
+	                    PeriodDetails.TimeSheetAvailablePeriodStartDate AS StartDate,
+	                    PeriodDetails.TimeSheetAvailablePeriodEndDate AS EndDate
+                    FROM  Agreement
+                    LEFT JOIN (
+	                    /* Get the most recent TimeSheetAvailablePeriodId for the contract, if it exists */
+	                    SELECT Agreement.AgreementID, MAX(MaxRecentPeriod.TimeSheetAvailablePeriodID) AS MostRecentApplicablePeriodId
+	                    FROM Agreement
+	                    INNER JOIN agreement_contractdetail acd on agreement.agreementid=acd.agreementid
+	                    LEFT JOIN TimeSheetAvailablePeriod MaxRecentPeriod ON MaxRecentPeriod.TimeSheetPaymentType = acd.ContractPaymentPlanType
+	                    WHERE Agreement.AgreementID = @Id
+		                    AND 
+		                    (
+			                    MaxRecentPeriod.TimeSheetAvailablePeriodStartDate BETWEEN Agreement.StartDate AND Agreement.EndDate
+			                    OR 
+			                    Agreement.StartDate BETWEEN MaxRecentPeriod.TimeSheetAvailablePeriodStartDate  AND MaxRecentPeriod.TimeSheetAvailablePeriodEndDate
+			                    OR
+			                    Agreement.EndDate BETWEEN MaxRecentPeriod.TimeSheetAvailablePeriodStartDate  AND MaxRecentPeriod.TimeSheetAvailablePeriodEndDate
+		                    )
+	                    GROUP BY Agreement.AgreementID
+                    ) Recent ON Agreement.AgreementID = Recent.AgreementID
+                    LEFT JOIN TimeSheetAvailablePeriod PeriodDetails ON PeriodDetails.TimeSheetAvailablePeriodID = Recent.MostRecentApplicablePeriodId
+                    LEFT JOIN Agreement_ContractDetail acd2 ON Agreement.AgreementID = acd2.AgreementID
+                    LEFT JOIN TimeSheetAvailablePeriod StartingPeriod ON StartingPeriod.TimeSheetPaymentType = acd2.ContractPaymentPlanType
+                    LEFT JOIN
+                    (
+	                    SELECT MaxTimeSheets.*
+	                    FROM 
+	                    (
+		                    SELECT MAX(Timesheet.TimeSheetID) AS MaxTimeSheetIds
+		                    FROM TimeSheet
+		                    JOIN Agreement ON Agreement.AgreementID = TimeSheet.AgreementID
+		                    WHERE Agreement.AgreementID = @Id
+		                    GROUP BY Timesheet.AgreementID
+	                    ) MaxIds
+	                    LEFT JOIN TimeSheet MaxTimeSheets ON MaxTimeSheets.TimeSheetID = MaxIds.MaxTimeSheetIds
+	                    LEFT JOIN PickList ON PickList.PickListID = MaxTimeSheets.StatusID
+	                    WHERE PickList.Title NOT IN ('rejected','cancelled') --Ignore Rejected and Cancelled TimeSheets
+                    ) MaxTimeSheets ON MaxTimeSheets.AgreementID = Agreement.AgreementID
+                    LEFT JOIN pammanualtimesheet Pam ON Pam.agreementid = Agreement.AgreementID AND Pam.TimeSheetAvailablePeriodID = MostRecentApplicablePeriodId -- join Manual Entries on the Agreement and latest time period
+                    LEFT JOIN Company ON Company.CompanyID = Agreement.CompanyID
+                    WHERE Agreement.AgreementID = @Id
+	                    AND agreement.agreementsubtype not in (select picklistid from dbo.udf_getpicklistids('contracttype','permanent',-1)) --The Agreement is not permanent
+	                    AND acd2.timesheettype in (select picklistid from dbo.udf_getpicklistids('TimesheetType','ETimesheet',-1)) -- The agreement is set for ETimesheets
+	                    AND StartingPeriod.TimeSheetAvailablePeriodID IS NOT NULL -- The Agreement has started (the first timesheet period has started)
+	                    AND CONVERT(DATETIME, CONVERT(VARCHAR(10), Agreement.StartDate, 101)) -- 
+		                    BETWEEN StartingPeriod.TimeSheetAvailablePeriodStartDate
+			                    AND  StartingPeriod.TimeSheetAvailablePeriodEndDate
+	                    AND Pam.agreementid IS NULL -- The latest available period has not been manually entered
+	                    AND
+	                    (
+		                    MaxTimeSheets.TimeSheetID IS NULL -- No timesheet has been added for this agreement
+		                    OR
+		                    MaxTimeSheets.TimeSheetAvailablePeriodID < Recent.MostRecentApplicablePeriodId -- The latest timesheet added is not for the most recent timesheet period
+	                    )";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var contact = db.Connection.Query<TimesheetContact>(timesheetContactQuery, param: new { Id = id }).FirstOrDefault();
+
+                return contact;
+            }
+        }
+
+        //Get unopen timesheet with timesheet Id
+        public TimesheetContact GetTimesheetContactById(int id)
+        {
+            const string timesheetContactQuery =
+                @"SELECT TimeSheet.TimeSheetID AS Id, Agreement.AgreementID AS AgreementId, Company.CompanyName, Period.TimeSheetAvailablePeriodStartDate AS StartDate, Period.TimeSheetAvailablePeriodEndDate AS EndDate, TimeSheet.StatusID AS Status
+                FROM TimeSheet 
+                LEFT JOIN Agreement ON Agreement.AgreementID = TimeSheet.AgreementID
+                LEFT JOIN Company on Company.CompanyID = Agreement.CompanyID
+                LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TimeSheet.TimeSheetAvailablePeriodID
+                WHERE TimeSheet.TimeSheetID = @Id";
+
+            const string consultantFromTimesheetId = 
+                @"SELECT TimeSheet.CandidateUserID AS Id
+                FROM TimeSheet 
+                WHERE TimeSheet.TimeSheetID = @Id";
+
+            const string directReportFromTimesheetId =
+                @"SELECT DirectReport.UserID AS Id
+                FROM TimeSheet 
+                LEFT JOIN Agreement_ContractAdminContactMatrix Matrix ON Matrix.AgreementID = TimeSheet.AgreementID
+                LEFT JOIN Users DirectReport ON DirectReport.UserID = Matrix.DirectReportUserID
+                WHERE TimeSheet.TimeSheetID = @Id";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var contact = db.Connection.Query<TimesheetContact>(timesheetContactQuery, param: new { Id = id }).FirstOrDefault();
+                if (contact == null)
+                    return new TimesheetContact();
+
+                contact.Contractor = new UserContact{Id = db.Connection.Query<int>(consultantFromTimesheetId, param: new { Id = id }).FirstOrDefault()};
+                contact.DirectReport = new UserContact { Id = db.Connection.Query<int>(directReportFromTimesheetId, param: new { Id = id }).FirstOrDefault() };
+
+                return contact;
+            }
+        }
+    }
+
+    internal static class AccountExecutiveTimesheetQueries
+    {
+        private const string TimesheetCountByAccountExecutiveBaseQuery = 
+            @"SELECT COUNT(TimeSheetId)
+            FROM Agreement 
+            JOIN PickList ON Agreement.StatusType = PickList.PickListID
+            LEFT JOIN Timesheet ON Timesheet.AgreementID = Agreement.AgreementID
+            WHERE Agreement.AccountExecID = @Id
+            AND Agreement.AgreementType IN (SELECT PickListId FROM udf_GetPickListIds('agreementtype','contract',4))
+            AND (
+	            Agreement.AgreementSubType IN (SELECT PickListId FROM udf_GetPickListIds('contracttype','consultant,contract to hire',4))
+	            OR
+	            Agreement.AgreementSubType IN (SELECT PickListId FROM udf_GetPickListIds('contracttype','Flo Thru',4))
+            )
+            AND Timesheet.TimeSheetAvailablePeriodID IN (
+	            SELECT TimeSheetAvailablePeriodID 
+	            FROM TimeSheetAvailablePeriod Periods
+	            WHERE DATEDIFF(MONTH, Periods.TimeSheetAvailablePeriodEndDate, GETDATE()) < 3
+            )";
+
+        private const string TimesheetDetailsByAccountExecutiveBaseQuery =
+            @"SELECT TimeSheet.TimeSheetID as Id, Period.TimeSheetAvailablePeriodStartDate as StartDate, Period.TimeSheetAvailablePeriodEndDate as EndDate, Company.CompanyName, Users.FirstName +' '+ Users.LastName AS ContractorFullName
+            FROM Agreement 
+            JOIN PickList ON Agreement.StatusType = PickList.PickListID
+            LEFT JOIN Timesheet ON Timesheet.AgreementID = Agreement.AgreementID
+            LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TimeSheet.TimeSheetAvailablePeriodID
+            LEFT JOIN Company ON Company.CompanyID = Agreement.CompanyID
+            LEFT JOIN Users ON Users.UserID = Agreement.CandidateID
+            WHERE Agreement.AccountExecID = @Id
+            AND Agreement.AgreementType IN (SELECT PickListId FROM udf_GetPickListIds('agreementtype','contract',4))
+            AND (
+	            Agreement.AgreementSubType IN (SELECT PickListId FROM udf_GetPickListIds('contracttype','consultant,contract to hire',4))
+	            OR
+	            Agreement.AgreementSubType IN (SELECT PickListId FROM udf_GetPickListIds('contracttype','Flo Thru',4))
+            )
+            AND Timesheet.TimeSheetAvailablePeriodID IN (
+	            SELECT TimeSheetAvailablePeriodID 
+	            FROM TimeSheetAvailablePeriod Periods
+	            WHERE DATEDIFF(MONTH, Periods.TimeSheetAvailablePeriodEndDate, GETDATE()) < 3
+            )";
+
+        private const string TimesheetStatusSubmittedFilter = 
+                @"AND Timesheet.StatusID IN (
+	            SELECT PickListID
+	            FROM PickList 
+	            WHERE PickList.PickTypeID IN (SELECT PickTypeID from PickType WHERE Type='TimeSheetStatusType')
+	            AND PickList.Title IN ('Submitted')
+            )";
+
+        private const string TimesheetStatusRejectedFilter =
+            @"AND Timesheet.StatusID IN (
+	            SELECT PickListID
+	            FROM PickList 
+	            WHERE PickList.PickTypeID IN (SELECT PickTypeID from PickType WHERE Type='TimeSheetStatusType')
+	            AND PickList.Title IN ('Rejected')
+            )";
+
+        private const string TimesheetStatusCancelledFilter =
+            @"AND Timesheet.StatusID IN (
+	            SELECT PickListID
+	            FROM PickList 
+	            WHERE PickList.PickTypeID IN (SELECT PickTypeID from PickType WHERE Type='TimeSheetStatusType')
+	            AND PickList.Title IN ('Cancelled')
+            )";
+
+        private const string OpenTimeSheetsCountByAEQuery = 
+            @"SELECT COUNT(DISTINCT(Agreement.AgreementID))
+            FROM  Agreement
+            LEFT JOIN (
+	            /* Get the most recent TimeSheetAvailablePeriodId for the contract, if it exists */
+	            SELECT Agreement.AgreementID, MAX(MaxRecentPeriod.TimeSheetAvailablePeriodID) AS MostRecentApplicablePeriodId
+	            FROM Agreement
+	            INNER JOIN agreement_contractdetail acd on agreement.agreementid=acd.agreementid
+	            LEFT JOIN TimeSheetAvailablePeriod MaxRecentPeriod ON MaxRecentPeriod.TimeSheetPaymentType = acd.ContractPaymentPlanType
+	            WHERE Agreement.AccountExecID = @Id
+		            AND MaxRecentPeriod.TimeSheetAvailablePeriodStartDate BETWEEN Agreement.StartDate AND Agreement.EndDate
+	            GROUP BY Agreement.AgreementID
+            ) Recent ON Agreement.AgreementID = Recent.AgreementID
+            LEFT JOIN Agreement_ContractDetail acd2 ON Agreement.AgreementID = acd2.AgreementID
+            LEFT JOIN TimeSheetAvailablePeriod StartingPeriod ON StartingPeriod.TimeSheetPaymentType = acd2.ContractPaymentPlanType
+            LEFT JOIN
+            (
+	            SELECT MaxTimeSheets.*
+	            FROM 
+	            (
+		            SELECT MAX(Timesheet.TimeSheetID) AS MaxTimeSheetIds
+		            FROM TimeSheet
+		            JOIN Agreement ON Agreement.AgreementID = TimeSheet.AgreementID
+		            WHERE Agreement.AccountExecID = @Id
+		            GROUP BY Timesheet.AgreementID
+	            ) MaxIds
+	            LEFT JOIN TimeSheet MaxTimeSheets ON MaxTimeSheets.TimeSheetID = MaxIds.MaxTimeSheetIds
+	            LEFT JOIN PickList ON PickList.PickListID = MaxTimeSheets.StatusID
+	            WHERE PickList.Title NOT IN ('rejected','cancelled') --Ignore Rejected and Cancelled TimeSheets
+            ) MaxTimeSheets ON MaxTimeSheets.AgreementID = Agreement.AgreementID
+            LEFT JOIN pammanualtimesheet Pam ON Pam.agreementid = Agreement.AgreementID AND Pam.TimeSheetAvailablePeriodID = MostRecentApplicablePeriodId -- join Manual Entries on the Agreement and latest time period
+            WHERE Agreement.AccountExecID = @Id
+	            AND agreement.agreementsubtype not in (select picklistid from dbo.udf_getpicklistids('contracttype','permanent',-1)) --The Agreement is not permanent
+	            AND acd2.timesheettype in (select picklistid from dbo.udf_getpicklistids('TimesheetType','ETimesheet',-1)) -- The agreement is set for ETimesheets
+	            AND StartingPeriod.TimeSheetAvailablePeriodID IS NOT NULL -- The Agreement has started (the first timesheet period has started)
+	            AND CONVERT(DATETIME, CONVERT(VARCHAR(10), Agreement.StartDate, 101)) -- 
+		            BETWEEN StartingPeriod.TimeSheetAvailablePeriodStartDate
+			            AND  StartingPeriod.TimeSheetAvailablePeriodEndDate
+	            AND Pam.agreementid IS NULL -- The latest available period has not been manually entered
+	            AND
+	            (
+		            MaxTimeSheets.TimeSheetID IS NULL -- No timesheet has been added for this agreement
+		            OR
+		            MaxTimeSheets.TimeSheetAvailablePeriodID < Recent.MostRecentApplicablePeriodId -- The latest timesheet added is not for the most recent timesheet period
+	            )";
+
+        public static string OpenTimesheetsCountByAccountExecutiveId
+        {
+            get { return string.Format("{0}", OpenTimeSheetsCountByAEQuery); }
+        }
+
+        private static string OpenTimesheetDetailsByAccountExecutiveIdQuery =
+            @"SELECT Agreement.AgreementID AS AgreementId, 
+	            Users.FirstName + ' ' + Users.LastName AS ContractorFullName,
+	            Company.CompanyName,
+	            PeriodDetails.TimeSheetAvailablePeriodStartDate AS StartDate,
+	            PeriodDetails.TimeSheetAvailablePeriodEndDate AS EndDate
+            FROM  Agreement
+            LEFT JOIN (
+	            /* Get the most recent TimeSheetAvailablePeriodId for the contract, if it exists */
+	            SELECT Agreement.AgreementID, MAX(MaxRecentPeriod.TimeSheetAvailablePeriodID) AS MostRecentApplicablePeriodId
+	            FROM Agreement
+	            INNER JOIN agreement_contractdetail acd on agreement.agreementid=acd.agreementid
+	            LEFT JOIN TimeSheetAvailablePeriod MaxRecentPeriod ON MaxRecentPeriod.TimeSheetPaymentType = acd.ContractPaymentPlanType
+	            WHERE Agreement.AccountExecID = @Id
+		            AND 
+		            (
+			            MaxRecentPeriod.TimeSheetAvailablePeriodStartDate BETWEEN Agreement.StartDate AND Agreement.EndDate
+			            OR 
+			            Agreement.StartDate BETWEEN MaxRecentPeriod.TimeSheetAvailablePeriodStartDate  AND MaxRecentPeriod.TimeSheetAvailablePeriodEndDate
+			            OR
+			            Agreement.EndDate BETWEEN MaxRecentPeriod.TimeSheetAvailablePeriodStartDate  AND MaxRecentPeriod.TimeSheetAvailablePeriodEndDate
+		            )
+	            GROUP BY Agreement.AgreementID
+            ) Recent ON Agreement.AgreementID = Recent.AgreementID
+            LEFT JOIN TimeSheetAvailablePeriod PeriodDetails ON PeriodDetails.TimeSheetAvailablePeriodID = Recent.MostRecentApplicablePeriodId
+            LEFT JOIN Agreement_ContractDetail acd2 ON Agreement.AgreementID = acd2.AgreementID
+            LEFT JOIN TimeSheetAvailablePeriod StartingPeriod ON StartingPeriod.TimeSheetPaymentType = acd2.ContractPaymentPlanType
+            LEFT JOIN
+            (
+	            SELECT MaxTimeSheets.*
+	            FROM 
+	            (
+		            SELECT MAX(Timesheet.TimeSheetID) AS MaxTimeSheetIds
+		            FROM TimeSheet
+		            JOIN Agreement ON Agreement.AgreementID = TimeSheet.AgreementID
+		            WHERE Agreement.AccountExecID = @Id
+		            GROUP BY Timesheet.AgreementID
+	            ) MaxIds
+	            LEFT JOIN TimeSheet MaxTimeSheets ON MaxTimeSheets.TimeSheetID = MaxIds.MaxTimeSheetIds
+	            LEFT JOIN PickList ON PickList.PickListID = MaxTimeSheets.StatusID
+	            WHERE PickList.Title NOT IN ('rejected','cancelled') --Ignore Rejected and Cancelled TimeSheets
+            ) MaxTimeSheets ON MaxTimeSheets.AgreementID = Agreement.AgreementID
+            LEFT JOIN pammanualtimesheet Pam ON Pam.agreementid = Agreement.AgreementID AND Pam.TimeSheetAvailablePeriodID = MostRecentApplicablePeriodId -- join Manual Entries on the Agreement and latest time period
+            LEFT JOIN Users ON Users.UserID = Agreement.CandidateID
+            LEFT JOIN Company ON Company.CompanyID = Agreement.CompanyID
+            WHERE Agreement.AccountExecID = @Id
+	            AND agreement.agreementsubtype not in (select picklistid from dbo.udf_getpicklistids('contracttype','permanent',-1)) --The Agreement is not permanent
+	            AND acd2.timesheettype in (select picklistid from dbo.udf_getpicklistids('TimesheetType','ETimesheet',-1)) -- The agreement is set for ETimesheets
+	            AND StartingPeriod.TimeSheetAvailablePeriodID IS NOT NULL -- The Agreement has started (the first timesheet period has started)
+	            AND CONVERT(DATETIME, CONVERT(VARCHAR(10), Agreement.StartDate, 101)) -- 
+		            BETWEEN StartingPeriod.TimeSheetAvailablePeriodStartDate
+			            AND  StartingPeriod.TimeSheetAvailablePeriodEndDate
+	            AND Pam.agreementid IS NULL -- The latest available period has not been manually entered
+	            AND
+	            (
+		            MaxTimeSheets.TimeSheetID IS NULL -- No timesheet has been added for this agreement
+		            OR
+		            MaxTimeSheets.TimeSheetAvailablePeriodID < Recent.MostRecentApplicablePeriodId -- The latest timesheet added is not for the most recent timesheet period
+	            )";
+
+        public static string OpenTimesheetDetailsByAccountExecutiveId
+        {
+            get { return string.Format("{0}", OpenTimesheetDetailsByAccountExecutiveIdQuery); }
+        }
+
+        public static string CancelledTimesheetsCountByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetCountByAccountExecutiveBaseQuery, TimesheetStatusCancelledFilter); }
+        }
+
+        public static string RejectedTimesheetsCountByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetCountByAccountExecutiveBaseQuery, TimesheetStatusRejectedFilter); }
+        }
+
+        public static string SubmittedTimesheetsCountByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetCountByAccountExecutiveBaseQuery, TimesheetStatusSubmittedFilter); }
+        }
+
+        public static string SubmittedTimesheetsByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetDetailsByAccountExecutiveBaseQuery, TimesheetStatusSubmittedFilter); }
+        }
+
+        public static string CancelledTimesheetsByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetDetailsByAccountExecutiveBaseQuery, TimesheetStatusCancelledFilter); }
+        }
+
+        public static string RejectedTimesheetsByAccountExecutiveId
+        {
+            get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetDetailsByAccountExecutiveBaseQuery, TimesheetStatusRejectedFilter); }
         }
     }
 }

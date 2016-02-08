@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace SiSystems.SharedModels
@@ -254,6 +255,12 @@ namespace SiSystems.SharedModels
             public const int Permanent = 174;
             public const int ContractToHire = 175;
 
+            private static readonly Dictionary<long, string> DescriptionDictionary = new Dictionary<long, string>
+            {
+                {Consultant, "Fully Sourced"},
+                {FloThru, "Flo Thru"}
+            };
+            
             private AgreementSubTypes(long value)
             {
                 m_value = value;
@@ -276,7 +283,16 @@ namespace SiSystems.SharedModels
 
             public override string ToString()
             {
-                return m_value.ToString();
+                string description;
+
+				if (m_value == FloThru)
+					description = "Flo-Thru";
+				else if (m_value == Consultant)
+					description = "Fully-Sourced";
+				else
+					description = DescriptionDictionary.TryGetValue(m_value, out description) ? description : m_value.ToString();
+
+				return description;
             }
         }
 
@@ -744,12 +760,23 @@ namespace SiSystems.SharedModels
                 m_value = value;
             }
 
+            private TimesheetStatus(string value)
+            {
+                string description;
+                m_value = DescriptionDictionary.Where(p => p.Value == value).Select(p => p.Key).FirstOrDefault();
+            }
+
             public static implicit operator TimesheetStatus(long val)
+            {
+                return new TimesheetStatus(val); 
+            }
+
+            public static implicit operator TimesheetStatus(int val)
             {
                 return new TimesheetStatus(val);
             }
 
-            public static implicit operator TimesheetStatus(int val)
+            public static implicit operator TimesheetStatus(string val)
             {
                 return new TimesheetStatus(val);
             }

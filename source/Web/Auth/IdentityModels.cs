@@ -65,5 +65,13 @@ namespace SiSystems.ClientApp.Web.Auth
                   && allowedAccessLevels.Contains(this.AccessLevel);
             }
         }
+
+        public bool IsInternalUser
+        {
+            get
+            {
+                return _user.UserType == MatchGuideConstants.UserType.InternalUser;
+            }
+        }
     }
 }
