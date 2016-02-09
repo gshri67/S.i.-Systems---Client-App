@@ -110,7 +110,9 @@ namespace AccountExecutiveApp.iOS
                 JobTitle = "Developer",
                 StartDate = new DateTime(2016, 1, 22),
                 PaymentPlan = "Part Time",
-                DaysCancellation = 10
+                DaysCancellation = 10,
+                RateType = "Per hour",
+                RateDescription = "Regular"
             };
             UpdateUserInterface();
         }

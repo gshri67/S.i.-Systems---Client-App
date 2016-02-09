@@ -11,49 +11,49 @@ using UIKit;
 
 namespace AccountExecutiveApp.iOS
 {
-    public class ContractCreationPayRatesTableViewSource : UITableViewSource
-    {
-        private readonly ContractCreationPayRatesTableViewController _parentController;
+	public class ContractCreationRateCellTableViewSource : UITableViewSource
+	{
+		private readonly ContractCreationRateCell _parentController;
         private readonly ContractCreationViewModel _contractModel;
-        private float _specializationCellHeight = -1;
+		private float _specializationCellHeight = -1;
 
-        public ContractCreationPayRatesTableViewSource(ContractCreationPayRatesTableViewController parentController, ContractCreationViewModel model)
-        {
-            _parentController = parentController;
+        public ContractCreationRateCellTableViewSource(ContractCreationRateCell parentController, ContractCreationViewModel model)
+		{
+			_parentController = parentController;
             _contractModel = model;
-        }
+		}
 
-        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-        {
+	    public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+	    {
             UITableViewCell cell = new UITableViewCell();
             //ContractCreationRateCell cell = (ContractCreationRateCell)tableView.DequeueReusableCell(ContractCreationRateCell.CellIdentifier, indexPath);
 
-
-            if (IsRateTypeCell(indexPath))
+	        
+	        if (IsRateTypeCell(indexPath))
                 return GetRateTypeCell(tableView, indexPath);
             else if (IsRateDescriptionCell(indexPath))
                 return GetRateDescriptionCell(tableView, indexPath);
             else if (IsBillRateCell(indexPath))
                 return GetBillRateCell(tableView, indexPath);
             else if (IsIsPrimaryRateCell(indexPath))
-                return GetIsPrimaryRateCell(tableView, indexPath);
+                return GetIsPrimaryRateCell(tableView, indexPath);            
 
             return cell;
-        }
+	    }
 
-        private int _rateTypeCellRow { get { return 0; } }
+	    private int _rateTypeCellRow { get { return 0; } }
         private bool IsRateTypeCell(NSIndexPath indexPath) { return (int)indexPath.Item == _rateTypeCellRow; }
 
-        private UITableViewCell GetRateTypeCell(UITableView tableView, NSIndexPath indexPath)
-        {
+	    private UITableViewCell GetRateTypeCell(UITableView tableView, NSIndexPath indexPath)
+	    {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
 
             cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndex);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.RateType = newValue; };
 
-            return cell;
-        }
+	        return cell;
+	    }
 
         private int _rateDescriptionCellRow { get { return _rateTypeCellRow + 1; } }
         private bool IsRateDescriptionCell(NSIndexPath indexPath) { return (int)indexPath.Item == _rateDescriptionCellRow; }
@@ -94,24 +94,19 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
-        public override nint RowsInSection(UITableView tableview, nint section)
-        {
-            return 4;
-        }
+		public override nint RowsInSection(UITableView tableview, nint section)
+		{
+			return 4;
+		}
 
-        public override nint NumberOfSections(UITableView tableView)
-        {
-            return 3;
-        }
-        
-        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-        {
-            return 35;
-        }
+		public override nint NumberOfSections(UITableView tableView)
+		{
+			return 1;
+		}
 
-        public override nfloat GetHeightForHeader(UITableView tableView, nint section)
-        {
-            return 15;
-        }
-    }
+	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+	    {
+	        return 30;
+	    }
+	}
 }

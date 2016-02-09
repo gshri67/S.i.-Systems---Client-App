@@ -20,6 +20,15 @@ namespace SiSystems.SharedModels
         public Boolean UsingProjectCode { get; set; }
         public Boolean UsingQuickPay { get; set; }
 
+        //Pay Rate info
+        public string RateType { get; set; }
+        public string RateDescription { get; set; }
+        public string BillRate { get; set; }
+        public string PayRate { get; set; }
+        public string ProposedRates { get; set; }
+        public string GrossMargin { get; set; }
+        public bool IsPrimaryRate { get; set; }
+
         public ContractCreationDetails()
         {
             JobTitle = string.Empty;
@@ -37,6 +46,14 @@ namespace SiSystems.SharedModels
             InvoiceFormat = string.Empty;
             UsingProjectCode = false;
             UsingQuickPay = true;
+
+            RateType = string.Empty;
+            RateDescription = string.Empty;
+            BillRate = "0.00";
+            PayRate = string.Empty;
+            ProposedRates = string.Empty;
+            GrossMargin = string.Empty;
+            IsPrimaryRate = false;
         }
     }
 }

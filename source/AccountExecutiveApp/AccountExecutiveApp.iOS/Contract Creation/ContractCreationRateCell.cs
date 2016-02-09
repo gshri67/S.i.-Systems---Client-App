@@ -2,11 +2,15 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using AccountExecutiveApp.Core.ViewModel;
+using CoreGraphics;
 using UIKit;
+using Microsoft.Practices.Unity;
+
 
 namespace AccountExecutiveApp.iOS
 {
-    partial class ContractCreationRateCell : UITableViewCell
+    public class ContractCreationRateCell : UITableViewCell
     {
         public const string CellIdentifier = "ContractCreationRateCell";
         public UILabel MainTextLabel;
@@ -16,7 +20,8 @@ namespace AccountExecutiveApp.iOS
         public delegate void EditableCellDelegate(string newValue);
         public EditableCellDelegate OnValueChanged;
 
-        public UITableView tableView;
+        public UITableView TableView;
+        ContractCreationViewModel _viewModel;
 
         public ContractCreationRateCell(IntPtr handle)
             : base(handle)
@@ -26,12 +31,34 @@ namespace AccountExecutiveApp.iOS
 
         private void InitializeCell()
         {
-            tableView = new UITableView();
-            AddSubview(tableView);
+            _viewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
 
+            InstantiateTableViewSource();
             //CreateAndAddLabels();
 
             //SetupConstraints();
+        }
+
+        private void InstantiateTableViewSource()
+        {
+            if (TableView == null)
+                TableView = new UITableView(Bounds);
+
+            TableView.RegisterClassForCellReuse(typeof (SubtitleWithRightDetailCell),
+                SubtitleWithRightDetailCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof (RightDetailCell), RightDetailCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof (EditableTextFieldCell), EditableTextFieldCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof (EditablePickerCell), EditablePickerCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof (EditableDatePickerCell), EditableDatePickerCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof (EditableNumberFieldCell), EditableNumberFieldCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof (EditableBooleanCell), EditableBooleanCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof (UITableViewCell), "UITableViewCell");
+
+            TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
+            TableView.Source = new ContractCreationRateCellTableViewSource(this, _viewModel);
+            TableView.AllowsSelection = false;
+
+            AddSubview(TableView);
         }
 
         private void CreateAndAddLabels()

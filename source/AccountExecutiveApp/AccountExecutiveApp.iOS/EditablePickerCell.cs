@@ -144,6 +144,8 @@ namespace AccountExecutiveApp.iOS
 
         public void UpdateCell(string mainText, List<string> newValues, int newSelectedIndex)
         {
+            Console.WriteLine("Updating Cell ");
+
             MainTextLabel.Text = mainText;
             RightDetailTextField.Text = newValues[newSelectedIndex];
 

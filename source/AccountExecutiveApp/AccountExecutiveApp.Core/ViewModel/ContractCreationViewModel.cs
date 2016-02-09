@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -119,6 +120,26 @@ namespace AccountExecutiveApp.Core.ViewModel
                                                 set { Contract.UsingQuickPay = value; } }
 
 
+
+        //Pay Rates
+        public string RateType{                 get { return Contract.RateType; }
+                                                set { Contract.RateType = value; }}
+        public string RateDescription
+        {
+            get { return Contract.RateDescription; }
+            set { Contract.RateDescription = value; }
+        }
+        public string BillRate
+        {
+            get { return Contract.BillRate; }
+            set { Contract.BillRate = value; }
+        }
+        public bool IsPrimaryRate
+        {
+            get { return Contract.IsPrimaryRate; }
+            set { Contract.IsPrimaryRate = value; }
+        }
+
 #region SupportData
 
         public List<string> TimeFactorOptions { get { return new List<string>(new string[] { "Full Time", "Half Time", "Part Time" }); } }
@@ -231,6 +252,13 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public List<string> InvoiceFormatOptions { get { return new List<string>(new string[] { "1 invoice per contract" }); } }
         public int InvoiceFormatSelectedIndex { get { return IndexSelectionFromOptions(InvoiceFormatOptions, InvoiceFormat); } }
+
+        //Pay Rates
+        public List<string> RateTypeOptions { get { return new List<string>(new string[] { "Per hour", "Per day" }); } }
+        public int RateTypeSelectedIndex { get { return IndexSelectionFromOptions(RateTypeOptions, RateType); } }
+
+        public List<string> RateDescriptionOptions { get { return new List<string>(new string[] { "Regular", "Hourly", "Daily" }); } }
+        public int RateDescriptionSelectedIndex { get { return IndexSelectionFromOptions(RateDescriptionOptions, RateDescription); } }
 
 #endregion
 
