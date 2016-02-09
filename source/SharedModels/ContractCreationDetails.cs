@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SiSystems.SharedModels
 {
@@ -21,13 +23,13 @@ namespace SiSystems.SharedModels
         public Boolean UsingQuickPay { get; set; }
 
         //Pay Rate info
-        public string RateType { get; set; }
-        public string RateDescription { get; set; }
-        public string BillRate { get; set; }
-        public string PayRate { get; set; }
-        public string ProposedRates { get; set; }
-        public string GrossMargin { get; set; }
-        public bool IsPrimaryRate { get; set; }
+        public IEnumerable<string> RateTypes { get; set; }
+        public IEnumerable<string> RateDescriptions { get; set; }
+        public IEnumerable<string> BillRates { get; set; }
+        public IEnumerable<string> PayRates { get; set; }
+        public IEnumerable<string> ProposedRates { get; set; }
+        public IEnumerable<string> GrossMargins { get; set; }
+        public int PrimaryRateIndex { get; set; }
 
         public ContractCreationDetails()
         {
@@ -47,13 +49,13 @@ namespace SiSystems.SharedModels
             UsingProjectCode = false;
             UsingQuickPay = true;
 
-            RateType = string.Empty;
-            RateDescription = string.Empty;
-            BillRate = "0.00";
-            PayRate = string.Empty;
-            ProposedRates = string.Empty;
-            GrossMargin = string.Empty;
-            IsPrimaryRate = false;
+            RateTypes = Enumerable.Empty<string>();
+            RateDescriptions = Enumerable.Empty<string>();
+            BillRates = Enumerable.Empty<string>();
+            PayRates = Enumerable.Empty<string>();
+            ProposedRates = Enumerable.Empty<string>();
+            GrossMargins = Enumerable.Empty<string>();
+            PrimaryRateIndex = 0;
         }
     }
 }

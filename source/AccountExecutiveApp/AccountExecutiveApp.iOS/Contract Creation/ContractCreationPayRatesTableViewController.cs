@@ -10,7 +10,8 @@ namespace AccountExecutiveApp.iOS
 {
     public partial class ContractCreationPayRatesTableViewController : UITableViewController
     {
-        ContractCreationViewModel _viewModel;
+        private ContractCreationViewModel _viewModel;
+        private ContractCreationPayRatesTableViewSource _tableSource;
 
         public ContractCreationPayRatesTableViewController(IntPtr handle)
             : base(handle)
@@ -43,7 +44,8 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-            TableView.Source = new ContractCreationPayRatesTableViewSource(this, _viewModel);
+            _tableSource = new ContractCreationPayRatesTableViewSource(this, _viewModel);
+            TableView.Source = _tableSource;
             TableView.AllowsSelection = false;
             TableView.SeparatorColor = UIColor.Clear;
         }
@@ -81,15 +83,18 @@ namespace AccountExecutiveApp.iOS
 
             UIBarButtonItem addButton = new UIBarButtonItem("Add", UIBarButtonItemStyle.Plain, delegate(object sender, EventArgs e)
             {
-                //DismissViewController(true, null);
+                _tableSource.AddRatesSection(TableView);
             });
             addButton.TintColor = StyleGuideConstants.RedUiColor;
 
+         
 
             NavigationItem.SetRightBarButtonItem(addButton, true);
 
 
         }
+
+
     }
 }
 

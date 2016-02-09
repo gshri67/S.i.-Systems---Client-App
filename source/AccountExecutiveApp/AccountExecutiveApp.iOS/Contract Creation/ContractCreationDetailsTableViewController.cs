@@ -111,8 +111,6 @@ namespace AccountExecutiveApp.iOS
                 StartDate = new DateTime(2016, 1, 22),
                 PaymentPlan = "Part Time",
                 DaysCancellation = 10,
-                RateType = "Per hour",
-                RateDescription = "Regular"
             };
             UpdateUserInterface();
         }

@@ -122,25 +122,52 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 
         //Pay Rates
-        public string RateType{                 get { return Contract.RateType; }
-                                                set { Contract.RateType = value; }}
-        public string RateDescription
-        {
-            get { return Contract.RateDescription; }
-            set { Contract.RateDescription = value; }
-        }
-        public string BillRate
-        {
-            get { return Contract.BillRate; }
-            set { Contract.BillRate = value; }
-        }
-        public bool IsPrimaryRate
-        {
-            get { return Contract.IsPrimaryRate; }
-            set { Contract.IsPrimaryRate = value; }
+        public string RateTypeAtIndex(int index){ return Contract.RateTypes.ElementAt(index); }
+        public void SetRateTypeAtIndex(string newRateType, int index) 
+        { 
+            List<string> list = Contract.RateTypes.ToList();
+            list[index] = newRateType;
+            Contract.RateTypes = list.AsEnumerable();
         }
 
-#region SupportData
+        public string RateDescriptionAtIndex(int index) { return Contract.RateDescriptions.ElementAt(index); }
+        public void SetRateDescriptionAtIndex(string newRateDescription, int index)
+        {
+            List<string> list = Contract.RateDescriptions.ToList();
+            list[index] = newRateDescription;
+            Contract.RateDescriptions = list.AsEnumerable();
+        }
+
+        public string BillRateAtIndex(int index) { return Contract.BillRates.ElementAt(index); }
+        public void SetBillRateAtIndex(string newBillRate, int index)
+        {
+            List<string> list = Contract.BillRates.ToList();
+            list[index] = newBillRate;
+            Contract.BillRates = list.AsEnumerable();
+        }
+
+        public bool IsPrimaryRateAtIndex(int index) { return Contract.PrimaryRateIndex == index; }
+        public void SetPrimaryRateForIndex(int index)
+        {
+            Contract.PrimaryRateIndex = index;
+        }
+
+        public void AddRate()
+        {
+            List<string> rateTypelist = Contract.RateTypes.ToList();
+            rateTypelist.Add(string.Empty);
+            Contract.RateTypes = rateTypelist.AsEnumerable();
+
+            List<string> rateDesclist = Contract.RateDescriptions.ToList();
+            rateDesclist.Add(string.Empty);
+            Contract.RateDescriptions = rateDesclist.AsEnumerable();
+
+            List<string> billRateList = Contract.BillRates.ToList();
+            billRateList.Add(string.Empty);
+            Contract.BillRates = billRateList.AsEnumerable();
+        }
+
+        #region SupportData
 
         public List<string> TimeFactorOptions { get { return new List<string>(new string[] { "Full Time", "Half Time", "Part Time" }); } }
         public int TimeFactorSelectedIndex { get { return IndexSelectionFromOptions(TimeFactorOptions, TimeFactor); } }
@@ -255,10 +282,10 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         //Pay Rates
         public List<string> RateTypeOptions { get { return new List<string>(new string[] { "Per hour", "Per day" }); } }
-        public int RateTypeSelectedIndex { get { return IndexSelectionFromOptions(RateTypeOptions, RateType); } }
+        public int RateTypeSelectedIndexAtIndex(int index) { return IndexSelectionFromOptions(RateTypeOptions, RateTypeAtIndex(index)); }
 
         public List<string> RateDescriptionOptions { get { return new List<string>(new string[] { "Regular", "Hourly", "Daily" }); } }
-        public int RateDescriptionSelectedIndex { get { return IndexSelectionFromOptions(RateDescriptionOptions, RateDescription); } }
+        public int RateDescriptionSelectedIndexAtIndex(int index) { return IndexSelectionFromOptions(RateDescriptionOptions, RateDescriptionAtIndex(index)); }
 
 #endregion
 

@@ -16,6 +16,7 @@ namespace AccountExecutiveApp.iOS
         private readonly ContractCreationPayRatesTableViewController _parentController;
         private readonly ContractCreationViewModel _contractModel;
         private float _specializationCellHeight = -1;
+        private int _numRateSections = 0;
 
         public ContractCreationPayRatesTableViewSource(ContractCreationPayRatesTableViewController parentController, ContractCreationViewModel model)
         {
@@ -49,8 +50,8 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
 
-            cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.RateType = newValue; };
+            cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndexAtIndex((int)indexPath.Section));
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateTypeAtIndex(newValue, (int)indexPath.Section); };
 
             return cell;
         }
@@ -62,8 +63,8 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Rate Description", _contractModel.RateDescriptionOptions, _contractModel.RateDescriptionSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.RateDescription = newValue; };
+            cell.UpdateCell("Rate Description", _contractModel.RateDescriptionOptions, _contractModel.RateDescriptionSelectedIndexAtIndex((int)indexPath.Section));
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateDescriptionAtIndex( newValue, (int)indexPath.Section); };
 
             return cell;
         }
@@ -75,8 +76,11 @@ namespace AccountExecutiveApp.iOS
         {
             EditableNumberFieldCell cell =
                 (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Bill Rate", _contractModel.BillRate);
-            cell.OnValueChanged += delegate(float newValue) { _contractModel.BillRate = newValue.ToString(); };
+            cell.UpdateCell("Bill Rate", _contractModel.BillRateAtIndex((int)indexPath.Section));
+            cell.OnValueChanged += delegate(float newValue)
+            {
+                _contractModel.SetBillRateAtIndex(newValue.ToString(), (int) indexPath.Section);
+            };
 
             return cell;
         }
@@ -88,8 +92,8 @@ namespace AccountExecutiveApp.iOS
         {
             EditableBooleanCell cell =
                 (EditableBooleanCell)tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Primary Rate", _contractModel.IsPrimaryRate);
-            cell.OnValueChanged += delegate(bool newValue) { _contractModel.IsPrimaryRate = newValue; };
+            cell.UpdateCell("Primary Rate", _contractModel.IsPrimaryRateAtIndex((int)indexPath.Section));
+            cell.OnValueChanged += delegate(bool newValue) { _contractModel.SetPrimaryRateForIndex((int)indexPath.Section); };
 
             return cell;
         }
@@ -101,7 +105,7 @@ namespace AccountExecutiveApp.iOS
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return 3;
+            return _numRateSections;
         }
         
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
@@ -112,6 +116,14 @@ namespace AccountExecutiveApp.iOS
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
             return 15;
+        }
+
+        public void AddRatesSection(UITableView tableView)
+        {
+            _numRateSections ++;
+            _contractModel.AddRate();
+
+            tableView.ReloadData();
         }
     }
 }

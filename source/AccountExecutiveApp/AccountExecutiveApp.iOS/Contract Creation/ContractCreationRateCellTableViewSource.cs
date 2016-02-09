@@ -49,47 +49,47 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
 
-            cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.RateType = newValue; };
+            cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndexAtIndex((int)indexPath.Section));
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateTypeAtIndex(newValue, (int)indexPath.Section); };
 
 	        return cell;
 	    }
 
         private int _rateDescriptionCellRow { get { return _rateTypeCellRow + 1; } }
-        private bool IsRateDescriptionCell(NSIndexPath indexPath) { return (int)indexPath.Item == _rateDescriptionCellRow; }
+        private bool IsRateDescriptionCell(NSIndexPath indexPath) { return (int)indexPath.Section == _rateDescriptionCellRow; }
 
         private UITableViewCell GetRateDescriptionCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Rate Description", _contractModel.RateDescriptionOptions, _contractModel.RateDescriptionSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.RateDescription = newValue; };
+            cell.UpdateCell("Rate Description", _contractModel.RateDescriptionOptions, _contractModel.RateDescriptionSelectedIndexAtIndex((int)indexPath.Section));
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateDescriptionAtIndex(newValue, (int)indexPath.Section); };
 
             return cell;
         }
 
         private int _billRateCellRow { get { return _rateDescriptionCellRow + 1; } }
-        private bool IsBillRateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _billRateCellRow; }
+        private bool IsBillRateCell(NSIndexPath indexPath) { return (int)indexPath.Section == _billRateCellRow; }
 
         private UITableViewCell GetBillRateCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableNumberFieldCell cell =
                 (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Bill Rate", _contractModel.BillRate);
-            cell.OnValueChanged += delegate(float newValue) { _contractModel.BillRate = newValue.ToString(); };
+            cell.UpdateCell("Bill Rate", _contractModel.BillRateAtIndex((int)indexPath.Section));
+            cell.OnValueChanged += delegate(float newValue) { _contractModel.SetBillRateAtIndex(newValue.ToString(), (int)indexPath.Section); };
 
             return cell;
         }
 
         private int _isPrimaryRateCellRow { get { return _billRateCellRow + 1; } }
-        private bool IsIsPrimaryRateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _isPrimaryRateCellRow; }
+        private bool IsIsPrimaryRateCell(NSIndexPath indexPath) { return (int)indexPath.Section == _isPrimaryRateCellRow; }
 
         private UITableViewCell GetIsPrimaryRateCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableBooleanCell cell =
                 (EditableBooleanCell)tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Primary Rate", _contractModel.IsPrimaryRate);
-            cell.OnValueChanged += delegate(bool newValue) { _contractModel.IsPrimaryRate = newValue; };
+            cell.UpdateCell("Primary Rate", _contractModel.IsPrimaryRateAtIndex((int)indexPath.Section));
+            cell.OnValueChanged += delegate(bool newValue) { if(newValue == true)_contractModel.SetPrimaryRateForIndex((int)indexPath.Section); };
 
             return cell;
         }
@@ -101,7 +101,7 @@ namespace AccountExecutiveApp.iOS
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
-			return 1;
+			return 0;
 		}
 
 	    public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
