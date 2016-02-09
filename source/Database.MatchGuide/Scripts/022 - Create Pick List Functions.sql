@@ -120,3 +120,30 @@ where
 end
 
 GO
+
+/*
+   **************** GetPickListTitle *******************
+*/
+
+CREATE  FUNCTION [dbo].[udf_GetPickListTitle](
+	@picklistID INT,
+	@verticalid int
+)
+RETURNS Varchar(500)
+AS
+BEGIN
+	DECLARE @Return Varchar(50)
+
+	IF @picklistID IS NOT NULL
+		SELECT @return = pl.title
+		From PickList pl
+		Where pl.PicklistId = @PicklistId and pl.inactive = 0 and pl.verticalid in (@verticalid,-1)
+	Else
+		SELECT @return = pl.title
+		From PickList pl
+		Where pl.inactive = 0
+		and pl.verticalid in (@verticalid,-1)
+
+	RETURN ltrim(rtrim(@return))
+END
+GO

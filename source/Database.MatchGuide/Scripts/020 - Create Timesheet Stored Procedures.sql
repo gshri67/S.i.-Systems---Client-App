@@ -791,6 +791,556 @@ end
 GO
 
 /*
+	**************************************Create sp_Timesheet_GetBillingPeriods_ForViewETimesheets SP*******************************
+*/
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE proc [dbo].[sp_Timesheet_GetBillingPeriods_ForViewETimesheets]                
+(                                                                            
+@contractid int,                                            
+@paymentplanid int,                                                                                
+@DRUserID INT                                
+)                                                                                                           
+                                                                                                            
+as                                                                                               
+                                            
+  set nocount on                                            
+                                              
+  DECLARE @PAMServerName VARCHAR(50), @PaymentplanTitle VARCHAR(50)                 
+  DECLARE @timesheetavailableperiodid INT, @mintimesheetid INT, @curTSAPId INT, @agreeementsubid INT                
+  DECLARE @CountofDeclined INT, @CountofCancelled INT, @CountofAppSub INT                                            
+  DECLARE @contractstartdate DATETIME, @contractenddate DATETIME, @PAMAPDate DATETIME                            
+  DECLARE @MonthlyFirstDay DATETIME, @monthlylastday DATETIME, @semimonthlyfirstday DATETIME, @semimonthlylastday DATETIME                              
+               
+                               
+  SET @contractstartdate = ( SELECT a1.startdate FROM [Agreement] a1 WHERE a1.agreementid = @contractid)                                
+  SET @contractenddate = ( SELECT a1.enddate FROM [Agreement] a1 WHERE a1.agreementid = @contractid)                            
+  SET @agreeementsubid = ( SELECT a1.[AgreementSubID] FROM [Agreement] a1 WHERE a1.agreementid = @contractid)                            
+  SET @PaymentplanTitle = (             
+     SELECT p1.title                               
+     FROM picklist                               
+   INNER JOIN picklist p1 ON p1.picklistid = picklist.var6                              
+     WHERE picklist.picklistid = @paymentplanid)                           
+                               
+                              
+ SET @MonthlyFirstDay = (SELECT                               
+   CONVERT(                         
+     DATETIME,                        (                               
+      CONVERT(VARCHAR(2),MONTH(a1.startdate))                               
+      + '/'                               
+   + STR(DAY(dbo.FirstDayOfMonth(a1.startdate)))                              
+      + '/'                               
+      + CONVERT(VARCHAR(4),YEAR(a1.startdate))                              
+    )                              
+                                          
+     )                               
+     FROM agreement a1                               
+     WHERE a1.agreementid = @contractid)                              
+                               
+                               
+ SET @monthlylastday = ( SELECT                               
+   CONVERT(                              
+     DATETIME,                              
+     (                               
+      CONVERT(VARCHAR(2),MONTH(a1.enddate))                               
+      + '/'                               
+      + STR(DAY(dbo.LastDayOfMonth(a1.enddate)))                              
+      + '/'                               
+      + CONVERT(VARCHAR(4),YEAR(a1.enddate))                              
+    )                              
+                                          
+     )                               
+     FROM agreement a1                               
+     WHERE a1.agreementid = @contractid)                              
+                                      
+                                  
+ SET @semimonthlyfirstday = (SELECT                               
+   CONVERT(                              
+DATETIME,                              
+     (                               
+      CONVERT(VARCHAR(2),MONTH(a1.startdate))                               
+      + '/'                               
+      + STR(16)                              
+      + '/'                               
+      + CONVERT(VARCHAR(4),YEAR(a1.startdate))                              
+    )                              
+                                          
+     )                               
+     FROM agreement a1                               
+     WHERE a1.agreementid = @contractid)                              
+                               
+                               
+ SET @semimonthlylastday = @monthlylastday                              
+                    
+/*** select available timeperiods for contract paymentplan from MG2 ***/                    
+if object_id('tempdb..#tmp_availabletimeperiods') is not null                                            
+  begin                                                                                                  
+     drop table #tmp_availabletimeperiods                    
+  end                                                                                                  
+  create table #tmp_availabletimeperiods                                    
+  (                                             
+   [TimeSheetAvailablePeriodID] int default NULL,                    
+   TimeSheetAvailablePeriodStartDate DATETIME,                    
+   TimeSheetAvailablePeriodEndDate DATETIME                    
+  )                                            
+  INSERT INTO [#tmp_availabletimeperiods] (                    
+  [TimeSheetAvailablePeriodID],                    
+  TimeSheetAvailablePeriodStartDate,                    
+  TimeSheetAvailablePeriodEndDate                    
+  )                     
+  SELECT DISTINCT                     
+   [TimeSheetAvailablePeriod].[TimeSheetAvailablePeriodID],                    
+   [TimeSheetAvailablePeriod].[TimeSheetAvailablePeriodStartDate],                    
+   [TimeSheetAvailablePeriod].[TimeSheetAvailablePeriodEndDate]                     
+  FROM [TimeSheetAvailablePeriod]                     
+  WHERE [TimeSheetPaymentType] = @paymentplanid                    
+                  
+              
+/*** select timesheetids here ***/                     
+if object_id('tempdb..#tmp_TimesheetIds') is not null                                            
+  begin                                                                                                  
+     drop table #tmp_TimesheetIds                                            
+  end                                                                                                  
+  create table #tmp_TimesheetIds                                             
+  (                                             
+   timesheetid int default null                                            
+  )                                            
+                                              
+/*** insert timesheetid's of Rejected status into #tmp_TimesheetIds table ***/                                            
+  declare tsap_cursor cursor local for                                             
+  select timesheet.timesheetavailableperiodid                                            
+  from timesheet                                            
+  where timesheet.agreementid = @contractid                                            
+  and dbo.TimeSheet.inactive = 0                                
+                   
+  group by timesheet.agreementid, timesheet.timesheetavailableperiodid                    
+                                             
+  open tsap_cursor                                            
+                                              
+  fetch next from tsap_cursor                                            
+  into @curTSAPId                                            
+                                              
+  while @@fetch_status = 0                                            
+  begin                                            
+                                
+   select @CountofDeclined = count(timesheetid), @mintimesheetid = max(timesheetid)                                            
+   from timesheet                                             
+   inner join timesheetavailableperiod on timesheetavailableperiod.timesheetavailableperiodid = timesheet.timesheetavailableperiodid                                            
+   inner join picklist on picklist.picklistid = timesheet.statusid                                           
+   inner join agreement on agreement.agreementid = timesheet.agreementid                                            
+   where timesheet.agreementid = @contractid                                 
+   AND timesheet.inactive = 0                                           
+   and timesheet.statusid = dbo.udf_GetPicklistId( 'Timesheetstatustype', 'Rejected',-1)                                            
+   and timesheet.timesheetavailableperiodid = @curTSAPId                                
+                                              
+if @CountofDeclined > 0                                         
+   begin                                            
+    select @CountofAppSub = count(timesheet.timesheetid)                                            
+    from timesheet                                       
+    inner join timesheetavailableperiod on timesheetavailableperiod.timesheetavailableperiodid = timesheet.timesheetavailableperiodid                                            
+    where                                             
+    timesheetid  not in ( @mintimesheetid )                                
+    AND dbo.TimeSheet.inactive=0                                             
+    and timesheet.agreementid = @contractid                                            
+    and timesheet.timesheetavailableperiodid = @curTSAPId                                            
+    and timesheet.statusid in                                             
+    (                                            
+    select picklistid                                             
+    from picklist                                            
+    where                                             
+    picklist.title in ( 'Approved', 'Submitted')                                             
+    and picklist.picktypeid =                                             
+     (                                             
+     select picktypeid                                             
+     from picktype                             
+     where type = 'Timesheetstatustype'                                            
+     )                                            
+    )                                            
+                                              
+    if ( @CountofAppSub = 0 )                                            
+    begin                                            
+     insert into #tmp_TimesheetIds values ( @mintimesheetid )                                            
+    end                                            
+                                                
+   end                                        
+                                              
+   fetch next from tsap_cursor                                            
+   into @curTSAPId                                            
+                                              
+  end                                            
+   close tsap_cursor                                            
+   deallocate tsap_cursor                                            
+                                              
+/*** insert timesheetid's of cancelled status into #tmp_TimesheetIds table ***/                                    
+  declare tsap_cursor cursor local for                                             
+  select timesheet.timesheetavailableperiodid                                            
+  from timesheet                                            
+  where timesheet.agreementid = @contractid        
+  AND timesheet.inactive = 0                                
+               
+  group by timesheet.agreementid, timesheet.timesheetavailableperiodid                                            
+                                              
+  open tsap_cursor                                            
+                                              
+  fetch next from tsap_cursor                                            
+  into @curTSAPId                                            
+                                       
+  while @@fetch_status = 0                                       
+  begin                                            
+                                                 
+   select @CountofCancelled = count(timesheetid), @mintimesheetid = max(timesheetid)                                            
+ from timesheet                                             
+   inner join timesheetavailableperiod on timesheetavailableperiod.timesheetavailableperiodid = timesheet.timesheetavailableperiodid                                            
+   inner join picklist on picklist.picklistid = timesheet.statusid                                            
+   inner join agreement on agreement.agreementid = timesheet.agreementid                                            
+   where timesheet.agreementid = @contractid                                 
+   AND timesheet.inactive = 0                                           
+   and timesheet.statusid = dbo.udf_GetPicklistId( 'Timesheetstatustype', 'Cancelled',-1)                                            
+   and timesheet.timesheetavailableperiodid = @curTSAPId                                            
+                                              
+   if @CountofCancelled > 0                                            
+   begin                                            
+    select @CountofAppSub = count(timesheet.timesheetid)                                            
+    from timesheet                                             
+    inner join timesheetavailableperiod on timesheetavailableperiod.timesheetavailableperiodid = timesheet.timesheetavailableperiodid                                            
+    where                                             
+    timesheetid  not in ( @mintimesheetid )                                
+    AND timesheet.inactive = 0                                             
+    and timesheet.agreementid = @contractid                                            
+    and timesheet.timesheetavailableperiodid = @curTSAPId                                            
+    and timesheet.statusid in                                             
+    (                                            
+    select picklistid                                             
+    from picklist                                            
+    where                                             
+    picklist.title in ( 'Approved', 'Submitted','Accepted')                                             
+    and picklist.picktypeid =                                             
+     (                                             
+     select picktypeid                                             
+     from picktype                                             
+   where type = 'Timesheetstatustype'                                            
+     )                                            
+    )                                            
+                                              
+    if ( @CountofAppSub = 0 )                                            
+ begin                                           
+     insert into #tmp_TimesheetIds values ( @mintimesheetid )                                            
+    end                                            
+                                                
+   end                                            
+                                              
+   fetch next from tsap_cursor            
+   into @curTSAPId                                            
+            
+  end                                            
+   close tsap_cursor                                            
+   deallocate tsap_cursor                                            
+                         
+                         
+/*** insert final result into tmp_billingperdiods table ***/                                            
+  if object_id('tempdb..#tmp_BillingPeriods') is not null                                            
+  begin                                                                                                  
+     drop table #tmp_BillingPeriods                                            
+  end                                              
+             
+   create table #tmp_BillingPeriods                                      
+  (                                             
+   timesheetstatus varchar(50) default null,                                             
+   timesheetavailableperiodstartdate datetime null,                                             
+   timesheetavailableperiodenddate datetime null,                                            
+   timesheetid int,                                           
+   directreportname VARCHAR(100) DEFAULT null,                                           
+   timesheetavailableperiodid int,                                            
+   tsstartdate int,                                            
+   tsenddate INT,                                
+   inactive BIT                    
+   --iscpgsubmission BIT                                
+  )                                            
+                                
+  insert into #tmp_BillingPeriods                                 
+  select                                             
+   dbo.udf_GetPicklistTitle(timesheet.statusid,-1) timesheetstatus,                                             
+   timesheetavailableperiod.timesheetavailableperiodstartdate,                                            
+   timesheetavailableperiod.timesheetavailableperiodenddate,                                            
+   timesheet.timesheetid,                                          
+   u1.firstname +' '+  u1.lastname,                                          
+   timesheetavailableperiod.TimeSheetAvailablePeriodID,                                            
+   day(timesheetavailableperiod.timesheetavailableperiodstartdate) tsstartdate,                                            
+   day(timesheetavailableperiod.timesheetavailableperiodenddate) tsenddate,                                
+   timesheet.inactive                                
+                                
+                                   
+  from timesheet                                            
+   inner join timesheetavailableperiod on timesheetavailableperiod.timesheetavailableperiodid =  timesheet.timesheetavailableperiodid                                            
+   LEFT JOIN agreement ON agreement.agreementid = timesheet.agreementid                                          
+   LEFT JOIN [Agreement_ContractAdminContactMatrix] ON [Agreement_ContractAdminContactMatrix].[AgreementID] = [Agreement].[AgreementID]                                          
+   LEFT JOIN users u1 ON u1.userid = Agreement_ContractAdminContactMatrix.directreportuserid                                          
+  where timesheet.timesheetid in ( select timesheetid from #tmp_TimesheetIds )                                 
+  AND timesheet.inactive = 0                                
+  and Agreement_ContractAdminContactMatrix.directreportuserid = @DRUserID                                   
+                
+                       
+union                                             
+ select                                              
+   (                                            
+    Case When statusid is null                                            
+    then 'Open'                                            
+    end                                    
+   ) as timesheetstatus,                     
+   timesheetavailableperiod.timesheetavailableperiodstartdate,                             
+   timesheetavailableperiod.timesheetavailableperiodenddate,                                            
+   timesheet.timesheetid,                                            
+   u1.firstname +' '+  u1.lastname AS directreportname,                                             
+   timesheetavailableperiod.TimeSheetAvailablePeriodID,                            
+   day(timesheetavailableperiod.timesheetavailableperiodstartdate) tsstartdate,                                            
+   day(timesheetavailableperiod.timesheetavailableperiodenddate) tsenddate,                                
+   ISNULL(TimeSheet.inactive,0)                              
+                                
+from timesheetavailableperiod                                             
+  LEFT JOIN timesheet ON timesheetavailableperiod.TimeSheetAvailablePeriodID = timesheet.TimeSheetAvailablePeriodID                                
+ AND ((timesheet.agreementid = @contractid AND timesheet.inactive = 0) OR timesheet.agreementid IS NULL)                          
+  left join picklist on picklist.picklistid = timesheet.statusid                                            
+  LEFT JOIN agreement ON agreement.agreementid = timesheet.agreementid                                        
+  LEFT JOIN [Agreement_ContractAdminContactMatrix] ON [Agreement_ContractAdminContactMatrix].[AgreementID] = [Agreement].[AgreementID]                                          
+  LEFT JOIN users u1 ON u1.userid = Agreement_ContractAdminContactMatrix.directreportuserid                                          
+                                                
+  where                            
+              
+   timesheetavailableperiod.[TimeSheetAvailablePeriodStartDate] >=                             
+  (                              
+   CASE WHEN @PaymentplanTitle = 'Monthly'                              
+   THEN @monthlyfirstday                              
+   ELSE (                            
+    CASE                             
+    WHEN @contractstartdate >= timesheetavailableperiod.[TimeSheetAvailablePeriodStartDate] AND @contractstartdate < @semimonthlyfirstday                        
+    THEN @monthlyfirstday                        
+    ELSE @semimonthlyfirstday                            
+    END                            
+   )                            
+   END                              
+  )                                
+ and [TimeSheetAvailablePeriod].[TimeSheetAvailablePeriodEndDate] <=                              
+  (                              
+   CASE WHEN @PaymentplanTitle = 'Monthly'                              
+   THEN @monthlylastday                              
+   ELSE @semimonthlylastday                            
+   END                              
+  )                              
+  and                           
+   (                          
+ timesheet.TimeSheetAvailablePeriodID is null                            
+ OR                          
+ timesheet.[TimeSheetAvailablePeriodID] IS NOT NULL AND timesheet.[AgreementID] = @contractid AND timesheet.iscpgsubmission = 1                          
+   )                             
+  and timesheetavailableperiod.TimeSheetPaymentType = @paymentplanid                                                
+                            
+ if object_id('tempdb..#tmp_BillingTSIds') is not null                                            
+  begin                                                                                                  
+     drop table #tmp_BillingTSIds                                            
+  end                                                                                                
+                           
+  create table #tmp_BillingTSIds ( BillingTSIds int)                                            
+                                            
+  declare @curTSID int                                            
+  declare @curTSStatus varchar(50)                                            
+  declare @curTSAvPID int                                            
+                                              
+  declare billing_cursor cursor for                                             
+  select                                            
+   timesheetid,                                            
+   timesheetavailableperiodid,                                            
+   timesheetstatus                                            
+                                               
+  from #tmp_BillingPeriods       
+                                            
+  open billing_cursor                                            
+                                              
+  fetch next from billing_cursor                                            
+  into @curTSID, @curTSAvPID, @curTSStatus                                            
+                                 
+  while @@fetch_status = 0                                            
+  begin                                            
+   declare @cancount int                                            
+   declare @rejcount int                                            
+   declare @maxCanTSID int                                            
+   declare @maxRejTSID int                                            
+                       
+   if @curTSStatus = 'Rejected'                                   
+   begin                                            
+                                                
+    select @maxCanTSID = max(tBP.timesheetid), @cancount = count(tBP.timesheetid)                                              
+    from #tmp_BillingPeriods tBP                                             
+    where tBP.timesheetavailableperiodid = @curTSAvPID                                            
+    and tBP.timesheetstatus = 'Cancelled'                                            
+    if @cancount <> 0                                            
+    begin                                            
+     if @curTSID > @maxCanTSID and @maxCanTSID is not null                                            
+     begin                                            
+      insert into #tmp_BillingTSIds values ( @curTSID)                                              
+     end                                            
+    end                                            
+    else if @cancount = 0                                            
+    begin                                            
+  insert into #tmp_BillingTSIds values ( @curTSID)                                            
+    end                                            
+   end                                            
+   else if @curTSStatus = 'Cancelled'                                            
+   begin                                            
+    select @maxRejTSID = max(tBP.timesheetid), @rejcount = count(tBP.timesheetid)                                              
+    from #tmp_BillingPeriods tBP                                             
+    where tBP.timesheetavailableperiodid = @curTSAvPID                                      
+    and tBP.timesheetstatus = 'Rejected'                                            
+                                            
+    if @rejcount <> 0                                            
+    begin                                            
+     if @curTSID > @maxRejTSID and @maxRejTSID is not null                                            
+     begin                                            
+      insert into #tmp_BillingTSIds values ( @curTSID)                                              
+     end                                            
+    end             
+    else if @rejcount = 0                                            
+    begin                                            
+     insert into #tmp_BillingTSIds values ( @curTSID)                                                
+    end                                            
+   end                                         
+                                            
+  fetch next from billing_cursor                                            
+  into @curTSID, @curTSAvPID, @curTSStatus                                            
+                                            
+  end                                             
+                                            
+  close billing_cursor                                            
+  deallocate billing_cursor                                               
+      
+ if object_id('tempdb..#tmp_BillingPeriodsList') is not null                                            
+  begin                                                                                                  
+     drop table #tmp_BillingPeriodsList                                            
+  end                                                                                      
+                                              
+  create table #tmp_BillingPeriodsList       
+  (       
+ timesheetstatus varchar(50),      
+ TimesheetTempID int,      
+    timesheetavailableperiodstartdate datetime,      
+    timesheetavailableperiodenddate datetime,                                            
+    timesheetid int,                                 
+    directreportname varchar(100),                                          
+    timesheetavailableperiodid int,                                            
+    tsstartdate datetime,                                            
+    tsenddate datetime,                                            
+ billperiodsorder int,      
+ pdfname varchar(100)      
+  )                           
+       
+  insert into #tmp_BillingPeriodsList      
+  select case                                             
+    when timesheetstatus = 'Rejected' then 'Rejected/Open'                                             
+    when timesheetstatus = 'Cancelled' then 'Cancelled/Open'                                            
+    when (timesheetstatus = 'Approved' or timesheetstatus = 'Accepted')--AND iscpgsubmission = 1                                 
+    THEN 'Open'                                
+    else timesheetstatus                                          
+    end                                             
+   as timesheetstatus,           
+   (          
+   CASE          
+ WHEN EXISTS           
+   (SELECT 1           
+    FROM TimesheetTemp           
+    WHERE TimesheetTemp.TimesheetID = #tmp_BillingPeriods.TimesheetID           
+    AND TimesheetTemp.Inactive = 0)          
+   AND (#tmp_BillingPeriods.TimesheetStatus = 'Rejected' OR #tmp_BillingPeriods.TimesheetStatus = 'Cancelled')          
+  THEN           
+   (          
+    SELECT TimesheetTemp.TimeSheetTempID          
+    FROM TimesheetTemp           
+    WHERE TimesheetTemp.TimesheetID = #tmp_BillingPeriods.TimesheetID           
+    AND TimesheetTemp.Inactive = 0              
+   ) /* Rejected/Cancelled Period entry in TimesheetTemp */          
+ WHEN EXISTS          
+   (SELECT 1           
+    FROM TimesheetTemp           
+    WHERE TimesheetTemp.AgreementID = @contractid           
+    AND TimesheetTemp.timesheetavailableperiodid = #tmp_BillingPeriods.timesheetavailableperiodid          
+    AND TimesheetTemp.Inactive = 0)          
+   AND (#tmp_BillingPeriods.TimesheetStatus <> 'Rejected' AND #tmp_BillingPeriods.TimesheetStatus <> 'Cancelled')            
+  THEN           
+   (          
+    SELECT TimesheetTemp.TimeSheetTempID          
+    FROM TimesheetTemp           
+    WHERE TimesheetTemp.AgreementID = @contractid           
+    AND TimesheetTemp.timesheetavailableperiodid = #tmp_BillingPeriods.timesheetavailableperiodid          
+    AND TimesheetTemp.Inactive = 0          
+   ) /* Open Period entry in TimesheetTemp */          
+ WHEN NOT EXISTS          
+   (SELECT 1           
+    FROM TimesheetTemp           
+    WHERE TimesheetTemp.AgreementID = @contractid           
+    AND TimesheetTemp.timesheetavailableperiodid = #tmp_BillingPeriods.timesheetavailableperiodid          
+    AND TimesheetTemp.Inactive = 0)          
+   AND (#tmp_BillingPeriods.TimesheetStatus <> 'Rejected'         
+   AND #tmp_BillingPeriods.TimesheetStatus <> 'Cancelled'         
+   AND #tmp_BillingPeriods.TimesheetStatus <> 'Approved'
+   AND #tmp_BillingPeriods.TimesheetStatus <> 'Accepted'
+	)            
+  THEN 0          
+ WHEN NOT EXISTS           
+   (SELECT 1           
+    FROM TimesheetTemp           
+    WHERE TimesheetTemp.TimesheetID = #tmp_BillingPeriods.TimesheetID           
+    AND TimesheetTemp.Inactive = 0)          
+   AND (#tmp_BillingPeriods.TimesheetStatus = 'Rejected' OR #tmp_BillingPeriods.TimesheetStatus = 'Cancelled')          
+  THEN 0          
+ END           
+            
+ ) AS TimesheetTempID,           
+             
+   timesheetavailableperiodstartdate,                                             
+   timesheetavailableperiodenddate,                                            
+   timesheetid,                                 
+   directreportname,                                          
+   timesheetavailableperiodid,                                            
+   tsstartdate,                                            
+   tsenddate,                                            
+   case                
+    when timesheetstatus = 'Rejected' then 1                                             
+    when timesheetstatus = 'Cancelled' then 2                            
+    else 3                                            
+    end                                             
+   as billperiodsorder,                                          
+   case                                             
+    when timesheetstatus = 'Rejected'                                             
+     then (                                             
+       select rejectedpdf                                             
+       from timesheet                                             
+       where timesheet.timesheetid = #tmp_BillingPeriods.timesheetid                                            
+      )                                            
+    when timesheetstatus = 'Cancelled'                                             
+     then (                                             
+       select cancelledpdf                                  
+       from timesheet                                             
+       where timesheet.timesheetid = #tmp_BillingPeriods.timesheetid                                            
+      )                                            
+    else null                                            
+    end                                             
+   as pdfname                                            
+  from #tmp_BillingPeriods                
+  where                                     
+    #tmp_BillingPeriods.timesheetid in ( select BillingTSIds from #tmp_BillingTSIds)                         
+    OR #tmp_BillingPeriods.timesheetid IS NULL --OR #tmp_BillingPeriods.inactive = 1                                
+ and #tmp_BillingPeriods.timesheetstatus not in ('Rejected','Cancelled','Approved','Moved','Batched','Accepted')      
+                              
+
+select * from #tmp_BillingPeriodsList      
+            
+  --order by billperiodsorder 
+GO
+
+/*
 	**************************************Create GetCustomDate User Defined Function*******************************
 */
 

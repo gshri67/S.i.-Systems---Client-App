@@ -66,6 +66,18 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
         public IEnumerable<Timesheet> GetTimesheetsForUser(int userId)
         {
+            /*
+             * 
+            DECLARE @CandidateID int
+            SET @CandidateID = 12
+             
+             
+            DECLARE @RC int
+            EXECUTE @RC = [dbo].[UspViewTSForCandidate_TSAPP] 
+               @CandidateID
+            GO
+             */
+
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
