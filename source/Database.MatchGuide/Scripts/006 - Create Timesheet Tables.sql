@@ -173,6 +173,21 @@ CREATE TABLE [dbo].[TimeSheetNote](
 
 GO
 
+CREATE TABLE [dbo].[TimeSheetAdminDetail](
+	[TimeSheetAdminDetailID] [int] IDENTITY(1,1) NOT NULL,
+	[ContractRateID] [int] NOT NULL,
+	[PONumber] [varchar](250) NULL,
+	[ProjectID] [varchar](50) NULL,
+	[ContractProjectPOID] [int] NOT NULL,
+	[BulkHours] [decimal](6, 2) NOT NULL,
+	[TimeSheetID] [int] NOT NULL,
+	[Inactive] [bit] NOT NULL CONSTRAINT [DF_TimeSheetAdminDetail_Inactive]  DEFAULT ((0)),
+	[verticalid] [int] NULL,
+	[InvoiceCodeId] [int] NULL
+) ON [PRIMARY]
+
+GO
+
 
 /*
 	************************************************************ TimeSheet Constraints ******************************************************
@@ -342,4 +357,15 @@ GO
 
 ALTER TABLE [dbo].[TimeSheetNote] CHECK CONSTRAINT [chkverticalid_TimeSheetNote]
 GO
+
+/*
+	************************************************************ TimeSheetAdminDetail Constraints ******************************************************
+*/
+
+ALTER TABLE [dbo].[TimeSheetAdminDetail]  WITH NOCHECK ADD  CONSTRAINT [chkverticalid_TimeSheetAdminDetail] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
+GO
+
+ALTER TABLE [dbo].[TimeSheetAdminDetail] CHECK CONSTRAINT [chkverticalid_TimeSheetAdminDetail]
+GO
+
 
