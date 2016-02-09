@@ -791,6 +791,30 @@ end
 GO
 
 /*
+	**************************************Create GetCustomDate User Defined Function*******************************
+*/
+
+CREATE function [dbo].[udf_GetCustomDate](    
+ @startdate datetime,    
+ @enddate datetime    
+)    
+returns VARCHAR(30)    
+as    
+begin    
+   
+ declare @Return VARCHAR(30)   
+   
+ SET @Return = ''  
+ SET @Return = LEFT(CONVERT( VARCHAR(10),DATENAME(mm,@startdate)), 3) + ' '
+ SET @Return = @Return + CONVERT( VARCHAR(10), DATEPART( dd, @startdate)) + '-'  
+ SET @Return = @Return + CONVERT( VARCHAR(10), DATEPART( dd, @enddate)) + ' '  
+ SET @Return = @Return + CONVERT( VARCHAR(10),DATEPART(yy,@startdate ))  
+    
+ return @Return    
+end    
+GO
+
+/*
 	**************************************Create UspViewTSForCandidate_TSAPP SP*******************************
 */
 
