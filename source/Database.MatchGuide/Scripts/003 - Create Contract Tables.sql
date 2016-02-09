@@ -2,7 +2,7 @@
 
 CREATE TABLE [dbo].[Agreement](
 	[AgreementID] [int] IDENTITY(1,1) NOT NULL,
-	--[AgreementSubID] [int] NOT NULL,
+	[AgreementSubID] [int] NOT NULL,
 	[AgreementType] [int] NOT NULL,
 	[AgreementSubType] [varchar](50) NULL CONSTRAINT [DF_Agreements_SubType]  DEFAULT (0),
 	--[BranchID] [int] NOT NULL,
