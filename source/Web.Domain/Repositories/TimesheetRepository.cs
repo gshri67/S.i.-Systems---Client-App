@@ -88,6 +88,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                             LEFT JOIN User_Email DirectReportEmail ON Times.DirectReportUserId = DirectReportEmail.UserID
                             WHERE CandidateUserID = 12
                             AND ResubmittedToID IS NULL
+                            AND Periods.TimeSheetAvailablePeriodEndDate > DATEADD(MONTH, -6, GETDATE())
                             ORDER BY EndDate DESC, CompanyName";
 
                 var timesheets = db.Connection.Query<Timesheet, DirectReport, Timesheet>(query, (timesheet, directReport) =>
