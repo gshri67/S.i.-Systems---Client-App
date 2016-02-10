@@ -27,9 +27,7 @@ namespace AccountExecutiveApp.iOS
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             UITableViewCell cell = new UITableViewCell();
-            //ContractCreationRateCell cell = (ContractCreationRateCell)tableView.DequeueReusableCell(ContractCreationRateCell.CellIdentifier, indexPath);
-
-
+           
             if (IsRateTypeCell(indexPath))
                 return GetRateTypeCell(tableView, indexPath);
             else if (IsRateDescriptionCell(indexPath))

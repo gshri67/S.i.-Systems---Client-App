@@ -67,6 +67,7 @@ namespace AccountExecutiveApp.iOS
             _pickerModel.OnValueChanged += delegate(string value)
             {
                 RightDetailTextField.Text = value;
+                OnValueChanged(value);
             };
 
             var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, Frame.Size.Width, 44.0f));
