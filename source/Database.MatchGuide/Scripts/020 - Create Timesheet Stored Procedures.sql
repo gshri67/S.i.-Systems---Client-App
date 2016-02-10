@@ -2704,3 +2704,477 @@ BEGIN
 END		
 
 GO
+
+
+
+/*
+	**************************************Create Get Project PO Details*******************************
+*/
+
+
+USE [MatchGuideDev]
+GO
+
+/****** Object:  StoredProcedure [dbo].[UspGetProjectPODetails]    Script Date: 2/10/2016 1:25:27 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------
+Name:			[UspGetProjectPODetails]
+Description:	What the stored procedure will do?
+Purpose:		In what context this stored procedure will be used?
+-----------------------------------------------------------------------------------------------------------------------------------------
+Version		Date		Author			BugID		Notes
+-----------------------------------------------------------------------------------------------------------------------------------------
+1.0			27.09.2015  Karhikeyan.M	MG-11262	
+-----------------------------------------------------------------------------------------------------------------------------------------*/
+CREATE PROC [dbo].[UspGetProjectPODetails]
+( 
+	@agreementid int
+)
+
+AS 
+SET NOCOUNT ON                                                     
+              
+BEGIN    
+--select * from (		
+		select 
+			contractprojectpo.IsGeneralProjectPO,
+			contractprojectpo.agreementid [AgreementId],contractprojectpo.InactiveForUser,
+			( case when contractprojectpo.companypoprojectmatrixid is not null 
+				then ( select cpm.companyprojectid 
+					from companypoprojectmatrix cpm 
+						inner join companyproject cp on cp.companyprojectid = cpm.companyprojectid
+					where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid)
+				else companyproject.companyprojectid 
+				end
+			) [ProjectId],
+			Null as EinvoiceId,
+			( case when contractprojectpo.companypoprojectmatrixid is not null 
+				then ( select cp.description 
+					from companypoprojectmatrix cpm 
+						inner join companyproject cp on cp.companyprojectid = cpm.companyprojectid
+					where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid
+					)
+				else companyproject.[Description]
+				end
+			) [ProjectDescription],
+
+			( case when contractprojectpo.companypoprojectmatrixid is not null 
+				then ( select cp.projectid 
+					from companypoprojectmatrix cpm 
+						inner join companyproject cp on cp.companyprojectid = cpm.companyprojectid
+					where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid
+					)
+				else companyproject.[projectid]
+				end
+			) [DisplayProjectID],
+			
+			( case when contractprojectpo.companypoprojectmatrixid is not null 
+				then ( select cp.CompanyProjectID 
+					from companypoprojectmatrix cpm 
+						inner join companyproject cp on cp.companyprojectid = cpm.companyprojectid
+					where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid
+					)
+				else companyproject.[CompanyProjectID]
+				end
+			) [CompanyProjectID],			
+
+			contractprojectpo.contractprojectpoid [contractprojectpoid],
+
+			( case when contractprojectpo.companypoprojectmatrixid is not null 
+				then ( select cpm.companypoid 
+					from companypoprojectmatrix cpm 
+						inner join companypo cpo on cpo.companypoid = cpm.companypoid
+					where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid
+					)
+				else companypo.companypoid 
+				end
+			) [POId],
+
+			( case when contractprojectpo.companypoprojectmatrixid is not null 
+				then ( select cpo.description 
+					from companypoprojectmatrix cpm 
+						inner join companypo cpo on cpo.companypoid = cpm.companypoid
+					where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid
+					)
+				else companypo.[Description] 
+				end
+			) [PODescription],
+
+			( case when contractprojectpo.companypoprojectmatrixid is not null 
+				then ( select cpo.PONumber 
+					from companypoprojectmatrix cpm 
+						inner join companypo cpo on cpo.companypoid = cpm.companypoid
+					where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid
+					)
+				else companypo.PONumber
+				end
+			) DisplayPONumber,
+
+			( case when contractprojectpo.companypoprojectmatrixid is not null 
+				then ( select cpo.ponumber
+					from companypoprojectmatrix cpm 
+						inner join companypo cpo on cpo.companypoid = cpm.companypoid
+					where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid
+					)
+				else companypo.PONumber 
+				end
+			) [PONumber],
+			companypoprojectmatrix.companypoprojectmatrixid,
+			0 as sortval,
+			contractprojectpo.verticalid,
+			0 as EInvoiceType	
+		from contractprojectpo
+			left join companypoprojectmatrix on companypoprojectmatrix.companypoprojectmatrixid = contractprojectpo.companypoprojectmatrixid
+			left join companyproject on contractprojectpo.companyprojectid = companyproject.companyprojectid
+			left join companypo on companypo.companypoid =contractprojectpo.companypoid
+		where contractprojectpo.agreementid = @agreementid
+		and contractprojectpo.inactive = 0
+		and contractprojectpo.InactiveForUser=0 
+
+		union
+		
+		select 
+		-1 as IsGeneralProjectPO,
+		Con.contractId as AgreementId,
+		Con.InactiveForUser,
+		Null as ProjectId,
+		con.InvoiceCodeId as EinvoiceId,
+		Con.InvoiceCodeText as ProjectDescription,
+		Con.InvoiceCodeText as DisplayProjectId,
+		Null as CompanyProjectId,
+		Null as ContractProjectPoid,
+		Null as POID,
+		Null as PODescription,
+		Null as DisplayPOnumber,
+		Null as POnumber,
+		Null as CompanyPoProjectMatrixId,
+		0 as Sortval,
+		Agreement.verticalId,
+		1 as EinvoiceType
+		from ContractInvoiceCode Con
+		inner join Agreement on Agreement.AgreementId=Con.ContractId
+		where agreement.agreementId=@agreementid
+		and Con.isActive=1
+		and 	Con.InactiveForUser=0 
+		--) as a 
+		--where isnull([ProjectId],EinvoiceId) = @projectPOCode or POId = @projectPOCode or PONumber = @projectPOCode
+END 
+
+
+GO
+
+
+/*
+	**************************************Create Get Rate Term Details*******************************
+*/
+
+USE [MatchGuideDev]
+GO
+
+/****** Object:  StoredProcedure [dbo].[UspGetRateTermDetails_TSAPP]    Script Date: 2/10/2016 11:34:35 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------
+Name:			[UspGetRateTermDetails_TSAPP]
+Description:	Get rate term details of the contract of the candidate while submit a timesheet
+Purpose:		Get rate term details of the contract of the candidate while submit a timesheet
+-----------------------------------------------------------------------------------------------------------------------------------------
+Version		Date		Author			BugID		Notes
+-----------------------------------------------------------------------------------------------------------------------------------------
+1.0			07.01.2016  Kavitha.S	    MG-12114 Timesheet App - MG AP
+
+-----------------------------------------------------------------------------------------------------------------------------------------*/
+CREATE PROC [dbo].[UspGetRateTermDetails_TSAPP]
+( 
+	@AgreementId int,
+	@TimesheetID int =0,
+	@StartDate datetime=null,
+	@Enddate datetime=null,
+	@TimesheetStatus varchar(10)='None'
+)
+
+AS 
+SET NOCOUNT ON                                                     
+              
+BEGIN   
+
+IF @TimesheetStatus ='Submitted'
+BEGIN
+
+			SELECT
+
+			CASE
+				WHEN [TimeSheetDetail].InvoiceCodeid IS NULL
+				THEN [TimeSheetDetail].[ContractProjectPoID]
+			ELSE [TimeSheetDetail].InvoiceCodeid
+			END AS ContractProjectPOId,
+				[TimeSheetDetail].[ContractRateID],
+			CASE
+				WHEN [TimeSheetDetail].InvoiceCodeid IS NULL
+				THEN CONVERT(VARCHAR(10),[TimeSheetDetail].[ContractProjectPoID]) +  '_' + CONVERT(VARCHAR(10),[TimeSheetDetail].[ContractRateID])
+			ELSE CONVERT(VARCHAR(10),[TimeSheetDetail].[InvoiceCodeid]) +  '_' + CONVERT(VARCHAR(10),[TimeSheetDetail].[ContractRateID])
+			END AS ProjectPORateList,
+			CRD.PrimaryRateTerm,CRD.RateDescription,CRD.HoursPerDay,CRD.BillRate,CRD.PayRate
+			FROM [TimeSheetDetail]
+				INNER JOIN [TimeSheet] ON [TimeSheet].[TimeSheetID] = [TimeSheetDetail].[TimesheetID]
+				LEFT JOIN [agreement_contractratedetail] CRD ON (CRD.agreementid = [TimeSheet].AgreementID AND CRD.agreementid = @AgreementID and CRD.inactive = 0
+																and CRD.startdate <= @StartDate
+																and CRD.enddate >= @EndDate)
+			WHERE [TimeSheet].[Inactive] = 0
+				AND TimesheetDetail.TimesheetID =  @timesheetid
+			GROUP BY [TimeSheetDetail].[ContractProjectPoID], [TimeSheetDetail].[ContractRateID],[TimeSheetDetail].InvoiceCodeid,
+						CRD.PrimaryRateTerm,CRD.RateDescription,CRD.HoursPerDay,CRD.BillRate,CRD.PayRate
+
+END
+
+ELSE If @TimesheetStatus='Saved'
+BEGIN
+		SELECT
+
+			CASE
+				WHEN [TimeSheetDetailTemp].InvoiceCodeid IS NULL
+				THEN [TimeSheetDetailTemp].[ContractProjectPoID]
+			ELSE [TimeSheetDetailTemp].InvoiceCodeid
+			END AS ContractProjectPOId,
+				[TimeSheetDetailTemp].[ContractRateID],
+			CASE
+				WHEN [TimeSheetDetailTemp].InvoiceCodeid IS NULL
+				THEN CONVERT(VARCHAR(10),[TimeSheetDetailTemp].[ContractProjectPoID]) +  '_' + CONVERT(VARCHAR(10),[TimeSheetDetailTemp].[ContractRateID])
+			ELSE CONVERT(VARCHAR(10),[TimeSheetDetailTemp].[InvoiceCodeid]) +  '_' + CONVERT(VARCHAR(10),[TimeSheetDetailTemp].[ContractRateID])
+			END AS ProjectPORateList,
+			CRD.PrimaryRateTerm,CRD.RateDescription,CRD.HoursPerDay,CRD.BillRate,CRD.PayRate
+			FROM [TimeSheetDetailTemp]
+				INNER JOIN [TimeSheetTemp] ON [TimeSheetTemp].[TimeSheetTempID] = [TimeSheetDetailTemp].[TimesheetTempID]
+				LEFT JOIN [agreement_contractratedetail] CRD ON (CRD.agreementid = [TimeSheetTemp].AgreementID AND CRD.agreementid = @AgreementID and CRD.inactive = 0
+																and CRD.startdate <= @StartDate
+																and CRD.enddate >= @EndDate)
+		WHERE [TimeSheetTemp].[Inactive] = 0
+				AND [TimeSheetDetailTemp].[Inactive] = 0
+				AND TimesheetDetailTemp.TimesheetTempID = @timesheetid
+				
+		GROUP BY [TimeSheetDetailTemp].[ContractProjectPoID], [TimeSheetDetailTemp].[ContractRateID],[TimeSheetDetailTemp].InvoiceCodeid,
+					CRD.PrimaryRateTerm,CRD.RateDescription,CRD.HoursPerDay,CRD.BillRate,CRD.PayRate
+END
+ELSE
+BEGIN
+	SELECT
+	
+	CRD.ContractRateID,CRD.PrimaryRateTerm,CRD.RateDescription,CRD.HoursPerDay,CRD.BillRate,CRD.PayRate
+	from agreement_contractratedetail CRD
+	where CRD.agreementid = @AgreementID
+	and CRD.inactive = 0
+	and CRD.startdate <= @StartDate
+	and CRD.enddate >= @EndDate
+END
+
+
+
+END 
+
+
+GO
+
+
+
+
+
+/*
+	**************************************Create Get Project PO Rate Details*******************************
+*/
+
+USE [MatchGuideDev]
+GO
+
+/****** Object:  StoredProcedure [dbo].[UspGetProjectPORateDetails_TSAPP]    Script Date: 2/10/2016 2:21:16 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------
+Name:			[UspGetProjectPORateDetails_TSAPP]
+Description:	To get Project/Po details with RateTerm
+Purpose:		In what context this stored procedure will be used?
+-----------------------------------------------------------------------------------------------------------------------------------------
+Version		Date		Author			BugID		Notes
+-----------------------------------------------------------------------------------------------------------------------------------------
+1.0			11.01.2016  Kavitha.S	    MG-12114 Timesheet App - MG AP	
+-----------------------------------------------------------------------------------------------------------------------------------------*/
+CREATE PROC [dbo].[UspGetProjectPORateDetails_TSAPP]
+( 
+	@contractProjectPOIDList VARCHAR(1000),
+	@contractRateTermIDList  VARCHAR(1000),
+	@verticalid int
+)
+
+AS 
+SET NOCOUNT ON                                                     
+              
+BEGIN    
+
+ select   
+  contractprojectpo.agreementid [AgreementId],  
+  ( case when contractprojectpo.companypoprojectmatrixid is not null   
+   then ( select cpm.companyprojectid   
+    from companypoprojectmatrix cpm   
+     inner join companyproject cp on cp.companyprojectid = cpm.companyprojectid  
+    where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid
+	and cpm.verticalid = @verticalid
+	)  
+   else companyproject.companyprojectid   
+   end  
+  ) [ProjectId], 
+  
+  Null as EinvoiceId, 
+
+  ( case when contractprojectpo.companypoprojectmatrixid is not null   
+   then ( select cp.description   
+    from companypoprojectmatrix cpm   
+     inner join companyproject cp on cp.companyprojectid = cpm.companyprojectid  
+    where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid  
+	and cpm.verticalid = @verticalid
+    )  
+   else companyproject.[Description]  
+   end  
+  ) [ProjectDescription],  
+
+  ( case when contractprojectpo.companypoprojectmatrixid is not null   
+   then ( select cp.projectid   
+    from companypoprojectmatrix cpm   
+     inner join companyproject cp on cp.companyprojectid = cpm.companyprojectid  
+    where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid  
+	and cpm.verticalid = @verticalid
+    )  
+   else companyproject.[projectid]  
+   end  
+  ) [DisplayProjectID], 
+
+	( case when contractprojectpo.companypoprojectmatrixid is not null 
+		then ( select cp.CompanyProjectID 
+			from companypoprojectmatrix cpm 
+				inner join companyproject cp on cp.companyprojectid = cpm.companyprojectid
+			where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid
+			and cpm.verticalid = @verticalid
+			)
+		else companyproject.[CompanyProjectID]
+		end
+	) [CompanyProjectID],			
+
+  [ContractProjectPO].[ContractProjectPOID],  
+
+  ( case when contractprojectpo.companypoprojectmatrixid is not null   
+   then ( select cpm.companypoid   
+    from companypoprojectmatrix cpm   
+     inner join companypo cpo on cpo.companypoid = cpm.companypoid  
+    where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid  
+	and cpm.verticalid = @verticalid
+    )  
+   else companypo.companypoid   
+   end  
+  ) [POId],  
+
+  ( case when contractprojectpo.companypoprojectmatrixid is not null   
+   then ( select cpo.description   
+    from companypoprojectmatrix cpm   
+     inner join companypo cpo on cpo.companypoid = cpm.companypoid  
+    where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid  
+	and cpm.verticalid = @verticalid
+    )  
+   else companypo.[Description]   
+   end  
+  ) [PODescription],  
+
+  ( case when contractprojectpo.companypoprojectmatrixid is not null   
+   then ( select cpo.PONumber   
+    from companypoprojectmatrix cpm   
+     inner join companypo cpo on cpo.companypoid = cpm.companypoid  
+    where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid  
+	and cpm.verticalid = @verticalid
+    )  
+   else companypo.PONumber  
+   end  
+  ) DisplayPONumber,  
+
+  ( case when contractprojectpo.companypoprojectmatrixid is not null   
+   then ( select cpo.ponumber  
+    from companypoprojectmatrix cpm   
+     inner join companypo cpo on cpo.companypoid = cpm.companypoid  
+    where cpm.companypoprojectmatrixid = companypoprojectmatrix.companypoprojectmatrixid  
+	and cpm.verticalid = @verticalid
+    )  
+   else companypo.PONumber   
+   end  
+  ) [PONumber],  
+  companypoprojectmatrix.companypoprojectmatrixid ,
+  contractrateid,
+  primaryrateterm,
+  ratedescription,
+  '$ ' + CONVERT(Varchar(10),PayRate) AS rateAmount,
+  p.Title AS ratetype,
+  0 as EinvoiceType  
+  
+
+ from contractprojectpo  
+  LEFT JOIN companypoprojectmatrix on companypoprojectmatrix.companypoprojectmatrixid = contractprojectpo.companypoprojectmatrixid  
+  LEFT JOIN companyproject on contractprojectpo.companyprojectid = companyproject.companyprojectid  
+  LEFT JOIN companypo on companypo.companypoid =contractprojectpo.companypoid
+  LEFT JOIN agreement_contractratedetail ac on ac.agreementid=contractprojectpo.agreementid
+									and contractrateid in(select val from dbo.getsplit(@contractRateTermIDList,','))
+  LEFT JOIN picklist p ON p.picklistid = ac.RateTermType
+ where   
+ contractprojectpo.inactive = 0  
+ and [ContractProjectPO].[ContractProjectPOID] in(select val from dbo.getsplit(@contractProjectPOIDList,','))
+									
+UNION ALL
+
+Select 
+	Con.contractId as AgreementId,
+	Null as ProjectId,
+	Con.InvoiceCodeId as EinvoiceId,
+	Con.InvoiceCodeText as ProjectDescription,
+	Con.InvoiceCodeText as DisplayProjectId,
+	Null as CompanyProjectId,
+	Null as ContractProjectPoid,
+	Null as POID,
+	Null as PODescription,
+	Null as DisplayPOnumber,
+	Null as POnumber,
+	Null as CompanyPoProjectMatrixId,
+	contractrateid,
+	primaryrateterm,
+	ratedescription,
+	'$ ' + CONVERT(Varchar(10),PayRate) AS rateAmount,
+	p.Title AS ratetype,
+	1 as EinvoiceType
+
+	from ContractInvoiceCode Con
+	inner join Agreement on Agreement.AgreementId=Con.ContractId
+	LEFT JOIN agreement_contractratedetail ac on ac.agreementid=con.ContractId and 
+									 contractrateid in(select val from dbo.getsplit(@contractRateTermIDList,','))
+     LEFT JOIN picklist p ON p.picklistid = ac.RateTermType
+	where Con.isactive=1
+	and Con.InvoiceCodeId  in(select val from dbo.getsplit(@contractProjectPOIDList,','))
+		
+	
+	
+END 
+
+
+GO
+
+
+
