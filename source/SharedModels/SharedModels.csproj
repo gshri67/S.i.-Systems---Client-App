@@ -40,7 +40,10 @@
   <ItemGroup>
     <Compile Include="ConsultantContractType.cs" />
     <Compile Include="ContractorRateSummary.cs" />
+    <Compile Include="IdDescription.cs" />
     <Compile Include="JobSummary.cs" />
+    <Compile Include="ProjectCodeRateDetails.cs" />
+    <Compile Include="TimesheetSupport.cs" />
     <Compile Include="UserContact.cs" />
     <Compile Include="ConsultantContract.cs" />
     <Compile Include="ConsultantDetails.cs" />

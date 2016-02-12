@@ -301,5 +301,12 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<IEnumerable<UserContact>>( new {filter} );
         }
+
+        [HttpGet("PayRates/TimesheetSupport/{id}")]
+        public async Task<TimesheetSupport> GetTimesheetSupportByTimesheetId(int id)
+        {
+            return await ExecuteWithDefaultClient<TimesheetSupport>(new { id });
+        }
+
     }
 }

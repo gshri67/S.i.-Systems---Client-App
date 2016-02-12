@@ -193,5 +193,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             return contact;
         }
+
+        public void GetPayRatesAndProjectCodesFromTimesheet( Timesheet timesheet )
+        {
+
+        }
     }
 }

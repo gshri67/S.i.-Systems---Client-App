@@ -25,13 +25,16 @@ namespace ConsultantApp.Core.ViewModels
 	    }
 
 	    private IEnumerable<DirectReport> _approvers;
-	    private string _alertText;
+	    private TimesheetSupport _timesheetSupport;
+        private string _alertText;
 
         private const string DateLabelFormat = "MMMMM yyyy";
 	    private const float Tolerance = (float) 0.00001;
 
 	    public Task LoadingTimesheet;
         public Task LoadingTimesheetApprovers;
+        public Task LoadingTimesheetSupport;
+
 	    public Task SubmittingTimesheet;
 	    public Task WithdrawingTimesheet;
 
@@ -105,6 +108,11 @@ namespace ConsultantApp.Core.ViewModels
 	    {
 	        LoadingTimesheetApprovers = LoadTimesheetApprovers();
 	    }
+        private async Task LoadTimesheetApprovers()
+        {
+            _approvers = await GetTimesheetApproversByTimesheetId(_timesheet.Id);
+        }
+
 
 	    private Task LoadTimesheet(Timesheet timesheet)
 	    {
@@ -114,10 +122,18 @@ namespace ConsultantApp.Core.ViewModels
 	        });
 	    }
 
-	    private async Task LoadTimesheetApprovers()
+        public void GetTimesheetSupport()
+        {
+            LoadingTimesheetSupport = LoadTimesheetSupport();
+        }
+	    private async Task LoadTimesheetSupport()
 	    {
-            _approvers = await GetTimesheetApproversByTimesheetId(_timesheet.Id);
+            _timesheetSupport = await GetTimesheetSupportByTimesheetId(_timesheet.Id);
 	    }
+        public Task<TimesheetSupport> GetTimesheetSupportByTimesheetId(int timesheetId)
+        {
+            return _api.GetTimesheetSupportByTimesheetId(timesheetId);
+        }
 
 	    public string TotalHoursText()
 	    {

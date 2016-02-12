@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Web.Http;
 using SiSystems.ConsultantApp.Web.Domain.Services;
 using SiSystems.ConsultantApp.Web.Filters;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ConsultantApp.Web.Controllers.Api
 {
@@ -23,5 +24,13 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             var payRates = _service.GetPayRatesByContractId(id);
             return Request.CreateResponse(HttpStatusCode.OK, payRates);
         }
+
+        [Route("TimesheetSupport/{id}")]
+        public HttpResponseMessage GetTimesheetSupportByTimesheetId(int id)
+        {
+            var timesheetSupport = _service.GetTimesheetSupportByTimesheetId(id);
+            return Request.CreateResponse(HttpStatusCode.OK, timesheetSupport);
+        }
+
     }
 }

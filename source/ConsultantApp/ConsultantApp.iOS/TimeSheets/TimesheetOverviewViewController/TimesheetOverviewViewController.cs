@@ -39,6 +39,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         {
             _timesheetModel.SetTimesheet(timesheet);
             _timesheetModel.LoadingTimesheet.ContinueWith(_ => InvokeOnMainThread(UpdateUI));
+           
         }
 
 	    private void SetLabelText(UILabel label, string text)
@@ -164,6 +165,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         public void LoadTimesheetApprovers()
         {
             _timesheetModel.GetTimesheetApprovers();
+            _timesheetModel.GetTimesheetSupport();
             _timesheetModel.LoadingTimesheetApprovers.ContinueWith(_ => InvokeOnMainThread(UpdateApproverPicker));
         }
 

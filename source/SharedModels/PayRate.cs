@@ -11,5 +11,6 @@ namespace SiSystems.SharedModels
         public int Id { get; set; }
         public float Rate{ get; set; }
         public string RateDescription{ get; set; }
+        public string RateType { get; set; }
     }
 }

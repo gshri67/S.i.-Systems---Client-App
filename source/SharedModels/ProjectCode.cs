@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SiSystems.SharedModels
 {
-	public class ProjectCode
+    public class ProjectCode
 	{
-		public string code;
-
-		public ProjectCode ()
-		{
-		}
+        public string Description { get; set; }
+        public int TimesheetId { get; set; }
+        public IEnumerable<PayRate> PayRates { get; set; }
 	}
 }
-
