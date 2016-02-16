@@ -44,10 +44,15 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             Timesheet timesheet = _timesheetRepository.GetTimesheetsById(timesheetId);
 
             IEnumerable<int> projectCodeIds = _payRateRepository.GetProjectIdFromTimesheet(timesheet);
-            IEnumerable<int> payRateIds = _payRateRepository.GetContractRateIdFromTimesheet(timesheet);
+            IEnumerable<int> payRateIds = Enumerable.Empty<int>();
+            
+            if( timesheet.Status == MatchGuideConstants.TimesheetStatus.Open)
+                payRateIds = _payRateRepository.GetContractRateIdFromOpenTimesheet(timesheet);
+            else if (timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted )
+                payRateIds = _payRateRepository.GetContractRateIdFromSavedOrSubmittedTimesheet(timesheet);
 
             string pcIdString = string.Join(",", projectCodeIds.ToList().Select(n => n.ToString()).ToArray());
-            string prIdString = string.Join(",", projectCodeIds.ToList().Select(n => n.ToString()).ToArray());
+            string prIdString = string.Join(",", payRateIds.ToList().Select(n => n.ToString()).ToArray());
 
             int verticalId = 4;
             IEnumerable<ProjectCodeRateDetails> projectCodeRateDetails = _payRateRepository.GetProjectCodesAndPayRatesFromIds(pcIdString, prIdString, verticalId);

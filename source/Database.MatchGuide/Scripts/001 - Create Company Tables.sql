@@ -264,3 +264,44 @@ GO
 
 
 
+
+
+/* Adding Table-Valued Function: GetSplit */
+
+USE [MatchGuideDev]
+GO
+
+/****** Object:  UserDefinedFunction [dbo].[getsplit]    Script Date: 2/16/2016 12:18:09 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------
+Name:			[getSplit]
+Description:	DealFlow TTM - Pro/Jobs 
+-----------------------------------------------------------------------------------------------------------------------------------------
+Version	Date		Author			           BugID	Notes
+-----------------------------------------------------------------------------------------------------------------------------------------
+1.0		08-Dec-2013	Dhivya Karthik				8349    DealFlow TTM - Pro/Jobs  
+-----------------------------------------------------------------------------------------------------------------------------------------*/
+
+CREATE FUNCTION [dbo].[getsplit](  
+    @delimited NVARCHAR(MAX),  
+    @delimiter NVARCHAR(100)  
+) RETURNS @t TABLE (id INT IDENTITY(1,1), val NVARCHAR(MAX))  
+AS  
+BEGIN  
+    DECLARE @xml XML  
+    SET @xml = N'<t>' + REPLACE(@delimited,@delimiter,'</t><t>') + '</t>'  
+    INSERT INTO @t(val)  
+    SELECT  r.value('.','varchar(MAX)') as item  
+    FROM  @xml.nodes('/t') as records(r)  
+    RETURN  
+END
+
+GO
+
+

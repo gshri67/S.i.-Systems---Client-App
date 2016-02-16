@@ -14,8 +14,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     public interface IPayRateRepository
     {
         IEnumerable<PayRate> GetPayRates();
-        IEnumerable<int> GetContractRateIdFromTimesheet(Timesheet timesheet);
         IEnumerable<int> GetProjectIdFromTimesheet(Timesheet timesheet);
+        IEnumerable<int> GetContractRateIdFromOpenTimesheet(Timesheet timesheet);
+        IEnumerable<int> GetContractRateIdFromSavedOrSubmittedTimesheet(Timesheet timesheet);
         IEnumerable<ProjectCodeRateDetails> GetProjectCodesAndPayRatesFromIds(string projectCodeIds, string payRateIds,
             int verticalId);
     }
@@ -39,40 +40,81 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
              }
         }
 
-        public IEnumerable<int> GetContractRateIdFromTimesheet(Timesheet timesheet)
+
+        public IEnumerable<int> GetContractRateIdFromOpenTimesheet(Timesheet timesheet)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                /*
-                 DECLARE @RC int
-                        EXECUTE @RC = [dbo].[UspGetRateTermDetails_TSAPP]
-                        @AgreementId int,
-	                    @TimesheetID int =0,
-	                    @StartDate datetime=null,
-	                    @Enddate datetime=null,
-	                    @TimesheetStatus varchar(10)='None'
-                 */
-
                 const string query =
                     @"Declare @tablevar table(ContractRateID INT, PrimaryRateTerm BIT, RateDescription VARCHAR(250), HoursPerDay DECIMAL, BillRate MONEY, PayRate MONEY)
                         insert into @tablevar(ContractRateID, PrimaryRateTerm, RateDescription, HoursPerDay, BillRate, PayRate) EXECUTE [dbo].[UspGetRateTermDetails_TSAPP] 
                            @AgreementId
                           ,@TimesheetID
-                          ,@StartDate
+                          ,@Startdate
                           ,@Enddate
                           ,@TimesheetStatus
 
-                        SELECT tempTable.ContractRateID as ContractID FROM @tablevar tempTable";
+                        SELECT tempTable.ContractRateID as ContractID,
+                               tempTable.PrimaryRateTerm as PrimaryRateTerm,
+                               tempTable.RateDescription as RateDescription,
+                               tempTable.HoursPerDay as HoursPerDay,
+                               tempTable.BillRate as BillRate,
+                               tempTable.PayRate as PayRate
 
-
+                        FROM @tablevar tempTable";
 
                 var rateId = db.Connection.Query<int>(query, new
                 {
                     AgreementId = timesheet.ContractId,
                     TimesheetID = timesheet.Id,
-                    StartDate = timesheet.StartDate.ToString("MMM d, YYYY"),
-                    EndDate = timesheet.EndDate.ToString("MMM d, YYYY"),
-                    TimesheetStatus = timesheet.Status
+                    Startdate = timesheet.StartDate,
+                    Enddate = timesheet.EndDate,
+                    TimesheetStatus = string.Empty
+                });
+
+                return rateId;
+            }
+        }
+
+        public IEnumerable<int> GetContractRateIdFromSavedOrSubmittedTimesheet(Timesheet timesheet)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+
+              const string query =
+                    @"Declare @tablevar table(ContractProjectPOId INT, ContractRateID INT, ProjectPORateList INT, PrimaryRateTerm BIT, RateDescription VARCHAR(250), HoursPerDay DECIMAL, BillRate MONEY, PayRate MONEY)
+                        insert into @tablevar(ContractProjectPOId, ContractRateID, ProjectPORateList, PrimaryRateTerm, RateDescription, HoursPerDay, BillRate, PayRate) EXECUTE [dbo].[UspGetRateTermDetails_TSAPP] 
+                           @AgreementId
+                          ,@TimesheetID
+                          ,@Startdate
+                          ,@Enddate
+                          ,@TimesheetStatus
+
+                        SELECT  tempTable.ContractProjectPOId as ContractProjectPOId,
+		                        tempTable.ContractRateID as ContractID,
+		                        tempTable.ProjectPORateList as ProjectPORateList,
+                                tempTable.PrimaryRateTerm as PrimaryRateTerm,
+                                tempTable.RateDescription as RateDescription,
+                                tempTable.HoursPerDay as HoursPerDay,
+                                tempTable.BillRate as BillRate,
+                                tempTable.PayRate as PayRate
+
+                        FROM @tablevar tempTable";
+
+                string status;
+
+                if (timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted)
+                    status = "Submitted";
+                else
+                    status = "Saved";
+
+                var rateId = db.Connection.Query<int>(query, new
+                {
+                    AgreementId = timesheet.ContractId,
+                    TimesheetID = timesheet.Id,
+                    Startdate = timesheet.StartDate,
+                    Enddate = timesheet.EndDate,
+                    TimesheetStatus = status
                 });
 
                 return rateId;
