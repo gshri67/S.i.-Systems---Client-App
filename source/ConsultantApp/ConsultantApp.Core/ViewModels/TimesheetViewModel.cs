@@ -26,6 +26,12 @@ namespace ConsultantApp.Core.ViewModels
 
 	    private IEnumerable<DirectReport> _approvers;
 	    private TimesheetSupport _timesheetSupport;
+        public TimesheetSupport TimesheetSupport
+        {
+            get { return _timesheetSupport ?? new TimesheetSupport(); }
+            set { _timesheetSupport = value ?? new TimesheetSupport(); }
+        }
+
         private string _alertText;
 
         private const string DateLabelFormat = "MMMMM yyyy";
@@ -55,6 +61,20 @@ namespace ConsultantApp.Core.ViewModels
 		    return _api.SaveTimesheet(timesheet);
 		}
 
+        public IEnumerable<string> GetProjectCodes()
+        {
+            if (TimesheetSupport.ProjectCodeOptions.Select(pc => pc.Description).Any())
+                return TimesheetSupport.ProjectCodeOptions.Select(pc => pc.Description);
+            return Enumerable.Empty<string>();
+        }
+
+        public IEnumerable<PayRate> GetPayRatesForIdAndProjectCode(int contractId, string projectCode )
+        {
+            if( TimesheetSupport.ProjectCodeOptions.Where(pc => pc.Description == projectCode).Any() )
+                return TimesheetSupport.ProjectCodeOptions.Where(pc => pc.Description == projectCode).FirstOrDefault().PayRates;
+            return Enumerable.Empty<PayRate>();
+        }
+        /*
 		public Task<IEnumerable<string>> GetProjectCodes()
 		{
 			return _api.GetProjectCodes();
@@ -64,7 +84,7 @@ namespace ConsultantApp.Core.ViewModels
 		{
 			return _api.GetPayRates(contractId);
 		}
-
+        */
         public Task<IEnumerable<DirectReport>> GetTimesheetApproversByTimesheetId(int timesheetId)
         {
             return _api.GetTimesheetApproversByTimesheetId(timesheetId);
@@ -128,7 +148,7 @@ namespace ConsultantApp.Core.ViewModels
         }
 	    private async Task LoadTimesheetSupport()
 	    {
-            _timesheetSupport = await GetTimesheetSupportByTimesheetId(_timesheet.Id);
+            TimesheetSupport = await GetTimesheetSupportByTimesheetId(_timesheet.Id);
 	    }
         public Task<TimesheetSupport> GetTimesheetSupportByTimesheetId(int timesheetId)
         {

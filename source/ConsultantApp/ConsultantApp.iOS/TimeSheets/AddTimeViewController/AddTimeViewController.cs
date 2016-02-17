@@ -50,8 +50,11 @@ namespace ConsultantApp.iOS
         {
             if (_payRates != null) return;
 
-            _payRates = await _timesheetModel.GetPayRates(_curTimesheet.ContractId);
-            
+            //_payRates = _timesheetModel.GetPayRatesForIdAndProjectCode(_curTimesheet.ContractId, string.Empty);
+
+            _timesheetModel.GetTimesheetSupport();
+            _payRates = _timesheetModel.GetPayRatesForIdAndProjectCode(1, string.Empty);
+
 			UpdateUI();
         }
 
@@ -70,7 +73,7 @@ namespace ConsultantApp.iOS
         {
             _addTimeTableViewSource = new AddTimeTableViewSource(
                 GetTimeEntriesForSelectedDate(),
-                _timesheetModel.GetProjectCodes().Result, 
+                _timesheetModel.GetProjectCodes(), 
                 _payRates
             );
 
