@@ -24,7 +24,7 @@ namespace ConsultantApp.iOS
 			base.ViewDidLoad ();
 
             LoadRemittancePDF();
-
+            /*
 			webView = new UIWebView ( View.Frame );
 			webView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
 			View.AddSubview (webView);
@@ -32,7 +32,7 @@ namespace ConsultantApp.iOS
 			string fileName = "Sprint2_SS_1.0.pdf"; // remember case-sensitive
 			string localDocUrl = Path.Combine (NSBundle.MainBundle.BundlePath, fileName);
 			webView.LoadRequest(new NSUrlRequest(new NSUrl(localDocUrl, false)));
-			webView.ScalesPageToFit = true;
+			webView.ScalesPageToFit = true;*/
 		}
 
         public async void LoadRemittancePDF()
@@ -41,7 +41,37 @@ namespace ConsultantApp.iOS
 
             await _viewModel.LoadPDF( string.Empty );
 
-            int a;
+            UpdateWebView();
         }
+
+	    private void UpdateWebView()
+	    {
+	        if (webView == null)
+	        {
+	            webView = new UIWebView(View.Frame);
+	            webView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
+	            View.AddSubview(webView);
+	        }
+
+	        string fileName = "ERemittance.pdf"; // remember case-sensitive
+            string localDocUrl = Path.Combine(NSBundle.MainBundle.BundlePath, fileName);
+         
+            byte[] buffer = new byte[10000];
+	        int bufferSize = 10000;
+
+            //_viewModel._PDFStream.BeginWrite(buffer, 0, bufferSize, ar => { Console.WriteLine("Wrote to file"); }, )
+
+            FileStream outFile = new FileStream(fileName, FileMode.Create);
+
+            int bytesRead;
+            while((bytesRead = _viewModel.PDFStream.Read(buffer, 0, buffer.Length)) != 0)
+                outFile.Write(buffer, 0, bytesRead);
+
+            // Or using statement instead
+	        outFile.Close();
+
+            webView.LoadRequest(new NSUrlRequest(new NSUrl(localDocUrl, false)));
+            webView.ScalesPageToFit = true;
+	    }
 	}
 }

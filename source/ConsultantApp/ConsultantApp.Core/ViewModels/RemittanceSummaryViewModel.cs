@@ -12,7 +12,13 @@ namespace ConsultantApp.Core.ViewModels
     public class RemittanceSummaryViewModel
 	{
 		private readonly IMatchGuideApi _api;
+        
         private Stream _PDFStream;
+        public Stream PDFStream
+        {
+            get { return _PDFStream ?? new MemoryStream(); }
+            set { _PDFStream = value ?? new MemoryStream(); }
+        }
 
 		public RemittanceSummaryViewModel(IMatchGuideApi matchGuideApi)
 		{
@@ -28,7 +34,7 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task GetPDFFromService(string docNumber)
         {
-            _PDFStream = await _api.GetPDF(docNumber);
+            PDFStream = await _api.GetPDF(docNumber);
         }
 	}
 }
