@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using SiSystems.SharedModels;
 using System.Net.Http;
@@ -40,7 +41,7 @@ namespace Shared.Core
         
         Task<ConsultantDetails> GetCurrentUserConsultantDetails();
 
-        Task<HttpResponseMessage> GetPDF(string docNumber);
+        Task<Stream> GetPDF(string docNumber);
         
         Task<Timesheet> SaveTimesheet(Timesheet timesheet);
         

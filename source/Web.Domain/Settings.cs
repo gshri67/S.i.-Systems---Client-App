@@ -31,6 +31,11 @@ namespace SiSystems.ClientApp.Web.Domain
             get { return ConfigurationManager.AppSettings["MatchGuideAccountService.GatewayPwd"]; }
         }
 
+        public static string MatchGuideMyAccountServiceUrl
+        {
+            get { return ConfigurationManager.AppSettings["MatchGuideMyAccountService.Url"]; }
+        }
+
         public static Dictionary<string, int> ParticipatingCompaniesList
         {
             get

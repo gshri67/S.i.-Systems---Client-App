@@ -77,6 +77,7 @@
     <Compile Include="Services\ConsultantMessageService.cs" />
     <Compile Include="Services\ClientDetailsService.cs" />
     <Compile Include="Services\JobService.cs" />
+    <Compile Include="Services\MyAccountService.cs" />
     <Compile Include="Services\RemittanceService.cs" />
     <Compile Include="Services\PayRateService.cs" />
     <Compile Include="Services\PayPeriodService.cs" />

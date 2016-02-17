@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -183,9 +184,9 @@ namespace Shared.Core
         }
 
         [HttpGet("Remittances/pdf/{docNumber}")]
-        public async Task<HttpResponseMessage> GetPDF(string docNumber) 
+        public async Task<Stream> GetPDF(string docNumber) 
         {
-            return await ExecuteWithDefaultClient<HttpResponseMessage>(new { docNumber });
+            return await ExecuteWithDefaultClient<Stream>(new { docNumber });
         }
 
         [HttpPost("Timesheets")]
