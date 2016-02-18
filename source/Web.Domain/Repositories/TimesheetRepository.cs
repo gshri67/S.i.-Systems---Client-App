@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -13,6 +14,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     public interface ITimesheetRepository
     {
         IEnumerable<Timesheet> GetTimesheetsForUser(int userId);
+        IEnumerable<Timesheet> GetNonOpenTimesheetsForUser(int userId);
+        IEnumerable<Timesheet> GetOpenTimesheetsForUser(int userId);
+
         int SaveTimesheet(Timesheet timesheet, int userId);
         int SubmitZeroTimeForUser(Timesheet timesheet, int userId);
         Timesheet GetTimesheetsById(int timesheetId);
@@ -64,20 +68,85 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
+        public IEnumerable<Timesheet> GetOpenTimesheetsForUser(int userId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                    DECLARE @TimesheetType varchar(5)
+                    SET @TimesheetType = 'ETS'
+                    --Get a users Open Timesheets
+                    EXECUTE @RC = [dbo].[UspGetOpenTSForCandidate_TSAPP] 
+                       @candidateID
+                      ,@TimesheetType";
+
+                var timesheetsFromDb = db.Connection.Query<DbOpenTimesheetFromForMapping>(query, new { CandidateId = userId });
+
+                return timesheetsFromDb.Select(ts => new Timesheet
+                {
+                    Id = ts.timesheetid,
+                    OpenStatusId = ts.TimesheetTempID,
+                    Status = MatchGuideConstants.TimesheetStatus.Open,
+                    ClientName = ts.ClientName,
+                    ContractId = ts.agreementid, //note that with this SP we could get ContractID or AgreementID
+                    StartDate = ts.tsStartDate,
+                    EndDate = ts.tsEndDate
+                }).ToList();
+            }
+        }
+
+        public IEnumerable<Timesheet> GetNonOpenTimesheetsForUser(int userId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                    EXECUTE @RC = [dbo].[UspViewTSForCandidate_TSAPP] 
+                       @CandidateID";
+
+                var timesheetsFromDb = db.Connection.Query<DbTimesheetForMapping>(query, new { CandidateId = userId });
+
+                return timesheetsFromDb.Select(ts => new Timesheet
+                {
+                    Id = ts.TimesheetID, 
+                    Status = (MatchGuideConstants.TimesheetStatus) ts.timesheetStatus, 
+                    ClientName = ts.CompanyName, 
+                    ContractId = ts.ContractID, //note this IS the contract ID, not the Agreement Id
+                    StartDate = StartDateFromPeriodDate(ts.payPeriod), 
+                    EndDate = EndDateFromPeriodDate(ts.payPeriod)
+                }).ToList();
+            }
+        }
+
+        private static string FormattedDateFromPeriodRange(string periodRange, bool shouldReturnStartDate)
+        {
+            //This is the format that we get from the DB: Feb 1-15 2016 and we want the first date from that. Feb 1, 2016
+            var spaceSplit = periodRange.Split(' ');
+            var month = spaceSplit.FirstOrDefault();
+            var year = spaceSplit.LastOrDefault();
+            var days = spaceSplit[1].Split('-');
+            var dayToReturn = shouldReturnStartDate 
+                ? days.FirstOrDefault() 
+                : days.LastOrDefault();
+
+            return string.Format("{0}-{1}-{2}", year, month, dayToReturn);
+        }
+
+        private static DateTime StartDateFromPeriodDate(string periodRange)
+        {
+            var startDateAsString = FormattedDateFromPeriodRange(periodRange, true);
+            return DateTime.ParseExact(startDateAsString, "yyyy-MMM-d", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        private static DateTime EndDateFromPeriodDate(string periodRange)
+        {
+            var endDateAsString = FormattedDateFromPeriodRange(periodRange, false);
+            return DateTime.ParseExact(endDateAsString, "yyyy-MMM-d", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
         public IEnumerable<Timesheet> GetTimesheetsForUser(int userId)
         {
-            /*
-             * 
-            DECLARE @CandidateID int
-            SET @CandidateID = 12
-             
-             
-            DECLARE @RC int
-            EXECUTE @RC = [dbo].[UspViewTSForCandidate_TSAPP] 
-               @CandidateID
-            GO
-             */
-
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =

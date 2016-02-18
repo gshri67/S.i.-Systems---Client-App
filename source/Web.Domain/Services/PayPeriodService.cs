@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using SiSystems.Web.Domain.Context;
 using SiSystems.ConsultantApp.Web.Domain.Repositories;
 using SiSystems.SharedModels;
@@ -23,7 +24,21 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         public IEnumerable<PayPeriod> GetRecentPayPeriods()
         {
-            var timesheets = _timeSheetRepository.GetTimesheetsForUser(_sessionContext.CurrentUser.Id).ToList();
+            //var timesheets = _timeSheetRepository.GetTimesheetsForUser(_sessionContext.CurrentUser.Id).ToList();
+
+            //we have to build the list of timesheets from two seperate calls, one that gets open timesheets, one that gets all others
+            //note that the one that gets others ALSO gets ones that were cancelled and subsequently resubmitted, so we'll only want to get
+            //the most recent for that pay period (for a specific agreement). 
+            var allTimesheets = _timeSheetRepository.GetNonOpenTimesheetsForUser(_sessionContext.CurrentUser.Id); 
+            
+            var openTimesheets = _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
+
+            var timesheets = openTimesheets.ToList();
+
+            timesheets.AddRange(allTimesheets.Where(timesheet => timesheet.Status != MatchGuideConstants.TimesheetStatus.Cancelled));
+
+            timesheets = timesheets.Where(ts => ts.EndDate > DateTime.UtcNow.AddMonths(-6)).ToList();
+
             foreach (var timesheet in timesheets)
             {
                 timesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesByTimesheetId(timesheet.Id);
