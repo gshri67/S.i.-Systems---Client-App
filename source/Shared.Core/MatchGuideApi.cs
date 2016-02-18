@@ -183,10 +183,14 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<ConsultantDetails>();
         }
 
-        [HttpGet("Remittances/pdf/{docNumber}")]
+        [HttpPost("Remittances/pdf/{docNumber}")]
         public async Task<Stream> GetPDF(string docNumber) 
         {
-            return await ExecuteWithDefaultClient<Stream>(new { docNumber });
+            var response = await ExecuteWithDefaultClient<HttpResponseMessage>(new { docNumber });
+
+            if( response != null )
+                return await response.Content.ReadAsStreamAsync();
+            return null;
         }
 
         [HttpPost("Timesheets")]

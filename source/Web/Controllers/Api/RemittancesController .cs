@@ -33,10 +33,13 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         {
             var pdf = _myAccountService.RequestERemittancePDF(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
             return Request.CreateResponse(HttpStatusCode.OK, pdf);
-        }
 
+            //var remittances = _service.GetRemittances();
+            //return Request.CreateResponse(HttpStatusCode.OK, remittances);
+        }
+        
         [AllowAnonymous]
-        public async Task<IHttpActionResult> Post([FromBody]string emailAddress)
+        public async Task<IHttpActionResult> Post()
         {
             var result = await _myAccountService.RequestERemittancePDF(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
             return Ok(result);

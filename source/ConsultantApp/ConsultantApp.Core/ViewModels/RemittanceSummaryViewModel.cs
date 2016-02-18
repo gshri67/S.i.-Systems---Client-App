@@ -34,7 +34,8 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task GetPDFFromService(string docNumber)
         {
-            PDFStream = await _api.GetPDF(docNumber);
+            Stream s = await _api.GetPDF(docNumber);
+            //await _api.GetPDF(docNumber);
         }
 	}
 }

@@ -2,6 +2,7 @@
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -42,19 +43,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                 ? await response.Content.ReadAsStringAsync()
                 : string.Empty;
         }
-        /*
-        public async Task<ResetPasswordResult> RequestPDF(string candidateId, string VcherNumber, string Source, string DocDate, string DBSource)
-        {
-            try
-            {
-                var response = await RequestERemittancePDF(candidateId, VcherNumber, Source, DocDate, DBSource);
-                return response;
-            }
-            catch (HttpRequestException)
-            {
-            }
-        }
-        */
+ 
         public async Task<HttpResponseMessage> RequestERemittancePDF
             (string candidateId, string VcherNumber, string Source, string DocDate, string DBSource)
         {
@@ -63,10 +52,19 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             using (var httpClient = new HttpClient() { BaseAddress = new Uri(Settings.MatchGuideMyAccountServiceUrl) })
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, string.Format("/ERemittancePDF/{0}/GetPDF?UV1={1}&UV2={2}&UV3={3}&UV4={4}", candidateId, VcherNumber, Source, DocDate, DBSource));
-                //request.Headers.Add("gatewayId", Settings.MatchGuideMyAccountServiceGatewayId);
-                //request.Headers.Add("gatewayPwd", Settings.MatchGuideMyAccountServiceGatewayPwd);
+                request.Headers.Add("gatewayId", Settings.MatchGuideAccountServiceGatewayId);
+                request.Headers.Add("gatewayPwd", Settings.MatchGuideAccountServiceGatewayPwd);
 
-                var response = await httpClient.SendAsync(request);
+                HttpResponseMessage response = null;
+
+                if( httpClient != null && request != null )
+                   response = await httpClient.SendAsync(request);
+
+                //var objResponse1 =JsonConvert.DeserializeObject<List<HttpResponseMessage>>(httpClient.BaseAddress.ToString());
+
+                //Stream stream = await response.Content.ReadAsStreamAsync();
+                //return stream;
+//                return objResponse1.FirstOrDefault();
 
                 return response;
             }
