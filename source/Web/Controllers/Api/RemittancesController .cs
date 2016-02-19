@@ -39,10 +39,10 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         }
         
         [AllowAnonymous]
-        public async Task<IHttpActionResult> Post()
+        public async Task<HttpResponseMessage> Post()
         {
             var result = await _myAccountService.RequestERemittancePDF("132241", "328584", "pam", "2015-10-30", "sipar");
-            return Ok(result);
+            return result;
         }
     }
 }
