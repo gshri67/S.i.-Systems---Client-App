@@ -52,8 +52,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             using (var httpClient = new HttpClient() { BaseAddress = new Uri(Settings.MatchGuideMyAccountServiceUrl) })
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, string.Format("/ERemittancePDF/{0}/GetPDF?UV1={1}&UV2={2}&UV3={3}&UV4={4}", candidateId, VcherNumber, Source, DocDate, DBSource));
-                request.Headers.Add("gatewayId", Settings.MatchGuideAccountServiceGatewayId);
-                request.Headers.Add("gatewayPwd", Settings.MatchGuideAccountServiceGatewayPwd);
 
                 HttpResponseMessage response = null;
 

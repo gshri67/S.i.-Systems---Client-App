@@ -67,6 +67,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                        new ActiveTimesheetCell(CellIdentifier);
 		    var timesheet = _payPeriods.ElementAt(indexPath.Section).Timesheets.ElementAt(indexPath.Row);
 
+            if( timesheet != null && timesheet.TimesheetApprover != null && timesheet.TimeEntries != null )
             cell.UpdateCell(
                 company: timesheet.ClientName,
                 timesheetApprover: timesheet.TimesheetApprover.Email ?? string.Empty,

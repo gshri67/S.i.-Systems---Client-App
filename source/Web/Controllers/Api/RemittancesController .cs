@@ -31,7 +31,7 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         [Route("pdf/{docNumber}")]
         public HttpResponseMessage GetPDF( string docNumber )
         {
-            var pdf = _myAccountService.RequestERemittancePDF(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+            var pdf = _myAccountService.RequestERemittancePDF("132241", "328584", "16017.75000", "10/30/2015", "pam sipar");
             return Request.CreateResponse(HttpStatusCode.OK, pdf);
 
             //var remittances = _service.GetRemittances();
@@ -41,7 +41,7 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         [AllowAnonymous]
         public async Task<IHttpActionResult> Post()
         {
-            var result = await _myAccountService.RequestERemittancePDF(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+            var result = await _myAccountService.RequestERemittancePDF("132241", "328584", "pam", "2015-10-30", "sipar");
             return Ok(result);
         }
     }
