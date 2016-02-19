@@ -64,7 +64,9 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    {
 	        if (!_activeTimesheetModel.UserHasPayPeriods())
 	                return;
-            
+
+            ActiveTimesheetsTable.RegisterClassForCellReuse(typeof(ActiveTimesheetCell), "activeTimesheetCell");
+
             ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
             ActiveTimesheetsTable.ReloadData();
 	    }
@@ -87,6 +89,8 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
             IndicateLoading();
 
+            InitiatePayPeriodLoading();
+
             CreateCustomTitleBar();
 
 		    LogoutManager.CreateNavBarRightButton(this);
@@ -95,8 +99,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    public override void ViewWillAppear(bool animated)
 	    {
 	        base.ViewWillAppear(animated);
-
-	        InitiatePayPeriodLoading();
 	    }
 
 	    private void InitiatePayPeriodLoading()

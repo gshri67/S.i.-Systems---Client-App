@@ -29,6 +29,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             //we have to build the list of timesheets from two seperate calls, one that gets open timesheets, one that gets all others
             //note that the one that gets others ALSO gets ones that were cancelled and subsequently resubmitted, so we'll only want to get
             //the most recent for that pay period (for a specific agreement). 
+
             var allTimesheets = _timeSheetRepository.GetNonOpenTimesheetsForUser(_sessionContext.CurrentUser.Id); 
             
             var openTimesheets = _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
@@ -37,7 +38,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             timesheets.AddRange(allTimesheets.Where(timesheet => timesheet.Status != MatchGuideConstants.TimesheetStatus.Cancelled));
 
-            timesheets = timesheets.Where(ts => ts.EndDate > DateTime.UtcNow.AddMonths(-6)).ToList();
+            timesheets = timesheets.Where(ts => ts.EndDate > DateTime.UtcNow.AddMonths(-6) && ts.Id != 0).ToList();
 
             foreach (var timesheet in timesheets)
             {
