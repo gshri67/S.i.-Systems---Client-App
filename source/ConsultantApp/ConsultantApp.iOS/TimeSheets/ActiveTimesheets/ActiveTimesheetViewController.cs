@@ -35,8 +35,8 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
 			TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
 
-            InitiatePayPeriodLoading();
-	        InitiateConsultantDetailsLoading();
+            //InitiatePayPeriodLoading();
+	        //InitiateConsultantDetailsLoading();
 		}
 
 
@@ -62,13 +62,15 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    private void UpdateTableSource()
 	    {
-	        if (!_activeTimesheetModel.UserHasPayPeriods())
-	                return;
+            InvokeOnMainThread(delegate
+            {
+                if (ActiveTimesheetsTable == null || !_activeTimesheetModel.UserHasPayPeriods())
+                    return;
 
-            ActiveTimesheetsTable.RegisterClassForCellReuse(typeof(ActiveTimesheetCell), "activeTimesheetCell");
 
-            ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
-            ActiveTimesheetsTable.ReloadData();
+                ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
+                ActiveTimesheetsTable.ReloadData();
+            });
 	    }
 
 		private void CreateCustomTitleBar()
@@ -90,6 +92,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
             IndicateLoading();
 
             InitiatePayPeriodLoading();
+            InitiateConsultantDetailsLoading();
 
             CreateCustomTitleBar();
 
@@ -103,8 +106,8 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    private void InitiatePayPeriodLoading()
 	    {
-            _activeTimesheetModel.LoadPayPeriods();
-            _activeTimesheetModel.LoadingPayPeriods.ContinueWith(_ => InvokeOnMainThread(LoadTimesheets));
+            var loadPeriodsTask = _activeTimesheetModel.LoadPayPeriods();
+            loadPeriodsTask.ContinueWith(_ => InvokeOnMainThread(LoadTimesheets));
 	    }
 
 	    private void InitiateConsultantDetailsLoading()

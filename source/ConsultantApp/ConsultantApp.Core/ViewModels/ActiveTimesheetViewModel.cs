@@ -20,7 +20,7 @@ namespace ConsultantApp.Core.ViewModels
             private set { _payPeriods = value ?? Enumerable.Empty<PayPeriod>(); }
 	    }
 
-	    public Task LoadingPayPeriods;
+	    //public Task LoadingPayPeriods;
 	    
 	    private const int MaxPeriodHistory = 6;
         private const int MaxFrequentlyUsed = 5;
@@ -38,10 +38,11 @@ namespace ConsultantApp.Core.ViewModels
                 _approverDict = new Dictionary<string, int>();
         }
 
-	    public void LoadPayPeriods()
+	    public Task LoadPayPeriods()
 	    {
-            LoadingPayPeriods = GetPayPeriods();
-            LoadingPayPeriods.ContinueWith(_ => BuildDictionaries());
+            var loadingPayPeriods = GetPayPeriods();
+            loadingPayPeriods.ContinueWith(_ => BuildDictionaries());
+	        return loadingPayPeriods;
 	    }
 
         private async Task GetPayPeriods()
