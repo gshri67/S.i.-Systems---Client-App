@@ -37,40 +37,80 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             }
         }
 
-        private static async Task<string> ParseResponse(HttpResponseMessage response)
-        {
-            return response != null && response.Content != null
-                ? await response.Content.ReadAsStringAsync()
-                : string.Empty;
-        }
- 
-        public async Task<HttpResponseMessage> RequestERemittancePDF
+        public async Task<string> RequestERemittancePDF
             (string candidateId, string VcherNumber, string Source, string DocDate, string DBSource)
         {
             EnsureMyAccountsServiceIsConfigured();
 
             using (var httpClient = new HttpClient() { BaseAddress = new Uri(Settings.MatchGuideMyAccountServiceUrl) })
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, string.Format("/ERemittancePDF/{0}/GetPDF?UV1={1}&UV2={2}&UV3={3}&UV4={4}", candidateId, VcherNumber, Source, DocDate, DBSource));
+                var request = new HttpRequestMessage(HttpMethod.Get, string.Format("MyaccountService.svc/ERemittancePDF/{0}/GetPDF?UV1={1}&UV2={2}&UV3={3}&UV4={4}", candidateId, VcherNumber, Source, DocDate, DBSource));
 
                 HttpResponseMessage response = null;
 
                 if( httpClient != null && request != null )
                    response = await httpClient.SendAsync(request);
 
-                //var objResponse1 =JsonConvert.DeserializeObject<List<HttpResponseMessage>>(httpClient.BaseAddress.ToString());
-
-                //Stream stream = await response.Content.ReadAsStreamAsync();
-                //return stream;
-//                return objResponse1.FirstOrDefault();
-
                 if (response == null)
                 {
                     throw new Exception("Response is Null");
                 }
 
-                return response;
+                //var objResponse1 =JsonConvert.DeserializeObject<List<HttpResponseMessage>>(httpClient.BaseAddress.ToString());
+
+                //Stream stream = await response.Content.ReadAsStreamAsync();
+                //return stream;
+                //                return objResponse1.FirstOrDefault();
+
+                ERemittancePdfResult result;
+
+                return await ERemittancePdfResult(response);
+                /*
+                try
+                {
+                    return await ERemittancePdfResult(response);
+                }
+                catch (HttpRequestException)
+                {
+                    return new ERemittancePdfResult()
+                    {
+                        ResponseCode = -1,
+                        Description =
+                            "There was a problem communicating with the system."
+                    };
+                }*/
             }
         }
+
+        private static async Task<string> ERemittancePdfResult(HttpResponseMessage response)
+        {
+            var json = await ParseResponse(response);
+
+            return json;
+            /*
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ERemittancePdfResult
+                {
+                    ResponseCode = -1,
+                    Description = json
+                };
+            }
+
+            var result = JsonConvert.DeserializeObject<ERemittancePdfResult>(json);
+            if (result.ResponseCode > 0)
+            {
+                result.Description = result.Description.Substring(0, result.Description.IndexOf('<'));
+            }
+            return result;
+             */
+        }
+        private static async Task<string> ParseResponse(HttpResponseMessage response)
+        {
+            return response != null && response.Content != null
+                ? await response.Content.ReadAsStringAsync()
+                : string.Empty;
+        }
+
     }
 }

@@ -43,6 +43,7 @@
     <Compile Include="IdDescription.cs" />
     <Compile Include="JobSummary.cs" />
     <Compile Include="ProjectCodeRateDetails.cs" />
+    <Compile Include="ERemittancePdfResult.cs" />
     <Compile Include="TimesheetSupport.cs" />
     <Compile Include="UserContact.cs" />
     <Compile Include="ConsultantContract.cs" />

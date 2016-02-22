@@ -28,21 +28,19 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, remittances);
         }
 
-        [Route("pdf/{docNumber}")]
-        public HttpResponseMessage GetPDF( string docNumber )
-        {
-            var pdf = _myAccountService.RequestERemittancePDF("132241", "328584", "16017.75000", "10/30/2015", "pam sipar");
-            return Request.CreateResponse(HttpStatusCode.OK, pdf);
-
-            //var remittances = _service.GetRemittances();
-            //return Request.CreateResponse(HttpStatusCode.OK, remittances);
-        }
-        
         [AllowAnonymous]
-        public async Task<HttpResponseMessage> Post()
+        public async Task<IHttpActionResult> Post()
         {
-            var result = await _myAccountService.RequestERemittancePDF("191844", "330567", "pam", "2015-11-20 00:00:00.000", "sipar");
-            return result;
+            var result = await _myAccountService.RequestERemittancePDF("191844", "330567", "pam", "2015-11-20", "sipar");
+            return Ok(result);
         }
+
+        /*
+        public async Task<IHttpActionResult> Post([FromBody]string emailAddress)
+        {
+            var result = await this._service.ForgotPassword(emailAddress);
+            return Ok(result);
+        }
+         */
     }
 }

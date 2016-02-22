@@ -186,10 +186,18 @@ namespace Shared.Core
         [HttpPost("Remittances/pdf/{docNumber}")]
         public async Task<Stream> GetPDF(string docNumber) 
         {
-            var response = await ExecuteWithDefaultClient<HttpResponseMessage>(new { docNumber });
+            var response = await ExecuteWithDefaultClient<string>(new { docNumber });
 
-            if( response != null )
-                return await response.Content.ReadAsStreamAsync();
+            HttpResponseMessage actualResponse = new HttpResponseMessage();
+
+            if (response != null)
+            {
+                actualResponse.Content = new StringContent(response);
+
+                var stream = await actualResponse.Content.ReadAsStreamAsync();
+                return stream;
+            }
+
             return null;
         }
 
