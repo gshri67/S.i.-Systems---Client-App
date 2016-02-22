@@ -67,15 +67,18 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                        new ActiveTimesheetCell(CellIdentifier);
 		    var timesheet = _payPeriods.ElementAt(indexPath.Section).Timesheets.ElementAt(indexPath.Row);
 
-            if( timesheet != null && timesheet.TimesheetApprover != null && timesheet.TimeEntries != null )
-            cell.UpdateCell(
-                company: timesheet.ClientName,
-                timesheetApprover: timesheet.TimesheetApprover.Email ?? string.Empty,
-                hours: timesheet.TimeEntries.Sum(t => t.Hours).ToString(),
-                status: StatusTextToDisplay(timesheet.Status)
-            );
+		    var timesheetApproverLabelText = timesheet.TimesheetApprover == null 
+                ? string.Empty 
+                : timesheet.TimesheetApprover.Email;
 
-			return cell;
+		    cell.UpdateCell(
+		        company: timesheet.ClientName,
+		        timesheetApprover: timesheetApproverLabelText ?? string.Empty,
+		        hours: timesheet.TimeEntries.Sum(t => t.Hours).ToString(),
+		        status: StatusTextToDisplay(timesheet.Status)
+		        );
+
+		    return cell;
 		}
 
 	    public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
