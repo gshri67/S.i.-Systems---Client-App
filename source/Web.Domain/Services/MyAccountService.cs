@@ -64,6 +64,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                 //return stream;
 //                return objResponse1.FirstOrDefault();
 
+                if (response == null)
+                {
+                    throw new Exception("Response is Null");
+                }
+
                 return response;
             }
         }
