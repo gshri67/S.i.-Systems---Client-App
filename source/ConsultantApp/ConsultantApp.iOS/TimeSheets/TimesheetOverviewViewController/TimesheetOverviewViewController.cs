@@ -22,13 +22,13 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	public partial class TimesheetOverviewViewController : UIViewController
 	{
 	    private readonly TimesheetViewModel _timesheetModel;
-		//private Timesheet _curTimesheet;
-		private FMCalendar _calendar;
+		
+        private FMCalendar _calendar;
 		private SubtitleHeaderView _subtitleHeaderView;
 		private UIPickerView _approverPicker;
 		private PickerViewModel _approverPickerModel;
-		//IEnumerable<DirectReport> _approvers;
-		private const string ScreenTitle = "Timesheet Overview";
+		
+        private const string ScreenTitle = "Timesheet Overview";
 
 	    public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
@@ -162,10 +162,10 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             calendarRightButton.SetImage(new UIImage("rightArrow.png"), UIControlState.Normal);
 	    }
 
-        public void LoadTimesheetApprovers()
+        private void LoadTimesheetApprovers()
         {
-            _timesheetModel.GetTimesheetApprovers();
-            _timesheetModel.LoadingTimesheetApprovers.ContinueWith(_ => InvokeOnMainThread(UpdateApproverPicker));
+            var loadingApproversTask = _timesheetModel.GetTimesheetApprovers();
+            loadingApproversTask.ContinueWith(_ => InvokeOnMainThread(UpdateApproverPicker));
         }
 
 	    private void LoadTimesheetSupport()

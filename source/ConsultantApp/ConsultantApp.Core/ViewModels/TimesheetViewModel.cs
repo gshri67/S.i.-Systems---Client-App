@@ -38,8 +38,6 @@ namespace ConsultantApp.Core.ViewModels
 	    private const float Tolerance = (float) 0.00001;
 
 	    public Task LoadingTimesheet;
-        public Task LoadingTimesheetApprovers;
-        public Task LoadingTimesheetSupport;
 
 	    public Task SubmittingTimesheet;
 	    public Task WithdrawingTimesheet;
@@ -74,17 +72,7 @@ namespace ConsultantApp.Core.ViewModels
                 return TimesheetSupport.ProjectCodeOptions.Where(pc => pc.Description == projectCode).FirstOrDefault().PayRates;
             return Enumerable.Empty<PayRate>();
         }
-        /*
-		public Task<IEnumerable<string>> GetProjectCodes()
-		{
-			return _api.GetProjectCodes();
-		}
 
-		public Task<IEnumerable<PayRate>> GetPayRates(int contractId)
-		{
-			return _api.GetPayRates(contractId);
-		}
-        */
         public Task<IEnumerable<DirectReport>> GetTimesheetApproversByTimesheetId(int timesheetId)
         {
             return _api.GetTimesheetApproversByTimesheetId(timesheetId);
@@ -124,10 +112,12 @@ namespace ConsultantApp.Core.ViewModels
             // LoadingTimesheet.ContinueWith() //whatever work needs to be done in this class when we finish loading the timesheet
 	    }
 
-	    public void GetTimesheetApprovers()
+	    public Task GetTimesheetApprovers()
 	    {
-	        LoadingTimesheetApprovers = LoadTimesheetApprovers();
+	        var loadingTimesheetApproversTask = LoadTimesheetApprovers();
+	        return loadingTimesheetApproversTask;
 	    }
+
         private async Task LoadTimesheetApprovers()
         {
             _approvers = await GetTimesheetApproversByTimesheetId(_timesheet.Id);
