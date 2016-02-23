@@ -6,7 +6,6 @@ namespace SiSystems.SharedModels
     public class ProjectCode
 	{
         public string Description { get; set; }
-        public int TimesheetId { get; set; }
         public IEnumerable<PayRate> PayRates { get; set; }
 	}
 }
