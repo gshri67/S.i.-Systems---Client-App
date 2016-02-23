@@ -41,56 +41,38 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         public TimesheetSupport GetTimesheetSupportByTimesheet(Timesheet timesheet)
         {
-
-            IEnumerable<int> projectCodeIds = _payRateRepository.GetProjectIdFromTimesheet(timesheet);
-            IEnumerable<int> payRateIds = Enumerable.Empty<int>();
+            var projectCodeIds = _payRateRepository.GetProjectIdFromTimesheet(timesheet);
             
-            if( timesheet.Status == MatchGuideConstants.TimesheetStatus.Open)
-                payRateIds = _payRateRepository.GetContractRateIdFromOpenTimesheet(timesheet);
-            else if (timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted )
-                payRateIds = _payRateRepository.GetContractRateIdFromSavedOrSubmittedTimesheet(timesheet);
+            var payRateIds = timesheet.Status == MatchGuideConstants.TimesheetStatus.Open
+                ? _payRateRepository.GetContractRateIdFromOpenTimesheet(timesheet)
+                : _payRateRepository.GetContractRateIdFromSavedOrSubmittedTimesheet(timesheet);
+            
+            var projectCodeRateDetails = _payRateRepository.GetProjectCodesAndPayRatesFromIds(projectCodeIds, payRateIds);
+            
+            var projectCodes = ProjectCodesFromCodeRateDescriptions(projectCodeRateDetails);
 
-            string pcIdString = string.Join(",", projectCodeIds.ToList().Select(n => n.ToString()).ToArray());
-            string prIdString = string.Join(",", payRateIds.ToList().Select(n => n.ToString()).ToArray());
-
-            int verticalId = 4;
-            IEnumerable<ProjectCodeRateDetails> projectCodeRateDetails = _payRateRepository.GetProjectCodesAndPayRatesFromIds(pcIdString, prIdString, verticalId);
-
-            TimesheetSupport timesheetSupport = new TimesheetSupport();
-            IEnumerable<string> pcDescriptions = projectCodeRateDetails.Select((details => details.ProjectCodeDescription)).Distinct();
-
-
-            List<ProjectCode> projectCodes = new List<ProjectCode>();
-
-            foreach (string desc in pcDescriptions)
+            return new TimesheetSupport
             {
-                ProjectCode projectCode = new ProjectCode();
-                projectCode.Description = desc;
-                //add id
+                ProjectCodeOptions = projectCodes
+            };
+        }
 
-                List<PayRate> payRates = new List<PayRate>();
-                List<ProjectCodeRateDetails> rateDetails = 
-                    projectCodeRateDetails.ToList().Where(details => (details.ProjectCodeDescription == desc)).ToList();
+        private static IEnumerable<ProjectCode> ProjectCodesFromCodeRateDescriptions(IEnumerable<ProjectCodeRateDetails> projectCodeRateDetails)
+        {
+            var codeRatesGroupedByDescription = projectCodeRateDetails.GroupBy(details => details.ProjectCodeDescription);
 
-                foreach ( ProjectCodeRateDetails details in rateDetails )
+            var projectCodes = codeRatesGroupedByDescription.Select(grouping => new ProjectCode
+            {
+                Description = grouping.Key,
+                PayRates = grouping.Select(codeRate => new PayRate
                 {
-                    PayRate rate = new PayRate();
-                    rate.Rate = float.Parse(details.RateAmount);
-                    rate.RateType = details.RateType;
-                    rate.Id = details.PayRateId;
-                    rate.RateDescription = details.RateDescription;
-
-                    payRates.Add(rate);
-                }
-
-                projectCode.PayRates = payRates.AsEnumerable();
-
-                projectCodes.Add( projectCode );
-            }
-
-            timesheetSupport.ProjectCodeOptions = projectCodes.AsEnumerable();
-
-            return timesheetSupport;
+                    Id = codeRate.PayRateId,
+                    Rate = float.Parse(codeRate.RateAmount),
+                    RateType = codeRate.RateType,
+                    RateDescription = codeRate.RateDescription
+                })
+            });
+            return projectCodes;
         }
     }
 }

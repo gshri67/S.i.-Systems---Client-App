@@ -17,8 +17,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<int> GetProjectIdFromTimesheet(Timesheet timesheet);
         IEnumerable<int> GetContractRateIdFromOpenTimesheet(Timesheet timesheet);
         IEnumerable<int> GetContractRateIdFromSavedOrSubmittedTimesheet(Timesheet timesheet);
-        IEnumerable<ProjectCodeRateDetails> GetProjectCodesAndPayRatesFromIds(string projectCodeIds, string payRateIds,
-            int verticalId);
+        IEnumerable<ProjectCodeRateDetails> GetProjectCodesAndPayRatesFromIds(IEnumerable<int> projectCodeIds, IEnumerable<int> payRateIds);
     }
 
     public class PayRateRepository : IPayRateRepository
@@ -139,21 +138,18 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public IEnumerable<ProjectCodeRateDetails> GetProjectCodesAndPayRatesFromIds(string projectCodeIds, string payRateIds, int verticalId)
+        private static string ToCommaSeperatedString(IEnumerable<int> myEnum)
         {
+            return string.Join(",", myEnum);
+        }
+
+        public IEnumerable<ProjectCodeRateDetails> GetProjectCodesAndPayRatesFromIds(IEnumerable<int> projectCodeIds, IEnumerable<int> payRateIds)
+        {
+            var commaSeperatedProjectCodes = ToCommaSeperatedString(projectCodeIds);
+            var commaSeperatedPayRates = ToCommaSeperatedString(payRateIds);
+
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                /*
-                 * DECLARE @RC int
-                        EXECUTE @RC = [dbo].[UspGetProjectPORateDetails_TSAPP]
-                        @contractProjectPOIDList VARCHAR(1000),
-	                    @contractRateTermIDList  VARCHAR(1000),
-	                    @verticalid int,
-                        @ProjectDescription OUTPUT,
-                        @rateAmount OUTPUT,
-                        @ratetype OUTPUT
-                 */
-
                 const string query =
                     @"Declare @tablevar table(AgreementId INT, ProjectId INT, EinvoiceId INT, ProjectDescription VARCHAR(250), DisplayProjectID VARCHAR(250), CompanyProjectID INT, ContractProjectPOID INT, POId INT, PODescription VARCHAR(250), DisplayPONumber VARCHAR(250), PONumber VARCHAR(250), companypoprojectmatrixid INT, contractrateid INT, primaryrateterm BIT, ratedescription VARCHAR(250), rateAmount VARCHAR(250), ratetype VARCHAR(250), EinvoiceType INT)
                         insert into @tablevar(AgreementId , ProjectId , EinvoiceId , ProjectDescription , DisplayProjectID , CompanyProjectID , ContractProjectPOID , POId , PODescription , DisplayPONumber , PONumber , companypoprojectmatrixid , contractrateid , primaryrateterm , ratedescription , rateAmount , ratetype , EinvoiceType ) exec [dbo].[UspGetProjectPORateDetails_TSAPP] '101898,101899','65767',4
@@ -169,10 +165,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 var projectCodeRateDetails = db.Connection.Query<ProjectCodeRateDetails>(query, new
                 {
-                    contractProjectPOIDList = projectCodeIds,
-                    contractRateTermIDList = payRateIds,
-                    verticalid = verticalId,
-
+                    contractProjectPOIDList = commaSeperatedProjectCodes,
+                    contractRateTermIDList = commaSeperatedPayRates,
+                    verticalid = MatchGuideConstants.VerticalId.IT
                 });
 
                 return projectCodeRateDetails;
