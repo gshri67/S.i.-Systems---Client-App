@@ -168,18 +168,19 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             loadingApproversTask.ContinueWith(_ => InvokeOnMainThread(UpdateApproverPicker));
         }
 
-	    private void LoadTimesheetSupport()
-	    {
-            var loadingSupportTask = _timesheetModel.LoadTimesheetSupport();
-            //todo: is there any continue with that we need to do with this?
-	    }
+        // I don't believe this is a necessary call, and will remove this when my refactor is complete and I 
+        // can confirm this.
+        //private void LoadTimesheetSupport()
+        //{
+        //    var loadingSupportTask = _timesheetModel.LoadTimesheetSupport();
+        //    //todo: is there any continue with that we need to do with this?
+        //}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
             LoadTimesheetApprovers();
-		    LoadTimesheetSupport();
 
 			EdgesForExtendedLayout = UIRectEdge.Bottom;
 
