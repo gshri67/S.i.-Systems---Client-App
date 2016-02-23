@@ -39,9 +39,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return ratesList;
         }
 
-        public TimesheetSupport GetTimesheetSupportByTimesheetId( int timesheetId )
+        public TimesheetSupport GetTimesheetSupportByTimesheet(Timesheet timesheet)
         {
-            Timesheet timesheet = _timesheetRepository.GetTimesheetsById(timesheetId);
 
             IEnumerable<int> projectCodeIds = _payRateRepository.GetProjectIdFromTimesheet(timesheet);
             IEnumerable<int> payRateIds = Enumerable.Empty<int>();

@@ -165,15 +165,21 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         public void LoadTimesheetApprovers()
         {
             _timesheetModel.GetTimesheetApprovers();
-            _timesheetModel.GetTimesheetSupport();
             _timesheetModel.LoadingTimesheetApprovers.ContinueWith(_ => InvokeOnMainThread(UpdateApproverPicker));
         }
+
+	    private void LoadTimesheetSupport()
+	    {
+            var loadingSupportTask = _timesheetModel.LoadTimesheetSupport();
+            //todo: is there any continue with that we need to do with this?
+	    }
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
             LoadTimesheetApprovers();
+		    LoadTimesheetSupport();
 
 			EdgesForExtendedLayout = UIRectEdge.Bottom;
 

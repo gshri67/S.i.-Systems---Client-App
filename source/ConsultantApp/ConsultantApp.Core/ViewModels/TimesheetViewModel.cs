@@ -142,17 +142,15 @@ namespace ConsultantApp.Core.ViewModels
 	        });
 	    }
 
-        public void GetTimesheetSupport()
-        {
-            LoadingTimesheetSupport = LoadTimesheetSupport();
-        }
-	    private async Task LoadTimesheetSupport()
+        public Task LoadTimesheetSupport()
 	    {
-            TimesheetSupport = await GetTimesheetSupportByTimesheetId(_timesheet.Id);
+            var timesheetSupportTask = GetTimesheetSupport();
+	        return timesheetSupportTask;
 	    }
-        public Task<TimesheetSupport> GetTimesheetSupportByTimesheetId(int timesheetId)
+
+        private async Task GetTimesheetSupport()
         {
-            return _api.GetTimesheetSupportByTimesheetId(timesheetId);
+            TimesheetSupport = await _api.GetTimesheetSupportForTimesheet(Timesheet);
         }
 
 	    public string TotalHoursText()

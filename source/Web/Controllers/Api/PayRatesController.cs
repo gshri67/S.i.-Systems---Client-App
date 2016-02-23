@@ -18,17 +18,10 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             _service = service;
         }
 
-        [Route("{id}")]
-        public HttpResponseMessage GetPayRates(int id)
+        [Route("TimesheetSupport/")]
+        public HttpResponseMessage GetTimesheetSupportByTimesheet(Timesheet timesheet)
         {
-            var payRates = _service.GetPayRatesByContractId(id);
-            return Request.CreateResponse(HttpStatusCode.OK, payRates);
-        }
-
-        [Route("TimesheetSupport/{id}")]
-        public HttpResponseMessage GetTimesheetSupportByTimesheetId(int id)
-        {
-            var timesheetSupport = _service.GetTimesheetSupportByTimesheetId(id);
+            var timesheetSupport = _service.GetTimesheetSupportByTimesheet(timesheet);
             return Request.CreateResponse(HttpStatusCode.OK, timesheetSupport);
         }
 
