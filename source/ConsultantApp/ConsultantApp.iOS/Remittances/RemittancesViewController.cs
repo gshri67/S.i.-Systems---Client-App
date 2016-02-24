@@ -31,8 +31,10 @@ namespace ConsultantApp.iOS
 		{
 			IndicateLoading();
             if (_remittances == null)
-                //_remittances = await _remittanceModel.GetRemittances();
-                _remittances = new List<Remittance>
+                _remittances = await _remittanceModel.GetRemittances();
+            
+            /*    
+            _remittances = new List<Remittance>
                 {
                     new Remittance
                     {
@@ -51,6 +53,7 @@ namespace ConsultantApp.iOS
                         DocumentNumber = "6D23490"
                     }
                 };
+            */
 
 			UpdateTableSource();
 

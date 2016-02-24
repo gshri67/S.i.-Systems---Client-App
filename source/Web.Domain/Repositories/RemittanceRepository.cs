@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dapper;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.SharedModels;
 
@@ -12,8 +13,47 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
     public class RemittanceRepository : IRemittanceRepository
     {
+        public IEnumerable<Remittance> GetRemittanceDataFromGP( int candidateId )
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+
+              const string query =
+                    @"Declare @tablevar table(vchrnmbr VARCHAR(50), docdate datetime, docnumbr VARCHAR(21), docamnt INT, source VARCHAR(250), dbsource VARCHAR(250))
+                        insert into @tablevar(vchrnmbr, docdate, docnumbr, docamnt, source, dbsource ) EXECUTE [dbo].[UspGetEREmittancesFromGP_TSAPP] 
+                           @candidateid
+
+                        SELECT  tempTable.vchrnmbr as vchrnmbr,
+		                        tempTable.docdate as docdate,
+		                        tempTable.docnumbr as docnumbr,
+                                tempTable.docamnt as docamnt,
+                                tempTable.source as source,
+                                tempTable.dbsource as dbsource
+
+                        FROM @tablevar tempTable";
+
+                var remittances = db.Connection.Query<Remittance>(query, new
+                {
+                    candidateid = candidateId
+                });
+
+                return remittances;
+            }
+             
+        }
+
+
         public IEnumerable<Remittance> GetRemittancesForUser(int userId)
         {
+            #if LOCAL 
+                return TempRemittances;
+            
+            #endif
+
+          
+            return GetRemittanceDataFromGP(userId);
+
+            /*
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 //const string query = 
@@ -27,7 +67,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 }
 
                 return TempRemittances;
-            }
+            }*/
         }
 
         private static IEnumerable<Remittance> TempRemittances

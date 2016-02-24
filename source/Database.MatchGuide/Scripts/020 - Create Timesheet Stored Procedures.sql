@@ -3178,3 +3178,170 @@ GO
 
 
 
+/*
+	**************************************Create Get ERemittances From Non GP*******************************
+*/
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROC [dbo].[UspGetERemittancesFromNonGP_TSAPP]
+	@candidateid INT
+AS
+BEGIN
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+		
+ 			DECLARE @usertype INT
+		SET @usertype = dbo.[udf_GetPickListId]('userroles','candidate',-1)
+		
+		DECLARE @gpuserid int
+		SET @gpuserid = ( select gp_userid from users where users.userid = @candidateid ) 
+
+		/*** create a temp table to insert records for sorting ***/        
+		if object_id('tempdb..##tmp_EFT') is not null                                
+		  begin                                                                                      
+			 drop table ##tmp_EFT        
+		  end                                                                                      
+		  create table ##tmp_EFT(
+			[CandidateFullName] VARCHAR(1000), 
+			[CustomerNumber] VARCHAR(1000),
+			[CalcRemittanceAmount] DECIMAL(10,2),
+			[DOCTYPE] INT,
+			[VCHRNMBR] VARCHAR(200),
+			[APTVCHNM] VARCHAR(200),
+			[VendorID] VARCHAR(200),
+			[BaseSalary] DECIMAL(10,2),
+			[GST] DECIMAL(10,2),
+			JOBNMBR VARCHAR(50)
+		  )
+		  
+		/*** create a temp table to insert records for sorting ***/        
+		if object_id('tempdb..##tmp_EFTList') is not null                                
+		  begin                                                                                      
+			 drop table ##tmp_EFTList        
+		  end                                                                                      
+		  create table ##tmp_EFTList                        
+		  (                                 
+		   CandidateFullName VARCHAR(1000),        
+		   CustomerNumber VARCHAR(1000),
+		   VendorID VARCHAR(200),
+		   SiRefNo VARCHAR(200),
+		   VoucherNumber VARCHAR(200),
+		   Depositdate DATETIME,
+		   ActualHours DECIMAL(10,2),
+		   PayRate DECIMAL(10,2),
+		   QuickPay VARCHAR(5),
+		   BaseSalary DECIMAL(10,2),
+		   BaseGST DECIMAL(10,2),
+		   BaseDiscountAmount DECIMAL(10,2),
+		   CreditBaseSalary DECIMAL(10,2),
+		   CreditGST DECIMAL(10,2),
+		   CreditDiscountAmount DECIMAL(10,2),
+		   Source VARCHAR(50),
+		   CandidateCompany VARCHAR(500)
+		  )                                
+				
+		INSERT INTO [##tmp_EFTList] (
+			[CandidateFullName],
+			[CustomerNumber],
+			[VendorID],
+			[SiRefNo],
+			[VoucherNumber],
+			[Depositdate],
+			ActualHours,
+			[PayRate],
+			[QuickPay],
+			[BaseSalary],
+			[BaseGST],
+			[BaseDiscountAmount],
+
+			[CreditBaseSalary],
+			[CreditGST],
+			[CreditDiscountAmount],
+
+			[Source],
+			CandidateCompany
+		)
+
+(		 
+		SELECT 
+			LTRIM(RTRIM(users.firstname)) + ' ' + LTRIM(RTRIM(users.lastname)) CandidateFullName,
+			null CustomerNumber,
+			users.gp_userid VendorID,
+			eftlist.bachnumb SiRefNo,
+			eftlist.bachnumb VoucherNumber,
+			eftlist.[PChequeDate] Depositdate,
+			( 
+				SELECT CONVERT(DECIMAL(10,2),SUM(ISNULL(ed.units,0)/100))
+				FROM [TimeSheetEFTListDetail] ed 
+				WHERE ed.bachnumb = eftlist.bachnumb 
+				AND ed.IncomeCode IN ('CONBON','FTBON','HOLDPY','INCDAY','INCHR','SOLDAY','SOLHRS','SPDAY')
+				AND ed.MGCandidateID = eftlist.MGCandidateID
+			) ActualHours,
+			NULL PayRate,
+			NULL QuickPay,		
+
+			( 
+				SELECT ISNULL(CONVERT(DECIMAL(10,2),SUM(ISNULL(ed.LineTotal,0))),0)
+				FROM [TimeSheetEFTListDetail] ed 
+				WHERE ed.bachnumb = eftlist.bachnumb 
+				AND ed.IncomeCode IN ('CONBON','FTBON','HOLDPY','INCDAY','INCHR','SOLDAY','SOLHRS','SPDAY')
+				AND ed.MGCandidateID = eftlist.MGCandidateID
+			) BaseSalary,
+			( 
+				SELECT ISNULL(CONVERT(DECIMAL(10,2),SUM(ISNULL(ed.LineTotal,0))),0)
+				FROM [TimeSheetEFTListDetail] ed 
+				WHERE ed.bachnumb = eftlist.bachnumb 
+				AND ed.IncomeCode = 'GSTI'
+				AND ed.MGCandidateID = eftlist.MGCandidateID
+			) BaseGST,
+			( 
+				SELECT ISNULL(CONVERT(DECIMAL(10,2),SUM(ISNULL(ed.LineTotal,0))),0)
+				FROM [TimeSheetEFTListDetail] ed 
+				WHERE ed.bachnumb = eftlist.bachnumb 
+				AND ed.IncomeCode IN ('SOLQP','INCQP')
+				AND ed.MGCandidateID = eftlist.MGCandidateID
+			) BaseDiscountAmount,
+			
+			0 [CreditBaseSalary],
+			0 [CreditGST],
+			0 [CreditDiscountAmount],
+
+			'Archive' Source,
+			(
+				SELECT [Candidate_Corporation].[CorpName] 
+				FROM [Candidate_Corporation] 
+				WHERE userid = @candidateid
+			) CandidateCompany				
+			
+		FROM Users 
+			INNER JOIN [TimeSheetEFTList] eftlist ON eftlist.mgcandidateid = users.[GP_UserID] 
+			INNER JOIN [TimeSheetEFTListDetail] eftdetail ON eftdetail.[MGCandidateID] = users.[GP_UserID]
+				AND eftdetail.bachnumb = eftlist.bachnumb
+			LEFT JOIN candidate_corporation ON candidate_corporation.userid = users.userid
+	
+		WHERE users.userid = @candidateID
+		AND usertype = @usertype
+			GROUP BY 
+				candidate_corporation.corpname,
+				users.firstname,
+				users.lastname,
+				users.gp_userid,
+				eftlist.MGCandidateID,
+				eftlist.bachnumb,
+				eftlist.[PChequeDate],
+				eftlist.[PChequeAmount]
+		
+	)	
+			
+	 	SELECT distinct * FROM [##tmp_EFTList] t
+		ORDER BY depositdate desc,SiRefNo	
+
+END
+
+GO
+
+
+
+

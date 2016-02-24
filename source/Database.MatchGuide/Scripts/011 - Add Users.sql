@@ -3,15 +3,15 @@ SET IDENTITY_INSERT [dbo].[Users] ON;
 
 INSERT INTO [dbo].[Users]
 (
-	[UserID], [FirstName], [Middle], [LastName], [UserType], [CompanyID], [Inactive], [ClientPortalTypeID], [ClientPortalFTAlumniTypeID]
+	[UserID], [FirstName], [Middle], [LastName], [UserType], [CompanyID], [Inactive], [ClientPortalTypeID], [ClientPortalFTAlumniTypeID], [GP_UserID]
 )
 VALUES
-(1, 'Bob', 'H.', 'Smith', 491, 1, 0, 833, 2469),
-(2, 'Tom', 'H.','Smith', 491, 2, 0, 833, 2469),
-(3, 'Sally', 'J.','Smitherson', 491, 3, 0, 833, 2469),
-(4, 'Joe', 'M.','Johnson', 491, 1, 0, 833, 2469),
-(5, 'Jessica', 'N.','Li', 491, 1, 0, 833, 2469),
-(6, 'Ed', 'H.','Maron', 491, 1, 0, 833, 2469);
+(1, 'Bob', 'H.', 'Smith', 491, 1, 0, 833, 2469, 7),
+(2, 'Tom', 'H.','Smith', 491, 2, 0, 833, 2469, 8),
+(3, 'Sally', 'J.','Smitherson', 491, 3, 0, 833, 2469, 9),
+(4, 'Joe', 'M.','Johnson', 491, 1, 0, 833, 2469, 10),
+(5, 'Jessica', 'N.','Li', 491, 1, 0, 833, 2469, 11),
+(6, 'Ed', 'H.','Maron', 491, 1, 0, 833, 2469, 12);
 
 SET IDENTITY_INSERT [dbo].[Users] OFF;
 
@@ -43,10 +43,10 @@ SET IDENTITY_INSERT [dbo].[Users] ON;
 
 INSERT INTO [dbo].[Users]
 (
-	[UserID], [FirstName], [Middle], [LastName], [UserType], [CompanyID], [Inactive], [ClientPortalTypeID], [ClientPortalFTAlumniTypeID], [verticalid]
+	[UserID], [FirstName], [Middle], [LastName], [UserType], [CompanyID], [Inactive], [ClientPortalTypeID], [ClientPortalFTAlumniTypeID], [verticalid], [GP_UserID]
 )
 VALUES
-(7, 'Adam', 'H.', 'Si', 693, null, 0, null, null, 4);
+(7, 'Adam', 'H.', 'Si', 693, null, 0, null, null, 4, 13);
 
 SET IDENTITY_INSERT [dbo].[Users] OFF;
 
