@@ -52,7 +52,7 @@ namespace ConsultantApp.iOS
 
             //_payRates = _timesheetModel.GetPayRatesForIdAndProjectCode(_curTimesheet.ContractId, string.Empty);
 
-            _timesheetModel.GetTimesheetSupport();
+            //_timesheetModel.GetTimesheetSupport();
             _payRates = _timesheetModel.GetPayRatesForIdAndProjectCode(1, string.Empty);
 
 			UpdateUI();
