@@ -5,6 +5,8 @@ using UIKit;
 using System.IO;
 using ConsultantApp.Core.ViewModels;
 using Microsoft.Practices.Unity;
+using System.Net.Http;
+using System.Net;
 
 namespace ConsultantApp.iOS
 {
@@ -44,7 +46,7 @@ namespace ConsultantApp.iOS
             UpdateWebView();
         }
 
-	    private void UpdateWebView()
+	    private async void UpdateWebView()
 	    {
 	        if (webView == null)
 	        {
@@ -55,19 +57,18 @@ namespace ConsultantApp.iOS
 
 	        string fileName = "ERemittance.pdf"; // remember case-sensitive
             string localDocUrl = Path.Combine(NSBundle.MainBundle.BundlePath, fileName);
-         
-            byte[] buffer = new byte[10000];
-	        int bufferSize = 10000;
 
-            //_viewModel._PDFStream.BeginWrite(buffer, 0, bufferSize, ar => { Console.WriteLine("Wrote to file"); }, )
+
+            int bufferSize = (int)_viewModel.PDFStream.Length;
+            byte[] buffer = new byte[bufferSize];
 
             FileStream outFile = new FileStream(fileName, FileMode.Create);
 
             int bytesRead;
-            while((bytesRead = _viewModel.PDFStream.Read(buffer, 0, buffer.Length)) != 0)
+            while((bytesRead = _viewModel.PDFStream.Read(buffer, 0, bufferSize)) != 0)
                 outFile.Write(buffer, 0, bytesRead);
-
-            // Or using statement instead
+            
+  
 	        outFile.Close();
 
             webView.LoadRequest(new NSUrlRequest(new NSUrl(localDocUrl, false)));

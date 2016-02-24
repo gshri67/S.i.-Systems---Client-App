@@ -37,7 +37,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             }
         }
 
-        public async Task<string> RequestERemittancePDF
+        public async Task<IEnumerable<int>> RequestERemittancePDF
             (string candidateId, string VcherNumber, string Source, string DocDate, string DBSource)
         {
             EnsureMyAccountsServiceIsConfigured();
@@ -56,61 +56,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                     throw new Exception("Response is Null");
                 }
 
-                //var objResponse1 =JsonConvert.DeserializeObject<List<HttpResponseMessage>>(httpClient.BaseAddress.ToString());
-
-                //Stream stream = await response.Content.ReadAsStreamAsync();
-                //return stream;
-                //                return objResponse1.FirstOrDefault();
-
-                ERemittancePdfResult result;
-
-                return await ERemittancePdfResult(response);
-                /*
-                try
-                {
-                    return await ERemittancePdfResult(response);
-                }
-                catch (HttpRequestException)
-                {
-                    return new ERemittancePdfResult()
-                    {
-                        ResponseCode = -1,
-                        Description =
-                            "There was a problem communicating with the system."
-                    };
-                }*/
+                Stream stream = await response.Content.ReadAsStreamAsync();
+                byte[] buffer = new byte[(int)stream.Length];
+                await stream.ReadAsync(buffer, 0, (int)stream.Length);
+   
+                int[] intBuffer = new int[(int)stream.Length];
+                buffer.CopyTo(intBuffer, 0);
+                return intBuffer.AsEnumerable();
             }
         }
-
-        private static async Task<string> ERemittancePdfResult(HttpResponseMessage response)
-        {
-            var json = await ParseResponse(response);
-
-            return json;
-            /*
-            if (!response.IsSuccessStatusCode)
-            {
-                return new ERemittancePdfResult
-                {
-                    ResponseCode = -1,
-                    Description = json
-                };
-            }
-
-            var result = JsonConvert.DeserializeObject<ERemittancePdfResult>(json);
-            if (result.ResponseCode > 0)
-            {
-                result.Description = result.Description.Substring(0, result.Description.IndexOf('<'));
-            }
-            return result;
-             */
-        }
-        private static async Task<string> ParseResponse(HttpResponseMessage response)
-        {
-            return response != null && response.Content != null
-                ? await response.Content.ReadAsStringAsync()
-                : string.Empty;
-        }
-
     }
 }

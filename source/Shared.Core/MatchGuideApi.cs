@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -186,17 +187,28 @@ namespace Shared.Core
         [HttpPost("Remittances/pdf/{docNumber}")]
         public async Task<Stream> GetPDF(string docNumber) 
         {
-            var response = await ExecuteWithDefaultClient<string>(new { docNumber });
+            var response = await ExecuteWithDefaultClient<IEnumerable<int>>(new { docNumber });
+            byte[] buffer = new byte[response.Count()];
 
+            for( int i = 0; i < response.Count(); i ++ )
+                Buffer.BlockCopy(response.ToArray(), i*sizeof(int), buffer, i, 1);
+
+            Stream stream = new MemoryStream(buffer);
+            return stream;
+            //return response;
+            /*
             HttpResponseMessage actualResponse = new HttpResponseMessage();
 
             if (response != null)
             {
                 actualResponse.Content = new StringContent(response);
-
+                //Stream newStream = new MemoryStream();
+                //var streamContent = actualResponse.Content.CopyToAsync(newStream);
+                //return newStream;
                 var stream = await actualResponse.Content.ReadAsStreamAsync();
+
                 return stream;
-            }
+            }*/
 
             return null;
         }
