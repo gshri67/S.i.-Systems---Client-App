@@ -14,15 +14,7 @@ namespace ConsultantApp.Core.ViewModels
 	{
         private readonly IMatchGuideApi _api;
 
-	    private Timesheet _timesheet;
-
-	    public Timesheet Timesheet
-	    {
-	        get
-	        {
-	            return _timesheet;
-	        }
-	    }
+	    public Timesheet Timesheet { get; private set; }
 
 	    private IEnumerable<DirectReport> _approvers;
 	    private TimesheetSupport _timesheetSupport;
@@ -49,29 +41,36 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public string TextForDate()
 	    {
-	        return _timesheet == null 
+	        return Timesheet == null 
                 ? string.Empty 
-                : _timesheet.StartDate.ToString(DateLabelFormat);
+                : Timesheet.StartDate.ToString(DateLabelFormat);
 	    }
 
-	    public Task<Timesheet> SaveTimesheet(Timesheet timesheet)
+	    public Task SaveTimesheet()
+	    {
+	        var savingTimesheetTask = SaveTimesheetCall();
+	        return savingTimesheetTask;
+	    }
+
+	    public async Task SaveTimesheetCall()
 		{
-		    return _api.SaveTimesheet(timesheet);
+		    Timesheet = await _api.SaveTimesheet(Timesheet);
 		}
 
-        public IEnumerable<string> GetProjectCodes()
-        {
-            if (TimesheetSupport.ProjectCodeOptions.Select(pc => pc.Description).Any())
-                return TimesheetSupport.ProjectCodeOptions.Select(pc => pc.Description);
-            return Enumerable.Empty<string>();
-        }
 
-        public IEnumerable<PayRate> GetPayRatesForIdAndProjectCode(int contractId, string projectCode )
-        {
-            if( TimesheetSupport.ProjectCodeOptions.Where(pc => pc.Description == projectCode).Any() )
-                return TimesheetSupport.ProjectCodeOptions.Where(pc => pc.Description == projectCode).FirstOrDefault().PayRates;
-            return Enumerable.Empty<PayRate>();
-        }
+        //public IEnumerable<string> GetProjectCodes()
+        //{
+        //    if (TimesheetSupport.ProjectCodeOptions.Select(pc => pc.Description).Any())
+        //        return TimesheetSupport.ProjectCodeOptions.Select(pc => pc.Description);
+        //    return Enumerable.Empty<string>();
+        //}
+
+        //public IEnumerable<PayRate> GetPayRatesForIdAndProjectCode(int contractId, string projectCode )
+        //{
+        //    if( TimesheetSupport.ProjectCodeOptions.Where(pc => pc.Description == projectCode).Any() )
+        //        return TimesheetSupport.ProjectCodeOptions.Where(pc => pc.Description == projectCode).FirstOrDefault().PayRates;
+        //    return Enumerable.Empty<PayRate>();
+        //}
 
         public Task<IEnumerable<DirectReport>> GetTimesheetApproversByTimesheetId(int timesheetId)
         {
@@ -89,7 +88,7 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task SubmitCurrentTimesheet()
 	    {
-	        _timesheet = await _api.SubmitTimesheet(_timesheet);
+	        Timesheet = await _api.SubmitTimesheet(Timesheet);
 	    }
 
         public void WithdrawTimesheet()
@@ -103,7 +102,7 @@ namespace ConsultantApp.Core.ViewModels
 	    private async Task WithdrawCurrentTimesheet()
 	    {
             //todo:Make the Withdraw Timesheet Call to the API
-	        _timesheet.Status = MatchGuideConstants.TimesheetStatus.Open;
+	        Timesheet.Status = MatchGuideConstants.TimesheetStatus.Open;
 	    }
 
 	    public void SetTimesheet(Timesheet timesheet)
@@ -120,7 +119,7 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task LoadTimesheetApprovers()
         {
-            _approvers = await GetTimesheetApproversByTimesheetId(_timesheet.Id);
+            _approvers = await GetTimesheetApproversByTimesheetId(Timesheet.Id);
         }
 
 
@@ -128,7 +127,7 @@ namespace ConsultantApp.Core.ViewModels
 	    {
 	        return Task.Run(() =>
 	        {
-                _timesheet = timesheet;
+                Timesheet = timesheet;
 	        });
 	    }
 
@@ -145,44 +144,44 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public string TotalHoursText()
 	    {
-            return _timesheet == null
+            return Timesheet == null
                 ? string.Empty
-                : _timesheet.TimeEntries.Sum(t => t.Hours).ToString();
+                : Timesheet.TimeEntries.Sum(t => t.Hours).ToString();
 	    }
 
 	    public string MonthText()
 	    {
-            return _timesheet == null
+            return Timesheet == null
                 ? string.Empty
-                : _timesheet.StartDate.ToString("MMM").ToUpper();
+                : Timesheet.StartDate.ToString("MMM").ToUpper();
 	    }
 
 	    public string TimesheetPeriodRange()
 	    {
-            return _timesheet == null
+            return Timesheet == null
                 ? string.Empty
-                : _timesheet.StartDate.ToString("dd").TrimStart('0') + "-" + _timesheet.EndDate.ToString("dd").TrimStart('0') + ", " + _timesheet.StartDate.ToString("yyyy");
+                : Timesheet.StartDate.ToString("dd").TrimStart('0') + "-" + Timesheet.EndDate.ToString("dd").TrimStart('0') + ", " + Timesheet.StartDate.ToString("yyyy");
 	    }
 
 	    public string TimesheetApproverEmail()
 	    {
-	        if (_timesheet == null || _timesheet.TimesheetApprover == null)
+	        if (Timesheet == null || Timesheet.TimesheetApprover == null)
 	            return string.Empty;
 
-	        return _timesheet.TimesheetApprover.Email;
+	        return Timesheet.TimesheetApprover.Email;
 	    }
 
 	    public bool TimesheetIsSubmitted()
 	    {
-            return _timesheet != null && _timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted;
+            return Timesheet != null && Timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted;
 	    }
 
 	    public bool TimesheetIsApproved()
 	    {
-	        if (_timesheet == null)
+	        if (Timesheet == null)
 	            return false;
 	        
-            var status = _timesheet.Status;
+            var status = Timesheet.Status;
 		    return status == MatchGuideConstants.TimesheetStatus.Approved || 
 		           status == MatchGuideConstants.TimesheetStatus.Batched ||
 		           status == MatchGuideConstants.TimesheetStatus.Moved ||
@@ -191,33 +190,39 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public bool TimesheetIsOpen()
 	    {
-	        return _timesheet != null &&
-                _timesheet.Status == MatchGuideConstants.TimesheetStatus.Open;
+	        return Timesheet != null &&
+                Timesheet.Status == MatchGuideConstants.TimesheetStatus.Open;
 	    }
+        
+        public bool TimesheetIsRejected()
+        {
+            return Timesheet != null &&
+                Timesheet.Status == MatchGuideConstants.TimesheetStatus.Rejected;
+        }
 
 	    public bool TimesheetIsNull()
 	    {
-	        return _timesheet == null;
+	        return Timesheet == null;
 	    }
 
 	    public DateTime StartDate()
 	    {
-	        return _timesheet.StartDate;
+	        return Timesheet.StartDate;
 	    }
         
         public DateTime EndDate()
         {
-            return _timesheet.EndDate;
+            return Timesheet.EndDate;
         }
 
 	    public IEnumerable<TimeEntry> TimeSheetEntries()
 	    {
-	        return _timesheet.TimeEntries ?? Enumerable.Empty<TimeEntry>();
+	        return Timesheet.TimeEntries ?? Enumerable.Empty<TimeEntry>();
 	    }
 
 	    public float TotalHours()
 	    {
-	        return _timesheet.TimeEntries.Sum(t => t.Hours);
+	        return Timesheet.TimeEntries.Sum(t => t.Hours);
 	    }
 
 	    public bool TimesheetHasZeroHours()
@@ -234,7 +239,7 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public void SetTimesheetApprover(DirectReport selectedApprover)
 	    {
-            _timesheet.TimesheetApprover = selectedApprover;
+            Timesheet.TimesheetApprover = selectedApprover;
             ActiveTimesheetViewModel.IncrementApproverCount(selectedApprover);
 	    }
 
@@ -274,6 +279,43 @@ namespace ConsultantApp.Core.ViewModels
 	    public string GetAlertText()
 	    {
 	        return _alertText ?? string.Empty;
+	    }
+
+	    public IEnumerable<TimeEntry> GetTimeEntriesForDate(DateTime date)
+	    {
+	        if (Timesheet == null || Timesheet.TimeEntries == null)
+	            return Enumerable.Empty<TimeEntry>();
+
+            return Timesheet.TimeEntries.Where(e => e.Date.Equals(date));
+	    }
+
+	    public bool CurrentTimesheetIsEditable()
+	    {
+            if (Timesheet == null) return false;
+
+            return TimesheetIsOpen()
+                   || TimesheetIsRejected();
+	    }
+
+	    public float NumberOfHoursForDate(DateTime date)
+	    {
+            var entries = GetTimeEntriesForDate(date);
+            return entries.Sum(time=>time.Hours);   
+	    }
+
+	    public bool DateIsContainedWithinTimesheet(DateTime date)
+	    {
+            return date >= Timesheet.StartDate && date <= Timesheet.EndDate;
+	    }
+
+	    public bool IsTimesheetStartDate(DateTime date)
+	    {
+            return date.CompareTo(Timesheet.StartDate) == 0;
+	    }
+
+	    public bool IsTimesheetEndDate(DateTime date)
+	    {
+	        return date.CompareTo(Timesheet.EndDate) == 0;
 	    }
 	}
 }

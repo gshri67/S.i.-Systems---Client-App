@@ -9,11 +9,11 @@ namespace SiSystems.SharedModels
 
     public class TimesheetSupport
 	{
-        public IEnumerable<ProjectCode> ProjectCodeOptions { get; set;  }
+        public IEnumerable<ProjectCodeRateDetails> ProjectCodeOptions { get; set; }
 
         public TimesheetSupport()
         {
-            ProjectCodeOptions = Enumerable.Empty<ProjectCode>();
+            ProjectCodeOptions = Enumerable.Empty<ProjectCodeRateDetails>();
         }
 	}
 }

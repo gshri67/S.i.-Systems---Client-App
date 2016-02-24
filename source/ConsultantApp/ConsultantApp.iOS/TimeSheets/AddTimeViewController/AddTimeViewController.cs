@@ -17,8 +17,8 @@ namespace ConsultantApp.iOS
         private const string ScreenTitle = "Add/Edit Time";
         private readonly TimesheetViewModel _timesheetModel;
         private AddTimeTableViewSource _addTimeTableViewSource;
-        private Timesheet _curTimesheet;
-        private IEnumerable<PayRate> _payRates;
+        //private Timesheet _curTimesheet;
+        //private IEnumerable<PayRate> _payRates;
         private SubtitleHeaderView _subtitleHeaderView;
         public DateTime Date;
 		private int maxFrequentlyUsed = 5;
@@ -34,8 +34,8 @@ namespace ConsultantApp.iOS
 
         public void SetTimesheet(Timesheet timesheet)
         {
-            _curTimesheet = timesheet;
-
+            //_curTimesheet = timesheet;
+            _timesheetModel.SetTimesheet(timesheet);
             UpdateUI();
         }
 
@@ -46,21 +46,15 @@ namespace ConsultantApp.iOS
             UpdateUI();
         }
 
-        public async void LoadPayRates()
+        public void LoadPayRates()
         {
-            if (_payRates != null) return;
-
-            //_payRates = _timesheetModel.GetPayRatesForIdAndProjectCode(_curTimesheet.ContractId, string.Empty);
-
-            _timesheetModel.LoadTimesheetSupport();
-            _payRates = _timesheetModel.GetPayRatesForIdAndProjectCode(1, string.Empty);
-
-			UpdateUI();
+            var loadSupportTask = _timesheetModel.LoadTimesheetSupport();
+            loadSupportTask.ContinueWith(_ => InvokeOnMainThread(UpdateUI));
         }
 
         private void SetupTableViewSource()
         {
-            if (tableview == null || _payRates == null || _curTimesheet == null || _addTimeTableViewSource != null)
+            if (tableview == null || _addTimeTableViewSource != null)
                 return;
 
             RegisterCellsForReuse();
@@ -72,39 +66,24 @@ namespace ConsultantApp.iOS
         private void InstantiateTableViewSource()
         {
             _addTimeTableViewSource = new AddTimeTableViewSource(
-                GetTimeEntriesForSelectedDate(),
-                _timesheetModel.GetProjectCodes(), 
-                _payRates
+                _timesheetModel.GetTimeEntriesForDate(Date),
+                _timesheetModel.TimesheetSupport
+                //_timesheetModel.GetProjectCodes(), 
+                //_payRates
             );
 
             _addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
         }
 
-        //todo:move to viewmodel
-        private IEnumerable<TimeEntry> GetTimeEntriesForSelectedDate()
-        {
-            return (_curTimesheet == null)
-                ? Enumerable.Empty<TimeEntry>()
-                : _curTimesheet.TimeEntries.Where(e => e.Date.Equals(Date));
-        }
-
         private void AddTimeTableDataChanged(IEnumerable<TimeEntry> timeEntries)
         {
-            _curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(Date)).Concat(timeEntries);
+            //todo: We have to move this. Currently, it's only updating the values for whichever 
+            // date is considered 'CurrentDate' in this view controller (NOT in the view source where we set the date).
+            //_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(Date)).Concat(timeEntries);
             SetHeaderHours();
         }
 
-        private static string TimeEntriesHoursTotal(IEnumerable<TimeEntry> timeEntries)
-        {
-            return timeEntries.Sum(t => t.Hours).ToString(CultureInfo.InvariantCulture);
-        }
-
-        //todo:move to viewmodel
-        private string TotalHoursForCurrentDate()
-        {
-            var currentDateTimeEntries = GetTimeEntriesForSelectedDate();
-            return TimeEntriesHoursTotal(currentDateTimeEntries);
-        }
+        
 
         private void RegisterCellsForReuse()
         {
@@ -151,7 +130,7 @@ namespace ConsultantApp.iOS
 
         private void SetTimesheetEditability()
         {
-            var enabled = TimesheetEditable();
+            var enabled = _timesheetModel.CurrentTimesheetIsEditable();
 
             EnabledAddButton(enabled);
             EnableSaveButton(enabled);
@@ -161,11 +140,9 @@ namespace ConsultantApp.iOS
 
         private void SetHeaderHours()
         {
-            if (_curTimesheet == null) return;
-
             if (headerHoursLabel != null)
             {
-                headerHoursLabel.Text = TotalHoursForCurrentDate();
+                headerHoursLabel.Text = _timesheetModel.NumberOfHoursForDate(Date).ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -179,14 +156,6 @@ namespace ConsultantApp.iOS
             ReloadTableViewData();
         }
 
-        private bool TimesheetEditable()
-        {
-            if (_curTimesheet == null) return false;
-
-            return _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open
-                   || _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Rejected;
-        }
-
         private void SetHeaderDate()
         {
             if (headerDateLabel != null)
@@ -195,21 +164,21 @@ namespace ConsultantApp.iOS
                 headerDayOfWeekLabel.Text = Date.ToString("ddd");
         }
 
-        private bool DateIsContainedWithinTimesheet(DateTime date)
+        private bool DateIsInTimesheet(DateTime date)
         {
-            return date >= _curTimesheet.StartDate && date <= _curTimesheet.EndDate;
+            return _timesheetModel.DateIsContainedWithinTimesheet(date);
         }
 
-        private void SetCurrentDate(DateTime desiredDate)
+        private void AttemptToSetCurrentDate(DateTime desiredDate)
         {
-            if (DateIsContainedWithinTimesheet(desiredDate))
+            if (DateIsInTimesheet(desiredDate))
                 SetDate(desiredDate);
         }
 
         private void ToggleDateNavigation()
         {
-            rightArrowButton.Hidden = !DateIsContainedWithinTimesheet(Date.AddDays(1));
-            leftArrowButton.Hidden = !DateIsContainedWithinTimesheet(Date.AddDays(-1));
+            rightArrowButton.Hidden = !DateIsInTimesheet(Date.AddDays(1));
+            leftArrowButton.Hidden = !DateIsInTimesheet(Date.AddDays(-1));
         }
 
         private void NavigateDay(object sender, EventArgs e)
@@ -221,7 +190,7 @@ namespace ConsultantApp.iOS
                 ? Date.AddDays(-1)
                 : Date.AddDays(1);
 
-            SetCurrentDate(desiredDate);
+            AttemptToSetCurrentDate(desiredDate);
             ToggleDateNavigation();
 
             UpdateUI();
@@ -238,9 +207,9 @@ namespace ConsultantApp.iOS
             SetupDayNavigationButton(leftArrowButton, new UIImage("leftArrow.png"));
             SetupDayNavigationButton(rightArrowButton, new UIImage("rightArrow.png"));
 
-            if (Date.CompareTo(_curTimesheet.StartDate) == 0)
+            if (_timesheetModel.IsTimesheetStartDate(Date))
                 leftArrowButton.Hidden = true;
-            else if (Date.CompareTo(_curTimesheet.EndDate) == 0)
+            else if (_timesheetModel.IsTimesheetEndDate(Date))
                 rightArrowButton.Hidden = true;
         }
 
@@ -268,9 +237,17 @@ namespace ConsultantApp.iOS
                 };
 
                 IEnumerable<TimeEntry> newEnumerableEntry = new List<TimeEntry> {newEntry};
-
-                _curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat(newEnumerableEntry);
-                _addTimeTableViewSource.TimeEntries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(Date));
+                
+                //todo: find a better way to add this temporary cell
+                //_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat(newEnumerableEntry);
+                //_addTimeTableViewSource.TimeEntries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(Date));
+                /*
+                 * Note that the above might not be needed at all. Here's what I'm thinking:
+                      When we save, we actually check each and every TimeEntry in our timesheet for changes. 
+                      Since we're doing that anyway, whenever they hit save, we can just fire off the entire batch and
+                      not try to pass it back and forth. Then, whenever we update the view, we just reload
+                        (would that work?)
+                 */
 
                 _addTimeTableViewSource.HandleNewCell();
 
@@ -294,10 +271,8 @@ namespace ConsultantApp.iOS
                 TransitionToSavingAnimation();
 
 				try{
-                    _curTimesheet = await _timesheetModel.SaveTimesheet( _curTimesheet );
-
-					if( _curTimesheet == null )
-						saveFailed = true;
+                    var savingTimesheetTask = _timesheetModel.SaveTimesheet();
+                    //todo: convert below to different continue with calls
 				}
 				catch
 				{
@@ -313,7 +288,7 @@ namespace ConsultantApp.iOS
                 }
                 else
                 {
-                    TimeDelegate.setTimesheet(_curTimesheet);
+                    TimeDelegate.setTimesheet(_timesheetModel.Timesheet);
                 }
 
                 BeginTransitionToSavedAnimation();

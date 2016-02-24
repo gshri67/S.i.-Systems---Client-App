@@ -49,30 +49,30 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             
             var projectCodeRateDetails = _payRateRepository.GetProjectCodesAndPayRatesFromIds(projectCodeIds, payRateIds);
             
-            var projectCodes = ProjectCodesFromCodeRateDescriptions(projectCodeRateDetails);
+            //var projectCodes = ProjectCodesFromCodeRateDescriptions(projectCodeRateDetails);
 
             return new TimesheetSupport
             {
-                ProjectCodeOptions = projectCodes
+                ProjectCodeOptions = projectCodeRateDetails
             };
         }
 
-        private static IEnumerable<ProjectCode> ProjectCodesFromCodeRateDescriptions(IEnumerable<ProjectCodeRateDetails> projectCodeRateDetails)
-        {
-            var codeRatesGroupedByDescription = projectCodeRateDetails.GroupBy(details => details.ProjectCodeDescription);
+        //private static IEnumerable<ProjectCode> ProjectCodesFromCodeRateDescriptions(IEnumerable<ProjectCodeRateDetails> projectCodeRateDetails)
+        //{
+        //    var codeRatesGroupedByDescription = projectCodeRateDetails.GroupBy(details => details.ProjectCodeDescription);
 
-            var projectCodes = codeRatesGroupedByDescription.Select(grouping => new ProjectCode
-            {
-                Description = grouping.Key,
-                PayRates = grouping.Select(codeRate => new PayRate
-                {
-                    Id = codeRate.PayRateId,
-                    Rate = float.Parse(codeRate.RateAmount),
-                    RateType = codeRate.RateType,
-                    RateDescription = codeRate.RateDescription
-                })
-            });
-            return projectCodes;
-        }
+        //    var projectCodes = codeRatesGroupedByDescription.Select(grouping => new ProjectCode
+        //    {
+        //        Description = grouping.Key,
+        //        PayRates = grouping.Select(codeRate => new PayRate
+        //        {
+        //            Id = codeRate.PayRateId,
+        //            Rate = float.Parse(codeRate.RateAmount),
+        //            RateType = codeRate.RateType,
+        //            RateDescription = codeRate.RateDescription
+        //        })
+        //    });
+        //    return projectCodes;
+        //}
     }
 }

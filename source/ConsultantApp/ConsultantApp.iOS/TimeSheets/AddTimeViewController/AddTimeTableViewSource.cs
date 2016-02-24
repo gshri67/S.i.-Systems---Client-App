@@ -14,8 +14,10 @@ namespace ConsultantApp.iOS
 		private const string CellIdentifier = "TimeEntryCell";
 		private const string ExpandedCellIdentifier = "AddProjectCodeCell";
 		public IEnumerable<TimeEntry> TimeEntries;
-		public IEnumerable<string> ProjectCodes;
-		public IEnumerable<PayRate> PayRates;
+        //public IEnumerable<string> ProjectCodes;
+        //public IEnumerable<PayRate> PayRates;
+
+        private TimesheetSupport _timesheetSupport;
 
 		public delegate void TableDelegate(IEnumerable<TimeEntry> timeEntries);
 		public TableDelegate OnDataChanged;
@@ -31,11 +33,12 @@ namespace ConsultantApp.iOS
 		public bool MustSave;//if this is true, the done or delete button must be tapped before the cell can be minimized.
 		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
 
-		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries, IEnumerable<string> projectCodes, IEnumerable<PayRate> payRates ) 
+		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries, TimesheetSupport support ) 
 		{
 			this.TimeEntries = timeEntries;
-			this.ProjectCodes = projectCodes;
-			this.PayRates = payRates;
+            //this.ProjectCodes = projectCodes;
+            //this.PayRates = payRates;
+		    _timesheetSupport = support;
 
 			_normalCellHeight = 44;
 			_expandedCellHeight = 200;
@@ -88,7 +91,7 @@ namespace ConsultantApp.iOS
 			if (TimeEntries == null) return cell;
 
 			var curEntry = TimeEntries.ElementAt( _prevSelectedRow );//((int)indexPath.Item);
-			cell.SetData( curEntry, ProjectCodes, PayRates );
+			cell.SetData( curEntry, _timesheetSupport);
 
 			if (cell.OnSave == null)
 				setupExpansionCellSave (cell, tableView);

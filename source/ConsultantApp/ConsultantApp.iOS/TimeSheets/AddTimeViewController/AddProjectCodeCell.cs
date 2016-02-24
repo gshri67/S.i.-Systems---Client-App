@@ -27,7 +27,7 @@ namespace ConsultantApp.iOS
 		private UITextField _hoursTextField;
 		private PickerViewModel _pickerModel;
 		private List<string> _projectCodes;
-		private IEnumerable<PayRate> _payRates;
+        private IEnumerable<ProjectCodeRateDetails> _payRates;
 
         private const int PayRateComponentIndex = 1;
 
@@ -100,11 +100,14 @@ namespace ConsultantApp.iOS
 			UpdateUI ();
 		}
 
-		public void SetData( TimeEntry entry, IEnumerable<string> projectCodes, IEnumerable<PayRate> payRates )
+		public void SetData( TimeEntry entry, TimesheetSupport support )
 		{
 			TimeEntry = entry;
-			this._projectCodes = projectCodes.ToList();
-			this._payRates = payRates;
+            
+            //todo: confirm these values are what the user expects to see
+		    _projectCodes = support.ProjectCodeOptions.Select(details => details.PODescription).Distinct().ToList();
+            _payRates = support.ProjectCodeOptions;
+            
 			UpdateUI();
 		}
 
@@ -137,7 +140,7 @@ namespace ConsultantApp.iOS
 
 			_pickerModel.numFrequentItems[0] = frequentlyUsed.Count;
 
-			List<string> payRateStringList = _payRates.Select (pr => string.Format ("{0} ({1:C})", pr.RateDescription, pr.Rate)).ToList ();
+			List<string> payRateStringList = _payRates.Select (pr => string.Format ("{0} ({1:C})", pr.ratedescription, pr.rateAmount)).ToList ();
 
 			_pickerModel.items = new List<List<string>>
 			{
@@ -214,7 +217,8 @@ namespace ConsultantApp.iOS
 
 	    private void SetTimeEntryPayRateToSelectedRate()
 	    {
-            TimeEntry.PayRate = _payRates.ElementAt(GetSelectedIndexForComponent(PayRateComponentIndex));
+            //todo: change to ProjectCodeRateDetails object
+            //TimeEntry.PayRate = _payRates.ElementAt(GetSelectedIndexForComponent(PayRateComponentIndex));
 	    }
 
 	    private int GetSelectedIndexForComponent(int componentIndex)

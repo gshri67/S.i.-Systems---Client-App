@@ -155,12 +155,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         insert into @tablevar(AgreementId , ProjectId , EinvoiceId , ProjectDescription , DisplayProjectID , CompanyProjectID , ContractProjectPOID , POId , PODescription , DisplayPONumber , PONumber , companypoprojectmatrixid , contractrateid , primaryrateterm , ratedescription , rateAmount , ratetype , EinvoiceType ) exec [dbo].[UspGetProjectPORateDetails_TSAPP] '101898,101899','65767',4
 
 
-                        SELECT tempTable.DisplayProjectID as ProjectCodeDescription,
-                               tempTable.ProjectId as ProjectCodeId,
-                               tempTable.rateAmount as RateAmount,
-                               tempTable.rateType as RateType,
-                               tempTable.ratedescription as RateDescription,
-                               tempTable.contractrateid as PayRateId
+                        SELECT *
                         FROM @tablevar tempTable";
 
                 var projectCodeRateDetails = db.Connection.Query<ProjectCodeRateDetails>(query, new
