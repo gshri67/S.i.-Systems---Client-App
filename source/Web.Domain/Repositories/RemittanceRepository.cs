@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dapper;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.SharedModels;
@@ -32,14 +33,68 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                         FROM @tablevar tempTable";
 
-                var remittances = db.Connection.Query<Remittance>(query, new
+                var remittancesFromDB = db.Connection.Query<Remittance>(query, new
                 {
                     candidateid = candidateId
                 });
 
-                return remittances;
+                return remittancesFromDB.Select( rm => new Remittance
+                {
+                    StartDate = Convert.ToDateTime("2015-07-01"),
+                    EndDate =  Convert.ToDateTime("2015-07-15"),
+                    DepositDate = Convert.ToDateTime("2015-07-17"),
+                    Amount = (float) 2653.50,
+                    DocumentNumber = "6C94239"
+                }).ToList();
             }
              
+        }
+
+        public IEnumerable<Remittance> GetRemittanceDataFromNonGP(int candidateId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+
+                const string query =
+                      @"Declare @tablevar table(CandidateFullName VARCHAR(1000), CustomerFullName VARCHAR(1000), VendorID VARCHAR(200), SiRefNo VARCHAR(200), VoucherNumber VARCHAR(200), Depositdate DATETIME, ActualHours DECIMAL(10,2), PayRate VARCHAR(250), QuickPay VARCHAR(5), BaseSalary DECIMAL(10,2), BaseGST DECIMAL(10,2), BaseDiscountAmount DECIMAL(10,2), CreditBaseSalary DECIMAL(10,2), CreditGST DECIMAL(10,2), CreditDiscountAmount DECIMAL(10,2), Source VARCHAR(50), CandidateCompany VARCHAR(500))
+                        insert into @tablevar(CandidateFullName, CustomerFullName, VendorID, SiRefNo, VoucherNumber, Depositdate, ActualHours, PayRate, QuickPay, BaseSalary, BaseGST, BaseDiscountAmount, CreditBaseSalary, CreditGST, CreditDiscountAmount, Source, CandidateCompany ) EXECUTE [dbo].[UspGetEREmittancesFromNonGP_TSAPP] 
+                           @candidateid
+
+                        SELECT  tempTable.CandidateFullName as CandidateFullName,
+						tempTable.CustomerFullName as CustomerFullName,
+						tempTable.VendorID as VendorID,
+						tempTable.SiRefNo as SiRefNo,
+						tempTable.VoucherNumber as VoucherNumber,
+						tempTable.Depositdate as Depositdate,
+						tempTable.ActualHours as ActualHours,
+						tempTable.PayRate as PayRate,
+						tempTable.QuickPay as QuickPay,
+						tempTable.BaseSalary as BaseSalary,
+						tempTable.BaseGST as BaseGST,
+						tempTable.BaseDiscountAmount as BaseDiscountAmount,
+						tempTable.CreditBaseSalary as CreditBaseSalary,
+						tempTable.CreditGST as CreditGST,
+						tempTable.CreditDiscountAmount as CreditDiscountAmount,
+						tempTable.Source as Source,
+						tempTable.CandidateCompany as CandidateCompany
+
+                        FROM @tablevar tempTable";
+
+                var remittancesFromDB = db.Connection.Query<Remittance>(query, new
+                {
+                    candidateid = candidateId
+                });
+
+                return remittancesFromDB.Select( rm => new Remittance
+                {
+                    DepositDate = rm.DepositDate,
+                    StartDate = Convert.ToDateTime("2015-07-01"),
+                    EndDate =  Convert.ToDateTime("2015-07-15"),
+                    Amount = (float) 2653.50,
+                    DocumentNumber = "6C94239"
+                }).ToList();
+            }
+
         }
 
 
@@ -51,7 +106,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             #endif
 
           
-            return GetRemittanceDataFromGP(userId);
+            IEnumerable<Remittance> remittancesGP = GetRemittanceDataFromGP(userId);
+            IEnumerable<Remittance> remittancesNonGP = GetRemittanceDataFromNonGP(userId);
+
+            return remittancesNonGP;
 
             /*
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
