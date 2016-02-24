@@ -24,11 +24,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         insert into @tablevar(vchrnmbr, docdate, docnumbr, docamnt, source, dbsource ) EXECUTE [dbo].[UspGetEREmittancesFromGP_TSAPP] 
                            @candidateid
 
-                        SELECT  tempTable.vchrnmbr as vchrnmbr,
-		                        tempTable.docdate as docdate,
-		                        tempTable.docnumbr as docnumbr,
-                                tempTable.docamnt as docamnt,
-                                tempTable.source as source,
+                        SELECT  tempTable.vchrnmbr as VoucherNumber,
+		                        tempTable.docdate as DepositDate,
+		                        tempTable.docnumbr as DocumentNumber,
+                                tempTable.docamnt as Amount,
+                                tempTable.source as Source,
                                 tempTable.dbsource as dbsource
 
                         FROM @tablevar tempTable";
@@ -43,11 +43,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     StartDate = Convert.ToDateTime("2015-07-01"),
                     EndDate =  Convert.ToDateTime("2015-07-15"),
                     DepositDate = Convert.ToDateTime("2015-07-17"),
-                    Amount = (float) 2653.50,
-                    DocumentNumber = "6C94239"
+                    Amount = (float) rm.Amount,
+                    DocumentNumber = rm.DocumentNumber,
+                    VoucherNumber = rm.VoucherNumber,
+                    DocDate = rm.DocDate,
+                    Source = rm.Source
                 }).ToList();
             }
-             
         }
 
         public IEnumerable<Remittance> GetRemittanceDataFromNonGP(int candidateId)
@@ -65,7 +67,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 						tempTable.VendorID as VendorID,
 						tempTable.SiRefNo as SiRefNo,
 						tempTable.VoucherNumber as VoucherNumber,
-						tempTable.Depositdate as Depositdate,
+						tempTable.Depositdate as DepositDate,
 						tempTable.ActualHours as ActualHours,
 						tempTable.PayRate as PayRate,
 						tempTable.QuickPay as QuickPay,
@@ -91,7 +93,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     StartDate = Convert.ToDateTime("2015-07-01"),
                     EndDate =  Convert.ToDateTime("2015-07-15"),
                     Amount = (float) 2653.50,
-                    DocumentNumber = "6C94239"
+                    DocumentNumber = "6C94239",
+                    VoucherNumber = rm.VoucherNumber
                 }).ToList();
             }
 
@@ -106,10 +109,23 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             #endif
 
           
+
+
             IEnumerable<Remittance> remittancesGP = GetRemittanceDataFromGP(userId);
             IEnumerable<Remittance> remittancesNonGP = GetRemittanceDataFromNonGP(userId);
 
-            return remittancesNonGP;
+            /*
+            foreach ( Remittance rmGP in remittancesGP.ToList() )
+            {
+                Remittance remittance = remittancesNonGP.Select(rm => rm.VoucherNumber = rmGP.VoucherNumber);
+
+                if( remittance != null )
+                    rmGp
+            }
+            */
+            //Match pay rate with pay rate repo call and figure out start and end dates?
+
+            return remittancesGP;
 
             /*
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -140,7 +156,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         EndDate =  Convert.ToDateTime("2015-07-15"),
                         DepositDate = Convert.ToDateTime("2015-07-17"),
                         Amount = (float) 2653.50,
-                        DocumentNumber = "6C94239"
+                        DocumentNumber = "6C94239",
+                        CandidateId = "191844",
+                        VoucherNumber = "330567",
+                        Source = "pam",
+                        DocDate = "2015-11-20",
+                        DBSource = "sipar"
                     }
                     ,new Remittance
                     {
@@ -148,7 +169,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         EndDate =  Convert.ToDateTime("2015-07-31"),
                         DepositDate = Convert.ToDateTime("2015-08-03"),
                         Amount = (float) 2340.00,
-                        DocumentNumber = "6D23490"
+                        DocumentNumber = "6D23490",
+                        CandidateId = "191844",
+                        VoucherNumber = "330567",
+                        Source = "pam",
+                        DocDate = "2015-11-20",
+                        DBSource = "sipar"
                     }
                 };
             }

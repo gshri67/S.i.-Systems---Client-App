@@ -7,6 +7,7 @@ using ConsultantApp.Core.ViewModels;
 using Microsoft.Practices.Unity;
 using System.Net.Http;
 using System.Net;
+using SiSystems.SharedModels;
 
 namespace ConsultantApp.iOS
 {
@@ -25,7 +26,7 @@ namespace ConsultantApp.iOS
 		{
 			base.ViewDidLoad ();
 
-            LoadRemittancePDF();
+            LoadRemittancePDF( null );
             /*
 			webView = new UIWebView ( View.Frame );
 			webView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
@@ -37,7 +38,12 @@ namespace ConsultantApp.iOS
 			webView.ScalesPageToFit = true;*/
 		}
 
-        public async void LoadRemittancePDF()
+	    public void SetRemittance( Remittance remittance )
+	    {
+            LoadRemittancePDF(remittance);
+	    }
+
+	    public async void LoadRemittancePDF( Remittance remittance )
         {
             //IndicateLoading();
 
