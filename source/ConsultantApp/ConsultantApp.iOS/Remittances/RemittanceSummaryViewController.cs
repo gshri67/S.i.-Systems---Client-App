@@ -7,6 +7,7 @@ using ConsultantApp.Core.ViewModels;
 using Microsoft.Practices.Unity;
 using System.Net.Http;
 using System.Net;
+using CoreGraphics;
 using SiSystems.SharedModels;
 
 namespace ConsultantApp.iOS
@@ -16,6 +17,7 @@ namespace ConsultantApp.iOS
 		private UIWebView webView;
 	    
         private readonly RemittanceSummaryViewModel _viewModel;
+        private LoadingOverlay _overlay;
 
 		public RemittanceSummaryViewController (IntPtr handle) : base (handle)
 		{
@@ -26,15 +28,7 @@ namespace ConsultantApp.iOS
 		{
 			base.ViewDidLoad ();
 
-            /*
-			webView = new UIWebView ( View.Frame );
-			webView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
-			View.AddSubview (webView);
-
-			string fileName = "Sprint2_SS_1.0.pdf"; // remember case-sensitive
-			string localDocUrl = Path.Combine (NSBundle.MainBundle.BundlePath, fileName);
-			webView.LoadRequest(new NSUrlRequest(new NSUrl(localDocUrl, false)));
-			webView.ScalesPageToFit = true;*/
+		    Title = "ERemittance Summary";
 		}
 
 	    public void SetRemittance( Remittance remittance )
@@ -44,7 +38,7 @@ namespace ConsultantApp.iOS
 
 	    public async void LoadRemittancePDF( Remittance remittance )
         {
-            //IndicateLoading();
+            IndicateLoading();
             await _viewModel.LoadPDF(remittance);
 
             UpdateWebView();
@@ -52,6 +46,8 @@ namespace ConsultantApp.iOS
 
 	    private async void UpdateWebView()
 	    {
+            RemoveOverlay();
+
 	        if (webView == null)
 	        {
 	            webView = new UIWebView(View.Frame);
@@ -78,5 +74,30 @@ namespace ConsultantApp.iOS
             webView.LoadRequest(new NSUrlRequest(new NSUrl(localDocUrl, false)));
             webView.ScalesPageToFit = true;
 	    }
-	}
+
+    #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+
+                var frame = new CGRect(View.Frame.X, View.Frame.Y, View.Frame.Width, View.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+
+    #endregion
+    }
 }

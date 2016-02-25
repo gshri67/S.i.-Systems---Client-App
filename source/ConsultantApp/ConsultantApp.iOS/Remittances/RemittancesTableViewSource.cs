@@ -59,9 +59,7 @@ namespace ConsultantApp.iOS
 					depositDate: remittance.DepositDate.ToString("MMM ") + remittance.DepositDate.ToString("dd, yyyy").Trim('0'),
 					documentNumber: remittance.DocumentNumber,
 					amount: remittance.Amount,
-					//period: string.Format( "{0:MMM} {0:d}-{1:d}", remittance.StartDate, remittance.EndDate )
-					period: remittance.StartDate.ToString("MMM ") + remittance.StartDate.ToString("d ").Trim(' ') + "-" + remittance.EndDate.ToString("d ").Trim(' ')
-					//remittance.StartDate.ToString("MM/").Trim('0') + remittance.StartDate.ToString("dd").Trim('0') + "-" + remittance.EndDate.ToString("MM/").Trim('0') + remittance.EndDate.ToString("dd").Trim('0')
+					period: string.Empty// remittance.StartDate.ToString("MMM ") + remittance.StartDate.ToString("d ").Trim(' ') + "-" + remittance.EndDate.ToString("d ").Trim(' ')
 				);
 			}
 

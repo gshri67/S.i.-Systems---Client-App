@@ -187,7 +187,7 @@ namespace Shared.Core
         [HttpPost("Remittances/pdf/remittanceVar")]
         public async Task<Stream> GetPDF(Remittance rm)
         {
-            var response = await ExecuteWithDefaultClient<IEnumerable<int>>(new {rm});
+            var response = await ExecuteWithDefaultClient<IEnumerable<int>>(rm);
             byte[] buffer = new byte[response.Count()];
 
             for( int i = 0; i < response.Count(); i ++ )
