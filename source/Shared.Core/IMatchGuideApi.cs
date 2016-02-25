@@ -41,7 +41,7 @@ namespace Shared.Core
         
         Task<ConsultantDetails> GetCurrentUserConsultantDetails();
 
-        Task<Stream> GetPDF(string docNumber);
+        Task<Stream> GetPDF(Remittance remittance);
         
         Task<Timesheet> SaveTimesheet(Timesheet timesheet);
         

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using SiSystems.ClientApp.Web.Domain.Services;
 using SiSystems.ConsultantApp.Web.Domain.Services;
 using SiSystems.ConsultantApp.Web.Filters;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ConsultantApp.Web.Controllers.Api
 {
@@ -30,10 +31,12 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, remittances);
         }
 
-        public async Task<IHttpActionResult> Post()
+        [Route("pdf/remittanceVar")]
+        public async Task<IHttpActionResult> Post(Remittance rm)
         {
-            var result = await _myAccountService.RequestERemittancePDF("191844", "330567", "pam", "2015-11-20", "sipar");
-           
+            //var result = await _myAccountService.RequestERemittancePDF("191844", "330567", "pam", "2015-11-20", "sipar");
+            var result = await _myAccountService.RequestERemittancePDF(rm);
+
             return Ok(result);
         }
     }

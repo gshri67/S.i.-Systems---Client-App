@@ -26,7 +26,6 @@ namespace ConsultantApp.iOS
 		{
 			base.ViewDidLoad ();
 
-            LoadRemittancePDF( null );
             /*
 			webView = new UIWebView ( View.Frame );
 			webView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
@@ -46,8 +45,7 @@ namespace ConsultantApp.iOS
 	    public async void LoadRemittancePDF( Remittance remittance )
         {
             //IndicateLoading();
-
-            await _viewModel.LoadPDF( string.Empty );
+            await _viewModel.LoadPDF(remittance);
 
             UpdateWebView();
         }

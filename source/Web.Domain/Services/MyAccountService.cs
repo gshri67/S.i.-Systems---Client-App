@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SiSystems.ClientApp.Web.Domain;
 using SiSystems.SharedModels;
+using SiSystems.Web.Domain.Context;
 
 namespace SiSystems.ConsultantApp.Web.Domain.Services
 {
@@ -19,11 +20,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         const string PortalName = "Client";
         private readonly HttpMessageHandler _httpHandler;
         private readonly IUserRepository _userRepository;
+        private ISessionContext _session;
 
-        public MyAccountService(IUserRepository userRepository, HttpMessageHandler httpHandler)
+        public MyAccountService(IUserRepository userRepository, ISessionContext session, HttpMessageHandler httpHandler)
         {
             this._userRepository = userRepository;
             this._httpHandler = httpHandler;
+            _session = session;
         }
 
         private static void EnsureMyAccountsServiceIsConfigured()
@@ -38,13 +41,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         }
 
         public async Task<IEnumerable<int>> RequestERemittancePDF
-            (string candidateId, string VcherNumber, string Source, string DocDate, string DBSource)
+            (Remittance remittance)
         {
             EnsureMyAccountsServiceIsConfigured();
 
             using (var httpClient = new HttpClient() { BaseAddress = new Uri(Settings.MatchGuideMyAccountServiceUrl) })
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, string.Format("MyaccountService.svc/ERemittancePDF/{0}/GetPDF?UV1={1}&UV2={2}&UV3={3}&UV4={4}", candidateId, VcherNumber, Source, DocDate, DBSource));
+                string candidateId = _session.CurrentUser.Id.ToString();
+                var request = new HttpRequestMessage(HttpMethod.Get, string.Format("MyaccountService.svc/ERemittancePDF/{0}/GetPDF?UV1={1}&UV2={2}&UV3={3}&UV4={4}", candidateId, remittance.VoucherNumber, remittance.Source, remittance.DepositDate.ToString("MM/dd/yyyy"), remittance.DBSource));
 
                 HttpResponseMessage response = null;
 

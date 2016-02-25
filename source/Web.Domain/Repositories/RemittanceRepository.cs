@@ -29,26 +29,17 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 		                        tempTable.docnumbr as DocumentNumber,
                                 tempTable.docamnt as Amount,
                                 tempTable.source as Source,
-                                tempTable.dbsource as dbsource
+                                tempTable.dbsource as DBSource
+                                @candidateId as CandidateId
 
                         FROM @tablevar tempTable";
 
                 var remittancesFromDB = db.Connection.Query<Remittance>(query, new
                 {
                     candidateid = candidateId
-                });
-
-                return remittancesFromDB.Select( rm => new Remittance
-                {
-                    StartDate = Convert.ToDateTime("2015-07-01"),
-                    EndDate =  Convert.ToDateTime("2015-07-15"),
-                    DepositDate = Convert.ToDateTime("2015-07-17"),
-                    Amount = (float) rm.Amount,
-                    DocumentNumber = rm.DocumentNumber,
-                    VoucherNumber = rm.VoucherNumber,
-                    DocDate = rm.DocDate,
-                    Source = rm.Source
                 }).ToList();
+
+                return remittancesFromDB;
             }
         }
 
@@ -85,17 +76,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 var remittancesFromDB = db.Connection.Query<Remittance>(query, new
                 {
                     candidateid = candidateId
-                });
-
-                return remittancesFromDB.Select( rm => new Remittance
-                {
-                    DepositDate = rm.DepositDate,
-                    StartDate = Convert.ToDateTime("2015-07-01"),
-                    EndDate =  Convert.ToDateTime("2015-07-15"),
-                    Amount = (float) 2653.50,
-                    DocumentNumber = "6C94239",
-                    VoucherNumber = rm.VoucherNumber
                 }).ToList();
+
+                return remittancesFromDB;
             }
 
         }
@@ -111,8 +94,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
           
 
 
-            IEnumerable<Remittance> remittancesGP = GetRemittanceDataFromGP(userId);
-            IEnumerable<Remittance> remittancesNonGP = GetRemittanceDataFromNonGP(userId);
+            var remittancesGP = GetRemittanceDataFromGP(userId);
+            var remittancesNonGP = GetRemittanceDataFromNonGP(userId);
 
             /*
             foreach ( Remittance rmGP in remittancesGP.ToList() )
@@ -160,7 +143,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         CandidateId = "191844",
                         VoucherNumber = "330567",
                         Source = "pam",
-                        DocDate = "2015-11-20",
                         DBSource = "sipar"
                     }
                     ,new Remittance
@@ -173,7 +155,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         CandidateId = "191844",
                         VoucherNumber = "330567",
                         Source = "pam",
-                        DocDate = "2015-11-20",
                         DBSource = "sipar"
                     }
                 };

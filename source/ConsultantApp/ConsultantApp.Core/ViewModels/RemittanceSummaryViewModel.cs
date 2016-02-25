@@ -23,18 +23,18 @@ namespace ConsultantApp.Core.ViewModels
 		public RemittanceSummaryViewModel(IMatchGuideApi matchGuideApi)
 		{
 			_api = matchGuideApi;
-		} 
+		}
 
-        public Task LoadPDF(string docNumber)
+        public Task LoadPDF(Remittance remittance)
         {
-            var task = GetPDFFromService(docNumber);
+            var task = GetPDFFromService(remittance);
 
             return task;    
         }
 
-        private async Task GetPDFFromService(string docNumber)
+        private async Task GetPDFFromService(Remittance remittance)
         {
-            PDFStream = await _api.GetPDF(docNumber);
+            PDFStream = await _api.GetPDF(remittance);
         }
 	}
 }

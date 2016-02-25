@@ -184,10 +184,10 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<ConsultantDetails>();
         }
 
-        [HttpPost("Remittances/pdf/{docNumber}")]
-        public async Task<Stream> GetPDF(string docNumber) 
+        [HttpPost("Remittances/pdf/remittanceVar")]
+        public async Task<Stream> GetPDF(Remittance rm)
         {
-            var response = await ExecuteWithDefaultClient<IEnumerable<int>>(new { docNumber });
+            var response = await ExecuteWithDefaultClient<IEnumerable<int>>(new {rm});
             byte[] buffer = new byte[response.Count()];
 
             for( int i = 0; i < response.Count(); i ++ )

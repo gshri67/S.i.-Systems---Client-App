@@ -76,6 +76,14 @@ namespace ConsultantApp.iOS
 
 			//normal iOS behaviour is to remove the selection
 			tableView.DeselectRow(indexPath, true);*/
+
+		    UIStoryboard storyboard = _parentController.Storyboard;
+		    var vc = (RemittanceSummaryViewController)storyboard.InstantiateViewController("RemittanceSummaryViewController");
+    
+            _parentController.ShowViewController(vc, _parentController);
+
+            if (_remittances != null && _remittances.Count > (int)indexPath.Item)
+                vc.SetRemittance(_remittances[(int)indexPath.Item]);
 		}
 
 		public override UIView GetViewForFooter (UITableView tableView, nint section)
