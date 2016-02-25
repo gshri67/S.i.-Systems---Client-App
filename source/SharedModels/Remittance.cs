@@ -10,7 +10,6 @@ namespace SiSystems.SharedModels
 		public DateTime EndDate { get; set; }
 	    public DateTime DepositDate { get; set; }
 
-	    public string CandidateId { get; set; }
         public string VoucherNumber { get; set; }
         public string Source { get; set; }
         public string DBSource { get; set; }

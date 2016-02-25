@@ -30,7 +30,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                                 tempTable.docamnt as Amount,
                                 tempTable.source as Source,
                                 tempTable.dbsource as DBSource
-                                @candidateId as CandidateId
 
                         FROM @tablevar tempTable";
 
