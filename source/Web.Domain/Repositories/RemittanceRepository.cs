@@ -139,7 +139,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         DepositDate = Convert.ToDateTime("2015-07-17"),
                         Amount = (float) 2653.50,
                         DocumentNumber = "6C94239",
-                        CandidateId = "191844",
                         VoucherNumber = "330567",
                         Source = "pam",
                         DBSource = "sipar"
@@ -151,7 +150,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         DepositDate = Convert.ToDateTime("2015-08-03"),
                         Amount = (float) 2340.00,
                         DocumentNumber = "6D23490",
-                        CandidateId = "191844",
                         VoucherNumber = "330567",
                         Source = "pam",
                         DBSource = "sipar"
