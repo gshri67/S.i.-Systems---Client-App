@@ -228,19 +228,23 @@ namespace ConsultantApp.iOS
                 var newEntry = new TimeEntry
                 {
                     Date = Date,
-                    ProjectCode = "Project Code",
+                    //ProjectCode = "Project Code",
                     Hours = 8,
-                    PayRate = new PayRate
-                    {
-                        RateDescription = "Pay Rate"
-                    }
+                    //PayRate = new PayRate
+                    //{
+                    //    RateDescription = "Pay Rate"
+                    //}
+                    CodeRate = new ProjectCodeRateDetails { DisplayPONumber = "Project Code", ratedescription = "Pay Rate"}
                 };
 
-                IEnumerable<TimeEntry> newEnumerableEntry = new List<TimeEntry> {newEntry};
+                //IEnumerable<TimeEntry> newEnumerableEntry = new List<TimeEntry> {newEntry};
                 
                 //todo: find a better way to add this temporary cell
                 //_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat(newEnumerableEntry);
-                //_addTimeTableViewSource.TimeEntries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(Date));
+                _timesheetModel.AddTimeEntry(newEntry);
+                _addTimeTableViewSource.TimeEntries = _timesheetModel.GetTimeEntriesForDate(Date);//_curTimesheet.TimeEntries.Where(e => e.Date.Equals(Date));
+
+                
                 /*
                  * Note that the above might not be needed at all. Here's what I'm thinking:
                       When we save, we actually check each and every TimeEntry in our timesheet for changes. 

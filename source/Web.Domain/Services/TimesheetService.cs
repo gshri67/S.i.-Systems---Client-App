@@ -63,7 +63,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             updatedTimesheet.TimesheetApprover = updatedTimesheet.TimesheetApprover ?? 
                 _timeSheetRepository.GetDirectReportByTimesheetId(updatedTimesheet.Id);
             
-            updatedTimesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesByTimesheetId(id);
+            updatedTimesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(updatedTimesheet);
 
             return updatedTimesheet;
         }

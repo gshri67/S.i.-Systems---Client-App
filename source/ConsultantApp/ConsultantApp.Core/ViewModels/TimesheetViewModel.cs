@@ -317,6 +317,11 @@ namespace ConsultantApp.Core.ViewModels
 	    {
 	        return date.CompareTo(Timesheet.EndDate) == 0;
 	    }
+
+	    public void AddTimeEntry(TimeEntry newEntry)
+	    {
+            Timesheet.TimeEntries = Timesheet.TimeEntries.Concat(new[] { newEntry });
+	    }
 	}
 }
 

@@ -247,8 +247,8 @@ namespace ConsultantApp.iOS
 			{
 				cell.UpdateCell
 				(
-					projectCode: curEntry.ProjectCode,
-					rateDescription: curEntry.PayRate.RateDescription,
+                    projectCode: curEntry.CodeRate.DisplayPONumber,//.ProjectCode,
+					rateDescription: curEntry.CodeRate.ratedescription,//.PayRate.RateDescription,
 					hours: curEntry.Hours.ToString (CultureInfo.InvariantCulture),
 					onHoursChanged: ( float newHours) => 
 									{

@@ -28,11 +28,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             foreach (var timesheet in timesheets)
             {
-                timesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesByTimesheetId(timesheet.Id);
-                foreach (var entry in timesheet.TimeEntries)
-                {
-                    entry.PayRate = _timeEntryRepository.GetPayRateById(entry);
-                }
+                timesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(timesheet);
             }
 
             return (from @group in timesheets.GroupBy(t => t.TimePeriod)

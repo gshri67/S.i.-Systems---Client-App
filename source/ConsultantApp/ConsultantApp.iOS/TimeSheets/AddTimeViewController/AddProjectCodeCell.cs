@@ -94,11 +94,11 @@ namespace ConsultantApp.iOS
 			AddSubview (_deleteButton);
 		}
 
-		public void SetTimeEntry( TimeEntry entry )
-		{
-			TimeEntry = entry;
-			UpdateUI ();
-		}
+        //public void SetTimeEntry( TimeEntry entry )
+        //{
+        //    TimeEntry = entry;
+        //    UpdateUI ();
+        //}
 
 		public void SetData( TimeEntry entry, TimesheetSupport support )
 		{
@@ -149,10 +149,11 @@ namespace ConsultantApp.iOS
 			};
 
 
-			loadSelectedPickerItem ( TimeEntry.ProjectCode, _projectCodes, 0 );
+			loadSelectedPickerItem ( TimeEntry.CodeRate.DisplayPONumber, _projectCodes, 0 );
 
-			if( TimeEntry.PayRate != null )
-				loadSelectedPickerItem ( string.Format ("{0} ({1:C})", TimeEntry.PayRate.RateDescription, TimeEntry.PayRate.Rate), payRateStringList, 1 );
+			if( TimeEntry.CodeRate != null )
+				//loadSelectedPickerItem ( string.Format ("{0} ({1:C})", TimeEntry.PayRate.RateDescription, TimeEntry.PayRate.Rate), payRateStringList, 1 );
+                loadSelectedPickerItem ( string.Format ("{0} ({1:C})", TimeEntry.CodeRate.ratedescription, TimeEntry.CodeRate.rateAmount), payRateStringList, 1 );
 			else
 				loadSelectedPickerItem ( null, payRateStringList, 1 );
 			
@@ -206,19 +207,18 @@ namespace ConsultantApp.iOS
 
 		public void SaveChanges()
 		{
-			TimeEntry.ProjectCode = _pickerModel.items.ElementAt(0).ElementAt( _pickerModel.selectedItemIndex.ElementAt(0) );
+            TimeEntry.CodeRate.DisplayPONumber = _pickerModel.items.ElementAt(0).ElementAt(_pickerModel.selectedItemIndex.ElementAt(0));
 
 			SetTimeEntryPayRateToSelectedRate();
 
-			ActiveTimesheetViewModel.IncrementProjectCodeCount(TimeEntry.ProjectCode);
+		    ActiveTimesheetViewModel.IncrementProjectCodeCount(TimeEntry.CodeRate.DisplayPONumber);//.ProjectCode);
 			
 			OnSave();
 		}
 
 	    private void SetTimeEntryPayRateToSelectedRate()
 	    {
-            //todo: change to ProjectCodeRateDetails object
-            //TimeEntry.PayRate = _payRates.ElementAt(GetSelectedIndexForComponent(PayRateComponentIndex));
+            TimeEntry.CodeRate = _payRates.ElementAt(GetSelectedIndexForComponent(PayRateComponentIndex));
 	    }
 
 	    private int GetSelectedIndexForComponent(int componentIndex)
