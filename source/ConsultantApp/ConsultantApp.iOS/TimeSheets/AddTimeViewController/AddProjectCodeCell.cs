@@ -105,7 +105,7 @@ namespace ConsultantApp.iOS
 			TimeEntry = entry;
             
             //todo: confirm these values are what the user expects to see
-		    _projectCodes = support.ProjectCodeOptions.Select(details => details.PODescription).Distinct().ToList();
+		    _projectCodes = support.ProjectCodeOptions.Select(details => details.PONumber).Distinct().ToList();
             _payRates = support.ProjectCodeOptions;
             
 			UpdateUI();
