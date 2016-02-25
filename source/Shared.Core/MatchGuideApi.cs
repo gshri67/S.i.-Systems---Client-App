@@ -330,7 +330,7 @@ namespace Shared.Core
         [HttpGet("PayRates/TimesheetSupport/")]
         public async Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet)
         {
-            return await ExecuteWithDefaultClient<TimesheetSupport>(new { timesheet });
+            return await ExecuteWithDefaultClient<TimesheetSupport>(timesheet);
         }
 
     }
