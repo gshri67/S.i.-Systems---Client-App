@@ -28,7 +28,11 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-  <key>SIAlumniXamarinInsightsAPIKey</key>
-  <string></string>
+	<key>SIAlumniXamarinInsightsAPIKey</key>
+	<string></string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>Icon-60@2x.png</string>
+	</array>
 </dict>
 </plist>

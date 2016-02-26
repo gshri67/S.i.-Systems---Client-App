@@ -117,15 +117,18 @@
     <OutputPath>bin\iPhone\Test\</OutputPath>
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;TEST</DefineConstants>
     <Optimize>true</Optimize>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
     <BuildIpa>True</BuildIpa>
     <IpaIncludeArtwork>True</IpaIncludeArtwork>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignProvision>
     </CodesignProvision>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignEntitlements>
+    </CodesignEntitlements>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
     <WarningLevel>4</WarningLevel>
+    <CodesignResourceRules />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ActivityManager.cs" />
@@ -165,6 +168,7 @@
     <Compile Include="TimeSheets\ActiveTimesheets\ActiveTimesheetViewController.designer.cs">
       <DependentUpon>ActiveTimesheetViewController.cs</DependentUpon>
     </Compile>
+    <ITunesArtwork Include="iTunesArtwork%402x" />
     <None Include="Octopus\Deploy.ps1" />
     <None Include="Octopus\Release.nuspec" />
     <None Include="Octopus\Test.nuspec" />
@@ -245,6 +249,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
+    <BundleResource Include="Resources\Icon-60%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Third-Party Components\FMCalendar\Resources\" />
