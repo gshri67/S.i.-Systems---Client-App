@@ -91,8 +91,31 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     ClientName = ts.ClientName,
                     ContractId = ts.agreementid, //note that with this SP we could get ContractID or AgreementID
                     StartDate = ts.tsStartDate,
-                    EndDate = ts.tsEndDate
+                    EndDate = ts.tsEndDate,
+                    TimesheetApprover = GetTimeSheetApproverByName(ts.directreportname)
                 }).ToList();
+            }
+        }
+
+
+
+        public DirectReport GetTimeSheetApproverByName(string name)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                        @"SELECT DirectReport.UserID Id
+	                        ,DirectReport.FirstName FirstName
+	                        ,DirectReport.LastName LastName
+	                        ,DirectReportEmail.PrimaryEmail Email
+                        FROM Users DirectReport 
+                        LEFT JOIN User_Email DirectReportEmail ON DirectReport.UserID= DirectReportEmail.UserID
+                        WHERE Concat(DirectReport.FirstName,' ',DirectReport.LastName) LIKE @DirectReportName
+                        ORDER BY DirectReport.UserID DESC";
+
+                var directReport = db.Connection.Query<DirectReport>(query, new { DirectReportName = name }).FirstOrDefault();
+
+                return directReport;
             }
         }
 

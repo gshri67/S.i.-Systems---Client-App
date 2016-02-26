@@ -14,12 +14,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private readonly ISessionContext _sessionContext;
         private readonly ITimesheetRepository _timeSheetRepository;
         private readonly ITimeEntryRepository _timeEntryRepository;
+        private readonly IDirectReportRepository _timeSheetApproverRepository;
 
-        public PayPeriodService(ISessionContext sessionContext, ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository)
+        public PayPeriodService(ISessionContext sessionContext, ITimesheetRepository timesheetRepository, ITimeEntryRepository timeEntryRepository, IDirectReportRepository timeSheetApproverRepository)
         {
             _sessionContext = sessionContext;
             _timeSheetRepository = timesheetRepository;
             _timeEntryRepository = timeEntryRepository;
+            _timeSheetApproverRepository = timeSheetApproverRepository;
         }
 
         public IEnumerable<PayPeriod> GetRecentPayPeriods()
@@ -43,9 +45,17 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         private List<Timesheet> MostRecentSixMonthsOfTimesheets()
         {
-            var allTimesheets = _timeSheetRepository.GetNonOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
+            var allTimesheets = _timeSheetRepository.GetNonOpenTimesheetsForUser(_sessionContext.CurrentUser.Id)
+                .Where(ts => ts.EndDate > DateTime.UtcNow.AddMonths(-6));
 
-            var openTimesheets = _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
+            foreach (var timesheet in allTimesheets.Where(timesheet => timesheet.Status.ToString() != MatchGuideConstants.TimesheetStatus.Open.ToString()))
+            {
+                timesheet.TimesheetApprover =
+                    _timeSheetApproverRepository.GetCurrentTimesheetApproverForTimesheet(timesheet.Id);
+            }
+
+            var openTimesheets = _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id)
+                .Where(ts => ts.EndDate > DateTime.UtcNow.AddMonths(-6));
 
             var timesheets = openTimesheets.ToList();
 
@@ -53,8 +63,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                 allTimesheets//.Where(timesheet => timesheet.Status != MatchGuideConstants.TimesheetStatus.Cancelled)
             );
 
-            //only retrieve the most recent 6 months worth of timesheets
-            timesheets = timesheets.Where(ts => ts.EndDate > DateTime.UtcNow.AddMonths(-6)).ToList();
             return timesheets;
         }
     }
