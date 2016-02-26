@@ -18,7 +18,7 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             _service = service;
         }
 
-        [Route("TimesheetSupport/")]
+        [Route("TimesheetSupport")]
         public HttpResponseMessage GetTimesheetSupportByTimesheet(Timesheet timesheet)
         {
             var timesheetSupport = _service.GetTimesheetSupportByTimesheet(timesheet);

@@ -327,7 +327,7 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<IEnumerable<UserContact>>( new {filter} );
         }
 
-        [HttpGet("PayRates/TimesheetSupport/")]
+        [HttpPost("PayRates/TimesheetSupport")]
         public async Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet)
         {
             return await ExecuteWithDefaultClient<TimesheetSupport>(timesheet);
