@@ -15,10 +15,10 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
         }
 
-        public void UpdateCell(string company, string timesheetApprover, string hours, string status)
+        public void UpdateCell(string company, string subtitleText, string hours, string status)
         {
             companyLabel.Text = company;
-            timesheetApproverLabel.Text = timesheetApprover;
+            timesheetApproverLabel.Text = subtitleText;
             hoursLabel.Text = string.Format("{0} hrs", hours);
             statusLabel.Text = status;
         }

@@ -53,9 +53,11 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    {
             if (status == MatchGuideConstants.TimesheetStatus.Batched
                 || status == MatchGuideConstants.TimesheetStatus.Moved
-                || status == MatchGuideConstants.TimesheetStatus.Accepted)
+                || status == MatchGuideConstants.TimesheetStatus.Accepted
+                || status == MatchGuideConstants.TimesheetStatus.Approved)
             {
-                return MatchGuideConstants.TimesheetStatus.Approved.ToString();
+                MatchGuideConstants.TimesheetStatus approvedStatus = MatchGuideConstants.TimesheetStatus.Approved;
+                return approvedStatus.ToString();
             }
 	        return status.ToString();
 	    }
@@ -73,7 +75,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		    cell.UpdateCell(
 		        company: timesheet.ClientName,
-		        timesheetApprover: timesheetApproverLabelText ?? string.Empty,
+                subtitleText: string.Format("Contract Id: {0}", timesheet.ContractId.ToString()) ?? string.Empty,
 		        hours: timesheet.TimeEntries.Sum(t => t.Hours).ToString(),
 		        status: StatusTextToDisplay(timesheet.Status)
 		        );
