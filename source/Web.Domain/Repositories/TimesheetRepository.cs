@@ -92,7 +92,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     ContractId = ts.agreementid, //note that with this SP we could get ContractID or AgreementID
                     StartDate = ts.tsStartDate,
                     EndDate = ts.tsEndDate,
-                    TimesheetApprover = GetTimeSheetApproverByName(ts.directreportname)
+                    TimesheetApprover = ts.directreportname != null 
+                        ? GetTimeSheetApproverByName(ts.directreportname) 
+                        : GetTimeSheetApproverByName(ts.ContractDirectReportName) 
                 }).ToList();
             }
         }
