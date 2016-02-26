@@ -44,9 +44,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 	                        ,DetTemp.Description AS PODescription
 	                        ,DetTemp.InvoiceCodeId
 	                        ,DetTemp.verticalid
+                            ,ContractDetail.RateDescription AS ratedescription
+	                        ,ContractDetail.PayRate AS rateamount
                         FROM TimeSheetDetailTemp DetTemp
                         LEFT JOIN TimeSheetTemp TSTemp ON TSTemp.TimeSheetTempID = DetTemp.TimesheetTempID
                         LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TSTemp.TimeSheetAvailablePeriodID
+                        LEFT JOIN Agreement_ContractRateDetail ContractDetail ON ContractDetail.ContractRateID = DetTemp.ContractRateID
                         WHERE DetTemp.TimeSheetTempID = @TimesheetTempId
                         AND DetTemp.Inactive = 0";
 
@@ -78,9 +81,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                             ,Details.Description AS PODescription
                             ,Details.InvoiceCodeId
                             ,Details.verticalid
+                            ,ContractDetail.RateDescription AS ratedescription
+	                        ,ContractDetail.PayRate AS rateamount
                         FROM TimeSheetDetail Details
                         LEFT JOIN TimeSheet ON TimeSheet.TimeSheetID = Details.TimesheetID
                         LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TimeSheet.TimeSheetAvailablePeriodID
+                        LEFT JOIN Agreement_ContractRateDetail ContractDetail ON ContractDetail.ContractRateID = Details.ContractRateID
                         WHERE Details.TimeSheetID = @TimesheetId";
 
                 var timeEntries = db.Connection.Query<TimeEntry, ProjectCodeRateDetails, TimeEntry>(query,
