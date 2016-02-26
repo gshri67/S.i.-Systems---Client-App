@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="123">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -619,7 +618,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="56789" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mr0-DB-1aQ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="56789" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="Mr0-DB-1aQ">
                                                     <rect key="frame" x="112" y="11" width="75" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -649,7 +648,7 @@
                                                 <constraint firstItem="Eb5-3F-mIV" firstAttribute="top" secondItem="IAg-Zp-i7X" secondAttribute="top" constant="5" id="8573"/>
                                                 <constraint firstItem="Eb5-3F-mIV" firstAttribute="leading" secondItem="IAg-Zp-i7X" secondAttribute="leading" constant="15" id="8574"/>
                                                 <constraint firstItem="00K-ec-4cW" firstAttribute="leading" secondItem="Eb5-3F-mIV" secondAttribute="leading" id="8575"/>
-                                                <constraint firstItem="Mr0-DB-1aQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Eb5-3F-mIV" secondAttribute="trailing" constant="19" id="8583"/>
+                                                <constraint firstItem="Mr0-DB-1aQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Eb5-3F-mIV" secondAttribute="trailing" constant="8" id="8583"/>
                                                 <constraint firstItem="FuC-i7-Te3" firstAttribute="leading" secondItem="Mr0-DB-1aQ" secondAttribute="trailing" constant="5" id="3WP-BL-1hi"/>
                                                 <constraint firstItem="Mr0-DB-1aQ" firstAttribute="bottom" secondItem="zFV-6O-IZf" secondAttribute="bottom" constant="1" id="7Cj-SJ-rGe"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Eb5-3F-mIV" secondAttribute="bottom" constant="5" id="BIg-Pq-5R3"/>
