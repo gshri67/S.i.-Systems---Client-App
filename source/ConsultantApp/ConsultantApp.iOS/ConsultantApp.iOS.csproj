@@ -83,7 +83,7 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <MtouchSdkVersion>8.4</MtouchSdkVersion>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>True</MtouchDebug>
     <MtouchProfiling>False</MtouchProfiling>
     <MtouchFastDev>False</MtouchFastDev>
