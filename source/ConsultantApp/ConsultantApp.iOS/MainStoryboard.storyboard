@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="123">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -51,6 +52,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jcq-tm-ZVP" userLabel="SubmitContainer">
                                 <rect key="frame" x="-2" y="0.0" width="324" height="73"/>
                                 <subviews>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Approved" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Je-mX-TuC">
+                                        <rect key="frame" x="119" y="26" width="85" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8LQ-Lh-lgp" userLabel="EmptySubmitButton" customClass="BorderedButton">
                                         <rect key="frame" x="106" y="26" width="63" height="16"/>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -172,17 +179,21 @@
                                     <constraint firstItem="1gT-0p-Pg8" firstAttribute="centerY" secondItem="217" secondAttribute="centerY" id="H8S-Jx-EzP"/>
                                     <constraint firstItem="8LQ-Lh-lgp" firstAttribute="top" secondItem="217" secondAttribute="top" id="HcY-HZ-n21"/>
                                     <constraint firstItem="8LQ-Lh-lgp" firstAttribute="trailing" secondItem="217" secondAttribute="trailing" id="Kwd-95-mmq"/>
+                                    <constraint firstItem="0Je-mX-TuC" firstAttribute="trailing" secondItem="8LQ-Lh-lgp" secondAttribute="trailing" id="QOg-M9-l4W"/>
                                     <constraint firstItem="8LQ-Lh-lgp" firstAttribute="bottom" secondItem="217" secondAttribute="bottom" id="R9h-dm-k3I"/>
+                                    <constraint firstItem="0Je-mX-TuC" firstAttribute="top" secondItem="8LQ-Lh-lgp" secondAttribute="top" id="UZ8-AF-OhU"/>
                                     <constraint firstItem="217" firstAttribute="leading" secondItem="1BR-1l-nO7" secondAttribute="leading" id="WdH-or-6Ai"/>
                                     <constraint firstItem="217" firstAttribute="bottom" secondItem="tCs-EG-ncj" secondAttribute="bottom" id="cEe-au-DWz"/>
                                     <constraint firstItem="217" firstAttribute="bottom" secondItem="1BR-1l-nO7" secondAttribute="bottom" id="eMb-Ym-yyI"/>
                                     <constraint firstItem="djm-7g-cFG" firstAttribute="leading" secondItem="jcq-tm-ZVP" secondAttribute="trailing" multiplier="0.7" id="hYG-bD-stS"/>
+                                    <constraint firstItem="0Je-mX-TuC" firstAttribute="leading" secondItem="8LQ-Lh-lgp" secondAttribute="leading" id="lip-9A-B8o"/>
                                     <constraint firstAttribute="centerY" secondItem="217" secondAttribute="centerY" constant="2.5" id="nuG-Tx-dsG"/>
                                     <constraint firstItem="djm-7g-cFG" firstAttribute="trailing" secondItem="jcq-tm-ZVP" secondAttribute="trailing" multiplier="0.95" id="osv-e9-pWs"/>
                                     <constraint firstItem="217" firstAttribute="trailing" secondItem="jcq-tm-ZVP" secondAttribute="trailing" multiplier="0.62" id="pAw-0i-FI2"/>
                                     <constraint firstItem="217" firstAttribute="leading" secondItem="jcq-tm-ZVP" secondAttribute="trailing" multiplier="0.38" id="rB8-vM-fV3"/>
                                     <constraint firstItem="tCs-EG-ncj" firstAttribute="leading" secondItem="1gT-0p-Pg8" secondAttribute="trailing" constant="2" id="rJc-Wd-HuK"/>
                                     <constraint firstItem="217" firstAttribute="trailing" secondItem="1BR-1l-nO7" secondAttribute="trailing" id="t2f-1I-FyM"/>
+                                    <constraint firstItem="0Je-mX-TuC" firstAttribute="bottom" secondItem="8LQ-Lh-lgp" secondAttribute="bottom" id="xyi-06-Gea"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i8a-Yi-wTP" userLabel="CalendarView">
@@ -291,6 +302,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addButton" destination="tsT-ua-wdt" id="5OA-pp-sPe"/>
+                        <outlet property="approvedLabel" destination="0Je-mX-TuC" id="PR7-un-oFe"/>
                         <outlet property="approverContainerView" destination="jKD-L4-frb" id="ZOC-pS-jMD"/>
                         <outlet property="approverNameTextField" destination="CtX-uq-FU5" id="wpV-VP-8pL"/>
                         <outlet property="calendarContainerView" destination="i8a-Yi-wTP" id="Vh2-to-n5s"/>
@@ -736,14 +748,14 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="1422">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="1422">
                                                     <rect key="frame" x="225" y="11" width="42" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="1429">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Label" lineBreakMode="tailTruncation" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="1429">
                                                     <rect key="frame" x="159" y="11" width="42" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -770,7 +782,7 @@
                                                 <constraint firstItem="1429" firstAttribute="centerY" secondItem="zow-OQ-99l" secondAttribute="centerY" id="1430"/>
                                                 <constraint firstItem="1536" firstAttribute="top" relation="greaterThanOrEqual" secondItem="zow-OQ-99l" secondAttribute="top" constant="5" id="1547"/>
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="1411" secondAttribute="leading" id="1548"/>
-                                                <constraint firstItem="1429" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1536" secondAttribute="trailing" constant="15" id="1549"/>
+                                                <constraint firstItem="1429" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1536" secondAttribute="trailing" constant="8" id="1549"/>
                                                 <constraint firstItem="1411" firstAttribute="top" secondItem="1536" secondAttribute="bottom" constant="3" id="1551"/>
                                                 <constraint firstItem="1536" firstAttribute="leading" secondItem="zow-OQ-99l" secondAttribute="leading" constant="13" id="1552"/>
                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="1411" secondAttribute="bottom" constant="5" id="1563"/>

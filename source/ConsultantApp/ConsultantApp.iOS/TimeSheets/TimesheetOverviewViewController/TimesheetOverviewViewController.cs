@@ -97,6 +97,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
                 else if (_timesheetModel.TimesheetIsApproved())
                 {
 		            submitButton.Hidden = true;
+					approvedLabel.Hidden = false;
 		        }
 
 		        if (_timesheetModel.TimesheetIsOpen())
@@ -110,8 +111,11 @@ namespace ConsultantApp.iOS.TimeEntryViewController
                     approverNameTextField.Enabled = false;   
 		        }
 
-		        if (!_timesheetModel.TimesheetIsApproved())
-		            submitButton.Hidden = false;
+				if (!_timesheetModel.TimesheetIsApproved ()) 
+				{
+					submitButton.Hidden = false;
+					approvedLabel.Hidden = true;
+				}
 		    }
 
 		    View.SetNeedsLayout();
