@@ -17,9 +17,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _timeSheetApproverRepository = directReportRepository;
         }
 
-        public IEnumerable<DirectReport> GetTimesheetApproversByTimesheetId( int timesheetId )
+        public IEnumerable<DirectReport> GetTimesheetApproversByAgreementId( int timesheetId )
         {
-            return _timeSheetApproverRepository.GetPossibleApproversByTimesheetId(timesheetId);
+            return _timeSheetApproverRepository.GetPossibleApproversByAgreementId(timesheetId);
         }
     }
 }

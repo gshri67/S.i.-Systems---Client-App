@@ -11,31 +11,30 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 {
     public interface IDirectReportRepository
     {
-        IEnumerable<DirectReport> GetPossibleApproversByTimesheetId(int timesheetId);
+        IEnumerable<DirectReport> GetPossibleApproversByAgreementId(int timesheetId);
         DirectReport GetCurrentTimesheetApproverForTimesheet(int timesheetId);
         int UpdateDirectReport(Timesheet timesheet, int previousDirectReportId, int currentUserId);
     }
 
     public class DirectReportRepository : IDirectReportRepository
     {
-        public IEnumerable<DirectReport> GetPossibleApproversByTimesheetId(int timesheetId)
+        public IEnumerable<DirectReport> GetPossibleApproversByAgreementId(int agreementId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                        @"SELECT U.UserID Id
-	                            ,U.FirstName
-	                            ,U.LastName
-	                            ,UE.PrimaryEmail Email
-                            FROM Users U
-                            LEFT JOIN User_Email UE ON UE.UserID = U.UserID
-                            LEFT JOIN Timesheet ON Timesheet.TimesheetId = @TimesheetId
-                            LEFT JOIN Agreement ON Timesheet.AgreementId = Agreement.AgreementId
-                            WHERE UserType = @UserTypeConstant
-                            AND U.CompanyID = Agreement.CompanyID";
+                        @"SELECT Users.UserId Id
+	                        ,Users.FirstName
+	                        ,Users.LastName
+	                        ,Email.PrimaryEmail Email
+                        FROM Agreement
+                        LEFT JOIN Users ON Users.CompanyID = Agreement.CompanyID
+                        LEFT JOIN User_Email Email ON Email.UserID = Users.UserID
+                        WHERE Agreement.AgreementID = @AgreementId
+                        AND Users.UserType = @UserTypeConstant";
                 
                 var approvers = db.Connection.Query<DirectReport>(query
-                    , new { UserTypeConstant = MatchGuideConstants.UserType.ClientContact, TimesheetId = timesheetId });
+                    , new { UserTypeConstant = MatchGuideConstants.UserType.ClientContact, AgreementId = agreementId});
 
                 return approvers;
             }

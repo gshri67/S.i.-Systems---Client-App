@@ -173,9 +173,9 @@ namespace Shared.Core
 		}
 
         [HttpGet("TimesheetApprovers/{id}")]
-        public async Task<IEnumerable<DirectReport>> GetTimesheetApproversByTimesheetId(int clientId)
+        public async Task<IEnumerable<DirectReport>> GetTimesheetApproversByAgreementId(int agreementId)
         {
-            return await ExecuteWithDefaultClient<IEnumerable<DirectReport>>(new { id = clientId });
+            return await ExecuteWithDefaultClient<IEnumerable<DirectReport>>(new { id = agreementId });
         }
 
         [HttpGet("ConsultantDetails")]

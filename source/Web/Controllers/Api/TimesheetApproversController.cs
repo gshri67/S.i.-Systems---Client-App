@@ -19,7 +19,7 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         [Route("{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var approvers = _service.GetTimesheetApproversByTimesheetId(id);
+            var approvers = _service.GetTimesheetApproversByAgreementId(id);
             return Request.CreateResponse(HttpStatusCode.OK, approvers);
         }
     }

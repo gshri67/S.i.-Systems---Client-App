@@ -72,9 +72,9 @@ namespace ConsultantApp.Core.ViewModels
         //    return Enumerable.Empty<PayRate>();
         //}
 
-        public Task<IEnumerable<DirectReport>> GetTimesheetApproversByTimesheetId(int timesheetId)
+        public Task<IEnumerable<DirectReport>> GetTimesheetApproversByAgreementId(int agreementId)
         {
-            return _api.GetTimesheetApproversByTimesheetId(timesheetId);
+            return _api.GetTimesheetApproversByAgreementId(agreementId);
         }
 
 	    public void SubmitTimesheet()
@@ -119,7 +119,7 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task LoadTimesheetApprovers()
         {
-            _approvers = await GetTimesheetApproversByTimesheetId(Timesheet.Id);
+            _approvers = await GetTimesheetApproversByAgreementId(Timesheet.ContractId);
         }
 
 
