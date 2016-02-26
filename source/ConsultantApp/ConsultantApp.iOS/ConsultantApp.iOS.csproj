@@ -119,7 +119,7 @@
     <Optimize>true</Optimize>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <BuildIpa>True</BuildIpa>
-    <IpaIncludeArtwork>True</IpaIncludeArtwork>
+    <IpaIncludeArtwork>False</IpaIncludeArtwork>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignProvision>
     </CodesignProvision>
