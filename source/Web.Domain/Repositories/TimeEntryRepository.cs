@@ -45,7 +45,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 	                        ,DetTemp.InvoiceCodeId
 	                        ,DetTemp.verticalid
                             ,ContractDetail.RateDescription AS ratedescription
-	                        ,ContractDetail.PayRate AS rateamount
+	                        ,CONVERT(VARCHAR(30), ContractDetail.PayRate)  AS rateamount
                         FROM TimeSheetDetailTemp DetTemp
                         LEFT JOIN TimeSheetTemp TSTemp ON TSTemp.TimeSheetTempID = DetTemp.TimesheetTempID
                         LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TSTemp.TimeSheetAvailablePeriodID
@@ -82,7 +82,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                             ,Details.InvoiceCodeId
                             ,Details.verticalid
                             ,ContractDetail.RateDescription AS ratedescription
-	                        ,ContractDetail.PayRate AS rateamount
+	                        ,CONVERT(VARCHAR(30), ContractDetail.PayRate)  AS rateamount
                         FROM TimeSheetDetail Details
                         LEFT JOIN TimeSheet ON TimeSheet.TimeSheetID = Details.TimesheetID
                         LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TimeSheet.TimeSheetAvailablePeriodID
