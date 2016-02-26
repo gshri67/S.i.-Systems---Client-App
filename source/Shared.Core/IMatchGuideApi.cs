@@ -30,11 +30,7 @@ namespace Shared.Core
         Task<ResetPasswordResult> ResetPassword(string emailAddress);
         
         Task<IEnumerable<PayPeriod>> GetPayPeriods();
-
-		Task<IEnumerable<string>> GetProjectCodes();
-
-		Task<IEnumerable<PayRate>> GetPayRates(int contractId);
-
+        
 		Task<IEnumerable<Remittance>> GetRemittances();
 
         Task<IEnumerable<DirectReport>> GetTimesheetApproversByAgreementId( int clientId );
