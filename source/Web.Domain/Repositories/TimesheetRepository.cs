@@ -112,10 +112,38 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     Id = ts.TimesheetID, 
                     Status = (MatchGuideConstants.TimesheetStatus) ts.timesheetStatus, 
                     ClientName = ts.CompanyName, 
-                    ContractId = ts.ContractID, //note this IS the contract ID, not the Agreement Id
+                    ContractId = ts.timesheetStatus == "Saved" 
+                                    ? GetAgreementIdByTempTimeSheetId(ts.TimesheetID) 
+                                    : GetAgreementIdByTimeSheetId(ts.TimesheetID),//ts.ContractID, //note this IS the contract ID, not the Agreement Id
                     StartDate = StartDateFromPeriodDate(ts.payPeriod), 
                     EndDate = EndDateFromPeriodDate(ts.payPeriod)
                 }).ToList();
+            }
+        }
+
+        private int GetAgreementIdByTempTimeSheetId(int timesheetId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT AgreementID FROM TimeSheetTemp WHERE TimeSheetID = @TimesheetId";
+
+                var agreementId = db.Connection.Query<int>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
+
+                return agreementId;
+            }
+        }
+
+        public int GetAgreementIdByTimeSheetId(int timesheetId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT AgreementID FROM TimeSheet WHERE TimeSheetID = @TimesheetId";
+
+                var agreementId = db.Connection.Query<int>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
+
+                return agreementId;
             }
         }
 
