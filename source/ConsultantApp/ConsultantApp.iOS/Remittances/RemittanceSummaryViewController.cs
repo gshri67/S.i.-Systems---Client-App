@@ -55,25 +55,28 @@ namespace ConsultantApp.iOS
 	            View.AddSubview(webView);
 	        }
 
-	        string fileName = "ERemittance.pdf"; // remember case-sensitive
-            string localDocUrl = Path.Combine(NSBundle.MainBundle.BundlePath, fileName);
+            try
+            {
+	            string fileName = "ERemittance.pdf"; // remember case-sensitive
+                string localDocUrl = Path.Combine(NSBundle.MainBundle.BundlePath, fileName);
+
+                var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                localDocUrl = Path.Combine(documents, fileName);
 
 
-            //int bufferSize = (int)_viewModel.PDFStream.Length;
-            //byte[] buffer = new byte[bufferSize];
+                //int bufferSize = (int)_viewModel.PDFStream.Length;
+                //byte[] buffer = new byte[bufferSize];
 
-            FileStream outFile = new FileStream(fileName, FileMode.Create);
-            /*
-            int bytesRead;
-            while((bytesRead = _viewModel.PDFStream.Read(buffer, 0, bufferSize)) != 0)
-                outFile.Write(buffer, 0, bytesRead);
-            */
-            _viewModel.PDFStream.CopyTo(outFile);
+                FileStream outFile = new FileStream(fileName, FileMode.Create);
+                /*
+                int bytesRead;
+                while((bytesRead = _viewModel.PDFStream.Read(buffer, 0, bufferSize)) != 0)
+                    outFile.Write(buffer, 0, bytesRead);
+                */
+                _viewModel.PDFStream.CopyTo(outFile);
   
-	        outFile.Close();
+	            outFile.Close();
 
-	        try
-	        {
 	            webView.LoadRequest(new NSUrlRequest(new NSUrl(localDocUrl, false)));
 	            webView.ScalesPageToFit = true;
 	        }
