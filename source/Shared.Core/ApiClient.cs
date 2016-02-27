@@ -153,6 +153,84 @@ namespace Shared.Core
             }
         }
 
+        protected async Task<HttpResponseMessage> ExecuteWithStreamingClient(object data = null, [CallerMemberName] string caller = null)
+        {
+            //try
+            //{
+                this._activityManager.StartActivity();
+
+                var httpClient = new HttpClient(this._handler)
+                {
+                    BaseAddress = BaseAddressForUsername(this.Username),
+                    Timeout = this.Timeout
+                };
+
+                var token = this._tokenStore.GetDeviceToken();
+                if (token != null)
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
+                    httpClient.BaseAddress = BaseAddressForUsername(token.Username);
+                }
+
+                var request = BuildRequest(caller, data);
+                if (request.Method == HttpMethod.Post && data != null)
+                {
+                    request.Content = data as HttpContent ??
+                        new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+                }
+
+                var response = await httpClient.SendAsync(request);
+                return response;
+            /*
+
+                var responseContent = response.Content != null
+                    ? await response.Content.ReadAsStreamAsync()
+                    : null;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Insights.Track("Request Failed", new Dictionary<string, string>
+                    {
+                        {"Status Code", response.StatusCode.ToString()},
+                        {"Request URL", request.RequestUri.ToString()},
+                        {"Request Method", request.Method.Method}
+                    });
+                }
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.Unauthorized:
+                    case HttpStatusCode.Forbidden:
+                        this._tokenStore.DeleteDeviceToken();
+                        var error = JsonConvert.DeserializeObject<ApiErrorResponse>(responseContent);
+                        this._errorSource.ReportError("TokenExpired", error.ErrorDescription, true);
+                        return response;
+                    case HttpStatusCode.InternalServerError:
+                        var serverError = JsonConvert.DeserializeObject<HttpError>(responseContent);
+                        this._errorSource.ReportError(null, serverError.Message);
+                        //throw new Exception();
+                        return response;
+                    default:
+                        return response;
+                }
+            }
+            catch (OperationCanceledException exception)
+            {
+                this._errorSource.ReportError("Timeout", "The request timed out.", true);
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError) { Content = new StringContent(exception.Message) };
+            }
+            catch (Exception exception)
+            {
+                this._errorSource.ReportError(null, exception.Message);
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError) { Content = new StringContent(exception.Message) };
+            }
+            finally
+            {
+                this._activityManager.StopActivity();
+            }*/
+        }
+
+
         private HttpRequestMessage BuildRequest(string source, object values, HttpMethod method = null)
         {
             var request = new HttpRequestMessage();

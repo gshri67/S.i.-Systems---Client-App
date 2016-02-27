@@ -163,7 +163,12 @@ namespace Shared.Core
         [HttpPost("Remittances/pdf/remittanceVar")]
         public async Task<Stream> GetPDF(Remittance rm)
         {
-            var response = await ExecuteWithDefaultClient<IEnumerable<int>>(rm);
+            HttpResponseMessage response = await ExecuteWithStreamingClient(rm);
+
+            if( response != null )
+                return await response.Content.ReadAsStreamAsync();
+            return null;
+            /*
             byte[] buffer = new byte[response.Count()];
 
             //for( int i = 0; i < response.Count(); i ++ )
@@ -174,7 +179,7 @@ namespace Shared.Core
             Stream stream = new MemoryStream(buffer);
             return stream;
 
-            return null;
+            return null;*/
         }
 
         [HttpPost("Timesheets")]

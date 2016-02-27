@@ -40,7 +40,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             }
         }
 
-        public async Task<IEnumerable<int>> RequestERemittancePDF
+        public async Task<HttpResponseMessage> RequestERemittancePDF
             (Remittance remittance)
         {
             EnsureMyAccountsServiceIsConfigured();
@@ -49,7 +49,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             {
                 string candidateId = _session.CurrentUser.Id.ToString();
                 var request = new HttpRequestMessage(HttpMethod.Get, string.Format("MyaccountService.svc/ERemittancePDF/{0}/GetPDF?UV1={1}&UV2={2}&UV3={3}&UV4={4}", candidateId, remittance.VoucherNumber, remittance.Source, remittance.DepositDate.ToString("MM/dd/yyyy"), remittance.DBSource));
-
+                //var request = new HttpRequestMessage(HttpMethod.Get, string.Format("MyaccountService.svc/ERemittancePDF/{0}/GetPDF?UV1={1}&UV2={2}&UV3={3}&UV4={4}", "191844", "330567", "pam", "2015-11-20", "sipar"));
+                
                 HttpResponseMessage response = null;
 
                 if( httpClient != null && request != null )
@@ -60,6 +61,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                     throw new Exception("Response is Null");
                 }
 
+                return response;
+
+                /*
                 Stream stream = await response.Content.ReadAsStreamAsync();
                 byte[] buffer = new byte[(int)stream.Length];
                 await stream.ReadAsync(buffer, 0, (int)stream.Length);
@@ -81,7 +85,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                 for( int i = 0; i < intArraySize; i ++ )
                     intBuffer[i] = BitConverter.ToInt32(buffer, 4*i);
 
-                return intBuffer.AsEnumerable();
+                return intBuffer.AsEnumerable();*/
             }
         }
     }
