@@ -166,25 +166,13 @@ namespace Shared.Core
             var response = await ExecuteWithDefaultClient<IEnumerable<int>>(rm);
             byte[] buffer = new byte[response.Count()];
 
-            for( int i = 0; i < response.Count(); i ++ )
-                Buffer.BlockCopy(response.ToArray(), i*sizeof(int), buffer, i, 1);
+            //for( int i = 0; i < response.Count(); i ++ )
+              //  Buffer.BlockCopy(response.ToArray(), i*sizeof(int), buffer, i, 1);
+            Buffer.BlockCopy(response.ToArray(), 0, buffer, 0, response.Count()*4);
+
 
             Stream stream = new MemoryStream(buffer);
             return stream;
-            //return response;
-            /*
-            HttpResponseMessage actualResponse = new HttpResponseMessage();
-
-            if (response != null)
-            {
-                actualResponse.Content = new StringContent(response);
-                //Stream newStream = new MemoryStream();
-                //var streamContent = actualResponse.Content.CopyToAsync(newStream);
-                //return newStream;
-                var stream = await actualResponse.Content.ReadAsStreamAsync();
-
-                return stream;
-            }*/
 
             return null;
         }

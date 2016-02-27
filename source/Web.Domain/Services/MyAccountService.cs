@@ -63,9 +63,24 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                 Stream stream = await response.Content.ReadAsStreamAsync();
                 byte[] buffer = new byte[(int)stream.Length];
                 await stream.ReadAsync(buffer, 0, (int)stream.Length);
-   
-                int[] intBuffer = new int[(int)stream.Length];
+
+                int numBytesInInt = sizeof (Int32);
+                int intArraySize = (int) stream.Length/numBytesInInt;
+                
+                if ((int) stream.Length%numBytesInInt > 0)
+                {
+                    intArraySize ++;
+                }
+
+                if (BitConverter.IsLittleEndian)
+                    Array.Reverse(buffer);
+
+                int[] intBuffer = new int[intArraySize];
                 buffer.CopyTo(intBuffer, 0);
+                
+                for( int i = 0; i < intArraySize; i ++ )
+                    intBuffer[i] = BitConverter.ToInt32(buffer, 4*i);
+
                 return intBuffer.AsEnumerable();
             }
         }
