@@ -59,20 +59,29 @@ namespace ConsultantApp.iOS
             string localDocUrl = Path.Combine(NSBundle.MainBundle.BundlePath, fileName);
 
 
-            int bufferSize = (int)_viewModel.PDFStream.Length;
-            byte[] buffer = new byte[bufferSize];
+            //int bufferSize = (int)_viewModel.PDFStream.Length;
+            //byte[] buffer = new byte[bufferSize];
 
             FileStream outFile = new FileStream(fileName, FileMode.Create);
-
+            /*
             int bytesRead;
             while((bytesRead = _viewModel.PDFStream.Read(buffer, 0, bufferSize)) != 0)
                 outFile.Write(buffer, 0, bytesRead);
-            
+            */
+            _viewModel.PDFStream.CopyTo(outFile);
   
 	        outFile.Close();
 
-            webView.LoadRequest(new NSUrlRequest(new NSUrl(localDocUrl, false)));
-            webView.ScalesPageToFit = true;
+	        try
+	        {
+	            webView.LoadRequest(new NSUrlRequest(new NSUrl(localDocUrl, false)));
+	            webView.ScalesPageToFit = true;
+	        }
+            catch (Exception e)
+            {
+                var exceptionMessage = e.Message;
+            }
+            
 	    }
 
     #region Overlay
