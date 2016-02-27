@@ -13,8 +13,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 {
     public interface IPayRateRepository
     {
-        IEnumerable<PayRate> GetPayRates();
-        IEnumerable<int> GetProjectIdFromTimesheet(Timesheet timesheet);
+        IEnumerable<int> GetProjectIdsFromTimesheet(Timesheet timesheet);
         IEnumerable<int> GetContractRateIdFromOpenTimesheet(Timesheet timesheet);
         IEnumerable<int> GetContractRateIdFromSavedOrSubmittedTimesheet(Timesheet timesheet);
         IEnumerable<ProjectCodeRateDetails> GetProjectCodesAndPayRatesFromIds(IEnumerable<int> projectCodeIds, IEnumerable<int> payRateIds);
@@ -22,24 +21,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
     public class PayRateRepository : IPayRateRepository
     {
-        public IEnumerable<PayRate> GetPayRates()
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-              const string query =
-                        @"SELECT ContractRateID AS Id
-	                        ,RateDescription AS RateDescription
-                            ,PayRate AS Rate	
-                        FROM Agreement_ContractRateDetail Dets";
-                    
-
-                var payRates = db.Connection.Query<PayRate>(query);
-
-                return payRates;
-             }
-        }
-
-
         public IEnumerable<int> GetContractRateIdFromOpenTimesheet(Timesheet timesheet)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -53,12 +34,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                           ,@Enddate
                           ,@TimesheetStatus
 
-                        SELECT tempTable.ContractRateID as ContractID,
-                               tempTable.PrimaryRateTerm as PrimaryRateTerm,
-                               tempTable.RateDescription as RateDescription,
-                               tempTable.HoursPerDay as HoursPerDay,
-                               tempTable.BillRate as BillRate,
-                               tempTable.PayRate as PayRate
+                        SELECT tempTable.ContractRateID as ContractID
 
                         FROM @tablevar tempTable";
 
@@ -81,7 +57,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             {
 
               const string query =
-                    @"Declare @tablevar table(ContractProjectPOId INT, ContractRateID INT, ProjectPORateList INT, PrimaryRateTerm BIT, RateDescription VARCHAR(250), HoursPerDay DECIMAL, BillRate MONEY, PayRate MONEY)
+                    @"Declare @tablevar table(ContractProjectPOId INT, ContractRateID INT, ProjectPORateList VARCHAR(255), PrimaryRateTerm BIT, RateDescription VARCHAR(250), HoursPerDay DECIMAL, BillRate MONEY, PayRate MONEY)
                         insert into @tablevar(ContractProjectPOId, ContractRateID, ProjectPORateList, PrimaryRateTerm, RateDescription, HoursPerDay, BillRate, PayRate) EXECUTE [dbo].[UspGetRateTermDetails_TSAPP] 
                            @AgreementId
                           ,@TimesheetID
@@ -89,14 +65,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                           ,@Enddate
                           ,@TimesheetStatus
 
-                        SELECT  tempTable.ContractProjectPOId as ContractProjectPOId,
-		                        tempTable.ContractRateID as ContractID,
-		                        tempTable.ProjectPORateList as ProjectPORateList,
-                                tempTable.PrimaryRateTerm as PrimaryRateTerm,
-                                tempTable.RateDescription as RateDescription,
-                                tempTable.HoursPerDay as HoursPerDay,
-                                tempTable.BillRate as BillRate,
-                                tempTable.PayRate as PayRate
+                        SELECT  tempTable.ContractRateID as ContractID
 
                         FROM @tablevar tempTable";
 
@@ -120,14 +89,15 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public IEnumerable<int> GetProjectIdFromTimesheet(Timesheet timesheet)
+        public IEnumerable<int> GetProjectIdsFromTimesheet(Timesheet timesheet)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                    @"DECLARE @RC int
-                        EXECUTE @RC = [dbo].[UspGetProjectPODetails]
-                        @AgreementId";
+                    @"Declare @tablevar2 table(AgreementId INT, DisplayProjectPOEInvoiceID VARCHAR(255), Valprojectpoid INT, IsGeneralProjectPO BIT, EInvoiceType BIT)
+                    insert into @tablevar2(AgreementId , DisplayProjectPOEInvoiceID , Valprojectpoid , IsGeneralProjectPO , EInvoiceType ) EXECUTE [dbo].[UspGetProjectPODetails_TSAPP] @AgreementId
+
+                    SELECT Valprojectpoid FROM @tablevar2";
 
                 var projectId = db.Connection.Query<int>(query, new
                 {
