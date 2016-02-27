@@ -153,7 +153,7 @@ namespace Shared.Core
             }
         }
 
-        protected async Task<HttpResponseMessage> ExecuteWithStreamingClient(object data = null, [CallerMemberName] string caller = null)
+        protected async Task<HttpResponseMessage> ExecuteWithStreamingClient(object data = null, [CallerMemberName] string caller = null, HttpMethod method = null)
         {
             //try
             //{

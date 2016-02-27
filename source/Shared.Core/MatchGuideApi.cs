@@ -164,10 +164,18 @@ namespace Shared.Core
         public async Task<Stream> GetPDF(Remittance rm)
         {
             HttpResponseMessage response = await ExecuteWithStreamingClient(rm);
-
-            if( response != null )
-                return await response.Content.ReadAsStreamAsync();
-            return null;
+            try
+            {
+                if (response != null)
+                    return await response.Content.ReadAsStreamAsync();
+                return null;
+            }
+            catch (Exception e)
+            {
+                var test = e.Message;
+                return null;
+            }
+            
             /*
             byte[] buffer = new byte[response.Count()];
 
