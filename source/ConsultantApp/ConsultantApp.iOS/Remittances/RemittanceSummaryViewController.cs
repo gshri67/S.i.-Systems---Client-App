@@ -7,6 +7,7 @@ using ConsultantApp.Core.ViewModels;
 using Microsoft.Practices.Unity;
 using System.Net.Http;
 using System.Net;
+using System.Text;
 using CoreGraphics;
 using SiSystems.SharedModels;
 
@@ -44,7 +45,7 @@ namespace ConsultantApp.iOS
             UpdateWebView();
         }
 
-	    private async void UpdateWebView()
+	    private void UpdateWebView()
 	    {
             RemoveOverlay();
 
@@ -59,24 +60,33 @@ namespace ConsultantApp.iOS
             {
 	            string fileName = "ERemittance.pdf"; // remember case-sensitive
                 string localDocUrl = Path.Combine(NSBundle.MainBundle.BundlePath, fileName);
-
+                /*
                 var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 localDocUrl = Path.Combine(documents, fileName);
 
+                var docsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var libPath = Path.Combine(docsPath, "..", "Library");
+                localDocUrl = Path.Combine(libPath, fileName);
+                
+
+                var documents = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string localDocUrl = Path.Combine(documents, fileName);
+                */
+
+                //localDocUrl = Path.Combine(NSFileManager.DefaultManager.GetUrls(NSSearchPathDirectory.LibraryDirectory, NSSearchPathDomain.User)[0].Path, fileName);
 
                 //int bufferSize = (int)_viewModel.PDFStream.Length;
                 //byte[] buffer = new byte[bufferSize];
 
-                FileStream outFile = new FileStream(fileName, FileMode.Create);
-                /*
-                int bytesRead;
-                while((bytesRead = _viewModel.PDFStream.Read(buffer, 0, bufferSize)) != 0)
-                    outFile.Write(buffer, 0, bytesRead);
-                */
+                FileStream outFile = new FileStream(localDocUrl, FileMode.Create);
                 _viewModel.PDFStream.CopyTo(outFile);
   
 	            outFile.Close();
 
+                //NSData streamData = NSData.FromStream(_viewModel.PDFStream);
+                //webView.LoadData(streamData, "application/pdf", Encoding.UTF8.ToString(), null);
+               
+                
 	            webView.LoadRequest(new NSUrlRequest(new NSUrl(localDocUrl, false)));
 	            webView.ScalesPageToFit = true;
 	        }
