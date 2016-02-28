@@ -132,17 +132,20 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 var timesheetsFromDb = db.Connection.Query<DbTimesheetForMapping>(query, new { CandidateId = userId });
 
-                return timesheetsFromDb.Select(ts => new Timesheet
-                {
-                    Id = ts.TimesheetID, 
-                    Status = (MatchGuideConstants.TimesheetStatus) ts.timesheetStatus, 
-                    ClientName = ts.CompanyName, 
-                    ContractId = ts.timesheetStatus == "Saved" 
-                                    ? GetAgreementIdByTempTimeSheetId(ts.TimesheetID) 
-                                    : GetAgreementIdByTimeSheetId(ts.TimesheetID),//ts.ContractID, //note this IS the contract ID, not the Agreement Id
-                    StartDate = StartDateFromPeriodDate(ts.payPeriod), 
-                    EndDate = EndDateFromPeriodDate(ts.payPeriod)
-                }).ToList();
+                return (from ts in timesheetsFromDb
+                    let timesheetIsSaved = ts.timesheetStatus == "Saved"
+                    select new Timesheet
+                    {
+                        //this stored procedure returns the id OR Temp id in the same field regardless of source
+                        Id = !timesheetIsSaved ? ts.TimesheetID : 0, 
+                        OpenStatusId = timesheetIsSaved ? ts.TimesheetID : 0, 
+                        ContractId = timesheetIsSaved 
+                            ? GetAgreementIdByTempTimeSheetId(ts.TimesheetID) 
+                            : GetAgreementIdByTimeSheetId(ts.TimesheetID), 
+                        Status = (MatchGuideConstants.TimesheetStatus) ts.timesheetStatus, 
+                        ClientName = ts.CompanyName, StartDate = StartDateFromPeriodDate(ts.payPeriod), 
+                        EndDate = EndDateFromPeriodDate(ts.payPeriod)
+                    }).ToList();
             }
         }
 
