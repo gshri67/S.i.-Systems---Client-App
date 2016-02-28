@@ -179,7 +179,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		{
 			base.ViewDidLoad ();
 
-            LoadTimesheetApprovers();
+            if(_timesheetModel.CurrentTimesheetIsEditable())
+                LoadTimesheetApprovers();
 
 			EdgesForExtendedLayout = UIRectEdge.Bottom;
 

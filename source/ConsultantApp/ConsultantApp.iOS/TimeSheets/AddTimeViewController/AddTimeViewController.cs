@@ -201,7 +201,8 @@ namespace ConsultantApp.iOS
 
 			headerContainer.BackgroundColor = UIColor.White;// StyleGuideConstants.LightGrayUiColor;
 
-            LoadPayRates();
+            if (_timesheetModel.CurrentTimesheetIsEditable())
+                LoadPayRates();
 
             SetupDayNavigationButtons();
 
