@@ -24,6 +24,8 @@ namespace ConsultantApp.Core.ViewModels
             set { _timesheetSupport = value ?? new TimesheetSupport(); }
         }
 
+        public DateTime SelectedDate { get; set; }
+
         private string _alertText;
 
         private const string DateLabelFormat = "MMMMM yyyy";
@@ -56,22 +58,7 @@ namespace ConsultantApp.Core.ViewModels
 		{
 		    Timesheet = await _api.SaveTimesheet(Timesheet);
 		}
-
-
-        //public IEnumerable<string> GetProjectCodes()
-        //{
-        //    if (TimesheetSupport.ProjectCodeOptions.Select(pc => pc.Description).Any())
-        //        return TimesheetSupport.ProjectCodeOptions.Select(pc => pc.Description);
-        //    return Enumerable.Empty<string>();
-        //}
-
-        //public IEnumerable<PayRate> GetPayRatesForIdAndProjectCode(int contractId, string projectCode )
-        //{
-        //    if( TimesheetSupport.ProjectCodeOptions.Where(pc => pc.Description == projectCode).Any() )
-        //        return TimesheetSupport.ProjectCodeOptions.Where(pc => pc.Description == projectCode).FirstOrDefault().PayRates;
-        //    return Enumerable.Empty<PayRate>();
-        //}
-
+        
         public Task<IEnumerable<DirectReport>> GetTimesheetApproversByAgreementId(int agreementId)
         {
             return _api.GetTimesheetApproversByAgreementId(agreementId);
@@ -258,6 +245,7 @@ namespace ConsultantApp.Core.ViewModels
 	    }
 
 	    private int CountOfFrequentlyUsedapprovers;
+
 	    public List<string> ApproverEmailsSortedByFrequency()
 	    {
             var mostFrequentlyUsed = MostFrequentlyUsedApprovers();
@@ -281,6 +269,14 @@ namespace ConsultantApp.Core.ViewModels
 	        return _alertText ?? string.Empty;
 	    }
 
+        public IEnumerable<TimeEntry> GetSelectedDatesTimeEntries()
+        {
+            if (Timesheet == null || Timesheet.TimeEntries == null)
+                return Enumerable.Empty<TimeEntry>();
+
+            return Timesheet.TimeEntries.Where(e => e.Date.Equals(SelectedDate));
+        }
+
 	    public IEnumerable<TimeEntry> GetTimeEntriesForDate(DateTime date)
 	    {
 	        if (Timesheet == null || Timesheet.TimeEntries == null)
@@ -297,31 +293,51 @@ namespace ConsultantApp.Core.ViewModels
                    || TimesheetIsRejected();
 	    }
 
+        public float NumberOfHoursForSelectedDate()
+        {
+            var entries = GetSelectedDatesTimeEntries();
+            return entries.Sum(time => time.Hours);
+        }
+
 	    public float NumberOfHoursForDate(DateTime date)
 	    {
             var entries = GetTimeEntriesForDate(date);
             return entries.Sum(time=>time.Hours);   
 	    }
-
-	    public bool DateIsContainedWithinTimesheet(DateTime date)
-	    {
-            return date >= Timesheet.StartDate && date <= Timesheet.EndDate;
-	    }
-
-	    public bool IsTimesheetStartDate(DateTime date)
-	    {
-            return date.CompareTo(Timesheet.StartDate) == 0;
-	    }
-
-	    public bool IsTimesheetEndDate(DateTime date)
-	    {
-	        return date.CompareTo(Timesheet.EndDate) == 0;
-	    }
-
+        
 	    public void AddTimeEntry(TimeEntry newEntry)
 	    {
             Timesheet.TimeEntries = Timesheet.TimeEntries.Concat(new[] { newEntry });
 	    }
-	}
+
+        #region DayNavigation
+        public void NavigateToPreviousDay()
+	    {
+            if (CanNavigateToPreviousDay())
+                SelectedDate = SelectedDate.AddDays(-1);
+	    }
+
+	    public void NavigateToNextDay()
+	    {
+	        if (CanNavigteToNextDay())
+	            SelectedDate = SelectedDate.AddDays(1);
+	    }
+
+	    public bool CanNavigteToNextDay()
+	    {
+	        return DateIsContainedWithinTimesheet(SelectedDate.AddDays(1));
+	    }
+
+	    public bool CanNavigateToPreviousDay()
+	    {
+	        return DateIsContainedWithinTimesheet(SelectedDate.AddDays(-1));
+	    }
+
+        private bool DateIsContainedWithinTimesheet(DateTime date)
+        {
+            return date >= Timesheet.StartDate && date <= Timesheet.EndDate;
+        }
+        #endregion
+    }
 }
 

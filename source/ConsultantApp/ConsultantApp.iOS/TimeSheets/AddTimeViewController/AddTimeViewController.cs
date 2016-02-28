@@ -15,32 +15,27 @@ namespace ConsultantApp.iOS
     partial class AddTimeViewController : UIViewController
     {
         private const string ScreenTitle = "Add/Edit Time";
-        private readonly TimesheetViewModel _timesheetModel;
+        private TimesheetViewModel _timesheetModel;
         private AddTimeTableViewSource _addTimeTableViewSource;
         private SubtitleHeaderView _subtitleHeaderView;
-        public DateTime Date;
+        //public DateTime Date;
 		private int maxFrequentlyUsed = 5;
 
         public AddTimeDelegate TimeDelegate;
 
         public AddTimeViewController(IntPtr handle) : base(handle)
         {
-            _timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
-
             EdgesForExtendedLayout = UIRectEdge.None;
+        }
+
+        public void SetViewModel(TimesheetViewModel timesheetModel)
+        {
+            _timesheetModel = timesheetModel;
         }
 
         public void SetTimesheet(Timesheet timesheet)
         {
-            //_curTimesheet = timesheet;
             _timesheetModel.SetTimesheet(timesheet);
-            UpdateUI();
-        }
-
-        public void SetDate(DateTime date)
-        {
-            Date = date;
-
             UpdateUI();
         }
 
@@ -65,19 +60,10 @@ namespace ConsultantApp.iOS
             //}
         }
 
-        //private void ResetTableViewSource()
-        //{
-        //    _addTimeTableViewSource = new AddTimeTableViewSource(
-        //        _timesheetModel.GetTimeEntriesForDate(Date)
-        //    );
-
-        //    tableview.Source = _addTimeTableViewSource;
-        //}
-
         private void InstantiateTableViewSource()
         {
             _addTimeTableViewSource = new AddTimeTableViewSource(
-                _timesheetModel.GetTimeEntriesForDate(Date)
+                _timesheetModel.GetSelectedDatesTimeEntries()
             );
 
             _addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
@@ -152,7 +138,7 @@ namespace ConsultantApp.iOS
         {
             if (headerHoursLabel != null)
             {
-                headerHoursLabel.Text = _timesheetModel.NumberOfHoursForDate(Date).ToString(CultureInfo.InvariantCulture);
+                headerHoursLabel.Text = _timesheetModel.NumberOfHoursForSelectedDate().ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -161,6 +147,7 @@ namespace ConsultantApp.iOS
         {
             SetHeaderDate();
             SetHeaderHours();
+            SetDateNavigation();
             SetupTableViewSource();
             SetTimesheetEditability();
             ReloadTableViewData();
@@ -168,40 +155,28 @@ namespace ConsultantApp.iOS
 
         private void SetHeaderDate()
         {
-            if (headerDateLabel != null)
-                headerDateLabel.Text = Date.ToString("MMM") + " " + Date.ToString("dd").TrimStart('0');
             if (headerDayOfWeekLabel != null)
-                headerDayOfWeekLabel.Text = Date.ToString("ddd");
+                headerDayOfWeekLabel.Text = string.Format("{0:ddd}", _timesheetModel.SelectedDate);
+
+            if (headerDateLabel != null)
+                headerDateLabel.Text = string.Format("{0:MMM} {0:%d}", _timesheetModel.SelectedDate);
         }
 
-        private bool DateIsInTimesheet(DateTime date)
+        private void SetDateNavigation()
         {
-            return _timesheetModel.DateIsContainedWithinTimesheet(date);
-        }
-
-        private void AttemptToSetCurrentDate(DateTime desiredDate)
-        {
-            if (DateIsInTimesheet(desiredDate))
-                SetDate(desiredDate);
-        }
-
-        private void ToggleDateNavigation()
-        {
-            rightArrowButton.Hidden = !DateIsInTimesheet(Date.AddDays(1));
-            leftArrowButton.Hidden = !DateIsInTimesheet(Date.AddDays(-1));
+            rightArrowButton.Hidden = !_timesheetModel.CanNavigteToNextDay();
+            leftArrowButton.Hidden = !_timesheetModel.CanNavigateToPreviousDay();
         }
 
         private void NavigateDay(object sender, EventArgs e)
         {
 			if (_addTimeTableViewSource != null)
-				_addTimeTableViewSource.saveOpenExpandedCells ( tableview );
+				_addTimeTableViewSource.SaveOpenExpandedCells ( tableview );
 
-            var desiredDate = sender == leftArrowButton
-                ? Date.AddDays(-1)
-                : Date.AddDays(1);
-
-            AttemptToSetCurrentDate(desiredDate);
-            ToggleDateNavigation();
+            if (Equals(sender, leftArrowButton))
+                _timesheetModel.NavigateToPreviousDay();
+            else
+                _timesheetModel.NavigateToNextDay();
 
             UpdateUI();
         }
@@ -217,10 +192,7 @@ namespace ConsultantApp.iOS
             SetupDayNavigationButton(leftArrowButton, new UIImage("leftArrow.png"));
             SetupDayNavigationButton(rightArrowButton, new UIImage("rightArrow.png"));
 
-            if (_timesheetModel.IsTimesheetStartDate(Date))
-                leftArrowButton.Hidden = true;
-            else if (_timesheetModel.IsTimesheetEndDate(Date))
-                rightArrowButton.Hidden = true;
+            SetDateNavigation();
         }
 
         public override void ViewDidLoad()
@@ -237,13 +209,13 @@ namespace ConsultantApp.iOS
             {
                 var newEntry = new TimeEntry
                 {
-                    Date = Date,
+                    Date = _timesheetModel.SelectedDate,
                     Hours = 8,
                     CodeRate = new ProjectCodeRateDetails { PONumber = "Project Code", ratedescription = "Pay Rate"}
                 };
 
                 _timesheetModel.AddTimeEntry(newEntry);
-                _addTimeTableViewSource.TimeEntries = _timesheetModel.GetTimeEntriesForDate(Date);
+                _addTimeTableViewSource.TimeEntries = _timesheetModel.GetSelectedDatesTimeEntries();
                 _addTimeTableViewSource.TimesheetSupport = _timesheetModel.TimesheetSupport;
                 
                 /*
@@ -258,7 +230,7 @@ namespace ConsultantApp.iOS
 
                 tableview.ReloadData();
 
-				_addTimeTableViewSource.scrollToExpandedCell(tableview);
+				_addTimeTableViewSource.ScrollToExpandedCell(tableview);
             };
             addButton.TintColor = StyleGuideConstants.RedUiColor;
 
@@ -395,7 +367,7 @@ namespace ConsultantApp.iOS
 			base.ViewWillDisappear (animated);
 
 			if (_addTimeTableViewSource != null)
-				_addTimeTableViewSource.saveOpenExpandedCells ( tableview );
+				_addTimeTableViewSource.SaveOpenExpandedCells ( tableview );
 		}
     }
 }

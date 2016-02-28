@@ -145,15 +145,18 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
             _calendar.DateSelected = delegate(DateTime date)
             {
-                AddTimeViewController vc = (AddTimeViewController)Storyboard.InstantiateViewController("AddTimeViewController");
-                vc.SetDate(date);
-                vc.SetTimesheet(_timesheetModel.Timesheet);//todo: can we not expose timesheet from the timesheetviewmodel and still do this?
+                _timesheetModel.SelectedDate = date;
+                var addTimeViewController = (AddTimeViewController)Storyboard.InstantiateViewController("AddTimeViewController");
+                addTimeViewController.SetViewModel(_timesheetModel);
 
-                AddTimeDelegate addTimeDelegate = new AddTimeDelegate();
-                addTimeDelegate.setTimesheet = delegate(Timesheet timesheet) { _timesheetModel.SetTimesheet(timesheet); };
-                vc.TimeDelegate = addTimeDelegate;
 
-                NavigationController.PushViewController(vc, true);
+                //var addTimeDelegate = new AddTimeDelegate
+                //{
+                //    setTimesheet = delegate(Timesheet timesheet) { _timesheetModel.SetTimesheet(timesheet); }
+                //};
+                //addTimeViewController.TimeDelegate = addTimeDelegate;
+
+                NavigationController.PushViewController(addTimeViewController, true);
             };
 
             calendarLeftButton.SetTitle("", UIControlState.Normal);
@@ -171,14 +174,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             var loadingApproversTask = _timesheetModel.GetTimesheetApprovers();
             loadingApproversTask.ContinueWith(_ => InvokeOnMainThread(UpdateApproverPicker));
         }
-
-        // I don't believe this is a necessary call, and will remove this when my refactor is complete and I 
-        // can confirm this.
-        //private void LoadTimesheetSupport()
-        //{
-        //    var loadingSupportTask = _timesheetModel.LoadTimesheetSupport();
-        //    //todo: is there any continue with that we need to do with this?
-        //}
 
 		public override void ViewDidLoad ()
 		{

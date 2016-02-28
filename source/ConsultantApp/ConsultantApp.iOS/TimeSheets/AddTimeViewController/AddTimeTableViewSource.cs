@@ -61,12 +61,12 @@ namespace ConsultantApp.iOS
 	    public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			if ((int)indexPath.Item == _expandedCellIndex)
-				return getExpandedCell (tableView, indexPath);
+				return GetExpandedCell(tableView, indexPath);
 			else
-				return getTimeEntryCell ( tableView, indexPath );
+				return GetTimeEntryCell( tableView, indexPath );
 		}
 
-		private TimeEntryCell getTimeEntryCell( UITableView tableView, NSIndexPath indexPath )
+		private TimeEntryCell GetTimeEntryCell( UITableView tableView, NSIndexPath indexPath )
 		{
 			var cell = (TimeEntryCell)tableView.DequeueReusableCell (CellIdentifier);
 
@@ -83,7 +83,7 @@ namespace ConsultantApp.iOS
 			return cell;
 		}
 
-		private AddProjectCodeCell getExpandedCell( UITableView tableView, NSIndexPath indexPath )
+		private AddProjectCodeCell GetExpandedCell( UITableView tableView, NSIndexPath indexPath )
 		{
 			var cell = (AddProjectCodeCell)tableView.DequeueReusableCell (ExpandedCellIdentifier);
 
@@ -124,9 +124,6 @@ namespace ConsultantApp.iOS
 
 		    tableView.ReloadData ();
 			_prevSelectedRow = realSelectedIndex;
-
-			//if (_addingProjectCode)
-				//scrollToExpandedCell (tableView);
 		}
 			
 		//if a cell was added
@@ -153,14 +150,13 @@ namespace ConsultantApp.iOS
 			_addingProjectCode = false;
 		}
 
-		public void saveOpenExpandedCells( UITableView tableView )
+		public void SaveOpenExpandedCells( UITableView tableView )
 		{
-			if (_addingProjectCode == true && _expandedCellIndex >= 0 ) 
-			{
-				AddProjectCodeCell cell = (AddProjectCodeCell)tableView.CellAt ( NSIndexPath.FromItemSection(_expandedCellIndex, 0) );
+		    if (!_addingProjectCode || _expandedCellIndex < 0) return;
 
-				cell.SaveChanges ();
-			}
+		    var cell = (AddProjectCodeCell)tableView.CellAt ( NSIndexPath.FromItemSection(_expandedCellIndex, 0) );
+
+		    cell.SaveChanges ();
 		}
 
 		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
@@ -188,7 +184,7 @@ namespace ConsultantApp.iOS
 			_isEnabled = shouldEnable;
 		}
 
-		public void scrollToExpandedCell( UITableView tableview )
+		public void ScrollToExpandedCell( UITableView tableview )
 		{
 			Console.WriteLine ("prev selected index " + _prevSelectedRow);
 
