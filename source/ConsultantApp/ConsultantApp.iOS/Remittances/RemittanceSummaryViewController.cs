@@ -60,10 +60,10 @@ namespace ConsultantApp.iOS
             {
 	            string fileName = "ERemittance.pdf"; // remember case-sensitive
                 string localDocUrl = Path.Combine(NSBundle.MainBundle.BundlePath, fileName);
-                /*
+                
                 var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 localDocUrl = Path.Combine(documents, fileName);
-
+				/*
                 var docsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 var libPath = Path.Combine(docsPath, "..", "Library");
                 localDocUrl = Path.Combine(libPath, fileName);
