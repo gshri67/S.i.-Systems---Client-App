@@ -151,7 +151,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                    @"SELECT AgreementID FROM TimeSheetTemp WHERE TimeSheetID = @TimesheetId";
+                    @"SELECT AgreementID FROM TimeSheetTemp WHERE TimeSheetTempID  = @TimesheetId";
 
                 var agreementId = db.Connection.Query<int>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
 
