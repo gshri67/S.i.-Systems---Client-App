@@ -14,8 +14,6 @@ namespace ConsultantApp.iOS
 		private const string CellIdentifier = "TimeEntryCell";
 		private const string ExpandedCellIdentifier = "AddProjectCodeCell";
 		public IEnumerable<TimeEntry> TimeEntries;
-        //public IEnumerable<string> ProjectCodes;
-        //public IEnumerable<PayRate> PayRates;
 
         public TimesheetSupport TimesheetSupport;
 
@@ -36,8 +34,6 @@ namespace ConsultantApp.iOS
 		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries) 
 		{
 			this.TimeEntries = timeEntries;
-
-		    //_timesheetSupport = support;
 
 			_normalCellHeight = 44;
 			_expandedCellHeight = 200;

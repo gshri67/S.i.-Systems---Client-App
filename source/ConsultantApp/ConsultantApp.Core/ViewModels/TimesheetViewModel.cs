@@ -58,11 +58,6 @@ namespace ConsultantApp.Core.ViewModels
 		{
 		    Timesheet = await _api.SaveTimesheet(Timesheet);
 		}
-        
-        public Task<IEnumerable<DirectReport>> GetTimesheetApproversByAgreementId(int agreementId)
-        {
-            return _api.GetTimesheetApproversByAgreementId(agreementId);
-        }
 
 	    public void SubmitTimesheet()
 	    {
@@ -106,7 +101,7 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task LoadTimesheetApprovers()
         {
-            _approvers = await GetTimesheetApproversByAgreementId(Timesheet.ContractId);
+            _approvers = await _api.GetTimesheetApproversByAgreementId(Timesheet.ContractId);
         }
 
 
@@ -253,7 +248,7 @@ namespace ConsultantApp.Core.ViewModels
             var frequentlyUsed = mostFrequentlyUsed as IList<DirectReport> ?? mostFrequentlyUsed.ToList();
             var partialApprovers = _approvers.Except(frequentlyUsed).ToList();
 
-            partialApprovers = partialApprovers.OrderByDescending(pa => pa.Email).ToList();
+            partialApprovers = partialApprovers.OrderBy(pa => pa.Email).ToList();
 
             _approvers = frequentlyUsed.Concat(partialApprovers).ToList();
 	        return _approvers.Select(a => a.Email).ToList();
