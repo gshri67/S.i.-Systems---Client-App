@@ -79,7 +79,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 var rateId = db.Connection.Query<int>(query, new
                 {
                     AgreementId = timesheet.ContractId,
-                    TimesheetID = timesheet.Id,
+                    TimesheetID = timesheet.OpenStatusId,
                     Startdate = timesheet.StartDate,
                     Enddate = timesheet.EndDate,
                     TimesheetStatus = status
