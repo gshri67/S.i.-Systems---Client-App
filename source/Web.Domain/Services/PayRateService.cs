@@ -27,7 +27,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         {
             var projectCodeIds = _payRateRepository.GetProjectIdsFromTimesheet(timesheet);
             
-            var payRateIds = timesheet.Status == MatchGuideConstants.TimesheetStatus.Open
+            var payRateIds = timesheet.OpenStatusId == 0
                 ? _payRateRepository.GetContractRateIdFromOpenTimesheet(timesheet)
                 : _payRateRepository.GetContractRateIdFromSavedOrSubmittedTimesheet(timesheet);
             
