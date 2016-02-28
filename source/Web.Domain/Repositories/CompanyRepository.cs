@@ -46,7 +46,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             {
                 const string companyFromAgreementQuery = "SELECT CompanyId FROM Agreement WHERE AgreementId = @AgreementId";
 
-                return db.Connection.Query<int>(companyFromAgreementQuery).FirstOrDefault();
+                return db.Connection.Query<int>(companyFromAgreementQuery, new {AgreementId = agreementId}).FirstOrDefault();
             }
         }
 
