@@ -110,8 +110,9 @@ namespace ConsultantApp.iOS
 
         private void EnabledAddButton(bool enabled)
         {
-            if (addButton != null)
-                addButton.Enabled = enabled;
+            if (addButton == null)
+                return;
+            addButton.Enabled = enabled && _timesheetModel.SelectedDateHasUnpopulatedRateCodes();
         }
 
         private void EnableSaveButton(bool enabled)
