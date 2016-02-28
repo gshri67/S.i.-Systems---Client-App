@@ -104,7 +104,6 @@ namespace ConsultantApp.iOS
 		{
 			TimeEntry = entry;
             
-            //todo: confirm these values are what the user expects to see
 		    _projectCodes = support.ProjectCodeOptions.Select(details => details.PONumber).Distinct().ToList();
             _payRates = support.ProjectCodeOptions;
             
@@ -149,10 +148,9 @@ namespace ConsultantApp.iOS
 			};
 
 
-			loadSelectedPickerItem ( TimeEntry.CodeRate.DisplayPONumber, _projectCodes, 0 );
+			loadSelectedPickerItem ( TimeEntry.CodeRate.PONumber, _projectCodes, 0 );
 
 			if( TimeEntry.CodeRate != null )
-				//loadSelectedPickerItem ( string.Format ("{0} ({1:C})", TimeEntry.PayRate.RateDescription, TimeEntry.PayRate.Rate), payRateStringList, 1 );
                 loadSelectedPickerItem ( string.Format ("{0} ({1:C})", TimeEntry.CodeRate.ratedescription, TimeEntry.CodeRate.rateAmount), payRateStringList, 1 );
 			else
 				loadSelectedPickerItem ( null, payRateStringList, 1 );
@@ -207,11 +205,14 @@ namespace ConsultantApp.iOS
 
 		public void SaveChanges()
 		{
-            TimeEntry.CodeRate.DisplayPONumber = _pickerModel.items.ElementAt(0).ElementAt(_pickerModel.selectedItemIndex.ElementAt(0));
+		    var selectedIndex = _pickerModel.selectedItemIndex.ElementAt(0);
+		    if (_pickerModel.items.ElementAt(0) == null)
+		        return;
+            TimeEntry.CodeRate.PONumber = _pickerModel.items.ElementAt(0).ElementAt(selectedIndex);
 
 			SetTimeEntryPayRateToSelectedRate();
 
-		    ActiveTimesheetViewModel.IncrementProjectCodeCount(TimeEntry.CodeRate.DisplayPONumber);//.ProjectCode);
+		    ActiveTimesheetViewModel.IncrementProjectCodeCount(TimeEntry.CodeRate.PONumber);
 			
 			OnSave();
 		}

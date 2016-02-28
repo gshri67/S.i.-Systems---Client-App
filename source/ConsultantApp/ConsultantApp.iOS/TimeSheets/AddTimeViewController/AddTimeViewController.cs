@@ -17,8 +17,6 @@ namespace ConsultantApp.iOS
         private const string ScreenTitle = "Add/Edit Time";
         private readonly TimesheetViewModel _timesheetModel;
         private AddTimeTableViewSource _addTimeTableViewSource;
-        //private Timesheet _curTimesheet;
-        //private IEnumerable<PayRate> _payRates;
         private SubtitleHeaderView _subtitleHeaderView;
         public DateTime Date;
 		private int maxFrequentlyUsed = 5;
@@ -54,25 +52,37 @@ namespace ConsultantApp.iOS
 
         private void SetupTableViewSource()
         {
-            if (tableview == null || _addTimeTableViewSource != null)
+            if (tableview == null)
                 return;
 
-            RegisterCellsForReuse();
-            InstantiateTableViewSource();
-
-            tableview.Source = _addTimeTableViewSource;
+            //if (_addTimeTableViewSource == null) { 
+                RegisterCellsForReuse();
+                InstantiateTableViewSource();
+            //}
+            //else
+            //{
+            //    ResetTableViewSource();
+            //}
         }
+
+        //private void ResetTableViewSource()
+        //{
+        //    _addTimeTableViewSource = new AddTimeTableViewSource(
+        //        _timesheetModel.GetTimeEntriesForDate(Date)
+        //    );
+
+        //    tableview.Source = _addTimeTableViewSource;
+        //}
 
         private void InstantiateTableViewSource()
         {
             _addTimeTableViewSource = new AddTimeTableViewSource(
-                _timesheetModel.GetTimeEntriesForDate(Date),
-                _timesheetModel.TimesheetSupport
-                //_timesheetModel.GetProjectCodes(), 
-                //_payRates
+                _timesheetModel.GetTimeEntriesForDate(Date)
             );
 
             _addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
+
+            tableview.Source = _addTimeTableViewSource;
         }
 
         private void AddTimeTableDataChanged(IEnumerable<TimeEntry> timeEntries)
@@ -228,22 +238,13 @@ namespace ConsultantApp.iOS
                 var newEntry = new TimeEntry
                 {
                     Date = Date,
-                    //ProjectCode = "Project Code",
                     Hours = 8,
-                    //PayRate = new PayRate
-                    //{
-                    //    RateDescription = "Pay Rate"
-                    //}
-                    CodeRate = new ProjectCodeRateDetails { DisplayPONumber = "Project Code", ratedescription = "Pay Rate"}
+                    CodeRate = new ProjectCodeRateDetails { PONumber = "Project Code", ratedescription = "Pay Rate"}
                 };
 
-                //IEnumerable<TimeEntry> newEnumerableEntry = new List<TimeEntry> {newEntry};
-                
-                //todo: find a better way to add this temporary cell
-                //_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat(newEnumerableEntry);
                 _timesheetModel.AddTimeEntry(newEntry);
-                _addTimeTableViewSource.TimeEntries = _timesheetModel.GetTimeEntriesForDate(Date);//_curTimesheet.TimeEntries.Where(e => e.Date.Equals(Date));
-
+                _addTimeTableViewSource.TimeEntries = _timesheetModel.GetTimeEntriesForDate(Date);
+                _addTimeTableViewSource.TimesheetSupport = _timesheetModel.TimesheetSupport;
                 
                 /*
                  * Note that the above might not be needed at all. Here's what I'm thinking:

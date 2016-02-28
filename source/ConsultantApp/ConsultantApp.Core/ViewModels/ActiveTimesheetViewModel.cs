@@ -99,7 +99,7 @@ namespace ConsultantApp.Core.ViewModels
 	    {
 	        foreach (var entry in timesheet.TimeEntries)
 	        {
-                IncrementProjectCodeCount(entry.CodeRate.DisplayPONumber);
+                IncrementProjectCodeCount(entry.CodeRate.PONumber);
 	        }
 	    }
 

@@ -17,7 +17,7 @@ namespace ConsultantApp.iOS
         //public IEnumerable<string> ProjectCodes;
         //public IEnumerable<PayRate> PayRates;
 
-        private TimesheetSupport _timesheetSupport;
+        public TimesheetSupport TimesheetSupport;
 
 		public delegate void TableDelegate(IEnumerable<TimeEntry> timeEntries);
 		public TableDelegate OnDataChanged;
@@ -33,12 +33,11 @@ namespace ConsultantApp.iOS
 		public bool MustSave;//if this is true, the done or delete button must be tapped before the cell can be minimized.
 		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
 
-		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries, TimesheetSupport support ) 
+		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries) 
 		{
 			this.TimeEntries = timeEntries;
-            //this.ProjectCodes = projectCodes;
-            //this.PayRates = payRates;
-		    _timesheetSupport = support;
+
+		    //_timesheetSupport = support;
 
 			_normalCellHeight = 44;
 			_expandedCellHeight = 200;
@@ -91,7 +90,7 @@ namespace ConsultantApp.iOS
 			if (TimeEntries == null) return cell;
 
 			var curEntry = TimeEntries.ElementAt( _prevSelectedRow );//((int)indexPath.Item);
-			cell.SetData( curEntry, _timesheetSupport);
+            cell.SetData(curEntry, TimesheetSupport);
 
 			if (cell.OnSave == null)
 				setupExpansionCellSave (cell, tableView);
@@ -247,7 +246,7 @@ namespace ConsultantApp.iOS
 			{
 				cell.UpdateCell
 				(
-                    projectCode: curEntry.CodeRate.DisplayPONumber,//.ProjectCode,
+                    projectCode: curEntry.CodeRate.PONumber,
 					rateDescription: curEntry.CodeRate.ratedescription,//.PayRate.RateDescription,
 					hours: curEntry.Hours.ToString (CultureInfo.InvariantCulture),
 					onHoursChanged: ( float newHours) => 
