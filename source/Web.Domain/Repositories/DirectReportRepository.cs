@@ -11,14 +11,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 {
     public interface IDirectReportRepository
     {
-        IEnumerable<DirectReport> GetPossibleApproversByAgreementId(int timesheetId);
         DirectReport GetCurrentTimesheetApproverForTimesheet(int timesheetId);
         int UpdateDirectReport(Timesheet timesheet, int previousDirectReportId, int currentUserId);
+        IEnumerable<DirectReport> GetTimesheetApproversByCompanyId(int id);
     }
 
     public class DirectReportRepository : IDirectReportRepository
     {
-        public IEnumerable<DirectReport> GetPossibleApproversByAgreementId(int agreementId)
+        public IEnumerable<DirectReport> GetTimesheetApproversByCompanyId(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -27,14 +27,15 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 	                        ,Users.FirstName
 	                        ,Users.LastName
 	                        ,Email.PrimaryEmail Email
-                        FROM Agreement
-                        LEFT JOIN Users ON Users.CompanyID = Agreement.CompanyID
+                        FROM Users 
                         LEFT JOIN User_Email Email ON Email.UserID = Users.UserID
-                        WHERE Agreement.AgreementID = @AgreementId
-                        AND Users.UserType = @UserTypeConstant";
-                
+                        WHERE Users.CompanyID = @CompanyId
+                        AND Users.UserType = 491
+                        AND Email.PrimaryEmail NOT LIKE '%dummyemail.com'
+                        ORDER BY Email";
+
                 var approvers = db.Connection.Query<DirectReport>(query
-                    , new { UserTypeConstant = MatchGuideConstants.UserType.ClientContact, AgreementId = agreementId});
+                    , new { UserTypeConstant = MatchGuideConstants.UserType.ClientContact, AgreementId = id });
 
                 return approvers;
             }
