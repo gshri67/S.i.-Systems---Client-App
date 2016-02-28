@@ -35,7 +35,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         ORDER BY Email";
 
                 var approvers = db.Connection.Query<DirectReport>(query
-                    , new { UserTypeConstant = MatchGuideConstants.UserType.ClientContact, AgreementId = id });
+                    , new { UserTypeConstant = MatchGuideConstants.UserType.ClientContact, CompanyId = id });
 
                 return approvers;
             }
