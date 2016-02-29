@@ -21,6 +21,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         int SubmitZeroTimeForUser(Timesheet timesheet, int userId);
         Timesheet GetTimesheetsById(int timesheetId);
         int SubmitTimesheet(Timesheet timesheet, int userId);
+        int WithdrawTimesheet(int timesheetId, string cancelType, int createUserId, string cancelledPDFName, string cancelReason);
         DirectReport GetDirectReportByTimesheetId(int timesheetId);
         TimesheetSummarySet GetTimesheetSummaryByAccountExecutiveId(int id);
         IEnumerable<TimesheetDetails> GetOpenTimesheetDetailsByAccountExecutiveId(int id);
@@ -235,6 +236,35 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 } ,new { UserId = userId});
 
                 return timesheets;
+            }
+        }
+
+
+        public int WithdrawTimesheet(int timesheetId, string cancelType, int createUserId, string cancelledPDFName, string cancelReason)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[UspSetCancelTS_TSAPP] 
+	                    @TimesheetId,
+	                    @Canceltype,
+	                    @createuserid,
+	                    @CancelledPdfName,
+	                    @timesheetcancelreason,
+	                    @verticalId";
+
+                var withdrawTimesheetTempId = db.Connection.Query<int>(query, new
+                {
+                    TimesheetId = timesheetId,
+                    Canceltype = cancelType,
+                    createuserid = createUserId,
+                    CancelledPdfName = cancelledPDFName,
+                    timesheetcancelreason = cancelReason,
+                    verticalId = MatchGuideConstants.VerticalId.IT
+                }).FirstOrDefault();
+
+                return withdrawTimesheetTempId;
             }
         }
 

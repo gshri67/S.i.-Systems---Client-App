@@ -3344,4 +3344,299 @@ GO
 
 
 
+/****** Object:  StoredProcedure [dbo].[UspGetSubmittedTSForCandidate_TSAPP]    Script Date: 2/29/2016 9:47:14 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE proc [dbo].[UspGetSubmittedTSForCandidate_TSAPP]                
+(                                                                            
+	@CandidateID INT,
+	@Canceltype Varchar(20)
+)                                                                                                           
+                                                                                                            
+AS     
+
+BEGIN
+                                            
+SET NOCOUNT ON        
+set transaction isolation level read uncommitted	
+	
+
+	declare @tssubmittedstatus int
+	declare @agreementtype int
+
+	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+	select @tssubmittedstatus = pl.PicklistId
+	from PickList pl inner join Picktype pt  on pt.picktypeid = pl.picktypeid  and pt.type = 'timesheetstatustype'  and pl.Title = 'submitted'
+	where  pl.inactive = 0 and pt.inactive = 0 and pl.verticalid  = -1
+	print @tssubmittedstatus
+
+	select @agreementtype = pl.PicklistId
+	from PickList pl inner join Picktype pt  on pt.picktypeid = pl.picktypeid  and pt.type = 'agreementtype'  and pl.Title = 'contract'
+	where  pl.inactive = 0 and pt.inactive = 0 and pl.verticalid  = -1
+	print @agreementtype
+
+	
+	if @Canceltype ='SubmitCancel'
+	BEGIN
+	select
+			timesheet.timesheetid,
+			--timesheetavailableperiod.timesheetavailableperiodstartdate tsstartdate,
+			--timesheetavailableperiod.timesheetavailableperiodenddate tsenddate,
+			isnull(timesheet.vacation,0) as isVacationTS,
+			(select Title from picklist where picklistid = timesheet.statusid ) as timesheetStatus,
+			--agreement.agreementid,
+			timesheet.submittedpdf,
+			(cast(agreement.agreementid as varchar)+'|'+ cast(timesheetid as varchar)+'|'+ cast(timesheetavailableperiodstartdate as varchar)+'|'+cast(timesheetavailableperiodenddate as varchar)+'|'+picklist.title) as valueString,
+			agreement.agreementsubid contractid,
+			agreement_contractdetail.jobtitle as contractDesc,
+			(LEFT(CONVERT( VARCHAR(10),DATENAME(mm,timesheetavailableperiod.timesheetavailableperiodstartdate)), 3) + ' ' + CONVERT( VARCHAR(10), DATEPART( dd, timesheetavailableperiod.timesheetavailableperiodstartdate)) + '-' + CONVERT( VARCHAR(10), DATEPART( dd, timesheetavailableperiod.timesheetavailableperiodenddate)) + ' '+ CONVERT( VARCHAR(10),DATEPART(yy,timesheetavailableperiod.timesheetavailableperiodstartdate )) )
+			as Payperiod,
+			(
+			case
+				when timesheet.iscpgsubmission = 1
+				then
+				(
+					SELECT
+						SUM(CONVERT(NUMERIC,ISNULL([TimeSheetAdminDetail].BulkHours,'0')))
+					FROM
+						[TimeSheetAdminDetail]
+					WHERE
+						[TimeSheetAdminDetail].[TimesheetID]=[TimeSheet].[TimeSheetID]
+				)
+				else
+				(
+					case when
+						(select
+							Case
+								when timesheet.isoverride = 1
+								then overridevalue
+								else sum(isnull(cast(t1.unitvalue as float),0))
+							end
+						from timesheetdetail t1
+						where t1.timesheetid = timesheet.timesheetid) is null
+						then 0
+						else
+						(select
+							Case
+								when timesheet.isoverride = 1
+								then overridevalue
+								else sum(isnull(cast(t1.unitvalue as float),0))
+							end
+						from timesheetdetail t1
+						where t1.timesheetid = timesheet.timesheetid)
+					end
+				)
+
+			end
+			) as TsHours,
+			picklist.title as timesheettype
+
+	from	timesheet
+
+			inner join agreement on agreement.agreementid = timesheet.agreementid
+			inner join timesheetavailableperiod on timesheetavailableperiod.timesheetavailableperiodid = timesheet.timesheetavailableperiodid
+			inner join agreement_contractdetail on agreement_contractdetail.agreementid = agreement.agreementid
+			inner join picklist on picklist.picklistid=timesheet.Timesheettype
+	where
+			timesheet.statusid = @tssubmittedstatus
+			and iscpgsubmission = 0
+			AND  agreement.candidateid = @candidateid
+			
+			and [agreement].agreementtype = @agreementtype
+
+	order by
+			contractid desc
+
+END
+ELSE IF @Canceltype ='SaveCancel'
+BEGIN
+	
+	select
+			isnull(TimeSheetTempID,0) as timesheetid,
+			--timesheetavailableperiod.timesheetavailableperiodstartdate tsstartdate,
+			--timesheetavailableperiod.timesheetavailableperiodenddate tsenddate,
+			--agreement.agreementid,
+			agreement.agreementsubid contractid,
+			isnull(timesheettemp.vacation,0) as isVacationTS,
+			'' as submittedpdf,
+			--(cast(agreement.agreementid as varchar)+'|'+cast(isnull(TimeSheetTempID,0) as varchar)+'|'+ cast(timesheetavailableperiodstartdate as varchar)+'|'+cast(timesheetavailableperiodenddate as varchar)+'|'+isnull(agreement_contractdetail.TimeSheetType,'')) as valueString,
+			(cast(agreement.agreementid as varchar)+'|'+cast(isnull(TimeSheetTempID,0) as varchar)+'|'+ cast(timesheetavailableperiodstartdate as varchar)+'|'+cast(timesheetavailableperiodenddate as varchar)+'|'+'') as valueString,
+			agreement_contractdetail.jobtitle as contractDesc,
+			(LEFT(CONVERT( VARCHAR(10),DATENAME(mm,timesheetavailableperiod.timesheetavailableperiodstartdate)), 3) + ' ' + CONVERT( VARCHAR(10), DATEPART( dd, timesheetavailableperiod.timesheetavailableperiodstartdate)) + '-' + CONVERT( VARCHAR(10), DATEPART( dd, timesheetavailableperiod.timesheetavailableperiodenddate)) + ' '+ CONVERT( VARCHAR(10),DATEPART(yy,timesheetavailableperiod.timesheetavailableperiodstartdate )) )
+			as Payperiod,
+			(case when
+					(select
+						Case
+							when timesheettemp.vacation = 1
+							then 0
+							when timesheettemp.isoverride = 1
+							then overridevalue
+							else sum(isnull(cast(t1.unitvalue as float),0))
+						end
+					from timesheetdetailtemp t1
+					where t1.TimesheetTempID = timesheettemp.TimesheetTempID) is null
+					then 0
+					else
+					(select
+						Case
+							when timesheettemp.isoverride = 1
+							then overridevalue
+							else sum(isnull(cast(t1.unitvalue as float),0))
+						end
+					from timesheetdetailtemp t1
+					where t1.TimesheetTempID = timesheettemp.TimesheetTempID)
+				end
+			) as TsHours,
+			'' as timesheettype,
+			'Saved' as timesheetStatus
+
+			
+		
+		from  timesheettemp
+		inner join agreement on agreement.agreementid = timesheettemp.agreementid
+		inner join timesheetavailableperiod on timesheetavailableperiod.timesheetavailableperiodid = timesheettemp.timesheetavailableperiodid
+		inner join agreement_contractdetail on agreement_contractdetail.agreementid = agreement.agreementid
+		where
+				timesheettemp.inactive=0 and isnull(timesheettemp.statusid,'')=''
+				
+				AND  agreement.candidateid = @candidateid
+				
+				and [agreement].agreementtype = @agreementtype
+
+
+		order by
+				contractid desc
+
+
+END
+
+
+
+
+
+
+END
+
+GO
+
+
+
+
+/****** Object:  StoredProcedure [dbo].[UspSetCancelTS_TSAPP]    Script Date: 2/29/2016 10:09:50 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE proc [dbo].[UspSetCancelTS_TSAPP]                
+(                                                                            
+	@TimesheetId INT,
+	@Canceltype Varchar(20),
+	@createuserid int,
+	@CancelledPdfName varchar(100),
+	@timesheetcancelreason Varchar(8000),
+	@verticalId int
+)                                                                                                           
+                                                                                                            
+AS     
+
+BEGIN
+                                            
+SET NOCOUNT ON        
+set transaction isolation level read uncommitted	
+	
+	declare @tsDeclinedStatus int
+	declare @timesheettype varchar(100)
+
+	set @tsDeclinedStatus = dbo.udf_Getpicklistid( 'timesheetstatustype', 'Cancelled',-1)
+
+	select @timesheettype=title from picklist where picklistid in (select timesheettype from timesheet where timesheetid=@timesheetid)
+	
+					--	<if condition="isdefined('form.selagreement') and listgetat(form.selagreement,5,'|') eq 'ETimesheet'">
+					--	<true>
+					--		<set name="filename_InsertSP" value="TS_#session.P_Can_UserLocalID#_#listgetat( form.selAgreement, 1, '|')#_#dateformat(listgetat(form.selAgreement, 3, '|'),'mmmddyyyy')#_#dateformat(listgetat(form.selAgreement, 4, '|'),'mmmddyyyy')#" />
+					--	</true>
+					--	<false>
+					--		<set name="filename_InsertSP" value="#q_getsubmittedpdf.submittedpdf#" />
+					--	</false>
+					--</if>
+	
+	if @Canceltype='SaveCancel'
+		BEGIN
+
+
+			insert into timesheetnote
+			(
+			TimeSheetID,
+			Comment,
+			CreateDate,
+			CreateUserID,
+			verticalID
+			)
+			values
+			(
+			@timesheetid,
+			@timesheetcancelreason,
+			getdate(),
+			@createuserid,
+			@verticalId
+			)
+		
+			update timesheettemp
+			set statusid = @tsDeclinedStatus,
+				Cancelled_date = getdate()
+			where TimeSheetTempID = @timesheetid
+		
+		
+			update timesheetdetailtemp
+			set Inactive=1
+			where TimeSheetTempID = @timesheetid
+		END
+	ELSE
+		BEGIN
+	
+			insert into timesheetnote
+			(
+			TimeSheetID,
+			Comment,
+			CreateDate,
+			CreateUserID,
+			verticalID
+			)
+			values
+			(
+			@timesheetid,
+			@timesheetcancelreason,
+			getdate(),
+			@createuserid,
+			@verticalId
+			)
+		
+			update timesheet
+			set statusid = @tsDeclinedStatus,
+				Cancelled_date = getdate(),
+			 cancelledpdf =(case when @timesheettype='etimesheet' then @CancelledPdfName +'_'+ cast(@timesheetid as varchar(100))+ '_Cancelled'
+			 					 when @timesheettype='manual' then @CancelledPdfName
+			 					 when @timesheettype='client' then @CancelledPdfName
+								 else @CancelledPdfName +'_'+ cast(@timesheetid as varchar(100))+ '_Cancelled'
+							end)
+		
+			where timesheetid = @timesheetid
+		END	
+	
+END
+
+GO
+
+
+
+
 

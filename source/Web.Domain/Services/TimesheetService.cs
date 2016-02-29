@@ -23,6 +23,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private readonly IActivityRepository _activityRepository;
         private readonly IUserContactRepository _userContactRepository;
         private readonly ISessionContext _sessionContext;
+        //private readonly IConsultantContractRepository _consultantContractRepository;
 
         /// <summary>
         /// This is a constant value to correct for possible Floating Point issues
@@ -76,6 +77,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                 ? SubmitZeroTime(timesheet) 
                 : SubmitTimesheetWithTimeEntries(timesheet);
 
+            return GetTimesheetById(timesheet.Id);
+        }
+
+        public Timesheet WithdrawTimesheet(Timesheet timesheet, string cancelReason )
+        {
+            //_timeSheetRepository.WithdrawTimesheet(timesheet.Id, 3003, "SubmitCancel", timesheet.CancelledPDFName, cancelReason);
+         
             return GetTimesheetById(timesheet.Id);
         }
 
