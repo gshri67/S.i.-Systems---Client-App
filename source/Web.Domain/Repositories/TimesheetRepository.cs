@@ -134,33 +134,16 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 var timesheetsFromDb = db.Connection.Query<DbTimesheetForMapping>(query, new { CandidateId = userId });
 
-                return (from ts in timesheetsFromDb
-                    let timesheetIsSaved = ts.timesheetStatus == "Saved"
-                    select new Timesheet
+                return timesheetsFromDb.Where(ts => ts.timesheetStatus != "Saved").Select(ts =>
+                    new Timesheet
                     {
-                        //this stored procedure returns the id OR Temp id in the same field regardless of source
-                        Id = !timesheetIsSaved ? ts.TimesheetID : 0, 
-                        OpenStatusId = timesheetIsSaved ? ts.TimesheetID : 0, 
-                        ContractId = timesheetIsSaved 
-                            ? GetAgreementIdByTempTimeSheetId(ts.TimesheetID) 
-                            : GetAgreementIdByTimeSheetId(ts.TimesheetID), 
+                        Id = ts.TimesheetID,
+                        ContractId = GetAgreementIdByTimeSheetId(ts.TimesheetID), 
                         Status = (MatchGuideConstants.TimesheetStatus) ts.timesheetStatus, 
                         ClientName = ts.CompanyName, StartDate = StartDateFromPeriodDate(ts.payPeriod), 
                         EndDate = EndDateFromPeriodDate(ts.payPeriod)
-                    }).ToList();
-            }
-        }
-
-        private int GetAgreementIdByTempTimeSheetId(int timesheetId)
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                    @"SELECT AgreementID FROM TimeSheetTemp WHERE TimeSheetTempID  = @TimesheetId";
-
-                var agreementId = db.Connection.Query<int>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
-
-                return agreementId;
+                    }
+                );
             }
         }
 

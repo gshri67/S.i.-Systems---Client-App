@@ -45,25 +45,23 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         private List<Timesheet> MostRecentSixMonthsOfTimesheets()
         {
-            var allTimesheets = _timeSheetRepository.GetNonOpenTimesheetsForUser(_sessionContext.CurrentUser.Id)
-                .Where(ts => ts.EndDate > DateTime.UtcNow.AddMonths(-6));
-
-            foreach (var timesheet in allTimesheets.Where(timesheet => timesheet.Status.ToString() != MatchGuideConstants.TimesheetStatus.Open.ToString()))
+            var nonOpenTimesheets = RemoveOlderTimesheets(_timeSheetRepository.GetNonOpenTimesheetsForUser(_sessionContext.CurrentUser.Id)).ToList();
+            var openTimesheets = RemoveOlderTimesheets(_timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id)).ToList();
+            
+            foreach (var timesheet in nonOpenTimesheets)
             {
                 timesheet.TimesheetApprover =
                     _timeSheetApproverRepository.GetCurrentTimesheetApproverForTimesheet(timesheet.Id);
             }
 
-            var openTimesheets = _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id)
-                .Where(ts => ts.EndDate > DateTime.UtcNow.AddMonths(-6));
+            openTimesheets.AddRange(nonOpenTimesheets);
 
-            var timesheets = openTimesheets.ToList();
-
-            timesheets.AddRange(
-                allTimesheets//.Where(timesheet => timesheet.Status != MatchGuideConstants.TimesheetStatus.Cancelled)
-            );
-
-            return timesheets;
+            return openTimesheets;
         }
+
+        private static IEnumerable<Timesheet> RemoveOlderTimesheets(IEnumerable<Timesheet> timesheets)
+        {
+            return timesheets.Where(timesheet => timesheet.EndDate > DateTime.UtcNow.AddMonths(-6));
+        } 
     }
 }
