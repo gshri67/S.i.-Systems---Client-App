@@ -73,15 +73,15 @@ namespace ConsultantApp.Core.ViewModels
 	        Timesheet = await _api.SubmitTimesheet(Timesheet);
 	    }
 
-        public void WithdrawTimesheet(string reason)
+        public void WithdrawTimesheet()
         {
-            WithdrawingTimesheet = WithdrawCurrentTimesheet(reason);
+            WithdrawingTimesheet = WithdrawCurrentTimesheet();
             WithdrawingTimesheet.ContinueWith(_ => _alertText = "Successfully withdrew timesheet",
                 TaskContinuationOptions.OnlyOnRanToCompletion);
             WithdrawingTimesheet.ContinueWith(_ => _alertText = "Failed to withdraw the timesheet",
                 TaskContinuationOptions.NotOnRanToCompletion);
         }
-	    private async Task WithdrawCurrentTimesheet(string reason)
+	    private async Task WithdrawCurrentTimesheet()
 	    {
             //todo:Make the Withdraw Timesheet Call to the API
 	        Timesheet.Status = MatchGuideConstants.TimesheetStatus.Open;
