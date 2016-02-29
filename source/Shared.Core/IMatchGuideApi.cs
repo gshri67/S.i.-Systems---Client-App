@@ -43,6 +43,8 @@ namespace Shared.Core
         
         Task<Timesheet> SubmitTimesheet(Timesheet timesheet);
 
+        Task<Timesheet> WithdrawTimesheet(Timesheet timesheet, string cancelReason);
+
 		Task<DashboardSummary> getDashboardInfo();
 
         Task<IEnumerable<JobSummary>> GetJobSummaries();

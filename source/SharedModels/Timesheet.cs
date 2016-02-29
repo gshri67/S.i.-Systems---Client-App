@@ -88,7 +88,7 @@ namespace SiSystems.SharedModels
 	    public IEnumerable<TimeEntry> TimeEntries { get; set; }
 
 	    public string CancelledPDFName { get; set; }
-	    public int CandidateId { get; set; }
+	    public int CreateUserId { get; set; }
 	}
 
     public class DirectReport

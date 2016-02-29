@@ -31,6 +31,13 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             var submittedTimesheet = _service.SubmitTimesheet(timesheet);
             return Request.CreateResponse(HttpStatusCode.OK, submittedTimesheet);
         }
+
+        [Route("Withdraw")]
+        public HttpResponseMessage WithdrawTimesheet(Timesheet timesheet, string cancelReason)
+        {
+            var withdrawnTimesheet = _service.WithdrawTimesheet(timesheet, cancelReason);
+            return Request.CreateResponse(HttpStatusCode.OK, withdrawnTimesheet);
+        }
     }
 
     [AccountExecutiveAccessAuthorization]
