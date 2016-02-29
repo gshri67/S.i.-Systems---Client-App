@@ -41,6 +41,7 @@ namespace ConsultantApp.iOS
         public void LoadPayRates()
         {
             var loadSupportTask = _timesheetModel.LoadTimesheetSupport();
+            loadSupportTask.ContinueWith(_ => InvokeOnMainThread(UpdateUI));
         }
 
         private void SetupTableViewSource()
