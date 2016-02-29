@@ -18,8 +18,7 @@ namespace ConsultantApp.iOS
         private TimesheetViewModel _timesheetModel;
         private AddTimeTableViewSource _addTimeTableViewSource;
         private SubtitleHeaderView _subtitleHeaderView;
-        //public DateTime Date;
-		private int maxFrequentlyUsed = 5;
+        private int maxFrequentlyUsed = 5;
 
         public AddTimeDelegate TimeDelegate;
 
@@ -49,14 +48,8 @@ namespace ConsultantApp.iOS
             if (tableview == null)
                 return;
 
-            //if (_addTimeTableViewSource == null) { 
-                RegisterCellsForReuse();
-                InstantiateTableViewSource();
-            //}
-            //else
-            //{
-            //    ResetTableViewSource();
-            //}
+            RegisterCellsForReuse();
+            InstantiateTableViewSource();
         }
 
         private void InstantiateTableViewSource()
@@ -77,8 +70,6 @@ namespace ConsultantApp.iOS
             //_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(Date)).Concat(timeEntries);
             SetHeaderHours();
         }
-
-        
 
         private void RegisterCellsForReuse()
         {
@@ -208,14 +199,9 @@ namespace ConsultantApp.iOS
 
             addButton.TouchUpInside += delegate
             {
-                var newEntry = new TimeEntry
-                {
-                    Date = _timesheetModel.SelectedDate,
-                    Hours = 8,
-                    CodeRate = new ProjectCodeRateDetails { PONumber = "Project Code", ratedescription = "Pay Rate"}
-                };
-
-                _timesheetModel.AddTimeEntry(newEntry);
+                var entry = _timesheetModel.DefaultNewEntry();
+                
+                _timesheetModel.AddTimeEntry(entry);
                 _addTimeTableViewSource.TimeEntries = _timesheetModel.GetSelectedDatesTimeEntries();
                 _addTimeTableViewSource.TimesheetSupport = _timesheetModel.TimesheetSupport;
                 

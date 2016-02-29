@@ -338,6 +338,44 @@ namespace ConsultantApp.Core.ViewModels
             return date >= Timesheet.StartDate && date <= Timesheet.EndDate;
         }
         #endregion
-    }
+        
+	    private TimeEntry CopyOfPreviousDaysEntryIfOnlyOneValue()
+	    {
+	        var previousEntries = GetTimeEntriesForDate(SelectedDate.AddDays(-1)).ToList();
+            if(previousEntries.Count() != 1)
+	            return new TimeEntry();
+
+	        var entry = previousEntries.FirstOrDefault();
+	        return new TimeEntry
+	        {
+                Date = SelectedDate,
+	            CodeRate = entry.CodeRate,
+                Hours = entry.Hours
+	        };
+	    }
+
+	    public TimeEntry DefaultNewEntry()
+	    {
+            //try to set the current values to the same as the previous days entry
+            var newEntry = CopyOfPreviousDaysEntryIfOnlyOneValue();
+	        if (newEntry != null)
+	            return newEntry;
+            
+            newEntry = new TimeEntry
+            {
+                Date = SelectedDate,
+                Hours = 8,
+                CodeRate = TimesheetSupport.ProjectCodeOptions.Count() == 1 
+                    ? TimesheetSupport.ProjectCodeOptions.FirstOrDefault() 
+                    : new ProjectCodeRateDetails
+                    {
+                        PONumber = "Project Code", 
+                        ratedescription = "Pay Rate"
+                    }
+            };
+            
+	        return newEntry;
+	    }
+	}
 }
 
