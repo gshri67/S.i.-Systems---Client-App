@@ -376,14 +376,6 @@ namespace ConsultantApp.Core.ViewModels
             
 	        return newEntry;
 	    }
-
-	    public IEnumerable<ProjectCodeRateDetails> AvailableCodeRates()
-	    {
-	        return TimesheetSupport.ProjectCodeOptions;
-	        var usedCodeRates = GetSelectedDatesTimeEntries().Select(entry => entry.CodeRate);
-
-	        return TimesheetSupport.ProjectCodeOptions.Except(usedCodeRates);
-	    }
 	}
 }
 

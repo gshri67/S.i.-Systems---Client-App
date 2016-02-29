@@ -31,9 +31,11 @@ namespace ConsultantApp.iOS
 		public bool MustSave;//if this is true, the done or delete button must be tapped before the cell can be minimized.
 		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
 
-		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries) 
+		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries, IEnumerable<ProjectCodeRateDetails> codeRateDetails) 
 		{
 			this.TimeEntries = timeEntries;
+
+		    CodeRateDetails = codeRateDetails ?? Enumerable.Empty<ProjectCodeRateDetails>();
 
 			_normalCellHeight = 44;
 			_expandedCellHeight = 200;
