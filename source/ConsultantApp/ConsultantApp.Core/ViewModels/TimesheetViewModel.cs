@@ -343,7 +343,7 @@ namespace ConsultantApp.Core.ViewModels
 	    {
 	        var previousEntries = GetTimeEntriesForDate(SelectedDate.AddDays(-1)).ToList();
             if(previousEntries.Count() != 1)
-	            return new TimeEntry();
+	            return null;
 
 	        var entry = previousEntries.FirstOrDefault();
 	        return new TimeEntry
