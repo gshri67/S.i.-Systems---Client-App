@@ -27,10 +27,6 @@ namespace ConsultantApp.iOS
 		private bool _addingProjectCode;//if there is an extra cell expanded for picker etc..
 		private bool _isEnabled = true;
 
-		//This functionality is likely going to be removed
-		public bool MustSave;//if this is true, the done or delete button must be tapped before the cell can be minimized.
-		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
-
 		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries, IEnumerable<ProjectCodeRateDetails> codeRateDetails) 
 		{
 			this.TimeEntries = timeEntries;
@@ -102,7 +98,7 @@ namespace ConsultantApp.iOS
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			//Nothing happens if expanded cell is tapped
-		    if ((int) indexPath.Item == _expandedCellIndex || MustSave) return;
+		    if ((int) indexPath.Item == _expandedCellIndex) return;
 
 		    var realSelectedIndex = EntryIndex (indexPath);
 
@@ -201,8 +197,6 @@ namespace ConsultantApp.iOS
 				tableView.ReloadData();
 
 				OnDataChanged( TimeEntries);
-
-				MustSave = false;
 			};
 		}
 		private void setupExpansionCellDelete( AddProjectCodeCell cell, UITableView tableView )
@@ -219,8 +213,6 @@ namespace ConsultantApp.iOS
 					timeEntriesList.Remove(timeEntryToRemove);
 
 					TimeEntries = timeEntriesList.AsEnumerable();
-
-					MustSave = false;
 				}
 
 				tableView.ReloadData();
