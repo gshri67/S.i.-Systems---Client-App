@@ -762,7 +762,6 @@ namespace SiSystems.SharedModels
 
             private TimesheetStatus(string value)
             {
-                string description;
                 m_value = DescriptionDictionary.Where(p => p.Value == value).Select(p => p.Key).FirstOrDefault();
             }
 
