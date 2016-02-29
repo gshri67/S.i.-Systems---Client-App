@@ -30,6 +30,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<TimesheetDetails> GetRejectedTimesheetDetailsByAccountExecutiveId(int id);
         TimesheetContact GetTimesheetContactById(int id);
         TimesheetContact GetOpenTimesheetContactByAgreementId(int id);
+        int GetCreateUserIdFromTimesheet(int timesheetId);
+        string GetSubmittedPDFFromTimesheet(int timesheetId);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -242,6 +244,36 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
+        public int GetCreateUserIdFromTimesheet(int timesheetId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT candidateMatrix.CreateUserID as CreateUserId
+                      FROM TimeSheet Times
+                      LEFT JOIN Agreement_OpportunityCandidateMatrix candidateMatrix ON Times.AgreementID = candidateMatrix.AgreementID
+                      WHERE TimeSheetID = @timesheetId";
+
+                var createUserId = db.Connection.Query<int>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
+
+                return createUserId;
+            }
+        }
+
+        public string GetSubmittedPDFFromTimesheet(int timesheetId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT submittedpdf
+                      FROM TimeSheet
+                      WHERE TimeSheetID = @timesheetId";
+
+                var submittedpdf = db.Connection.Query<string>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
+
+                return submittedpdf;
+            }
+        }
 
         public int WithdrawTimesheet(int timesheetId, string cancelType, int createUserId, string cancelledPDFName, string cancelReason)
         {

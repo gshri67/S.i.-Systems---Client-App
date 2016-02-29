@@ -81,6 +81,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         public Timesheet WithdrawTimesheet(Timesheet timesheet, string cancelReason )
         {
+            int createUserId = _timeSheetRepository.GetCreateUserIdFromTimesheet(timesheet.Id);
+            string submittedPDF = _timeSheetRepository.GetSubmittedPDFFromTimesheet(timesheet.Id); 
             _timeSheetRepository.WithdrawTimesheet(timesheet.Id, "SubmitCancel", timesheet.CreateUserId, timesheet.CancelledPDFName, cancelReason);
          
             return GetTimesheetById(timesheet.Id);
