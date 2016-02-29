@@ -100,12 +100,12 @@ namespace ConsultantApp.iOS
         //    UpdateUI ();
         //}
 
-		public void SetData( TimeEntry entry, TimesheetSupport support )
+        public void SetData(TimeEntry entry, IEnumerable<ProjectCodeRateDetails> codeRates)
 		{
 			TimeEntry = entry;
             
-		    _projectCodes = support.ProjectCodeOptions.Select(details => details.PONumber).Distinct().ToList();
-            _payRates = support.ProjectCodeOptions;
+		    _projectCodes = codeRates.Select(details => details.PONumber).Distinct().ToList();
+            _payRates = codeRates;
             
 			UpdateUI();
 		}

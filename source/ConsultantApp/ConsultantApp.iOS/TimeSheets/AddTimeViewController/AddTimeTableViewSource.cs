@@ -15,7 +15,7 @@ namespace ConsultantApp.iOS
 		private const string ExpandedCellIdentifier = "AddProjectCodeCell";
 		public IEnumerable<TimeEntry> TimeEntries;
 
-        public TimesheetSupport TimesheetSupport;
+        public IEnumerable<ProjectCodeRateDetails> CodeRateDetails;
 
 		public delegate void TableDelegate(IEnumerable<TimeEntry> timeEntries);
 		public TableDelegate OnDataChanged;
@@ -85,8 +85,8 @@ namespace ConsultantApp.iOS
 
 			if (TimeEntries == null) return cell;
 
-			var curEntry = TimeEntries.ElementAt( _prevSelectedRow );//((int)indexPath.Item);
-            cell.SetData(curEntry, TimesheetSupport);
+			var curEntry = TimeEntries.ElementAt( _prevSelectedRow );
+            cell.SetData(curEntry, CodeRateDetails);
 
 			if (cell.OnSave == null)
 				setupExpansionCellSave (cell, tableView);

@@ -199,11 +199,12 @@ namespace ConsultantApp.iOS
 
             addButton.TouchUpInside += delegate
             {
+                var codeRatesNotYetEntered = _timesheetModel.AvailableCodeRates();
                 var entry = _timesheetModel.DefaultNewEntry();
                 
                 _timesheetModel.AddTimeEntry(entry);
                 _addTimeTableViewSource.TimeEntries = _timesheetModel.GetSelectedDatesTimeEntries();
-                _addTimeTableViewSource.TimesheetSupport = _timesheetModel.TimesheetSupport;
+                _addTimeTableViewSource.CodeRateDetails = codeRatesNotYetEntered;
                 
                 /*
                  * Note that the above might not be needed at all. Here's what I'm thinking:
