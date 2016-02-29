@@ -51,8 +51,8 @@ namespace ConsultantApp.iOS
 
 	        if (webView == null)
 	        {
-	            webView = new UIWebView(View.Frame);
-	            webView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
+	            webView = new UIWebView(View.Bounds);
+	            //webView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
 	            View.AddSubview(webView);
 	        }
 
