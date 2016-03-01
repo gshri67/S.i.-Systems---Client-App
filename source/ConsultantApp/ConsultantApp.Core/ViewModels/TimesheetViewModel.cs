@@ -54,7 +54,7 @@ namespace ConsultantApp.Core.ViewModels
 	        return savingTimesheetTask;
 	    }
 
-	    public async Task SaveTimesheetCall()
+	    private async Task SaveTimesheetCall()
 		{
 		    Timesheet = await _api.SaveTimesheet(Timesheet);
 		}
@@ -123,7 +123,7 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task GetTimesheetSupport()
         {
-            TimesheetSupport = await _api.GetTimesheetSupportForTimesheet(Timesheet);
+            TimesheetSupport = await _api.GetTimesheetSupportForTimesheet(Timesheet, Timesheet.TimeEntries.ToList());
         }
 
 	    public string TotalHoursText()

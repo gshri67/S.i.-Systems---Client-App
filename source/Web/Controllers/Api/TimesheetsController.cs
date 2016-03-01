@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -19,8 +20,9 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             _service = service;
         }
 
-        public HttpResponseMessage Post(Timesheet timesheet)
+        public HttpResponseMessage Post(Timesheet timesheet, List<TimeEntry> timeEntries)
         {
+            timesheet.TimeEntries = timeEntries;
             var returnedTimesheet = _service.SaveTimesheet(timesheet);
             return Request.CreateResponse(HttpStatusCode.OK, returnedTimesheet);
         }

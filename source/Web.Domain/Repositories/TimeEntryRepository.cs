@@ -119,13 +119,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                           ,@aGeneralProjPODesc
                           ,@aTimesheetTempId";
 
+                //note that there is a -1 on day because days seem to be zero indexed in MG
                 db.Connection.Execute(query, new
                 {
                     aContractrateid = entry.CodeRate.contractrateid,
                     aPoNumber = entry.CodeRate.PONumber,
                     aProjectID = entry.CodeRate.ProjectId, 
                     acontractprojectpoid = entry.CodeRate.ContractProjectPOID, 
-                    aDay = entry.Date.Day,
+                    aDay = entry.Date.Day - 1,
                     aUnitValue = entry.Hours,
                     aGeneralProjPODesc = entry.CodeRate.PODescription, 
                     aTimesheetTempID = id,
