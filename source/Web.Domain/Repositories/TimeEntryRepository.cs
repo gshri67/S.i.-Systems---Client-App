@@ -71,10 +71,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
+                //note that there is a plus one on the date because dates seem to be zero indexed.
                 const string query =
                         @"SELECT Details.TimeSheetDetailID AS Id
                             ,CAST(Details.UnitValue AS FLOAT) AS Hours
-                            ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day, 0, 0, 0, 0) AS Date
+                            ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day + 1, 0, 0, 0, 0) AS Date
                             ,Details.ProjectID AS ProjectId
                             ,Details.PONumber
                             ,Details.ContractProjectPoID
