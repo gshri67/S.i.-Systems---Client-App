@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Dapper;
@@ -21,7 +22,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         int SubmitZeroTimeForUser(Timesheet timesheet, int userId);
         Timesheet GetTimesheetsById(int timesheetId);
         int SubmitTimesheet(Timesheet timesheet, int userId);
-        int WithdrawTimesheet(int timesheetId, string cancelType, int createUserId, string cancelledPDFName, string cancelReason);
+        void WithdrawTimesheet(int timesheetId, string cancelType, int createUserId, string cancelledPDFName, string cancelReason);
         DirectReport GetDirectReportByTimesheetId(int timesheetId);
         TimesheetSummarySet GetTimesheetSummaryByAccountExecutiveId(int id);
         IEnumerable<TimesheetDetails> GetOpenTimesheetDetailsByAccountExecutiveId(int id);
@@ -238,7 +239,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public int WithdrawTimesheet(int timesheetId, string cancelType, int createUserId, string cancelledPDFName, string cancelReason)
+        public void WithdrawTimesheet(int timesheetId, string cancelType, int createUserId, string cancelledPDFName, string cancelReason)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -252,7 +253,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 	                    @timesheetcancelreason,
 	                    @verticalId";
 
-                var withdrawTimesheetTempId = db.Connection.Query<int>(query, new
+                db.Connection.Query(query, new
                 {
                     TimesheetId = timesheetId,
                     Canceltype = cancelType,
@@ -260,9 +261,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     CancelledPdfName = cancelledPDFName,
                     timesheetcancelreason = cancelReason,
                     verticalId = MatchGuideConstants.VerticalId.IT
-                }).FirstOrDefault();
-
-                return withdrawTimesheetTempId;
+                }, commandType:CommandType.StoredProcedure);
             }
         }
 
