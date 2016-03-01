@@ -30,7 +30,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<TimesheetDetails> GetRejectedTimesheetDetailsByAccountExecutiveId(int id);
         TimesheetContact GetTimesheetContactById(int id);
         TimesheetContact GetOpenTimesheetContactByAgreementId(int id);
-        int GetCreateUserIdFromTimesheet(int timesheetId);
         string GetSubmittedPDFFromTimesheet(int timesheetId);
     }
 
@@ -212,8 +211,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         @"SELECT TimeSheetID AS Id
                                 ,Company.CompanyName AS ClientName
                                 ,Times.AgreementId as ContractId
-                                ,Times.cancelledpdf as CancelledPDFName
-                                ,candidateMatrix.CreateUserID as CreateUserId
                                 ,StatusID AS Status
                                 ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
 	                            ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
@@ -228,7 +225,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                             LEFT JOIN TimeSheetAvailablePeriod Periods ON Times.TimeSheetAvailablePeriodID = Periods.TimeSheetAvailablePeriodID
                             LEFT JOIN Users DirectReport ON Times.DirectReportUserId = DirectReport.UserID
                             LEFT JOIN User_Email DirectReportEmail ON Times.DirectReportUserId = DirectReportEmail.UserID
-                            LEFT JOIN Agreement_OpportunityCandidateMatrix candidateMatrix ON Times.AgreementID = candidateMatrix.AgreementID
                             WHERE CandidateUserID = 12
                             AND ResubmittedToID IS NULL
                             AND Periods.TimeSheetAvailablePeriodEndDate > DATEADD(MONTH, -6, GETDATE())
@@ -241,22 +237,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 } ,new { UserId = userId});
 
                 return timesheets;
-            }
-        }
-
-        public int GetCreateUserIdFromTimesheet(int timesheetId)
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                    @"SELECT candidateMatrix.CreateUserID as CreateUserId
-                      FROM TimeSheet Times
-                      LEFT JOIN Agreement_OpportunityCandidateMatrix candidateMatrix ON Times.AgreementID = candidateMatrix.AgreementID
-                      WHERE TimeSheetID = @timesheetId";
-
-                var createUserId = db.Connection.Query<int>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
-
-                return createUserId;
             }
         }
 
