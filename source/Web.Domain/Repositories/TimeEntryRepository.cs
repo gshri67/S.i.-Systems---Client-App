@@ -75,7 +75,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 const string query =
                         @"SELECT Details.TimeSheetDetailID AS Id
                             ,CAST(Details.UnitValue AS FLOAT) AS Hours
-                            ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day + 1, 0, 0, 0, 0) AS Date
+                            ,Date = CASE Details.Day
+		                        WHEN  0 THEN DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day+1, 0, 0, 0, 0)
+		                        ELSE DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day, 0, 0, 0, 0)
+    	                        END
                             ,Details.ProjectID AS ProjectId
                             ,Details.PONumber
                             ,Details.ContractProjectPoID
