@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Dapper;
 using SiSystems.ClientApp.Web.Domain;
@@ -107,8 +108,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                    @"DECLARE @RC int
-                        EXECUTE @RC = [dbo].[sp_TimesheetTempDetail_Insert] 
+                    @"EXECUTE [dbo].[sp_TimesheetTempDetail_Insert] 
                            @aContractrateid
                           ,@aPoNumber
                           ,@aProjectId
@@ -118,8 +118,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                           ,@aGeneralProjPODesc
                           ,@aTimesheetTempId";
 
-                //todo: we may need to change this to db.Connection.Execute if the stored procedure doesn't return anything.
-                db.Connection.Query<TimeEntry>(query, new
+                db.Connection.Execute(query, new
                 {
                     aContractrateid = entry.CodeRate.contractrateid,
                     aPoNumber = entry.CodeRate.PONumber,
@@ -129,7 +128,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     aUnitValue = entry.Hours,
                     aGeneralProjPODesc = entry.CodeRate.PODescription, 
                     aTimesheetTempID = id,
-                });
+                }, commandType:CommandType.StoredProcedure);
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using ConsultantApp.Core.ViewModels;
 using Microsoft.Practices.Unity;
 using Shared.Core;
@@ -19,9 +20,7 @@ namespace ConsultantApp.iOS
         private AddTimeTableViewSource _addTimeTableViewSource;
         private SubtitleHeaderView _subtitleHeaderView;
         private int maxFrequentlyUsed = 5;
-
-        public AddTimeDelegate TimeDelegate;
-
+        
         public AddTimeViewController(IntPtr handle) : base(handle)
         {
             EdgesForExtendedLayout = UIRectEdge.None;
@@ -230,40 +229,30 @@ namespace ConsultantApp.iOS
 
 			saveButton.TouchUpInside += async delegate
 			{
-				bool saveFailed = false;
+				TransitionToSavingAnimation();
 
-				savedLabel.Text = "Saved";
-
-                TransitionToSavingAnimation();
-
-				try{
-                    var savingTimesheetTask = _timesheetModel.SaveTimesheet();
-                    //todo: convert below to different continue with calls
-				}
-				catch
-				{
-					saveFailed = true;	
-				}
-
-                if (saveFailed)
-                {
-                    savedLabel.Text = "Error";
-
-                    UIAlertView confirmationAlertView = new UIAlertView("Failed to save changes", "", null, "Ok");
-                    confirmationAlertView.Show();
-                }
-                else
-                {
-                    TimeDelegate.setTimesheet(_timesheetModel.Timesheet);
-                }
-
-                BeginTransitionToSavedAnimation();
+				var savingTimesheetTask = _timesheetModel.SaveTimesheet();
+			    savingTimesheetTask.ContinueWith(_ => InvokeOnMainThread(TimesheetSaveSuccess), TaskContinuationOptions.OnlyOnRanToCompletion);
+                savingTimesheetTask.ContinueWith(_ => InvokeOnMainThread(TimesheetSaveFailed), TaskContinuationOptions.OnlyOnFaulted);
 			};
 
             tableview.ContentInset = new UIEdgeInsets(-35, 0, 0, 0);
 
             UpdateUI();
             CreateCustomTitleBar();
+        }
+
+        private void TimesheetSaveSuccess()
+        {
+            BeginTransitionToSavedAnimation();
+        }
+
+        private void TimesheetSaveFailed()
+        {
+            savedLabel.Text = "Error";
+
+            UIAlertView confirmationAlertView = new UIAlertView("Failed to save changes", "", null, "Ok");
+            confirmationAlertView.Show();
         }
 
         private void TransitionToSavingAnimation()
@@ -324,6 +313,8 @@ namespace ConsultantApp.iOS
 
         private void StartSavingAnimation()
         {
+            savedLabel.Text = "Saving";
+
             saveButton.Alpha = 0;
 			emptySaveButton.Alpha = 1;
             savingLabel.Alpha = 1;

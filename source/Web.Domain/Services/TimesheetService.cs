@@ -42,7 +42,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         public Timesheet SaveTimesheet(Timesheet timesheet)
         {
-            UpdateTimesheetApproverIfNecessary(timesheet);
+            //for now, we can only update the timesheet approver when submitting. 
+            //UpdateTimesheetApproverIfNecessary(timesheet);
 
             var userId = _sessionContext.CurrentUser.Id;
 
