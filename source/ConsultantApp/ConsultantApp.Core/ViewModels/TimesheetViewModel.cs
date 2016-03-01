@@ -378,6 +378,11 @@ namespace ConsultantApp.Core.ViewModels
             
 	        return newEntry;
 	    }
+
+	    public void SetSelectedDatesEntries(IEnumerable<TimeEntry> timeEntries)
+	    {
+            Timesheet.TimeEntries = Timesheet.TimeEntries.Where(entry => entry.Date != SelectedDate).Concat(timeEntries);
+	    }
 	}
 }
 

@@ -17,7 +17,7 @@ namespace ConsultantApp.iOS
 	{
 		public TimeEntry TimeEntry;
 
-		public delegate void CellDelegate();
+		public delegate void CellDelegate(TimeEntry entry);
 		public  CellDelegate OnSave;
 		public  CellDelegate OnDelete;
 
@@ -89,7 +89,7 @@ namespace ConsultantApp.iOS
 			_deleteButton.TranslatesAutoresizingMaskIntoConstraints = false;
 			_deleteButton.TouchUpInside += delegate 
 			{
-				OnDelete();
+				OnDelete(null);
 			};
 			AddSubview (_deleteButton);
 		}
@@ -205,16 +205,14 @@ namespace ConsultantApp.iOS
 
 		public void SaveChanges()
 		{
-		    var selectedIndex = _pickerModel.selectedItemIndex.ElementAt(0);
 		    if (_pickerModel.items.ElementAt(0) == null)
 		        return;
-            TimeEntry.CodeRate.PONumber = _pickerModel.items.ElementAt(0).ElementAt(selectedIndex);
 
 			SetTimeEntryPayRateToSelectedRate();
 
 		    ActiveTimesheetViewModel.IncrementProjectCodeCount(TimeEntry.CodeRate.PONumber);
 			
-			OnSave();
+			OnSave(TimeEntry);
 		}
 
 	    private void SetTimeEntryPayRateToSelectedRate()

@@ -1,25 +1,21 @@
 using System;
 using UIKit;
 using Foundation;
+using SiSystems.SharedModels;
 
 namespace ConsultantApp.iOS
 {
     public class TimeEntryCell : UITableViewCell
     {
+        private TimeEntry Entry { get; set; }
 		public UILabel clientField;
         public UILabel projectCodeField;
         public UITextField hoursField;
 		public UILabel payRateLabel;
 
         //Blocks
-        public delegate void hoursFieldDelegate( float newHours );
-        public hoursFieldDelegate onHoursChanged;
-
-        public delegate void clientFieldDelegate( String newClient );
-        public clientFieldDelegate onClientChanged;
-
-        public delegate void projectCodeFieldDelegate(String newProjectCode);
-        public projectCodeFieldDelegate onProjectCodeChanged;
+        public delegate void EntryChangedDelegate( TimeEntry entry );
+        public EntryChangedDelegate EntryChanged;
 
         public TimeEntryCell (IntPtr handle) : base (handle)
         {
@@ -44,37 +40,21 @@ namespace ConsultantApp.iOS
 			payRateLabel.TextColor = StyleGuideConstants.MediumGrayUiColor;
 			AddSubview( payRateLabel );
 
-			//projectCodeField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
 			clientField.TextColor = UIColor.FromWhiteAlpha (0.55f, 1.0f);
 
 			clientField.Hidden = true;
-
-            //Hours
-            if (onHoursChanged == null)
-                onHoursChanged = (float newHours) => { };
 
             hoursField = new UITextField();
             hoursField.Text = "8";
             hoursField.TranslatesAutoresizingMaskIntoConstraints = false;
             hoursField.TextAlignment = UITextAlignment.Right;
-			//hoursField.UserInteractionEnabled = false;
-            hoursField.EditingChanged += delegate 
+            hoursField.EditingDidEnd += delegate
             {
-                if (hoursField.Text.Length > 0)
-                {
-                    try
-                    {
-                        onHoursChanged(float.Parse(hoursField.Text));
-                    }
-                    catch //if an invalid string is typed, just default to 0
-                    {
-                        onHoursChanged(0);
-                    }
-                }
-                else
-                    onHoursChanged(0);
+                float hours;
+                var parsed = float.TryParse(hoursField.Text, out hours);
+                Entry.Hours = parsed ? hours : 0;
+                EntryChanged(Entry);
             };
-			//hoursField.ClearsOnBeginEditing = true;
 
 			hoursField.EditingDidBegin += delegate {
 				this.BeginInvokeOnMainThread ( delegate {
@@ -82,7 +62,6 @@ namespace ConsultantApp.iOS
 				});
 			};
 
-			//hoursField.ReturnKeyType = UIReturnKeyType.Done;
 			hoursField.KeyboardType = UIKeyboardType.DecimalPad;
 
 			var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, Frame.Size.Width, 44.0f));
@@ -96,21 +75,6 @@ namespace ConsultantApp.iOS
 			hoursField.InputAccessoryView = toolbar;
 			hoursField.BorderStyle = UITextBorderStyle.RoundedRect;
 
-			/*
-			UIToolbar toolbar = new UIToolbar ( new CoreGraphics.CGRect(0, 0, Frame.Width, 44) );
-			UIBarButtonItem doneButton = new UIBarButtonItem ("Done", UIBarButtonItemStyle.Bordered,  doneButtonTapped );
-
-			toolbar.Items = new UIBarButtonItem[]{ doneButton };
-			hoursField.InputAccessoryView = toolbar;*/
-			/*
-			UIToolbar *toolBar= [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,320,44)];
-			[toolBar setBarStyle:UIBarStyleBlackOpaque];
-			UIBarButtonItem *barButtonDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" 
-				style:UIBarButtonItemStyleBordered target:self action:@selector(changeDateFromLabel:)];
-			toolBar.items = @[barButtonDone];
-			barButtonDone.tintColor=[UIColor blackColor];
-			[pickerView addSubview:toolBar];
-*/
             AddSubview( hoursField );
 
             setupConstraints();
@@ -161,13 +125,13 @@ namespace ConsultantApp.iOS
 			}
 		}
 
-		public void UpdateCell(string projectCode, string rateDescription, string hours, hoursFieldDelegate onHoursChanged )
-		{
-			projectCodeField.Text = projectCode;
-			payRateLabel.Text = rateDescription;
-			hoursField.Text = hours;
+        public void UpdateCell(TimeEntry timeEntry)
+        {
+            Entry = timeEntry;
 
-			onHoursChanged = onHoursChanged;
-		}
+            projectCodeField.Text = Entry.CodeRate.PONumber;
+            payRateLabel.Text = Entry.CodeRate.ratedescription;
+            hoursField.Text = string.Format("{0}", Entry.Hours);
+        }
     }
 }

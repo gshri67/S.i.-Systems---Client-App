@@ -63,14 +63,14 @@ namespace ConsultantApp.iOS
 		private TimeEntryCell GetTimeEntryCell( UITableView tableView, NSIndexPath indexPath )
 		{
 			var cell = (TimeEntryCell)tableView.DequeueReusableCell (CellIdentifier);
+		    var selectedEntry = TimeEntries.ElementAt(EntryIndex(indexPath));
 
-			if (TimeEntries != null && TimeEntries.Count () > EntryIndex(indexPath)) 
-			{
-				var curEntry = TimeEntries.ElementAt(EntryIndex(indexPath));
-				populateTimeEntryCell ( cell, curEntry );
-			} 
-			else 
-				populateTimeEntryCell (cell, null);
+            cell.UpdateCell(selectedEntry);
+            cell.EntryChanged = entry =>
+                                    {
+                                        selectedEntry = entry;
+                                        OnDataChanged(TimeEntries);
+                                    };
 
 			cell.enable (_isEnabled);
 
@@ -86,11 +86,38 @@ namespace ConsultantApp.iOS
 			var curEntry = TimeEntries.ElementAt( _prevSelectedRow );
             cell.SetData(curEntry, CodeRateDetails);
 
-			if (cell.OnSave == null)
-				setupExpansionCellSave (cell, tableView);
+            cell.OnSave = delegate(TimeEntry entry)
+            {
+                CloseExpandedCell();
+                tableView.ReloadData();
+                curEntry = entry;
+                OnDataChanged(TimeEntries);
+            };
 
-			if (cell.OnDelete == null)
-				setupExpansionCellDelete (cell, tableView);
+		    cell.OnDelete = entry =>
+		    {
+		        CloseExpandedCell();
+
+		        var elem = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
+		        if (elem != null)
+		        {
+		            var entryToDelete = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
+		            var timeEntriesList = TimeEntries.ToList();
+		            timeEntriesList.Remove(entryToDelete);
+
+		            TimeEntries = timeEntriesList.AsEnumerable();
+		        }
+
+		        tableView.ReloadData();
+
+		        OnDataChanged(TimeEntries);
+		    };
+
+            //if (cell.OnSave == null)
+            //    setupExpansionCellSave (cell, tableView);
+
+            //if (cell.OnDelete == null)
+            //    setupExpansionCellDelete (cell, tableView);
 
 			return cell;
 		}
@@ -196,7 +223,7 @@ namespace ConsultantApp.iOS
 
 				tableView.ReloadData();
 
-				OnDataChanged( TimeEntries);
+				OnDataChanged(TimeEntries);
 			};
 		}
 		private void setupExpansionCellDelete( AddProjectCodeCell cell, UITableView tableView )
@@ -208,11 +235,11 @@ namespace ConsultantApp.iOS
 				var elem = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
 				if (elem != null)
 				{
-					var timeEntryToRemove = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
-					var timeEntriesList = TimeEntries.ToList();
-					timeEntriesList.Remove(timeEntryToRemove);
+					var entry = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
+                    var timeEntriesList = TimeEntries.ToList();
+                    timeEntriesList.Remove(entry);
 
-					TimeEntries = timeEntriesList.AsEnumerable();
+                    TimeEntries = timeEntriesList.AsEnumerable();
 				}
 
 				tableView.ReloadData();
@@ -226,33 +253,33 @@ namespace ConsultantApp.iOS
 		//TimeEntryCells
 		#region EntryCells 
 
-		private void populateTimeEntryCell( TimeEntryCell cell, TimeEntry curEntry )
-		{
-			if (curEntry != null) 
-			{
-				cell.UpdateCell
-				(
-                    projectCode: curEntry.CodeRate.PONumber,
-					rateDescription: curEntry.CodeRate.ratedescription,//.PayRate.RateDescription,
-					hours: curEntry.Hours.ToString (CultureInfo.InvariantCulture),
-					onHoursChanged: ( float newHours) => 
-									{
-										curEntry.Hours = newHours;
-										OnDataChanged (TimeEntries);
-									}
-				);
-			} 
-			else 
-			{
-				cell.UpdateCell
-				(
-					projectCode: null,
-					rateDescription: null,
-					hours: null,
-					onHoursChanged: null
-				);
-			}
-		}
+        //private void populateTimeEntryCell( TimeEntryCell cell, TimeEntry curEntry )
+        //{
+        //    if (curEntry != null) 
+        //    {
+        //        cell.UpdateCell
+        //        (
+        //            projectCode: curEntry.CodeRate.PONumber,
+        //            rateDescription: curEntry.CodeRate.ratedescription,//.PayRate.RateDescription,
+        //            hours: curEntry.Hours.ToString (CultureInfo.InvariantCulture)
+        //            //onHoursChanged: ( float newHours) => 
+        //            //                {
+        //            //                    curEntry.Hours = newHours;
+        //            //                    //OnDataChanged (TimeEntries);
+        //            //                }
+        //        );
+        //    } 
+        //    else 
+        //    {
+        //        cell.UpdateCell
+        //        (
+        //            projectCode: null,
+        //            rateDescription: null,
+        //            hours: null
+        //            //onHoursChanged: null
+        //        );
+        //    }
+        //}
 
 		#endregion
 	}

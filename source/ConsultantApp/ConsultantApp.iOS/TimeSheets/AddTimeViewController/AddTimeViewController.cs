@@ -60,17 +60,16 @@ namespace ConsultantApp.iOS
                 _timesheetModel.TimesheetSupport.ProjectCodeOptions
             );
 
-            _addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
+            _addTimeTableViewSource.OnDataChanged = AddTimeTableDataChanged;
 
             tableview.Source = _addTimeTableViewSource;
         }
 
         private void AddTimeTableDataChanged(IEnumerable<TimeEntry> timeEntries)
         {
-            //todo: We have to move this. Currently, it's only updating the values for whichever 
-            // date is considered 'CurrentDate' in this view controller (NOT in the view source where we set the date).
-            //_curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(Date)).Concat(timeEntries);
-            SetHeaderHours();
+            _timesheetModel.SetSelectedDatesEntries(timeEntries);
+
+            UpdateUI();
         }
 
         private void RegisterCellsForReuse()
