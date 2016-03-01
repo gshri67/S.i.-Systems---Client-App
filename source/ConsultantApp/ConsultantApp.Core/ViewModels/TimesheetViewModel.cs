@@ -123,7 +123,7 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task GetTimesheetSupport()
         {
-            TimesheetSupport = await _api.GetTimesheetSupportForTimesheet(Timesheet, Timesheet.TimeEntries.ToList());
+            TimesheetSupport = await _api.GetTimesheetSupportForTimesheet(Timesheet);
         }
 
 	    public string TotalHoursText()

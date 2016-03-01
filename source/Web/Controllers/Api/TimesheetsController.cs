@@ -20,9 +20,8 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             _service = service;
         }
 
-        public HttpResponseMessage Post(Timesheet timesheet, List<TimeEntry> timeEntries)
+        public HttpResponseMessage Post(Timesheet timesheet)
         {
-            timesheet.TimeEntries = timeEntries;
             var returnedTimesheet = _service.SaveTimesheet(timesheet);
             return Request.CreateResponse(HttpStatusCode.OK, returnedTimesheet);
         }

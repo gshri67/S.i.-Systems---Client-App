@@ -311,9 +311,9 @@ namespace Shared.Core
         }
 
         [HttpPost("PayRates/TimesheetSupport")]
-        public async Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet, List<TimeEntry> timeEntries )
+        public async Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet)
         {
-            return await ExecuteWithDefaultClient<TimesheetSupport>(new {timesheet, timeEntries});
+            return await ExecuteWithDefaultClient<TimesheetSupport>(timesheet);
         }
 
     }

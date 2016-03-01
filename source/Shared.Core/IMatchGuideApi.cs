@@ -38,7 +38,7 @@ namespace Shared.Core
         Task<ConsultantDetails> GetCurrentUserConsultantDetails();
 
         Task<Stream> GetPDF(Remittance remittance);
-        
+
         Task<Timesheet> SaveTimesheet(Timesheet timesheet);
         
         Task<Timesheet> SubmitTimesheet(Timesheet timesheet);
@@ -67,6 +67,6 @@ namespace Shared.Core
         Task<IEnumerable<Contractor>> GetContractors();
         Task<IEnumerable<UserContact>> GetClientContacts();
         Task<IEnumerable<UserContact>> GetClientContactsWithFilter( string filter );
-        Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet, List<TimeEntry> timeEntries);
+        Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet);
     }
 }
