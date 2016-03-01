@@ -84,8 +84,26 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             int createUserId = _sessionContext.CurrentUser.Id;
             string submittedPDF = _timeSheetRepository.GetSubmittedPDFFromTimesheet(timesheet.Id); 
             _timeSheetRepository.WithdrawTimesheet(timesheet.Id, "SubmitCancel", createUserId, submittedPDF, cancelReason);
-         
-            return GetTimesheetById(timesheet.Id);
+
+            Timesheet resultingTimesheet = null;
+
+            try
+            {
+                IEnumerable<Timesheet> openTimesheets =
+                    _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
+                resultingTimesheet =
+                    openTimesheets.Where(
+                        t =>
+                            t.ClientName == timesheet.ClientName && t.StartDate == timesheet.StartDate &&
+                            t.EndDate == timesheet.EndDate).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+            }
+
+            return resultingTimesheet;
+            //return GetTimesheetById(timesheet.Id);
         }
 
         private void UpdateTimesheetApproverIfNecessary(Timesheet timesheet)
