@@ -261,7 +261,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     CancelledPdfName = cancelledPDFName,
                     timesheetcancelreason = cancelReason,
                     verticalId = MatchGuideConstants.VerticalId.IT
-                }, commandType:CommandType.StoredProcedure);
+                });
             }
         }
 
