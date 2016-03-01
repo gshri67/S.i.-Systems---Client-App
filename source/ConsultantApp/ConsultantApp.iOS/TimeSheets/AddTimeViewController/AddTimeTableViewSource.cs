@@ -89,35 +89,20 @@ namespace ConsultantApp.iOS
             cell.OnSave = delegate(TimeEntry entry)
             {
                 CloseExpandedCell();
-                tableView.ReloadData();
                 curEntry = entry;
+                tableView.ReloadData();
+                
                 OnDataChanged(TimeEntries);
             };
 
 		    cell.OnDelete = entry =>
 		    {
 		        CloseExpandedCell();
-
-		        var elem = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
-		        if (elem != null)
-		        {
-		            var entryToDelete = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
-		            var timeEntriesList = TimeEntries.ToList();
-		            timeEntriesList.Remove(entryToDelete);
-
-		            TimeEntries = timeEntriesList.AsEnumerable();
-		        }
-
+                TimeEntries = TimeEntries.Except(new List<TimeEntry> { curEntry });
 		        tableView.ReloadData();
 
 		        OnDataChanged(TimeEntries);
 		    };
-
-            //if (cell.OnSave == null)
-            //    setupExpansionCellSave (cell, tableView);
-
-            //if (cell.OnDelete == null)
-            //    setupExpansionCellDelete (cell, tableView);
 
 			return cell;
 		}
@@ -211,76 +196,5 @@ namespace ConsultantApp.iOS
 
 			tableview.ScrollToRow (NSIndexPath.FromItemSection (_prevSelectedRow, 0), UITableViewScrollPosition.Top, false);
 		}
-
-		//project code cell is used for the expansion details
-		#region ExpansionCell 
-
-		private void setupExpansionCellSave( AddProjectCodeCell cell, UITableView tableView )
-		{
-			cell.OnSave += delegate
-			{
-				CloseExpandedCell();
-
-				tableView.ReloadData();
-
-				OnDataChanged(TimeEntries);
-			};
-		}
-		private void setupExpansionCellDelete( AddProjectCodeCell cell, UITableView tableView )
-		{
-			cell.OnDelete += delegate
-			{
-				CloseExpandedCell();
-
-				var elem = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
-				if (elem != null)
-				{
-					var entry = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
-                    var timeEntriesList = TimeEntries.ToList();
-                    timeEntriesList.Remove(entry);
-
-                    TimeEntries = timeEntriesList.AsEnumerable();
-				}
-
-				tableView.ReloadData();
-
-				OnDataChanged(TimeEntries);
-			};
-		}
-
-		#endregion
-
-		//TimeEntryCells
-		#region EntryCells 
-
-        //private void populateTimeEntryCell( TimeEntryCell cell, TimeEntry curEntry )
-        //{
-        //    if (curEntry != null) 
-        //    {
-        //        cell.UpdateCell
-        //        (
-        //            projectCode: curEntry.CodeRate.PONumber,
-        //            rateDescription: curEntry.CodeRate.ratedescription,//.PayRate.RateDescription,
-        //            hours: curEntry.Hours.ToString (CultureInfo.InvariantCulture)
-        //            //onHoursChanged: ( float newHours) => 
-        //            //                {
-        //            //                    curEntry.Hours = newHours;
-        //            //                    //OnDataChanged (TimeEntries);
-        //            //                }
-        //        );
-        //    } 
-        //    else 
-        //    {
-        //        cell.UpdateCell
-        //        (
-        //            projectCode: null,
-        //            rateDescription: null,
-        //            hours: null
-        //            //onHoursChanged: null
-        //        );
-        //    }
-        //}
-
-		#endregion
 	}
 }
