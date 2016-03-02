@@ -89,11 +89,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 		{
 			base.ViewDidLoad();
 
-            IndicateLoading();
-
-            InitiatePayPeriodLoading();
-            InitiateConsultantDetailsLoading();
-
             CreateCustomTitleBar();
 
 		    LogoutManager.CreateNavBarRightButton(this);
@@ -102,6 +97,11 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    public override void ViewWillAppear(bool animated)
 	    {
 	        base.ViewWillAppear(animated);
+
+            IndicateLoading();
+
+            InitiatePayPeriodLoading();
+            InitiateConsultantDetailsLoading();
 	    }
 
 	    private void InitiatePayPeriodLoading()
@@ -143,8 +143,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                 if (_overlay != null) return;
 
 
-                var frame = new CGRect(ActiveTimesheets.Frame.X, ActiveTimesheets.Frame.Y, ActiveTimesheets.Frame.Width, ActiveTimesheets.Frame.Height);
-                _overlay = new LoadingOverlay(frame, null);
+                _overlay = new LoadingOverlay(View.Bounds, null);
                 View.Add(_overlay);
             });
         }
