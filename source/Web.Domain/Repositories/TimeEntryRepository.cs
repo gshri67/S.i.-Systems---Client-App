@@ -135,7 +135,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                             ,@Inactive
                             ,@verticalid
                             ,@InvoiceCodeId)
-                    SELECT SCOPE_IDENTITY()";
+                        select @@identity as Id";
 
                 var insertedId = db.Connection.Query<int>(query, new
                 {
