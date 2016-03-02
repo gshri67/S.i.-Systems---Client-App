@@ -88,20 +88,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             Timesheet resultingTimesheet = null;
 
-            try
-            {
-                IEnumerable<Timesheet> openTimesheets =
+            IEnumerable<Timesheet> openTimesheets =
                     _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
                 resultingTimesheet =
-                    openTimesheets.Where(
-                        t =>
-                            t.ClientName == timesheet.ClientName && t.StartDate == timesheet.StartDate &&
-                            t.EndDate == timesheet.EndDate).FirstOrDefault();
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-            }
+                    openTimesheets.FirstOrDefault(t => t.ClientName == timesheet.ClientName 
+                                                    && t.StartDate == timesheet.StartDate 
+                                                    && t.EndDate == timesheet.EndDate);
 
             return resultingTimesheet;
             //return GetTimesheetById(timesheet.Id);
