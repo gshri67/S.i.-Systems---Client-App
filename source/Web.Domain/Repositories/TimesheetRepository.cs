@@ -95,6 +95,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     ContractId = ts.agreementid, //note that with this SP we could get ContractID or AgreementID
                     StartDate = ts.tsStartDate,
                     EndDate = ts.tsEndDate,
+                    AvailableTimePeriodId = GetTimePeriodId(ts.tsStartDate, ts.tsEndDate),
                     TimesheetApprover = ts.directreportname != null 
                         ? GetTimeSheetApproverByName(ts.directreportname) 
                         : GetTimeSheetApproverByName(ts.ContractDirectReportName) 
@@ -102,7 +103,21 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
+        private int GetTimePeriodId(DateTime startDate, DateTime endDate)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT TOP 1 Period.TimeSheetAvailablePeriodID 
+                    FROM TimeSheetAvailablePeriod Period 
+                    WHERE Period.TimeSheetAvailablePeriodStartDate = @StartDate 
+                    AND Period.TimeSheetAvailablePeriodEndDate = @EndDate";
 
+                var periodId = db.Connection.Query<int>(query, new { StartDate = startDate, EndDate = endDate }).FirstOrDefault();
+
+                return periodId;
+            }
+        }
 
         public DirectReport GetTimeSheetApproverByName(string name)
         {
