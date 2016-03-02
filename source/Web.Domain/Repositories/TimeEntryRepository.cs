@@ -52,7 +52,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TSTemp.TimeSheetAvailablePeriodID
                         LEFT JOIN Agreement_ContractRateDetail ContractDetail ON ContractDetail.ContractRateID = DetTemp.ContractRateID
                         WHERE DetTemp.TimeSheetTempID = @TimesheetTempId
-                        AND DetTemp.Inactive = 0";
+                        AND DetTemp.Inactive = 0
+                        AND DetTemp.Day != 0";
 
                 var timeEntries = db.Connection.Query<TimeEntry, ProjectCodeRateDetails, TimeEntry>(query,
                     (timeEntry, codeRate) =>
@@ -75,12 +76,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 const string query =
                         @"SELECT Details.TimeSheetDetailID AS Id
                             ,CAST(Details.UnitValue AS FLOAT) AS Hours
-                            ,Date = CASE Details.Day
-		                        WHEN  0 THEN DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day+1, 0, 0, 0, 0)
-		                        ELSE DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day, 0, 0, 0, 0)
-    	                        END
-                            ,Details.ProjectID AS ProjectId
+                            ,Date = DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day, 0, 0, 0, 0)
                             ,Details.PONumber
+                            ,Details.ProjectID AS ProjectId
                             ,Details.ContractProjectPoID
                             ,Details.ContractRateID
                             ,Details.Description AS PODescription
@@ -92,7 +90,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         LEFT JOIN TimeSheet ON TimeSheet.TimeSheetID = Details.TimesheetID
                         LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TimeSheet.TimeSheetAvailablePeriodID
                         LEFT JOIN Agreement_ContractRateDetail ContractDetail ON ContractDetail.ContractRateID = Details.ContractRateID
-                        WHERE Details.TimeSheetID = @TimesheetId";
+                        WHERE Details.TimeSheetID = @TimesheetId
+                        AND Details.Day != 0";
 
                 var timeEntries = db.Connection.Query<TimeEntry, ProjectCodeRateDetails, TimeEntry>(query,
                     (timeEntry, codeRate) =>
@@ -100,7 +99,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         timeEntry.CodeRate = codeRate;
                         return timeEntry;
                     },
-                    splitOn: "ProjectId",
+                    splitOn: "PONumber",
                     param: new { TimesheetId = timesheet.Id });
 
                 return timeEntries;
