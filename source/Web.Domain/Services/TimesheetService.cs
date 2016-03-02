@@ -80,11 +80,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return GetTimesheetById(timesheet.Id);
         }
 
-        public Timesheet WithdrawTimesheet(int timesheetId )
+        public Timesheet WithdrawTimesheet(int timesheetId, string cancelReason )
         {
             Timesheet originalTimesheet = GetTimesheetById(timesheetId);
 
-            string cancelReason = "Timesheet Withdrawn On Mobile App for an unknown reason";
             int createUserId = _sessionContext.CurrentUser.Id;
             string submittedPDF = _timeSheetRepository.GetSubmittedPDFFromTimesheet(timesheetId); 
             _timeSheetRepository.WithdrawTimesheet(timesheetId, "SubmitCancel", createUserId, submittedPDF, cancelReason);

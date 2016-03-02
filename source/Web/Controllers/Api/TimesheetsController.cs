@@ -35,9 +35,9 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
 
         [Route("Withdraw")]
         [HttpPost]
-        public HttpResponseMessage WithdrawTimesheet(int timesheetId)
+        public HttpResponseMessage WithdrawTimesheet(int timesheetId, string cancelReason)
         {
-            var withdrawnTimesheet = _service.WithdrawTimesheet(timesheetId);
+            var withdrawnTimesheet = _service.WithdrawTimesheet(timesheetId, cancelReason);
             return Request.CreateResponse(HttpStatusCode.OK, withdrawnTimesheet);
         }
     }
