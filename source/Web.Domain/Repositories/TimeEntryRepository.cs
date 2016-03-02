@@ -37,7 +37,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 const string query =
                         @"SELECT DetTemp.TimeSheetDetailTempID AS Id
 	                        ,CAST(DetTemp.UnitValue AS FLOAT) AS Hours
-	                        ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), DetTemp.Day, 0, 0, 0, 0) AS Date
+	                        ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), DetTemp.Day, 0, 0, 0, 0) AS EntryDate
 	                        ,DetTemp.PONumber
 	                        ,DetTemp.ProjectID AS ProjectId
 	                        ,DetTemp.ContractProjectPoID
@@ -76,7 +76,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 const string query =
                         @"SELECT Details.TimeSheetDetailID AS Id
                             ,CAST(Details.UnitValue AS FLOAT) AS Hours
-                            ,Date = DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day, 0, 0, 0, 0)
+                            ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day, 0, 0, 0, 0) as EntryDate
                             ,Details.PONumber
                             ,Details.ProjectID AS ProjectId
                             ,Details.ContractProjectPoID
