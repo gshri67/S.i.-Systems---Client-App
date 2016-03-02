@@ -86,7 +86,7 @@ namespace ConsultantApp.Core.ViewModels
             //todo:Make the Withdraw Timesheet Call to the API
 	        //Timesheet.Status = MatchGuideConstants.TimesheetStatus.Open;
 
-	        await _api.WithdrawTimesheet(Timesheet, "Timesheet Withdrawn On Mobile App for an unknown reason");
+	        Timesheet = await _api.WithdrawTimesheet(Timesheet, "Timesheet Withdrawn On Mobile App for an unknown reason");
 	    }
 
 	    public void SetTimesheet(Timesheet timesheet)
