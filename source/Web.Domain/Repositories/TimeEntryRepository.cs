@@ -150,7 +150,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     Inactive = 0,
                     verticalid = MatchGuideConstants.VerticalId.IT,
                     InvoiceCodeId = entry.CodeRate.EinvoiceId
-                }, commandType:CommandType.StoredProcedure).FirstOrDefault();
+                }).FirstOrDefault();
 
                 return insertedId;
             }
