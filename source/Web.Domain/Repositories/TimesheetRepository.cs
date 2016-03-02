@@ -243,17 +243,29 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string query =
-                    @"DECLARE @RC int
-                        EXECUTE @RC = [dbo].[UspSetCancelTS_TSAPP] 
-	                    @TimesheetId,
-	                    @Canceltype,
-	                    @createuserid,
-	                    @CancelledPdfName,
-	                    @timesheetcancelreason,
-	                    @verticalId";
+//                const string query =
+//                    @"DECLARE @RC int
+//                        EXECUTE @RC = [dbo].[UspSetCancelTS_TSAPP] 
+//	                    @TimesheetId,
+//	                    @Canceltype,
+//	                    @createuserid,
+//	                    @CancelledPdfName,
+//	                    @timesheetcancelreason,
+//	                    @verticalId";
 
-                db.Connection.Query(query, new
+//                db.Connection.Query(query, new
+//                {
+//                    TimesheetId = timesheetId,
+//                    Canceltype = cancelType,
+//                    createuserid = createUserId,
+//                    CancelledPdfName = cancelledPDFName,
+//                    timesheetcancelreason = cancelReason,
+//                    verticalId = MatchGuideConstants.VerticalId.IT
+//                });
+                const string sp =
+                    @"UspSetCancelTS_TSAPP";
+
+                db.Connection.Execute(sp, new
                 {
                     TimesheetId = timesheetId,
                     Canceltype = cancelType,
@@ -261,7 +273,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     CancelledPdfName = cancelledPDFName,
                     timesheetcancelreason = cancelReason,
                     verticalId = MatchGuideConstants.VerticalId.IT
-                });
+                }, commandType:CommandType.StoredProcedure);
             }
         }
 
