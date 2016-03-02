@@ -272,7 +272,7 @@ namespace ConsultantApp.Core.ViewModels
             if (Timesheet == null || Timesheet.TimeEntries == null)
                 return Enumerable.Empty<TimeEntry>();
 
-            return Timesheet.TimeEntries.Where(e => e.Date.Equals(SelectedDate));
+            return Timesheet.TimeEntries.Where(e => e.EntryDate.Equals(SelectedDate));
         }
 
 	    public IEnumerable<TimeEntry> GetTimeEntriesForDate(DateTime date)
@@ -280,7 +280,7 @@ namespace ConsultantApp.Core.ViewModels
 	        if (Timesheet == null || Timesheet.TimeEntries == null)
 	            return Enumerable.Empty<TimeEntry>();
 
-            return Timesheet.TimeEntries.Where(e => e.Date.Equals(date));
+            return Timesheet.TimeEntries.Where(e => e.EntryDate.Equals(date));
 	    }
 
 	    public bool CurrentTimesheetIsEditable()
@@ -351,7 +351,7 @@ namespace ConsultantApp.Core.ViewModels
 	        var entry = previousEntries.FirstOrDefault();
 	        return new TimeEntry
 	        {
-                Date = SelectedDate,
+                EntryDate = SelectedDate,
 	            CodeRate = entry.CodeRate,
                 Hours = entry.Hours
 	        };
@@ -366,7 +366,7 @@ namespace ConsultantApp.Core.ViewModels
             
             newEntry = new TimeEntry
             {
-                Date = SelectedDate,
+                EntryDate = SelectedDate,
                 Hours = 8,
                 CodeRate = TimesheetSupport.ProjectCodeOptions.Count() == 1 
                     ? TimesheetSupport.ProjectCodeOptions.FirstOrDefault() 
@@ -382,7 +382,7 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public void SetSelectedDatesEntries(IEnumerable<TimeEntry> timeEntries)
 	    {
-            Timesheet.TimeEntries = Timesheet.TimeEntries.Where(entry => entry.Date != SelectedDate).Concat(timeEntries);
+            Timesheet.TimeEntries = Timesheet.TimeEntries.Where(entry => entry.EntryDate != SelectedDate).Concat(timeEntries);
 	    }
 	}
 }
