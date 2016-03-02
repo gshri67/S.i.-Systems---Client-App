@@ -43,7 +43,7 @@ namespace Shared.Core
         
         Task<Timesheet> SubmitTimesheet(Timesheet timesheet);
 
-        Task<Timesheet> WithdrawTimesheet(Timesheet timesheet, string cancelReason);
+        Task<Timesheet> WithdrawTimesheet(int timesheetId);
 
 		Task<DashboardSummary> getDashboardInfo();
 

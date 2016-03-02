@@ -80,21 +80,24 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return GetTimesheetById(timesheet.Id);
         }
 
-        public Timesheet WithdrawTimesheet(Timesheet timesheet, string cancelReason )
+        public Timesheet WithdrawTimesheet(int timesheetId )
         {
+            Timesheet originalTimesheet = GetTimesheetById(timesheetId);
+
+            string cancelReason = "Timesheet Withdrawn On Mobile App for an unknown reason";
             int createUserId = _sessionContext.CurrentUser.Id;
-            string submittedPDF = _timeSheetRepository.GetSubmittedPDFFromTimesheet(timesheet.Id); 
-            _timeSheetRepository.WithdrawTimesheet(timesheet.Id, "SubmitCancel", createUserId, submittedPDF, cancelReason);
+            string submittedPDF = _timeSheetRepository.GetSubmittedPDFFromTimesheet(timesheetId); 
+            _timeSheetRepository.WithdrawTimesheet(timesheetId, "SubmitCancel", createUserId, submittedPDF, cancelReason);
 
             Timesheet resultingTimesheet = null;
-
+            
             IEnumerable<Timesheet> openTimesheets =
                     _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
                 resultingTimesheet =
-                    openTimesheets.FirstOrDefault(t => t.ClientName == timesheet.ClientName 
-                                                    && t.StartDate == timesheet.StartDate 
-                                                    && t.EndDate == timesheet.EndDate);
-
+                    openTimesheets.FirstOrDefault(t => t.ClientName == originalTimesheet.ClientName 
+                                                    && t.StartDate == originalTimesheet.StartDate 
+                                                    && t.EndDate == originalTimesheet.EndDate);
+            
             return resultingTimesheet;
             //return GetTimesheetById(timesheet.Id);
         }

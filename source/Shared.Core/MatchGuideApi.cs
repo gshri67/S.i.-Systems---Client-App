@@ -203,9 +203,9 @@ namespace Shared.Core
         }
 
         [HttpPost("Timesheets/Withdraw")]
-        public async Task<Timesheet> WithdrawTimesheet(Timesheet timesheet, string cancelReason)
+        public async Task<Timesheet> WithdrawTimesheet(int timesheetId)
         {
-            return await ExecuteWithDefaultClient<Timesheet>(new {timesheet, cancelReason} );
+            return await ExecuteWithDefaultClient<Timesheet>(new {timesheetId} );
         }
 
 		[HttpGet("Dashboard")]
