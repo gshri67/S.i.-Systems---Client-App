@@ -85,7 +85,7 @@ namespace SiSystems.SharedModels
 
         public int OpenStatusId { get; set; }
 
-	    public IEnumerable<TimeEntry> TimeEntries { get; set; }
+	    public List<TimeEntry> TimeEntries { get; set; }
 	}
 
     public class DirectReport

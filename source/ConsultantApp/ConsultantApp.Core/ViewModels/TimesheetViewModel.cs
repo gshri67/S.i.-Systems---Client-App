@@ -305,7 +305,7 @@ namespace ConsultantApp.Core.ViewModels
         
 	    public void AddTimeEntry(TimeEntry newEntry)
 	    {
-            Timesheet.TimeEntries = Timesheet.TimeEntries.Concat(new[] { newEntry });
+            Timesheet.TimeEntries.Add(newEntry);
 	    }
 
         public bool SelectedDateHasUnpopulatedRateCodes()
@@ -382,7 +382,8 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public void SetSelectedDatesEntries(IEnumerable<TimeEntry> timeEntries)
 	    {
-            Timesheet.TimeEntries = Timesheet.TimeEntries.Where(entry => entry.EntryDate != SelectedDate).Concat(timeEntries);
+            Timesheet.TimeEntries = Timesheet.TimeEntries.Where(entry => entry.EntryDate != SelectedDate).ToList();
+	        Timesheet.TimeEntries.AddRange(timeEntries);
 	    }
 	}
 }

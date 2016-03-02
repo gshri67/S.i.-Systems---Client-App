@@ -30,7 +30,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             foreach (var timesheet in timesheets)
             {
-                timesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(timesheet);
+                timesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(timesheet).ToList();
             }
 
             return (from @group in timesheets.GroupBy(t => t.TimePeriod)
