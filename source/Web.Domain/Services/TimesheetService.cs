@@ -49,10 +49,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             var savedTimesheetId = _timeSheetRepository.SaveTimesheet(timesheet, userId);
 
-            if (!timesheet.TimeEntries.Any())
-                timesheet.ClientName = "We didn't get any entries";
             foreach (var entry in timesheet.TimeEntries)
-                _timeEntryRepository.SaveTimeEntry(savedTimesheetId, entry);
+                entry.Id = _timeEntryRepository.SaveTimeEntry(savedTimesheetId, entry);
 
             timesheet.OpenStatusId = savedTimesheetId;
 

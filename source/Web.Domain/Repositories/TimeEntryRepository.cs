@@ -13,7 +13,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     public interface ITimeEntryRepository
     {
         IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheetId);
-        void SaveTimeEntry(int id, TimeEntry entry);
+        int SaveTimeEntry(int id, TimeEntry entry);
         int SubmitTimeEntry(int timesheetId, TimeEntry timeEntry);
     }
 
@@ -107,24 +107,53 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public void SaveTimeEntry(int id, TimeEntry entry)
+        public int SaveTimeEntry(int id, TimeEntry entry)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                    @"sp_TimesheetTempDetail_Insert";
+                    @"INSERT INTO [dbo].[TimeSheetDetailTemp]
+                            ([ContractRateID]
+                            ,[PONumber]
+                            ,[ProjectID]
+                            ,[ContractProjectPoID]
+                            ,[Day]
+                            ,[UnitValue]
+                            ,[Description]
+                            ,[TimesheetTempID]
+                            ,[Inactive]
+                            ,[verticalid]
+                            ,[InvoiceCodeId])
+                        VALUES
+                            (@ContractRateId
+                            ,@PONumber
+                            ,@ProjectId
+                            ,@ContractProjectPoID
+                            ,@Day
+                            ,@UnitValue
+                            ,@Description
+                            ,@TimesheetTempID
+                            ,@Inactive
+                            ,@verticalid
+                            ,@InvoiceCodeId)
+                    SELECT SCOPE_IDENTITY()";
 
-                db.Connection.Execute(query, new
+                var insertedId = db.Connection.Query<int>(query, new
                 {
-                    aContractrateid = entry.CodeRate.contractrateid,
-                    aPoNumber = entry.CodeRate.PONumber,
-                    aProjectID = entry.CodeRate.ProjectId, 
-                    acontractprojectpoid = entry.CodeRate.ContractProjectPOID, 
-                    aDay = entry.EntryDate.Day,
-                    aUnitValue = entry.Hours,
-                    aGeneralProjPODesc = entry.CodeRate.PODescription, 
-                    aTimesheetTempID = id,
-                }, commandType:CommandType.StoredProcedure);
+                    ContractRateId = entry.CodeRate.contractrateid,
+                    PONumber = entry.CodeRate.PONumber,
+                    ProjectID = entry.CodeRate.ProjectId, 
+                    ContractProjectPoID = entry.CodeRate.ContractProjectPOID, 
+                    Day = entry.EntryDate.Day,
+                    UnitValue = entry.Hours,
+                    Description = entry.CodeRate.PODescription, 
+                    TimesheetTempID = id,
+                    Inactive = 0,
+                    verticalid = MatchGuideConstants.VerticalId.IT,
+                    InvoiceCodeId = entry.CodeRate.EinvoiceId
+                }, commandType:CommandType.StoredProcedure).FirstOrDefault();
+
+                return insertedId;
             }
         }
 
