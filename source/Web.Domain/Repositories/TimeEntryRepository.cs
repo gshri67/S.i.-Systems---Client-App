@@ -38,8 +38,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         @"SELECT DetTemp.TimeSheetDetailTempID AS Id
 	                        ,CAST(DetTemp.UnitValue AS FLOAT) AS Hours
 	                        ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), DetTemp.Day, 0, 0, 0, 0) AS Date
-	                        ,DetTemp.ProjectID AS ProjectId
 	                        ,DetTemp.PONumber
+	                        ,DetTemp.ProjectID AS ProjectId
 	                        ,DetTemp.ContractProjectPoID
 	                        ,DetTemp.ContractRateID
 	                        ,DetTemp.Description AS PODescription
@@ -60,7 +60,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         timeEntry.CodeRate = codeRate;
                         return timeEntry;
                     },
-                    splitOn: "ProjectId",
+                    splitOn: "PONumber",
                     param: new { TimesheetTempId = timesheet.OpenStatusId });
                 
                 return timeEntries;
