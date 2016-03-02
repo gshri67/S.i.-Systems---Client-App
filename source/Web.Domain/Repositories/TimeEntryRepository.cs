@@ -112,15 +112,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                    @"EXECUTE [dbo].[sp_TimesheetTempDetail_Insert] 
-                           @aContractrateid
-                          ,@aPoNumber
-                          ,@aProjectId
-                          ,@acontractprojectpoid
-                          ,@aDay
-                          ,@aUnitValue
-                          ,@aGeneralProjPODesc
-                          ,@aTimesheetTempId";
+                    @"sp_TimesheetTempDetail_Insert";
 
                 db.Connection.Execute(query, new
                 {
