@@ -15,14 +15,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         //IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheetId);
         int SaveTimeEntry(int id, TimeEntry entry);
         int SubmitTimeEntry(int timesheetId, TimeEntry timeEntry);
-        IEnumerable<TimeEntry> GetSubmittedTimesheetEntries(Timesheet timesheet);
-        IEnumerable<TimeEntry> GetSavedTimesheetEntries(Timesheet timesheet);
+        IEnumerable<TimeEntry> GetEntriesForNonOpenTimesheet(Timesheet timesheet);
+        IEnumerable<TimeEntry> GetEntriesForOpenTimesheet(Timesheet timesheet);
     }
 
     public class TimeEntryRepository : ITimeEntryRepository
     {
 
-        public IEnumerable<TimeEntry> GetSavedTimesheetEntries(Timesheet timesheet)
+        public IEnumerable<TimeEntry> GetEntriesForOpenTimesheet(Timesheet timesheet)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -60,7 +60,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public IEnumerable<TimeEntry> GetSubmittedTimesheetEntries(Timesheet timesheet)
+        public IEnumerable<TimeEntry> GetEntriesForNonOpenTimesheet(Timesheet timesheet)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {

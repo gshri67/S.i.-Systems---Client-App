@@ -40,6 +40,18 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _userContactRepository = userContactRepository;
         }
 
+        private static bool TimesheetIsOpen(Timesheet timesheet)
+        {
+            return timesheet.Status == MatchGuideConstants.TimesheetStatus.Open;
+        }
+
+        private IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheet)
+        {
+            return TimesheetIsOpen(timesheet)
+                ? _timeEntryRepository.GetEntriesForOpenTimesheet(timesheet)
+                : _timeEntryRepository.GetEntriesForNonOpenTimesheet(timesheet);
+        }
+
         public Timesheet SaveTimesheet(Timesheet timesheet)
         {
             //for now, we can only update the timesheet approver when submitting. 
@@ -64,7 +76,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             updatedTimesheet.TimesheetApprover = updatedTimesheet.TimesheetApprover ?? 
                 _timeSheetRepository.GetDirectReportByTimesheetId(updatedTimesheet.Id);
             
-            updatedTimesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(updatedTimesheet).ToList();
+            updatedTimesheet.TimeEntries = GetTimeEntriesForTimesheet(updatedTimesheet).ToList();
 
             return updatedTimesheet;
         }
