@@ -27,6 +27,7 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         }
 
         [Route("Submit")]
+        [HttpPost]
         public HttpResponseMessage Submit(Timesheet timesheet)
         {
             var submittedTimesheet = _service.SubmitTimesheet(timesheet);

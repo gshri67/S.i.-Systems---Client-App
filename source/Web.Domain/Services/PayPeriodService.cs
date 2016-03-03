@@ -63,7 +63,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             foreach (var timesheet in nonOpenTimesheets)
             {
                 timesheet.TimesheetApprover =
-                    _timeSheetApproverRepository.GetCurrentTimesheetApproverForTimesheet(timesheet.Id);
+                    _timeSheetApproverRepository.GetTimesheetApproverByTimesheetId(timesheet.Id);
             }
 
             openTimesheets.AddRange(nonOpenTimesheets);

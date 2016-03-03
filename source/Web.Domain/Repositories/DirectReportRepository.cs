@@ -11,9 +11,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 {
     public interface IDirectReportRepository
     {
-        DirectReport GetCurrentTimesheetApproverForTimesheet(int timesheetId);
+        DirectReport GetTimesheetApproverByTimesheetId(int timesheetId);
         int UpdateDirectReport(Timesheet timesheet, int previousDirectReportId, int currentUserId);
         IEnumerable<DirectReport> GetTimesheetApproversByCompanyId(int id);
+        DirectReport GetTimesheetApproverByAgreementId(int contractId);
+        DirectReport GetTimesheetApproverByOpenTimesheetId(int timesheetId);
     }
 
     public class DirectReportRepository : IDirectReportRepository
@@ -41,7 +43,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public DirectReport GetCurrentTimesheetApproverForTimesheet(int timesheetId)
+        public DirectReport GetTimesheetApproverByTimesheetId(int timesheetId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -56,6 +58,49 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                             WHERE Times.TimeSheetId = @TimesheetId";
 
                 var directReport = db.Connection.Query<DirectReport>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
+
+                return directReport;
+            }
+        }
+
+        public DirectReport GetTimesheetApproverByAgreementId(int agreementId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                        @"SELECT Users.UserID Id
+	                        ,Users.FirstName FirstName
+	                        ,Users.LastName LastName
+	                        ,Email.PrimaryEmail Email
+                        FROM Agreement
+                        LEFT JOIN Agreement_ContractAdminContactMatrix Matrix 
+	                        ON Matrix.AgreementID = Agreement.AgreementID 
+	                        AND Matrix.Inactive = 0
+                        INNER JOIN Users ON Users.userid = Matrix.DirectReportUserID
+                        LEFT JOIN User_Email Email ON Users.UserId = Email.UserID
+                        WHERE Agreement.AgreementID = @AgreementId";
+
+                var directReport = db.Connection.Query<DirectReport>(query, new { AgreementId = agreementId }).FirstOrDefault();
+
+                return directReport;
+            }
+        }
+
+        public DirectReport GetTimesheetApproverByOpenTimesheetId(int timesheetId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                        @"SELECT Users.UserID Id
+	                        ,Users.FirstName FirstName
+	                        ,Users.LastName LastName
+	                        ,Email.PrimaryEmail Email
+                        FROM TimeSheetTemp Temp 
+                        LEFT JOIN Users ON Users.UserID = Temp.ApproverRejectorUserID
+                        LEFT JOIN User_Email Email ON Users.UserID = Email.UserID
+                        WHERE Temp.TimeSheetTempID = @TimesheetTempId ";
+
+                var directReport = db.Connection.Query<DirectReport>(query, new { TimesheetTempId = timesheetId }).FirstOrDefault();
 
                 return directReport;
             }

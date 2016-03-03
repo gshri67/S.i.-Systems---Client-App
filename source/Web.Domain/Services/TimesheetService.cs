@@ -83,7 +83,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         public Timesheet SubmitTimesheet(Timesheet timesheet)
         {
-            UpdateTimesheetApproverIfNecessary(timesheet);
+            //UpdateTimesheetApproverIfNecessary(timesheet);
 
             timesheet = SubmittingZeroTimesheet(timesheet) 
                 ? SubmitZeroTime(timesheet) 
@@ -113,9 +113,16 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             //return GetTimesheetById(timesheet.Id);
         }
 
+        private DirectReport TimesheetApproverForOpenTimesheet(Timesheet timesheet)
+        {
+            return timesheet.OpenStatusId == 0 
+                ? _directReportRepository.GetTimesheetApproverByAgreementId(timesheet.ContractId) 
+                : _directReportRepository.GetTimesheetApproverByOpenTimesheetId(timesheet.OpenStatusId);
+        }
+
         private void UpdateTimesheetApproverIfNecessary(Timesheet timesheet)
         {
-            var previousTimesheetApprover = _directReportRepository.GetCurrentTimesheetApproverForTimesheet(timesheet.Id);
+            var previousTimesheetApprover = TimesheetApproverForOpenTimesheet(timesheet);
             if (previousTimesheetApprover != timesheet.TimesheetApprover)
                 UpdateTimesheetApprover(timesheet, previousTimesheetApprover);
         }
