@@ -247,13 +247,13 @@ namespace ConsultantApp.iOS.TimeEntryViewController
                 DestructiveButtonIndex = 0,
                 CancelButtonIndex = 1
             };
-
+            
             sheet.AddButton(buttonText);
             sheet.Clicked += buttonAction;
 
             sheet.AddButton("Cancel");
             sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);
-
+           
             UpdateUI();
 	    }
 
@@ -278,7 +278,8 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             if (UserClickedCancel(args))
                 return;
 
-            Withdraw();
+            DisplayCancelReasonAlert();
+            //Withdraw();
         }
 
 	    private void ContinueWithSubmission()
@@ -340,6 +341,18 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             if(!string.IsNullOrEmpty(alertText))
                 new UIAlertView(alertText, "", null, "Ok").Show();
 	    }
+
+        private void DisplayCancelReasonAlert()
+        {
+            var alertText = _timesheetModel.GetAlertText();
+            if (!string.IsNullOrEmpty(alertText))
+            {
+                UIAlertView alertView = new UIAlertView("Please enter cancel reason", "Cancel", null, "Ok");
+                alertView.AlertViewStyle = UIAlertViewStyle.PlainTextInput;
+
+                alertView.Show();
+            }
+        }
 
 	    private void CreateCustomTitleBar()
 		{
