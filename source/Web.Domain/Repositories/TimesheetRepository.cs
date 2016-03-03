@@ -322,7 +322,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                           ,@TSstatus
                      SET @newTSID =  @@identity                  
                      SELECT @newTSID as TimesheetId";
-
+                var status = MatchGuideConstants.TimesheetStatus.Approved;
                 var savedTimesheetTempId = db.Connection.Query<int>(query, new
                 {
                     aTimesheetId = IntegerOrNullIfZero(timesheet.Id),
@@ -332,7 +332,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     aTSSubmittedName = (string)null, //Name of the Submitted PDF
                     verticalId = MatchGuideConstants.VerticalId.IT,
                     aTimesheetType = "ETimesheet",
-                    TSstatus = MatchGuideConstants.TimesheetStatus.Approved.ToString()
+                    TSstatus = status.ToString()
                 }).FirstOrDefault();
 
                 return savedTimesheetTempId;
