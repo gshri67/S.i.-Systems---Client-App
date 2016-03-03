@@ -125,21 +125,21 @@ namespace ConsultantApp.iOS
 				return;
 			
 
-			var mostFrequentlyUsed = ActiveTimesheetViewModel.MostFrequentProjectCodes();
-			var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
-			var notFrequentlyUsed = _projectCodes.Except(frequentlyUsed).ToList();
-			notFrequentlyUsed.Sort();
+			var frequentlyUsedAndAvailable = MostFrequentlyUsedOfAvailableCodeRates();
 
-			_projectCodes = frequentlyUsed.Concat(notFrequentlyUsed).ToList();
+            var infrequentlyUsed = _projectCodes.Except(frequentlyUsedAndAvailable).ToList();
+			infrequentlyUsed.Sort();
+
+			_projectCodes = frequentlyUsedAndAvailable.Concat(infrequentlyUsed).ToList();
 
 			_pickerModel.items = new List<List<string>>
 			{
 				_projectCodes.ToList()
 			};
 
-			_pickerModel.numFrequentItems[0] = frequentlyUsed.Count;
+			_pickerModel.numFrequentItems[0] = frequentlyUsedAndAvailable.Count;
 
-			List<string> payRateStringList = _payRates.Select (pr => string.Format ("{0} ({1:C})", pr.ratedescription, pr.rateAmount)).ToList ();
+			var payRateStringList = _payRates.Select (pr => string.Format ("{0} ({1:C})", pr.ratedescription, pr.rateAmount)).ToList ();
 
 			_pickerModel.items = new List<List<string>>
 			{
@@ -157,7 +157,12 @@ namespace ConsultantApp.iOS
 			
 		}
 
-		//find the index of the input item in the item list (if it exists). Then scroll to that item
+	    private List<string> MostFrequentlyUsedOfAvailableCodeRates()
+	    {
+	        return ActiveTimesheetViewModel.MostFrequentProjectCodes().Where(s => _projectCodes.Contains(s)).ToList();
+	    }
+
+	    //find the index of the input item in the item list (if it exists). Then scroll to that item
 		private void loadSelectedPickerItem( string item, List<string> itemList, int component )
 		{
 			int itemIndex = 0;
