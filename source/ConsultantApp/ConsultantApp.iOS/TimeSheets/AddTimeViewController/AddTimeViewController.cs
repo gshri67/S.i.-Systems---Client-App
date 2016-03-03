@@ -19,7 +19,6 @@ namespace ConsultantApp.iOS
         private TimesheetViewModel _timesheetModel;
         private AddTimeTableViewSource _addTimeTableViewSource;
         private SubtitleHeaderView _subtitleHeaderView;
-        private int maxFrequentlyUsed = 5;
         
         public AddTimeViewController(IntPtr handle) : base(handle)
         {
@@ -199,21 +198,12 @@ namespace ConsultantApp.iOS
 
             addButton.TouchUpInside += delegate
             {
-                //var codeRatesNotYetEntered = _timesheetModel.AvailableCodeRates();
                 var entry = _timesheetModel.DefaultNewEntry();
                 
                 _timesheetModel.AddTimeEntry(entry);
                 _addTimeTableViewSource.TimeEntries = _timesheetModel.GetSelectedDatesTimeEntries();
                 _addTimeTableViewSource.CodeRateDetails = _timesheetModel.TimesheetSupport.ProjectCodeOptions;
                 
-                /*
-                 * Note that the above might not be needed at all. Here's what I'm thinking:
-                      When we save, we actually check each and every TimeEntry in our timesheet for changes. 
-                      Since we're doing that anyway, whenever they hit save, we can just fire off the entire batch and
-                      not try to pass it back and forth. Then, whenever we update the view, we just reload
-                        (would that work?)
-                 */
-
                 _addTimeTableViewSource.HandleNewCell();
 
                 tableview.ReloadData();
@@ -258,7 +248,6 @@ namespace ConsultantApp.iOS
         private void TransitionToSavingAnimation()
         {
             StartSavingAnimation();
-            //UIView.Animate(0.7f, 0, UIViewAnimationOptions.TransitionNone, StartSavingAnimation, null);
         }
 
         private void BeginTransitionToSavedAnimation()
