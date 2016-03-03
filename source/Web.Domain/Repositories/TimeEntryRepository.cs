@@ -30,6 +30,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         @"SELECT DetTemp.TimeSheetDetailTempID AS Id
 	                        ,CAST(DetTemp.UnitValue AS FLOAT) AS Hours
 	                        ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), DetTemp.Day, 0, 0, 0, 0) AS EntryDate
+                            ,'' as split
 	                        ,DetTemp.PONumber
 	                        ,DetTemp.ProjectID AS ProjectId
 	                        ,DetTemp.ContractProjectPoID
@@ -53,7 +54,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         timeEntry.CodeRate = codeRate;
                         return timeEntry;
                     },
-                    splitOn: "PONumber",
+                    splitOn: "split",
                     param: new { TimesheetTempId = timesheet.OpenStatusId });
                 
                 return timeEntries;
@@ -69,6 +70,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         @"SELECT Details.TimeSheetDetailID AS Id
                             ,CAST(Details.UnitValue AS FLOAT) AS Hours
                             ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day, 0, 0, 0, 0) as EntryDate
+                            ,'' as split
                             ,Details.PONumber
                             ,Details.ProjectID AS ProjectId
                             ,Details.ContractProjectPoID
@@ -91,7 +93,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         timeEntry.CodeRate = codeRate;
                         return timeEntry;
                     },
-                    splitOn: "PONumber",
+                    splitOn: "split",
                     param: new { TimesheetId = timesheet.Id });
 
                 return timeEntries;
@@ -147,24 +149,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 return insertedId;
             }
         }
-
-//        public PayRate GetPayRateById(TimeEntry entry)
-//        {
-//            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-//            {
-//                const string query =
-//                        @"SELECT rateDetail.ContractRateId as Id
-//	                        ,RateDescription AS RateDescription
-//	                        ,PayRate AS Rate	
-//                        from TimeSheetDetail dets
-//                        left join Agreement_ContractRateDetail rateDetail on rateDetail.ContractRateID = dets.ContractRateID
-//                        where TimeSheetDetailID = @TimeEntryId";
-
-//                var payRate = db.Connection.Query<PayRate>(query, new { TimeEntryId = entry.Id }).SingleOrDefault();
-
-//                return payRate;
-//            }
-//        }
 
         public int SubmitTimeEntry(int timesheetId, TimeEntry timeEntry)
         {
