@@ -279,7 +279,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
                 return;
 
             DisplayCancelReasonAlert();
-            //Withdraw();
         }
 
 	    private void ContinueWithSubmission()
@@ -344,14 +343,18 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
         private void DisplayCancelReasonAlert()
         {
-            var alertText = _timesheetModel.GetAlertText();
-            if (!string.IsNullOrEmpty(alertText))
+            UIAlertView alertView = new UIAlertView("Reason", "Please enter cancel reason", null, "Cancel", "Ok");
+            alertView.AlertViewStyle = UIAlertViewStyle.PlainTextInput;
+            alertView.Clicked += (sender, args) =>
             {
-                UIAlertView alertView = new UIAlertView("Please enter cancel reason", "Cancel", null, "Ok");
-                alertView.AlertViewStyle = UIAlertViewStyle.PlainTextInput;
+                if (args.ButtonIndex != alertView.CancelButtonIndex)
+                {
+                    _timesheetModel.CancelReason = alertView.GetTextField(0).Text;
+                    Withdraw();
+                }
+            };
 
-                alertView.Show();
-            }
+            alertView.Show();
         }
 
 	    private void CreateCustomTitleBar()

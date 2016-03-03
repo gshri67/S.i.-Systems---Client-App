@@ -27,6 +27,7 @@ namespace ConsultantApp.Core.ViewModels
         public DateTime SelectedDate { get; set; }
 
         private string _alertText;
+        public string CancelReason = string.Empty;
 
         private const string DateLabelFormat = "MMMMM yyyy";
 	    private const float Tolerance = (float) 0.00001;
@@ -83,7 +84,7 @@ namespace ConsultantApp.Core.ViewModels
         }
 	    private async Task WithdrawCurrentTimesheet()
 	    {
-            Timesheet = await _api.WithdrawTimesheet(Timesheet.Id, "Timesheet Withdrawn On Mobile App for an unknown reason");
+            Timesheet = await _api.WithdrawTimesheet(Timesheet.Id, CancelReason );
 	    }
 
 	    public void SetTimesheet(Timesheet timesheet)
