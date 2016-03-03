@@ -36,6 +36,8 @@ namespace ConsultantApp.iOS
         {
             try
             {
+                RegisterPushNotifications();
+
                 SetNavbarStyle();
 
                 var tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
@@ -82,6 +84,47 @@ namespace ConsultantApp.iOS
                 Font = UIFont.SystemFontOfSize(20f),
                 TextColor = NavBarTextColor
             });
+        }
+
+        private static void RegisterPushNotifications()
+        {
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                    new NSSet());
+
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
+                UIApplication.SharedApplication.RegisterForRemoteNotifications();
+            }
+            else
+            {
+                UIRemoteNotificationType notificationTypes = UIRemoteNotificationType.Alert | UIRemoteNotificationType.Badge |
+                                                             UIRemoteNotificationType.Sound;
+                UIApplication.SharedApplication.RegisterForRemoteNotificationTypes(notificationTypes);
+            }
+        }
+
+        public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        {
+            // Get current device token
+            var DeviceToken = deviceToken.Description;
+            if (!string.IsNullOrWhiteSpace(DeviceToken))
+            {
+                DeviceToken = DeviceToken.Trim('<').Trim('>');
+            }
+
+            // Get previous device token
+            var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
+
+            // Has the token changed?
+            if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
+            {
+                //TODO: Put your own logic here to notify your server that the device token has changed/been created!
+            }
+
+            // Save new device token 
+            NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
         }
     }
 }
