@@ -129,7 +129,7 @@ namespace ConsultantApp.Core.ViewModels
 
 	    public string TotalHoursText()
 	    {
-            return Timesheet == null
+	        return (Timesheet == null || Timesheet.TimeEntries == null)
                 ? string.Empty
                 : Timesheet.TimeEntries.Sum(t => t.Hours).ToString();
 	    }

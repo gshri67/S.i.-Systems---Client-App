@@ -108,7 +108,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                     openTimesheets.FirstOrDefault(t => t.ClientName == originalTimesheet.ClientName 
                                                     && t.StartDate == originalTimesheet.StartDate 
                                                     && t.EndDate == originalTimesheet.EndDate);
-            
+
+            if (resultingTimesheet != null)
+                resultingTimesheet.TimeEntries = GetTimeEntriesForTimesheet(resultingTimesheet).ToList();
+
             return resultingTimesheet;
             //return GetTimesheetById(timesheet.Id);
         }
