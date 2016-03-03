@@ -17,6 +17,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         int SubmitTimeEntry(int timesheetId, TimeEntry timeEntry);
         IEnumerable<TimeEntry> GetEntriesForNonOpenTimesheet(Timesheet timesheet);
         IEnumerable<TimeEntry> GetEntriesForOpenTimesheet(Timesheet timesheet);
+        IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheet);
     }
 
     public class TimeEntryRepository : ITimeEntryRepository
@@ -59,6 +60,19 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 
                 return timeEntries;
             }
+        }
+
+        private static bool ShouldLoadEntriesFromTimesheetId(Timesheet timesheet)
+        {
+            return timesheet.Status == MatchGuideConstants.TimesheetStatus.Open
+                && timesheet.Id == 0;
+        }
+
+        public IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheet)
+        {
+            return ShouldLoadEntriesFromTimesheetId(timesheet)
+                ? GetEntriesForOpenTimesheet(timesheet)
+                : GetEntriesForNonOpenTimesheet(timesheet);
         }
 
         public IEnumerable<TimeEntry> GetEntriesForNonOpenTimesheet(Timesheet timesheet)

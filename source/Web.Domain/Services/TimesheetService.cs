@@ -40,18 +40,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _userContactRepository = userContactRepository;
         }
 
-        private static bool TimesheetIsOpen(Timesheet timesheet)
-        {
-            return timesheet.Status == MatchGuideConstants.TimesheetStatus.Open;
-        }
-
-        private IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheet)
-        {
-            return TimesheetIsOpen(timesheet)
-                ? _timeEntryRepository.GetEntriesForOpenTimesheet(timesheet)
-                : _timeEntryRepository.GetEntriesForNonOpenTimesheet(timesheet);
-        }
-
         public Timesheet SaveTimesheet(Timesheet timesheet)
         {
             UpdateTimesheetApproverIfNecessary(timesheet);
@@ -74,8 +62,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             updatedTimesheet.TimesheetApprover = updatedTimesheet.TimesheetApprover ?? 
                 _timeSheetRepository.GetDirectReportByTimesheetId(updatedTimesheet.Id);
-            
-            updatedTimesheet.TimeEntries = GetTimeEntriesForTimesheet(updatedTimesheet).ToList();
+
+            updatedTimesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(updatedTimesheet).ToList();
 
             return updatedTimesheet;
         }
@@ -91,28 +79,22 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return GetTimesheetById(timesheet.Id);
         }
 
-        public Timesheet WithdrawTimesheet(int timesheetId, string cancelReason )
+        public Timesheet WithdrawTimesheet(int timesheetId, string cancelReason)
         {
-            Timesheet originalTimesheet = GetTimesheetById(timesheetId);
+            var originalTimesheet = GetTimesheetById(timesheetId);
 
-            int createUserId = _sessionContext.CurrentUser.Id;
-            string submittedPDF = _timeSheetRepository.GetSubmittedPDFFromTimesheet(timesheetId); 
-            _timeSheetRepository.WithdrawTimesheet(timesheetId, "SubmitCancel", createUserId, submittedPDF, cancelReason);
+            _timeSheetRepository.WithdrawTimesheet(timesheetId, _sessionContext.CurrentUser.Id, cancelReason);
 
-            Timesheet resultingTimesheet = null;
-            
-            IEnumerable<Timesheet> openTimesheets =
-                    _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
-                resultingTimesheet =
-                    openTimesheets.FirstOrDefault(t => t.ClientName == originalTimesheet.ClientName 
+            var openTimesheets = _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
+            var resultingTimesheet =
+                    openTimesheets.FirstOrDefault(t => t.ContractId == originalTimesheet.ContractId 
                                                     && t.StartDate == originalTimesheet.StartDate 
                                                     && t.EndDate == originalTimesheet.EndDate);
 
             if (resultingTimesheet != null)
-                resultingTimesheet.TimeEntries = GetTimeEntriesForTimesheet(resultingTimesheet).ToList();
+                resultingTimesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(resultingTimesheet).ToList();
 
             return resultingTimesheet;
-            //return GetTimesheetById(timesheet.Id);
         }
 
         private DirectReport TimesheetApproverForOpenTimesheet(Timesheet timesheet)

@@ -22,7 +22,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         int SubmitZeroTimeForUser(Timesheet timesheet, int userId);
         Timesheet GetTimesheetsById(int timesheetId);
         int SubmitTimesheet(Timesheet timesheet, int userId);
-        void WithdrawTimesheet(int timesheetId, string cancelType, int createUserId, string cancelledPDFName, string cancelReason);
+        void WithdrawTimesheet(int timesheetId, int createUserId, string cancelReason);
         DirectReport GetDirectReportByTimesheetId(int timesheetId);
         TimesheetSummarySet GetTimesheetSummaryByAccountExecutiveId(int id);
         IEnumerable<TimesheetDetails> GetOpenTimesheetDetailsByAccountExecutiveId(int id);
@@ -76,17 +76,13 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                    @"DECLARE @RC int
-                    DECLARE @TimesheetType varchar(5)
-                    SET @TimesheetType = 'ETS'
-                    --Get a users Open Timesheets
-                    EXECUTE @RC = [dbo].[UspGetOpenTSForCandidate_TSAPP] 
+                    @"DECLARE @TimesheetType varchar(5) = 'ETS'
+                    EXECUTE [dbo].[UspGetOpenTSForCandidate_TSAPP] 
                        @candidateID
                       ,@TimesheetType";
 
                 var timesheetsFromDb = db.Connection.Query<DbOpenTimesheetFromForMapping>(query, new { CandidateId = userId });
 
-                //todo: confirm that !IsEnabled should be filtered
                 return timesheetsFromDb.Where(timesheet => timesheet.IsEnabled).Select(ts => new Timesheet
                 {
                     Id = ts.timesheetid,
@@ -255,8 +251,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public void WithdrawTimesheet(int timesheetId, string cancelType, int createUserId, string cancelledPDFName, string cancelReason)
+        public void WithdrawTimesheet(int timesheetId, int createUserId, string cancelReason)
         {
+            var pdfName = GetSubmittedPDFFromTimesheet(timesheetId);
+            const string cancelType = "SubmitCancel";
+
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string sp =
@@ -267,7 +266,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     TimesheetId = timesheetId,
                     Canceltype = cancelType,
                     createuserid = createUserId,
-                    CancelledPdfName = cancelledPDFName,
+                    CancelledPdfName = pdfName,
                     timesheetcancelreason = cancelReason,
                     verticalId = MatchGuideConstants.VerticalId.IT
                 }, commandType:CommandType.StoredProcedure);
