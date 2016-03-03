@@ -117,7 +117,7 @@ namespace ConsultantApp.iOS
 
         private void SetTimesheetEditability()
         {
-            var enabled = _timesheetModel.CurrentTimesheetIsEditable();
+            var enabled = _timesheetModel.TimesheetIsEditable();
 
             EnabledAddButton(enabled);
             EnableSaveButton(enabled);
@@ -192,7 +192,7 @@ namespace ConsultantApp.iOS
 
 			headerContainer.BackgroundColor = UIColor.White;// StyleGuideConstants.LightGrayUiColor;
 
-            if (_timesheetModel.CurrentTimesheetIsEditable())
+            if (_timesheetModel.TimesheetIsEditable())
                 LoadPayRates();
 
             SetupDayNavigationButtons();

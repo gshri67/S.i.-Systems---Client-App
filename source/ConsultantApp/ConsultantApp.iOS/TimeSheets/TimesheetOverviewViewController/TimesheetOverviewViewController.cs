@@ -73,8 +73,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 		public void UpdateUI()
 		{
-		    if (_timesheetModel.TimesheetIsNull()) return;
-
 		    SetLabelText(calendarDateLabel, _timesheetModel.TextForDate());
             SetLabelText(totalHoursLabel, _timesheetModel.TotalHoursText());
             SetLabelText(submitMonthLabel, _timesheetModel.MonthText());
@@ -87,39 +85,25 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		    if( calendarContainerView != null )
 		        SetupCalendar ();
 
-		    if (submitButton != null && approverNameTextField != null) 
-		    {
-		        //if timesheet is submitted we change the name of submit to Withdraw
-		        if (_timesheetModel.TimesheetIsSubmitted()) {
-		            submitButton.SetTitle ("Withdraw", UIControlState.Normal);
-		            submitButton.Enabled = true;
-                }
-                else if (_timesheetModel.TimesheetIsApproved())
-                {
-		            submitButton.Hidden = true;
-					approvedLabel.Hidden = false;
-		        }
+		    if (submitButton != null && approverNameTextField != null)
+            {
+                submitButton.SetTitle(_timesheetModel.SubmitButtonText(), UIControlState.Normal);
+		        SetLabelText(approvedLabel, _timesheetModel.TimesheetStatus());
 
-		        if (_timesheetModel.TimesheetIsOpen())
-		        {
-                    approverNameTextField.Enabled = true;
-
-                    submitButton.SetTitle("Submit", UIControlState.Normal);
-                    submitButton.Enabled = true;
-		        }
-		        else {
-                    approverNameTextField.Enabled = false;   
-		        }
-
-				if (!_timesheetModel.TimesheetIsApproved ()) 
-				{
-					submitButton.Hidden = false;
-					approvedLabel.Hidden = true;
-				}
-		    }
+                SetStatusLabelOrButton(_timesheetModel.CanChangeTimesheetStatus());
+            }
 
 		    View.SetNeedsLayout();
 		}
+
+	    private void SetStatusLabelOrButton(bool allowStatusChange)
+	    {
+            submitButton.Enabled = allowStatusChange;
+            approverNameTextField.Enabled = allowStatusChange;
+
+            submitButton.Hidden = !allowStatusChange;
+            approvedLabel.Hidden = allowStatusChange;
+	    }
 
 	    public override void ViewWillAppear(bool animated)
 	    {
@@ -179,7 +163,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		{
 			base.ViewDidLoad ();
 
-            if(_timesheetModel.CurrentTimesheetIsEditable())
+            if(_timesheetModel.TimesheetIsEditable())
                 LoadTimesheetApprovers();
 
 			EdgesForExtendedLayout = UIRectEdge.Bottom;

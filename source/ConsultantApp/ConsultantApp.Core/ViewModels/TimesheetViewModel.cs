@@ -152,21 +152,15 @@ namespace ConsultantApp.Core.ViewModels
 	        return Timesheet.TimesheetApprover.Email;
 	    }
 
+	    public bool CanChangeTimesheetStatus()
+	    {
+	        return Timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted
+	               || Timesheet.Status == MatchGuideConstants.TimesheetStatus.Open;
+	    }
+
 	    public bool TimesheetIsSubmitted()
 	    {
             return Timesheet != null && Timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted;
-	    }
-
-	    public bool TimesheetIsApproved()
-	    {
-	        if (Timesheet == null)
-	            return false;
-	        
-            var status = Timesheet.Status;
-		    return status == MatchGuideConstants.TimesheetStatus.Approved || 
-		           status == MatchGuideConstants.TimesheetStatus.Batched ||
-		           status == MatchGuideConstants.TimesheetStatus.Moved ||
-		           status == MatchGuideConstants.TimesheetStatus.Accepted;
 	    }
 
 	    public bool TimesheetIsOpen()
@@ -174,17 +168,11 @@ namespace ConsultantApp.Core.ViewModels
 	        return Timesheet != null &&
                 Timesheet.Status == MatchGuideConstants.TimesheetStatus.Open;
 	    }
-        
-        public bool TimesheetIsRejected()
-        {
-            return Timesheet != null &&
-                Timesheet.Status == MatchGuideConstants.TimesheetStatus.Rejected;
-        }
 
-	    public bool TimesheetIsNull()
-	    {
-	        return Timesheet == null;
-	    }
+        public bool TimesheetIsEditable()
+        {
+            return Timesheet != null && TimesheetIsOpen();
+        }
 
 	    public DateTime StartDate()
 	    {
@@ -279,15 +267,7 @@ namespace ConsultantApp.Core.ViewModels
             return Timesheet.TimeEntries.Where(e => e.EntryDate.Equals(date));
 	    }
 
-	    public bool CurrentTimesheetIsEditable()
-	    {
-            if (Timesheet == null) return false;
-
-            return TimesheetIsOpen()
-                   || TimesheetIsRejected();
-	    }
-
-        public float NumberOfHoursForSelectedDate()
+	    public float NumberOfHoursForSelectedDate()
         {
             var entries = GetSelectedDatesTimeEntries();
             return entries.Sum(time => time.Hours);
@@ -380,6 +360,28 @@ namespace ConsultantApp.Core.ViewModels
 	    {
             Timesheet.TimeEntries = Timesheet.TimeEntries.Where(entry => entry.EntryDate != SelectedDate).ToList();
 	        Timesheet.TimeEntries.AddRange(timeEntries);
+	    }
+
+	    public string SubmitButtonText()
+	    {
+	        return TimesheetIsSubmitted() ? "Withdraw" : "Submit";
+	    }
+
+	    private static MatchGuideConstants.TimesheetStatus UserFriendlyStatus(MatchGuideConstants.TimesheetStatus status)
+	    {
+	        if (status == MatchGuideConstants.TimesheetStatus.Accepted
+	            || status == MatchGuideConstants.TimesheetStatus.Approved
+	            || status == MatchGuideConstants.TimesheetStatus.Moved
+	            || status == MatchGuideConstants.TimesheetStatus.Batched)
+	            return MatchGuideConstants.TimesheetStatus.Approved;
+
+	        return status;
+	    }
+
+	    public string TimesheetStatus()
+	    {
+            var status = UserFriendlyStatus(Timesheet.Status);
+	        return status.ToString();
 	    }
 	}
 }
