@@ -359,19 +359,19 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                           ,@aSubmittedBy
                           ,@isSubmittedEmailSent
                           ,@aDirectReportid";
-
+                
                 var submittedTimesheetId = db.Connection.Query<int>(query, new
                 {
                     aCandidateUserId = userId,
                     aContractID = timesheet.ContractId,
-                    aTSType = MatchGuideConstants.TimesheetType.ETimesheet.ToString(), 
+                    aTSType = "ETimesheet",//MatchGuideConstants.TimesheetType.ETimesheet.ToString(), 
                     aTSAvailablePeriodID = timesheet.AvailableTimePeriodId,
                     aQuickPay = 0, 
                     aSubmittedPdfName = (string)null, //Name of the Submitted PDF
                     aTSID = IntegerOrNullIfZero(timesheet.Id),
                     aIsCPGSubmission = (bool?)null, 
                     verticalId = MatchGuideConstants.VerticalId.IT,
-                    aTimesheetType = MatchGuideConstants.TimesheetType.ETimesheet.ToString(),
+                    aTimesheetType = "ETimesheet",//MatchGuideConstants.TimesheetType.ETimesheet.ToString(), 
                     aSubmittedBy = userId,
                     isSubmittedEmailSent = true, 
                     aDirectReportid = timesheet.TimesheetApprover.Id
