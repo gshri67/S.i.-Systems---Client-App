@@ -403,7 +403,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		private void TransitionToAnimationStart()
 		{
 			StartSubmittingAnimation();
-			//UIView.Animate(0.7f, 0, UIViewAnimationOptions.TransitionNone, StartsubmittingAnimation, null);
 		}
 
 		private void BeginTransitionToAnimationComplete()
