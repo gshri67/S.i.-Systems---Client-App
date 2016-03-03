@@ -86,7 +86,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 var timesheetsFromDb = db.Connection.Query<DbOpenTimesheetFromForMapping>(query, new { CandidateId = userId });
 
-                return timesheetsFromDb.Select(ts => new Timesheet
+                //todo: confirm that !IsEnabled should be filtered
+                return timesheetsFromDb.Where(timesheet => timesheet.IsEnabled).Select(ts => new Timesheet
                 {
                     Id = ts.timesheetid,
                     OpenStatusId = ts.TimesheetTempID,

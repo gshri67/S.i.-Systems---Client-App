@@ -24,13 +24,25 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _timeSheetApproverRepository = timeSheetApproverRepository;
         }
 
+        private static bool TimesheetIsOpen(Timesheet timesheet)
+        {
+            return timesheet.Status == MatchGuideConstants.TimesheetStatus.Open;
+        }
+
+        private IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheet)
+        {
+            return TimesheetIsOpen(timesheet) 
+                ? _timeEntryRepository.GetEntriesForOpenTimesheet(timesheet)
+                : _timeEntryRepository.GetEntriesForNonOpenTimesheet(timesheet);
+        }
+
         public IEnumerable<PayPeriod> GetRecentPayPeriods()
         {
             var timesheets = MostRecentSixMonthsOfTimesheets();
 
             foreach (var timesheet in timesheets)
             {
-                timesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(timesheet).ToList();
+                timesheet.TimeEntries = GetTimeEntriesForTimesheet(timesheet).ToList();
             }
 
             return (from @group in timesheets.GroupBy(t => t.TimePeriod)
