@@ -48,6 +48,19 @@ namespace AccountExecutiveApp.iOS
             TableView.Source = _tableSource;
             TableView.AllowsSelection = false;
             TableView.SeparatorColor = UIColor.Clear;
+
+            ContinueBar continueBar = new ContinueBar();
+            continueBar.Frame = new CGRect(0, 0, 100, 50);
+            continueBar.NextButton.TouchUpInside += delegate
+            {
+                //var vc = (ContractCreationPayRatesTableViewController)Storyboard.InstantiateViewController("ContractCreationPayRatesTableViewController");
+                //ShowViewController(vc, this);
+            };
+
+            TableView.TableFooterView = continueBar;
+
+            //Add one pay rate section to begin with
+            _tableSource.AddRatesSection(TableView);
         }
 
         public async void LoadContractCreationDetails()

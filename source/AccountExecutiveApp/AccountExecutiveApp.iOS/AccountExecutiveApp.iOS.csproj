@@ -149,6 +149,7 @@
     <Compile Include="ContactCell.designer.cs">
       <DependentUpon>ContactCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Contract Creation\ContinueBar.cs" />
     <Compile Include="Contract Creation\ContractCreationDetailsHeaderView.cs" />
     <Compile Include="Contract Creation\ContractCreationPayRatesTableViewSource.cs" />
     <Compile Include="Contract Creation\ContractCreationRateCell.cs" />
