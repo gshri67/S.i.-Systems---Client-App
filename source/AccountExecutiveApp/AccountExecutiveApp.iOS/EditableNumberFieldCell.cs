@@ -42,7 +42,7 @@ namespace AccountExecutiveApp.iOS
             RightDetailTextField = new UITextField
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                //TextAlignment = UITextAlignment.Right,
+                TextAlignment = UITextAlignment.Right,
                 Font = UIFont.FromName("Helvetica", 14f),
                 TextColor = StyleGuideConstants.MediumGrayUiColor
             };
@@ -128,14 +128,16 @@ namespace AccountExecutiveApp.iOS
 
         private void AddRightDetailTextLabelConstraints()
         {
-            AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, this, NSLayoutAttribute.Right, 0.6f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.6f, 0f));
+            //AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.LessThanOrEqual, this, NSLayoutAttribute.Right, 0.80f, 0f));
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
         }
         private void AddShrunkRightDetailTextLabelConstraints()
         {
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 15f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 15f));
+            //AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.LessThanOrEqual, this, NSLayoutAttribute.Right, 0.80f, 0f));
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
         }
 

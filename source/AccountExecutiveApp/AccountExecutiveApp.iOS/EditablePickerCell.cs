@@ -51,7 +51,7 @@ namespace AccountExecutiveApp.iOS
             RightDetailTextField = new UITextField
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                //TextAlignment = UITextAlignment.Right,
+                TextAlignment = UITextAlignment.Right,
                 Font = UIFont.FromName("Helvetica", 14f),
                 TextColor = StyleGuideConstants.MediumGrayUiColor
             };
