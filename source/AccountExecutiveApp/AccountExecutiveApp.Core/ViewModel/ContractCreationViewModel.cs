@@ -306,6 +306,31 @@ namespace AccountExecutiveApp.Core.ViewModel
             return task;
         }
 
+        public Task LoadContractCreationInitialPageDetails(int jobId)
+        {
+            GetContractCreationDetailInfo(jobId);
+            var task = GetContractCreationDetailOptions(jobId);
+
+            return task;
+        }
+
+        public Task LoadContractCreationPayRatePage(int jobId)
+        {
+            GetContractCreationDetailInfo(jobId);
+            var firstTask = GetContractCreationPayRatePageOptions(jobId);
+            var secondTask = GetContractCreationPayRatePageDetails(jobId);
+
+            return secondTask;
+        }
+        
+        private async Task GetContractCreationPayRatePageOptions(int jobId)
+        {
+            //Contract = await _api.GetContractCreationDetailInfo(jobId);
+        }
+        private async Task GetContractCreationPayRatePageDetails(int jobId)
+        {
+            //Contract = await _api.GetContractCreationDetailInfo(jobId);
+        }
 
         private async Task GetContractCreationDetailInfo(int jobId )
         {

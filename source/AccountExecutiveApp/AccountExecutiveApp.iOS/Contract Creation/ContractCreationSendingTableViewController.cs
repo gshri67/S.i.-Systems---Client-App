@@ -8,12 +8,12 @@ using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.iOS
 {
-    public partial class ContractCreationPayRatesTableViewController : UITableViewController
+    public partial class ContractCreationSendingTableViewController : UITableViewController
     {
         private ContractCreationViewModel _viewModel;
-        private ContractCreationPayRatesTableViewSource _tableSource;
+        private ContractCreationSendingTableViewSource _tableSource;
 
-        public ContractCreationPayRatesTableViewController(IntPtr handle)
+        public ContractCreationSendingTableViewController(IntPtr handle)
             : base(handle)
         {
             _viewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
@@ -44,7 +44,7 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-            _tableSource = new ContractCreationPayRatesTableViewSource(this, _viewModel);
+            _tableSource = new ContractCreationSendingTableViewSource(this, _viewModel);
             TableView.Source = _tableSource;
             TableView.AllowsSelection = false;
             TableView.SeparatorColor = UIColor.Clear;
@@ -53,14 +53,11 @@ namespace AccountExecutiveApp.iOS
             continueBar.Frame = new CGRect(0, 0, 100, 50);
             continueBar.NextButton.TouchUpInside += delegate
             {
-                var vc = (ContractCreationSendingTableViewController)Storyboard.InstantiateViewController("ContractCreationSendingTableViewController");
-                ShowViewController(vc, this);
+                //var vc = (ContractCreationPayRatesTableViewController)Storyboard.InstantiateViewController("ContractCreationPayRatesTableViewController");
+                //ShowViewController(vc, this);
             };
 
             TableView.TableFooterView = continueBar;
-
-            //Add one pay rate section to begin with
-            _tableSource.AddRatesSection(TableView);
         }
 
         public async void LoadData()
@@ -91,18 +88,6 @@ namespace AccountExecutiveApp.iOS
             base.ViewDidLoad();
 
             LoadData();
-
-
-            UIBarButtonItem addButton = new UIBarButtonItem("Add", UIBarButtonItemStyle.Plain, delegate(object sender, EventArgs e)
-            {
-                _tableSource.AddRatesSection(TableView);
-            });
-            addButton.TintColor = StyleGuideConstants.RedUiColor;
-
-         
-
-            NavigationItem.SetRightBarButtonItem(addButton, true);
-
 
         }
 

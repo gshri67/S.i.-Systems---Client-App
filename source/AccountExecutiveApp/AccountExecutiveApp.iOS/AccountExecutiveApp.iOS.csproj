@@ -161,6 +161,11 @@
       <DependentUpon>ContractCreationPayRatesTableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Contract Creation\ContractCreationRateCellTableViewSource.cs" />
+    <Compile Include="Contract Creation\ContractCreationSendingTableViewController.cs" />
+    <Compile Include="Contract Creation\ContractCreationSendingTableViewController.designer.cs">
+      <DependentUpon>ContractCreationSendingTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contract Creation\ContractCreationSendingTableViewSource.cs" />
     <Compile Include="ContractorDetails\ContractHistoryTableViewSource.cs" />
     <Compile Include="ContractorDetails\ContractorDetailsTableViewController.cs" />
     <Compile Include="ContractorDetails\ContractorDetailsTableViewController.designer.cs">
