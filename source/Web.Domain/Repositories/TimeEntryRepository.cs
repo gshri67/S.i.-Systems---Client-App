@@ -65,7 +65,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         private static bool ShouldLoadEntriesFromTimesheetId(Timesheet timesheet)
         {
             return timesheet.Status == MatchGuideConstants.TimesheetStatus.Open
-                && timesheet.Id == 0;
+                && (timesheet.Id == 0 || timesheet.OpenStatusId != 0);
         }
 
         public IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheet)
