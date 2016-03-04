@@ -54,7 +54,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    public void LoadTimesheets()
 	    {
             RemoveOverlay();
-
+            
 	        UpdateTableSource();
 
 	        noTimesheetsLabel.Hidden = _activeTimesheetModel.UserHasPayPeriods();
@@ -88,7 +88,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad();
-
+         
             CreateCustomTitleBar();
 
 		    LogoutManager.CreateNavBarRightButton(this);
@@ -142,8 +142,9 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
             {
                 if (_overlay != null) return;
 
-
                 _overlay = new LoadingOverlay(View.Bounds, null);
+                _overlay.BackgroundColor = UIColor.FromWhiteAlpha(1.0f, 0.5f);
+                _overlay.UserInteractionEnabled = false;
                 View.Add(_overlay);
             });
         }
