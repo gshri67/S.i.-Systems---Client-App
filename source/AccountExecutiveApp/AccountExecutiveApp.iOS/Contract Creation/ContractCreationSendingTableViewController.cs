@@ -8,6 +8,7 @@ using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.iOS
 {
+    [Register("ContractCreationSendingTableViewController")]
     public partial class ContractCreationSendingTableViewController : UITableViewController
     {
         private ContractCreationViewModel _viewModel;

@@ -28,10 +28,10 @@ namespace AccountExecutiveApp.iOS
         {
             int row = (int) indexPath.Item;
 
-            if (IsJobTitleCell(indexPath))
-                return GetJobTitleCell(tableView, indexPath);
-            else if (IsStartDateCell(indexPath))
-                return GetStartDateCell(tableView, indexPath);
+            if (IsSendingConsultantContractCell(indexPath))
+                return GetIsSendingConsultantContractCell(tableView, indexPath);
+            else if (IsClientContactCell(indexPath))
+                return GetClientContactCell(tableView, indexPath);
             else if (IsEndDateCell(indexPath))
                 return GetEndDateCell(tableView, indexPath);
             else if (IsTimeFactorCell(indexPath))
@@ -65,24 +65,24 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
-        private int _jobTitleCellRow
+        private int _isSendingConsultantContractCellRow
         {
             get { return 0; }
         }
 
-        private bool IsJobTitleCell(NSIndexPath indexPath)
+        private bool IsSendingConsultantContractCell(NSIndexPath indexPath)
         {
-            return (int) indexPath.Item == _jobTitleCellRow;
+            return (int) indexPath.Item == _isSendingConsultantContractCellRow;
         }
 
-        private int _startDateCellRow
+        private int _clientContactCellRow
         {
-            get { return _jobTitleCellRow + 1; }
+            get { return _isSendingConsultantContractCellRow + 1; }
         }
 
-        private bool IsStartDateCell(NSIndexPath indexPath)
+        private bool IsClientContactCell(NSIndexPath indexPath)
         {
-            return (int) indexPath.Item == _startDateCellRow;
+            return (int) indexPath.Item == _clientContactCellRow;
         }
 
         private int _endDateCellRow
@@ -215,31 +215,30 @@ namespace AccountExecutiveApp.iOS
             return (int) indexPath.Item == _quickPayCellRow;
         }
 
-
-        private UITableViewCell GetJobTitleCell(UITableView tableView, NSIndexPath indexPath)
+        private UITableViewCell GetIsSendingConsultantContractCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditableTextFieldCell cell =
-                (EditableTextFieldCell) tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Job Title", _contractModel.JobTitle);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.JobTitle = newValue; };
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Send consultant e-contract to ________", new List<string> { "Yes", "No" }, 0);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.IsSendingConsultantContract = (newValue == "Yes"); };
 
             return cell;
         }
 
-        private UITableViewCell GetStartDateCell(UITableView tableView, NSIndexPath indexPath)
+        private UITableViewCell GetClientContactCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditableDatePickerCell cell =
-                (EditableDatePickerCell) tableView.DequeueReusableCell(EditableDatePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Start Date", _contractModel.FormattedStartDate);
-            cell.OnValueChanged += delegate(DateTime newValue) { _contractModel.StartDate = newValue; };
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Client Contact", new List<string> { "Yes", "No" }, 0);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.ClientContactName = newValue; };
 
             return cell;
         }
 
         private UITableViewCell GetEndDateCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditableDatePickerCell cell =
-                (EditableDatePickerCell) tableView.DequeueReusableCell(EditableDatePickerCell.CellIdentifier, indexPath);
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("End Date", _contractModel.FormattedEndDate);
             cell.OnValueChanged += delegate(DateTime newValue) { _contractModel.EndDate = newValue; };
 
