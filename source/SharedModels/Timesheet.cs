@@ -36,8 +36,8 @@ namespace SiSystems.SharedModels
         public string timesheet_note;
         public bool isoverride;
         public bool isResendEnabled;
-        public double tsHours;
-        public double varHrs;
+        public float tsHours;
+        public float varHrs;
         public string Overridecolor;
         public string statusTitleString;
     }
@@ -58,7 +58,7 @@ namespace SiSystems.SharedModels
         public int agreementid;
         public int contractid;
         public string ClientName;
-        public int TSSaveHours;
+        public float TSSaveHours;
         public bool IsEnabled;
         public string valueString;
         public string valueStringZero;
