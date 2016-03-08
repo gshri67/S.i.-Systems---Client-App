@@ -31,6 +31,15 @@ namespace SiSystems.SharedModels
         public IEnumerable<string> GrossMargins { get; set; }
         public int PrimaryRateIndex { get; set; }
 
+        //Sending Info
+        public bool IsSendingConsultantContract { get; set; }
+        public string ClientContactName { get; set; }
+        public string DirectReportName { get; set; }
+        public string BillingContactName { get; set; }
+        public List<string> InvoiceRecipients { get; set; }
+        public string ContactToSendContractTo { get; set; }
+        public string ReasonForNotSendingContract { get; set; }
+
         public ContractCreationDetails()
         {
             JobTitle = string.Empty;

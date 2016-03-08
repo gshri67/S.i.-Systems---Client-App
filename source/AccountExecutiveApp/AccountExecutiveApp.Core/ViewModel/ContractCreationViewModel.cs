@@ -53,7 +53,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
 
-
+        //First Page
         public DateTime StartDate {
                                                 get { return Contract.StartDate; }
                                                 set { Contract.StartDate = value; } }
@@ -165,6 +165,55 @@ namespace AccountExecutiveApp.Core.ViewModel
             List<string> billRateList = Contract.BillRates.ToList();
             billRateList.Add(string.Empty);
             Contract.BillRates = billRateList.AsEnumerable();
+        }
+
+
+        /*
+        public string JobTitle
+        {
+            get { return Contract.JobTitle; }
+            set { Contract.JobTitle = value; }
+        }*/
+
+        //Sending
+        public bool IsSendingConsultantContract{
+            get { return Contract.IsSendingConsultantContract; }
+            set { Contract.IsSendingConsultantContract = value; } }
+
+        public string ClientContactName
+        {
+            get { return Contract.ClientContactName; }
+            set { Contract.ClientContactName = value; }
+        }
+
+        public string DirectReportName
+        {
+            get { return Contract.DirectReportName; }
+            set { Contract.DirectReportName = value; }
+        }
+
+        public string BillingContactName
+        {
+            get { return Contract.BillingContactName; }
+            set { Contract.BillingContactName = value; }
+        }
+
+        public List<string> InvoiceRecipients
+        {
+            get { return Contract.InvoiceRecipients; }
+            set { Contract.InvoiceRecipients = value; }
+        }
+
+        public string ContactToSendContractTo
+        {
+            get { return Contract.ContactToSendContractTo; }
+            set { Contract.ContactToSendContractTo = value; }
+        }
+
+        public string ReasonForNotSendingContract
+        {
+            get { return Contract.ReasonForNotSendingContract; }
+            set { Contract.ReasonForNotSendingContract = value; }
         }
 
         #region SupportData
@@ -285,7 +334,13 @@ namespace AccountExecutiveApp.Core.ViewModel
         public int RateTypeSelectedIndexAtIndex(int index) { return IndexSelectionFromOptions(RateTypeOptions, RateTypeAtIndex(index)); }
 
         public List<string> RateDescriptionOptions { get { return new List<string>(new string[] { "Regular", "Hourly", "Daily" }); } }
+
         public int RateDescriptionSelectedIndexAtIndex(int index) { return IndexSelectionFromOptions(RateDescriptionOptions, RateDescriptionAtIndex(index)); }
+
+        //Sending
+        public List<string> ClientContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
+        public List<string> DirectReportNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
+        public List<string> BillingContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
 
 #endregion
 
