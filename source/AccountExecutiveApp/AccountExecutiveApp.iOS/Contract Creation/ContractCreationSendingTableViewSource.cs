@@ -32,6 +32,14 @@ namespace AccountExecutiveApp.iOS
                 return GetIsSendingConsultantContractCell(tableView, indexPath);
             else if (IsClientContactCell(indexPath))
                 return GetClientContactCell(tableView, indexPath);
+            else if (IsDirectReportCell(indexPath))
+                return GetDirectReportCell(tableView, indexPath);
+            else if (IsBillingContactCell(indexPath))
+                return GetBillingContactCell(tableView, indexPath);
+            else if (IsInvoiceRecipientsCell(indexPath))
+                return GetInvoiceRecipientsCell(tableView, indexPath);
+            else if (IsClientContractCell(indexPath))
+                return GetClientContractCell(tableView, indexPath);
 
             EditableTextFieldCell cell =
                 (EditableTextFieldCell) tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
@@ -79,6 +87,25 @@ namespace AccountExecutiveApp.iOS
             return (int)indexPath.Item == _billingContactCellRow;
         }
 
+        private int _invoiceRecipientsCellRow
+        {
+            get { return _billingContactCellRow + 1; }
+        }
+
+        private bool IsInvoiceRecipientsCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _invoiceRecipientsCellRow;
+        }
+
+        private int _clientContractCellRow
+        {
+            get { return _invoiceRecipientsCellRow + 1; }
+        }
+
+        private bool IsClientContractCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _clientContractCellRow;
+        }
 
 
         private UITableViewCell GetIsSendingConsultantContractCell(UITableView tableView, NSIndexPath indexPath)
@@ -95,7 +122,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Client Contact", new List<string> { "Yes", "No" }, 0);
+            cell.UpdateCell("Client Contact", _contractModel.ClientContactNameOptions, 0);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.ClientContactName = newValue; };
 
             return cell;
@@ -105,7 +132,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Direct Report", new List<string> { "Yes", "No" }, 0);
+            cell.UpdateCell("Direct Report", _contractModel.DirectReportNameOptions, 0);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.DirectReportName = newValue; };
 
             return cell;
@@ -115,32 +142,42 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Billing Contact", new List<string> { "Yes", "No" }, 0);
+            cell.UpdateCell("Billing Contact", _contractModel.BillingContactNameOptions, 0);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.BillingContactName
                 = newValue; };
 
             return cell;
         }
 
-        public override UIView GetViewForHeader(UITableView tableView, nint section)
+        private UITableViewCell GetInvoiceRecipientsCell(UITableView tableView, NSIndexPath indexPath)
         {
-            ContractCreationDetailsHeaderView createContractHeader =
-                new ContractCreationDetailsHeaderView(
-                    "Please use the Matchguide System if you want to use Third Party Billing to create a contract");
+            EditableTextFieldCell cell =
+                (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Invoice Recipients", _contractModel.InvoiceRecipients);
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.InvoiceRecipients = newValue;
+            };
 
-            tableView.TableHeaderView = createContractHeader;
-            return createContractHeader;
+            return cell;
         }
 
-        public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+        private UITableViewCell GetClientContractCell(UITableView tableView, NSIndexPath indexPath)
         {
-            return 100.0f;
-        }
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Send e-contract to: ____", new List<string> { "Yes", "No" }, 0);
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.IsSendingContractToClientContact = (newValue == "Yes");
+            };
 
+            return cell;
+        }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return _billingContactCellRow + 1;
+            return _clientContractCellRow + 1;
         }
 
         public override nint NumberOfSections(UITableView tableView)

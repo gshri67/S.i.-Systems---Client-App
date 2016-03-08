@@ -36,8 +36,9 @@ namespace SiSystems.SharedModels
         public string ClientContactName { get; set; }
         public string DirectReportName { get; set; }
         public string BillingContactName { get; set; }
-        public List<string> InvoiceRecipients { get; set; }
-        public string ContactToSendContractTo { get; set; }
+        public string InvoiceRecipients { get; set; }
+        public string ClientContractContact { get; set; }
+        public bool IsSendingClientContract { get; set; }
         public string ReasonForNotSendingContract { get; set; }
 
         public ContractCreationDetails()

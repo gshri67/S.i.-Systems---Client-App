@@ -198,16 +198,21 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { Contract.BillingContactName = value; }
         }
 
-        public List<string> InvoiceRecipients
+        public string InvoiceRecipients
         {
             get { return Contract.InvoiceRecipients; }
             set { Contract.InvoiceRecipients = value; }
         }
 
-        public string ContactToSendContractTo
+        public string ClientContractContact
         {
-            get { return Contract.ContactToSendContractTo; }
-            set { Contract.ContactToSendContractTo = value; }
+            get { return Contract.ClientContractContact; }
+            set { Contract.ClientContractContact = value; }
+        }
+        public bool IsSendingContractToClientContact
+        {
+            get { return Contract.IsSendingClientContract; }
+            set { Contract.IsSendingClientContract = value; }
         }
 
         public string ReasonForNotSendingContract
