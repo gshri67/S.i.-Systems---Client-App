@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Accelerate;
 using Foundation;
 using SiSystems.SharedModels;
 using UIKit;
@@ -88,11 +89,19 @@ namespace ConsultantApp.iOS
 
             cell.OnSave = delegate(TimeEntry entry)
             {
-                CloseExpandedCell();
-                curEntry = entry;
-                tableView.ReloadData();
-                
-                OnDataChanged(TimeEntries);
+                if (ValidTimeAdded())
+                {
+                    CloseExpandedCell();
+                    curEntry = entry;
+                    tableView.ReloadData();
+
+                    OnDataChanged(TimeEntries);
+                }
+                else
+                {
+                    UIAlertView invalidAlertView = new UIAlertView("Invalid Time", "Please enter less than 24 hours of total entries for the day.", null, "Ok");
+                    invalidAlertView.Show();
+                }
             };
 
 		    cell.OnDelete = entry =>
@@ -107,7 +116,14 @@ namespace ConsultantApp.iOS
 			return cell;
 		}
 
-		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
+	    private bool ValidTimeAdded()
+	    {
+	        if (TimeEntries.Select(t => t.Hours).Sum() <= 24)
+	            return true;
+	        return false;
+	    }
+
+	    public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			//Nothing happens if expanded cell is tapped
 		    if ((int) indexPath.Item == _expandedCellIndex) return;
