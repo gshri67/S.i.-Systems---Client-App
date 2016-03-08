@@ -17,6 +17,10 @@ namespace AccountExecutiveApp.iOS
         private readonly ContractCreationViewModel _contractModel;
         private float _specializationCellHeight = -1;
 
+        //Table logic
+        private bool _showClientContractCellReason = false;
+        private bool _showClientContractOtherReason = false;
+
         public ContractCreationSendingTableViewSource(ContractCreationSendingTableViewController parentController,
             ContractCreationViewModel model)
         {
@@ -40,6 +44,10 @@ namespace AccountExecutiveApp.iOS
                 return GetInvoiceRecipientsCell(tableView, indexPath);
             else if (IsClientContractCell(indexPath))
                 return GetClientContractCell(tableView, indexPath);
+            else if (IsReasonCell(indexPath))
+                return GetReasonCell(tableView, indexPath);
+            else if (IsOtherReasonCell(indexPath))
+                return GetOtherReasonCell(tableView, indexPath);
 
             EditableTextFieldCell cell =
                 (EditableTextFieldCell) tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
@@ -107,6 +115,25 @@ namespace AccountExecutiveApp.iOS
             return (int)indexPath.Item == _clientContractCellRow;
         }
 
+        private int _reasonCellRow
+        {
+            get { return _clientContractCellRow + 1; }
+        }
+
+        private bool IsReasonCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _reasonCellRow;
+        }
+
+        private int _otherReasonCellRow
+        {
+            get { return _reasonCellRow + 1; }
+        }
+
+        private bool IsOtherReasonCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _otherReasonCellRow;
+        }
 
         private UITableViewCell GetIsSendingConsultantContractCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -169,7 +196,46 @@ namespace AccountExecutiveApp.iOS
             cell.UpdateCell("Send e-contract to: ____", new List<string> { "Yes", "No" }, 0);
             cell.OnValueChanged += delegate(string newValue)
             {
-                _contractModel.IsSendingContractToClientContact = (newValue == "Yes");
+                bool isSending = (newValue == "Yes");
+                _contractModel.IsSendingContractToClientContact = isSending;
+
+                if (isSending == false)
+                {
+                    _showClientContractCellReason = true;
+                    tableView.ReloadData();
+                }
+            };
+
+            return cell;
+        }
+
+        private UITableViewCell GetReasonCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Reason:", _contractModel.ReasonForNotSendingContractOptions, 0);
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.ReasonForNotSendingContract = newValue;
+
+                if (newValue == "Other")
+                {
+                    _showClientContractOtherReason = true;
+                    tableView.ReloadData();
+                }
+            };
+
+            return cell;
+        }
+
+        private UITableViewCell GetOtherReasonCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableTextFieldCell cell =
+                (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Reason Summary:", "Client Contact is on vacation");
+            cell.OnValueChanged += delegate(string newValue)
+            {
+               // _contractModel.InvoiceRecipients = newValue;
             };
 
             return cell;
@@ -177,7 +243,14 @@ namespace AccountExecutiveApp.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return _clientContractCellRow + 1;
+            if ( _showClientContractCellReason == false )
+                return _clientContractCellRow + 1;
+            else if( _showClientContractOtherReason == false )
+                return _clientContractCellRow + 2;
+            else if ( _showClientContractOtherReason == true )
+                return _clientContractCellRow + 3;
+
+            return 0;
         }
 
         public override nint NumberOfSections(UITableView tableView)
