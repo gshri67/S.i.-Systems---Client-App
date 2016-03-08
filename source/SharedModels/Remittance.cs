@@ -4,7 +4,7 @@ namespace SiSystems.SharedModels
 {
 	public class Remittance
 	{
-		public float Amount { get; set; }
+		public decimal Amount { get; set; }
 		public string DocumentNumber { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }

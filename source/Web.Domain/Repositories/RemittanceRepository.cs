@@ -20,7 +20,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             {
 
               const string query =
-                    @"Declare @tablevar table(vchrnmbr VARCHAR(50), docdate datetime, docnumbr VARCHAR(21), docamnt INT, source VARCHAR(250), dbsource VARCHAR(250))
+                    @"Declare @tablevar table(vchrnmbr VARCHAR(50), docdate datetime, docnumbr VARCHAR(21), docamnt MONEY, source VARCHAR(250), dbsource VARCHAR(250))
                         insert into @tablevar(vchrnmbr, docdate, docnumbr, docamnt, source, dbsource ) EXECUTE [dbo].[UspGetEREmittancesFromGP_TSAPP] 
                            @candidateid
 
@@ -86,47 +86,19 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         public IEnumerable<Remittance> GetRemittancesForUser(int userId)
         {
             #if LOCAL 
-                return TempRemittances;
-            
+                //This is required because the DBs required to run the SPs are not available locally
+                return RemittancesForDebugging;
             #endif
-
-          
-
-
+            
             var remittancesGP = GetRemittanceDataFromGP(userId);
-            var remittancesNonGP = GetRemittanceDataFromNonGP(userId);
 
-            /*
-            foreach ( Remittance rmGP in remittancesGP.ToList() )
-            {
-                Remittance remittance = remittancesNonGP.Select(rm => rm.VoucherNumber = rmGP.VoucherNumber);
-
-                if( remittance != null )
-                    rmGp
-            }
-            */
-            //Match pay rate with pay rate repo call and figure out start and end dates?
+            //todo: determine of we need the following at all. 
+            //var remittancesNonGP = GetRemittanceDataFromNonGP(userId);
 
             return remittancesGP;
-
-            /*
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                //const string query = 
-                //        @"";
-                
-                //var remittances = db.Connection.Query<Remittance>(query, new { UserId = userId});
-                //todo actually get the remittances from the DB
-                if (userId != 12)
-                {
-                    return new List<Remittance>();
-                }
-
-                return TempRemittances;
-            }*/
         }
 
-        private static IEnumerable<Remittance> TempRemittances
+        private static IEnumerable<Remittance> RemittancesForDebugging
         {
             get
             {
@@ -137,7 +109,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         StartDate = Convert.ToDateTime("2015-07-01"),
                         EndDate =  Convert.ToDateTime("2015-07-15"),
                         DepositDate = Convert.ToDateTime("2015-07-17"),
-                        Amount = (float) 2653.50,
+                        Amount = (decimal) 2653.50,
                         DocumentNumber = "6C94239",
                         VoucherNumber = "330567",
                         Source = "pam",
@@ -148,7 +120,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         StartDate = Convert.ToDateTime("2015-07-16"),
                         EndDate =  Convert.ToDateTime("2015-07-31"),
                         DepositDate = Convert.ToDateTime("2015-08-03"),
-                        Amount = (float) 2340.00,
+                        Amount = (decimal) 2340.00,
                         DocumentNumber = "6D23490",
                         VoucherNumber = "330567",
                         Source = "pam",
