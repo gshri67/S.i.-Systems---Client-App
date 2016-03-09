@@ -40,7 +40,7 @@ namespace SiSystems.SharedModels
         public string DirectReportName { get; set; }
         public string BillingContactName { get; set; }
         public string InvoiceRecipients { get; set; }
-        public string ClientContractContact { get; set; }
+        public string ClientContractContactName { get; set; }
         public bool IsSendingClientContract { get; set; }
         public string ReasonForNotSendingContract { get; set; }
         public string SummaryReasonForNotSendingContract { get; set; }
@@ -78,7 +78,7 @@ namespace SiSystems.SharedModels
             DirectReportName = string.Empty;
             BillingContactName = string.Empty;
             InvoiceRecipients = string.Empty;
-            ClientContractContact = string.Empty;
+            ClientContractContactName = string.Empty;
             IsSendingClientContract = true;
             ReasonForNotSendingContract = string.Empty;
             SummaryReasonForNotSendingContract = string.Empty;

@@ -8,10 +8,8 @@ namespace AccountExecutiveApp.iOS
 	partial class EditableFullTextFieldCell : UITableViewCell
 	{
 		public const string CellIdentifier = "EditableFullTextFieldCell";
-		public UILabel MainTextLabel;
-		public UITextField RightDetailTextField;
-		private bool shrinkRightDetailText = true;
-
+		public UITextField TextField;
+		
 		public delegate void EditableCellDelegate(string newValue);
 		public EditableCellDelegate OnValueChanged;
 
@@ -32,109 +30,68 @@ namespace AccountExecutiveApp.iOS
 			CreateAndAddLabels();
 
 			SetupConstraints();
+
+		    BackgroundColor = UIColor.FromWhiteAlpha(0.98f, 1.0f);
 		}
 
 		private void CreateAndAddLabels()
 		{
-			CreateAndAddMainTextLabel();
-
-			CreateAndAddRightDetailTextField();
+			CreateAndAddTextField();
 		}
 
-		private void CreateAndAddRightDetailTextField()
+	    private void CreateAndAddTextField()
+	    {
+	        TextField = new UITextField
+	        {
+	            TranslatesAutoresizingMaskIntoConstraints = false,
+	            TextAlignment = UITextAlignment.Left,
+	            Font = UIFont.FromName("Helvetica", 14f),
+	            TextColor = StyleGuideConstants.MediumGrayUiColor,
+                Placeholder = "Reason..."
+	        };
+
+	        TextField.Text = string.Empty;
+
+	        AddSubview(TextField);
+
+	        var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, Frame.Size.Width, 44.0f));
+
+	        toolbar.Items = new[]
+	        {
+	            new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace),
+	            new UIBarButtonItem(UIBarButtonSystemItem.Done, doneButtonTapped)
+	        };
+
+	        TextField.InputAccessoryView = toolbar;
+
+	        TextField.EditingChanged += delegate
+	        {
+	            OnValueChanged(TextField.Text);
+	        };
+	    }
+
+	    public void doneButtonTapped(object sender, EventArgs args)
 		{
-			RightDetailTextField = new UITextField
-			{
-				TranslatesAutoresizingMaskIntoConstraints = false,
-				TextAlignment = UITextAlignment.Right,
-				Font = UIFont.FromName("Helvetica", 14f),
-				TextColor = StyleGuideConstants.MediumGrayUiColor
-			};
-
-			RightDetailTextField.Text = "Text Field";
-
-			AddSubview(RightDetailTextField);
-
-			var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, Frame.Size.Width, 44.0f));
-
-			toolbar.Items = new[]
-			{
-				new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace),
-				new UIBarButtonItem(UIBarButtonSystemItem.Done, doneButtonTapped)
-			};
-
-			RightDetailTextField.InputAccessoryView = toolbar;
-
-			RightDetailTextField.EditingChanged += delegate
-			{
-				OnValueChanged(RightDetailTextField.Text);
-			};
-		}
-
-		private void CreateAndAddMainTextLabel()
-		{
-			MainTextLabel = new UILabel
-			{
-				TranslatesAutoresizingMaskIntoConstraints = false,
-				TextAlignment = UITextAlignment.Left,
-				Font = UIFont.FromName("Helvetica", 16f),
-				TextColor = UIColor.Black,
-				Lines = 0
-			};
-			AddSubview(MainTextLabel);
-		}
-
-		public void doneButtonTapped(object sender, EventArgs args)
-		{
-			RightDetailTextField.ResignFirstResponder();
+			TextField.ResignFirstResponder();
 		}
 
 		public void SetupConstraints()
 		{
-			if (shrinkRightDetailText)
-			{
-				RightDetailTextField.AdjustsFontSizeToFitWidth = true;
-				RightDetailTextField.MinimumFontSize = 10;
-				AddMainTextLabelConstraintsWithShrunkRightDetail();
-				AddShrunkRightDetailTextLabelConstraints();
-			}
-			else
-			{
-				AddRightDetailTextLabelConstraints();
-				AddMainTextLabelConstraints();
-			}
+			AddTextLabelConstraints();
 		}
 
-		private void AddMainTextLabelConstraints()
+
+		private void AddTextLabelConstraints()
 		{
-			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, RightDetailTextField, NSLayoutAttribute.Left, 1.0f, 0f));
-		}
-		private void AddMainTextLabelConstraintsWithShrunkRightDetail()
-		{
-			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.LessThanOrEqual, this, NSLayoutAttribute.Right, 0.7f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(TextField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.1f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(TextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(TextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.9f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(TextField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 1.0f, 0f));
 		}
 
-		private void AddRightDetailTextLabelConstraints()
+		public void UpdateCell(string textfieldText)
 		{
-			AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, this, NSLayoutAttribute.Right, 0.6f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
-		}
-		private void AddShrunkRightDetailTextLabelConstraints()
-		{
-			AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 15f));
-			AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
-		}
-
-		public void UpdateCell(string mainText, string rightDetailText)
-		{
-			MainTextLabel.Text = mainText;
-			RightDetailTextField.Text = rightDetailText;
+			TextField.Text = textfieldText;
 		}
 	}
 }

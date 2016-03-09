@@ -210,10 +210,10 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { Contract.InvoiceRecipients = value; }
         }
 
-        public string ClientContractContact
+        public string ClientContractContactName
         {
-            get { return Contract.ClientContractContact; }
-            set { Contract.ClientContractContact = value; }
+            get { return Contract.ClientContractContactName; }
+            set { Contract.ClientContractContactName = value; }
         }
         public bool IsSendingContractToClientContact
         {
@@ -358,7 +358,10 @@ namespace AccountExecutiveApp.Core.ViewModel
         public List<string> ClientContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
         public List<string> DirectReportNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
         public List<string> BillingContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
+
+        public List<string> ClientContractContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
         public List<string> ReasonForNotSendingContractOptions { get { return new List<string>(new string[] { "Client has a master agreement(MSA, VMS, etc.)", "Client has provided their own contract", "Other" }); } }
+
 
         #endregion
 

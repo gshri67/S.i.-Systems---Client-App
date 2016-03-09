@@ -206,7 +206,7 @@ namespace AccountExecutiveApp.iOS
         {
             AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.CenterY, 1.0f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.Width, NSLayoutRelation.GreaterThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 50f));
+            AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.Width, NSLayoutRelation.GreaterThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 40f));
         }
         /*
         private void AddMidRightDetailTextLabelConstraints()
@@ -245,7 +245,7 @@ namespace AccountExecutiveApp.iOS
 
             if (_rightPicker != null && _rightPickerModel != null)
             {
-                _rightPickerModel.items = midItems;
+                _rightPickerModel.items = rightItems;
                 _rightPickerModel.scrollToItemIndex(_rightPicker, newRightSelectedIndex, 0);
             }
 		}
