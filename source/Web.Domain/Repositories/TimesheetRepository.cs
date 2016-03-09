@@ -31,7 +31,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<TimesheetDetails> GetRejectedTimesheetDetailsByAccountExecutiveId(int id);
         TimesheetContact GetTimesheetContactById(int id);
         TimesheetContact GetOpenTimesheetContactByAgreementId(int id);
-        string GetSubmittedPDFFromTimesheet(int timesheetId);
     }
 
     public class TimesheetRepository : ITimesheetRepository
@@ -276,7 +275,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public string GetSubmittedPDFFromTimesheet(int timesheetId)
+        private string GetSubmittedPDFFromTimesheet(int timesheetId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
