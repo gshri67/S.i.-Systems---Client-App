@@ -48,7 +48,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             var savedTimesheetId = _timeSheetRepository.SaveTimesheet(timesheet, userId);
 
-            foreach (var entry in timesheet.TimeEntries)
+            foreach (var entry in timesheet.TimeEntries.Where(entry=>entry.EntryDate <= timesheet.AgreementEndDate))
                 entry.Id = _timeEntryRepository.SaveTimeEntry(savedTimesheetId, entry);
 
             timesheet.OpenStatusId = savedTimesheetId;
@@ -128,7 +128,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         private void SubmitTimeEntries(Timesheet timesheet)
         {
-            foreach (var timeEntry in timesheet.TimeEntries)
+            foreach (var timeEntry in timesheet.TimeEntries.Where(entry => entry.EntryDate <= timesheet.AgreementEndDate))
             {
                 _timeEntryRepository.SubmitTimeEntry(timesheet.Id, timeEntry);
             }
