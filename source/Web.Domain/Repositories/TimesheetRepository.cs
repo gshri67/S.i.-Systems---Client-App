@@ -342,6 +342,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
+        private static string CreateSubmittedPDFStringName(Timesheet timesheet, int userId)
+        {
+            return string.Format("TS_{0}_{1}_{2:MMMddyyyy}_{3:MMMddyyyy}_{4}", userId, timesheet.AgreementId, timesheet.StartDate, timesheet.EndDate, timesheet.Id);
+        }
+
         public int SubmitZeroTimeForUser(Timesheet timesheet, int userId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -366,7 +371,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     aCandidateUserId = userId,
                     aContractID = timesheet.AgreementId,
                     aTimesheetavailableperiodid = timesheet.AvailableTimePeriodId,
-                    aTSSubmittedName = (string)null, //Name of the Submitted PDF
+                    aTSSubmittedName = (string)null,// zero timesheets seem to get no pdf
                     verticalId = MatchGuideConstants.VerticalId.IT,
                     aTimesheetType = "ETimesheet",
                     TSstatus = "Approved"
@@ -404,7 +409,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     aTSType = "ETimesheet",//note: this isn't used in the SP
                     aTSAvailablePeriodID = timesheet.AvailableTimePeriodId,
                     aQuickPay = 0, 
-                    aSubmittedPdfName = (string)null, //Name of the Submitted PDF
+                    aSubmittedPdfName = CreateSubmittedPDFStringName(timesheet,userId),//note that this doesn't work for timesheets with a null id
                     aTSID = IntegerOrNullIfZero(timesheet.Id),
                     aIsCPGSubmission = (bool?)null, 
                     verticalId = MatchGuideConstants.VerticalId.IT,
