@@ -175,14 +175,24 @@ namespace ConsultantApp.Core.ViewModels
             return Timesheet != null && TimesheetIsOpen();
         }
 
+	    private static DateTime LatestDate(DateTime first, DateTime second)
+	    {
+	        return first > second ? first : second;
+	    }
+
 	    public DateTime StartDate()
 	    {
-	        return Timesheet.StartDate;
+	        return LatestDate(Timesheet.StartDate, Timesheet.AgreementStartDate);
+	    }
+
+	    private static DateTime EarliestDate(DateTime first, DateTime second)
+	    {
+            return first < second ? first : second;
 	    }
         
         public DateTime EndDate()
         {
-            return Timesheet.EndDate;
+            return EarliestDate(Timesheet.EndDate, Timesheet.AgreementEndDate);
         }
 
 	    public IEnumerable<TimeEntry> TimeSheetEntries()
