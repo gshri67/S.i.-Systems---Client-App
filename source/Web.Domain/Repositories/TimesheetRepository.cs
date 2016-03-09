@@ -82,14 +82,15 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                       ,@TimesheetType";
 
                 var timesheetsFromDb = db.Connection.Query<DbOpenTimesheetFromForMapping>(query, new { CandidateId = userId });
-
-                return timesheetsFromDb.Where(timesheet => timesheet.IsEnabled).Select(ts => new Timesheet
+                var timesheets = timesheetsFromDb.Where(timesheet => timesheet.IsEnabled).Select(ts => new Timesheet
                 {
                     Id = ts.timesheetid,
                     OpenStatusId = ts.TimesheetTempID,
                     Status = MatchGuideConstants.TimesheetStatus.Open,
                     ClientName = ts.ClientName,
                     AgreementId = ts.agreementid, //note that with this SP we could get ContractID or AgreementID
+                    AgreementStartDate = AgreementStartDateByAgreementId(ts.agreementid),
+                    AgreementEndDate = AgreementEndDateByAgreementId(ts.agreementid),
                     StartDate = ts.tsStartDate,
                     EndDate = ts.tsEndDate,
                     AvailableTimePeriodId = GetTimePeriodId(ts.tsStartDate, ts.tsEndDate),
@@ -97,6 +98,38 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         ? GetTimeSheetApproverByName(ts.directreportname) 
                         : GetTimeSheetApproverByName(ts.ContractDirectReportName) 
                 }).ToList();
+
+                return timesheets;
+            }
+        }
+
+        private DateTime AgreementEndDateByAgreementId(int agreementId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT EndDate
+                        FROM Agreement 
+                        WHERE Agreement.AgreementID = @AgreementId";
+
+                var startDate = db.Connection.Query<DateTime>(query, new { AgreementId = agreementId }).FirstOrDefault();
+
+                return startDate;
+            }
+        }
+
+        private DateTime AgreementStartDateByAgreementId(int agreementId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT StartDate
+                        FROM Agreement 
+                        WHERE Agreement.AgreementID = @AgreementId";
+
+                var startDate = db.Connection.Query<DateTime>(query, new { AgreementId = agreementId }).FirstOrDefault();
+
+                return startDate;
             }
         }
 
@@ -146,19 +179,24 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                        @CandidateID";
 
                 var timesheetsFromDb = db.Connection.Query<DbTimesheetForMapping>(query, new { CandidateId = userId });
-
-                return timesheetsFromDb.Where(ts => ts.timesheetStatus != "Saved").Select(ts =>
-                    new Timesheet
+                var timesheets = (from ts in timesheetsFromDb.Where(ts=>ts.timesheetStatus != "Saved")
+                    let agreementId = GetAgreementIdByTimeSheetId(ts.TimesheetID)
+                    let startDate = StartDateFromPeriodDate(ts.payPeriod)
+                    let endDate = EndDateFromPeriodDate(ts.payPeriod)
+                    let agreementStartDate = AgreementStartDateByAgreementId(agreementId)
+                    let agreementEndDate = AgreementEndDateByAgreementId(agreementId)
+                    select new Timesheet
                     {
-                        Id = ts.TimesheetID,
-                        AgreementId = GetAgreementIdByTimeSheetId(ts.TimesheetID), 
-                        
+                        Id = ts.TimesheetID, 
+                        AgreementId = agreementId, 
+                        AgreementStartDate = agreementStartDate, 
+                        AgreementEndDate = agreementEndDate, 
                         Status = (MatchGuideConstants.TimesheetStatus) ts.timesheetStatus, 
                         ClientName = ts.CompanyName, 
-                        StartDate = StartDateFromPeriodDate(ts.payPeriod), 
-                        EndDate = EndDateFromPeriodDate(ts.payPeriod)
-                    }
-                );
+                        StartDate = startDate, 
+                        EndDate = endDate
+                    }).ToList();
+                return timesheets;
             }
         }
 
@@ -364,14 +402,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 {
                     aCandidateUserId = userId,
                     aContractID = timesheet.AgreementId,
-                    aTSType = "ETimesheet",//MatchGuideConstants.TimesheetType.ETimesheet.ToString(), 
+                    aTSType = "ETimesheet",//note: this isn't used in the SP
                     aTSAvailablePeriodID = timesheet.AvailableTimePeriodId,
                     aQuickPay = 0, 
                     aSubmittedPdfName = (string)null, //Name of the Submitted PDF
                     aTSID = IntegerOrNullIfZero(timesheet.Id),
                     aIsCPGSubmission = (bool?)null, 
                     verticalId = MatchGuideConstants.VerticalId.IT,
-                    aTimesheetType = "ETimesheet",//MatchGuideConstants.TimesheetType.ETimesheet.ToString(), 
+                    aTimesheetType = "ETimesheet",
                     aSubmittedBy = userId,
                     isSubmittedEmailSent = true, 
                     aDirectReportid = timesheet.TimesheetApprover.Id

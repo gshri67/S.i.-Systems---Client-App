@@ -74,6 +74,9 @@ namespace SiSystems.SharedModels
         public int Id { get; set; }
         public string ClientName { get; set; }
         public int AgreementId { get; set; } 
+        public DateTime AgreementStartDate { get; set; }
+        public DateTime AgreementEndDate { get; set; }
+
         public MatchGuideConstants.TimesheetStatus Status { get; set; }
 		public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
