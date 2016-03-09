@@ -36,7 +36,7 @@ namespace ConsultantApp.iOS
         {
             try
             {
-                RegisterPushNotifications();
+                //RegisterPushNotifications();
 
                 SetNavbarStyle();
 
