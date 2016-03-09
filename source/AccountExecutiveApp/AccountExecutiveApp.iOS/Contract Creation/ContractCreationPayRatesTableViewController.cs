@@ -10,13 +10,13 @@ namespace AccountExecutiveApp.iOS
 {
     public partial class ContractCreationPayRatesTableViewController : UITableViewController
     {
-        private ContractCreationViewModel _viewModel;
+        public ContractCreationViewModel ViewModel;
         private ContractCreationPayRatesTableViewSource _tableSource;
 
         public ContractCreationPayRatesTableViewController(IntPtr handle)
             : base(handle)
         {
-            _viewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
+            //ViewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -44,7 +44,7 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-            _tableSource = new ContractCreationPayRatesTableViewSource(this, _viewModel);
+            _tableSource = new ContractCreationPayRatesTableViewSource(this, ViewModel);
             TableView.Source = _tableSource;
             TableView.AllowsSelection = false;
             TableView.SeparatorColor = UIColor.Clear;
@@ -54,6 +54,7 @@ namespace AccountExecutiveApp.iOS
             continueBar.NextButton.TouchUpInside += delegate
             {
                 var vc = (ContractCreationSendingTableViewController)Storyboard.InstantiateViewController("ContractCreationSendingTableViewController");
+                vc.ViewModel = ViewModel;
                 ShowViewController(vc, this);
             };
 
@@ -65,15 +66,18 @@ namespace AccountExecutiveApp.iOS
 
         public async void LoadData()
         {
-            //var task = _viewModel.LoadContractCreationPayRatePage(0);
+            //var task = ViewModel.LoadContractCreationPayRatePage(0);
             //task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
-            _viewModel.Contract = new ContractCreationDetails
+            /*
+            ViewModel.Contract = new ContractCreationDetails
             {
                 JobTitle = "Developer",
                 StartDate = new DateTime(2016, 1, 22),
                 PaymentPlan = "Part Time",
                 DaysCancellation = 10
             };
+            */
+
             UpdateUserInterface();
         }
 

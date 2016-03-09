@@ -11,13 +11,13 @@ namespace AccountExecutiveApp.iOS
     [Register("ContractCreationSendingTableViewController")]
     public partial class ContractCreationSendingTableViewController : UITableViewController
     {
-        private ContractCreationViewModel _viewModel;
+        public ContractCreationViewModel ViewModel;
         private ContractCreationSendingTableViewSource _tableSource;
 
         public ContractCreationSendingTableViewController(IntPtr handle)
             : base(handle)
         {
-            _viewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
+            //ViewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -45,7 +45,7 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-            _tableSource = new ContractCreationSendingTableViewSource(this, _viewModel);
+            _tableSource = new ContractCreationSendingTableViewSource(this, ViewModel);
             TableView.Source = _tableSource;
             TableView.AllowsSelection = false;
             TableView.SeparatorColor = UIColor.Clear;
@@ -63,15 +63,16 @@ namespace AccountExecutiveApp.iOS
 
         public async void LoadData()
         {
-            //var task = _viewModel.LoadContractCreationPayRatePage(0);
+            //var task = ViewModel.LoadContractCreationPayRatePage(0);
             //task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
-            _viewModel.Contract = new ContractCreationDetails
+           /*
+            ViewModel.Contract = new ContractCreationDetails
             {
                 JobTitle = "Developer",
                 StartDate = new DateTime(2016, 1, 22),
                 PaymentPlan = "Part Time",
                 DaysCancellation = 10
-            };
+            };*/
             UpdateUserInterface();
         }
 

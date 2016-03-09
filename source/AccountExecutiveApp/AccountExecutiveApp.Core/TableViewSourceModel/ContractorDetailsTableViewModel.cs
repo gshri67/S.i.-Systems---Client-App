@@ -6,7 +6,7 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 {
     public class ContractorDetailsTableViewModel
     {
-        private Contractor _contractor;
+        public Contractor _contractor;
 
         public ContractorDetailsTableViewModel( Contractor contractor )
         {

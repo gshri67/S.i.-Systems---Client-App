@@ -139,7 +139,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Send consultant e-contract to ________", new List<string> { "Yes", "No" }, 0);
+            cell.UpdateCell( string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), new List<string> { "Yes", "No" }, 0);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.IsSendingConsultantContract = (newValue == "Yes"); };
 
             return cell;
@@ -193,7 +193,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Send e-contract to: ____", new List<string> { "Yes", "No" }, 0);
+            cell.UpdateCell( string.Format( "Send e-contract to: {0}", "_____" ), new List<string> { "Yes", "No" }, 0);
             cell.OnValueChanged += delegate(string newValue)
             {
                 bool isSending = (newValue == "Yes");
@@ -232,10 +232,10 @@ namespace AccountExecutiveApp.iOS
         {
             EditableTextFieldCell cell =
                 (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Reason Summary:", "Client Contact is on vacation");
+            cell.UpdateCell("Reason Summary:", _contractModel.SummaryReasonForNotSendingContract );
             cell.OnValueChanged += delegate(string newValue)
             {
-               // _contractModel.InvoiceRecipients = newValue;
+                _contractModel.SummaryReasonForNotSendingContract = newValue;
             };
 
             return cell;

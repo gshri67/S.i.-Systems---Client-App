@@ -72,7 +72,8 @@ namespace AccountExecutiveApp.iOS
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 TextAlignment = UITextAlignment.Left,
                 Font = UIFont.FromName("Helvetica", 16f),
-                TextColor = UIColor.Black
+                TextColor = UIColor.Black,
+                Lines = 0
             };
             AddSubview(MainTextLabel);
         }

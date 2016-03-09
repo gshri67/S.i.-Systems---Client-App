@@ -27,7 +27,13 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { _contractOptions = value ?? new ContractCreationOptions(); }
         }
 
-        public ContractCreationViewModel(IMatchGuideApi api)
+        public string ConsultantName
+        {
+            get { return Contract.ConsultantName; }
+            set { Contract.ConsultantName = value; }
+        }
+
+        public ContractCreationViewModel(IMatchGuideApi api )
         {
             _api = api;
         }
@@ -221,6 +227,12 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { Contract.ReasonForNotSendingContract = value; }
         }
 
+        public string SummaryReasonForNotSendingContract
+        {
+            get { return Contract.SummaryReasonForNotSendingContract; }
+            set { Contract.SummaryReasonForNotSendingContract = value; }
+        }
+
         #region SupportData
 
         public List<string> TimeFactorOptions { get { return new List<string>(new string[] { "Full Time", "Half Time", "Part Time" }); } }
@@ -348,7 +360,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         public List<string> BillingContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
         public List<string> ReasonForNotSendingContractOptions { get { return new List<string>(new string[] { "Client has a master agreement(MSA, VMS, etc.)", "Client has provided their own contract", "Other" }); } }
 
-#endregion
+        #endregion
 
 
         private int IndexSelectionFromOptions( List<string> options, string value )

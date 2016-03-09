@@ -12,6 +12,7 @@ namespace AccountExecutiveApp.iOS
 	public partial class ContractCreationDetailsTableViewController : UITableViewController
 	{
 	    ContractCreationViewModel _viewModel;
+	    private Contractor _contractor;
 
 	    public ContractCreationDetailsTableViewController(IntPtr handle)
 	        : base(handle)
@@ -27,7 +28,12 @@ namespace AccountExecutiveApp.iOS
 			// Release any cached data, images, etc that aren't in use.
 		}
 
-		private void InstantiateTableViewSource()
+	    public void SetConsultant( Contractor contractor )
+	    {
+	        _contractor = contractor;
+	    }
+
+	    private void InstantiateTableViewSource()
 		{
 			if (TableView == null)
 				return;
@@ -52,7 +58,11 @@ namespace AccountExecutiveApp.iOS
 		    continueBar.Frame = new CGRect(0, 0, 100, 50);
             continueBar.NextButton.TouchUpInside += delegate
             {
+                if (_contractor != null)
+                    _viewModel.ConsultantName = _contractor.ContactInformation.FullName;
+
                 var vc = (ContractCreationPayRatesTableViewController)Storyboard.InstantiateViewController("ContractCreationPayRatesTableViewController");
+                vc.ViewModel = _viewModel;
                 ShowViewController(vc, this);
             };
 

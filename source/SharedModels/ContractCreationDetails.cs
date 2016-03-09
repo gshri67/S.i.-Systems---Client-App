@@ -6,6 +6,9 @@ namespace SiSystems.SharedModels
 {
     public class ContractCreationDetails
     {
+        public string ConsultantName { get; set; }
+
+        //First Page
         public string JobTitle { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -40,9 +43,12 @@ namespace SiSystems.SharedModels
         public string ClientContractContact { get; set; }
         public bool IsSendingClientContract { get; set; }
         public string ReasonForNotSendingContract { get; set; }
+        public string SummaryReasonForNotSendingContract { get; set; }
 
         public ContractCreationDetails()
         {
+            ConsultantName = string.Empty;
+
             JobTitle = string.Empty;
             StartDate = DateTime.Now;
             EndDate = DateTime.Now;
@@ -66,6 +72,16 @@ namespace SiSystems.SharedModels
             ProposedRates = Enumerable.Empty<string>();
             GrossMargins = Enumerable.Empty<string>();
             PrimaryRateIndex = 0;
+
+            IsSendingConsultantContract = true;
+            ClientContactName = string.Empty;
+            DirectReportName = string.Empty;
+            BillingContactName = string.Empty;
+            InvoiceRecipients = string.Empty;
+            ClientContractContact = string.Empty;
+            IsSendingClientContract = true;
+            ReasonForNotSendingContract = string.Empty;
+            SummaryReasonForNotSendingContract = string.Empty;
         }
     }
 }

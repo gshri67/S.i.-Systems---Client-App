@@ -125,12 +125,12 @@ namespace AccountExecutiveApp.iOS
 		                    _parentController.Storyboard.InstantiateViewController(
 		                        "ContractCreationDetailsTableViewController");
 
-		            //_parentController.ShowViewController(vc, _parentController);
-		            //_parentController.PresentViewController( vc, true, null);
+                    vc.SetConsultant(_tableModel._contractor);
 
 		            UINavigationController navVc = new UINavigationController(vc);
 
 		            _parentController.PresentViewController(navVc, true, null);
+
 		        };
 
 		        return headerView;
