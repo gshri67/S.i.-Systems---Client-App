@@ -328,6 +328,14 @@
       <DependentUpon>ContractCreationDetailsTableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Contract Creation\ContractCreationDetailsTableViewSource.cs" />
+    <Compile Include="EditableFullTextFieldCell.cs" />
+    <Compile Include="EditableFullTextFieldCell.designer.cs">
+      <DependentUpon>EditableFullTextFieldCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditableDoublePickerCell.cs" />
+    <Compile Include="EditableDoublePickerCell.designer.cs">
+      <DependentUpon>EditableDoublePickerCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
