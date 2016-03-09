@@ -121,7 +121,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 var submittedTimesheetId = db.Connection.Query<int>(query, new
                 {
-                    @agreementid = timesheet.ContractId,
+                    @agreementid = timesheet.AgreementId,
                     @olddirectreportuserid = previousDirectReportId,
                     @newdirectreportuserid = timesheet.TimesheetApprover.Id,
                     @updateuserid = currentUserId,

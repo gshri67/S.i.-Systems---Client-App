@@ -43,7 +43,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 const string query =
                         @"SELECT TimeSheetID AS Id
                                 ,Company.CompanyName AS ClientName
-                                ,Times.AgreementId as ContractId
+                                ,Times.AgreementId as AgreementId
                                 ,StatusID AS Status
                                 ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
 	                            ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
@@ -89,7 +89,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     OpenStatusId = ts.TimesheetTempID,
                     Status = MatchGuideConstants.TimesheetStatus.Open,
                     ClientName = ts.ClientName,
-                    ContractId = ts.agreementid, //note that with this SP we could get ContractID or AgreementID
+                    AgreementId = ts.agreementid, //note that with this SP we could get ContractID or AgreementID
                     StartDate = ts.tsStartDate,
                     EndDate = ts.tsEndDate,
                     AvailableTimePeriodId = GetTimePeriodId(ts.tsStartDate, ts.tsEndDate),
@@ -151,9 +151,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     new Timesheet
                     {
                         Id = ts.TimesheetID,
-                        ContractId = GetAgreementIdByTimeSheetId(ts.TimesheetID), 
+                        AgreementId = GetAgreementIdByTimeSheetId(ts.TimesheetID), 
+                        
                         Status = (MatchGuideConstants.TimesheetStatus) ts.timesheetStatus, 
-                        ClientName = ts.CompanyName, StartDate = StartDateFromPeriodDate(ts.payPeriod), 
+                        ClientName = ts.CompanyName, 
+                        StartDate = StartDateFromPeriodDate(ts.payPeriod), 
                         EndDate = EndDateFromPeriodDate(ts.payPeriod)
                     }
                 );
@@ -206,7 +208,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 const string query =
                         @"SELECT TimeSheetID AS Id
                                 ,Company.CompanyName AS ClientName
-                                ,Times.AgreementId as ContractId
+                                ,Times.AgreementId as AgreementId
                                 ,StatusID AS Status
                                 ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
 	                            ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
@@ -291,7 +293,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 var savedTimesheetTempId = db.Connection.Query<int>(query, new
                 {
                     aCandidateUserId  = userId,
-                    aContractID = timesheet.ContractId,
+                    aContractID = timesheet.AgreementId,
                     aTSAvailablePeriodID = timesheet.AvailableTimePeriodId,
                     aQuickPay = (int?)null,
                     aTSID = IntegerOrNullIfZero(timesheet.Id),
@@ -321,17 +323,16 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                           ,@TSstatus
                      SET @newTSID =  @@identity                  
                      SELECT @newTSID as TimesheetId";
-                var status = MatchGuideConstants.TimesheetStatus.Approved;
                 var savedTimesheetTempId = db.Connection.Query<int>(query, new
                 {
                     aTimesheetId = IntegerOrNullIfZero(timesheet.Id),
                     aCandidateUserId = userId,
-                    aContractID = timesheet.ContractId,
+                    aContractID = timesheet.AgreementId,
                     aTimesheetavailableperiodid = timesheet.AvailableTimePeriodId,
                     aTSSubmittedName = (string)null, //Name of the Submitted PDF
                     verticalId = MatchGuideConstants.VerticalId.IT,
                     aTimesheetType = "ETimesheet",
-                    TSstatus = status.ToString()
+                    TSstatus = "Approved"
                 }).FirstOrDefault();
 
                 return savedTimesheetTempId;
@@ -362,7 +363,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 var submittedTimesheetId = db.Connection.Query<int>(query, new
                 {
                     aCandidateUserId = userId,
-                    aContractID = timesheet.ContractId,
+                    aContractID = timesheet.AgreementId,
                     aTSType = "ETimesheet",//MatchGuideConstants.TimesheetType.ETimesheet.ToString(), 
                     aTSAvailablePeriodID = timesheet.AvailableTimePeriodId,
                     aQuickPay = 0, 

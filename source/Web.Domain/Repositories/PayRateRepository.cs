@@ -40,7 +40,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 var rateId = db.Connection.Query<int>(query, new
                 {
-                    AgreementId = timesheet.ContractId,
+                    AgreementId = timesheet.AgreementId,
                     TimesheetID = timesheet.Id,
                     Startdate = timesheet.StartDate,
                     Enddate = timesheet.EndDate,
@@ -78,7 +78,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 var rateId = db.Connection.Query<int>(query, new
                 {
-                    AgreementId = timesheet.ContractId,
+                    AgreementId = timesheet.AgreementId,
                     TimesheetID = timesheet.OpenStatusId,
                     Startdate = timesheet.StartDate,
                     Enddate = timesheet.EndDate,
@@ -101,7 +101,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 var projectId = db.Connection.Query<int>(query, new
                 {
-                    AgreementId = timesheet.ContractId
+                    AgreementId = timesheet.AgreementId
                 });
 
                 return projectId;

@@ -101,7 +101,7 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task LoadTimesheetApprovers()
         {
-            _approvers = await _api.GetTimesheetApproversByAgreementId(Timesheet.ContractId);
+            _approvers = await _api.GetTimesheetApproversByAgreementId(Timesheet.AgreementId);
         }
 
 

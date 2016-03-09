@@ -87,7 +87,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             var openTimesheets = _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
             var resultingTimesheet =
-                    openTimesheets.FirstOrDefault(t => t.ContractId == originalTimesheet.ContractId 
+                    openTimesheets.FirstOrDefault(t => t.AgreementId == originalTimesheet.AgreementId 
                                                     && t.StartDate == originalTimesheet.StartDate 
                                                     && t.EndDate == originalTimesheet.EndDate);
 
@@ -100,7 +100,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
         private DirectReport TimesheetApproverForOpenTimesheet(Timesheet timesheet)
         {
             return timesheet.OpenStatusId == 0 
-                ? _directReportRepository.GetTimesheetApproverByAgreementId(timesheet.ContractId) 
+                ? _directReportRepository.GetTimesheetApproverByAgreementId(timesheet.AgreementId) 
                 : _directReportRepository.GetTimesheetApproverByOpenTimesheetId(timesheet.OpenStatusId);
         }
 

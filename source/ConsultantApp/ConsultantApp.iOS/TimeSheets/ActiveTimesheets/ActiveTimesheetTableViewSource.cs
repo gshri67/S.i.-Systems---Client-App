@@ -75,7 +75,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		    cell.UpdateCell(
 		        company: timesheet.ClientName,
-                subtitleText: string.Format("Contract: {0}", timesheet.ContractId.ToString()) ?? string.Empty,
+                subtitleText: string.Format("Contract: {0}", timesheet.AgreementId.ToString()) ?? string.Empty,
 		        hours: timesheet.TimeEntries.Sum(t => t.Hours).ToString(),
 		        status: StatusTextToDisplay(timesheet.Status)
 		        );
