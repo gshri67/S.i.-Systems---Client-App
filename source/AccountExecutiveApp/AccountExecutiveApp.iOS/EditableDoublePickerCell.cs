@@ -100,10 +100,11 @@ namespace AccountExecutiveApp.iOS
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 TextAlignment = UITextAlignment.Right,
                 Font = UIFont.FromName("Helvetica", 14f),
-                TextColor = StyleGuideConstants.MediumGrayUiColor
+                TextColor = StyleGuideConstants.MediumGrayUiColor,
+                Placeholder = "Contact..."
             };
 
-            MidDetailTextField.Text = "Text Field";
+            MidDetailTextField.Text = string.Empty;
 
             _midPicker = new UIPickerView();
             _midPicker.BackgroundColor = UIColor.White;

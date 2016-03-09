@@ -235,6 +235,10 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         #region SupportData
 
+        public List<string> BooleanOptions { get { return new List<string>(new string[] { "Yes", "No" }); } }
+
+        //First Page
+
         public List<string> TimeFactorOptions { get { return new List<string>(new string[] { "Full Time", "Half Time", "Part Time" }); } }
         public int TimeFactorSelectedIndex { get { return IndexSelectionFromOptions(TimeFactorOptions, TimeFactor); } }
 
@@ -355,13 +359,25 @@ namespace AccountExecutiveApp.Core.ViewModel
         public int RateDescriptionSelectedIndexAtIndex(int index) { return IndexSelectionFromOptions(RateDescriptionOptions, RateDescriptionAtIndex(index)); }
 
         //Sending
+        public int IsSendingConsultantContractSelectedIndex { get { return IndexBooleanSelectionFromOptions(BooleanOptions, IsSendingConsultantContract); } }
+        
         public List<string> ClientContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
+        public int ClientContactNameSelectedIndex { get { return IndexSelectionFromOptions(ClientContactNameOptions, ClientContactName); } }
+
         public List<string> DirectReportNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
+        public int DirectReportNameSelectedIndex { get { return IndexSelectionFromOptions(DirectReportNameOptions, DirectReportName); } }
+
         public List<string> BillingContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
+        public int BillingContactNameSelectedIndex { get { return IndexSelectionFromOptions(BillingContactNameOptions, BillingContactName); } }
 
         public List<string> ClientContractContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
-        public List<string> ReasonForNotSendingContractOptions { get { return new List<string>(new string[] { "Client has a master agreement(MSA, VMS, etc.)", "Client has provided their own contract", "Other" }); } }
+        public int ClientContractContactNameSelectedIndex { get { return IndexSelectionFromOptions(ClientContractContactNameOptions, ClientContractContactName); } }
 
+        public List<string> ReasonForNotSendingContractOptions { get { return new List<string>(new string[] { "Client has a master agreement(MSA, VMS, etc.)", "Client has provided their own contract", "Other" }); } }
+        public int ReasonForNotSendingContractSelectedIndex { get { return IndexSelectionFromOptions(ReasonForNotSendingContractOptions, ReasonForNotSendingContract); } }
+
+        public int IsSendingContractToClientContactSelectedIndex { get { return IndexBooleanSelectionFromOptions(BooleanOptions, IsSendingContractToClientContact); } }
+        
 
         #endregion
 
@@ -373,7 +389,20 @@ namespace AccountExecutiveApp.Core.ViewModel
            
             return 0;
         }
-        
+
+        private int IndexBooleanSelectionFromOptions(List<string> options, bool booleanValue)
+        {
+            string value = BooleanOptions[0];
+
+            if (booleanValue == false)
+                value = BooleanOptions[1];
+
+            if (options != null && options.Contains(value))
+                return options.FindIndex((string option) => { return option == value; });
+
+            return 0;
+        }
+
         public Task LoadContractCreationDetails( int jobId )
         {
             GetContractCreationDetailInfo( jobId );

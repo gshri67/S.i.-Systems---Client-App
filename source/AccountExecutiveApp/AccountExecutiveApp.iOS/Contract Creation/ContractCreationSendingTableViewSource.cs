@@ -139,7 +139,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell( string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), new List<string> { "Yes", "No" }, 0);
+            cell.UpdateCell( string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.BooleanOptions, _contractModel.IsSendingConsultantContractSelectedIndex);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.IsSendingConsultantContract = (newValue == "Yes"); };
 
             return cell;
@@ -149,7 +149,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Client Contact", _contractModel.ClientContactNameOptions, 0);
+            cell.UpdateCell("Client Contact", _contractModel.ClientContactNameOptions, _contractModel.ClientContactNameSelectedIndex);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.ClientContactName = newValue; };
 
             return cell;
@@ -159,7 +159,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Direct Report", _contractModel.DirectReportNameOptions, 0);
+            cell.UpdateCell("Direct Report", _contractModel.DirectReportNameOptions, _contractModel.DirectReportNameSelectedIndex);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.DirectReportName = newValue; };
 
             return cell;
@@ -169,7 +169,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Billing Contact", _contractModel.BillingContactNameOptions, 0);
+            cell.UpdateCell("Billing Contact", _contractModel.BillingContactNameOptions, _contractModel.BillingContactNameSelectedIndex);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.BillingContactName
                 = newValue; };
 
@@ -192,7 +192,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetClientContractCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell(string.Format("Send e-contract to"), _contractModel.ClientContractContactNameOptions, 0, new List<string> { "Yes", "No" }, 0);
+            cell.UpdateCell(string.Format("Send e-contract to"), _contractModel.ClientContractContactNameOptions, _contractModel.ClientContractContactNameSelectedIndex, _contractModel.BooleanOptions, _contractModel.IsSendingContractToClientContactSelectedIndex);
 
             cell.OnMidValueChanged += delegate(string newValue)
             {
@@ -218,7 +218,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Reason:", _contractModel.ReasonForNotSendingContractOptions, 0);
+            cell.UpdateCell("Reason:", _contractModel.ReasonForNotSendingContractOptions, _contractModel.ReasonForNotSendingContractSelectedIndex);
             cell.OnValueChanged += delegate(string newValue)
             {
                 _contractModel.ReasonForNotSendingContract = newValue;
