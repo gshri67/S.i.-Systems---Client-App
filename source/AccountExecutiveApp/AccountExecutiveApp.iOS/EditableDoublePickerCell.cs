@@ -11,15 +11,25 @@ namespace AccountExecutiveApp.iOS
 		public const string CellIdentifier = "EditableDoublePickerCell";
 		public UILabel MainTextLabel;
 		public UITextField RightDetailTextField;
-		private bool shrinkRightDetailText = true;
-		public UIPickerView _picker;
-		PickerViewModel _pickerModel;
+        public UITextField MidDetailTextField;
 
-		public List<string> Values;
-		public int selectedIndex = 0;
+		private bool shrinkRightDetailText = true;
+
+        public UIPickerView _rightPicker;
+		PickerViewModel _rightPickerModel;
+
+        public UIPickerView _midPicker;
+        PickerViewModel _midPickerModel;
+
+		public List<string> RightValues;
+		public int rightSelectedIndex = 0;
+
+        public List<string> MidValues;
+        public int midSelectedIndex = 0;
 
 		public delegate void EditableCellDelegate(string newValue);
-		public EditableCellDelegate OnValueChanged;
+		public EditableCellDelegate OnMidValueChanged;
+        public EditableCellDelegate OnRightValueChanged;
 
 		public EditableDoublePickerCell(IntPtr handle)
 			: base(handle)
@@ -44,6 +54,7 @@ namespace AccountExecutiveApp.iOS
 			CreateAndAddMainTextLabel();
 
 			CreateAndAddRightDetailTextField();
+            CreateAndAddMidDetailTextField();
 		}
 
 		private void CreateAndAddRightDetailTextField()
@@ -58,16 +69,16 @@ namespace AccountExecutiveApp.iOS
 
 			RightDetailTextField.Text = "Text Field";
 
-			_picker = new UIPickerView();
-			_picker.BackgroundColor = UIColor.White;
-			_pickerModel = new PickerViewModel();
-			_picker.Model = _pickerModel;
-			RightDetailTextField.InputView = _picker;
+			_rightPicker = new UIPickerView();
+            _rightPicker.BackgroundColor = UIColor.White;
+			_rightPickerModel = new PickerViewModel();
+            _rightPicker.Model = _rightPickerModel;
+            RightDetailTextField.InputView = _rightPicker;
 
-			_pickerModel.OnValueChanged += delegate(string value)
+            _rightPickerModel.OnValueChanged += delegate(string value)
 			{
 				RightDetailTextField.Text = value;
-				OnValueChanged(value);
+				OnRightValueChanged(value);
 			};
 
 			var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, Frame.Size.Width, 44.0f));
@@ -75,19 +86,59 @@ namespace AccountExecutiveApp.iOS
 			toolbar.Items = new[]
 			{
 				new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace),
-				new UIBarButtonItem(UIBarButtonSystemItem.Done, doneButtonTapped)
+				new UIBarButtonItem(UIBarButtonSystemItem.Done, rightDoneButtonTapped)
 			};
 
 			RightDetailTextField.InputAccessoryView = toolbar;
 
 			AddSubview(RightDetailTextField);
 		}
+        private void CreateAndAddMidDetailTextField()
+        {
+            MidDetailTextField = new UITextField
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                TextAlignment = UITextAlignment.Right,
+                Font = UIFont.FromName("Helvetica", 14f),
+                TextColor = StyleGuideConstants.MediumGrayUiColor
+            };
 
-		public void doneButtonTapped(object sender, EventArgs args)
+            MidDetailTextField.Text = "Text Field";
+
+            _midPicker = new UIPickerView();
+            _midPicker.BackgroundColor = UIColor.White;
+            _midPickerModel = new PickerViewModel();
+            _midPicker.Model = _midPickerModel;
+            MidDetailTextField.InputView = _midPicker;
+
+            _midPickerModel.OnValueChanged += delegate(string value)
+            {
+                MidDetailTextField.Text = value;
+                OnMidValueChanged(value);
+            };
+
+            var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, Frame.Size.Width, 44.0f));
+
+            toolbar.Items = new[]
+			{
+				new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace),
+				new UIBarButtonItem(UIBarButtonSystemItem.Done, midDoneButtonTapped)
+			};
+
+            MidDetailTextField.InputAccessoryView = toolbar;
+
+            AddSubview(MidDetailTextField);
+        }
+
+
+		public void rightDoneButtonTapped(object sender, EventArgs args)
 		{
 			RightDetailTextField.ResignFirstResponder();
 		}
-
+        public void midDoneButtonTapped(object sender, EventArgs args)
+        {
+            MidDetailTextField.ResignFirstResponder();
+        }
 
 		private void CreateAndAddMainTextLabel()
 		{
@@ -108,13 +159,20 @@ namespace AccountExecutiveApp.iOS
 			{
 				RightDetailTextField.AdjustsFontSizeToFitWidth = true;
 				RightDetailTextField.MinimumFontSize = 10;
+
+                MidDetailTextField.AdjustsFontSizeToFitWidth = true;
+                MidDetailTextField.MinimumFontSize = 10;
+
+
 				AddMainTextLabelConstraintsWithShrunkRightDetail();
+                AddMidDetailTextLabelConstraints();
 				AddShrunkRightDetailTextLabelConstraints();
 			}
 			else
 			{
 				AddRightDetailTextLabelConstraints();
 				AddMainTextLabelConstraints();
+                AddMidDetailTextLabelConstraints();
 			}
 		}
 
@@ -140,28 +198,56 @@ namespace AccountExecutiveApp.iOS
 		private void AddShrunkRightDetailTextLabelConstraints()
 		{
 			AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 15f));
+			AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, MidDetailTextField, NSLayoutAttribute.Right, 1.0f, 10f));
 			AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
 		}
 
-		public void UpdateCell(string mainText, List<string> newValues, int newSelectedIndex)
+        private void AddMidDetailTextLabelConstraints()
+        {
+            AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.CenterY, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.Width, NSLayoutRelation.GreaterThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 50f));
+        }
+        /*
+        private void AddMidRightDetailTextLabelConstraints()
+        {
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 15f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
+        }*/
+
+        public void UpdateCell(string mainText, List<string> newMidValues, int newMidSelectedIndex, List<string> newRightValues, int newRightSelectedIndex)
 		{
 			Console.WriteLine("Updating Cell ");
 
 			MainTextLabel.Text = mainText;
-			RightDetailTextField.Text = newValues[newSelectedIndex];
+			RightDetailTextField.Text = newRightValues[newRightSelectedIndex];
 
-			Values = newValues;
-			selectedIndex = newSelectedIndex;
+			MidValues = newMidValues;
+			midSelectedIndex = newMidSelectedIndex;
 
-			List<List<string>> items = new List<List<string>>();
-			items.Add(Values);
+			List<List<string>> midItems = new List<List<string>>();
+			midItems.Add(MidValues);
 
-			if (_picker != null && _pickerModel != null)
+			if (_midPicker != null && _midPickerModel != null)
 			{
-				_pickerModel.items = items;
-				_pickerModel.scrollToItemIndex( _picker, newSelectedIndex, 0);
+				_midPickerModel.items = midItems;
+				_midPickerModel.scrollToItemIndex( _midPicker, newMidSelectedIndex, 0);
 			}
+
+
+
+            RightValues = newRightValues;
+			rightSelectedIndex = newRightSelectedIndex;
+
+			List<List<string>> rightItems = new List<List<string>>();
+			rightItems.Add(RightValues);
+
+            if (_rightPicker != null && _rightPickerModel != null)
+            {
+                _rightPickerModel.items = midItems;
+                _rightPickerModel.scrollToItemIndex(_rightPicker, newRightSelectedIndex, 0);
+            }
 		}
 	}
 }

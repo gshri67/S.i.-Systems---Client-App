@@ -191,6 +191,28 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetClientContractCell(UITableView tableView, NSIndexPath indexPath)
         {
+            EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell(string.Format("Send e-contract to"), new List<string> { "Bob Smith", "Fred Flinstone" }, 0, new List<string> { "Yes", "No" }, 0);
+
+            cell.OnMidValueChanged += delegate(string newValue)
+            {
+            };
+            
+            cell.OnRightValueChanged += delegate(string newValue)
+            {
+                bool isSending = (newValue == "Yes");
+                _contractModel.IsSendingContractToClientContact = isSending;
+
+                if (isSending == false)
+                {
+                    _showClientContractCellReason = true;
+                    tableView.ReloadData();
+                }
+            };
+
+            return cell;
+
+            /*
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell( string.Format( "Send e-contract to: {0}", "_____" ), new List<string> { "Yes", "No" }, 0);
@@ -207,6 +229,7 @@ namespace AccountExecutiveApp.iOS
             };
 
             return cell;
+             */
         }
 
         private UITableViewCell GetReasonCell(UITableView tableView, NSIndexPath indexPath)
