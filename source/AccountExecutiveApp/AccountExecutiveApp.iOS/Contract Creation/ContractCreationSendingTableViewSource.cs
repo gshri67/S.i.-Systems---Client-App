@@ -204,11 +204,7 @@ namespace AccountExecutiveApp.iOS
                 bool isSending = (newValue == "Yes");
                 _contractModel.IsSendingContractToClientContact = isSending;
 
-                if (isSending == false)
-                {
-                    _showClientContractCellReason = true;
-                    tableView.ReloadData();
-                }
+                EvaluateDynamicCells( tableView );
             };
 
             return cell;
@@ -223,11 +219,7 @@ namespace AccountExecutiveApp.iOS
             {
                 _contractModel.ReasonForNotSendingContract = newValue;
 
-                if (newValue == "Other")
-                {
-                    _showClientContractOtherReason = true;
-                    tableView.ReloadData();
-                }
+                EvaluateDynamicCells( tableView );
             };
 
             return cell;
@@ -244,6 +236,30 @@ namespace AccountExecutiveApp.iOS
 
             return cell;
         }
+
+        private void EvaluateDynamicCells(UITableView tableView)
+        {
+            bool isSending = _contractModel.IsSendingContractToClientContact;
+
+            _showClientContractCellReason = !isSending;
+
+            if (isSending == true)
+                _showClientContractOtherReason = false;
+
+            if (isSending == false)
+            {
+                if (_contractModel.ReasonForNotSendingContract == "Other")
+                    _showClientContractOtherReason = true;
+                else
+                    _showClientContractOtherReason = false;
+            }
+
+            if (!_showClientContractOtherReason)
+                _contractModel.SummaryReasonForNotSendingContract = string.Empty;//reset summary reason if there is no reason anymore
+
+            tableView.ReloadData();
+        }
+
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
