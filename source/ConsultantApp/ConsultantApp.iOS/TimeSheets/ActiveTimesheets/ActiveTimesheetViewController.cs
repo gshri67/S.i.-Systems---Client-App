@@ -34,9 +34,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
 			TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
-
-            //InitiatePayPeriodLoading();
-	        //InitiateConsultantDetailsLoading();
 		}
 
 
