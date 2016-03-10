@@ -409,6 +409,11 @@
     <BundleResource Include="Resources\LinkedInLogo.png" />
     <Content Include="iTunesMetadata.plist" />
     <BundleResource Include="Resources\ios7-arrow-forward.png" />
+    <BundleResource Include="Resources\congruent_pentagon.png" />
+    <BundleResource Include="Resources\subtle_dots_%402X.png" />
+    <BundleResource Include="Resources\worn_dots_%402X.png" />
+    <BundleResource Include="Resources\worn_dots.png" />
+    <BundleResource Include="Resources\subtle_dots.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">

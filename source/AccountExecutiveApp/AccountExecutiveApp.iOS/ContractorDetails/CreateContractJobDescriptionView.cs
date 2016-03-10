@@ -32,7 +32,10 @@ namespace AccountExecutiveApp.iOS
 
         private void InitializeCell()
         {
-            BackgroundColor = UIColor.FromWhiteAlpha(0.95f, 1.0f);
+            //UIImage backgroundImage = UIImage.FromFile("congruent_pentagon");
+            UIImage backgroundImage = UIImage.FromFile("subtle_dots");
+            //UIImage backgroundImage = UIImage.FromFile("worn_dots");
+            BackgroundColor = UIColor.FromPatternImage(backgroundImage);
 
             ContainerView = new UIView();
             ContainerView.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -40,6 +43,7 @@ namespace AccountExecutiveApp.iOS
 
             TextView = new ContractCreationDetailsHeaderView(_description);
             TextView.TranslatesAutoresizingMaskIntoConstraints = false;
+            TextView.BackgroundColor = UIColor.Clear;
             ContainerView.AddSubview(TextView);
 
             CreateContractButton = new BorderedButton();
@@ -47,6 +51,8 @@ namespace AccountExecutiveApp.iOS
             CreateContractButton.SetTitleColor(StyleGuideConstants.RedUiColor, UIControlState.Normal);
             CreateContractButton.TranslatesAutoresizingMaskIntoConstraints = false;
             ContainerView.AddSubview(CreateContractButton);
+
+            CreateContractButton.BackgroundColor = UIColor.White;
 
             SetupConstraints();
         }
@@ -69,10 +75,11 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(CreateContractButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, TextView, NSLayoutAttribute.Bottom, 1.0f, separation/2));
             AddConstraint(NSLayoutConstraint.Create(CreateContractButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 45));
 
-
+            //Pin to subviews
             AddConstraint(NSLayoutConstraint.Create(ContainerView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, TextView, NSLayoutAttribute.Top, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(ContainerView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, CreateContractButton, NSLayoutAttribute.Bottom, 1.0f, 0f));
 
+            //Make sure it's no bigger than superview
             AddConstraint(NSLayoutConstraint.Create(ContainerView, NSLayoutAttribute.Top, NSLayoutRelation.GreaterThanOrEqual, this, NSLayoutAttribute.Top, 1.0f, 4f));
             AddConstraint(NSLayoutConstraint.Create(ContainerView, NSLayoutAttribute.Bottom, NSLayoutRelation.LessThanOrEqual, this, NSLayoutAttribute.Bottom, 1.0f, -4f));
         }
