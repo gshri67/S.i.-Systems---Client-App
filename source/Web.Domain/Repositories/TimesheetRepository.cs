@@ -87,7 +87,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     OpenStatusId = ts.TimesheetTempID,
                     Status = MatchGuideConstants.TimesheetStatus.Open,
                     ClientName = ts.ClientName,
-                    AgreementId = ts.agreementid, //note that with this SP we could get ContractID or AgreementID
+                    AgreementId = ts.agreementid,
+                    ContractId = ts.contractid,
                     AgreementStartDate = AgreementStartDateByAgreementId(ts.agreementid),
                     AgreementEndDate = AgreementEndDateByAgreementId(ts.agreementid),
                     StartDate = ts.tsStartDate,
@@ -188,6 +189,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     {
                         Id = ts.TimesheetID, 
                         AgreementId = agreementId, 
+                        ContractId = ts.ContractID,
                         AgreementStartDate = agreementStartDate, 
                         AgreementEndDate = agreementEndDate, 
                         Status = (MatchGuideConstants.TimesheetStatus) ts.timesheetStatus, 

@@ -73,7 +73,8 @@ namespace SiSystems.SharedModels
 	{
         public int Id { get; set; }
         public string ClientName { get; set; }
-        public int AgreementId { get; set; } 
+        public int AgreementId { get; set; }
+        public int ContractId { get; set; }
         public DateTime AgreementStartDate { get; set; }
         public DateTime AgreementEndDate { get; set; }
 
