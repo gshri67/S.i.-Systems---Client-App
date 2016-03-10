@@ -32,9 +32,7 @@ namespace AccountExecutiveApp.iOS
 
         private void InitializeCell()
         {
-            //UIImage backgroundImage = UIImage.FromFile("congruent_pentagon");
             UIImage backgroundImage = UIImage.FromFile("subtle_dots");
-            //UIImage backgroundImage = UIImage.FromFile("worn_dots");
             BackgroundColor = UIColor.FromPatternImage(backgroundImage);
 
             ContainerView = new UIView();

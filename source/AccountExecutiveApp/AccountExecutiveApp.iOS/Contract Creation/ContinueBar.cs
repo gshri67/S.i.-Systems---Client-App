@@ -56,7 +56,7 @@ namespace AccountExecutiveApp.iOS
 
             UIView LineView = new UIView(new CGRect(0, 0, 200, 1));
             LineView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
-            LineView.BackgroundColor = UIColor.Black;
+            LineView.BackgroundColor = UIColor.FromWhiteAlpha(0.75f, 1.0f);
             AddSubview(LineView);
         }
     }

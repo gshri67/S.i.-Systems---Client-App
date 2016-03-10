@@ -110,18 +110,30 @@ namespace AccountExecutiveApp.iOS
         {
             return 35;
         }
-
+        /*
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
             return 15;
         }
-
+        */
         public void AddRatesSection(UITableView tableView)
         {
             _numRateSections ++;
             _contractModel.AddRate();
 
             tableView.ReloadData();
+        }
+
+        public override string TitleForHeader(UITableView tableView, nint section)
+        {
+            return string.Format("Pay Rate {0}", (int) section);
+        }
+
+        public override UIView GetViewForHeader(UITableView tableView, nint section)
+        {
+            UILabel sectionLabel = new UILabel();
+            sectionLabel.Text = string.Format("Pay Rate {0}", (int) section);
+            return sectionLabel;
         }
     }
 }
