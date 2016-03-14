@@ -35,7 +35,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             return new TimesheetSupport
             {
-                ProjectCodeOptions = projectCodeRateDetails
+                ProjectCodeOptions = projectCodeRateDetails.ToList()
             };
         }
     }
