@@ -58,8 +58,8 @@ namespace AccountExecutiveApp.iOS
             continueBar.Frame = new CGRect(0, 0, 100, 50);
             continueBar.NextButton.TouchUpInside += delegate
             {
-                //var vc = (ContractCreationPayRatesTableViewController)Storyboard.InstantiateViewController("ContractCreationPayRatesTableViewController");
-                //ShowViewController(vc, this);
+				var vc = (ContractCreationReviewTableViewController)Storyboard.InstantiateViewController("ContractCreationReviewTableViewController");
+                ShowViewController(vc, this);
             };
 
             TableView.TableFooterView = continueBar;

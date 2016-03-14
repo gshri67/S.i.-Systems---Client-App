@@ -337,6 +337,11 @@
     <Compile Include="Custom Components\EditableDoublePickerCell.designer.cs">
       <DependentUpon>EditableDoublePickerCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Contract Creation\ContractCreationReviewTableViewController.cs" />
+    <Compile Include="Contract Creation\ContractCreationReviewTableViewController.designer.cs">
+      <DependentUpon>ContractCreationReviewTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contract Creation\ContractCreationReviewTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
