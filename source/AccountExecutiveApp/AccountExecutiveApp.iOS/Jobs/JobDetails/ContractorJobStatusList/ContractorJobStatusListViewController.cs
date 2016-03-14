@@ -31,6 +31,8 @@ namespace AccountExecutiveApp.iOS
         {
             IndicateLoading();
             _status = status;
+            InvokeOnMainThread(UpdatePageTitle);
+
             _viewModel.JobTitle = jobTitle;
             var task = _viewModel.LoadContractorsWithJobIDAndStatusAndClientName( Id, status, clientName );
             task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
@@ -61,10 +63,7 @@ namespace AccountExecutiveApp.iOS
             base.ViewDidLoad();
 
             SearchManager.CreateNavBarRightButton(this);
-
-			UpdatePageTitle ();
-			CreateCustomTitleBar ();
-            //UpdateUserInterface();
+            CreateCustomTitleBar();
         }
 
 
@@ -80,6 +79,8 @@ namespace AccountExecutiveApp.iOS
 					Title = "Shortlisted Contractors";
 
 			    Subtitle = _viewModel.ClientName;
+
+                UpdateCustomTitleBar();
 			}
 		}
 
@@ -95,6 +96,12 @@ namespace AccountExecutiveApp.iOS
 					NavigationItem.Title = "";
 				});
 		}
+        private void UpdateCustomTitleBar()
+        {
+            if( _subtitleHeaderView != null )
+            _subtitleHeaderView.TitleText = Title;
+            _subtitleHeaderView.SubtitleText = Subtitle;
+        }
 
 
         #region Overlay
