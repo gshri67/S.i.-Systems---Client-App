@@ -154,6 +154,7 @@ namespace AccountExecutiveApp.iOS
                 tableView.DeleteSections( NSIndexSet.FromIndex(section), UITableViewRowAnimation.Automatic );
 
                 deletingSectionIndex = -1;
+                _contractModel.DeleteRate((int)section);
                
 
                 //var vc = (ContractCreationSendingTableViewController)Storyboard.InstantiateViewController("ContractCreationSendingTableViewController");

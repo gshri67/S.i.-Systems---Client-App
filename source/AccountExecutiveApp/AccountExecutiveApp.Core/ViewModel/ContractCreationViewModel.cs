@@ -158,6 +158,8 @@ namespace AccountExecutiveApp.Core.ViewModel
             Contract.PrimaryRateIndex = index;
         }
 
+        public int NumRates = 0;
+
         public void AddRate()
         {
             List<string> rateTypelist = Contract.RateTypes.ToList();
@@ -171,8 +173,27 @@ namespace AccountExecutiveApp.Core.ViewModel
             List<string> billRateList = Contract.BillRates.ToList();
             billRateList.Add(string.Empty);
             Contract.BillRates = billRateList.AsEnumerable();
+
+            NumRates ++;
         }
 
+        public void DeleteRate( int index )
+        {
+            if (index >= 0 && index < NumRates)
+            {
+                List<string> rateTypelist = Contract.RateTypes.ToList();
+                rateTypelist.RemoveAt(index);
+                Contract.RateTypes = rateTypelist.AsEnumerable();
+
+                List<string> rateDesclist = Contract.RateDescriptions.ToList();
+                rateDesclist.RemoveAt(index);
+                Contract.RateDescriptions = rateDesclist.AsEnumerable();
+
+                List<string> billRateList = Contract.BillRates.ToList();
+                billRateList.RemoveAt(index);
+                Contract.BillRates = billRateList.AsEnumerable();
+            }
+        }
 
         /*
         public string JobTitle
