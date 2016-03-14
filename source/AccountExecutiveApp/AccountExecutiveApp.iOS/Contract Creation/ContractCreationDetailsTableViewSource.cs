@@ -353,20 +353,18 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetProjectCodesCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditableBooleanCell cell =
-                (EditableBooleanCell) tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Project/PO codes required", _contractModel.UsingProjectCode);
-            cell.OnValueChanged += delegate(bool newValue) { _contractModel.UsingProjectCode = newValue; };
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Project/PO codes required", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.UsingProjectCode));
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.UsingProjectCode = (newValue == "Yes"); };
 
             return cell;
         }
 
         private UITableViewCell GetQuickPayCell(UITableView tableView, NSIndexPath indexPath)
-        {
-            EditableBooleanCell cell =
-                (EditableBooleanCell) tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Quick Pay", _contractModel.UsingQuickPay);
-            cell.OnValueChanged += delegate(bool newValue) { _contractModel.UsingQuickPay = newValue; };
+        {            
+            EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Quick Pay", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.UsingQuickPay));
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.UsingQuickPay = (newValue == "Yes"); };
 
             return cell;
         }

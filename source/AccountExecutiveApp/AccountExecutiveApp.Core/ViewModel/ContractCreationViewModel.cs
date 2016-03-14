@@ -260,6 +260,13 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public List<string> BooleanOptions { get { return new List<string>(new string[] { "Yes", "No" }); } }
 
+        public int BooleanOptionIndex( bool value )
+        {
+            if (value == true)
+                return 0;
+            return 1;
+        }
+
         //First Page
 
         public List<string> TimeFactorOptions { get { return new List<string>(new string[] { "Full Time", "Half Time", "Part Time" }); } }
