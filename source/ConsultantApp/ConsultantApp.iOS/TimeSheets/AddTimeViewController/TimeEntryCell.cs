@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using UIKit;
 using Foundation;
 using SiSystems.SharedModels;
@@ -50,11 +51,16 @@ namespace ConsultantApp.iOS
             hoursField.Text = "8";
             hoursField.TranslatesAutoresizingMaskIntoConstraints = false;
             hoursField.TextAlignment = UITextAlignment.Right;
+
+            hoursField.EditingChanged += delegate
+            {
+                if (!HoursAreValid())
+                    NotifyOfInvalidHoursAndSetToClosestValidHours();
+            };
+
             hoursField.EditingDidEnd += delegate
             {
-                Entry.Hours = ValidatedHours();
-
-                EntryChanged(Entry);
+                SetHoursAndChangeEntry();
             };
 
 			hoursField.EditingDidBegin += delegate {
@@ -81,21 +87,48 @@ namespace ConsultantApp.iOS
             setupConstraints();
         }
 
+        private void NotifyOfInvalidHoursAndSetToClosestValidHours()
+        {
+            hoursField.Text = ValidatedHours().ToString(CultureInfo.InvariantCulture);
+        }
+
+        private void SetHoursAndChangeEntry()
+        {
+            Entry.Hours = ValidatedHours();
+
+            EntryChanged(Entry);
+        }
+
+        private bool HoursAreValid()
+        {
+            return !(TooFewHours() || TooManyHours());
+        }
+
         private float ValidatedHours()
         {
             var hours = HoursEnteredIfParsable();
 
-            if (hours < 0)
+            if (TooFewHours())
             {
                 AlertOfMinimumValue();
                 hours = 0;
-            } else if (hours > _maxNumberOfHours)
+            } else if (TooManyHours())
             {
                 AlertOfMaximumValue();
                 hours = _maxNumberOfHours;
             }
 
             return hours;
+        }
+
+        private bool TooManyHours()
+        {
+            return HoursEnteredIfParsable() > _maxNumberOfHours;
+        }
+
+        private bool TooFewHours()
+        {
+            return HoursEnteredIfParsable() < 0;
         }
 
         private void AlertOfMinimumValue()
