@@ -290,9 +290,9 @@ namespace ConsultantApp.Core.ViewModels
             return entries.Sum(time=>time.Hours);   
 	    }
         
-	    public void AddTimeEntry(TimeEntry newEntry)
+	    public void AddDefaultTimeEntry()
 	    {
-            Timesheet.TimeEntries.Add(newEntry);
+            Timesheet.TimeEntries.Add(DefaultNewEntry());
 	    }
 
         public bool SelectedDateHasUnpopulatedRateCodes()
@@ -313,14 +313,19 @@ namespace ConsultantApp.Core.ViewModels
 	            SelectedDate = SelectedDate.AddDays(1);
 	    }
 
+	    private bool TodayHasValidNumberOfHours()
+	    {
+	        return Timesheet.TimeEntries.Where(entry => entry.EntryDate == SelectedDate).Sum(entry => entry.Hours) <= 24;
+	    }
+
 	    public bool CanNavigteToNextDay()
 	    {
-	        return DateIsContainedWithinTimesheet(SelectedDate.AddDays(1));
+	        return DateIsContainedWithinTimesheet(SelectedDate.AddDays(1)) && TodayHasValidNumberOfHours();
 	    }
 
 	    public bool CanNavigateToPreviousDay()
 	    {
-	        return DateIsContainedWithinTimesheet(SelectedDate.AddDays(-1));
+            return DateIsContainedWithinTimesheet(SelectedDate.AddDays(-1)) && TodayHasValidNumberOfHours();
 	    }
 
         private bool DateIsContainedWithinTimesheet(DateTime date)
@@ -344,7 +349,7 @@ namespace ConsultantApp.Core.ViewModels
 	        };
 	    }
 
-	    public TimeEntry DefaultNewEntry()
+	    private TimeEntry DefaultNewEntry()
 	    {
             //try to set the current values to the same as the previous days entry
             var newEntry = CopyOfPreviousDaysEntryIfOnlyOneValue();

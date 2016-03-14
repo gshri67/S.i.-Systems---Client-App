@@ -21,8 +21,8 @@ namespace ConsultantApp.iOS
 		public delegate void TableDelegate(IEnumerable<TimeEntry> timeEntries);
 		public TableDelegate OnDataChanged;
 
-		private readonly int _normalCellHeight;
-		private readonly int _expandedCellHeight;
+		private const int NormalCellHeight = 44;
+		private const int ExpandedCellHeight = 200;
 		private int _expandedCellIndex = -1;
 		private int _prevSelectedRow = -1;
 		private bool _addingProjectCode;//if there is an extra cell expanded for picker etc..
@@ -33,9 +33,6 @@ namespace ConsultantApp.iOS
 			this.TimeEntries = timeEntries;
 
 		    CodeRateDetails = codeRateDetails ?? Enumerable.Empty<ProjectCodeRateDetails>();
-
-			_normalCellHeight = 44;
-			_expandedCellHeight = 200;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -61,17 +58,17 @@ namespace ConsultantApp.iOS
 				return GetTimeEntryCell( tableView, indexPath );
 		}
 
-		private TimeEntryCell GetTimeEntryCell( UITableView tableView, NSIndexPath indexPath )
+        private TimeEntryCell GetTimeEntryCell( UITableView tableView, NSIndexPath indexPath )
 		{
 			var cell = (TimeEntryCell)tableView.DequeueReusableCell (CellIdentifier);
 		    var selectedEntry = TimeEntries.ElementAt(EntryIndex(indexPath));
-
-            cell.UpdateCell(selectedEntry);
+            var maxNumberOfHoursForEntry = HoursRemainingInDay() + selectedEntry.Hours;
+            cell.UpdateCell(selectedEntry, maxNumberOfHoursForEntry);
             cell.EntryChanged = entry =>
-                                    {
-                                        selectedEntry = entry;
-                                        OnDataChanged(TimeEntries);
-                                    };
+            {
+                selectedEntry = entry;
+                OnDataChanged(TimeEntries);
+            };
 
 			cell.enable (_isEnabled);
 
@@ -89,19 +86,11 @@ namespace ConsultantApp.iOS
 
             cell.OnSave = delegate(TimeEntry entry)
             {
-                if (ValidTimeAdded())
-                {
-                    CloseExpandedCell();
-                    curEntry = entry;
-                    tableView.ReloadData();
+                CloseExpandedCell();
+                curEntry = entry;
+                tableView.ReloadData();
 
-                    OnDataChanged(TimeEntries);
-                }
-                else
-                {
-                    UIAlertView invalidAlertView = new UIAlertView("Invalid Time", "Please enter less than 24 hours of total entries for the day.", null, "Ok");
-                    invalidAlertView.Show();
-                }
+                OnDataChanged(TimeEntries);
             };
 
 		    cell.OnDelete = entry =>
@@ -116,11 +105,10 @@ namespace ConsultantApp.iOS
 			return cell;
 		}
 
-	    private bool ValidTimeAdded()
+	    private const int HoursInDay = 24;
+	    private float HoursRemainingInDay()
 	    {
-	        if (TimeEntries.Select(t => t.Hours).Sum() <= 24)
-	            return true;
-	        return false;
+            return HoursInDay - TimeEntries.Sum(entry=>entry.Hours);
 	    }
 
 	    public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
@@ -184,8 +172,8 @@ namespace ConsultantApp.iOS
 		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
 		    return (int)indexPath.Item != _expandedCellIndex 
-                ? _normalCellHeight 
-                : _expandedCellHeight;
+                ? NormalCellHeight 
+                : ExpandedCellHeight;
 		}
 
 	    //return the time entry at the index

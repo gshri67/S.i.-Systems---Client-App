@@ -8,10 +8,12 @@ namespace ConsultantApp.iOS
     public class TimeEntryCell : UITableViewCell
     {
         private TimeEntry Entry { get; set; }
-		public UILabel clientField;
-        public UILabel projectCodeField;
-        public UITextField hoursField;
-		public UILabel payRateLabel;
+		private UILabel clientField;
+        private UILabel projectCodeField;
+        private UITextField hoursField;
+		private UILabel payRateLabel;
+
+        private float _maxNumberOfHours;
 
         //Blocks
         public delegate void EntryChangedDelegate( TimeEntry entry );
@@ -50,9 +52,8 @@ namespace ConsultantApp.iOS
             hoursField.TextAlignment = UITextAlignment.Right;
             hoursField.EditingDidEnd += delegate
             {
-                float hours;
-                var parsed = float.TryParse(hoursField.Text, out hours);
-                Entry.Hours = parsed ? hours : 0;
+                Entry.Hours = ValidatedHours();
+
                 EntryChanged(Entry);
             };
 
@@ -79,7 +80,50 @@ namespace ConsultantApp.iOS
 
             setupConstraints();
         }
-		public void doneButtonTapped(object sender, EventArgs args)
+
+        private float ValidatedHours()
+        {
+            var hours = HoursEnteredIfParsable();
+
+            if (hours < 0)
+            {
+                AlertOfMinimumValue();
+                hours = 0;
+            } else if (hours > _maxNumberOfHours)
+            {
+                AlertOfMaximumValue();
+                hours = _maxNumberOfHours;
+            }
+
+            return hours;
+        }
+
+        private void AlertOfMinimumValue()
+        {
+            InvokeOnMainThread(() =>
+            {
+                var invalidAlertView = new UIAlertView("Invalid Time", "Unable to enter negative time entries.", null, "Ok");
+                invalidAlertView.Show();
+            });
+        }
+
+        private void AlertOfMaximumValue()
+        {
+            InvokeOnMainThread(() =>
+            {
+                var invalidAlertView = new UIAlertView("Invalid Time", "Please enter less than 24 hours of total entries for the day.", null, "Ok");
+                invalidAlertView.Show();
+            });
+        }
+
+        private float HoursEnteredIfParsable()
+        {
+            float hours;
+            var parsed = float.TryParse(hoursField.Text, out hours);
+            return parsed ? hours : 0;
+        }
+
+        public void doneButtonTapped(object sender, EventArgs args)
 		{
 			hoursField.ResignFirstResponder ();
 		}
@@ -125,13 +169,19 @@ namespace ConsultantApp.iOS
 			}
 		}
 
-        public void UpdateCell(TimeEntry timeEntry)
+        public void UpdateCell(TimeEntry timeEntry, float maxNumberOfHours)
         {
             Entry = timeEntry;
 
             projectCodeField.Text = Entry.CodeRate.PONumber;
             payRateLabel.Text = Entry.CodeRate.ratedescription;
             hoursField.Text = string.Format("{0}", Entry.Hours);
+            _maxNumberOfHours = maxNumberOfHours;
+        }
+
+        public void FocusOnHours()
+        {
+            hoursField.BecomeFirstResponder();
         }
     }
 }

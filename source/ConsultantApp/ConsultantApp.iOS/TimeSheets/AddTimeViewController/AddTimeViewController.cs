@@ -198,9 +198,7 @@ namespace ConsultantApp.iOS
 
             addButton.TouchUpInside += delegate
             {
-                var entry = _timesheetModel.DefaultNewEntry();
-                
-                _timesheetModel.AddTimeEntry(entry);
+                _timesheetModel.AddDefaultTimeEntry();
                 _addTimeTableViewSource.TimeEntries = _timesheetModel.GetSelectedDatesTimeEntries();
                 _addTimeTableViewSource.CodeRateDetails = _timesheetModel.TimesheetSupport.ProjectCodeOptions;
                 
@@ -302,7 +300,7 @@ namespace ConsultantApp.iOS
 
         private void StartSavingAnimation()
         {
-            savedLabel.Text = "Saving";
+            savedLabel.Text = "Saved";
 
             saveButton.Alpha = 0;
 			emptySaveButton.Alpha = 1;
