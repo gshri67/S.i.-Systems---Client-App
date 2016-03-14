@@ -25,12 +25,10 @@ namespace ConsultantApp.iOS
             TextLabel.Hidden = true;
 
 			clientField = new UILabel();
-			clientField.Text = "DevFacto";
 			clientField.TranslatesAutoresizingMaskIntoConstraints = false;
 			AddSubview( clientField );
 
 			projectCodeField = new UILabel();
-			projectCodeField.Text = "Project Code";
 			projectCodeField.TranslatesAutoresizingMaskIntoConstraints = false;
 			projectCodeField.TextAlignment = UITextAlignment.Left;
 			projectCodeField.Font =  UIFont.FromName("Helvetica-Bold", 12f);
@@ -64,9 +62,7 @@ namespace ConsultantApp.iOS
             };
 
 			hoursField.EditingDidBegin += delegate {
-				this.BeginInvokeOnMainThread ( delegate {
-					hoursField.SelectedTextRange = hoursField.GetTextRange(hoursField.BeginningOfDocument, hoursField.EndOfDocument);
-				});
+				this.BeginInvokeOnMainThread(SelectHoursTextFieldForEdit);
 			};
 
 			hoursField.KeyboardType = UIKeyboardType.DecimalPad;
@@ -87,14 +83,44 @@ namespace ConsultantApp.iOS
             setupConstraints();
         }
 
+        private void SelectHoursTextFieldForEdit()
+        {
+            hoursField.SelectedTextRange = hoursField.GetTextRange(hoursField.BeginningOfDocument, hoursField.EndOfDocument);
+        }
+
         private void NotifyOfInvalidHoursAndSetToClosestValidHours()
         {
-            hoursField.Text = ValidatedHours().ToString(CultureInfo.InvariantCulture);
+            SetValidHoursAndNotifyOfReason();
+            SelectHoursTextFieldForEdit();
+        }
+
+        private void SetValidHoursAndNotifyOfReason()
+        {
+            if (TooFewHours())
+            {
+                ResetToMinimumHoursAndNotify();
+            }
+            if (TooManyHours())
+            {
+                ResetToMaximumHoursAndNotify();
+            }
+        }
+
+        private void ResetToMaximumHoursAndNotify()
+        {
+            ShowInvalidTimeAlert("Please enter less than 24 hours of total entries for the day.");
+            hoursField.Text = _maxNumberOfHours.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private void ResetToMinimumHoursAndNotify()
+        {
+            ShowInvalidTimeAlert("Unable to enter negative time entries.");
+            hoursField.Text = 0.ToString();
         }
 
         private void SetHoursAndChangeEntry()
         {
-            Entry.Hours = ValidatedHours();
+            Entry.Hours = HoursEnteredIfParsable();
 
             EntryChanged(Entry);
         }
@@ -102,23 +128,6 @@ namespace ConsultantApp.iOS
         private bool HoursAreValid()
         {
             return !(TooFewHours() || TooManyHours());
-        }
-
-        private float ValidatedHours()
-        {
-            var hours = HoursEnteredIfParsable();
-
-            if (TooFewHours())
-            {
-                AlertOfMinimumValue();
-                hours = 0;
-            } else if (TooManyHours())
-            {
-                AlertOfMaximumValue();
-                hours = _maxNumberOfHours;
-            }
-
-            return hours;
         }
 
         private bool TooManyHours()
@@ -131,20 +140,11 @@ namespace ConsultantApp.iOS
             return HoursEnteredIfParsable() < 0;
         }
 
-        private void AlertOfMinimumValue()
+        private void ShowInvalidTimeAlert(string message)
         {
             InvokeOnMainThread(() =>
             {
-                var invalidAlertView = new UIAlertView("Invalid Time", "Unable to enter negative time entries.", null, "Ok");
-                invalidAlertView.Show();
-            });
-        }
-
-        private void AlertOfMaximumValue()
-        {
-            InvokeOnMainThread(() =>
-            {
-                var invalidAlertView = new UIAlertView("Invalid Time", "Please enter less than 24 hours of total entries for the day.", null, "Ok");
+                var invalidAlertView = new UIAlertView("Invalid Time", message, null, "Ok");
                 invalidAlertView.Show();
             });
         }
