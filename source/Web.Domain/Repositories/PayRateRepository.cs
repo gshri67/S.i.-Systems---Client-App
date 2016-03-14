@@ -74,14 +74,24 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 if (timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted)
                     status = "Submitted";
                 else
-                    status = "Saved";
+                {
+                    status = timesheet.OpenStatusId != 0 ? "Saved" : null;
+                }
 
+                var startDate = timesheet.StartDate < timesheet.AgreementStartDate
+                    ? timesheet.AgreementStartDate
+                    : timesheet.StartDate;
+
+                var endDate = timesheet.EndDate > timesheet.AgreementEndDate
+                    ? timesheet.AgreementEndDate
+                    : timesheet.EndDate;
+                
                 var rateId = db.Connection.Query<int>(query, new
                 {
                     AgreementId = timesheet.AgreementId,
                     TimesheetID = timesheet.OpenStatusId,
-                    Startdate = timesheet.StartDate,
-                    Enddate = timesheet.EndDate,
+                    Startdate = startDate,
+                    Enddate = endDate,
                     TimesheetStatus = status
                 });
 
