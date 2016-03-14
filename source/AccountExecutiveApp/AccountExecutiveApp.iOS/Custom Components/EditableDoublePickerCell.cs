@@ -101,7 +101,7 @@ namespace AccountExecutiveApp.iOS
                 TextAlignment = UITextAlignment.Right,
                 Font = UIFont.FromName("Helvetica", 14f),
                 TextColor = StyleGuideConstants.MediumGrayUiColor,
-                Placeholder = "Contact..."
+                Placeholder = "Contact Name"
             };
 
             MidDetailTextField.Text = string.Empty;
@@ -223,6 +223,7 @@ namespace AccountExecutiveApp.iOS
 
 			MainTextLabel.Text = mainText;
 			RightDetailTextField.Text = newRightValues[newRightSelectedIndex];
+            MidDetailTextField.Text = newMidValues[newMidSelectedIndex];
 
 			MidValues = newMidValues;
 			midSelectedIndex = newMidSelectedIndex;

@@ -136,6 +136,8 @@ namespace AccountExecutiveApp.iOS
         {
             DeletableSection deletableSection = new DeletableSection();
 
+            deletableSection.SectionLabel.Text = string.Format("Section {0}", (int)section + 1); 
+
             deletableSection.DeleteButton.TouchUpInside += delegate
             {
                 deletingSectionIndex = (int)section;
