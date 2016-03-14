@@ -192,6 +192,8 @@ namespace AccountExecutiveApp.Core.ViewModel
                 List<string> billRateList = Contract.BillRates.ToList();
                 billRateList.RemoveAt(index);
                 Contract.BillRates = billRateList.AsEnumerable();
+
+                NumRates--;
             }
         }
 

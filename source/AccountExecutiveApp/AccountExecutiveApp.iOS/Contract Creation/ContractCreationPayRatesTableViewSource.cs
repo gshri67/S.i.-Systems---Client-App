@@ -99,15 +99,15 @@ namespace AccountExecutiveApp.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            if (deletingSectionIndex == section )
-                return 0;
+           // if (deletingSectionIndex == section )
+             //   return 0;
 
             return 4;
         }
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return _numRateSections;
+            return _contractModel.NumRates;
         }
         
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
@@ -122,7 +122,6 @@ namespace AccountExecutiveApp.iOS
         
         public void AddRatesSection(UITableView tableView)
         {
-            _numRateSections ++;
             _contractModel.AddRate();
 
             tableView.ReloadData();
@@ -149,13 +148,13 @@ namespace AccountExecutiveApp.iOS
                     NSIndexPath.FromItemSection(3, section)
                 }, UITableViewRowAnimation.Automatic );
                 */
-                _numRateSections--;
 
+                _contractModel.DeleteRate((int)section);
                 tableView.DeleteSections( NSIndexSet.FromIndex(section), UITableViewRowAnimation.Automatic );
 
                 deletingSectionIndex = -1;
-                _contractModel.DeleteRate((int)section);
                
+                tableView.ReloadData();
 
                 //var vc = (ContractCreationSendingTableViewController)Storyboard.InstantiateViewController("ContractCreationSendingTableViewController");
                 //vc.ViewModel = ViewModel;
