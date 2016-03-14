@@ -177,24 +177,24 @@
       <DependentUpon>ContractorContactInfoCell.cs</DependentUpon>
     </Compile>
     <Compile Include="ContractorDetails\CreateContractJobDescriptionView.cs" />
-    <Compile Include="EditableBooleanCell.cs" />
-    <Compile Include="EditableBooleanCell.designer.cs">
+    <Compile Include="Custom Components\EditableBooleanCell.cs" />
+    <Compile Include="Custom Components\EditableBooleanCell.designer.cs">
       <DependentUpon>EditableBooleanCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditableDatePickerCell.cs" />
-    <Compile Include="EditableDatePickerCell.designer.cs">
+    <Compile Include="Custom Components\EditableDatePickerCell.cs" />
+    <Compile Include="Custom Components\EditableDatePickerCell.designer.cs">
       <DependentUpon>EditableDatePickerCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditableNumberFieldCell.cs" />
-    <Compile Include="EditableNumberFieldCell.designer.cs">
+    <Compile Include="Custom Components\EditableNumberFieldCell.cs" />
+    <Compile Include="Custom Components\EditableNumberFieldCell.designer.cs">
       <DependentUpon>EditableNumberFieldCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditablePickerCell.cs" />
-    <Compile Include="EditablePickerCell.designer.cs">
+    <Compile Include="Custom Components\EditablePickerCell.cs" />
+    <Compile Include="Custom Components\EditablePickerCell.designer.cs">
       <DependentUpon>EditablePickerCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditableTextFieldCell.cs" />
-    <Compile Include="EditableTextFieldCell.designer.cs">
+    <Compile Include="Custom Components\EditableTextFieldCell.cs" />
+    <Compile Include="Custom Components\EditableTextFieldCell.designer.cs">
       <DependentUpon>EditableTextFieldCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorCandidateTableViewSource.cs" />
@@ -231,6 +231,7 @@
     </Compile>
     <Compile Include="Startup\TokenStore.cs" />
     <Compile Include="StyleGuideConstants.cs" />
+    <Compile Include="Custom Components\DeletableSection.cs" />
     <None Include="app.config" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -328,12 +329,12 @@
       <DependentUpon>ContractCreationDetailsTableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Contract Creation\ContractCreationDetailsTableViewSource.cs" />
-    <Compile Include="EditableFullTextFieldCell.cs" />
-    <Compile Include="EditableFullTextFieldCell.designer.cs">
+    <Compile Include="Custom Components\EditableFullTextFieldCell.cs" />
+    <Compile Include="Custom Components\EditableFullTextFieldCell.designer.cs">
       <DependentUpon>EditableFullTextFieldCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditableDoublePickerCell.cs" />
-    <Compile Include="EditableDoublePickerCell.designer.cs">
+    <Compile Include="Custom Components\EditableDoublePickerCell.cs" />
+    <Compile Include="Custom Components\EditableDoublePickerCell.designer.cs">
       <DependentUpon>EditableDoublePickerCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -414,6 +415,7 @@
     <BundleResource Include="Resources\worn_dots_%402X.png" />
     <BundleResource Include="Resources\worn_dots.png" />
     <BundleResource Include="Resources\subtle_dots.png" />
+    <BundleResource Include="Resources\close-circled.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">

@@ -17,6 +17,7 @@ namespace AccountExecutiveApp.iOS
         private readonly ContractCreationViewModel _contractModel;
         private float _specializationCellHeight = -1;
         private int _numRateSections = 0;
+        private int deletingSectionIndex = -1;
 
         public ContractCreationPayRatesTableViewSource(ContractCreationPayRatesTableViewController parentController, ContractCreationViewModel model)
         {
@@ -98,6 +99,9 @@ namespace AccountExecutiveApp.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
+            if (deletingSectionIndex == section )
+                return 0;
+
             return 4;
         }
 
@@ -110,12 +114,12 @@ namespace AccountExecutiveApp.iOS
         {
             return 35;
         }
-        /*
+        
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
-            return 15;
+            return 40;
         }
-        */
+        
         public void AddRatesSection(UITableView tableView)
         {
             _numRateSections ++;
@@ -131,9 +135,33 @@ namespace AccountExecutiveApp.iOS
 
         public override UIView GetViewForHeader(UITableView tableView, nint section)
         {
-            UILabel sectionLabel = new UILabel();
-            sectionLabel.Text = string.Format("Pay Rate {0}", (int) section);
-            return sectionLabel;
+            DeletableSection deletableSection = new DeletableSection();
+
+            deletableSection.DeleteButton.TouchUpInside += delegate
+            {
+                deletingSectionIndex = (int)section;
+                /*
+                tableView.DeleteRows(new NSIndexPath[]
+                {
+                    NSIndexPath.FromItemSection(0, section),
+                    NSIndexPath.FromItemSection(1, section),
+                    NSIndexPath.FromItemSection(2, section),
+                    NSIndexPath.FromItemSection(3, section)
+                }, UITableViewRowAnimation.Automatic );
+                */
+                _numRateSections--;
+
+                tableView.DeleteSections( NSIndexSet.FromIndex(section), UITableViewRowAnimation.Automatic );
+
+                deletingSectionIndex = -1;
+               
+
+                //var vc = (ContractCreationSendingTableViewController)Storyboard.InstantiateViewController("ContractCreationSendingTableViewController");
+                //vc.ViewModel = ViewModel;
+                //ShowViewController(vc, this);
+            };
+
+            return deletableSection;
         }
     }
 }
