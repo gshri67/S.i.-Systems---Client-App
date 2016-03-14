@@ -12,6 +12,8 @@ namespace AccountExecutiveApp.iOS
     {
         public ContractCreationViewModel ViewModel;
         private ContractCreationPayRatesTableViewSource _tableSource;
+        private SubtitleHeaderView _subtitleHeaderView;
+        private string Subtitle;
 
         public ContractCreationPayRatesTableViewController(IntPtr handle)
             : base(handle)
@@ -96,6 +98,9 @@ namespace AccountExecutiveApp.iOS
 
             LoadData();
 
+            Title = "Contract Rates";
+            Subtitle = "Contract Creation";
+            InvokeOnMainThread(CreateCustomTitleBar);
 
             UIBarButtonItem addButton = new UIBarButtonItem("Add", UIBarButtonItemStyle.Plain, delegate(object sender, EventArgs e)
             {
@@ -103,14 +108,21 @@ namespace AccountExecutiveApp.iOS
             });
             addButton.TintColor = StyleGuideConstants.RedUiColor;
 
-         
-
             NavigationItem.SetRightBarButtonItem(addButton, true);
-
-
         }
 
+        private void CreateCustomTitleBar()
+        {
+            InvokeOnMainThread(() =>
+            {
+                _subtitleHeaderView = new SubtitleHeaderView();
+                NavigationItem.TitleView = _subtitleHeaderView;
 
+                _subtitleHeaderView.TitleText = Title;
+                _subtitleHeaderView.SubtitleText = Subtitle;
+                NavigationItem.Title = "";
+            });
+        }
     }
 }
 

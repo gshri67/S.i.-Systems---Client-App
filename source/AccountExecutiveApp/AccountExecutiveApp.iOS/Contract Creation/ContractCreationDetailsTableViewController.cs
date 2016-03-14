@@ -13,6 +13,8 @@ namespace AccountExecutiveApp.iOS
 	{
 	    ContractCreationViewModel _viewModel;
 	    private Contractor _contractor;
+        private SubtitleHeaderView _subtitleHeaderView;
+        private string Subtitle;
 
 	    public ContractCreationDetailsTableViewController(IntPtr handle)
 	        : base(handle)
@@ -98,6 +100,10 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        base.ViewDidLoad();
 
+	        Title = "Contract Details";
+	        Subtitle = "Contract Creation";
+            InvokeOnMainThread(CreateCustomTitleBar);
+
             LoadContractCreationDetails();
 	        // Perform any additional setup after loading the view, typically from a nib.
 
@@ -112,6 +118,19 @@ namespace AccountExecutiveApp.iOS
 
 
 	    }
+
+        private void CreateCustomTitleBar()
+        {
+            InvokeOnMainThread(() =>
+            {
+                _subtitleHeaderView = new SubtitleHeaderView();
+                NavigationItem.TitleView = _subtitleHeaderView;
+
+                _subtitleHeaderView.TitleText = Title;
+                _subtitleHeaderView.SubtitleText = Subtitle;
+                NavigationItem.Title = "";
+            });
+        }
 	}
 }
 

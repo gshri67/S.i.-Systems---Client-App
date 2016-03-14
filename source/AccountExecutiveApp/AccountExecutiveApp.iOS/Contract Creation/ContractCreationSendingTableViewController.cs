@@ -13,6 +13,8 @@ namespace AccountExecutiveApp.iOS
     {
         public ContractCreationViewModel ViewModel;
         private ContractCreationSendingTableViewSource _tableSource;
+        private SubtitleHeaderView _subtitleHeaderView;
+        private string Subtitle;
 
         public ContractCreationSendingTableViewController(IntPtr handle)
             : base(handle)
@@ -91,11 +93,26 @@ namespace AccountExecutiveApp.iOS
         {
             base.ViewDidLoad();
 
+            Title = "Sending Details";
+            Subtitle = "Contract Creation";
+            InvokeOnMainThread(CreateCustomTitleBar);
+
             LoadData();
 
         }
 
+        private void CreateCustomTitleBar()
+        {
+            InvokeOnMainThread(() =>
+            {
+                _subtitleHeaderView = new SubtitleHeaderView();
+                NavigationItem.TitleView = _subtitleHeaderView;
 
+                _subtitleHeaderView.TitleText = Title;
+                _subtitleHeaderView.SubtitleText = Subtitle;
+                NavigationItem.Title = "";
+            });
+        }
     }
 }
 
