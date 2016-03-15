@@ -32,7 +32,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                           ,@TimesheetID
                           ,@Startdate
                           ,@Enddate
-                          ,@TimesheetStatus
 
                         SELECT tempTable.ContractRateID as ContractID
 
@@ -43,8 +42,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     AgreementId = timesheet.AgreementId,
                     TimesheetID = timesheet.Id,
                     Startdate = timesheet.StartDate,
-                    Enddate = timesheet.EndDate,
-                    TimesheetStatus = string.Empty
+                    Enddate = timesheet.EndDate
                 });
 
                 return rateId;
@@ -69,14 +67,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                         FROM @tablevar tempTable";
 
-                string status;
-
-                if (timesheet.Status == MatchGuideConstants.TimesheetStatus.Submitted)
-                    status = "Submitted";
-                else
-                {
-                    status = timesheet.OpenStatusId != 0 ? "Saved" : null;
-                }
+                var status = timesheet.Status == MatchGuideConstants.TimesheetStatus.Open ? "Saved" : "Submitted";
 
                 var startDate = timesheet.StartDate < timesheet.AgreementStartDate
                     ? timesheet.AgreementStartDate
@@ -92,7 +83,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     TimesheetID = timesheet.OpenStatusId,
                     Startdate = startDate,
                     Enddate = endDate,
-                    TimesheetStatus = status
+                    TimesheetStatus = new DbString
+                    {
+                        Value = status,
+                        Length = 10
+                    }
                 });
 
                 return rateId;
@@ -131,17 +126,20 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                    @"Declare @tablevar table(AgreementId INT, ProjectId INT, EinvoiceId INT, ProjectDescription VARCHAR(250), DisplayProjectID VARCHAR(250), CompanyProjectID INT, ContractProjectPOID INT, POId INT, PODescription VARCHAR(250), DisplayPONumber VARCHAR(250), PONumber VARCHAR(250), companypoprojectmatrixid INT, contractrateid INT, primaryrateterm BIT, ratedescription VARCHAR(250), rateAmount VARCHAR(250), ratetype VARCHAR(250), EinvoiceType INT)
-                        insert into @tablevar(AgreementId , ProjectId , EinvoiceId , ProjectDescription , DisplayProjectID , CompanyProjectID , ContractProjectPOID , POId , PODescription , DisplayPONumber , PONumber , companypoprojectmatrixid , contractrateid , primaryrateterm , ratedescription , rateAmount , ratetype , EinvoiceType ) exec [dbo].[UspGetProjectPORateDetails_TSAPP] @contractProjectPOIDList, @contractRateTermIDList, @verticalid
-
-
-                        SELECT *
-                        FROM @tablevar tempTable";
+                    @"EXEC [dbo].[UspGetProjectPORateDetails_TSAPP] @contractProjectPOIDList, @contractRateTermIDList, @verticalid";
 
                 var projectCodeRateDetails = db.Connection.Query<ProjectCodeRateDetails>(query, new
                 {
-                    contractProjectPOIDList = commaSeperatedProjectCodes,
-                    contractRateTermIDList = commaSeperatedPayRates,
+                    contractProjectPOIDList = new DbString
+                    {
+                        Value = commaSeperatedProjectCodes,
+                        Length = 1000
+                    },
+                    contractRateTermIDList = new DbString
+                    {
+                        Value = commaSeperatedPayRates,
+                        Length = 1000
+                    },
                     verticalid = MatchGuideConstants.VerticalId.IT
                 });
 
