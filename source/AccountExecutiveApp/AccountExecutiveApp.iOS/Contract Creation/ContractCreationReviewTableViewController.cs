@@ -12,7 +12,7 @@ namespace AccountExecutiveApp.iOS
 	public partial class ContractCreationReviewTableViewController : UITableViewController
 	{
 		public ContractCreationViewModel ViewModel;
-		private ContractCreationSendingTableViewSource _tableSource;
+		private ContractCreationReviewTableViewSource _tableSource;
 		private SubtitleHeaderView _subtitleHeaderView;
 		private string Subtitle;
 
@@ -47,9 +47,9 @@ namespace AccountExecutiveApp.iOS
 			TableView.RegisterClassForCellReuse(typeof(EditableDoublePickerCell), EditableDoublePickerCell.CellIdentifier);
 			TableView.RegisterClassForCellReuse(typeof(EditableFullTextFieldCell), EditableFullTextFieldCell.CellIdentifier);
 			TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
-			/*
+			
 			TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-			_tableSource = new ContractCreationSendingTableViewSource(this, ViewModel);
+			_tableSource = new ContractCreationReviewTableViewSource(this, ViewModel);
 			TableView.Source = _tableSource;
 			TableView.AllowsSelection = false;
 			TableView.SeparatorColor = UIColor.Clear;
@@ -62,21 +62,14 @@ namespace AccountExecutiveApp.iOS
 				//ShowViewController(vc, this);
 			};
 
-			TableView.TableFooterView = continueBar;*/
+			TableView.TableFooterView = continueBar;
 		}
 
 		public async void LoadData()
 		{
 			//var task = ViewModel.LoadContractCreationPayRatePage(0);
 			//task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
-			/*
-            ViewModel.Contract = new ContractCreationDetails
-            {
-                JobTitle = "Developer",
-                StartDate = new DateTime(2016, 1, 22),
-                PaymentPlan = "Part Time",
-                DaysCancellation = 10
-            };*/
+	
 			UpdateUserInterface();
 		}
 

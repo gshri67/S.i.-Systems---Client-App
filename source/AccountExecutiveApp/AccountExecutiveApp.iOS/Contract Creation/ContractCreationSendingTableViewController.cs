@@ -59,11 +59,13 @@ namespace AccountExecutiveApp.iOS
             continueBar.NextButton.TouchUpInside += delegate
             {
 				var vc = (ContractCreationReviewTableViewController)Storyboard.InstantiateViewController("ContractCreationReviewTableViewController");
+                vc.ViewModel = ViewModel;
                 ShowViewController(vc, this);
             };
             continueBar.NextTextButton.TouchUpInside += delegate
             {
                 var vc = (ContractCreationReviewTableViewController)Storyboard.InstantiateViewController("ContractCreationReviewTableViewController");
+                vc.ViewModel = ViewModel;
                 ShowViewController(vc, this);
             };
 
