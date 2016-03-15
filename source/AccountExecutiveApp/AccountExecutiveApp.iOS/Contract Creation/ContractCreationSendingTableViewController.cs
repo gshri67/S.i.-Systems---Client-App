@@ -61,6 +61,11 @@ namespace AccountExecutiveApp.iOS
 				var vc = (ContractCreationReviewTableViewController)Storyboard.InstantiateViewController("ContractCreationReviewTableViewController");
                 ShowViewController(vc, this);
             };
+            continueBar.NextTextButton.TouchUpInside += delegate
+            {
+                var vc = (ContractCreationReviewTableViewController)Storyboard.InstantiateViewController("ContractCreationReviewTableViewController");
+                ShowViewController(vc, this);
+            };
 
             TableView.TableFooterView = continueBar;
         }

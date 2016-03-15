@@ -117,7 +117,7 @@ namespace AccountExecutiveApp.iOS
         
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
-            return 40;
+            return 50;
         }
         
         public void AddRatesSection(UITableView tableView)
@@ -136,7 +136,7 @@ namespace AccountExecutiveApp.iOS
         {
             DeletableSection deletableSection = new DeletableSection();
 
-            deletableSection.SectionLabel.Text = string.Format("Section {0}", (int)section + 1); 
+            deletableSection.SectionLabel.Text = string.Format("RATE {0}", (int)section + 1); 
 
             deletableSection.DeleteButton.TouchUpInside += delegate
             {

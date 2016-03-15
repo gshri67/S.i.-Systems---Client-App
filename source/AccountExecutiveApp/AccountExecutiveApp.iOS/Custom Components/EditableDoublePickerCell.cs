@@ -209,18 +209,9 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 10f));
             AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.Width, NSLayoutRelation.GreaterThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 40f));
         }
-        /*
-        private void AddMidRightDetailTextLabelConstraints()
-        {
-            AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.GreaterThanOrEqual, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 15f));
-            AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
-        }*/
 
         public void UpdateCell(string mainText, List<string> newMidValues, int newMidSelectedIndex, List<string> newRightValues, int newRightSelectedIndex)
 		{
-			Console.WriteLine("Updating Cell ");
-
 			MainTextLabel.Text = mainText;
 			RightDetailTextField.Text = newRightValues[newRightSelectedIndex];
             MidDetailTextField.Text = newMidValues[newMidSelectedIndex];

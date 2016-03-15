@@ -39,12 +39,15 @@ namespace AccountExecutiveApp.iOS
             SectionLabel.Text = "Section";
             SectionLabel.TextAlignment = UITextAlignment.Left;
             SectionLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            SectionLabel.TextColor = UIColor.DarkGray;
+            SectionLabel.Font = UIFont.SystemFontOfSize(12);
 
             AddSubview(DeleteButton);
             AddSubview(SectionLabel);
-            BackgroundColor = UIColor.FromWhiteAlpha(0.95f, 1.0f);
- 
-            AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, Self, NSLayoutAttribute.Right, 1.0f, -12));
+            BackgroundColor = UIColor.GroupTableViewBackgroundColor;
+            //BackgroundColor = UIColor.FromRGB(166/255.0f, 177/255.0f, 186/255.0f);
+
+            AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, Self, NSLayoutAttribute.Right, 1.0f, 0));
             //AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, Self, NSLayoutAttribute.Bottom, 0.1f, 0));
             //AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, Self, NSLayoutAttribute.Bottom, 0.9f, 0));
             //AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, DeleteButton, NSLayoutAttribute.Height, 1.0f, 0));
@@ -52,10 +55,10 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 25));
             AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 25));
 
-            AddConstraint(NSLayoutConstraint.Create(SectionLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Left, 1.0f, 0));
-            AddConstraint(NSLayoutConstraint.Create(SectionLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0));
+            AddConstraint(NSLayoutConstraint.Create(SectionLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0));
+            //AddConstraint(NSLayoutConstraint.Create(SectionLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0));
             AddConstraint(NSLayoutConstraint.Create(SectionLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, DeleteButton, NSLayoutAttribute.Left, 1.0f, 0));
-            AddConstraint(NSLayoutConstraint.Create(SectionLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, 0));
+            AddConstraint(NSLayoutConstraint.Create(SectionLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1.0f, -6));
 
             UIView LineView = new UIView(new CGRect(0, 0, 200, 1));
             LineView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;

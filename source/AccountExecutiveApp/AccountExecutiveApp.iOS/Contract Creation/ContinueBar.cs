@@ -12,7 +12,7 @@ namespace AccountExecutiveApp.iOS
     public class ContinueBar : UIView
     {
         public UIButton NextButton;
-        private UIButton NextTextButton;
+        public UIButton NextTextButton;
 
         public ContinueBar()
         {
