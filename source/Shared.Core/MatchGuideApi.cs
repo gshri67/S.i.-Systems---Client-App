@@ -307,5 +307,17 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<ContractCreationOptions>(new { jobId, candidateId });
         }
+
+        [HttpGet("ContractCreationDetails/Rates/Job/{jobId}/Candidate/{candidateId}")]
+        public async Task<ContractCreationDetails_Rate> GetContractCreationPayRatePageDetails(int jobId, int candidateId)
+        {
+            return await ExecuteWithDefaultClient<ContractCreationDetails_Rate>(new { jobId, candidateId });
+        }
+
+        [HttpGet("ContractCreationOptions/Rates/Job/{jobId}/Candidate/{candidateId}")]
+        public async Task<ContractCreationOptions_Rate> GetContractCreationPayRatePageOptions(int jobId, int candidateId)
+        {
+            return await ExecuteWithDefaultClient<ContractCreationOptions_Rate>(new { jobId, candidateId });
+        }
     }
 }

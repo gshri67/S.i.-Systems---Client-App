@@ -70,5 +70,7 @@ namespace Shared.Core
         Task<IEnumerable<UserContact>> GetClientContactsWithFilter( string filter );
 
         Task<ContractCreationOptions> GetContractCreationDetailOptions(int jobId, int candidateId);
+        Task<ContractCreationDetails_Rate> GetContractCreationPayRatePageDetails(int jobId, int candidateId);
+        Task<ContractCreationOptions_Rate> GetContractCreationPayRatePageOptions(int jobId, int candidateId);
     }
 }

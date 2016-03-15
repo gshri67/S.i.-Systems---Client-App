@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using SiSystems.ClientApp.Web.Domain.Services.AccountExecutive;
 using SiSystems.ConsultantApp.Web.Domain.Services;
@@ -13,9 +14,9 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
     [RoutePrefix("api/ContractCreationSupport")]
     public class ContractCreationSupportController: ApiController
     {
-
+        
         private readonly ContractCreationSupportService _contractCreationSupportService;
-
+        
         public ContractCreationSupportController(ContractCreationSupportService contractCreationSupportService)
         {
             _contractCreationSupportService = contractCreationSupportService;
@@ -28,25 +29,11 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, options);
         }
 
-        [Route("AccountExecutives")]
-        public HttpResponseMessage GetAccountExecutives()
+        [Route("Rates/Job/{jobId}/Candidate/{candidateId}")]
+        public HttpResponseMessage GetContractCreationPayRatePageOptions(int jobId, int candidateId)
         {
-            var accountExecutives = _contractCreationSupportService.GetColleaguesForCurrentUser();
-            return Request.CreateResponse(HttpStatusCode.OK, accountExecutives);
-        }
-
-        [Route("InvoiceFormats")]
-        public HttpResponseMessage GetInvoiceFormats()
-        {
-            var formats = _contractCreationSupportService.GetInvoiceFormats();
-            return Request.CreateResponse(HttpStatusCode.OK, formats);
-        }
-
-        [Route("InvoiceFrequencies")]
-        public HttpResponseMessage GetInvoiceFrequencies()
-        {
-            var frequencies = _contractCreationSupportService.GetInvoiceFrequencies();
-            return Request.CreateResponse(HttpStatusCode.OK, frequencies);
+            var options = new ContractCreationOptions_Rate();// _contractCreationSupportService.GetContractCreationPayRatePageOptions(jobId, candidateId);
+            return Request.CreateResponse(HttpStatusCode.OK, options);
         }
     }
 }

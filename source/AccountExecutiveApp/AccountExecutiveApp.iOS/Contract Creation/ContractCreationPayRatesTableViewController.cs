@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
 using Foundation;
@@ -75,19 +76,8 @@ namespace AccountExecutiveApp.iOS
 
         public async void LoadData()
         {
-            //var task = ViewModel.LoadContractCreationPayRatePage(0);
-            //task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
-            /*
-            ViewModel.Contract = new ContractCreationDetails
-            {
-                JobTitle = "Developer",
-                StartDate = new DateTime(2016, 1, 22),
-                PaymentPlan = "Part Time",
-                DaysCancellation = 10
-            };
-            */
-
-            UpdateUserInterface();
+            var task = ViewModel.LoadContractCreationPayRatePage(0);
+            await task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
 
