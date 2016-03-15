@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SiSystems.SharedModels
 {
-    public class ContractCreationDetails
+    public class ContractCreationDetails : IContractCreationDetails_Rate, IContractCreationDetails_Sending
     {
         public string ConsultantName { get; set; }
 
@@ -24,7 +24,7 @@ namespace SiSystems.SharedModels
         public string InvoiceFormat { get; set; }
         public Boolean UsingProjectCode { get; set; }
         public Boolean UsingQuickPay { get; set; }
-
+        
         //Pay Rate info
         public IEnumerable<string> RateTypes { get; set; }
         public IEnumerable<string> RateDescriptions { get; set; }
@@ -33,7 +33,7 @@ namespace SiSystems.SharedModels
         public IEnumerable<string> ProposedRates { get; set; }
         public IEnumerable<string> GrossMargins { get; set; }
         public int PrimaryRateIndex { get; set; }
-
+        
         //Sending Info
         public bool IsSendingConsultantContract { get; set; }
         public string ClientContactName { get; set; }

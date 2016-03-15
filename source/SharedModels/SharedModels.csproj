@@ -39,10 +39,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsultantContractType.cs" />
-    <Compile Include="ContractCreationDetails.cs" />
-    <Compile Include="ContractCreationDetails_Rate.cs" />
-    <Compile Include="ContractCreationOptions.cs" />
-    <Compile Include="ContractCreationOptions_Rate.cs" />
+    <Compile Include="Contract Creation\ContractCreationDetails.cs" />
+    <Compile Include="Contract Creation\IContractCreationDetails_Rate.cs" />
+    <Compile Include="Contract Creation\ContractCreationDetails_Rate.cs" />
+    <Compile Include="Contract Creation\ContractCreationDetails_Sending.cs" />
+    <Compile Include="Contract Creation\ContractCreationOptions.cs" />
+    <Compile Include="Contract Creation\ContractCreationOptions_Rate.cs" />
+    <Compile Include="Contract Creation\ContractCreationOptions_Sending.cs" />
+    <Compile Include="Contract Creation\IContractCreationDetails_Sending.cs" />
+    <Compile Include="Contract Creation\IContractCreationOptions_Rate.cs" />
+    <Compile Include="Contract Creation\IContractCreationOptions_Sending.cs" />
     <Compile Include="ContractorRateSummary.cs" />
     <Compile Include="JobSummary.cs" />
     <Compile Include="UserContact.cs" />
