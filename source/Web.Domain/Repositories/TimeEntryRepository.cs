@@ -119,43 +119,36 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                    @"INSERT INTO [dbo].[TimeSheetDetailTemp]
-                            ([ContractRateID]
-                            ,[PONumber]
-                            ,[ProjectID]
-                            ,[ContractProjectPoID]
-                            ,[Day]
-                            ,[UnitValue]
-                            ,[Description]
-                            ,[TimesheetTempID]
-                            ,[Inactive]
-                            ,[verticalid]
-                            ,[InvoiceCodeId])
-                        VALUES
-                            (@ContractRateId
-                            ,@PONumber
-                            ,@ProjectId
-                            ,@ContractProjectPoID
-                            ,@Day
-                            ,@UnitValue
-                            ,@Description
-                            ,@TimesheetTempID
-                            ,@Inactive
-                            ,@verticalid
-                            ,@InvoiceCodeId)
-                        select @@identity as Id";
+                    @"Exec [dbo].[sp_TimesheetDetailTemp_Insert] 
+                       @aContractrateid
+                      ,@aPoNumber
+                      ,@aProjectId
+                      ,@acontractprojectpoid
+                      ,@aDay
+                      ,@aUnitValue
+                      ,@aGeneralProjPODesc
+                      ,@aTimesheetTempId
+                      ,@verticalid
+                      ,@InvoiceCodeId";
 
                 var insertedId = db.Connection.Query<int>(query, new
                 {
-                    ContractRateId = entry.CodeRate.contractrateid,
-                    PONumber = entry.CodeRate.PONumber,
-                    ProjectID = entry.CodeRate.ProjectId, 
-                    ContractProjectPoID = entry.CodeRate.ContractProjectPOID, 
+                    aContractrateid = entry.CodeRate.contractrateid,
+                    aPoNumber = new DbString
+                    {
+                        Value = entry.CodeRate.PONumber,
+                        Length = 250
+                    },
+                    aProjectId = entry.CodeRate.ProjectId,
+                    acontractprojectpoid = entry.CodeRate.ContractProjectPOID, 
                     Day = entry.EntryDate.Day,
-                    UnitValue = entry.Hours,
-                    Description = entry.CodeRate.PODescription, 
-                    TimesheetTempID = id,
-                    Inactive = 0,
+                    aUnitValue = entry.Hours,
+                    aGeneralProjPODesc = new DbString
+                    {
+                        Value = entry.CodeRate.PODescription,
+                        Length = 1000
+                    },
+                    aTimesheetTempId = id,
                     verticalid = MatchGuideConstants.VerticalId.IT,
                     InvoiceCodeId = entry.CodeRate.EinvoiceId
                 }).FirstOrDefault();
