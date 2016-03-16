@@ -28,36 +28,50 @@ namespace AccountExecutiveApp.iOS
         {
             int row = (int)indexPath.Item;
 
-            if (IsJobTitleCell(indexPath))
-                return GetJobTitleCell(tableView, indexPath);
-            else if (IsStartDateCell(indexPath))
-                return GetStartDateCell(tableView, indexPath);
-            else if (IsEndDateCell(indexPath))
-                return GetEndDateCell(tableView, indexPath);
-            else if (IsTimeFactorCell(indexPath))
-                return GetTimeFactorCell(tableView, indexPath);
-            else if (IsDaysCancellationCell(indexPath))
-                return GetDaysCancellationCell(tableView, indexPath);
-            else if (IsLimitationExpenseCell(indexPath))
-                return GetLimitationExpenseCell(tableView, indexPath);
-            else if (IsLimitationOfContractCell(indexPath))
-                return GetLimitationOfContractCell(tableView, indexPath);
-            else if (IsPaymentPlanCell(indexPath))
-                return GetPaymentPlanCell(tableView, indexPath);
-            else if (IsAccountExecutiveCell(indexPath))
-                return GetAccountExecutiveCell(tableView, indexPath);
-            else if (IsGMAssignedCell(indexPath))
-                return GetGMAssignedCell(tableView, indexPath);
-            else if (IsComissionAssignedCell(indexPath))
-                return GetCommisionAssignedCell(tableView, indexPath);
-            else if (IsInvoiceFrequencyCell(indexPath))
-                return GetInvoiceFrequencyCell(tableView, indexPath);
-            else if (IsInvoiceFormatCell(indexPath))
-                return GetInvoiceFormatCell(tableView, indexPath);
-            else if (IsProjectCodeCell(indexPath))
-                return GetProjectCodesCell(tableView, indexPath);
-            else if (IsQuickPayCell(indexPath))
-                return GetQuickPayCell(tableView, indexPath);
+            if (indexPath.Section == 0)
+            {
+                if (IsJobTitleCell(indexPath))
+                    return GetJobTitleCell(tableView, indexPath);
+                else if (IsStartDateCell(indexPath))
+                    return GetStartDateCell(tableView, indexPath);
+                else if (IsEndDateCell(indexPath))
+                    return GetEndDateCell(tableView, indexPath);
+                else if (IsTimeFactorCell(indexPath))
+                    return GetTimeFactorCell(tableView, indexPath);
+                else if (IsDaysCancellationCell(indexPath))
+                    return GetDaysCancellationCell(tableView, indexPath);
+                else if (IsLimitationExpenseCell(indexPath))
+                    return GetLimitationExpenseCell(tableView, indexPath);
+                else if (IsLimitationOfContractCell(indexPath))
+                    return GetLimitationOfContractCell(tableView, indexPath);
+                else if (IsPaymentPlanCell(indexPath))
+                    return GetPaymentPlanCell(tableView, indexPath);
+                else if (IsAccountExecutiveCell(indexPath))
+                    return GetAccountExecutiveCell(tableView, indexPath);
+                else if (IsGMAssignedCell(indexPath))
+                    return GetGMAssignedCell(tableView, indexPath);
+                else if (IsComissionAssignedCell(indexPath))
+                    return GetCommisionAssignedCell(tableView, indexPath);
+                else if (IsInvoiceFrequencyCell(indexPath))
+                    return GetInvoiceFrequencyCell(tableView, indexPath);
+                else if (IsInvoiceFormatCell(indexPath))
+                    return GetInvoiceFormatCell(tableView, indexPath);
+                else if (IsProjectCodeCell(indexPath))
+                    return GetProjectCodesCell(tableView, indexPath);
+                else if (IsQuickPayCell(indexPath))
+                    return GetQuickPayCell(tableView, indexPath);
+            }
+            else if (indexPath.Section < _contractModel.NumRates + 1)
+            {
+                if (IsRateTypeCell(indexPath))
+                    return GetRateTypeCell(tableView, indexPath);
+                else if (IsRateDescriptionCell(indexPath))
+                    return GetRateDescriptionCell(tableView, indexPath);
+                else if (IsBillRateCell(indexPath))
+                    return GetBillRateCell(tableView, indexPath);
+                else if (IsIsPrimaryRateCell(indexPath))
+                    return GetIsPrimaryRateCell(tableView, indexPath);
+            }
 
             EditableTextFieldCell cell =
                 (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
@@ -215,7 +229,29 @@ namespace AccountExecutiveApp.iOS
             return (int)indexPath.Item == _quickPayCellRow;
         }
 
+        private int _numInitialPageCells
+        {
+            get { return _quickPayCellRow + 1; }
+        }
 
+//Contract Rates Page Indices
+
+        private int _localRateTypeCellRow { get { return 0; } }
+        private bool IsRateTypeCell(NSIndexPath indexPath) { return (int)indexPath.Item == _localRateTypeCellRow; }
+
+        private int _localRateDescriptionCellRow { get { return _localRateTypeCellRow + 1; } }
+        private bool IsRateDescriptionCell(NSIndexPath indexPath) { return (int)indexPath.Item == _localRateDescriptionCellRow; }
+
+        private int _localBillRateCellRow { get { return _localRateDescriptionCellRow + 1; } }
+        private bool IsBillRateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _localBillRateCellRow; }
+
+        private int _localIsPrimaryRateCellRow { get { return _localBillRateCellRow + 1; } }
+        private bool IsIsPrimaryRateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _localIsPrimaryRateCellRow; }
+
+        private int _numCellsPerRateSection { get { return _localIsPrimaryRateCellRow + 1; } }
+
+
+//Get Cells for Initial Page
         private UITableViewCell GetJobTitleCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableTextFieldCell cell =
@@ -370,14 +406,70 @@ namespace AccountExecutiveApp.iOS
         }
 
 
+//Get Cells for Contract Rates
+        private UITableViewCell GetRateTypeCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+
+            cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndexAtIndex(ContractRatesSectionLocalIndex(indexPath)));
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateTypeAtIndex(newValue, ContractRatesSectionLocalIndex(indexPath)); };
+
+            return cell;
+        }
+
+        private UITableViewCell GetRateDescriptionCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Rate Description", _contractModel.RateDescriptionOptions, _contractModel.RateDescriptionSelectedIndexAtIndex(ContractRatesSectionLocalIndex(indexPath)));
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateDescriptionAtIndex(newValue, ContractRatesSectionLocalIndex(indexPath)); };
+
+            return cell;
+        }
+
+        private UITableViewCell GetBillRateCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableNumberFieldCell cell =
+                (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Bill Rate", _contractModel.BillRateAtIndex(ContractRatesSectionLocalIndex(indexPath)));
+            cell.OnValueChanged += delegate(float newValue)
+            {
+                _contractModel.SetBillRateAtIndex(newValue.ToString(), ContractRatesSectionLocalIndex(indexPath));
+            };
+
+            return cell;
+        }
+
+        private UITableViewCell GetIsPrimaryRateCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableBooleanCell cell =
+                (EditableBooleanCell)tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Primary Rate", _contractModel.IsPrimaryRateAtIndex(ContractRatesSectionLocalIndex(indexPath)));
+            cell.OnValueChanged += delegate(bool newValue) { _contractModel.SetPrimaryRateForIndex(ContractRatesSectionLocalIndex(indexPath)); };
+
+            return cell;
+        }
+       
+
+//indexing methods
+        private int ContractRatesSectionLocalIndex(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Section - 1;
+        }
+
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return _quickPayCellRow + 1;
+            if( (int)section == 0 )
+                return _numInitialPageCells;
+            else if ((int) section < _contractModel.NumRates + 1)
+                return _numCellsPerRateSection;
+            else return 0;
         }
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return 1;
+            return 1 + _contractModel.NumRates;
         }
     }
 }

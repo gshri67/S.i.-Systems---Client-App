@@ -119,7 +119,7 @@ namespace AccountExecutiveApp.iOS
                 lbl.Font = UIFont.SystemFontOfSize(12f);
                 lbl.TextAlignment = UITextAlignment.Center;
 
-                if (items != null)
+                if (items != null && items.ElementAt((int)component).Count > (int)row )
                     lbl.Text = items.ElementAt((int)component).ElementAt((int)row);
             }
             else if (oldRow == 0)  //add top separator
