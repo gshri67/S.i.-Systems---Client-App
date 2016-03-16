@@ -23,13 +23,17 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     {
         public IEnumerable<int> GetContractRateIdFromOpenTimesheet(Timesheet timesheet)
         {
+            //note that we need to do this to account for contracts that start or end in the middle of a pay period.
+            var startDate = LaterDate(timesheet.StartDate, timesheet.AgreementStartDate);
+            var endDate = EarlierDate(timesheet.EndDate, timesheet.AgreementEndDate);
+
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
                     @"Declare @tablevar table(ContractRateID INT, PrimaryRateTerm BIT, RateDescription VARCHAR(250), HoursPerDay DECIMAL, BillRate MONEY, PayRate MONEY)
                         insert into @tablevar(ContractRateID, PrimaryRateTerm, RateDescription, HoursPerDay, BillRate, PayRate) EXECUTE [dbo].[UspGetRateTermDetails_TSAPP] 
                            @AgreementId
-                          ,@TimesheetID
+                          ,null
                           ,@Startdate
                           ,@Enddate
 
@@ -40,9 +44,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 var rateId = db.Connection.Query<int>(query, new
                 {
                     AgreementId = timesheet.AgreementId,
-                    TimesheetID = timesheet.Id,
-                    Startdate = timesheet.StartDate,
-                    Enddate = timesheet.EndDate
+                    Startdate = startDate,
+                    Enddate = endDate
                 });
 
                 return rateId;
@@ -51,6 +54,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
         public IEnumerable<int> GetContractRateIdFromSavedOrSubmittedTimesheet(Timesheet timesheet)
         {
+            var status = timesheet.Status == MatchGuideConstants.TimesheetStatus.Open ? "Saved" : "Submitted";
+
+            //note that we need to do this to account for contracts that start or end in the middle of a pay period.
+            var startDate = LaterDate(timesheet.StartDate, timesheet.AgreementStartDate);
+            var endDate = EarlierDate(timesheet.EndDate, timesheet.AgreementEndDate);
+
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
 
@@ -66,16 +75,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         SELECT  tempTable.ContractRateID as ContractID
 
                         FROM @tablevar tempTable";
-
-                var status = timesheet.Status == MatchGuideConstants.TimesheetStatus.Open ? "Saved" : "Submitted";
-
-                var startDate = timesheet.StartDate < timesheet.AgreementStartDate
-                    ? timesheet.AgreementStartDate
-                    : timesheet.StartDate;
-
-                var endDate = timesheet.EndDate > timesheet.AgreementEndDate
-                    ? timesheet.AgreementEndDate
-                    : timesheet.EndDate;
                 
                 var rateId = db.Connection.Query<int>(query, new
                 {
@@ -113,11 +112,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        private static string ToCommaSeperatedString(IEnumerable<int> myEnum)
-        {
-            return string.Join(",", myEnum);
-        }
-
         public IEnumerable<ProjectCodeRateDetails> GetProjectCodesAndPayRatesFromIds(IEnumerable<int> projectCodeIds, IEnumerable<int> payRateIds)
         {
             var commaSeperatedProjectCodes = ToCommaSeperatedString(projectCodeIds);
@@ -146,5 +140,22 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 return projectCodeRateDetails;
             }
         }
+
+        #region HelperFunctions
+        private static string ToCommaSeperatedString(IEnumerable<int> myEnum)
+        {
+            return string.Join(",", myEnum);
+        }
+
+        private static DateTime LaterDate(DateTime first, DateTime second)
+        {
+            return first > second ? first : second;
+        }
+
+        private static DateTime EarlierDate(DateTime first, DateTime second)
+        {
+            return first < second ? first : second;
+        }
+        #endregion
     }
 }
