@@ -791,6 +791,97 @@ end
 GO
 
 /*
+	**************************************Create TimesheetDetailTemp Insert*******************************
+*/
+
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
+CREATE proc [dbo].[sp_TimesheetDetailTemp_Insert]                    
+(                                        
+                  
+@aContractrateid int,                            
+@aPoNumber VARCHAR(250),                  
+@aProjectId int,                                        
+@acontractprojectpoid int,                    
+@aDay int,                    
+@aUnitValue  DECIMAL(6,2),                    
+@aGeneralProjPODesc nvarchar(1000),                  
+@aTimesheetTempId int,  
+@verticalid int ,
+@InvoiceCodeId int                
+)                                                                       
+                                                                        
+as                                                           
+                                                        
+set nocount on                                                           
+                    
+begin                  
+                  
+if @aPoNumber is  null and  @aProjectId is null                  
+ begin                  
+                  
+  insert into TimeSheetDetailTemp                   
+  (                  
+   contractrateid,                  
+   [day],                  
+   unitvalue,          
+   contractprojectpoid,                  
+   [description],                  
+   TimesheetTempId,  
+   verticalid ,
+   InvoiceCodeId                  
+  )                  
+  values                   
+  (                  
+   @aContractrateid,                  
+   @aDay,                  
+   @aUnitValue,            
+   0,                
+   @aGeneralProjPODesc,                  
+   @aTimesheetTempId,  
+   @verticalid,
+   @InvoiceCodeId                 
+  )                  
+                  
+ end                  
+else                  
+ begin                  
+                  
+  insert into TimeSheetDetailTemp      
+  (                  
+   contractrateid,                  
+   ponumber,                  
+   projectid,                  
+   contractprojectpoid,                  
+   [day],                  
+   unitvalue,                  
+   TimesheetTempid,  
+   verticalid ,
+   InvoiceCodeId                  
+  )                  
+  select                    
+   @aContractrateid,                  
+   @aPoNumber,                  
+   @aProjectId,                  
+   @acontractprojectpoid,                  
+   @aDay,                  
+   @aUnitValue,                  
+   @aTimesheetTempId,  
+   @verticalid,
+   @InvoiceCodeId       
+ end                  
+end 
+GO
+
+
+
+
+/*
 	**************************************Create sp_Timesheet_GetBillingPeriods_ForViewETimesheets SP*******************************
 */
 
