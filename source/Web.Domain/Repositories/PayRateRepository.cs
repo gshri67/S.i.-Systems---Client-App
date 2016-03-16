@@ -24,8 +24,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         public IEnumerable<int> GetContractRateIdFromOpenTimesheet(Timesheet timesheet)
         {
             //note that we need to do this to account for contracts that start or end in the middle of a pay period.
-            var startDate = LaterDate(timesheet.StartDate, timesheet.AgreementStartDate);
-            var endDate = EarlierDate(timesheet.EndDate, timesheet.AgreementEndDate);
+            var startDate = LaterOfTwoDates(timesheet.StartDate, timesheet.AgreementStartDate);
+            var endDate = EarlierOfTwoDates(timesheet.EndDate, timesheet.AgreementEndDate);
 
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -54,11 +54,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
         public IEnumerable<int> GetContractRateIdFromSavedOrSubmittedTimesheet(Timesheet timesheet)
         {
+            //todo: Saved will never happen, we need to investigate the conditions we were hoping to catch
             var status = timesheet.Status == MatchGuideConstants.TimesheetStatus.Open ? "Saved" : "Submitted";
 
             //note that we need to do this to account for contracts that start or end in the middle of a pay period.
-            var startDate = LaterDate(timesheet.StartDate, timesheet.AgreementStartDate);
-            var endDate = EarlierDate(timesheet.EndDate, timesheet.AgreementEndDate);
+            var startDate = LaterOfTwoDates(timesheet.StartDate, timesheet.AgreementStartDate);
+            var endDate = EarlierOfTwoDates(timesheet.EndDate, timesheet.AgreementEndDate);
 
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -147,12 +148,12 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             return string.Join(",", myEnum);
         }
 
-        private static DateTime LaterDate(DateTime first, DateTime second)
+        private static DateTime LaterOfTwoDates(DateTime first, DateTime second)
         {
             return first > second ? first : second;
         }
 
-        private static DateTime EarlierDate(DateTime first, DateTime second)
+        private static DateTime EarlierOfTwoDates(DateTime first, DateTime second)
         {
             return first < second ? first : second;
         }
