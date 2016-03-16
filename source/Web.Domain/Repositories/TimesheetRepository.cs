@@ -179,7 +179,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                        @CandidateID";
 
                 var timesheetsFromDb = db.Connection.Query<DbTimesheetForMapping>(query, new { CandidateId = userId });
-                var timesheets = (from ts in timesheetsFromDb.Where(ts=>ts.timesheetStatus != "Saved")
+                var timesheets = (from ts in timesheetsFromDb.Where(ts => ts.timesheetStatus != "Saved" && ts.timesheetStatus != "Save/Cancel")
                     let agreementId = GetAgreementIdByTimeSheetId(ts.TimesheetID)
                     let startDate = StartDateFromPeriodDate(ts.payPeriod)
                     let endDate = EndDateFromPeriodDate(ts.payPeriod)
