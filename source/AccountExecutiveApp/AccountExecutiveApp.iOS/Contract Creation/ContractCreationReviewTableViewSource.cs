@@ -72,6 +72,25 @@ namespace AccountExecutiveApp.iOS
                 else if (IsIsPrimaryRateCell(indexPath))
                     return GetIsPrimaryRateCell(tableView, indexPath);
             }
+            else if (indexPath.Section < _contractModel.NumRates + 2)
+            {
+                if (IsSendingConsultantContractCell(indexPath))
+                    return GetIsSendingConsultantContractCell(tableView, indexPath);
+                else if (IsClientContactCell(indexPath))
+                    return GetClientContactCell(tableView, indexPath);
+                else if (IsDirectReportCell(indexPath))
+                    return GetDirectReportCell(tableView, indexPath);
+                else if (IsBillingContactCell(indexPath))
+                    return GetBillingContactCell(tableView, indexPath);
+                else if (IsInvoiceRecipientsCell(indexPath))
+                    return GetInvoiceRecipientsCell(tableView, indexPath);
+                else if (IsClientContractCell(indexPath))
+                    return GetClientContractCell(tableView, indexPath);
+                else if (IsReasonCell(indexPath))
+                    return GetReasonCell(tableView, indexPath);
+                else if (IsOtherReasonCell(indexPath))
+                    return GetOtherReasonCell(tableView, indexPath);
+            }
 
             EditableTextFieldCell cell =
                 (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
@@ -249,6 +268,119 @@ namespace AccountExecutiveApp.iOS
         private bool IsIsPrimaryRateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _localIsPrimaryRateCellRow; }
 
         private int _numCellsPerRateSection { get { return _localIsPrimaryRateCellRow + 1; } }
+
+//Sending Page Indices
+
+        private bool _showClientContractCellReason
+        {
+            get { 
+                if( _contractModel.IsSendingContractToClientContact == false ) 
+                    return true;
+                return false;
+            }
+        }
+        private bool _showClientContractOtherReason
+        {
+            get { 
+                if (_contractModel.ReasonForNotSendingContract == "Other") 
+                    return true;
+                return false;
+            }
+        }
+
+        private int _isSendingConsultantContractCellRow
+        {
+            get { return 0; }
+        }
+
+        private bool IsSendingConsultantContractCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _isSendingConsultantContractCellRow;
+        }
+
+        private int _clientContactCellRow
+        {
+            get { return _isSendingConsultantContractCellRow + 1; }
+        }
+
+        private bool IsClientContactCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _clientContactCellRow;
+        }
+
+        private int _directReportCellRow
+        {
+            get { return _clientContactCellRow + 1; }
+        }
+
+        private bool IsDirectReportCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _directReportCellRow;
+        }
+
+        private int _billingContactCellRow
+        {
+            get { return _directReportCellRow + 1; }
+        }
+
+        private bool IsBillingContactCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _billingContactCellRow;
+        }
+
+        private int _invoiceRecipientsCellRow
+        {
+            get { return _billingContactCellRow + 1; }
+        }
+
+        private bool IsInvoiceRecipientsCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _invoiceRecipientsCellRow;
+        }
+
+        private int _clientContractCellRow
+        {
+            get { return _invoiceRecipientsCellRow + 1; }
+        }
+
+        private bool IsClientContractCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _clientContractCellRow;
+        }
+
+        private int _reasonCellRow
+        {
+            get { return _clientContractCellRow + 1; }
+        }
+
+        private bool IsReasonCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _reasonCellRow;
+        }
+
+        private int _otherReasonCellRow
+        {
+            get { return _reasonCellRow + 1; }
+        }
+
+        private bool IsOtherReasonCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _otherReasonCellRow;
+        }
+
+        private int _numSendingPageCells {
+            get
+            {
+                if ( _showClientContractCellReason == false )
+                    return _clientContractCellRow + 1;
+                else if( _showClientContractOtherReason == false )
+                    return _clientContractCellRow + 2;
+                else if ( _showClientContractOtherReason == true )
+                    return _clientContractCellRow + 3;
+
+                return 0;
+            } 
+        }
 
 
 //Get Cells for Initial Page
@@ -450,7 +582,84 @@ namespace AccountExecutiveApp.iOS
 
             return cell;
         }
+      
+//Get Sending Page cells
+        private UITableViewCell GetIsSendingConsultantContractCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell( string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.BooleanOptions, _contractModel.IsSendingConsultantContractSelectedIndex);
        
+            return cell;
+        }
+
+        private UITableViewCell GetClientContactCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Client Contact", _contractModel.ClientContactNameOptions, _contractModel.ClientContactNameSelectedIndex);
+     
+            return cell;
+        }
+
+        private UITableViewCell GetDirectReportCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Direct Report", _contractModel.DirectReportNameOptions, _contractModel.DirectReportNameSelectedIndex);
+
+            return cell;
+        }
+
+        private UITableViewCell GetBillingContactCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Billing Contact", _contractModel.BillingContactNameOptions, _contractModel.BillingContactNameSelectedIndex);
+
+
+            return cell;
+        }
+
+        private UITableViewCell GetInvoiceRecipientsCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableTextFieldCell cell =
+                (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Invoice Recipients", _contractModel.InvoiceRecipients);
+
+
+            return cell;
+        }
+
+        private UITableViewCell GetClientContractCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell(string.Format("Send e-contract to"), _contractModel.ClientContractContactNameOptions, _contractModel.ClientContractContactNameSelectedIndex, _contractModel.BooleanOptions, _contractModel.IsSendingContractToClientContactSelectedIndex);
+
+
+            return cell;
+        }
+
+        private UITableViewCell GetReasonCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Reason:", _contractModel.ReasonForNotSendingContractOptions, _contractModel.ReasonForNotSendingContractSelectedIndex);
+
+            return cell;
+        }
+
+        private UITableViewCell GetOtherReasonCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell(_contractModel.SummaryReasonForNotSendingContract);
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.SummaryReasonForNotSendingContract = newValue;
+            };
+
+            return cell;
+        }
 
 //indexing methods
         private int ContractRatesSectionLocalIndex(NSIndexPath indexPath)
@@ -458,18 +667,21 @@ namespace AccountExecutiveApp.iOS
             return (int)indexPath.Section - 1;
         }
 
+
         public override nint RowsInSection(UITableView tableview, nint section)
         {
             if( (int)section == 0 )
                 return _numInitialPageCells;
             else if ((int) section < _contractModel.NumRates + 1)
                 return _numCellsPerRateSection;
+            else if ((int)section < _contractModel.NumRates + 2)
+                return _numSendingPageCells;
             else return 0;
         }
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return 1 + _contractModel.NumRates;
+            return 2 + _contractModel.NumRates;
         }
     }
 }
