@@ -141,7 +141,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     },
                     aProjectId = entry.CodeRate.ProjectId,
                     acontractprojectpoid = entry.CodeRate.ContractProjectPOID, 
-                    Day = entry.EntryDate.Day,
+                    aDay = entry.EntryDate.Day,
                     aUnitValue = entry.Hours,
                     aGeneralProjPODesc = new DbString
                     {
