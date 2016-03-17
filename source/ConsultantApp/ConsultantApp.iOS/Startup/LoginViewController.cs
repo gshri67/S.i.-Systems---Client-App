@@ -168,9 +168,12 @@ namespace ConsultantApp.iOS
             };
         }
 
-        private static void RunMainStoryboard()
+        private void RunMainStoryboard()
         {
-            UIApplication.SharedApplication.Windows[0].RootViewController = UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();
+            InvokeOnMainThread(() =>
+            {
+                UIApplication.SharedApplication.KeyWindow.RootViewController = this.Storyboard.InstantiateInitialViewController();
+            });
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
