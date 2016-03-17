@@ -667,7 +667,6 @@ namespace AccountExecutiveApp.iOS
             return (int)indexPath.Section - 1;
         }
 
-
         public override nint RowsInSection(UITableView tableview, nint section)
         {
             if( (int)section == 0 )
@@ -682,6 +681,29 @@ namespace AccountExecutiveApp.iOS
         public override nint NumberOfSections(UITableView tableView)
         {
             return 2 + _contractModel.NumRates;
+        }
+        /*
+        public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+        {
+            return base.GetHeightForHeader(tableView, section);
+        }
+        */
+        public override string TitleForHeader(UITableView tableView, nint section)
+        {
+            if ((int) section == 0)
+                return "Contract Terms";
+            else if ((int)section == 1)
+                return "Contract Rate Term";
+            else if ((int)section == _contractModel.NumRates + 1 )
+                return "Contract Contacts";
+            else if ((int)section == _contractModel.NumRates + 2)
+                return "Invoice Recipients";
+            else if ((int)section == _contractModel.NumRates + 3)
+                return "Associated Project and POs to New Contract";
+            else if ((int)section == _contractModel.NumRates + 4)
+                return "Email";
+
+            return string.Empty;
         }
     }
 }
