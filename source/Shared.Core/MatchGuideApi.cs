@@ -172,22 +172,8 @@ namespace Shared.Core
             }
             catch (Exception e)
             {
-                var test = e.Message;
                 return null;
             }
-            
-            /*
-            byte[] buffer = new byte[response.Count()];
-
-            //for( int i = 0; i < response.Count(); i ++ )
-              //  Buffer.BlockCopy(response.ToArray(), i*sizeof(int), buffer, i, 1);
-            Buffer.BlockCopy(response.ToArray(), 0, buffer, 0, response.Count()*4);
-
-
-            Stream stream = new MemoryStream(buffer);
-            return stream;
-
-            return null;*/
         }
 
         [HttpPost("Timesheets")]
