@@ -110,19 +110,22 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 			return 32;
 		}
 
-		public override UIView GetViewForFooter (UITableView tableView, nint section)
-		{
-			if (NumberOfSections(tableView) <= 1 || section == NumberOfSections (tableView) - 1) 
-			{
-				UILabel footerView = new UILabel ();
-				footerView.Text = "Please use the Desktop portal to view Timesheets older than 6 months";
-				footerView.Lines = 0;
-				footerView.BackgroundColor = UIColor.Clear;
-				footerView.TextAlignment = UITextAlignment.Center;
+	    private static bool IsLastSectionInTable(nint numberOfSections, nint section)
+	    {
+	        return numberOfSections <= 1 || section == numberOfSections - 1;
+	    }
 
-				return footerView;
-			}
-			return null;
+	    public override UIView GetViewForFooter(UITableView tableView, nint section)
+	    {
+	        return IsLastSectionInTable(NumberOfSections(tableView), section) 
+                ? new UILabel
+		            {
+		                Text = "Please use the Desktop portal to view Timesheets older than 6 months",
+		                Lines = 0,
+		                BackgroundColor = UIColor.Clear,
+		                TextAlignment = UITextAlignment.Center
+		            } 
+                : null;
 		}
 
 		public override nfloat GetHeightForFooter (UITableView tableView, nint section)
