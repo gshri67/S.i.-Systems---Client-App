@@ -36,6 +36,10 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 				ActiveTimesheetsTable.Dispose ();
 				ActiveTimesheetsTable = null;
 			}
+			if (noTimesheetsLabel != null) {
+				noTimesheetsLabel.Dispose ();
+				noTimesheetsLabel = null;
+			}
 		}
 	}
 }
