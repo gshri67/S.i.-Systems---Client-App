@@ -197,6 +197,10 @@
     <Compile Include="Custom Components\EditableTextFieldCell.designer.cs">
       <DependentUpon>EditableTextFieldCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Custom Components\EmailCell.cs" />
+    <Compile Include="Custom Components\EmailCell.designer.cs">
+      <DependentUpon>EmailCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorCandidateTableViewSource.cs" />
     <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorJobStatusListViewController.cs" />
     <Compile Include="Jobs\JobDetails\ContractorJobStatusList\ContractorJobStatusListViewController.designer.cs">

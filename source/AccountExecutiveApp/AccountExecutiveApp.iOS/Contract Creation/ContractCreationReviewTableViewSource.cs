@@ -74,9 +74,7 @@ namespace AccountExecutiveApp.iOS
             }
             else if (indexPath.Section < _contractModel.NumRates + 2)
             {
-                if (IsSendingConsultantContractCell(indexPath))
-                    return GetIsSendingConsultantContractCell(tableView, indexPath);
-                else if (IsClientContactCell(indexPath))
+                if (IsClientContactCell(indexPath))
                     return GetClientContactCell(tableView, indexPath);
                 else if (IsDirectReportCell(indexPath))
                     return GetDirectReportCell(tableView, indexPath);
@@ -84,6 +82,17 @@ namespace AccountExecutiveApp.iOS
                     return GetBillingContactCell(tableView, indexPath);
                 else if (IsInvoiceRecipientsCell(indexPath))
                     return GetInvoiceRecipientsCell(tableView, indexPath);
+            }
+            else if (indexPath.Section < _contractModel.NumRates + 3)//Recipients
+                return null;
+            else if (indexPath.Section < _contractModel.NumRates + 4)//Associated POs
+                return null;
+            else if (indexPath.Section < _contractModel.NumRates + 5) //Email
+            {
+                if (IsSendingConsultantContractCell(indexPath))
+                    return GetIsSendingConsultantContractCell(tableView, indexPath);
+                else if (IsEmailCell(indexPath))
+                    return GetEmailCell(tableView, indexPath);
                 else if (IsClientContractCell(indexPath))
                     return GetClientContractCell(tableView, indexPath);
                 else if (IsReasonCell(indexPath))
@@ -271,36 +280,9 @@ namespace AccountExecutiveApp.iOS
 
 //Sending Page Indices
 
-        private bool _showClientContractCellReason
-        {
-            get { 
-                if( _contractModel.IsSendingContractToClientContact == false ) 
-                    return true;
-                return false;
-            }
-        }
-        private bool _showClientContractOtherReason
-        {
-            get { 
-                if (_contractModel.ReasonForNotSendingContract == "Other") 
-                    return true;
-                return false;
-            }
-        }
-
-        private int _isSendingConsultantContractCellRow
-        {
-            get { return 0; }
-        }
-
-        private bool IsSendingConsultantContractCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _isSendingConsultantContractCellRow;
-        }
-
         private int _clientContactCellRow
         {
-            get { return _isSendingConsultantContractCellRow + 1; }
+            get { return 0; }
         }
 
         private bool IsClientContactCell(NSIndexPath indexPath)
@@ -338,9 +320,78 @@ namespace AccountExecutiveApp.iOS
             return (int)indexPath.Item == _invoiceRecipientsCellRow;
         }
 
+        private int _numSendingPageCells {
+            get
+            {
+     
+                return _invoiceRecipientsCellRow + 1;
+
+                return 0;
+            } 
+        }
+
+//Email Section Indices
+
+
+        private bool _showEmailCell
+        {
+            get
+            {
+                if (_contractModel.IsSendingConsultantContract == true)
+                    return true;
+                return false;
+            }
+        }
+
+        private bool _showClientContractCellReason
+        {
+            get
+            {
+                if (_contractModel.IsSendingContractToClientContact == false)
+                    return true;
+                return false;
+            }
+        }
+        private bool _showClientContractOtherReason
+        {
+            get
+            {
+                if (_contractModel.ReasonForNotSendingContract == "Other")
+                    return true;
+                return false;
+            }
+        }
+
+
+        private int _isSendingConsultantContractCellRow
+        {
+            get { return 0; }
+        }
+
+        private bool IsSendingConsultantContractCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _isSendingConsultantContractCellRow;
+        }
+
+        private int _emailCellRow
+        {
+            get { return _isSendingConsultantContractCellRow+1; }
+        }
+
+        private bool IsEmailCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _emailCellRow;
+        }
+         
         private int _clientContractCellRow
         {
-            get { return _invoiceRecipientsCellRow + 1; }
+            get
+            {
+                if (_showEmailCell)
+                    return _emailCellRow + 1;
+                else
+                    return _emailCellRow;
+            }
         }
 
         private bool IsClientContractCell(NSIndexPath indexPath)
@@ -367,8 +418,9 @@ namespace AccountExecutiveApp.iOS
         {
             return (int)indexPath.Item == _otherReasonCellRow;
         }
-
-        private int _numSendingPageCells {
+          
+         
+        private int _numEmailPageCells {
             get
             {
                 if ( _showClientContractCellReason == false )
@@ -383,7 +435,7 @@ namespace AccountExecutiveApp.iOS
         }
 
 
-//Get Cells for Initial Page
+        //Get Cells for Initial Page
         private UITableViewCell GetJobTitleCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableTextFieldCell cell =
@@ -584,15 +636,6 @@ namespace AccountExecutiveApp.iOS
         }
       
 //Get Sending Page cells
-        private UITableViewCell GetIsSendingConsultantContractCell(UITableView tableView, NSIndexPath indexPath)
-        {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell( string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.BooleanOptions, _contractModel.IsSendingConsultantContractSelectedIndex);
-       
-            return cell;
-        }
-
         private UITableViewCell GetClientContactCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell =
@@ -631,6 +674,24 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
+//Get Email Section Cells
+        private UITableViewCell GetIsSendingConsultantContractCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell(string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.BooleanOptions, _contractModel.IsSendingConsultantContractSelectedIndex);
+
+            return cell;
+        }
+
+        private UITableViewCell GetEmailCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EmailCell cell = (EmailCell)tableView.DequeueReusableCell(EmailCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Agreement Between .. ..", "Dear Jean-Claude, You are invited by S.i. Systems...");
+
+            return cell;
+        }
+
         private UITableViewCell GetClientContractCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
@@ -661,6 +722,8 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
+
+
 //indexing methods
         private int ContractRatesSectionLocalIndex(NSIndexPath indexPath)
         {
@@ -669,18 +732,25 @@ namespace AccountExecutiveApp.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            if( (int)section == 0 )
+            if( (int)section == 0 ) //Initial Terms
                 return _numInitialPageCells;
-            else if ((int) section < _contractModel.NumRates + 1)
+            else if ((int) section < _contractModel.NumRates + 1) //Contract Rates
                 return _numCellsPerRateSection;
-            else if ((int)section < _contractModel.NumRates + 2)
+            else if ((int)section < _contractModel.NumRates + 2) //Contacts
                 return _numSendingPageCells;
+            else if ((int)section < _contractModel.NumRates + 3)//Recipients
+                return 0;
+            else if ((int)section < _contractModel.NumRates + 4)//Associated POs
+                return 0;
+            else if ((int)section < _contractModel.NumRates + 5)//Email
+                return 1;
+
             else return 0;
         }
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return 2 + _contractModel.NumRates;
+            return 5 + _contractModel.NumRates;
         }
         /*
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
