@@ -109,9 +109,13 @@ namespace ConsultantApp.iOS
         {
             if (saveButton == null)
                 return;
-            
-            saveButton.Enabled = enabled;
-            saveButton.Hidden = !enabled;
+
+            //note that we have to disable to button if there are no timeentries because saving a timesheet with 
+            //zero hours breaks the GetOpenTimesheets Stored Procedure (the timesheet will not be returned)
+            var hasTimeEntries = _timesheetModel.TimeSheetEntries().Any();
+
+            saveButton.Enabled = enabled && hasTimeEntries;
+            saveButton.Hidden = !(enabled && hasTimeEntries);
         }
 
         private void SetTimesheetEditability()
