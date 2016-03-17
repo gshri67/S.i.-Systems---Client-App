@@ -28,6 +28,14 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (ActiveTimesheets != null) {
+				ActiveTimesheets.Dispose ();
+				ActiveTimesheets = null;
+			}
+			if (ActiveTimesheetsTable != null) {
+				ActiveTimesheetsTable.Dispose ();
+				ActiveTimesheetsTable = null;
+			}
 		}
 	}
 }

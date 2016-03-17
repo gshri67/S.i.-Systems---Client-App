@@ -61,10 +61,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    {
             InvokeOnMainThread(delegate
             {
-                if (ActiveTimesheetsTable == null || !_activeTimesheetModel.UserHasPayPeriods())
-                    return;
-
-
                 ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
                 ActiveTimesheetsTable.ReloadData();
             });
