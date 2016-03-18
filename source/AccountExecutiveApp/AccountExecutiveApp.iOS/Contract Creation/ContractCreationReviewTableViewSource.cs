@@ -687,7 +687,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetEmailCell(UITableView tableView, NSIndexPath indexPath)
         {
             EmailCell cell = (EmailCell)tableView.DequeueReusableCell(EmailCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Agreement Between .. ..", "Dear Jean-Claude, You are invited by S.i. Systems...");
+            cell.UpdateCell("Agreement Between .. ..", "Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...");
 
             return cell;
         }
@@ -743,7 +743,7 @@ namespace AccountExecutiveApp.iOS
             else if ((int)section < _contractModel.NumRates + 4)//Associated POs
                 return 0;
             else if ((int)section < _contractModel.NumRates + 5)//Email
-                return 1;
+                return _numEmailPageCells;
 
             else return 0;
         }
@@ -774,6 +774,20 @@ namespace AccountExecutiveApp.iOS
                 return "Email";
 
             return string.Empty;
+        }
+
+        /*
+        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (IsEmailCell(indexPath))
+                return 100;
+
+            return 35;
+        }*/
+
+        public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+        {
+            return 50;
         }
     }
 }

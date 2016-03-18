@@ -127,6 +127,9 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(BodyDetailsTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.Equal, SubjectDetailsTextLabel, NSLayoutAttribute.Right, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(BodyDetailsTextLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, BodyTextLabel, NSLayoutAttribute.Top, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(BodyDetailsTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.GreaterThanOrEqual, BodyTextLabel, NSLayoutAttribute.Bottom, 1.0f, 0f));
+
+            AddConstraint(NSLayoutConstraint.Create(this, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, BodyDetailsTextLabel, NSLayoutAttribute.Bottom, 1.0f, 10f));
+
         }
 
         public void UpdateCell(string subjectDetailsText, string bodyDetailsText)

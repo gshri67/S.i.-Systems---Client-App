@@ -55,6 +55,9 @@ namespace AccountExecutiveApp.iOS
 			TableView.AllowsSelection = false;
 			TableView.SeparatorColor = UIColor.Clear;
 
+		    TableView.RowHeight = UITableView.AutomaticDimension;
+		    TableView.EstimatedRowHeight = 160.0f;
+
 			ContinueBar continueBar = new ContinueBar();
 			continueBar.Frame = new CGRect(0, 0, 100, 50);
 			continueBar.NextButton.TouchUpInside += delegate
