@@ -150,7 +150,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     },
                     aTimesheetTempId = id,
                     verticalid = MatchGuideConstants.VerticalId.IT,
-                    InvoiceCodeId = entry.CodeRate.EinvoiceId
+                    InvoiceCodeId = IntegerOrNullIfZero(entry.CodeRate.EinvoiceId)
                 }).FirstOrDefault();
 
                 return insertedId;
@@ -186,11 +186,18 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                      aGeneralProjPODesc  = timeEntry.CodeRate.PODescription,
                      aTimesheetId = timesheetId,
                      verticalId = MatchGuideConstants.VerticalId.IT,
-                     InvoiceCodeId = timeEntry.CodeRate.EinvoiceId
+                     InvoiceCodeId = IntegerOrNullIfZero(timeEntry.CodeRate.EinvoiceId)
                 }).FirstOrDefault();
 
                 return submittedTimesheetId;
             }
+        }
+        
+        //todo: move to a better location.
+        //helper function for sql 
+        private static int? IntegerOrNullIfZero(int number)
+        {
+            return number == 0 ? (int?)null : number;
         }
     }
 }
