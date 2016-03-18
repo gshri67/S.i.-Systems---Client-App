@@ -85,31 +85,38 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		    if( calendarContainerView != null )
 		        SetupCalendar ();
 
-		    if (submitButton != null && approverNameTextField != null)
+		    if (submitButton != null)
             {
                 submitButton.SetTitle(_timesheetModel.SubmitButtonText(), UIControlState.Normal);
 		        SetLabelText(approvedLabel, _timesheetModel.TimesheetStatus());
 
-                SetStatusLabelOrButton(_timesheetModel.CanChangeTimesheetStatus());
+                SetStatusLabelOrButton();
             }
+
+		    SetApproverField();
 
 		    View.SetNeedsLayout();
 		}
 
-	    private void SetStatusLabelOrButton(bool allowStatusChange)
+	    private void SetApproverField()
 	    {
-            submitButton.Enabled = allowStatusChange;
-            approverNameTextField.Enabled = allowStatusChange;
+            if(approverNameTextField != null)
+                approverNameTextField.Enabled = _timesheetModel.TimesheetIsEditable();
+	    }
 
-            submitButton.Hidden = !allowStatusChange;
+	    private void SetStatusLabelOrButton()
+	    {
+	        var allowStatusChange = _timesheetModel.CanChangeTimesheetStatus();
+
+            submitButton.Enabled = allowStatusChange;
             approvedLabel.Hidden = allowStatusChange;
+            submitButton.Hidden = !allowStatusChange;
 	    }
 
 	    public override void ViewWillAppear(bool animated)
 	    {
 			base.ViewWillAppear (animated);
 
-            //SetupCalendar();
             UpdateUI();
 	    }
 

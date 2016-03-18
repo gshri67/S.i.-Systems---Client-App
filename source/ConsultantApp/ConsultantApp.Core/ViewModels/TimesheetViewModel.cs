@@ -172,7 +172,7 @@ namespace ConsultantApp.Core.ViewModels
 
         public bool TimesheetIsEditable()
         {
-            return Timesheet != null && TimesheetIsOpen();
+            return TimesheetIsOpen();
         }
 
 	    private static DateTime LatestDate(DateTime first, DateTime second)
