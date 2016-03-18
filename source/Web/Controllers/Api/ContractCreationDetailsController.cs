@@ -30,5 +30,19 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
             var details = new ContractCreationDetails_Rate();// _service.GetContractCreationPayRatePageDetails(jobId, candidateId);
             return Request.CreateResponse(HttpStatusCode.OK, details);
         }
+
+        [Route("Initial/Initial/{jobId}/Candidate/{candidateId}")]
+        public HttpResponseMessage GetContractCreationInitialPageDetails(int jobId, int candidateId)
+        {
+            var details = new ContractCreationDetails();// _service.GetContractCreationInitialPageDetails(jobId, candidateId);
+            return Request.CreateResponse(HttpStatusCode.OK, details);
+        }
+
+        [Route("Sending/Job/{jobId}/Candidate/{candidateId}")]
+        public HttpResponseMessage GetContractCreationSendingPageDetails(int jobId, int candidateId)
+        {
+            var details = new ContractCreationDetails_Sending();// _service.GetContractCreationSendingPageDetails(jobId, candidateId);
+            return Request.CreateResponse(HttpStatusCode.OK, details);
+        }
     }
 }

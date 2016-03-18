@@ -436,68 +436,56 @@ namespace AccountExecutiveApp.Core.ViewModel
             return 0;
         }
 
-        public Task LoadContractCreationDetails( int jobId )
+        public Task LoadContractCreationInitialPageData()
         {
-            GetContractCreationDetailInfo( jobId );
-            var task = GetContractCreationDetailOptions(jobId);
+            var firstTask = GetContractCreationInitialPageOptions();
+            var secondTask = GetContractCreationInitialPageDetails();
 
-            return task;
+            return secondTask;
         }
 
-        public Task LoadContractCreationInitialPageDetails(int jobId)
+        public Task LoadContractCreationPayRatePageData()
         {
-            GetContractCreationDetailInfo(jobId);
-            var task = GetContractCreationDetailOptions(jobId);
-
-            return task;
-        }
-
-        public Task LoadContractCreationPayRatePage(int jobId)
-        {
-            GetContractCreationDetailInfo(jobId);
-            var firstTask = GetContractCreationPayRatePageOptions(jobId);
+            var firstTask = GetContractCreationPayRatePageOptions();
             var secondTask = GetContractCreationPayRatePageDetails();
 
             return secondTask;
         }
-        
-        private async Task GetContractCreationPayRatePageOptions(int jobId)
+
+        public Task LoadContractCreationSendingPageData()
         {
-            ContractCreationOptions_Rate rateOptions = await _api.GetContractCreationPayRatePageOptions(JobId, CandidateId);
-        }
-        private async Task GetContractCreationPayRatePageDetails()
-        {
-            ContractCreationDetails_Rate rateDetails = await _api.GetContractCreationPayRatePageDetails(JobId, CandidateId);
+            var firstTask = GetContractCreationSendingPageOptions();
+            var secondTask = GetContractCreationSendingPageDetails();
+
+            return secondTask;
         }
 
-        private async Task GetContractCreationInitialPageOptions(int jobId)
+
+        private async Task GetContractCreationInitialPageOptions()
         {
             //ContractCreationOptions initialOptions = await _api.GetContractCreationInitialPageOptions(JobId, CandidateId);
         }
         private async Task GetContractCreationInitialPageDetails()
         {
-           // ContractCreationDetails initialDetails = await _api.GetContractCreationInitialPageDetails(JobId, CandidateId);
+            //ContractCreationDetails initialDetails = await _api.GetContractCreationInitialPageDetails(JobId, CandidateId);
         }
 
-        private async Task GetContractCreationSendingPageOptions(int jobId)
+        private async Task GetContractCreationSendingPageOptions()
         {
-           // ContractCreationOptions_Rate sendingOptions = await _api.GetContractCreationSendingPageOptions(JobId, CandidateId);
+            //ContractCreationOptions_Sending sendingOptions = await _api.GetContractCreationSendingPageOptions(JobId, CandidateId);
         }
         private async Task GetContractCreationSendingPageDetails()
         {
-           // ContractCreationDetails_Rate sendingDetails = await _api.GetContractCreationSendingPageDetails(JobId, CandidateId);
+            //ContractCreationDetails_Sending sendingDetails = await _api.GetContractCreationSendingPageDetails(JobId, CandidateId);
         }
 
-
-
-        private async Task GetContractCreationDetailInfo(int jobId )
+        private async Task GetContractCreationPayRatePageOptions()
         {
-            //Contract = await _api.GetContractCreationDetailInfo(jobId);
+            //ContractCreationOptions_Rate rateOptions = await _api.GetContractCreationPayRatePageOptions(JobId, CandidateId);
         }
-        private async Task GetContractCreationDetailOptions(int jobId)
+        private async Task GetContractCreationPayRatePageDetails()
         {
-            //await _api.GetContractCreationDetailOptions(jobId);
+            //ContractCreationDetails_Rate rateDetails = await _api.GetContractCreationPayRatePageDetails(JobId, CandidateId);
         }
-
     }
 }

@@ -308,16 +308,37 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<ContractCreationOptions>(new { jobId, candidateId });
         }
 
+        [HttpGet("ContractCreationDetails/Initial/Job/{jobId}/Candidate/{candidateId}")]
+        public async Task<ContractCreationDetails> GetContractCreationInitialPageDetails(int jobId, int candidateId)
+        {
+            return await ExecuteWithDefaultClient<ContractCreationDetails>(new { jobId, candidateId });
+        }
+        [HttpGet("ContractCreationOptions/Initial/Job/{jobId}/Candidate/{candidateId}")]
+        public async Task<ContractCreationOptions> GetContractCreationInitialPageOptions(int jobId, int candidateId)
+        {
+            return await ExecuteWithDefaultClient<ContractCreationOptions>(new { jobId, candidateId });
+        }
+
         [HttpGet("ContractCreationDetails/Rates/Job/{jobId}/Candidate/{candidateId}")]
         public async Task<ContractCreationDetails_Rate> GetContractCreationPayRatePageDetails(int jobId, int candidateId)
         {
             return await ExecuteWithDefaultClient<ContractCreationDetails_Rate>(new { jobId, candidateId });
         }
-
         [HttpGet("ContractCreationOptions/Rates/Job/{jobId}/Candidate/{candidateId}")]
         public async Task<ContractCreationOptions_Rate> GetContractCreationPayRatePageOptions(int jobId, int candidateId)
         {
             return await ExecuteWithDefaultClient<ContractCreationOptions_Rate>(new { jobId, candidateId });
+        }
+
+        [HttpGet("ContractCreationDetails/Sending/Job/{jobId}/Candidate/{candidateId}")]
+        public async Task<ContractCreationDetails_Sending> GetContractCreationSendingPageDetails(int jobId, int candidateId)
+        {
+            return await ExecuteWithDefaultClient<ContractCreationDetails_Sending>(new { jobId, candidateId });
+        }
+        [HttpGet("ContractCreationOptions/Sending/Job/{jobId}/Candidate/{candidateId}")]
+        public async Task<ContractCreationOptions_Sending> GetContractCreationSendingPageOptions(int jobId, int candidateId)
+        {
+            return await ExecuteWithDefaultClient<ContractCreationOptions_Sending>(new { jobId, candidateId });
         }
     }
 }

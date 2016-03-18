@@ -76,7 +76,7 @@ namespace AccountExecutiveApp.iOS
 
         public async void LoadData()
         {
-            var task = ViewModel.LoadContractCreationPayRatePage(0);
+            var task = ViewModel.LoadContractCreationPayRatePageData();
             await task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 

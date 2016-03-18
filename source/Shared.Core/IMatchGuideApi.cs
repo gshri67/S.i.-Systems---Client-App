@@ -69,8 +69,13 @@ namespace Shared.Core
         Task<IEnumerable<UserContact>> GetClientContacts();
         Task<IEnumerable<UserContact>> GetClientContactsWithFilter( string filter );
 
-        Task<ContractCreationOptions> GetContractCreationDetailOptions(int jobId, int candidateId);
         Task<ContractCreationDetails_Rate> GetContractCreationPayRatePageDetails(int jobId, int candidateId);
         Task<ContractCreationOptions_Rate> GetContractCreationPayRatePageOptions(int jobId, int candidateId);
+
+        Task<ContractCreationDetails> GetContractCreationInitialPageDetails(int jobId, int candidateId);
+        Task<ContractCreationOptions> GetContractCreationInitialPageOptions(int jobId, int candidateId);
+
+        Task<ContractCreationDetails_Sending> GetContractCreationSendingPageDetails(int jobId, int candidateId);
+        Task<ContractCreationOptions_Sending> GetContractCreationSendingPageOptions(int jobId, int candidateId);
     }
 }
