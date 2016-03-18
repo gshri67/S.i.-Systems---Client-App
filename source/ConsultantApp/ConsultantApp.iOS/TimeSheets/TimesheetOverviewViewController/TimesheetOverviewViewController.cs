@@ -232,10 +232,19 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 	    private void OpenSubmitActionSheet()
 	    {
-            OpenActionSheet(
-                sheetTitle: _timesheetModel.SubmitTimesheetConfirmationTitle(),
-                buttonText: "Submit",
-                buttonAction: SubmitActionSheetClicked);
+            //note that this is a result of having to Cancel the timesheet before submitting a zero time timesheet
+	        if (_timesheetModel.TimesheetHasZeroHours() && _timesheetModel.TimeSheetEntries().Any())
+                AlertOfOnlineCancellation();
+	        else
+                OpenActionSheet(
+                    sheetTitle: _timesheetModel.SubmitTimesheetConfirmationTitle(),
+                    buttonText: "Submit",
+                    buttonAction: SubmitActionSheetClicked);
+	    }
+
+	    private static void AlertOfOnlineCancellation()
+	    {
+	        new UIAlertView("Sorry", "Saved Timesheets must be cancelled online before being submitted with zero time.", null, "Ok").Show();
 	    }
 
 	    private void OpenWithdrawActionSheet()
