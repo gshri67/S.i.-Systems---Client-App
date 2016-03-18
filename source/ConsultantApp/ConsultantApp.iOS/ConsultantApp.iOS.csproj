@@ -138,18 +138,6 @@
     </CodesignExtraArgs>
     <WarningLevel>4</WarningLevel>
     <CodesignResourceRules />
-    <MtouchSdkVersion>9.2</MtouchSdkVersion>
-    <MtouchLink>None</MtouchLink>
-    <MtouchDebug>False</MtouchDebug>
-    <MtouchProfiling>False</MtouchProfiling>
-    <MtouchFastDev>False</MtouchFastDev>
-    <MtouchUseLlvm>False</MtouchUseLlvm>
-    <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
-    <MtouchUseRefCounting>False</MtouchUseRefCounting>
-    <OptimizePNGs>True</OptimizePNGs>
-    <MtouchFloat32>False</MtouchFloat32>
-    <MtouchI18n />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ActivityManager.cs" />
