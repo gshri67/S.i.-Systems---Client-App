@@ -30,6 +30,9 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task GetConsultantDetails()
         {
+#if TEST
+            Console.WriteLine("GetConsultantDetails");
+#endif
             _consultantDetails = await _api.GetCurrentUserConsultantDetails();
         }
 

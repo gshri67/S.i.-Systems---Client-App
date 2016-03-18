@@ -49,7 +49,10 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
         }
 
 	    public void LoadTimesheets()
-	    {
+        {
+#if TEST
+            Console.WriteLine("LoadTimesheets");
+#endif
             RemoveOverlay();
             
 	        UpdateTableSource();
@@ -58,7 +61,10 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    }
 
 	    private void UpdateTableSource()
-	    {
+        {
+#if TEST
+            Console.WriteLine("UpdateTableSource");
+#endif
             InvokeOnMainThread(delegate
             {
                 ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
@@ -67,8 +73,11 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    }
 
 		private void CreateCustomTitleBar()
-		{
-			InvokeOnMainThread(() =>
+        {
+#if TEST
+            Console.WriteLine("CreateTitleBar");
+#endif
+            InvokeOnMainThread(() =>
 				{
 					_subtitleHeaderView = new SubtitleHeaderView();
 					NavigationItem.TitleView = _subtitleHeaderView;
