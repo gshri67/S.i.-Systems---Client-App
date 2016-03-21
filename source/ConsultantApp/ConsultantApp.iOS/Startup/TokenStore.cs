@@ -1,3 +1,4 @@
+using System;
 using Foundation;
 using Newtonsoft.Json;
 using Security;
@@ -10,6 +11,9 @@ namespace ConsultantApp.iOS.Startup
     {
         public OAuthToken SaveToken(OAuthToken token)
         {
+#if TEST
+            Console.WriteLine("SaveToken Start");
+#endif
             var json = JsonConvert.SerializeObject(token);
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
@@ -25,21 +29,28 @@ namespace ConsultantApp.iOS.Startup
                 Accessible = SecAccessible.AlwaysThisDeviceOnly
             };
 
-            var addCode = SecKeyChain.Add(newRecord);
-            if (addCode == SecStatusCode.DuplicateItem)
-            {
-                var remCode = SecKeyChain.Remove(existingRecord);
-                if (remCode == SecStatusCode.Success)
-                {
-                    var addCode2 = SecKeyChain.Add(newRecord);
-                }
-            }
 
+            var remCode = SecKeyChain.Remove(existingRecord);
+            var addCode = SecKeyChain.Add(newRecord);
+            //if (addCode == SecStatusCode.DuplicateItem)
+            //{
+            //    var remCode = SecKeyChain.Remove(existingRecord);
+            //    if (remCode == SecStatusCode.Success)
+            //    {
+            //        var addCode2 = SecKeyChain.Add(newRecord);
+            //    }
+            //}
+#if TEST
+            Console.WriteLine("SaveToken End");
+#endif
             return token;
         }
 
         public OAuthToken GetDeviceToken()
         {
+#if TEST
+            Console.WriteLine("GetDeviceToken Start");
+#endif
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
                 Label = "Certificate",
@@ -56,6 +67,9 @@ namespace ConsultantApp.iOS.Startup
                 CurrentUser.Email = token.Username;
                 return token;
             }
+#if TEST
+            Console.WriteLine("GetDeviceToke End");
+#endif
             return null;
         }
 
@@ -84,16 +98,16 @@ namespace ConsultantApp.iOS.Startup
                 ValueData = NSData.FromString(username),
                 Accessible = SecAccessible.AlwaysThisDeviceOnly
             };
-
+            var remCode = SecKeyChain.Remove(existingRecord);
             var addCode = SecKeyChain.Add(newRecord);
-            if (addCode == SecStatusCode.DuplicateItem)
-            {
-                var remCode = SecKeyChain.Remove(existingRecord);
-                if (remCode == SecStatusCode.Success)
-                {
-                    var addCode2 = SecKeyChain.Add(newRecord);
-                }
-            }
+            //if (addCode == SecStatusCode.DuplicateItem)
+            //{
+            //    var remCode = SecKeyChain.Remove(existingRecord);
+            //    if (remCode == SecStatusCode.Success)
+            //    {
+            //        var addCode2 = SecKeyChain.Add(newRecord);
+            //    }
+            //}
         }
 
         public string GetUserName()

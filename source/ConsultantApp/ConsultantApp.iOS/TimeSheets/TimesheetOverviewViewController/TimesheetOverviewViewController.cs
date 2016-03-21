@@ -22,13 +22,13 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	public partial class TimesheetOverviewViewController : UIViewController
 	{
 	    private readonly TimesheetViewModel _timesheetModel;
-		//private Timesheet _curTimesheet;
-		private FMCalendar _calendar;
+		
+        private FMCalendar _calendar;
 		private SubtitleHeaderView _subtitleHeaderView;
 		private UIPickerView _approverPicker;
 		private PickerViewModel _approverPickerModel;
-		//IEnumerable<DirectReport> _approvers;
-		private const string ScreenTitle = "Timesheet Overview";
+		
+        private const string ScreenTitle = "Timesheet Overview";
 
 	    public TimesheetOverviewViewController (IntPtr handle) : base (handle)
 		{
@@ -39,6 +39,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         {
             _timesheetModel.SetTimesheet(timesheet);
             _timesheetModel.LoadingTimesheet.ContinueWith(_ => InvokeOnMainThread(UpdateUI));
+           
         }
 
 	    private void SetLabelText(UILabel label, string text)
@@ -72,8 +73,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 		public void UpdateUI()
 		{
-		    if (_timesheetModel.TimesheetIsNull()) return;
-
 		    SetLabelText(calendarDateLabel, _timesheetModel.TextForDate());
             SetLabelText(totalHoursLabel, _timesheetModel.TotalHoursText());
             SetLabelText(submitMonthLabel, _timesheetModel.MonthText());
@@ -86,41 +85,38 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		    if( calendarContainerView != null )
 		        SetupCalendar ();
 
-		    if (submitButton != null && approverNameTextField != null) 
-		    {
-		        //if timesheet is submitted we change the name of submit to Withdraw
-		        if (_timesheetModel.TimesheetIsSubmitted()) {
-		            submitButton.SetTitle ("Withdraw", UIControlState.Normal);
-		            submitButton.Enabled = true;
-                }
-                else if (_timesheetModel.TimesheetIsApproved())
-                {
-		            submitButton.Hidden = true;
-		        }
+		    if (submitButton != null)
+            {
+                submitButton.SetTitle(_timesheetModel.SubmitButtonText(), UIControlState.Normal);
+		        SetLabelText(approvedLabel, _timesheetModel.TimesheetStatus());
 
-		        if (_timesheetModel.TimesheetIsOpen())
-		        {
-                    approverNameTextField.Enabled = true;
+                SetStatusLabelOrButton();
+            }
 
-                    submitButton.SetTitle("Submit", UIControlState.Normal);
-                    submitButton.Enabled = true;
-		        }
-		        else {
-                    approverNameTextField.Enabled = false;   
-		        }
-
-		        if (!_timesheetModel.TimesheetIsApproved())
-		            submitButton.Hidden = false;
-		    }
+		    SetApproverField();
 
 		    View.SetNeedsLayout();
 		}
+
+	    private void SetApproverField()
+	    {
+            if(approverNameTextField != null)
+                approverNameTextField.Enabled = _timesheetModel.TimesheetIsEditable();
+	    }
+
+	    private void SetStatusLabelOrButton()
+	    {
+	        var allowStatusChange = _timesheetModel.CanChangeTimesheetStatus();
+
+            submitButton.Enabled = allowStatusChange;
+            approvedLabel.Hidden = allowStatusChange;
+            submitButton.Hidden = !allowStatusChange;
+	    }
 
 	    public override void ViewWillAppear(bool animated)
 	    {
 			base.ViewWillAppear (animated);
 
-            //SetupCalendar();
             UpdateUI();
 	    }
 
@@ -140,15 +136,18 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
             _calendar.DateSelected = delegate(DateTime date)
             {
-                AddTimeViewController vc = (AddTimeViewController)Storyboard.InstantiateViewController("AddTimeViewController");
-                vc.SetDate(date);
-                vc.SetTimesheet(_timesheetModel.Timesheet);//todo: can we not expose timesheet from the timesheetviewmodel and still do this?
+                _timesheetModel.SelectedDate = date;
+                var addTimeViewController = (AddTimeViewController)Storyboard.InstantiateViewController("AddTimeViewController");
+                addTimeViewController.SetViewModel(_timesheetModel);
 
-                AddTimeDelegate addTimeDelegate = new AddTimeDelegate();
-                addTimeDelegate.setTimesheet = delegate(Timesheet timesheet) { _timesheetModel.SetTimesheet(timesheet); };
-                vc.TimeDelegate = addTimeDelegate;
 
-                NavigationController.PushViewController(vc, true);
+                //var addTimeDelegate = new AddTimeDelegate
+                //{
+                //    setTimesheet = delegate(Timesheet timesheet) { _timesheetModel.SetTimesheet(timesheet); }
+                //};
+                //addTimeViewController.TimeDelegate = addTimeDelegate;
+
+                NavigationController.PushViewController(addTimeViewController, true);
             };
 
             calendarLeftButton.SetTitle("", UIControlState.Normal);
@@ -161,17 +160,18 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             calendarRightButton.SetImage(new UIImage("rightArrow.png"), UIControlState.Normal);
 	    }
 
-        public void LoadTimesheetApprovers()
+        private void LoadTimesheetApprovers()
         {
-            _timesheetModel.GetTimesheetApprovers();
-            _timesheetModel.LoadingTimesheetApprovers.ContinueWith(_ => InvokeOnMainThread(UpdateApproverPicker));
+            var loadingApproversTask = _timesheetModel.GetTimesheetApprovers();
+            loadingApproversTask.ContinueWith(_ => InvokeOnMainThread(UpdateApproverPicker));
         }
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
-            LoadTimesheetApprovers();
+            if(_timesheetModel.TimesheetIsEditable())
+                LoadTimesheetApprovers();
 
 			EdgesForExtendedLayout = UIRectEdge.Bottom;
 
@@ -232,10 +232,19 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 	    private void OpenSubmitActionSheet()
 	    {
-            OpenActionSheet(
-                sheetTitle: _timesheetModel.SubmitTimesheetConfirmationTitle(),
-                buttonText: "Submit",
-                buttonAction: SubmitActionSheetClicked);
+            //note that this is a result of having to Cancel the timesheet before submitting a zero time timesheet
+	        if (_timesheetModel.TimesheetHasZeroHours() && _timesheetModel.TimeSheetEntries().Any())
+                AlertOfOnlineCancellation();
+	        else
+                OpenActionSheet(
+                    sheetTitle: _timesheetModel.SubmitTimesheetConfirmationTitle(),
+                    buttonText: "Submit",
+                    buttonAction: SubmitActionSheetClicked);
+	    }
+
+	    private static void AlertOfOnlineCancellation()
+	    {
+	        new UIAlertView("Sorry", "Saved Timesheets must be cancelled online before being submitted with zero time.", null, "Ok").Show();
 	    }
 
 	    private void OpenWithdrawActionSheet()
@@ -254,13 +263,13 @@ namespace ConsultantApp.iOS.TimeEntryViewController
                 DestructiveButtonIndex = 0,
                 CancelButtonIndex = 1
             };
-
+            
             sheet.AddButton(buttonText);
             sheet.Clicked += buttonAction;
 
             sheet.AddButton("Cancel");
             sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);
-
+           
             UpdateUI();
 	    }
 
@@ -285,7 +294,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             if (UserClickedCancel(args))
                 return;
 
-            Withdraw();
+            DisplayCancelReasonAlert();
         }
 
 	    private void ContinueWithSubmission()
@@ -348,6 +357,22 @@ namespace ConsultantApp.iOS.TimeEntryViewController
                 new UIAlertView(alertText, "", null, "Ok").Show();
 	    }
 
+        private void DisplayCancelReasonAlert()
+        {
+            UIAlertView alertView = new UIAlertView("Reason", "Please enter cancel reason", null, "Cancel", "Ok");
+            alertView.AlertViewStyle = UIAlertViewStyle.PlainTextInput;
+            alertView.Clicked += (sender, args) =>
+            {
+                if (args.ButtonIndex != alertView.CancelButtonIndex)
+                {
+                    _timesheetModel.CancelReason = alertView.GetTextField(0).Text;
+                    Withdraw();
+                }
+            };
+
+            alertView.Show();
+        }
+
 	    private void CreateCustomTitleBar()
 		{
 			InvokeOnMainThread(() =>
@@ -394,7 +419,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		private void TransitionToAnimationStart()
 		{
 			StartSubmittingAnimation();
-			//UIView.Animate(0.7f, 0, UIViewAnimationOptions.TransitionNone, StartsubmittingAnimation, null);
 		}
 
 		private void BeginTransitionToAnimationComplete()

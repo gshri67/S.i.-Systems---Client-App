@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using SiSystems.SharedModels;
 using System.Net.Http;
@@ -29,22 +30,20 @@ namespace Shared.Core
         Task<ResetPasswordResult> ResetPassword(string emailAddress);
         
         Task<IEnumerable<PayPeriod>> GetPayPeriods();
-
-		Task<IEnumerable<string>> GetProjectCodes();
-
-		Task<IEnumerable<PayRate>> GetPayRates(int contractId);
-
+        
 		Task<IEnumerable<Remittance>> GetRemittances();
 
-        Task<IEnumerable<DirectReport>> GetTimesheetApproversByTimesheetId( int clientId );
+        Task<IEnumerable<DirectReport>> GetTimesheetApproversByAgreementId( int clientId );
         
         Task<ConsultantDetails> GetCurrentUserConsultantDetails();
 
-        Task<HttpResponseMessage> GetPDF(string docNumber);
-        
+        Task<Stream> GetPDF(Remittance remittance);
+
         Task<Timesheet> SaveTimesheet(Timesheet timesheet);
         
         Task<Timesheet> SubmitTimesheet(Timesheet timesheet);
+
+        Task<Timesheet> WithdrawTimesheet(int timesheetId, string cancelReason );
 
 		Task<DashboardSummary> getDashboardInfo();
 
@@ -69,6 +68,7 @@ namespace Shared.Core
         Task<IEnumerable<UserContact>> GetClientContacts();
         Task<IEnumerable<UserContact>> GetClientContactsWithFilter( string filter );
 
+        Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet);
         Task<ContractCreationDetails_Rate> GetContractCreationPayRatePageDetails(int jobId, int candidateId);
         Task<ContractCreationOptions_Rate> GetContractCreationPayRatePageOptions(int jobId, int candidateId);
 

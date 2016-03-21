@@ -34,9 +34,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 			TabBarController.TabBar.Items [0].Image = new UIImage ("ios7-clock-outline.png");
 			TabBarController.TabBar.Items [1].Image = new UIImage ("social-usd.png");
-
-            InitiatePayPeriodLoading();
-	        InitiateConsultantDetailsLoading();
 		}
 
 
@@ -52,26 +49,35 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
         }
 
 	    public void LoadTimesheets()
-	    {
+        {
+#if TEST
+            Console.WriteLine("LoadTimesheets");
+#endif
             RemoveOverlay();
-
+            
 	        UpdateTableSource();
 
 	        noTimesheetsLabel.Hidden = _activeTimesheetModel.UserHasPayPeriods();
 	    }
 
 	    private void UpdateTableSource()
-	    {
-	        if (!_activeTimesheetModel.UserHasPayPeriods())
-	                return;
-            
-            ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
-            ActiveTimesheetsTable.ReloadData();
+        {
+#if TEST
+            Console.WriteLine("UpdateTableSource");
+#endif
+            InvokeOnMainThread(delegate
+            {
+                ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
+                ActiveTimesheetsTable.ReloadData();
+            });
 	    }
 
 		private void CreateCustomTitleBar()
-		{
-			InvokeOnMainThread(() =>
+        {
+#if TEST
+            Console.WriteLine("CreateTitleBar");
+#endif
+            InvokeOnMainThread(() =>
 				{
 					_subtitleHeaderView = new SubtitleHeaderView();
 					NavigationItem.TitleView = _subtitleHeaderView;
@@ -84,9 +90,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad();
-
-            IndicateLoading();
-
+         
             CreateCustomTitleBar();
 
 		    LogoutManager.CreateNavBarRightButton(this);
@@ -96,13 +100,16 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    {
 	        base.ViewWillAppear(animated);
 
-	        InitiatePayPeriodLoading();
+            IndicateLoading();
+
+            InitiatePayPeriodLoading();
+            InitiateConsultantDetailsLoading();
 	    }
 
 	    private void InitiatePayPeriodLoading()
 	    {
-            _activeTimesheetModel.LoadPayPeriods();
-            _activeTimesheetModel.LoadingPayPeriods.ContinueWith(_ => InvokeOnMainThread(LoadTimesheets));
+            var loadPeriodsTask = _activeTimesheetModel.LoadPayPeriods();
+            loadPeriodsTask.ContinueWith(_ => InvokeOnMainThread(LoadTimesheets));
 	    }
 
 	    private void InitiateConsultantDetailsLoading()
@@ -137,9 +144,9 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
             {
                 if (_overlay != null) return;
 
-
-                var frame = new CGRect(ActiveTimesheets.Frame.X, ActiveTimesheets.Frame.Y, ActiveTimesheets.Frame.Width, ActiveTimesheets.Frame.Height);
-                _overlay = new LoadingOverlay(frame, null);
+                _overlay = new LoadingOverlay(View.Bounds, null);
+                _overlay.BackgroundColor = UIColor.FromWhiteAlpha(1.0f, 0.5f);
+                _overlay.UserInteractionEnabled = false;
                 View.Add(_overlay);
             });
         }

@@ -12,6 +12,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         /// Basically the entire hierarchy.
         /// </summary>
         IEnumerable<int> GetAllAssociatedCompanyIds(int companyId);
+
+        int GetCompanyIdByAgreementId(int agreementId);
     }
 
     public class CompanyRepository : ICompanyRepository
@@ -36,6 +38,16 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
             var nodes = new TreeTraverser().GetAllConnectedNodes(companyNode);
 
             return nodes.Select(n => n.Id);
+        }
+
+        public int GetCompanyIdByAgreementId(int agreementId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string companyFromAgreementQuery = "SELECT CompanyId FROM Agreement WHERE AgreementId = @AgreementId";
+
+                return db.Connection.Query<int>(companyFromAgreementQuery, new {AgreementId = agreementId}).FirstOrDefault();
+            }
         }
 
         /// <summary>

@@ -189,7 +189,7 @@ namespace ConsultantApp.iOS
 
 				dayView.Date = viewDay;
 
-				dayView.totalHours = _timeEntries.Where(e => e.Date.Equals(viewDay) ).Sum( t => t.Hours ).ToString();
+				dayView.totalHours = _timeEntries.Where(e => e.EntryDate.Equals(viewDay) ).Sum( t => t.Hours ).ToString();
 				if ( !insideTimePeriod(viewDay.Date) )
 					dayView.BackgroundColor = outsidePeriodColor;
 

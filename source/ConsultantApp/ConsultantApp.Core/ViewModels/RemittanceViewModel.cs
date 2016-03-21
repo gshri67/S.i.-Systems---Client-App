@@ -21,11 +21,11 @@ namespace ConsultantApp.Core.ViewModels
 		{
 			return _api.GetRemittances();
 		}
-
+        /*
         public Task< HttpResponseMessage > GetPDF( string docNumber )
         {
             return _api.GetPDF( docNumber );
-        }
+        }*/
 	}
 }
 

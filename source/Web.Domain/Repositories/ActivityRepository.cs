@@ -41,7 +41,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     activitytype = typeId,
                     complete = (bool?)null,
                     status = (int?)null,
-                    AgreementID = timesheet.ContractId,
+                    AgreementID = timesheet.AgreementId,
                     VerticalID = MatchGuideConstants.VerticalId.IT
                 }).FirstOrDefault();
 

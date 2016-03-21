@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -139,31 +141,7 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<PayPeriod[]>();
         }
-
-		[HttpGet("Timesheets/ProjectCodes")]
-		public async Task<IEnumerable<string>> GetProjectCodes()
-		{
-
-			List<String> list = new List<string> ();
-			list.Add ("PC123");
-			list.Add ("PC124");
-			list.Add ("PC125");
-			list.Add ("PC126");
-			list.Add ("PC127");
-			list.Add ("PC128");
-
-			IEnumerable<string> enumerableList = list;
-			return list;
-
-			//return await ExecuteWithDefaultClient<string[]>();
-		}
-
-		[HttpGet("PayRates/{id}")]
-		public async Task<IEnumerable<PayRate>> GetPayRates(int id)
-		{
-            return await ExecuteWithDefaultClient<IEnumerable<PayRate>>(new { id });
-		}
-
+        
         [HttpGet("Remittances")]
 		public async Task<IEnumerable<Remittance>> GetRemittances()
 		{
@@ -171,9 +149,9 @@ namespace Shared.Core
 		}
 
         [HttpGet("TimesheetApprovers/{id}")]
-        public async Task<IEnumerable<DirectReport>> GetTimesheetApproversByTimesheetId(int clientId)
+        public async Task<IEnumerable<DirectReport>> GetTimesheetApproversByAgreementId(int agreementId)
         {
-            return await ExecuteWithDefaultClient<IEnumerable<DirectReport>>(new { id = clientId });
+            return await ExecuteWithDefaultClient<IEnumerable<DirectReport>>(new { id = agreementId });
         }
 
         [HttpGet("ConsultantDetails")]
@@ -182,10 +160,20 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<ConsultantDetails>();
         }
 
-        [HttpGet("Remittances/pdf/{docNumber}")]
-        public async Task<HttpResponseMessage> GetPDF(string docNumber) 
+        [HttpPost("Remittances/pdf/remittanceVar")]
+        public async Task<Stream> GetPDF(Remittance rm)
         {
-            return await ExecuteWithDefaultClient<HttpResponseMessage>(new { docNumber });
+            HttpResponseMessage response = await ExecuteWithStreamingClient(rm);
+            try
+            {
+                if (response != null)
+                    return await response.Content.ReadAsStreamAsync();
+                return null;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         [HttpPost("Timesheets")]
@@ -198,6 +186,12 @@ namespace Shared.Core
         public async Task<Timesheet> SubmitTimesheet(Timesheet timesheet)
         {
             return await ExecuteWithDefaultClient<Timesheet>(timesheet);
+        }
+
+        [HttpPost("Timesheets/Withdraw")]
+        public async Task<Timesheet> WithdrawTimesheet(int timesheetId, string cancelReason )
+        {
+            return await ExecuteWithDefaultClient<Timesheet>(new {timesheetId, cancelReason} );
         }
 
 		[HttpGet("Dashboard")]
@@ -306,6 +300,12 @@ namespace Shared.Core
         public async Task<ContractCreationOptions> GetContractCreationDetailOptions(int jobId, int candidateId)
         {
             return await ExecuteWithDefaultClient<ContractCreationOptions>(new { jobId, candidateId });
+        }
+            
+        [HttpPost("PayRates/TimesheetSupport")]
+        public async Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet)
+        {
+            return await ExecuteWithDefaultClient<TimesheetSupport>(timesheet);
         }
 
         [HttpGet("ContractCreationDetails/Initial/Job/{jobId}/Candidate/{candidateId}")]

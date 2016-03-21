@@ -1,9 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using Newtonsoft.Json;
+using SiSystems.ClientApp.Web.Domain.Services;
 using SiSystems.ConsultantApp.Web.Domain.Services;
 using SiSystems.ConsultantApp.Web.Filters;
+using SiSystems.SharedModels;
 
 namespace SiSystems.ConsultantApp.Web.Controllers.Api
 {
@@ -12,9 +17,12 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
     public class RemittancesController: ApiController
     {
         private readonly RemittanceService _service;
-        public RemittancesController(RemittanceService service)
+        private readonly MyAccountService _myAccountService;
+
+        public RemittancesController(RemittanceService service, MyAccountService myAccountService)
         {
             _service = service;
+            _myAccountService = myAccountService;
         }
 
         public HttpResponseMessage GetRemittances()
@@ -23,11 +31,13 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, remittances);
         }
 
-        [Route("pdf/{docNumber}")]
-        public HttpResponseMessage GetPDF( string docNumber )
+        [Route("pdf/remittanceVar")]
+        public async Task<HttpResponseMessage> Post(Remittance rm)
         {
-            var pdf = _service.GetPDF(docNumber);
-            return Request.CreateResponse(HttpStatusCode.OK, pdf);
+            //var result = await _myAccountService.RequestERemittancePDF("191844", "330567", "pam", "2015-11-20", "sipar");
+            var result = await _myAccountService.RequestERemittancePDF(rm);
+
+            return result;
         }
     }
 }

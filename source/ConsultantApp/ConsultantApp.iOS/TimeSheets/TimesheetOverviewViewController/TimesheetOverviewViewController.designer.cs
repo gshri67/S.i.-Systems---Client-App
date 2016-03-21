@@ -16,6 +16,9 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		UIKit.UIButton addButton { get; set; }
 
 		[Outlet]
+		UIKit.UILabel approvedLabel { get; set; }
+
+		[Outlet]
 		UIKit.UIView approverContainerView { get; set; }
 
 		[Outlet]
@@ -116,6 +119,11 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 				calendarRightButton = null;
 			}
 
+			if (approvedLabel != null) {
+				approvedLabel.Dispose ();
+				approvedLabel = null;
+			}
+
 			if (emptySubmitButton != null) {
 				emptySubmitButton.Dispose ();
 				emptySubmitButton = null;
@@ -146,6 +154,11 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 				submittedLabel = null;
 			}
 
+			if (submittingIndicator != null) {
+				submittingIndicator.Dispose ();
+				submittingIndicator = null;
+			}
+
 			if (submittingLabel != null) {
 				submittingLabel.Dispose ();
 				submittingLabel = null;
@@ -159,11 +172,6 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 			if (totalHoursLabel != null) {
 				totalHoursLabel.Dispose ();
 				totalHoursLabel = null;
-			}
-
-			if (submittingIndicator != null) {
-				submittingIndicator.Dispose ();
-				submittingIndicator = null;
 			}
 		}
 	}

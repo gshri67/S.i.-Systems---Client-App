@@ -17,7 +17,7 @@ namespace ConsultantApp.iOS
 	{
 		public TimeEntry TimeEntry;
 
-		public delegate void CellDelegate();
+		public delegate void CellDelegate(TimeEntry entry);
 		public  CellDelegate OnSave;
 		public  CellDelegate OnDelete;
 
@@ -27,7 +27,7 @@ namespace ConsultantApp.iOS
 		private UITextField _hoursTextField;
 		private PickerViewModel _pickerModel;
 		private List<string> _projectCodes;
-		private IEnumerable<PayRate> _payRates;
+        private IEnumerable<ProjectCodeRateDetails> _payRates;
 
         private const int PayRateComponentIndex = 1;
 
@@ -89,22 +89,24 @@ namespace ConsultantApp.iOS
 			_deleteButton.TranslatesAutoresizingMaskIntoConstraints = false;
 			_deleteButton.TouchUpInside += delegate 
 			{
-				OnDelete();
+				OnDelete(null);
 			};
 			AddSubview (_deleteButton);
 		}
 
-		public void SetTimeEntry( TimeEntry entry )
-		{
-			TimeEntry = entry;
-			UpdateUI ();
-		}
+        //public void SetTimeEntry( TimeEntry entry )
+        //{
+        //    TimeEntry = entry;
+        //    UpdateUI ();
+        //}
 
-		public void SetData( TimeEntry entry, IEnumerable<string> projectCodes, IEnumerable<PayRate> payRates )
+        public void SetData(TimeEntry entry, IEnumerable<ProjectCodeRateDetails> codeRates)
 		{
 			TimeEntry = entry;
-			this._projectCodes = projectCodes.ToList();
-			this._payRates = payRates;
+            
+		    _projectCodes = codeRates.Select(details => details.PONumber).Distinct().ToList();
+            _payRates = codeRates;
+            
 			UpdateUI();
 		}
 
@@ -123,21 +125,21 @@ namespace ConsultantApp.iOS
 				return;
 			
 
-			var mostFrequentlyUsed = ActiveTimesheetViewModel.MostFrequentProjectCodes();
-			var frequentlyUsed = mostFrequentlyUsed as IList<string> ?? mostFrequentlyUsed.ToList();
-			var notFrequentlyUsed = _projectCodes.Except(frequentlyUsed).ToList();
-			notFrequentlyUsed.Sort();
+			var frequentlyUsedAndAvailable = MostFrequentlyUsedOfAvailableCodeRates();
 
-			_projectCodes = frequentlyUsed.Concat(notFrequentlyUsed).ToList();
+            var infrequentlyUsed = _projectCodes.Except(frequentlyUsedAndAvailable).ToList();
+			infrequentlyUsed.Sort();
+
+			_projectCodes = frequentlyUsedAndAvailable.Concat(infrequentlyUsed).ToList();
 
 			_pickerModel.items = new List<List<string>>
 			{
 				_projectCodes.ToList()
 			};
 
-			_pickerModel.numFrequentItems[0] = frequentlyUsed.Count;
+			_pickerModel.numFrequentItems[0] = frequentlyUsedAndAvailable.Count;
 
-			List<string> payRateStringList = _payRates.Select (pr => string.Format ("{0} ({1:C})", pr.RateDescription, pr.Rate)).ToList ();
+			var payRateStringList = _payRates.Select (pr => string.Format ("{0} ({1:C})", pr.ratedescription, pr.rateAmount)).ToList ();
 
 			_pickerModel.items = new List<List<string>>
 			{
@@ -146,16 +148,21 @@ namespace ConsultantApp.iOS
 			};
 
 
-			loadSelectedPickerItem ( TimeEntry.ProjectCode, _projectCodes, 0 );
+			loadSelectedPickerItem ( TimeEntry.CodeRate.PONumber, _projectCodes, 0 );
 
-			if( TimeEntry.PayRate != null )
-				loadSelectedPickerItem ( string.Format ("{0} ({1:C})", TimeEntry.PayRate.RateDescription, TimeEntry.PayRate.Rate), payRateStringList, 1 );
+			if( TimeEntry.CodeRate != null )
+                loadSelectedPickerItem ( string.Format ("{0} ({1:C})", TimeEntry.CodeRate.ratedescription, TimeEntry.CodeRate.rateAmount), payRateStringList, 1 );
 			else
 				loadSelectedPickerItem ( null, payRateStringList, 1 );
 			
 		}
 
-		//find the index of the input item in the item list (if it exists). Then scroll to that item
+	    private List<string> MostFrequentlyUsedOfAvailableCodeRates()
+	    {
+	        return ActiveTimesheetViewModel.MostFrequentProjectCodes().Where(s => _projectCodes.Contains(s)).ToList();
+	    }
+
+	    //find the index of the input item in the item list (if it exists). Then scroll to that item
 		private void loadSelectedPickerItem( string item, List<string> itemList, int component )
 		{
 			int itemIndex = 0;
@@ -202,18 +209,19 @@ namespace ConsultantApp.iOS
 
 		public void SaveChanges()
 		{
-			TimeEntry.ProjectCode = _pickerModel.items.ElementAt(0).ElementAt( _pickerModel.selectedItemIndex.ElementAt(0) );
+		    if (_pickerModel.items.ElementAt(0) == null)
+		        return;
 
 			SetTimeEntryPayRateToSelectedRate();
 
-			ActiveTimesheetViewModel.IncrementProjectCodeCount(TimeEntry.ProjectCode);
+		    ActiveTimesheetViewModel.IncrementProjectCodeCount(TimeEntry.CodeRate.PONumber);
 			
-			OnSave();
+			OnSave(TimeEntry);
 		}
 
 	    private void SetTimeEntryPayRateToSelectedRate()
 	    {
-            TimeEntry.PayRate = _payRates.ElementAt(GetSelectedIndexForComponent(PayRateComponentIndex));
+            TimeEntry.CodeRate = _payRates.ElementAt(GetSelectedIndexForComponent(PayRateComponentIndex));
 	    }
 
 	    private int GetSelectedIndexForComponent(int componentIndex)

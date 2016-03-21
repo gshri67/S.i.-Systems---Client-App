@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -26,10 +27,19 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         }
 
         [Route("Submit")]
+        [HttpPost]
         public HttpResponseMessage Submit(Timesheet timesheet)
         {
             var submittedTimesheet = _service.SubmitTimesheet(timesheet);
             return Request.CreateResponse(HttpStatusCode.OK, submittedTimesheet);
+        }
+
+        [Route("Withdraw")]
+        [HttpPost]
+        public HttpResponseMessage WithdrawTimesheet(int timesheetId, string cancelReason)
+        {
+            var withdrawnTimesheet = _service.WithdrawTimesheet(timesheetId, cancelReason);
+            return Request.CreateResponse(HttpStatusCode.OK, withdrawnTimesheet);
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,27 +14,29 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
     {
         private readonly ISessionContext _sessionContext;
         private readonly IPayRateRepository _payRateRepository;
+        private readonly ITimesheetRepository _timesheetRepository;
 
-        public PayRateService(ISessionContext sessionContext, IPayRateRepository payRateRepository)
+        public PayRateService(ISessionContext sessionContext, IPayRateRepository payRateRepository, ITimesheetRepository timesheetRepository)
         {
             _sessionContext = sessionContext;
             _payRateRepository = payRateRepository;
+            _timesheetRepository = timesheetRepository;
         }
 
-        public IEnumerable<PayRate> GetPayRatesByContractId(int id)
+        public TimesheetSupport GetTimesheetSupportByTimesheet(Timesheet timesheet)
         {
-            var payRates = _payRateRepository.GetPayRates();
+            var projectCodeIds = _payRateRepository.GetProjectIdsFromTimesheet(timesheet);
+            
+            var payRateIds = timesheet.Status == MatchGuideConstants.TimesheetStatus.Open
+                ? _payRateRepository.GetContractRateIdFromOpenTimesheet(timesheet)
+                : _payRateRepository.GetContractRateIdFromSavedOrSubmittedTimesheet(timesheet);
+            
+            var projectCodeRateDetails = _payRateRepository.GetProjectCodesAndPayRatesFromIds(projectCodeIds, payRateIds);
 
-            var list = new List<string>();
-            var ratesList = new List<PayRate>();
-
-            foreach (var payRate in payRates.Where(payRate => payRate.RateDescription != null && !list.Contains(payRate.RateDescription)))
+            return new TimesheetSupport
             {
-                list.Add(payRate.RateDescription);
-                ratesList.Add(payRate);
-            }  
-
-            return ratesList;
+                ProjectCodeOptions = projectCodeRateDetails.ToList()
+            };
         }
     }
 }

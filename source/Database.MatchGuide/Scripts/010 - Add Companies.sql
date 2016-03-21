@@ -55,3 +55,62 @@ VALUES
 
 SET IDENTITY_INSERT [dbo].[CompanyProject] OFF;
 
+
+SET IDENTITY_INSERT [dbo].[ContractProjectPO] ON;
+
+INSERT INTO [dbo].[ContractProjectPO]
+(
+	ContractProjectPOID,
+	CompanyProjectID,
+	AgreementID,
+	InActive,
+	IsGeneralProjectPO,
+	InactiveForUser,
+	verticalid
+)
+VALUES
+(1, 1, 1, 0, 0, 0, 4),
+(2, 2, 1, 0, 0, 0, 4),
+(3, 3, 1, 0, 0, 0, 4);
+
+SET IDENTITY_INSERT [dbo].[ContractProjectPO] OFF;
+
+
+SET IDENTITY_INSERT [dbo].[CompanyPO] ON;
+
+INSERT INTO [dbo].[CompanyPO]
+(
+	CompanyPOID,
+	PONumber,
+	Description,
+	CompanyID,
+	InActive,
+	CreateDate,
+	CreateUserID,
+	verticalid
+)
+VALUES
+(1, 'PO Number', 'Description', 1, 0, '2013-12-11', 1, 4),
+(2, 'PO Number', 'Description', 2, 0, '2013-12-11', 2, 4),
+(3, 'PO Number', 'Description', 3, 0, '2013-12-11', 3, 4);
+
+SET IDENTITY_INSERT [dbo].[CompanyPO] OFF;
+
+
+
+SET IDENTITY_INSERT [dbo].[CompanyPOProjectMatrix] ON;
+
+INSERT INTO [dbo].[CompanyPOProjectMatrix]
+(
+	CompanyPOProjectMatrixID,
+	CompanyPOID,
+	CompanyProjectID,
+	InActive,
+	verticalid
+)
+VALUES
+(1, 1, 1, 0, 4),
+(2, 2, 2, 0, 4),
+(3, 3, 3, 0, 4);
+
+SET IDENTITY_INSERT [dbo].[CompanyPOProjectMatrix] OFF;

@@ -87,3 +87,63 @@ where
 end
 
 GO
+
+/*
+   **************** GetPickListId *******************
+   Note that this is not the same as GetPickListIds as this is a scalar function
+*/
+
+CREATE function [dbo].[udf_GetPickListId](  
+ @picktype nvarchar(100),  
+ @picklisttitle nvarchar(1000),
+ @verticalid int  
+)  
+returns int  
+as  
+begin  
+ declare @Return int  
+
+ if @picklisttitle is not null  
+  begin  
+select @return = pl.PicklistId
+from PickList pl  
+	inner join Picktype pt  on pt.picktypeid = pl.picktypeid 
+		and pt.type = @picktype 
+		and pl.Title = @picklisttitle
+where  
+	pl.inactive = 0 
+	and pt.inactive = 0
+	and pl.verticalid in (@verticalid,-1)  
+  end  
+
+ return @return  
+end
+
+GO
+
+/*
+   **************** GetPickListTitle *******************
+*/
+
+CREATE  FUNCTION [dbo].[udf_GetPickListTitle](
+	@picklistID INT,
+	@verticalid int
+)
+RETURNS Varchar(500)
+AS
+BEGIN
+	DECLARE @Return Varchar(50)
+
+	IF @picklistID IS NOT NULL
+		SELECT @return = pl.title
+		From PickList pl
+		Where pl.PicklistId = @PicklistId and pl.inactive = 0 and pl.verticalid in (@verticalid,-1)
+	Else
+		SELECT @return = pl.title
+		From PickList pl
+		Where pl.inactive = 0
+		and pl.verticalid in (@verticalid,-1)
+
+	RETURN ltrim(rtrim(@return))
+END
+GO

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using ConsultantApp.Core.ViewModels;
 using Microsoft.Practices.Unity;
 using Shared.Core;
@@ -15,92 +16,58 @@ namespace ConsultantApp.iOS
     partial class AddTimeViewController : UIViewController
     {
         private const string ScreenTitle = "Add/Edit Time";
-        private readonly TimesheetViewModel _timesheetModel;
+        private TimesheetViewModel _timesheetModel;
         private AddTimeTableViewSource _addTimeTableViewSource;
-        private Timesheet _curTimesheet;
-        private IEnumerable<PayRate> _payRates;
         private SubtitleHeaderView _subtitleHeaderView;
-        public DateTime Date;
-		private int maxFrequentlyUsed = 5;
-
-        public AddTimeDelegate TimeDelegate;
-
+        
         public AddTimeViewController(IntPtr handle) : base(handle)
         {
-            _timesheetModel = DependencyResolver.Current.Resolve<TimesheetViewModel>();
-
             EdgesForExtendedLayout = UIRectEdge.None;
+        }
+
+        public void SetViewModel(TimesheetViewModel timesheetModel)
+        {
+            _timesheetModel = timesheetModel;
         }
 
         public void SetTimesheet(Timesheet timesheet)
         {
-            _curTimesheet = timesheet;
-
+            _timesheetModel.SetTimesheet(timesheet);
             UpdateUI();
         }
 
-        public void SetDate(DateTime date)
+        public void LoadPayRates()
         {
-            Date = date;
-
-            UpdateUI();
-        }
-
-        public async void LoadPayRates()
-        {
-            if (_payRates != null) return;
-
-            _payRates = await _timesheetModel.GetPayRates(_curTimesheet.ContractId);
-            
-			UpdateUI();
+            var loadSupportTask = _timesheetModel.LoadTimesheetSupport();
+            loadSupportTask.ContinueWith(_ => InvokeOnMainThread(UpdateUI));
         }
 
         private void SetupTableViewSource()
         {
-            if (tableview == null || _payRates == null || _curTimesheet == null || _addTimeTableViewSource != null)
+            if (tableview == null)
                 return;
 
             RegisterCellsForReuse();
             InstantiateTableViewSource();
-
-            tableview.Source = _addTimeTableViewSource;
         }
 
         private void InstantiateTableViewSource()
         {
             _addTimeTableViewSource = new AddTimeTableViewSource(
-                GetTimeEntriesForSelectedDate(),
-                _timesheetModel.GetProjectCodes().Result, 
-                _payRates
+                _timesheetModel.GetSelectedDatesTimeEntries(),
+                _timesheetModel.TimesheetSupport.ProjectCodeOptions
             );
 
-            _addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
-        }
+            _addTimeTableViewSource.OnDataChanged = AddTimeTableDataChanged;
 
-        //todo:move to viewmodel
-        private IEnumerable<TimeEntry> GetTimeEntriesForSelectedDate()
-        {
-            return (_curTimesheet == null)
-                ? Enumerable.Empty<TimeEntry>()
-                : _curTimesheet.TimeEntries.Where(e => e.Date.Equals(Date));
+            tableview.Source = _addTimeTableViewSource;
         }
 
         private void AddTimeTableDataChanged(IEnumerable<TimeEntry> timeEntries)
         {
-            _curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Where(e => !e.Date.Equals(Date)).Concat(timeEntries);
-            SetHeaderHours();
-        }
+            _timesheetModel.SetSelectedDatesEntries(timeEntries);
 
-        private static string TimeEntriesHoursTotal(IEnumerable<TimeEntry> timeEntries)
-        {
-            return timeEntries.Sum(t => t.Hours).ToString(CultureInfo.InvariantCulture);
-        }
-
-        //todo:move to viewmodel
-        private string TotalHoursForCurrentDate()
-        {
-            var currentDateTimeEntries = GetTimeEntriesForSelectedDate();
-            return TimeEntriesHoursTotal(currentDateTimeEntries);
+            UpdateUI();
         }
 
         private void RegisterCellsForReuse()
@@ -133,22 +100,27 @@ namespace ConsultantApp.iOS
 
         private void EnabledAddButton(bool enabled)
         {
-            if (addButton != null)
-                addButton.Enabled = enabled;
+            if (addButton == null)
+                return;
+            addButton.Enabled = enabled && _timesheetModel.SelectedDateHasUnpopulatedRateCodes();
         }
 
         private void EnableSaveButton(bool enabled)
         {
             if (saveButton == null)
                 return;
-            
-            saveButton.Enabled = enabled;
-            saveButton.Hidden = !enabled;
+
+            //note that we have to disable to button if there are no timeentries because saving a timesheet with 
+            //zero hours breaks the GetOpenTimesheets Stored Procedure (the timesheet will not be returned)
+            var hasTimeEntries = _timesheetModel.TimeSheetEntries().Any();
+
+            saveButton.Enabled = enabled && hasTimeEntries;
+            saveButton.Hidden = !(enabled && hasTimeEntries);
         }
 
         private void SetTimesheetEditability()
         {
-            var enabled = TimesheetEditable();
+            var enabled = _timesheetModel.TimesheetIsEditable();
 
             EnabledAddButton(enabled);
             EnableSaveButton(enabled);
@@ -158,11 +130,9 @@ namespace ConsultantApp.iOS
 
         private void SetHeaderHours()
         {
-            if (_curTimesheet == null) return;
-
             if (headerHoursLabel != null)
             {
-                headerHoursLabel.Text = TotalHoursForCurrentDate();
+                headerHoursLabel.Text = _timesheetModel.NumberOfHoursForSelectedDate().ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -171,52 +141,36 @@ namespace ConsultantApp.iOS
         {
             SetHeaderDate();
             SetHeaderHours();
+            SetDateNavigation();
             SetupTableViewSource();
             SetTimesheetEditability();
             ReloadTableViewData();
         }
 
-        private bool TimesheetEditable()
-        {
-            if (_curTimesheet == null) return false;
-
-            return _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Open
-                   || _curTimesheet.Status == MatchGuideConstants.TimesheetStatus.Rejected;
-        }
-
         private void SetHeaderDate()
         {
-            if (headerDateLabel != null)
-                headerDateLabel.Text = Date.ToString("MMM") + " " + Date.ToString("dd").TrimStart('0');
             if (headerDayOfWeekLabel != null)
-                headerDayOfWeekLabel.Text = Date.ToString("ddd");
+                headerDayOfWeekLabel.Text = string.Format("{0:ddd}", _timesheetModel.SelectedDate);
+
+            if (headerDateLabel != null)
+                headerDateLabel.Text = string.Format("{0:MMM} {0:%d}", _timesheetModel.SelectedDate);
         }
 
-        private bool DateIsContainedWithinTimesheet(DateTime date)
+        private void SetDateNavigation()
         {
-            return date >= _curTimesheet.StartDate && date <= _curTimesheet.EndDate;
-        }
-
-        private void SetCurrentDate(DateTime desiredDate)
-        {
-            if (DateIsContainedWithinTimesheet(desiredDate))
-                SetDate(desiredDate);
-        }
-
-        private void ToggleDateNavigation()
-        {
-            rightArrowButton.Hidden = !DateIsContainedWithinTimesheet(Date.AddDays(1));
-            leftArrowButton.Hidden = !DateIsContainedWithinTimesheet(Date.AddDays(-1));
+            rightArrowButton.Hidden = !_timesheetModel.CanNavigteToNextDay();
+            leftArrowButton.Hidden = !_timesheetModel.CanNavigateToPreviousDay();
         }
 
         private void NavigateDay(object sender, EventArgs e)
         {
-            var desiredDate = sender == leftArrowButton
-                ? Date.AddDays(-1)
-                : Date.AddDays(1);
+			if (_addTimeTableViewSource != null)
+				_addTimeTableViewSource.SaveOpenExpandedCells ( tableview );
 
-            SetCurrentDate(desiredDate);
-            ToggleDateNavigation();
+            if (Equals(sender, leftArrowButton))
+                _timesheetModel.NavigateToPreviousDay();
+            else
+                _timesheetModel.NavigateToNextDay();
 
             UpdateUI();
         }
@@ -232,10 +186,7 @@ namespace ConsultantApp.iOS
             SetupDayNavigationButton(leftArrowButton, new UIImage("leftArrow.png"));
             SetupDayNavigationButton(rightArrowButton, new UIImage("rightArrow.png"));
 
-            if (Date.CompareTo(_curTimesheet.StartDate) == 0)
-                leftArrowButton.Hidden = true;
-            else if (Date.CompareTo(_curTimesheet.EndDate) == 0)
-                rightArrowButton.Hidden = true;
+            SetDateNavigation();
         }
 
         public override void ViewDidLoad()
@@ -244,33 +195,22 @@ namespace ConsultantApp.iOS
 
 			headerContainer.BackgroundColor = UIColor.White;// StyleGuideConstants.LightGrayUiColor;
 
-            LoadPayRates();
+            if (_timesheetModel.TimesheetIsEditable())
+                LoadPayRates();
 
             SetupDayNavigationButtons();
 
             addButton.TouchUpInside += delegate
             {
-                var newEntry = new TimeEntry
-                {
-                    Date = Date,
-                    ProjectCode = "Project Code",
-                    Hours = 8,
-                    PayRate = new PayRate
-                    {
-                        RateDescription = "Pay Rate"
-                    }
-                };
-
-                IEnumerable<TimeEntry> newEnumerableEntry = new List<TimeEntry> {newEntry};
-
-                _curTimesheet.TimeEntries = _curTimesheet.TimeEntries.Concat(newEnumerableEntry);
-                _addTimeTableViewSource.TimeEntries = _curTimesheet.TimeEntries.Where(e => e.Date.Equals(Date));
-
+                _timesheetModel.AddDefaultTimeEntry();
+                _addTimeTableViewSource.TimeEntries = _timesheetModel.GetSelectedDatesTimeEntries();
+                _addTimeTableViewSource.CodeRateDetails = _timesheetModel.TimesheetSupport.ProjectCodeOptions;
+                
                 _addTimeTableViewSource.HandleNewCell();
 
                 tableview.ReloadData();
 
-				_addTimeTableViewSource.scrollToExpandedCell(tableview);
+				_addTimeTableViewSource.ScrollToExpandedCell(tableview);
             };
             addButton.TintColor = StyleGuideConstants.RedUiColor;
 
@@ -281,36 +221,11 @@ namespace ConsultantApp.iOS
 
 			saveButton.TouchUpInside += async delegate
 			{
-				bool saveFailed = false;
+				TransitionToSavingAnimation();
 
-				savedLabel.Text = "Saved";
-
-                TransitionToSavingAnimation();
-
-				try{
-                    _curTimesheet = await _timesheetModel.SaveTimesheet( _curTimesheet );
-
-					if( _curTimesheet == null )
-						saveFailed = true;
-				}
-				catch
-				{
-					saveFailed = true;	
-				}
-
-                if (saveFailed)
-                {
-                    savedLabel.Text = "Error";
-
-                    UIAlertView confirmationAlertView = new UIAlertView("Failed to save changes", "", null, "Ok");
-                    confirmationAlertView.Show();
-                }
-                else
-                {
-                    TimeDelegate.setTimesheet(_curTimesheet);
-                }
-
-                BeginTransitionToSavedAnimation();
+				var savingTimesheetTask = _timesheetModel.SaveTimesheet();
+			    savingTimesheetTask.ContinueWith(_ => InvokeOnMainThread(TimesheetSaveSuccess), TaskContinuationOptions.OnlyOnRanToCompletion);
+                savingTimesheetTask.ContinueWith(_ => InvokeOnMainThread(TimesheetSaveFailed), TaskContinuationOptions.OnlyOnFaulted);
 			};
 
             tableview.ContentInset = new UIEdgeInsets(-35, 0, 0, 0);
@@ -319,10 +234,22 @@ namespace ConsultantApp.iOS
             CreateCustomTitleBar();
         }
 
+        private void TimesheetSaveSuccess()
+        {
+            BeginTransitionToSavedAnimation();
+        }
+
+        private void TimesheetSaveFailed()
+        {
+            savedLabel.Text = "Error";
+
+            UIAlertView confirmationAlertView = new UIAlertView("Failed to save changes", "", null, "Ok");
+            confirmationAlertView.Show();
+        }
+
         private void TransitionToSavingAnimation()
         {
             StartSavingAnimation();
-            //UIView.Animate(0.7f, 0, UIViewAnimationOptions.TransitionNone, StartSavingAnimation, null);
         }
 
         private void BeginTransitionToSavedAnimation()
@@ -377,6 +304,8 @@ namespace ConsultantApp.iOS
 
         private void StartSavingAnimation()
         {
+            savedLabel.Text = "Saved";
+
             saveButton.Alpha = 0;
 			emptySaveButton.Alpha = 1;
             savingLabel.Alpha = 1;
@@ -403,5 +332,13 @@ namespace ConsultantApp.iOS
                 NavigationItem.Title = "";
             });
         }
+
+		public override void ViewWillDisappear (bool animated)
+		{
+			base.ViewWillDisappear (animated);
+
+			if (_addTimeTableViewSource != null)
+				_addTimeTableViewSource.SaveOpenExpandedCells ( tableview );
+		}
     }
 }

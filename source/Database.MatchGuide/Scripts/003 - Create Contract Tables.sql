@@ -1,35 +1,5 @@
 ﻿
 
-CREATE TABLE [dbo].[Agreement](
-	[AgreementID] [int] IDENTITY(1,1) NOT NULL,
-	--[AgreementSubID] [int] NOT NULL,
-	[AgreementType] [int] NOT NULL,
-	[AgreementSubType] [varchar](50) NULL CONSTRAINT [DF_Agreements_SubType]  DEFAULT (0),
-	--[BranchID] [int] NOT NULL,
-	--[BranchSubID] [int] NULL,
-	[AccountExecID] [int] NOT NULL,
-	--[RecruiterID] [int] NULL,
-	[CandidateID] [int] NULL,
-	[CompanyID] [int] NOT NULL,
-	[ContactID] [int] NULL,
-	--[CreateUserID] [int] NOT NULL,
-	--[CreateDate] [datetime] NOT NULL CONSTRAINT [DF_Agreements_CreateDate]  DEFAULT (getdate()),
-	--[UpdateUserID] [int] NULL,
-	--[UpdateDate] [datetime] NULL,
-	[StatusType] [int] NOT NULL,
-	[StartDate] [datetime] NULL,
-	[EndDate] [datetime] NULL,
-	--[LockAccount] [bit] NULL CONSTRAINT [DF_Agreement_LockAccount]  DEFAULT (0),
-	[Inactive] [bit] NOT NULL CONSTRAINT [DF_Agreement_Inactive]  DEFAULT (0),
-	--[verticalid] [int] NULL,
-	--[pushtopam] [bit] NULL,
- CONSTRAINT [PK_Agreements] PRIMARY KEY CLUSTERED 
-(
-	[AgreementID] ASC
-) ON [PRIMARY]);
-
-GO
-
 CREATE TABLE [dbo].[Agreement_ContractDetail](
 	[AgreementID] [int] NOT NULL,
 	[JobTitle] [varchar](4000) NULL,
@@ -104,7 +74,7 @@ GO
 CREATE TABLE [dbo].[Agreement_ContractRateDetail](
 	[ContractRateID] [int] IDENTITY(1,1) NOT NULL,
 	[RateDescription] [varchar](255) NULL,
-	--[RateTermType] [int] NULL,
+	[RateTermType] [int] NULL,
 	[AgreementID] [int] NOT NULL,
 	[StartDate] [smalldatetime] NULL,
 	[EndDate] [smalldatetime] NOT NULL,
@@ -116,18 +86,18 @@ CREATE TABLE [dbo].[Agreement_ContractRateDetail](
 	--[PlacementFeeVariable] [decimal](5, 2) NULL,
 	--[CalloutFeeFixed] [money] NULL,
 	--[CalloutFeeVariable] [decimal](5, 2) NULL,
-	--[HoursPerDay] [decimal](18, 2) NULL CONSTRAINT [DF_Contract_RateAdministration_HoursPerDay]  DEFAULT ((7.5)),
+	[HoursPerDay] [decimal](18, 2) NULL CONSTRAINT [DF_Contract_RateAdministration_HoursPerDay]  DEFAULT ((7.5)),
 	--[CreateDate] [smalldatetime] NOT NULL CONSTRAINT [DF_Contract_RateAdministration_CreateDate]  DEFAULT (getdate()),
 	--[CreateUserID] [int] NOT NULL,
 	--[UpdateDate] [smalldatetime] NULL,
 	--[UpdateUserID] [int] NULL,
-	--[PrimaryRateTerm] [bit] NOT NULL CONSTRAINT [DF_Agreement_ContractRateDetail_PrimaryRateTerm]  DEFAULT ((0)),
+	[PrimaryRateTerm] [bit] NOT NULL CONSTRAINT [DF_Agreement_ContractRateDetail_PrimaryRateTerm]  DEFAULT ((0)),
 	--[AdminFee] [money] NULL,
 	--[AdminFeeType] [int] NULL,
 	--[AdminBilling] [varchar](50) NULL,
 	--[AdminFeeCandidate] [decimal](18, 3) NULL,
 	--[AdminFeeCompany] [decimal](18, 3) NULL,
-	--[Inactive] [bit] NOT NULL CONSTRAINT [DF_Contract_RateAdministration_Inactive]  DEFAULT ((0)),
+	[Inactive] [bit] NOT NULL CONSTRAINT [DF_Contract_RateAdministration_Inactive]  DEFAULT ((0)),
 	--[PAMRateID] [varchar](50) NULL,
 	--[verticalid] [int] NULL,
  CONSTRAINT [PK_Contract_RateDetails] PRIMARY KEY CLUSTERED 
@@ -170,8 +140,8 @@ CREATE TABLE [dbo].[ContractInvoiceCode](
 	--[FieldCounter] [int] NOT NULL,
 	--[IsDefault] [bit] NOT NULL,
 	[ContractID] [int] NOT NULL,
-	--[IsActive] [bit] NOT NULL,
-	--[InactiveForUser] [bit] NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[InactiveForUser] [bit] NOT NULL,
 	--[CreatedBy] [int] NOT NULL,
 	--[CreatedDate] [datetime] NOT NULL,
 	--[UpdatedBy] [int] NULL,

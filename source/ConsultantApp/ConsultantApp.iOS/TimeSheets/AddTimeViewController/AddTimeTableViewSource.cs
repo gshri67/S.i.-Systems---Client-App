@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Accelerate;
 using Foundation;
 using SiSystems.SharedModels;
 using UIKit;
@@ -14,31 +15,24 @@ namespace ConsultantApp.iOS
 		private const string CellIdentifier = "TimeEntryCell";
 		private const string ExpandedCellIdentifier = "AddProjectCodeCell";
 		public IEnumerable<TimeEntry> TimeEntries;
-		public IEnumerable<string> ProjectCodes;
-		public IEnumerable<PayRate> PayRates;
+
+        public IEnumerable<ProjectCodeRateDetails> CodeRateDetails;
 
 		public delegate void TableDelegate(IEnumerable<TimeEntry> timeEntries);
 		public TableDelegate OnDataChanged;
 
-		private readonly int _normalCellHeight;
-		private readonly int _expandedCellHeight;
+		private const int NormalCellHeight = 44;
+		private const int ExpandedCellHeight = 200;
 		private int _expandedCellIndex = -1;
 		private int _prevSelectedRow = -1;
 		private bool _addingProjectCode;//if there is an extra cell expanded for picker etc..
 		private bool _isEnabled = true;
 
-		//This functionality is likely going to be removed
-		public bool MustSave;//if this is true, the done or delete button must be tapped before the cell can be minimized.
-		//this is true either the first time it is created, or if something has been editted in the cell but changes have not been saved
-
-		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries, IEnumerable<string> projectCodes, IEnumerable<PayRate> payRates ) 
+		public AddTimeTableViewSource( IEnumerable<TimeEntry> timeEntries, IEnumerable<ProjectCodeRateDetails> codeRateDetails) 
 		{
 			this.TimeEntries = timeEntries;
-			this.ProjectCodes = projectCodes;
-			this.PayRates = payRates;
 
-			_normalCellHeight = 44;
-			_expandedCellHeight = 200;
+		    CodeRateDetails = codeRateDetails ?? Enumerable.Empty<ProjectCodeRateDetails>();
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -59,50 +53,68 @@ namespace ConsultantApp.iOS
 	    public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			if ((int)indexPath.Item == _expandedCellIndex)
-				return getExpandedCell (tableView, indexPath);
+				return GetExpandedCell(tableView, indexPath);
 			else
-				return getTimeEntryCell ( tableView, indexPath );
+				return GetTimeEntryCell( tableView, indexPath );
 		}
 
-		private TimeEntryCell getTimeEntryCell( UITableView tableView, NSIndexPath indexPath )
+        private TimeEntryCell GetTimeEntryCell( UITableView tableView, NSIndexPath indexPath )
 		{
 			var cell = (TimeEntryCell)tableView.DequeueReusableCell (CellIdentifier);
-
-			if (TimeEntries != null && TimeEntries.Count () > EntryIndex(indexPath)) 
-			{
-				var curEntry = TimeEntries.ElementAt(EntryIndex(indexPath));
-				populateTimeEntryCell ( cell, curEntry );
-			} 
-			else 
-				populateTimeEntryCell (cell, null);
+		    var selectedEntry = TimeEntries.ElementAt(EntryIndex(indexPath));
+            var maxNumberOfHoursForEntry = HoursRemainingInDay() + selectedEntry.Hours;
+            cell.UpdateCell(selectedEntry, maxNumberOfHoursForEntry);
+            cell.EntryChanged = entry =>
+            {
+                selectedEntry = entry;
+                OnDataChanged(TimeEntries);
+            };
 
 			cell.enable (_isEnabled);
 
 			return cell;
 		}
 
-		private AddProjectCodeCell getExpandedCell( UITableView tableView, NSIndexPath indexPath )
+		private AddProjectCodeCell GetExpandedCell( UITableView tableView, NSIndexPath indexPath )
 		{
 			var cell = (AddProjectCodeCell)tableView.DequeueReusableCell (ExpandedCellIdentifier);
 
 			if (TimeEntries == null) return cell;
 
-			var curEntry = TimeEntries.ElementAt( _prevSelectedRow );//((int)indexPath.Item);
-			cell.SetData( curEntry, ProjectCodes, PayRates );
+			var curEntry = TimeEntries.ElementAt( _prevSelectedRow );
+            cell.SetData(curEntry, CodeRateDetails);
 
-			if (cell.OnSave == null)
-				setupExpansionCellSave (cell, tableView);
+            cell.OnSave = delegate(TimeEntry entry)
+            {
+                CloseExpandedCell();
+                curEntry = entry;
+                tableView.ReloadData();
 
-			if (cell.OnDelete == null)
-				setupExpansionCellDelete (cell, tableView);
+                OnDataChanged(TimeEntries);
+            };
+
+		    cell.OnDelete = entry =>
+		    {
+		        CloseExpandedCell();
+                TimeEntries = TimeEntries.Except(new List<TimeEntry> { curEntry });
+		        tableView.ReloadData();
+
+		        OnDataChanged(TimeEntries);
+		    };
 
 			return cell;
 		}
 
-		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
+	    private const int HoursInDay = 24;
+	    private float HoursRemainingInDay()
+	    {
+            return HoursInDay - TimeEntries.Sum(entry=>entry.Hours);
+	    }
+
+	    public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
 			//Nothing happens if expanded cell is tapped
-		    if ((int) indexPath.Item == _expandedCellIndex || MustSave) return;
+		    if ((int) indexPath.Item == _expandedCellIndex) return;
 
 		    var realSelectedIndex = EntryIndex (indexPath);
 
@@ -122,9 +134,6 @@ namespace ConsultantApp.iOS
 
 		    tableView.ReloadData ();
 			_prevSelectedRow = realSelectedIndex;
-
-			//if (_addingProjectCode)
-				//scrollToExpandedCell (tableView);
 		}
 			
 		//if a cell was added
@@ -151,11 +160,20 @@ namespace ConsultantApp.iOS
 			_addingProjectCode = false;
 		}
 
+		public void SaveOpenExpandedCells( UITableView tableView )
+		{
+		    if (!_addingProjectCode || _expandedCellIndex < 0) return;
+
+		    var cell = (AddProjectCodeCell)tableView.CellAt ( NSIndexPath.FromItemSection(_expandedCellIndex, 0) );
+
+		    cell.SaveChanges ();
+		}
+
 		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
 		    return (int)indexPath.Item != _expandedCellIndex 
-                ? _normalCellHeight 
-                : _expandedCellHeight;
+                ? NormalCellHeight 
+                : ExpandedCellHeight;
 		}
 
 	    //return the time entry at the index
@@ -176,86 +194,11 @@ namespace ConsultantApp.iOS
 			_isEnabled = shouldEnable;
 		}
 
-		public void scrollToExpandedCell( UITableView tableview )
+		public void ScrollToExpandedCell( UITableView tableview )
 		{
 			Console.WriteLine ("prev selected index " + _prevSelectedRow);
 
 			tableview.ScrollToRow (NSIndexPath.FromItemSection (_prevSelectedRow, 0), UITableViewScrollPosition.Top, false);
 		}
-
-		//project code cell is used for the expansion details
-		#region ExpansionCell 
-
-		private void setupExpansionCellSave( AddProjectCodeCell cell, UITableView tableView )
-		{
-			cell.OnSave += delegate
-			{
-				CloseExpandedCell();
-
-				tableView.ReloadData();
-
-				OnDataChanged( TimeEntries);
-
-				MustSave = false;
-			};
-		}
-		private void setupExpansionCellDelete( AddProjectCodeCell cell, UITableView tableView )
-		{
-			cell.OnDelete += delegate
-			{
-				CloseExpandedCell();
-
-				var elem = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
-				if (elem != null)
-				{
-					var timeEntryToRemove = TimeEntries.ElementAtOrDefault(_prevSelectedRow);
-					var timeEntriesList = TimeEntries.ToList();
-					timeEntriesList.Remove(timeEntryToRemove);
-
-					TimeEntries = timeEntriesList.AsEnumerable();
-
-					MustSave = false;
-				}
-
-				tableView.ReloadData();
-
-				OnDataChanged(TimeEntries);
-			};
-		}
-
-		#endregion
-
-		//TimeEntryCells
-		#region EntryCells 
-
-		private void populateTimeEntryCell( TimeEntryCell cell, TimeEntry curEntry )
-		{
-			if (curEntry != null) 
-			{
-				cell.UpdateCell
-				(
-					projectCode: curEntry.ProjectCode,
-					rateDescription: curEntry.PayRate.RateDescription,
-					hours: curEntry.Hours.ToString (CultureInfo.InvariantCulture),
-					onHoursChanged: ( float newHours) => 
-									{
-										curEntry.Hours = newHours;
-										OnDataChanged (TimeEntries);
-									}
-				);
-			} 
-			else 
-			{
-				cell.UpdateCell
-				(
-					projectCode: null,
-					rateDescription: null,
-					hours: null,
-					onHoursChanged: null
-				);
-			}
-		}
-
-		#endregion
 	}
 }

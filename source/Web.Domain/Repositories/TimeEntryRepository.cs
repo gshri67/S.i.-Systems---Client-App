@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Dapper;
 using SiSystems.ClientApp.Web.Domain;
@@ -11,88 +12,148 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 {
     public interface ITimeEntryRepository
     {
-        IEnumerable<TimeEntry> GetTimeEntriesByTimesheetId(int timesheetId);
-        void SaveTimeEntry(int id, TimeEntry entry);
-        PayRate GetPayRateById(TimeEntry entry);
+        //IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheetId);
+        int SaveTimeEntry(int id, TimeEntry entry);
         int SubmitTimeEntry(int timesheetId, TimeEntry timeEntry);
+        IEnumerable<TimeEntry> GetEntriesForNonOpenTimesheet(Timesheet timesheet);
+        IEnumerable<TimeEntry> GetEntriesForOpenTimesheet(Timesheet timesheet);
+        IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheet);
     }
 
     public class TimeEntryRepository : ITimeEntryRepository
     {
-        public IEnumerable<TimeEntry> GetTimeEntriesByTimesheetId(int timesheetId)
+
+        public IEnumerable<TimeEntry> GetEntriesForOpenTimesheet(Timesheet timesheet)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                        @"SELECT TD.TimesheetDetailId AS Id,
-                        (ISNULL(P.ProjectId,'')  
-                        +     
-                        CASE WHEN LEN(ISNULL(P.ProjectId,'') )>0 AND LEN(ISNULL(PONumber,''))>0 THEN '/' ELSE '' END + ISNULL(PONumber,'')   
-                        + 
-                        IsNull(I.InvoiceCodeText,''))  AS ProjectCode,    
-                        DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), day, 0, 0, 0, 0) AS Date,    
-                        CAST(UnitValue AS FLOAT) AS Hours
-                        FROM Timesheet t     
-                        INNER JOIN Timesheetdetail TD ON T.TimesheetId = TD.TimesheetId     
-                        INNER JOIN Agreement_ContractRatedetail AC ON TD.contractRateId = AC.ContractRateId    
-                        LEFT JOIN CompanyProject P ON P.CompanyProjectId= TD.ProjectId    
-                        LEFT JOIN ContractInvoiceCode I on I.invoicecodeid=TD.invoicecodeid AND I.contractid=T.Agreementid     
-                        LEFT JOIN TimeSheetAvailablePeriod Period ON T.TimeSheetAvailablePeriodID = Period.TimeSheetAvailablePeriodID
-                        WHERE T.TimesheetId = @TimesheetId";
+                        @"SELECT DetTemp.TimeSheetDetailTempID AS Id
+	                        ,CAST(DetTemp.UnitValue AS FLOAT) AS Hours
+	                        ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), DetTemp.Day, 0, 0, 0, 0) AS EntryDate
+                            ,'' as split
+	                        ,DetTemp.PONumber
+	                        ,DetTemp.ProjectID AS ProjectId
+	                        ,DetTemp.ContractProjectPoID
+	                        ,DetTemp.ContractRateID
+	                        ,DetTemp.Description AS PODescription
+	                        ,DetTemp.InvoiceCodeId
+	                        ,DetTemp.verticalid
+                            ,ContractDetail.RateDescription AS ratedescription
+	                        ,CONVERT(VARCHAR(30), ContractDetail.PayRate)  AS rateamount
+                        FROM TimeSheetDetailTemp DetTemp
+                        LEFT JOIN TimeSheetTemp TSTemp ON TSTemp.TimeSheetTempID = DetTemp.TimesheetTempID
+                        LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TSTemp.TimeSheetAvailablePeriodID
+                        LEFT JOIN Agreement_ContractRateDetail ContractDetail ON ContractDetail.ContractRateID = DetTemp.ContractRateID
+                        WHERE DetTemp.TimeSheetTempID = @TimesheetTempId
+                        AND DetTemp.Inactive = 0
+                        AND DetTemp.Day != 0";
 
-                var timeEntries = db.Connection.Query<TimeEntry>(query, new { TimesheetId = timesheetId});
+                var timeEntries = db.Connection.Query<TimeEntry, ProjectCodeRateDetails, TimeEntry>(query,
+                    (timeEntry, codeRate) =>
+                    {
+                        timeEntry.CodeRate = codeRate;
+                        return timeEntry;
+                    },
+                    splitOn: "split",
+                    param: new { TimesheetTempId = timesheet.OpenStatusId });
+                
+                return timeEntries;
+            }
+        }
+
+        private static bool ShouldLoadEntriesFromTimesheetId(Timesheet timesheet)
+        {
+            return timesheet.Status == MatchGuideConstants.TimesheetStatus.Open
+                && (timesheet.Id == 0 || timesheet.OpenStatusId != 0);
+        }
+
+        public IEnumerable<TimeEntry> GetTimeEntriesForTimesheet(Timesheet timesheet)
+        {
+            return ShouldLoadEntriesFromTimesheetId(timesheet)
+                ? GetEntriesForOpenTimesheet(timesheet)
+                : GetEntriesForNonOpenTimesheet(timesheet);
+        }
+
+        public IEnumerable<TimeEntry> GetEntriesForNonOpenTimesheet(Timesheet timesheet)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                //note that there is a plus one on the date because dates seem to be zero indexed.
+                const string query =
+                        @"SELECT Details.TimeSheetDetailID AS Id
+                            ,CAST(Details.UnitValue AS FLOAT) AS Hours
+                            ,DATETIMEFROMPARTS(YEAR(Period.TimeSheetAvailablePeriodStartDate), MONTH(Period.TimeSheetAvailablePeriodStartDate), Details.Day, 0, 0, 0, 0) as EntryDate
+                            ,'' as split
+                            ,Details.PONumber
+                            ,Details.ProjectID AS ProjectId
+                            ,Details.ContractProjectPoID
+                            ,Details.ContractRateID
+                            ,Details.Description AS PODescription
+                            ,Details.InvoiceCodeId
+                            ,Details.verticalid
+                            ,ContractDetail.RateDescription AS ratedescription
+	                        ,CONVERT(VARCHAR(30), ContractDetail.PayRate)  AS rateamount
+                        FROM TimeSheetDetail Details
+                        LEFT JOIN TimeSheet ON TimeSheet.TimeSheetID = Details.TimesheetID
+                        LEFT JOIN TimeSheetAvailablePeriod Period ON Period.TimeSheetAvailablePeriodID = TimeSheet.TimeSheetAvailablePeriodID
+                        LEFT JOIN Agreement_ContractRateDetail ContractDetail ON ContractDetail.ContractRateID = Details.ContractRateID
+                        WHERE Details.TimeSheetID = @TimesheetId
+                        AND Details.Day != 0";
+
+                var timeEntries = db.Connection.Query<TimeEntry, ProjectCodeRateDetails, TimeEntry>(query,
+                    (timeEntry, codeRate) =>
+                    {
+                        timeEntry.CodeRate = codeRate;
+                        return timeEntry;
+                    },
+                    splitOn: "split",
+                    param: new { TimesheetId = timesheet.Id });
 
                 return timeEntries;
             }
         }
 
-        public void SaveTimeEntry(int id, TimeEntry entry)
+        public int SaveTimeEntry(int id, TimeEntry entry)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
-                    @"DECLARE @RC int
-                        EXECUTE @RC = [dbo].[sp_TimesheetTempDetail_Insert] 
-                           @aContractrateid
-                          ,@aPoNumber
-                          ,@aProjectId
-                          ,@acontractprojectpoid
-                          ,@aDay
-                          ,@aUnitValue
-                          ,@aGeneralProjPODesc
-                          ,@aTimesheetTempId";
+                    @"Exec [dbo].[sp_TimesheetDetailTemp_Insert] 
+                       @aContractrateid
+                      ,@aPoNumber
+                      ,@aProjectId
+                      ,@acontractprojectpoid
+                      ,@aDay
+                      ,@aUnitValue
+                      ,@aGeneralProjPODesc
+                      ,@aTimesheetTempId
+                      ,@verticalid
+                      ,@InvoiceCodeId";
 
-                //todo: we may need to change this to db.Connection.Execute if the stored procedure doesn't return anything.
-                db.Connection.Query<TimeEntry>(query, new
+                var insertedId = db.Connection.Query<int>(query, new
                 {
-                    //todo: commented values are to be retrieved from the query given to us from Chennai (This is being put in a stored procedure).
-                   aContractrateid = entry.PayRate.Id,
-                   aPoNumber = entry.ProjectCode, //PONumber
-                   aProjectID = "", //ProjectId
-                   acontractprojectpoid = "", //contractprojectpoid
-                   aDay = entry.Date.Day,
-                   aUnitValue = entry.Hours,
-                   aGeneralProjPODesc = "", //PODescription?
-                   aTimesheetTempID = id,
-                });
-            }
-        }
+                    aContractrateid = entry.CodeRate.contractrateid,
+                    aPoNumber = new DbString
+                    {
+                        Value = entry.CodeRate.PONumber,
+                        Length = 250
+                    },
+                    aProjectId = entry.CodeRate.ProjectId,
+                    acontractprojectpoid = entry.CodeRate.ContractProjectPOID, 
+                    aDay = entry.EntryDate.Day,
+                    aUnitValue = entry.Hours,
+                    aGeneralProjPODesc = new DbString
+                    {
+                        Value = entry.CodeRate.PODescription,
+                        Length = 1000
+                    },
+                    aTimesheetTempId = id,
+                    verticalid = MatchGuideConstants.VerticalId.IT,
+                    InvoiceCodeId = IntegerOrNullIfZero(entry.CodeRate.EinvoiceId)
+                }).FirstOrDefault();
 
-        public PayRate GetPayRateById(TimeEntry entry)
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                        @"SELECT rateDetail.ContractRateId as Id
-	                        ,RateDescription AS RateDescription
-	                        ,PayRate AS Rate	
-                        from TimeSheetDetail dets
-                        left join Agreement_ContractRateDetail rateDetail on rateDetail.ContractRateID = dets.ContractRateID
-                        where TimeSheetDetailID = @TimeEntryId";
-
-                var payRate = db.Connection.Query<PayRate>(query, new { TimeEntryId = entry.Id }).SingleOrDefault();
-
-                return payRate;
+                return insertedId;
             }
         }
 
@@ -116,21 +177,27 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 var submittedTimesheetId = db.Connection.Query<int>(query, new
                 {
-                    //todo: ensure that the values being entered into this query are using the appropraite values as returned from other stored procedures
-                     aContractrateid = timeEntry.PayRate.Id,
-                     aPoNumber  = timeEntry.ProjectCode,
-                     aProjectId = "",
-                     acontractprojectpoid = "",
-                     aDay = timeEntry.Date.Day,
+                     aContractrateid = timeEntry.CodeRate.contractrateid,
+                     aPoNumber  = timeEntry.CodeRate.PONumber,
+                     aProjectId = timeEntry.CodeRate.ProjectId,
+                     acontractprojectpoid = timeEntry.CodeRate.ContractProjectPOID,
+                     aDay = timeEntry.EntryDate.Day,
                      aUnitValue = timeEntry.Hours,
-                     aGeneralProjPODesc  = "",
+                     aGeneralProjPODesc  = timeEntry.CodeRate.PODescription,
                      aTimesheetId = timesheetId,
                      verticalId = MatchGuideConstants.VerticalId.IT,
-                     InvoiceCodeId = (int?)null 
+                     InvoiceCodeId = IntegerOrNullIfZero(timeEntry.CodeRate.EinvoiceId)
                 }).FirstOrDefault();
 
                 return submittedTimesheetId;
             }
+        }
+        
+        //todo: move to a better location.
+        //helper function for sql 
+        private static int? IntegerOrNullIfZero(int number)
+        {
+            return number == 0 ? (int?)null : number;
         }
     }
 }

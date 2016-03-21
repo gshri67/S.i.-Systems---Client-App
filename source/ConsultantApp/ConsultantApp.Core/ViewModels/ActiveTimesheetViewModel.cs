@@ -20,7 +20,7 @@ namespace ConsultantApp.Core.ViewModels
             private set { _payPeriods = value ?? Enumerable.Empty<PayPeriod>(); }
 	    }
 
-	    public Task LoadingPayPeriods;
+	    //public Task LoadingPayPeriods;
 	    
 	    private const int MaxPeriodHistory = 6;
         private const int MaxFrequentlyUsed = 5;
@@ -38,14 +38,18 @@ namespace ConsultantApp.Core.ViewModels
                 _approverDict = new Dictionary<string, int>();
         }
 
-	    public void LoadPayPeriods()
+	    public Task LoadPayPeriods()
 	    {
-            LoadingPayPeriods = GetPayPeriods();
-            LoadingPayPeriods.ContinueWith(_ => BuildDictionaries());
+            var loadingPayPeriods = GetPayPeriods();
+            loadingPayPeriods.ContinueWith(_ => BuildDictionaries());
+	        return loadingPayPeriods;
 	    }
 
         private async Task GetPayPeriods()
         {
+#if TEST
+            Console.WriteLine("GetPayPeriods");
+#endif
             PayPeriods = await _api.GetPayPeriods();
         }
         
@@ -77,7 +81,10 @@ namespace ConsultantApp.Core.ViewModels
         }
 
 	    private void BuildDictionaries()
-	    {
+        {
+#if TEST
+            Console.WriteLine("Building Dictionaries");
+#endif
             if (PayPeriods == null) return;
 
             var relevantPayPeriods = RelevantPayPeriods();
@@ -98,7 +105,7 @@ namespace ConsultantApp.Core.ViewModels
 	    {
 	        foreach (var entry in timesheet.TimeEntries)
 	        {
-	            IncrementProjectCodeCount(entry.ProjectCode);
+                IncrementProjectCodeCount(entry.CodeRate.PONumber);
 	        }
 	    }
 

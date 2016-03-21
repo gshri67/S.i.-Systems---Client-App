@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Dapper;
@@ -13,10 +15,14 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
     public interface ITimesheetRepository
     {
         IEnumerable<Timesheet> GetTimesheetsForUser(int userId);
+        IEnumerable<Timesheet> GetNonOpenTimesheetsForUser(int userId);
+        IEnumerable<Timesheet> GetOpenTimesheetsForUser(int userId);
+
         int SaveTimesheet(Timesheet timesheet, int userId);
         int SubmitZeroTimeForUser(Timesheet timesheet, int userId);
         Timesheet GetTimesheetsById(int timesheetId);
         int SubmitTimesheet(Timesheet timesheet, int userId);
+        void WithdrawTimesheet(int timesheetId, int createUserId, string cancelReason);
         DirectReport GetDirectReportByTimesheetId(int timesheetId);
         TimesheetSummarySet GetTimesheetSummaryByAccountExecutiveId(int id);
         IEnumerable<TimesheetDetails> GetOpenTimesheetDetailsByAccountExecutiveId(int id);
@@ -36,7 +42,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 const string query =
                         @"SELECT TimeSheetID AS Id
                                 ,Company.CompanyName AS ClientName
-                                ,Times.AgreementId as ContractId
+                                ,Times.AgreementId as AgreementId
                                 ,StatusID AS Status
                                 ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
 	                            ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
@@ -64,6 +70,176 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
+        public IEnumerable<Timesheet> GetOpenTimesheetsForUser(int userId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @TimesheetType varchar(5) = 'ETS'
+                    EXECUTE [dbo].[UspGetOpenTSForCandidate_TSAPP] 
+                       @candidateID
+                      ,@TimesheetType";
+
+                var timesheetsFromDb = db.Connection.Query<DbOpenTimesheetFromForMapping>(query, new { CandidateId = userId });
+                var timesheets = timesheetsFromDb.Where(timesheet => timesheet.IsEnabled).Select(ts => new Timesheet
+                {
+                    Id = ts.timesheetid,
+                    OpenStatusId = ts.TimesheetTempID,
+                    Status = MatchGuideConstants.TimesheetStatus.Open,
+                    ClientName = ts.ClientName,
+                    AgreementId = ts.agreementid,
+                    ContractId = ts.contractid,
+                    AgreementStartDate = AgreementStartDateByAgreementId(ts.agreementid),
+                    AgreementEndDate = AgreementEndDateByAgreementId(ts.agreementid),
+                    StartDate = ts.tsStartDate,
+                    EndDate = ts.tsEndDate,
+                    AvailableTimePeriodId = GetTimePeriodId(ts.tsStartDate, ts.tsEndDate),
+                    TimesheetApprover = ts.directreportname != null 
+                        ? GetTimeSheetApproverByName(ts.directreportname) 
+                        : GetTimeSheetApproverByName(ts.ContractDirectReportName) 
+                }).ToList();
+
+                return timesheets;
+            }
+        }
+
+        private DateTime AgreementEndDateByAgreementId(int agreementId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT EndDate
+                        FROM Agreement 
+                        WHERE Agreement.AgreementID = @AgreementId";
+
+                var startDate = db.Connection.Query<DateTime>(query, new { AgreementId = agreementId }).FirstOrDefault();
+
+                return startDate;
+            }
+        }
+
+        private DateTime AgreementStartDateByAgreementId(int agreementId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT StartDate
+                        FROM Agreement 
+                        WHERE Agreement.AgreementID = @AgreementId";
+
+                var startDate = db.Connection.Query<DateTime>(query, new { AgreementId = agreementId }).FirstOrDefault();
+
+                return startDate;
+            }
+        }
+
+        private int GetTimePeriodId(DateTime startDate, DateTime endDate)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT TOP 1 Period.TimeSheetAvailablePeriodID 
+                    FROM TimeSheetAvailablePeriod Period 
+                    WHERE Period.TimeSheetAvailablePeriodStartDate = @StartDate 
+                    AND Period.TimeSheetAvailablePeriodEndDate = @EndDate";
+
+                var periodId = db.Connection.Query<int>(query, new { StartDate = startDate, EndDate = endDate }).FirstOrDefault();
+
+                return periodId;
+            }
+        }
+
+        public DirectReport GetTimeSheetApproverByName(string name)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                        @"SELECT DirectReport.UserID Id
+	                        ,DirectReport.FirstName FirstName
+	                        ,DirectReport.LastName LastName
+	                        ,DirectReportEmail.PrimaryEmail Email
+                        FROM Users DirectReport 
+                        LEFT JOIN User_Email DirectReportEmail ON DirectReport.UserID= DirectReportEmail.UserID
+                        WHERE Concat(DirectReport.FirstName,' ',DirectReport.LastName) LIKE @DirectReportName
+                        ORDER BY DirectReport.UserID DESC";
+
+                var directReport = db.Connection.Query<DirectReport>(query, new { DirectReportName = name }).FirstOrDefault();
+
+                return directReport;
+            }
+        }
+
+        public IEnumerable<Timesheet> GetNonOpenTimesheetsForUser(int userId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                    EXECUTE @RC = [dbo].[UspViewTSForCandidate_TSAPP] 
+                       @CandidateID";
+
+                var timesheetsFromDb = db.Connection.Query<DbTimesheetForMapping>(query, new { CandidateId = userId });
+                var timesheets = (from ts in timesheetsFromDb.Where(ts => ts.timesheetStatus != "Saved" && ts.timesheetStatus != "Save/Cancel")
+                    let agreementId = GetAgreementIdByTimeSheetId(ts.TimesheetID)
+                    let startDate = StartDateFromPeriodDate(ts.payPeriod)
+                    let endDate = EndDateFromPeriodDate(ts.payPeriod)
+                    let agreementStartDate = AgreementStartDateByAgreementId(agreementId)
+                    let agreementEndDate = AgreementEndDateByAgreementId(agreementId)
+                    select new Timesheet
+                    {
+                        Id = ts.TimesheetID, 
+                        AgreementId = agreementId, 
+                        ContractId = ts.ContractID,
+                        AgreementStartDate = agreementStartDate, 
+                        AgreementEndDate = agreementEndDate, 
+                        Status = (MatchGuideConstants.TimesheetStatus) ts.timesheetStatus, 
+                        ClientName = ts.CompanyName, 
+                        StartDate = startDate, 
+                        EndDate = endDate
+                    }).ToList();
+                return timesheets;
+            }
+        }
+
+        public int GetAgreementIdByTimeSheetId(int timesheetId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT AgreementID FROM TimeSheet WHERE TimeSheetID = @TimesheetId";
+
+                var agreementId = db.Connection.Query<int>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
+
+                return agreementId;
+            }
+        }
+
+        private static string FormattedDateFromPeriodRange(string periodRange, bool shouldReturnStartDate)
+        {
+            //This is the format that we get from the DB: Feb 1-15 2016 and we want the first date from that. Feb 1, 2016
+            var spaceSplit = periodRange.Split(' ');
+            var month = spaceSplit.FirstOrDefault();
+            var year = spaceSplit.LastOrDefault();
+            var days = spaceSplit[1].Split('-');
+            var dayToReturn = shouldReturnStartDate 
+                ? days.FirstOrDefault() 
+                : days.LastOrDefault();
+
+            return string.Format("{0}-{1}-{2}", year, month, dayToReturn);
+        }
+
+        private static DateTime StartDateFromPeriodDate(string periodRange)
+        {
+            var startDateAsString = FormattedDateFromPeriodRange(periodRange, true);
+            return DateTime.ParseExact(startDateAsString, "yyyy-MMM-d", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        private static DateTime EndDateFromPeriodDate(string periodRange)
+        {
+            var endDateAsString = FormattedDateFromPeriodRange(periodRange, false);
+            return DateTime.ParseExact(endDateAsString, "yyyy-MMM-d", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
         public IEnumerable<Timesheet> GetTimesheetsForUser(int userId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -71,7 +247,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 const string query =
                         @"SELECT TimeSheetID AS Id
                                 ,Company.CompanyName AS ClientName
-                                ,Times.AgreementId as ContractId
+                                ,Times.AgreementId as AgreementId
                                 ,StatusID AS Status
                                 ,Periods.TimeSheetAvailablePeriodStartDate AS StartDate
 	                            ,Periods.TimeSheetAvailablePeriodEndDate AS EndDate
@@ -88,6 +264,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                             LEFT JOIN User_Email DirectReportEmail ON Times.DirectReportUserId = DirectReportEmail.UserID
                             WHERE CandidateUserID = 12
                             AND ResubmittedToID IS NULL
+                            AND Periods.TimeSheetAvailablePeriodEndDate > DATEADD(MONTH, -6, GETDATE())
                             ORDER BY EndDate DESC, CompanyName";
 
                 var timesheets = db.Connection.Query<Timesheet, DirectReport, Timesheet>(query, (timesheet, directReport) =>
@@ -97,6 +274,43 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 } ,new { UserId = userId});
 
                 return timesheets;
+            }
+        }
+
+        private string GetSubmittedPDFFromTimesheet(int timesheetId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT submittedpdf
+                      FROM TimeSheet
+                      WHERE TimeSheetID = @timesheetId";
+
+                var submittedpdf = db.Connection.Query<string>(query, new { TimesheetId = timesheetId }).FirstOrDefault();
+
+                return submittedpdf;
+            }
+        }
+
+        public void WithdrawTimesheet(int timesheetId, int createUserId, string cancelReason)
+        {
+            var pdfName = GetSubmittedPDFFromTimesheet(timesheetId);
+            const string cancelType = "SubmitCancel";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string sp =
+                    @"UspSetCancelTS_TSAPP";
+
+                db.Connection.Execute(sp, new
+                {
+                    TimesheetId = timesheetId,
+                    Canceltype = cancelType,
+                    createuserid = createUserId,
+                    CancelledPdfName = pdfName,
+                    timesheetcancelreason = cancelReason,
+                    verticalId = MatchGuideConstants.VerticalId.IT
+                }, commandType:CommandType.StoredProcedure);
             }
         }
 
@@ -118,7 +332,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                 var savedTimesheetTempId = db.Connection.Query<int>(query, new
                 {
                     aCandidateUserId  = userId,
-                    aContractID = timesheet.ContractId,
+                    aContractID = timesheet.AgreementId,
                     aTSAvailablePeriodID = timesheet.AvailableTimePeriodId,
                     aQuickPay = (int?)null,
                     aTSID = IntegerOrNullIfZero(timesheet.Id),
@@ -128,6 +342,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 return savedTimesheetTempId;
             }
+        }
+
+        private static string CreateSubmittedPdfStringName(Timesheet timesheet, int userId)
+        {
+            return string.Format("TS_{0}_{1}_{2:MMMddyyyy}_{3:MMMddyyyy}", userId, timesheet.AgreementId, timesheet.StartDate, timesheet.EndDate);
         }
 
         public int SubmitZeroTimeForUser(Timesheet timesheet, int userId)
@@ -148,17 +367,16 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                           ,@TSstatus
                      SET @newTSID =  @@identity                  
                      SELECT @newTSID as TimesheetId";
-
                 var savedTimesheetTempId = db.Connection.Query<int>(query, new
                 {
                     aTimesheetId = IntegerOrNullIfZero(timesheet.Id),
                     aCandidateUserId = userId,
-                    aContractID = timesheet.ContractId,
+                    aContractID = timesheet.AgreementId,
                     aTimesheetavailableperiodid = timesheet.AvailableTimePeriodId,
-                    aTSSubmittedName = (string)null, //Name of the Submitted PDF
+                    aTSSubmittedName = CreateSubmittedPdfStringName(timesheet, userId),
                     verticalId = MatchGuideConstants.VerticalId.IT,
-                    aTimesheetType = MatchGuideConstants.TimesheetType.ETimesheet.ToString(),
-                    TSstatus = MatchGuideConstants.TimesheetStatus.Approved.ToString()
+                    aTimesheetType = "ETimesheet",
+                    TSstatus = "Approved"
                 }).FirstOrDefault();
 
                 return savedTimesheetTempId;
@@ -185,19 +403,19 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                           ,@aSubmittedBy
                           ,@isSubmittedEmailSent
                           ,@aDirectReportid";
-
+                
                 var submittedTimesheetId = db.Connection.Query<int>(query, new
                 {
                     aCandidateUserId = userId,
-                    aContractID = timesheet.ContractId,
-                    aTSType = MatchGuideConstants.TimesheetType.ETimesheet.ToString(), 
+                    aContractID = timesheet.AgreementId,
+                    aTSType = "ETimesheet",//note: this isn't used in the SP
                     aTSAvailablePeriodID = timesheet.AvailableTimePeriodId,
                     aQuickPay = 0, 
-                    aSubmittedPdfName = (string)null, //Name of the Submitted PDF
+                    aSubmittedPdfName = CreateSubmittedPdfStringName(timesheet,userId),
                     aTSID = IntegerOrNullIfZero(timesheet.Id),
                     aIsCPGSubmission = (bool?)null, 
                     verticalId = MatchGuideConstants.VerticalId.IT,
-                    aTimesheetType = MatchGuideConstants.TimesheetType.ETimesheet.ToString(),
+                    aTimesheetType = "ETimesheet",
                     aSubmittedBy = userId,
                     isSubmittedEmailSent = true, 
                     aDirectReportid = timesheet.TimesheetApprover.Id

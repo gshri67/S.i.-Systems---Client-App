@@ -16,7 +16,7 @@ namespace ConsultantApp.iOS
 
 		}
 
-		public void UpdateCell(string depositDate, string documentNumber, float amount, string period)
+		public void UpdateCell(string depositDate, string documentNumber, decimal amount, string period)
 		{
 			depositDateLabel.Text = depositDate;
 			documentNumberLabel.Text = documentNumber;

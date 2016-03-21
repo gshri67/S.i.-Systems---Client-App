@@ -27,7 +27,7 @@ CREATE TABLE [dbo].[Users](
 	--[Old_TimesheetContactID] [int] NULL CONSTRAINT [DF_Users_Old_TimesheetContactID]  DEFAULT (0),
 	--[MigrationSource] [varchar](50) NULL,
 	[Inactive] [bit] NOT NULL CONSTRAINT [DF_Users_Inactive]  DEFAULT (0),
-	--[GP_UserID] [int] NOT NULL,
+	[GP_UserID] [int] NOT NULL DEFAULT (0),
 	--[PAM] [bit] NULL,
 	--[old_aeuserid] [int] NULL,
 	--[ActiveDirectoryLogin] [varchar](200) NULL,

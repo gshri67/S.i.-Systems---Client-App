@@ -158,6 +158,35 @@ CREATE TABLE [dbo].[pammanualtimesheet](
 
 GO
 
+CREATE TABLE [dbo].[TimeSheetNote](
+	[TimeSheetNoteID] [int] IDENTITY(1,1) NOT NULL,
+	[TimeSheetID] [int] NOT NULL,
+	[Comment] [varchar](8000) NOT NULL,
+	[CreateDate] [datetime] NOT NULL CONSTRAINT [DF_TimeSheetNote_CreateDate]  DEFAULT (getdate()),
+	[CreateUserID] [int] NOT NULL,
+	[verticalid] [int] NULL,
+ CONSTRAINT [PK_TimeSheetNote] PRIMARY KEY CLUSTERED 
+(
+	[TimeSheetNoteID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 99) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+CREATE TABLE [dbo].[TimeSheetAdminDetail](
+	[TimeSheetAdminDetailID] [int] IDENTITY(1,1) NOT NULL,
+	[ContractRateID] [int] NOT NULL,
+	[PONumber] [varchar](250) NULL,
+	[ProjectID] [varchar](50) NULL,
+	[ContractProjectPOID] [int] NOT NULL,
+	[BulkHours] [decimal](6, 2) NOT NULL,
+	[TimeSheetID] [int] NOT NULL,
+	[Inactive] [bit] NOT NULL CONSTRAINT [DF_TimeSheetAdminDetail_Inactive]  DEFAULT ((0)),
+	[verticalid] [int] NULL,
+	[InvoiceCodeId] [int] NULL
+) ON [PRIMARY]
+
+GO
 
 
 /*
@@ -302,6 +331,41 @@ REFERENCES [dbo].[TimeSheet] ([TimeSheetID])
 GO
 
 ALTER TABLE [dbo].[TimeSheetActivity] CHECK CONSTRAINT [fk_RefId]
+GO
+
+
+/*
+	************************************************************ TimeSheetNote Constraints ******************************************************
+*/
+
+ALTER TABLE [dbo].[TimeSheetNote]  WITH CHECK ADD  CONSTRAINT [FK_TimeSheetNote_CreateUserID__Users_UserID] FOREIGN KEY([CreateUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+
+ALTER TABLE [dbo].[TimeSheetNote] CHECK CONSTRAINT [FK_TimeSheetNote_CreateUserID__Users_UserID]
+GO
+
+ALTER TABLE [dbo].[TimeSheetNote]  WITH NOCHECK ADD  CONSTRAINT [FK_TimeSheetNote_TimeSheet] FOREIGN KEY([TimeSheetID])
+REFERENCES [dbo].[TimeSheet] ([TimeSheetID])
+GO
+
+ALTER TABLE [dbo].[TimeSheetNote] NOCHECK CONSTRAINT [FK_TimeSheetNote_TimeSheet]
+GO
+
+ALTER TABLE [dbo].[TimeSheetNote]  WITH CHECK ADD  CONSTRAINT [chkverticalid_TimeSheetNote] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
+GO
+
+ALTER TABLE [dbo].[TimeSheetNote] CHECK CONSTRAINT [chkverticalid_TimeSheetNote]
+GO
+
+/*
+	************************************************************ TimeSheetAdminDetail Constraints ******************************************************
+*/
+
+ALTER TABLE [dbo].[TimeSheetAdminDetail]  WITH NOCHECK ADD  CONSTRAINT [chkverticalid_TimeSheetAdminDetail] CHECK  (([verticalid] IS NOT NULL AND [verticalid]<>(0)))
+GO
+
+ALTER TABLE [dbo].[TimeSheetAdminDetail] CHECK CONSTRAINT [chkverticalid_TimeSheetAdminDetail]
 GO
 
 

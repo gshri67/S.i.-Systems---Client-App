@@ -48,8 +48,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             var savedTimesheetId = _timeSheetRepository.SaveTimesheet(timesheet, userId);
 
-            foreach (var entry in timesheet.TimeEntries)
-                _timeEntryRepository.SaveTimeEntry(savedTimesheetId, entry);
+            foreach (var entry in timesheet.TimeEntries.Where(entry => entry.EntryDate >= timesheet.AgreementStartDate && entry.EntryDate <= timesheet.AgreementEndDate))
+                entry.Id = _timeEntryRepository.SaveTimeEntry(savedTimesheetId, entry);
 
             timesheet.OpenStatusId = savedTimesheetId;
 
@@ -62,8 +62,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             updatedTimesheet.TimesheetApprover = updatedTimesheet.TimesheetApprover ?? 
                 _timeSheetRepository.GetDirectReportByTimesheetId(updatedTimesheet.Id);
-            
-            updatedTimesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesByTimesheetId(id);
+
+            updatedTimesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(updatedTimesheet).ToList();
 
             return updatedTimesheet;
         }
@@ -79,9 +79,34 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return GetTimesheetById(timesheet.Id);
         }
 
+        public Timesheet WithdrawTimesheet(int timesheetId, string cancelReason)
+        {
+            var originalTimesheet = GetTimesheetById(timesheetId);
+
+            _timeSheetRepository.WithdrawTimesheet(timesheetId, _sessionContext.CurrentUser.Id, cancelReason);
+
+            var openTimesheets = _timeSheetRepository.GetOpenTimesheetsForUser(_sessionContext.CurrentUser.Id);
+            var resultingTimesheet =
+                    openTimesheets.FirstOrDefault(t => t.AgreementId == originalTimesheet.AgreementId 
+                                                    && t.StartDate == originalTimesheet.StartDate 
+                                                    && t.EndDate == originalTimesheet.EndDate);
+
+            if (resultingTimesheet != null)
+                resultingTimesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(resultingTimesheet).ToList();
+
+            return resultingTimesheet;
+        }
+
+        private DirectReport TimesheetApproverForOpenTimesheet(Timesheet timesheet)
+        {
+            return timesheet.OpenStatusId == 0 
+                ? _directReportRepository.GetTimesheetApproverByAgreementId(timesheet.AgreementId) 
+                : _directReportRepository.GetTimesheetApproverByOpenTimesheetId(timesheet.OpenStatusId);
+        }
+
         private void UpdateTimesheetApproverIfNecessary(Timesheet timesheet)
         {
-            var previousTimesheetApprover = _directReportRepository.GetCurrentTimesheetApproverForTimesheet(timesheet.Id);
+            var previousTimesheetApprover = TimesheetApproverForOpenTimesheet(timesheet);
             if (previousTimesheetApprover != timesheet.TimesheetApprover)
                 UpdateTimesheetApprover(timesheet, previousTimesheetApprover);
         }
@@ -103,7 +128,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         private void SubmitTimeEntries(Timesheet timesheet)
         {
-            foreach (var timeEntry in timesheet.TimeEntries)
+            foreach (var timeEntry in timesheet.TimeEntries.Where(entry => entry.EntryDate >= timesheet.AgreementStartDate && entry.EntryDate <= timesheet.AgreementEndDate))
             {
                 _timeEntryRepository.SubmitTimeEntry(timesheet.Id, timeEntry);
             }
@@ -192,6 +217,11 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             contact.DirectReport = _userContactRepository.GetUserContactById(contact.DirectReport.Id);
 
             return contact;
+        }
+
+        public void GetPayRatesAndProjectCodesFromTimesheet( Timesheet timesheet )
+        {
+
         }
     }
 }
