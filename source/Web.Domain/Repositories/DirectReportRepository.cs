@@ -16,6 +16,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<DirectReport> GetTimesheetApproversByCompanyId(int id);
         DirectReport GetTimesheetApproverByAgreementId(int contractId);
         DirectReport GetTimesheetApproverByOpenTimesheetId(int timesheetId);
+        IEnumerable<int> FrequentyDirectReportIdsByAgreementId(int agreementId);
     }
 
     public class DirectReportRepository : IDirectReportRepository
@@ -32,7 +33,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         FROM Users 
                         LEFT JOIN User_Email Email ON Email.UserID = Users.UserID
                         WHERE Users.CompanyID = @CompanyId
-                        AND Users.UserType = 491
+                        AND Users.UserType IN (SELECT picklistid FROM dbo.udf_getpicklistids('UserRoles','Client Contact',-1))
                         AND Email.PrimaryEmail NOT LIKE '%dummyemail.com'
                         ORDER BY Email";
 
@@ -40,6 +41,24 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     , new { UserTypeConstant = MatchGuideConstants.UserType.ClientContact, CompanyId = id });
 
                 return approvers;
+            }
+        }
+
+        public IEnumerable<int> FrequentyDirectReportIdsByAgreementId(int agreementId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                        @"SELECT DISTINCT Users.UserId Id
+                            FROM Timesheet
+                            LEFT JOIN Users ON Users.UserID = Timesheet.DirectReportUserId
+                            LEFT JOIN User_Email Email ON Email.UserID = Users.UserID
+                            WHERE timesheet.agreementid = @AgreementId
+                            AND UserType IN (SELECT picklistid FROM dbo.udf_getpicklistids('UserRoles','Client Contact',-1))";
+
+                var approverIds = db.Connection.Query<int>(query, new { AgreementId = agreementId });
+
+                return approverIds;
             }
         }
 

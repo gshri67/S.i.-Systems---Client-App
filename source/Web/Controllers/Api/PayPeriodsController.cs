@@ -22,5 +22,12 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             var payPeriods = _service.GetRecentPayPeriods();
             return Request.CreateResponse(HttpStatusCode.OK, payPeriods);
         }
+
+        [Route("Summaries")]
+        public HttpResponseMessage GetPayPeriodSummaries()
+        {
+            var payPeriods = _service.GetRecentPayPeriodSummaries();
+            return Request.CreateResponse(HttpStatusCode.OK, payPeriods);
+        }
     }
 }

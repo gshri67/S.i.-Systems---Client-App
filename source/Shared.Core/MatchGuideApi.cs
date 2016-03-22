@@ -142,6 +142,12 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<PayPeriod[]>();
         }
         
+        [HttpGet("PayPeriods/Summaries")]
+        public async Task<IEnumerable<PayPeriod>> GetPayPeriodSummaries()
+        {
+            return await ExecuteWithDefaultClient<PayPeriod[]>();
+        }
+        
         [HttpGet("Remittances")]
 		public async Task<IEnumerable<Remittance>> GetRemittances()
 		{
@@ -174,6 +180,12 @@ namespace Shared.Core
             {
                 return null;
             }
+        }
+
+        [HttpPost("Timesheets/Details")]
+        public async Task<Timesheet> PopulateTimeEntries(Timesheet timesheet)
+        {
+            return await ExecuteWithDefaultClient<Timesheet>(timesheet);
         }
 
         [HttpPost("Timesheets")]

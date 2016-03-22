@@ -107,10 +107,13 @@ namespace ConsultantApp.Core.ViewModels
 
 	    private Task LoadTimesheet(Timesheet timesheet)
 	    {
-	        return Task.Run(() =>
-	        {
-                Timesheet = timesheet;
-	        });
+	        var task = GetTimeEntries(timesheet);
+	        return task;
+	    }
+
+	    private async Task GetTimeEntries(Timesheet timesheet)
+	    {
+	        Timesheet = await _api.PopulateTimeEntries(timesheet);
 	    }
 
         public Task LoadTimesheetSupport()
@@ -217,44 +220,22 @@ namespace ConsultantApp.Core.ViewModels
                 : "Are you sure you want to submit this timesheet?";
 	    }
 
-	    public void SetTimesheetApprover(DirectReport selectedApprover)
-	    {
-            Timesheet.TimesheetApprover = selectedApprover;
-            ActiveTimesheetViewModel.IncrementApproverCount(selectedApprover);
-	    }
-
         public void SetTimesheetApproverByEmail(string selectedApproverEmail)
         {
             var selectedApprover = _approvers.FirstOrDefault(a => a.Email == selectedApproverEmail);
-
-            SetTimesheetApprover(selectedApprover);
+            Timesheet.TimesheetApprover = selectedApprover;
         }
-
-	    public IEnumerable<DirectReport> MostFrequentlyUsedApprovers()
-	    {
-            var mostFrequentEmails = ActiveTimesheetViewModel.MostFrequentTimesheetApprovers();
-
-            return _approvers.Where(approver => mostFrequentEmails.Contains(approver.Email));
-	    }
-
-	    private int CountOfFrequentlyUsedapprovers;
 
 	    public List<string> ApproverEmailsSortedByFrequency()
 	    {
-            var mostFrequentlyUsed = MostFrequentlyUsedApprovers();
-	        CountOfFrequentlyUsedapprovers = mostFrequentlyUsed.Count();
-            var frequentlyUsed = mostFrequentlyUsed as IList<DirectReport> ?? mostFrequentlyUsed.ToList();
-            var partialApprovers = _approvers.Except(frequentlyUsed).ToList();
+	        _approvers = _approvers.OrderBy(report => report.IsFrequentlyUsed).ThenBy(report => report.Email);
 
-            partialApprovers = partialApprovers.OrderBy(pa => pa.Email).ToList();
-
-            _approvers = frequentlyUsed.Concat(partialApprovers).ToList();
 	        return _approvers.Select(a => a.Email).ToList();
 	    }
 
 	    public int NumberOfFrequentlyUsedApprovers()
 	    {
-            return CountOfFrequentlyUsedapprovers;
+            return _approvers.Count(report => report.IsFrequentlyUsed);
 	    }
 
 	    public string GetAlertText()

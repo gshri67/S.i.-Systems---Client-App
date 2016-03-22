@@ -24,6 +24,31 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             _timeSheetApproverRepository = timeSheetApproverRepository;
         }
 
+        private static IEnumerable<PayPeriod> GroupTimesheetsByPeriod(IEnumerable<Timesheet> timesheets)
+        {
+            var timesheetsArray = timesheets as Timesheet[] ?? timesheets.ToArray();
+            return (from @group in timesheetsArray.GroupBy(t => t.TimePeriod)
+                let period = @group.Key
+                select new PayPeriod
+                {
+                    Timesheets = timesheetsArray.Where(t => t.TimePeriod.Equals(period)),
+                    StartDate = @group.First().StartDate,
+                    EndDate = @group.First().EndDate
+                });
+        }
+
+        public IEnumerable<PayPeriod> GetRecentPayPeriodSummaries()
+        {
+            var timesheets = MostRecentSixMonthsOfTimesheets();
+
+            //foreach (var timesheet in timesheets)
+            //{
+            //    timesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(timesheet).ToList();
+            //}
+
+            return GroupTimesheetsByPeriod(timesheets).ToList();
+        }
+
         public IEnumerable<PayPeriod> GetRecentPayPeriods()
         {
             var timesheets = MostRecentSixMonthsOfTimesheets();

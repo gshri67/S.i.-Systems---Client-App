@@ -37,9 +37,10 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         
         public void LoadTimesheet(Timesheet timesheet)
         {
+            IndicateLoading();
             _timesheetModel.SetTimesheet(timesheet);
             _timesheetModel.LoadingTimesheet.ContinueWith(_ => InvokeOnMainThread(UpdateUI));
-           
+            _timesheetModel.LoadingTimesheet.ContinueWith(_ => InvokeOnMainThread(RemoveOverlay));
         }
 
 	    private void SetLabelText(UILabel label, string text)
@@ -501,5 +502,28 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             _approverPicker.ReloadAllComponents();
 		}
 
+        #region Overlay
+        private LoadingOverlay _overlay;
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+                _overlay = new LoadingOverlay(View.Bounds, null);
+                _overlay.BackgroundColor = UIColor.FromWhiteAlpha(1.0f, 0.5f);
+                _overlay.UserInteractionEnabled = false;
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }
