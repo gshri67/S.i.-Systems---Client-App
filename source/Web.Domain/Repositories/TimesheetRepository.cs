@@ -35,6 +35,17 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
     public class TimesheetRepository : ITimesheetRepository
     {
+        private void MarkTimesheetAsMobileByTimesheetId(int timesheetId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                        @"UPDATE Timesheet SET IsMobile = 1 WHERE Timesheet.TimeSheetID = @TimesheetId";
+
+                var success = db.Connection.Query<int>(query, new { TimesheetId = timesheetId });
+            }
+        }
+
         public Timesheet GetTimesheetsById(int timesheetId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -381,6 +392,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     TSstatus = "Approved"
                 }).FirstOrDefault();
 
+                MarkTimesheetAsMobileByTimesheetId(savedTimesheetTempId);
+
                 return savedTimesheetTempId;
             }
         }
@@ -422,6 +435,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     isSubmittedEmailSent = true, 
                     aDirectReportid = timesheet.TimesheetApprover.Id
                 }).FirstOrDefault();
+
+                MarkTimesheetAsMobileByTimesheetId(submittedTimesheetId);
 
                 return submittedTimesheetId;
             }
