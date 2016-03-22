@@ -27,7 +27,7 @@ namespace ConsultantApp.Core.Tests
         [Test]
         public void PayPeriods_NullReturnedFromApi_ReturnsEmptyEnumerable()
         {
-            _mockApi.Setup(api => api.GetPayPeriods())
+            _mockApi.Setup(api => api.GetPayPeriodSummaries())
                     .Returns(Task.FromResult((IEnumerable<PayPeriod>)null));
 
             _viewModel.LoadPayPeriods();
@@ -48,7 +48,7 @@ namespace ConsultantApp.Core.Tests
         [Test]
         public void UserHasPayPeriods_WithEmptyPayPeriods_ReturnsFalse()
         {
-            _mockApi.Setup(api => api.GetPayPeriods())
+            _mockApi.Setup(api => api.GetPayPeriodSummaries())
                     .Returns(Task.FromResult((IEnumerable<PayPeriod>)null));
 
             _viewModel.LoadPayPeriods();
@@ -61,7 +61,7 @@ namespace ConsultantApp.Core.Tests
         [Test]
         public void UserHasPayPeriods_WithNonEmptyPayPeriods_ReturnsTrue()
         {
-            _mockApi.Setup(api => api.GetPayPeriods())
+            _mockApi.Setup(api => api.GetPayPeriodSummaries())
                     .Returns(Task.FromResult(new List<PayPeriod>
                     {
                         new PayPeriod()
