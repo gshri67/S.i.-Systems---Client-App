@@ -20,7 +20,9 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             _service = service;
         }
 
-        public HttpResponseMessage Post(Timesheet timesheet)
+        [Route("Save")]
+        [HttpPost]
+        public HttpResponseMessage Save(Timesheet timesheet)
         {
             var returnedTimesheet = _service.SaveTimesheet(timesheet);
             return Request.CreateResponse(HttpStatusCode.OK, returnedTimesheet);
@@ -42,7 +44,7 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, withdrawnTimesheet);
         }
 
-        [Route("/Details")]
+        [Route("Details")]
         [HttpPost]
         public HttpResponseMessage GetTimesheetEntries(Timesheet timesheet)
         {

@@ -188,7 +188,7 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<Timesheet>(timesheet);
         }
 
-        [HttpPost("Timesheets")]
+        [HttpPost("Timesheets/Save")]
         public async Task<Timesheet> SaveTimesheet(Timesheet timesheet)
         {
             return await ExecuteWithDefaultClient<Timesheet>(timesheet);
