@@ -14,7 +14,12 @@ namespace ConsultantApp.Core.ViewModels
 	{
         private readonly IMatchGuideApi _api;
 
-	    public Timesheet Timesheet { get; private set; }
+	    private Timesheet _timesheet;
+	    public Timesheet Timesheet 
+        {
+	        get { return _timesheet ?? new Timesheet(); }
+	        private set { _timesheet = value; }
+	    }
 
 	    private IEnumerable<DirectReport> _approvers;
 	    private TimesheetSupport _timesheetSupport;
@@ -31,8 +36,6 @@ namespace ConsultantApp.Core.ViewModels
 
         private const string DateLabelFormat = "MMMMM yyyy";
 	    private const float Tolerance = (float) 0.00001;
-
-	    public Task LoadingTimesheet;
 
 	    public Task SubmittingTimesheet;
 	    public Task WithdrawingTimesheet;
@@ -87,10 +90,12 @@ namespace ConsultantApp.Core.ViewModels
             Timesheet = await _api.WithdrawTimesheet(Timesheet.Id, CancelReason );
 	    }
 
-	    public void SetTimesheet(Timesheet timesheet)
+	    public Task SetTimesheet(Timesheet timesheet)
 	    {
-            LoadingTimesheet = LoadTimesheet(timesheet);
-            // LoadingTimesheet.ContinueWith() //whatever work needs to be done in this class when we finish loading the timesheet
+            Timesheet = timesheet;
+            var task = GetTimeEntries(timesheet);
+            return task;
+            // task.ContinueWith() //whatever work needs to be done in this class when we finish loading the timesheet
 	    }
 
 	    public Task GetTimesheetApprovers()
@@ -104,16 +109,9 @@ namespace ConsultantApp.Core.ViewModels
             _approvers = await _api.GetTimesheetApproversByAgreementId(Timesheet.AgreementId);
         }
 
-
-	    private Task LoadTimesheet(Timesheet timesheet)
-	    {
-	        var task = GetTimeEntries(timesheet);
-	        return task;
-	    }
-
 	    private async Task GetTimeEntries(Timesheet timesheet)
 	    {
-	        Timesheet = await _api.PopulateTimeEntries(timesheet);
+            Timesheet = await _api.PopulateTimeEntries(timesheet);
 	    }
 
         public Task LoadTimesheetSupport()

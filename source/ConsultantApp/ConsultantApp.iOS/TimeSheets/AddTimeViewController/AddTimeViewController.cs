@@ -32,8 +32,8 @@ namespace ConsultantApp.iOS
 
         public void SetTimesheet(Timesheet timesheet)
         {
-            _timesheetModel.SetTimesheet(timesheet);
-            UpdateUI();
+            var loadingTimesheet = _timesheetModel.SetTimesheet(timesheet);
+            loadingTimesheet.ContinueWith(_ => InvokeOnMainThread(UpdateUI));
         }
 
         public void LoadPayRates()
