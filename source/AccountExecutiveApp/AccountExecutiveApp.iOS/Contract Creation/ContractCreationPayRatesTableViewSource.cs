@@ -82,10 +82,10 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetIsPrimaryRateCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditableBooleanCell cell =
-                (EditableBooleanCell)tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Primary Rate", _contractModel.IsPrimaryRateAtIndex((int)indexPath.Section));
-            cell.OnValueChanged += delegate(bool newValue) { _contractModel.SetPrimaryRateForIndex((int)indexPath.Section); };
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Primary Rate", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.IsPrimaryRateAtIndex((int)indexPath.Section)));
+            cell.OnValueChanged += delegate(string newValue) { if (newValue == "Yes")  _contractModel.SetPrimaryRateForIndex((int)indexPath.Section); };
 
             return cell;
         }
