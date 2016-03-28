@@ -42,6 +42,9 @@ namespace AccountExecutiveApp.iOS
         }
 
         private int _rateTypeCellRow { get { return 0; } }
+        private int _rateDescriptionCellRow { get { return _rateTypeCellRow + 1; } }
+        private int _billRateCellRow { get { return _rateDescriptionCellRow + 1; } }
+        private int _isPrimaryRateCellRow { get { return _billRateCellRow + 1; } }
 
         private UITableViewCell GetRateTypeCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -54,8 +57,6 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
-        private int _rateDescriptionCellRow { get { return _rateTypeCellRow + 1; } }
-
         private UITableViewCell GetRateDescriptionCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell =
@@ -65,8 +66,6 @@ namespace AccountExecutiveApp.iOS
 
             return cell;
         }
-
-        private int _billRateCellRow { get { return _rateDescriptionCellRow + 1; } }
 
         private UITableViewCell GetBillRateCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -80,8 +79,6 @@ namespace AccountExecutiveApp.iOS
 
             return cell;
         }
-
-        private int _isPrimaryRateCellRow { get { return _billRateCellRow + 1; } }
 
         private UITableViewCell GetIsPrimaryRateCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -102,9 +99,6 @@ namespace AccountExecutiveApp.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-           // if (deletingSectionIndex == section )
-             //   return 0;
-
             return 4;
         }
 

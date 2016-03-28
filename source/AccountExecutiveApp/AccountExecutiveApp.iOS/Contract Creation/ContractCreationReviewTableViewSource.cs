@@ -30,35 +30,35 @@ namespace AccountExecutiveApp.iOS
 
             if (indexPath.Section == 0)
             {
-                if (IsJobTitleCell(indexPath))
+                if (IsIndexFromCell(indexPath, _jobTitleCellRow))
                     return GetJobTitleCell(tableView, indexPath);
-                else if (IsStartDateCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _startDateCellRow))
                     return GetStartDateCell(tableView, indexPath);
-                else if (IsEndDateCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _endDateCellRow))
                     return GetEndDateCell(tableView, indexPath);
-                else if (IsTimeFactorCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _timeFactorCellRow))
                     return GetTimeFactorCell(tableView, indexPath);
-                else if (IsDaysCancellationCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _daysCancellationCellRow))
                     return GetDaysCancellationCell(tableView, indexPath);
-                else if (IsLimitationExpenseCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _limitationExpenseCellRow))
                     return GetLimitationExpenseCell(tableView, indexPath);
-                else if (IsLimitationOfContractCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _limitationOfContractCellRow))
                     return GetLimitationOfContractCell(tableView, indexPath);
-                else if (IsPaymentPlanCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _paymentPlanCellRow))
                     return GetPaymentPlanCell(tableView, indexPath);
-                else if (IsAccountExecutiveCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _accountExecutiveCellRow))
                     return GetAccountExecutiveCell(tableView, indexPath);
-                else if (IsGMAssignedCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _GMAssignedCellRow))
                     return GetGMAssignedCell(tableView, indexPath);
-                else if (IsComissionAssignedCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _comissionAssignedCellRow))
                     return GetCommisionAssignedCell(tableView, indexPath);
-                else if (IsInvoiceFrequencyCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _invoiceFrequencyCellRow)) 
                     return GetInvoiceFrequencyCell(tableView, indexPath);
-                else if (IsInvoiceFormatCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _invoiceFormatCellRow))
                     return GetInvoiceFormatCell(tableView, indexPath);
-                else if (IsProjectCodeCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _projectCodeCellRow))
                     return GetProjectCodesCell(tableView, indexPath);
-                else if (IsQuickPayCell(indexPath))
+                else if (IsIndexFromCell(indexPath, _quickPayCellRow))
                     return GetQuickPayCell(tableView, indexPath);
             }
             else if (indexPath.Section < _contractModel.NumRates + 1)
@@ -106,6 +106,15 @@ namespace AccountExecutiveApp.iOS
 
             return cell;
         }
+
+        private bool IsIndexFromCell(NSIndexPath indexPath, int cellRow)
+        {
+            if ((int)indexPath.Item == cellRow)
+                return true;
+            return false;
+        }
+
+//Initial (Body) Page Indices
 
         private int _jobTitleCellRow
         {
