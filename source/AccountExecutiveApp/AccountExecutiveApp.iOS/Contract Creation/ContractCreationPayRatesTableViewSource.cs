@@ -28,21 +28,20 @@ namespace AccountExecutiveApp.iOS
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             UITableViewCell cell = new UITableViewCell();
-           
-            if (IsRateTypeCell(indexPath))
+
+            if (IsIndexFromCell(indexPath, _rateTypeCellRow))
                 return GetRateTypeCell(tableView, indexPath);
-            else if (IsRateDescriptionCell(indexPath))
+            else if (IsIndexFromCell(indexPath, _rateDescriptionCellRow))
                 return GetRateDescriptionCell(tableView, indexPath);
-            else if (IsBillRateCell(indexPath))
+            else if (IsIndexFromCell(indexPath, _billRateCellRow))
                 return GetBillRateCell(tableView, indexPath);
-            else if (IsIsPrimaryRateCell(indexPath))
+            else if (IsIndexFromCell(indexPath, _isPrimaryRateCellRow))
                 return GetIsPrimaryRateCell(tableView, indexPath);
 
             return cell;
         }
 
         private int _rateTypeCellRow { get { return 0; } }
-        private bool IsRateTypeCell(NSIndexPath indexPath) { return (int)indexPath.Item == _rateTypeCellRow; }
 
         private UITableViewCell GetRateTypeCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -56,7 +55,6 @@ namespace AccountExecutiveApp.iOS
         }
 
         private int _rateDescriptionCellRow { get { return _rateTypeCellRow + 1; } }
-        private bool IsRateDescriptionCell(NSIndexPath indexPath) { return (int)indexPath.Item == _rateDescriptionCellRow; }
 
         private UITableViewCell GetRateDescriptionCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -69,7 +67,6 @@ namespace AccountExecutiveApp.iOS
         }
 
         private int _billRateCellRow { get { return _rateDescriptionCellRow + 1; } }
-        private bool IsBillRateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _billRateCellRow; }
 
         private UITableViewCell GetBillRateCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -85,7 +82,6 @@ namespace AccountExecutiveApp.iOS
         }
 
         private int _isPrimaryRateCellRow { get { return _billRateCellRow + 1; } }
-        private bool IsIsPrimaryRateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _isPrimaryRateCellRow; }
 
         private UITableViewCell GetIsPrimaryRateCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -95,6 +91,13 @@ namespace AccountExecutiveApp.iOS
             cell.OnValueChanged += delegate(bool newValue) { _contractModel.SetPrimaryRateForIndex((int)indexPath.Section); };
 
             return cell;
+        }
+
+        private bool IsIndexFromCell(NSIndexPath indexPath, int cellRow)
+        {
+            if ((int)indexPath.Item == cellRow)
+                return true;
+            return false;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
