@@ -23,65 +23,55 @@ namespace AccountExecutiveApp.iOS
             _contractModel = model;
         }
 
+        private UITableViewCell ContractBodyCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (IsJobTitleCell(indexPath))
+                return GetJobTitleCell(tableView, indexPath);
+            else if (IsStartDateCell(indexPath))
+                return GetStartDateCell(tableView, indexPath);
+            else if (IsEndDateCell(indexPath))
+                return GetEndDateCell(tableView, indexPath);
+            else if (IsTimeFactorCell(indexPath))
+                return GetTimeFactorCell(tableView, indexPath);
+            else if (IsDaysCancellationCell(indexPath))
+                return GetDaysCancellationCell(tableView, indexPath);
+            else if (IsLimitationExpenseCell(indexPath))
+                return GetLimitationExpenseCell(tableView, indexPath);
+            else if (IsLimitationOfContractCell(indexPath))
+                return GetLimitationOfContractCell(tableView, indexPath);
+            else if (IsPaymentPlanCell(indexPath))
+                return GetPaymentPlanCell(tableView, indexPath);
+            else if (IsAccountExecutiveCell(indexPath))
+                return GetAccountExecutiveCell(tableView, indexPath);
+            else if (IsGMAssignedCell(indexPath))
+                return GetGMAssignedCell(tableView, indexPath);
+            else if (IsComissionAssignedCell(indexPath))
+                return GetCommisionAssignedCell(tableView, indexPath);
+            else if (IsInvoiceFrequencyCell(indexPath))
+                return GetInvoiceFrequencyCell(tableView, indexPath);
+            else if (IsInvoiceFormatCell(indexPath))
+                return GetInvoiceFormatCell(tableView, indexPath);
+            else if (IsProjectCodeCell(indexPath))
+                return GetProjectCodesCell(tableView, indexPath);
+            
+            return GetQuickPayCell(tableView, indexPath);
+
+        }
+
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            int row = (int)indexPath.Item;
-
             if (indexPath.Section == 0)
             {
-                if (IsJobTitleCell(indexPath))
-                    return GetJobTitleCell(tableView, indexPath);
-                else if (IsStartDateCell(indexPath))
-                    return GetStartDateCell(tableView, indexPath);
-                else if (IsEndDateCell(indexPath))
-                    return GetEndDateCell(tableView, indexPath);
-                else if (IsTimeFactorCell(indexPath))
-                    return GetTimeFactorCell(tableView, indexPath);
-                else if (IsDaysCancellationCell(indexPath))
-                    return GetDaysCancellationCell(tableView, indexPath);
-                else if (IsLimitationExpenseCell(indexPath))
-                    return GetLimitationExpenseCell(tableView, indexPath);
-                else if (IsLimitationOfContractCell(indexPath))
-                    return GetLimitationOfContractCell(tableView, indexPath);
-                else if (IsPaymentPlanCell(indexPath))
-                    return GetPaymentPlanCell(tableView, indexPath);
-                else if (IsAccountExecutiveCell(indexPath))
-                    return GetAccountExecutiveCell(tableView, indexPath);
-                else if (IsGMAssignedCell(indexPath))
-                    return GetGMAssignedCell(tableView, indexPath);
-                else if (IsComissionAssignedCell(indexPath))
-                    return GetCommisionAssignedCell(tableView, indexPath);
-                else if (IsInvoiceFrequencyCell(indexPath))
-                    return GetInvoiceFrequencyCell(tableView, indexPath);
-                else if (IsInvoiceFormatCell(indexPath))
-                    return GetInvoiceFormatCell(tableView, indexPath);
-                else if (IsProjectCodeCell(indexPath))
-                    return GetProjectCodesCell(tableView, indexPath);
-                else if (IsQuickPayCell(indexPath))
-                    return GetQuickPayCell(tableView, indexPath);
+                return ContractBodyCell(tableView, indexPath);
             }
             else if (indexPath.Section < _contractModel.NumRates + 1)
             {
-                if (IsRateTypeCell(indexPath))
-                    return GetRateTypeCell(tableView, indexPath);
-                else if (IsRateDescriptionCell(indexPath))
-                    return GetRateDescriptionCell(tableView, indexPath);
-                else if (IsBillRateCell(indexPath))
-                    return GetBillRateCell(tableView, indexPath);
-                else if (IsIsPrimaryRateCell(indexPath))
-                    return GetIsPrimaryRateCell(tableView, indexPath);
+                return RatesCell(tableView, indexPath);
             }
             else if (indexPath.Section < _contractModel.NumRates + 2)
             {
-                if (IsClientContactCell(indexPath))
-                    return GetClientContactCell(tableView, indexPath);
-                else if (IsDirectReportCell(indexPath))
-                    return GetDirectReportCell(tableView, indexPath);
-                else if (IsBillingContactCell(indexPath))
-                    return GetBillingContactCell(tableView, indexPath);
-                else if (IsInvoiceRecipientsCell(indexPath))
-                    return GetInvoiceRecipientsCell(tableView, indexPath);
+                return ContactsCell(tableView, indexPath);
             }
             else if (indexPath.Section < _contractModel.NumRates + 3)//Recipients
                 return null;
@@ -89,22 +79,48 @@ namespace AccountExecutiveApp.iOS
                 return null;
             else if (indexPath.Section < _contractModel.NumRates + 5) //Email
             {
-                if (IsSendingConsultantContractCell(indexPath))
-                    return GetIsSendingConsultantContractCell(tableView, indexPath);
-                else if (IsEmailCell(indexPath))
-                    return GetEmailCell(tableView, indexPath);
-                else if (IsClientContractCell(indexPath))
-                    return GetClientContractCell(tableView, indexPath);
-                else if (IsReasonCell(indexPath))
-                    return GetReasonCell(tableView, indexPath);
-                else if (IsOtherReasonCell(indexPath))
-                    return GetOtherReasonCell(tableView, indexPath);
+                return ContractEmailCell(tableView, indexPath);
             }
+            else
+                return (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);   
+        }
 
-            EditableTextFieldCell cell =
-                (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+        private UITableViewCell ContractEmailCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (IsSendingConsultantContractCell(indexPath))
+                return GetIsSendingConsultantContractCell(tableView, indexPath);
+            else if (IsEmailCell(indexPath))
+                return GetEmailCell(tableView, indexPath);
+            else if (IsClientContractCell(indexPath))
+                return GetClientContractCell(tableView, indexPath);
+            else if (IsReasonCell(indexPath))
+                return GetReasonCell(tableView, indexPath);
+            
+            return GetOtherReasonCell(tableView, indexPath);
+        }
 
-            return cell;
+        private UITableViewCell ContactsCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (IsClientContactCell(indexPath))
+                return GetClientContactCell(tableView, indexPath);
+            else if (IsDirectReportCell(indexPath))
+                return GetDirectReportCell(tableView, indexPath);
+            else if (IsBillingContactCell(indexPath))
+                return GetBillingContactCell(tableView, indexPath);
+            
+            return GetInvoiceRecipientsCell(tableView, indexPath);
+        }
+
+        private UITableViewCell RatesCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (IsRateTypeCell(indexPath))
+                return GetRateTypeCell(tableView, indexPath);
+            else if (IsRateDescriptionCell(indexPath))
+                return GetRateDescriptionCell(tableView, indexPath);
+            else if (IsBillRateCell(indexPath))
+                return GetBillRateCell(tableView, indexPath);
+            
+            return GetIsPrimaryRateCell(tableView, indexPath);
         }
 
         private int _jobTitleCellRow
