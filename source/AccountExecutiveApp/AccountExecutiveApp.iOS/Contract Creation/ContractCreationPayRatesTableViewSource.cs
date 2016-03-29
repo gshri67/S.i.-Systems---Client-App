@@ -85,7 +85,11 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Primary Rate", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.IsPrimaryRateAtIndex((int)indexPath.Section)));
-            cell.OnValueChanged += delegate(string newValue) { if (newValue == "Yes")  _contractModel.SetPrimaryRateForIndex((int)indexPath.Section); };
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                if (newValue == "Yes")  _contractModel.SetPrimaryRateForIndex((int)indexPath.Section);
+                tableView.ReloadData();
+            };
 
             return cell;
         }
@@ -152,7 +156,7 @@ namespace AccountExecutiveApp.iOS
                 tableView.DeleteSections( NSIndexSet.FromIndex(section), UITableViewRowAnimation.Automatic );
 
                 deletingSectionIndex = -1;
-               
+
                 tableView.ReloadData();
 
                 //var vc = (ContractCreationSendingTableViewController)Storyboard.InstantiateViewController("ContractCreationSendingTableViewController");

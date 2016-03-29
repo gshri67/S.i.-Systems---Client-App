@@ -148,6 +148,9 @@ namespace AccountExecutiveApp.Core.ViewModel
             Contract.BillRates = list.AsEnumerable();
         }
 
+        public int PrimaryRateIndex {
+            get { return Contract.PrimaryRateIndex;  }
+        }
         public bool IsPrimaryRateAtIndex(int index) { return Contract.PrimaryRateIndex == index; }
         public void SetPrimaryRateForIndex(int index)
         {
@@ -170,6 +173,9 @@ namespace AccountExecutiveApp.Core.ViewModel
             billRateList.Add(string.Empty);
             Contract.BillRates = billRateList.AsEnumerable();
 
+            if (Contract.PrimaryRateIndex > NumRates)
+                Contract.PrimaryRateIndex = 0;
+
             NumRates ++;
         }
 
@@ -188,6 +194,13 @@ namespace AccountExecutiveApp.Core.ViewModel
                 List<string> billRateList = Contract.BillRates.ToList();
                 billRateList.RemoveAt(index);
                 Contract.BillRates = billRateList.AsEnumerable();
+
+
+                if (PrimaryRateIndex == index && NumRates > 0)
+                    SetPrimaryRateForIndex(0);
+                else if (PrimaryRateIndex > index && NumRates > 0)
+                    SetPrimaryRateForIndex(PrimaryRateIndex - 1);
+
 
                 NumRates--;
             }
