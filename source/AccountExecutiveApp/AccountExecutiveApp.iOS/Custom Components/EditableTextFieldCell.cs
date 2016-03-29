@@ -73,7 +73,7 @@ namespace AccountExecutiveApp.iOS
                 TextAlignment = UITextAlignment.Left,
                 Font = UIFont.FromName("Helvetica", 16f),
                 TextColor = UIColor.Black,
-                Lines = 0
+                //Lines = 0
             };
             AddSubview(MainTextLabel);
         }
