@@ -25,33 +25,33 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell ContractBodyCell(UITableView tableView, NSIndexPath indexPath)
         {
-            if (IsJobTitleCell(indexPath))
+            if (IsIndexFromCell(indexPath, _jobTitleCellRow))
                 return GetJobTitleCell(tableView, indexPath);
-            else if (IsStartDateCell(indexPath))
+            if (IsIndexFromCell(indexPath, _startDateCellRow))
                 return GetStartDateCell(tableView, indexPath);
-            else if (IsEndDateCell(indexPath))
+            if (IsIndexFromCell(indexPath, _endDateCellRow))
                 return GetEndDateCell(tableView, indexPath);
-            else if (IsTimeFactorCell(indexPath))
+            if (IsIndexFromCell(indexPath, _timeFactorCellRow))
                 return GetTimeFactorCell(tableView, indexPath);
-            else if (IsDaysCancellationCell(indexPath))
+            if (IsIndexFromCell(indexPath, _daysCancellationCellRow))
                 return GetDaysCancellationCell(tableView, indexPath);
-            else if (IsLimitationExpenseCell(indexPath))
+            if (IsIndexFromCell(indexPath, _limitationExpenseCellRow))
                 return GetLimitationExpenseCell(tableView, indexPath);
-            else if (IsLimitationOfContractCell(indexPath))
+            if (IsIndexFromCell(indexPath, _limitationOfContractCellRow))
                 return GetLimitationOfContractCell(tableView, indexPath);
-            else if (IsPaymentPlanCell(indexPath))
+            if (IsIndexFromCell(indexPath, _paymentPlanCellRow))
                 return GetPaymentPlanCell(tableView, indexPath);
-            else if (IsAccountExecutiveCell(indexPath))
+            if (IsIndexFromCell(indexPath, _accountExecutiveCellRow))
                 return GetAccountExecutiveCell(tableView, indexPath);
-            else if (IsGMAssignedCell(indexPath))
+            if (IsIndexFromCell(indexPath, _GMAssignedCellRow))
                 return GetGMAssignedCell(tableView, indexPath);
-            else if (IsComissionAssignedCell(indexPath))
+            if (IsIndexFromCell(indexPath, _comissionAssignedCellRow))
                 return GetCommisionAssignedCell(tableView, indexPath);
-            else if (IsInvoiceFrequencyCell(indexPath))
+            if (IsIndexFromCell(indexPath, _invoiceFrequencyCellRow)) 
                 return GetInvoiceFrequencyCell(tableView, indexPath);
-            else if (IsInvoiceFormatCell(indexPath))
+            if (IsIndexFromCell(indexPath, _invoiceFormatCellRow))
                 return GetInvoiceFormatCell(tableView, indexPath);
-            else if (IsProjectCodeCell(indexPath))
+            if (IsIndexFromCell(indexPath, _projectCodeCellRow))
                 return GetProjectCodesCell(tableView, indexPath);
             
             return GetQuickPayCell(tableView, indexPath);
@@ -62,38 +62,29 @@ namespace AccountExecutiveApp.iOS
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             if (indexPath.Section == 0)
-            {
                 return ContractBodyCell(tableView, indexPath);
-            }
-            else if (indexPath.Section < _contractModel.NumRates + 1)
-            {
+            if (indexPath.Section < _contractModel.NumRates + 1)
                 return RatesCell(tableView, indexPath);
-            }
-            else if (indexPath.Section < _contractModel.NumRates + 2)
-            {
+            if (indexPath.Section < _contractModel.NumRates + 2)
                 return ContactsCell(tableView, indexPath);
-            }
-            else if (indexPath.Section < _contractModel.NumRates + 3)//Recipients
+            if (indexPath.Section < _contractModel.NumRates + 3)//Recipients
                 return null;
-            else if (indexPath.Section < _contractModel.NumRates + 4)//Associated POs
+            if (indexPath.Section < _contractModel.NumRates + 4)//Associated POs
                 return null;
-            else if (indexPath.Section < _contractModel.NumRates + 5) //Email
-            {
+            if (indexPath.Section < _contractModel.NumRates + 5) //Email
                 return ContractEmailCell(tableView, indexPath);
-            }
-            else
-                return (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);   
+            return (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
         }
 
         private UITableViewCell ContractEmailCell(UITableView tableView, NSIndexPath indexPath)
         {
-            if (IsSendingConsultantContractCell(indexPath))
+            if (IsIndexFromCell(indexPath, _isSendingConsultantContractCellRow))
                 return GetIsSendingConsultantContractCell(tableView, indexPath);
-            else if (IsEmailCell(indexPath))
+            if (IsIndexFromCell(indexPath, _emailCellRow))
                 return GetEmailCell(tableView, indexPath);
-            else if (IsClientContractCell(indexPath))
+            if (IsIndexFromCell(indexPath, _clientContractCellRow))
                 return GetClientContractCell(tableView, indexPath);
-            else if (IsReasonCell(indexPath))
+            if (IsIndexFromCell(indexPath, _reasonCellRow))
                 return GetReasonCell(tableView, indexPath);
             
             return GetOtherReasonCell(tableView, indexPath);
@@ -101,36 +92,38 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell ContactsCell(UITableView tableView, NSIndexPath indexPath)
         {
-            if (IsClientContactCell(indexPath))
+            if (IsIndexFromCell(indexPath, _clientContactCellRow))
                 return GetClientContactCell(tableView, indexPath);
-            else if (IsDirectReportCell(indexPath))
+            if (IsIndexFromCell(indexPath, _directReportCellRow))
                 return GetDirectReportCell(tableView, indexPath);
-            else if (IsBillingContactCell(indexPath))
+            if (IsIndexFromCell(indexPath, _billingContactCellRow))
                 return GetBillingContactCell(tableView, indexPath);
-            
+
             return GetInvoiceRecipientsCell(tableView, indexPath);
         }
 
         private UITableViewCell RatesCell(UITableView tableView, NSIndexPath indexPath)
         {
-            if (IsRateTypeCell(indexPath))
+            if (IsIndexFromCell(indexPath, _localRateTypeCellRow))
                 return GetRateTypeCell(tableView, indexPath);
-            else if (IsRateDescriptionCell(indexPath))
+            if (IsIndexFromCell(indexPath, _localRateDescriptionCellRow))
                 return GetRateDescriptionCell(tableView, indexPath);
-            else if (IsBillRateCell(indexPath))
+            if (IsIndexFromCell(indexPath, _localBillRateCellRow))
                 return GetBillRateCell(tableView, indexPath);
-            
+
             return GetIsPrimaryRateCell(tableView, indexPath);
         }
+
+        private static bool IsIndexFromCell(NSIndexPath indexPath, int cellRow)
+        {
+            return (int)indexPath.Item == cellRow;
+        }
+
+//Initial (Body) Page Indices
 
         private int _jobTitleCellRow
         {
             get { return 0; }
-        }
-
-        private bool IsJobTitleCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _jobTitleCellRow;
         }
 
         private int _startDateCellRow
@@ -138,19 +131,9 @@ namespace AccountExecutiveApp.iOS
             get { return _jobTitleCellRow + 1; }
         }
 
-        private bool IsStartDateCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _startDateCellRow;
-        }
-
         private int _endDateCellRow
         {
             get { return _startDateCellRow + 1; }
-        }
-
-        private bool IsEndDateCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _endDateCellRow;
         }
 
         private int _timeFactorCellRow
@@ -158,19 +141,10 @@ namespace AccountExecutiveApp.iOS
             get { return _endDateCellRow + 1; }
         }
 
-        private bool IsTimeFactorCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _timeFactorCellRow;
-        }
 
         private int _daysCancellationCellRow
         {
             get { return _timeFactorCellRow + 1; }
-        }
-
-        private bool IsDaysCancellationCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _daysCancellationCellRow;
         }
 
         private int _limitationExpenseCellRow
@@ -178,49 +152,27 @@ namespace AccountExecutiveApp.iOS
             get { return _daysCancellationCellRow + 1; }
         }
 
-        private bool IsLimitationExpenseCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _limitationExpenseCellRow;
-        }
-
         private int _limitationOfContractCellRow
         {
             get { return _limitationExpenseCellRow + 1; }
         }
 
-        private bool IsLimitationOfContractCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _limitationOfContractCellRow;
-        }
 
         private int _paymentPlanCellRow
         {
             get { return _limitationOfContractCellRow + 1; }
         }
 
-        private bool IsPaymentPlanCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _paymentPlanCellRow;
-        }
 
         private int _accountExecutiveCellRow
         {
             get { return _paymentPlanCellRow + 1; }
         }
 
-        private bool IsAccountExecutiveCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _accountExecutiveCellRow;
-        }
 
         private int _GMAssignedCellRow
         {
             get { return _accountExecutiveCellRow + 1; }
-        }
-
-        private bool IsGMAssignedCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _GMAssignedCellRow;
         }
 
         private int _comissionAssignedCellRow
@@ -228,19 +180,9 @@ namespace AccountExecutiveApp.iOS
             get { return _GMAssignedCellRow + 1; }
         }
 
-        private bool IsComissionAssignedCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _comissionAssignedCellRow;
-        }
-
         private int _invoiceFrequencyCellRow
         {
             get { return _comissionAssignedCellRow + 1; }
-        }
-
-        private bool IsInvoiceFrequencyCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _invoiceFrequencyCellRow;
         }
 
         private int _invoiceFormatCellRow
@@ -248,19 +190,9 @@ namespace AccountExecutiveApp.iOS
             get { return _invoiceFrequencyCellRow + 1; }
         }
 
-        private bool IsInvoiceFormatCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _invoiceFormatCellRow;
-        }
-
         private int _projectCodeCellRow
         {
             get { return _invoiceFormatCellRow + 1; }
-        }
-
-        private bool IsProjectCodeCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _projectCodeCellRow;
         }
 
         private int _quickPayCellRow
@@ -268,10 +200,6 @@ namespace AccountExecutiveApp.iOS
             get { return _projectCodeCellRow + 1; }
         }
 
-        private bool IsQuickPayCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _quickPayCellRow;
-        }
 
         private int _numInitialPageCells
         {
@@ -281,16 +209,12 @@ namespace AccountExecutiveApp.iOS
 //Contract Rates Page Indices
 
         private int _localRateTypeCellRow { get { return 0; } }
-        private bool IsRateTypeCell(NSIndexPath indexPath) { return (int)indexPath.Item == _localRateTypeCellRow; }
 
         private int _localRateDescriptionCellRow { get { return _localRateTypeCellRow + 1; } }
-        private bool IsRateDescriptionCell(NSIndexPath indexPath) { return (int)indexPath.Item == _localRateDescriptionCellRow; }
 
         private int _localBillRateCellRow { get { return _localRateDescriptionCellRow + 1; } }
-        private bool IsBillRateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _localBillRateCellRow; }
 
         private int _localIsPrimaryRateCellRow { get { return _localBillRateCellRow + 1; } }
-        private bool IsIsPrimaryRateCell(NSIndexPath indexPath) { return (int)indexPath.Item == _localIsPrimaryRateCellRow; }
 
         private int _numCellsPerRateSection { get { return _localIsPrimaryRateCellRow + 1; } }
 
@@ -301,19 +225,9 @@ namespace AccountExecutiveApp.iOS
             get { return 0; }
         }
 
-        private bool IsClientContactCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _clientContactCellRow;
-        }
-
         private int _directReportCellRow
         {
             get { return _clientContactCellRow + 1; }
-        }
-
-        private bool IsDirectReportCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _directReportCellRow;
         }
 
         private int _billingContactCellRow
@@ -321,19 +235,9 @@ namespace AccountExecutiveApp.iOS
             get { return _directReportCellRow + 1; }
         }
 
-        private bool IsBillingContactCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _billingContactCellRow;
-        }
-
         private int _invoiceRecipientsCellRow
         {
             get { return _billingContactCellRow + 1; }
-        }
-
-        private bool IsInvoiceRecipientsCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _invoiceRecipientsCellRow;
         }
 
         private int _numSendingPageCells {
@@ -384,19 +288,9 @@ namespace AccountExecutiveApp.iOS
             get { return 0; }
         }
 
-        private bool IsSendingConsultantContractCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _isSendingConsultantContractCellRow;
-        }
-
         private int _emailCellRow
         {
             get { return _isSendingConsultantContractCellRow+1; }
-        }
-
-        private bool IsEmailCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _emailCellRow;
         }
          
         private int _clientContractCellRow
@@ -410,19 +304,9 @@ namespace AccountExecutiveApp.iOS
             }
         }
 
-        private bool IsClientContractCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _clientContractCellRow;
-        }
-
         private int _reasonCellRow
         {
             get { return _clientContractCellRow + 1; }
-        }
-
-        private bool IsReasonCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _reasonCellRow;
         }
 
         private int _otherReasonCellRow
@@ -430,12 +314,6 @@ namespace AccountExecutiveApp.iOS
             get { return _reasonCellRow + 1; }
         }
 
-        private bool IsOtherReasonCell(NSIndexPath indexPath)
-        {
-            return (int)indexPath.Item == _otherReasonCellRow;
-        }
-          
-         
         private int _numEmailPageCells {
             get
             {
@@ -449,7 +327,6 @@ namespace AccountExecutiveApp.iOS
                 return 0;
             } 
         }
-
 
         //Get Cells for Initial Page
         private UITableViewCell GetJobTitleCell(UITableView tableView, NSIndexPath indexPath)
@@ -743,63 +620,49 @@ namespace AccountExecutiveApp.iOS
 //indexing methods
         private int ContractRatesSectionLocalIndex(NSIndexPath indexPath)
         {
-            return (int)indexPath.Section - 1;
+            return indexPath.Section - 1;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
             if( (int)section == 0 ) //Initial Terms
                 return _numInitialPageCells;
-            else if ((int) section < _contractModel.NumRates + 1) //Contract Rates
+            if ((int) section < _contractModel.NumRates + 1) //Contract Rates
                 return _numCellsPerRateSection;
-            else if ((int)section < _contractModel.NumRates + 2) //Contacts
+            if ((int)section < _contractModel.NumRates + 2) //Contacts
                 return _numSendingPageCells;
-            else if ((int)section < _contractModel.NumRates + 3)//Recipients
+            if ((int)section < _contractModel.NumRates + 3)//Recipients
                 return 0;
-            else if ((int)section < _contractModel.NumRates + 4)//Associated POs
+            if ((int)section < _contractModel.NumRates + 4)//Associated POs
                 return 0;
-            else if ((int)section < _contractModel.NumRates + 5)//Email
+            if ((int)section < _contractModel.NumRates + 5)//Email
                 return _numEmailPageCells;
 
-            else return 0;
+            return 0;
         }
 
         public override nint NumberOfSections(UITableView tableView)
         {
             return 5 + _contractModel.NumRates;
         }
-        /*
-        public override nfloat GetHeightForHeader(UITableView tableView, nint section)
-        {
-            return base.GetHeightForHeader(tableView, section);
-        }
-        */
+
         public override string TitleForHeader(UITableView tableView, nint section)
         {
             if ((int) section == 0)
                 return "Contract Terms";
-            else if ((int)section == 1)
+            if ((int)section == 1)
                 return "Contract Rate Term";
-            else if ((int)section == _contractModel.NumRates + 1 )
+            if ((int)section == _contractModel.NumRates + 1 )
                 return "Contract Contacts";
-            else if ((int)section == _contractModel.NumRates + 2)
+            if ((int)section == _contractModel.NumRates + 2)
                 return "Invoice Recipients";
-            else if ((int)section == _contractModel.NumRates + 3)
+            if ((int)section == _contractModel.NumRates + 3)
                 return "Associated Project and POs to New Contract";
-            else if ((int)section == _contractModel.NumRates + 4)
+            if ((int)section == _contractModel.NumRates + 4)
                 return "Email";
 
             return string.Empty;
         }
-
-        /*
-        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-        {
-            if (IsEmailCell(indexPath))
-                return 100;
-
-            return 35;
-        }*/
 
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
