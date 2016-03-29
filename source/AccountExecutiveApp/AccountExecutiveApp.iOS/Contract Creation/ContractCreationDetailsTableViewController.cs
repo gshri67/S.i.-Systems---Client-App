@@ -11,7 +11,8 @@ namespace AccountExecutiveApp.iOS
 {
 	public partial class ContractCreationDetailsTableViewController : UITableViewController
 	{
-	    ContractCreationViewModel _viewModel;
+	    private readonly ContractCreationViewModel _viewModel;
+	    private readonly ContractBodySupportViewModel _optionsModel;
 	    private Contractor _contractor;
         private SubtitleHeaderView _subtitleHeaderView;
         private string Subtitle;
@@ -20,6 +21,7 @@ namespace AccountExecutiveApp.iOS
 	        : base(handle)
 	    {
             _viewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
+            _optionsModel = DependencyResolver.Current.Resolve<ContractBodySupportViewModel>();
 	    }
 		
 		public override void DidReceiveMemoryWarning ()
@@ -29,6 +31,13 @@ namespace AccountExecutiveApp.iOS
 			
 			// Release any cached data, images, etc that aren't in use.
 		}
+
+	    public void SetupViewController(Contractor contractor, int jobId)
+	    {
+	        _contractor = contractor;
+            LoadContractOptions(contractor.ContactInformation.Id, jobId);
+	    }
+
 
 	    public void SetConsultant( Contractor contractor )
 	    {
@@ -129,7 +138,14 @@ namespace AccountExecutiveApp.iOS
 
 	    }
 
-        private void CreateCustomTitleBar()
+	    private void LoadContractOptions(int contractorId, int jobId)
+	    {
+	        var loadingOptions = _optionsModel.GetContractBodyOptions(contractorId, jobId);
+            //todo: update ui
+	        //loadingOptions.ContinueWith();
+	    }
+
+	    private void CreateCustomTitleBar()
         {
             InvokeOnMainThread(() =>
             {

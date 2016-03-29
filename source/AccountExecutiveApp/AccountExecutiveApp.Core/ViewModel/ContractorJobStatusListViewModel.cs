@@ -16,12 +16,13 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string ClientName { get; set; }
         public string _jobTitle;
-
         public string JobTitle
         {
             get { return _jobTitle ?? string.Empty; }
             set { _jobTitle = value ?? string.Empty; }
         }
+
+        public int JobId { get; set; }
 
         private IEnumerable<ContractorRateSummary> RateSummaries
         {

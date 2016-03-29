@@ -34,6 +34,7 @@ namespace AccountExecutiveApp.iOS
             InvokeOnMainThread(UpdatePageTitle);
 
             _viewModel.JobTitle = jobTitle;
+            _viewModel.JobId = Id;
             var task = _viewModel.LoadContractorsWithJobIDAndStatusAndClientName( Id, status, clientName );
             task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
         }

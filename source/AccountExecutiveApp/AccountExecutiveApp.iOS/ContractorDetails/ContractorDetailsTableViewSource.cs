@@ -115,27 +115,24 @@ namespace AccountExecutiveApp.iOS
 
 		public override UIView GetViewForHeader (UITableView tableView, nint section)
 		{
-		    if (_hasCreateContractHeader)
+		    if (!_hasCreateContractHeader) return new UIView();
+
+		    var headerView = new CreateContractJobDescriptionView(_jobDescription);
+		    headerView.CreateContractButton.TouchUpInside += delegate
 		    {
-		        CreateContractJobDescriptionView headerView = new CreateContractJobDescriptionView(_jobDescription);
-		        headerView.CreateContractButton.TouchUpInside += delegate
-		        {
-		            ContractCreationDetailsTableViewController vc =
-		                (ContractCreationDetailsTableViewController)
-		                    _parentController.Storyboard.InstantiateViewController(
-		                        "ContractCreationDetailsTableViewController");
+		        var vc = (ContractCreationDetailsTableViewController) _parentController.Storyboard
+                                                            .InstantiateViewController( "ContractCreationDetailsTableViewController");
 
-                    vc.SetConsultant(_tableModel._contractor);
+		        vc.SetConsultant(_tableModel.Contractor);
+                vc.SetupViewController(_tableModel.Contractor, _parentController.JobId);
 
-		            UINavigationController navVc = new UINavigationController(vc);
+		        var navVc = new UINavigationController(vc);
 
-		            _parentController.PresentViewController(navVc, true, null);
+		        _parentController.PresentViewController(navVc, true, null);
 
-		        };
+		    };
 
-		        return headerView;
-		    }
-            return new UIView();
+		    return headerView;
 		}
 
 		public override nfloat GetHeightForHeader (UITableView tableView, nint section)

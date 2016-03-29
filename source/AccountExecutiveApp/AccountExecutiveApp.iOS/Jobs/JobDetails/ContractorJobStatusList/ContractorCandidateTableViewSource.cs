@@ -83,7 +83,7 @@ namespace AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList
             if (_parentModel.Status == JobStatus.Shortlisted)
                 vc.setContractorId(_parentModel.ContractorContactIdByRowNumber((int)indexPath.Item));
             else
-                vc.setContractorIdAndJobDescription(_parentModel.ContractorContactIdByRowNumber((int)indexPath.Item), _parentModel.JobTitle);
+                vc.SetupWithContractorAndJobInformation(_parentModel.ContractorContactIdByRowNumber((int)indexPath.Item), _parentModel.JobTitle, _parentModel.JobId);
             _parentController.ShowViewController(vc, _parentController);
         }
     }

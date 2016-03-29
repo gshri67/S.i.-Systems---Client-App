@@ -20,6 +20,7 @@ namespace AccountExecutiveApp.iOS
         private int _id;
         private string _jobDescription;
 	    private bool _jobDescriptionWasSet = false;
+	    public int JobId = -1;
 
         private LoadingOverlay _overlay;
 
@@ -28,11 +29,12 @@ namespace AccountExecutiveApp.iOS
             _viewModel = DependencyResolver.Current.Resolve<ContractorDetailsViewModel>();
 		}
 
-	    public void setContractorIdAndJobDescription( int Id, string jobDescription )
+	    public void SetupWithContractorAndJobInformation( int Id, string jobDescription, int jobId )
 	    {
 	        _jobDescription = jobDescription;
 	        _jobDescriptionWasSet = true;
             setContractorId(Id);
+	        JobId = jobId;
 	    }
 
 	    public void setContractorId(int Id)

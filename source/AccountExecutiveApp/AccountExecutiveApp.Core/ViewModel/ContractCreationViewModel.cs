@@ -20,13 +20,6 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { _contract = value ?? new ContractCreationDetails(); }
         }
 
-        private ContractCreationOptions _contractOptions;
-        private ContractCreationOptions ContractOptions
-        {
-            get { return _contractOptions ?? new ContractCreationOptions(); }
-            set { _contractOptions = value ?? new ContractCreationOptions(); }
-        }
-
         public int JobId;
         public int CandidateId;
 

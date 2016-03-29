@@ -6,57 +6,57 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 {
     public class ContractorDetailsTableViewModel
     {
-        public Contractor _contractor;
+        public Contractor Contractor;
 
         public ContractorDetailsTableViewModel( Contractor contractor )
         {
-            _contractor = contractor;
+            Contractor = contractor;
         }
 
         public int NumberOfPhoneNumbers()
         {
-            return _contractor.ContactInformation.PhoneNumbers.Count();
+            return Contractor.ContactInformation.PhoneNumbers.Count();
         }
 
         public int NumberOfEmails()
         {
-            return _contractor.ContactInformation.EmailAddresses.Count();
+            return Contractor.ContactInformation.EmailAddresses.Count();
         }
 
         public int NumberOfContracts()
         {
-            return _contractor.Contracts.Count();
+            return Contractor.Contracts.Count();
         }
 
         public IEnumerable<Specialization> Specializations
         {
-            get { return _contractor.Specializations; }
+            get { return Contractor.Specializations; }
         }
 
         public IEnumerable<ConsultantContract> Contracts
         {
-            get { return _contractor.Contracts; }
+            get { return Contractor.Contracts; }
         }
 
 		public string ContractorResume 
 		{
-			get{ return _contractor.ResumeText; }
+			get{ return Contractor.ResumeText; }
 		}
 
         public EmailAddress EmailAddressByRowNumber(int row)
         {
-            if (_contractor.ContactInformation.EmailAddresses.Count() > row)
-                return _contractor.ContactInformation.EmailAddresses.ElementAt(row);
+            if (Contractor.ContactInformation.EmailAddresses.Count() > row)
+                return Contractor.ContactInformation.EmailAddresses.ElementAt(row);
             return new EmailAddress();
         }
 
         public PhoneNumber PhoneNumberByRowNumber(int row)
         {
-            if (_contractor.ContactInformation.PhoneNumbers.Count() > row)
-                return _contractor.ContactInformation.PhoneNumbers.ElementAt(row);
+            if (Contractor.ContactInformation.PhoneNumbers.Count() > row)
+                return Contractor.ContactInformation.PhoneNumbers.ElementAt(row);
             return new PhoneNumber();
         }
 
-        public string LinkedInString { get { return _contractor.ContactInformation.LinkedInUrl; } }
+        public string LinkedInString { get { return Contractor.ContactInformation.LinkedInUrl; } }
     }
 }
