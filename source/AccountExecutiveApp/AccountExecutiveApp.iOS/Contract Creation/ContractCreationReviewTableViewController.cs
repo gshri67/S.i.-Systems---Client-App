@@ -67,6 +67,7 @@ namespace AccountExecutiveApp.iOS
 			};
 
 			TableView.TableFooterView = continueBar;
+            TableView.ReloadData();
 		}
 
 		public async void LoadData()
@@ -98,7 +99,15 @@ namespace AccountExecutiveApp.iOS
 
 		}
 
-		private void CreateCustomTitleBar()
+	    public override void ViewDidAppear(bool animated)
+	    {
+	        base.ViewDidAppear(animated);
+
+            if(_tableSource != null )
+                TableView.ReloadData();
+	    }
+
+	    private void CreateCustomTitleBar()
 		{
 			InvokeOnMainThread(() =>
 				{
