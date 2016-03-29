@@ -23,6 +23,30 @@ namespace AccountExecutiveApp.iOS
             _contractModel = model;
         }
 
+        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            UITableViewCell cell;
+
+            if (indexPath.Section == 0)
+                cell = ContractBodyCell(tableView, indexPath);
+            else if (indexPath.Section < _contractModel.NumRates + 1)
+                cell = RatesCell(tableView, indexPath);
+            else if (indexPath.Section < _contractModel.NumRates + 2)
+                cell = ContactsCell(tableView, indexPath);
+            else if (indexPath.Section < _contractModel.NumRates + 3)//Recipients
+                cell = null;
+            else if (indexPath.Section < _contractModel.NumRates + 4)//Associated POs
+                cell = null;
+            else if (indexPath.Section < _contractModel.NumRates + 5) //Email
+                cell = ContractEmailCell(tableView, indexPath);
+            else
+                cell = new UITableViewCell();
+
+            cell.UserInteractionEnabled = false;
+
+            return cell;
+        }
+
         private UITableViewCell ContractBodyCell(UITableView tableView, NSIndexPath indexPath)
         {
             if (IsIndexFromCell(indexPath, _jobTitleCellRow))
@@ -56,24 +80,6 @@ namespace AccountExecutiveApp.iOS
             
             return GetQuickPayCell(tableView, indexPath);
 
-        }
-
-
-        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-        {
-            if (indexPath.Section == 0)
-                return ContractBodyCell(tableView, indexPath);
-            if (indexPath.Section < _contractModel.NumRates + 1)
-                return RatesCell(tableView, indexPath);
-            if (indexPath.Section < _contractModel.NumRates + 2)
-                return ContactsCell(tableView, indexPath);
-            if (indexPath.Section < _contractModel.NumRates + 3)//Recipients
-                return null;
-            if (indexPath.Section < _contractModel.NumRates + 4)//Associated POs
-                return null;
-            if (indexPath.Section < _contractModel.NumRates + 5) //Email
-                return ContractEmailCell(tableView, indexPath);
-            return (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
         }
 
         private UITableViewCell ContractEmailCell(UITableView tableView, NSIndexPath indexPath)
@@ -334,8 +340,7 @@ namespace AccountExecutiveApp.iOS
             EditableTextFieldCell cell =
                 (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
             cell.UpdateCell("Job Title", _contractModel.JobTitle);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.JobTitle = newValue; };
-
+            
             return cell;
         }
 
@@ -344,8 +349,7 @@ namespace AccountExecutiveApp.iOS
             EditableDatePickerCell cell =
                 (EditableDatePickerCell)tableView.DequeueReusableCell(EditableDatePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Start Date", _contractModel.FormattedStartDate);
-            cell.OnValueChanged += delegate(DateTime newValue) { _contractModel.StartDate = newValue; };
-
+          
             return cell;
         }
 
@@ -354,8 +358,7 @@ namespace AccountExecutiveApp.iOS
             EditableDatePickerCell cell =
                 (EditableDatePickerCell)tableView.DequeueReusableCell(EditableDatePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("End Date", _contractModel.FormattedEndDate);
-            cell.OnValueChanged += delegate(DateTime newValue) { _contractModel.EndDate = newValue; };
-
+            
             return cell;
         }
 
@@ -364,8 +367,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Time Factor", _contractModel.TimeFactorOptions, _contractModel.TimeFactorSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.TimeFactor = newValue; };
-
+           
             return cell;
         }
 
@@ -375,8 +377,7 @@ namespace AccountExecutiveApp.iOS
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Days Cancellation", _contractModel.DaysCancellationOptions,
                 _contractModel.DaysCancellationSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.DaysCancellation = int.Parse(newValue); };
-
+        
             return cell;
         }
 
@@ -386,8 +387,7 @@ namespace AccountExecutiveApp.iOS
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Limitation Expense", _contractModel.LimitationExpenseOptions,
                 _contractModel.LimitationExpenseSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationExpense = newValue; };
-
+      
             return cell;
         }
 
@@ -397,8 +397,7 @@ namespace AccountExecutiveApp.iOS
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractOptions,
                 _contractModel.LimitationOfContractSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationOfContract = newValue; };
-
+    
             return cell;
         }
 
@@ -407,8 +406,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Payment Plan", _contractModel.PaymentPlanOptions, _contractModel.PaymentPlanSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.PaymentPlan = newValue; };
-
+ 
             return cell;
         }
 
@@ -420,7 +418,6 @@ namespace AccountExecutiveApp.iOS
                 new List<UserContact>(new UserContact[] { new UserContact(), new UserContact(), new UserContact() });
             cell.UpdateCell("Account Executive", _contractModel.AccountExecutiveOptionDescriptions,
                 _contractModel.AccountExecutiveIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetAccountExecutiveWithName(newValue); };
 
             return cell;
         }
@@ -448,8 +445,7 @@ namespace AccountExecutiveApp.iOS
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Invoice Frequency", _contractModel.InvoiceFrequencyOptions,
                 _contractModel.InvoiceFrequencySelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFrequency = newValue; };
-
+          
             return cell;
         }
 
@@ -459,8 +455,7 @@ namespace AccountExecutiveApp.iOS
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Invoice Format", _contractModel.InvoiceFormatOptions,
                 _contractModel.InvoiceFormatSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFormat = newValue; };
-
+    
             return cell;
         }
 
@@ -468,8 +463,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Project/PO codes required", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.UsingProjectCode));
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.UsingProjectCode = (newValue == "Yes"); };
-
+      
             return cell;
         }
 
@@ -477,8 +471,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Quick Pay", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.UsingQuickPay));
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.UsingQuickPay = (newValue == "Yes"); };
-
+        
             return cell;
         }
 
@@ -490,8 +483,7 @@ namespace AccountExecutiveApp.iOS
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
 
             cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndexAtIndex(ContractRatesSectionLocalIndex(indexPath)));
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateTypeAtIndex(newValue, ContractRatesSectionLocalIndex(indexPath)); };
-
+   
             return cell;
         }
 
@@ -500,8 +492,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Rate Description", _contractModel.RateDescriptionOptions, _contractModel.RateDescriptionSelectedIndexAtIndex(ContractRatesSectionLocalIndex(indexPath)));
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateDescriptionAtIndex(newValue, ContractRatesSectionLocalIndex(indexPath)); };
-
+   
             return cell;
         }
 
@@ -510,10 +501,6 @@ namespace AccountExecutiveApp.iOS
             EditableNumberFieldCell cell =
                 (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
             cell.UpdateCell("Bill Rate", _contractModel.BillRateAtIndex(ContractRatesSectionLocalIndex(indexPath)));
-            cell.OnValueChanged += delegate(float newValue)
-            {
-                _contractModel.SetBillRateAtIndex(newValue.ToString(), ContractRatesSectionLocalIndex(indexPath));
-            };
 
             return cell;
         }
@@ -523,7 +510,6 @@ namespace AccountExecutiveApp.iOS
             EditableBooleanCell cell =
                 (EditableBooleanCell)tableView.DequeueReusableCell(EditableBooleanCell.CellIdentifier, indexPath);
             cell.UpdateCell("Primary Rate", _contractModel.IsPrimaryRateAtIndex(ContractRatesSectionLocalIndex(indexPath)));
-            cell.OnValueChanged += delegate(bool newValue) { _contractModel.SetPrimaryRateForIndex(ContractRatesSectionLocalIndex(indexPath)); };
 
             return cell;
         }
@@ -607,10 +593,6 @@ namespace AccountExecutiveApp.iOS
         {
             EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
             cell.UpdateCell(_contractModel.SummaryReasonForNotSendingContract);
-            cell.OnValueChanged += delegate(string newValue)
-            {
-                _contractModel.SummaryReasonForNotSendingContract = newValue;
-            };
 
             return cell;
         }
