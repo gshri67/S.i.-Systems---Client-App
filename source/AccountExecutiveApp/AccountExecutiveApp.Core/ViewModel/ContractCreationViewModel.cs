@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using System.Linq;
@@ -210,33 +211,90 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string ClientContactName
         {
-            get { return Contract.ClientContactName; }
-            set { Contract.ClientContactName = value; }
+            get { return Contract.ClientContact.FullName; }
+        }
+        public void SetClientContact(UserContact contact)
+        {
+            Contract.ClientContact = contact;
+        }
+        public UserContact GetClientContactWithName(string name)
+        {
+            return ClientContactOptions.FirstOrDefault(c => c.FullName == name);
         }
 
         public string DirectReportName
         {
-            get { return Contract.DirectReportName; }
-            set { Contract.DirectReportName = value; }
+            get { return Contract.DirectReport.FullName; }
+        }
+        public void SetDirectReport(UserContact contact)
+        {
+            Contract.DirectReport = contact;
+        }
+        public UserContact GetDirectReportWithName(string name)
+        {
+            return DirectReportOptions.FirstOrDefault(c => c.FullName == name);
         }
 
         public string BillingContactName
         {
-            get { return Contract.BillingContactName; }
-            set { Contract.BillingContactName = value; }
+            get { return Contract.BillingContact.FullName; }
+        }
+        public void SetBillingContact(UserContact contact)
+        {
+            Contract.BillingContact = contact;
+        }
+        public UserContact GetBillingContactWithName(string name)
+        {
+            return BillingContactOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-        public string InvoiceRecipients
+        public string InvoiceRecipientNameAtIndex(int index)
         {
-            get { return Contract.InvoiceRecipients; }
-            set { Contract.InvoiceRecipients = value; }
+            return Contract.InvoiceRecipients.ElementAt(index).FullName;
+        }
+        public string InvoiceRecipientCompanyAtIndex(int index)
+        {
+            return Contract.InvoiceRecipients.ElementAt(index).ClientName;
+        }
+        public string InvoiceRecipientEmailAtIndex(int index)
+        {
+            if (Contract.InvoiceRecipients.ElementAt(index).EmailAddresses != null && Contract.InvoiceRecipients.ElementAt(index).EmailAddresses.Count() > 0 )
+                return Contract.InvoiceRecipients.ElementAt(index).EmailAddresses.ElementAt(0).Email;
+            return string.Empty;
+        }
+        public void SetInvoiceRecipientAtIndex(UserContact contact, int index)
+        {
+            if (Contract.InvoiceRecipients == null)
+                Contract.InvoiceRecipients = new List<UserContact>();
+
+            List < UserContact > recipientList = Contract.InvoiceRecipients.ToList();
+
+            //add if doesnt exist
+            if (index > Contract.InvoiceRecipients.Count()-1)
+                recipientList.Add(contact);
+            else
+                recipientList[index] = contact;
+
+            Contract.InvoiceRecipients = recipientList.AsEnumerable();
+        }
+        public UserContact GetInvoiceRecipientWithName(string name)
+        {
+            return InvoiceRecipientOptions.FirstOrDefault(c => c.FullName == name);
         }
 
         public string ClientContractContactName
         {
-            get { return Contract.ClientContractContactName; }
-            set { Contract.ClientContractContactName = value; }
+            get { return Contract.ClientContractContact.FullName; }
         }
+        public void SetClientContractContact(UserContact contact)
+        {
+            Contract.ClientContractContact = contact;
+        }
+        public UserContact GetClientContractContactWithName(string name)
+        {
+            return ClientContractContactOptions.FirstOrDefault(c => c.FullName == name);
+        }
+
         public bool IsSendingContractToClientContact
         {
             get { return Contract.IsSendingClientContract; }
@@ -389,18 +447,65 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         //Sending
         public int IsSendingConsultantContractSelectedIndex { get { return IndexBooleanSelectionFromOptions(BooleanOptions, IsSendingConsultantContract); } }
-        
-        public List<string> ClientContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
+
+        public List<UserContact> ClientContactOptions
+        {
+            get
+            {
+                UserContact contact1 = new UserContact{ FirstName = "Candice", LastName = "Consulty"};
+                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu" };
+                return new List<UserContact>(new UserContact[] { contact1, contact2 });
+            }
+        }
+        public List<string> ClientContactNameOptions { get { return ClientContactOptions.Select(c => c.FullName).ToList(); } }
+
         public int ClientContactNameSelectedIndex { get { return IndexSelectionFromOptions(ClientContactNameOptions, ClientContactName); } }
 
-        public List<string> DirectReportNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
+        public List<UserContact> DirectReportOptions
+        {
+            get
+            {
+                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty" };
+                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu" };
+                return new List<UserContact>(new UserContact[] { contact1, contact2 });
+            }
+        }
+        public List<string> DirectReportNameOptions { get { return DirectReportOptions.Select(c => c.FullName).ToList(); } }
         public int DirectReportNameSelectedIndex { get { return IndexSelectionFromOptions(DirectReportNameOptions, DirectReportName); } }
 
-        public List<string> BillingContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
+        public List<UserContact> BillingContactOptions
+        {
+            get
+            {
+                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty" };
+                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu" };
+                return new List<UserContact>(new UserContact[] { contact1, contact2 });
+            }
+        }
+        public List<string> BillingContactNameOptions { get { return BillingContactOptions.Select(c => c.FullName).ToList(); } }
         public int BillingContactNameSelectedIndex { get { return IndexSelectionFromOptions(BillingContactNameOptions, BillingContactName); } }
 
-        public List<string> ClientContractContactNameOptions { get { return new List<string>(new string[] { "Candice Consulty", "Jessica Wu" }); } }
+        public List<UserContact> ClientContractContactOptions
+        {
+            get
+            {
+                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty" };
+                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu" };
+                return new List<UserContact>(new UserContact[] { contact1, contact2 });
+            }
+        }
+        public List<string> ClientContractContactNameOptions { get { return ClientContractContactOptions.Select(c => c.FullName).ToList(); } }
         public int ClientContractContactNameSelectedIndex { get { return IndexSelectionFromOptions(ClientContractContactNameOptions, ClientContractContactName); } }
+
+        public List<UserContact> InvoiceRecipientOptions
+        {
+            get
+            {
+                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty" };
+                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu" };
+                return new List<UserContact>(new UserContact[] { contact1, contact2 });
+            }
+        }
 
         public List<string> ReasonForNotSendingContractOptions { get { return new List<string>(new string[] { "Client has a master agreement(MSA, VMS, etc.)", "Client has provided their own contract", "Other" }); } }
         public int ReasonForNotSendingContractSelectedIndex { get { return IndexSelectionFromOptions(ReasonForNotSendingContractOptions, ReasonForNotSendingContract); } }

@@ -34,7 +34,7 @@ namespace AccountExecutiveApp.iOS
             else if (indexPath.Section < _contractModel.NumRates + 2)
                 cell = ContactsCell(tableView, indexPath);
             else if (indexPath.Section < _contractModel.NumRates + 3)//Recipients
-                cell = null;
+                cell = InvoiceRecipientsCell(tableView, indexPath);
             else if (indexPath.Section < _contractModel.NumRates + 4)//Associated POs
                 cell = null;
             else if (indexPath.Section < _contractModel.NumRates + 5) //Email
@@ -105,6 +105,11 @@ namespace AccountExecutiveApp.iOS
             if (IsIndexFromCell(indexPath, _billingContactCellRow))
                 return GetBillingContactCell(tableView, indexPath);
 
+            return GetInvoiceRecipientsCell(tableView, indexPath);
+        }
+
+        private UITableViewCell InvoiceRecipientsCell(UITableView tableView, NSIndexPath indexPath)
+        {
             return GetInvoiceRecipientsCell(tableView, indexPath);
         }
 
@@ -547,7 +552,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditableTextFieldCell cell =
                 (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Recipients", _contractModel.InvoiceRecipients);
+            cell.UpdateCell("Invoice Recipients", _contractModel.InvoiceRecipientNameAtIndex(0));
 
 
             return cell;

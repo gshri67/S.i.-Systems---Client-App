@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SiSystems.SharedModels
 {
-    public class ContractCreationDetails : IContractCreationDetails_Rate, IContractCreationDetails_Sending
+    public class ContractCreationDetails : IContractCreationDetails_Rate
     {
         public string ConsultantName { get; set; }
 
@@ -38,11 +38,11 @@ namespace SiSystems.SharedModels
 
         //Sending Info
         public bool IsSendingConsultantContract { get; set; }
-        public string ClientContactName { get; set; }
-        public string DirectReportName { get; set; }
-        public string BillingContactName { get; set; }
-        public string InvoiceRecipients { get; set; }
-        public string ClientContractContactName { get; set; }
+        public UserContact ClientContact { get; set; }
+        public UserContact DirectReport { get; set; }
+        public UserContact BillingContact { get; set; }
+        public IEnumerable<UserContact> InvoiceRecipients { get; set; }
+        public UserContact ClientContractContact { get; set; }
         public bool IsSendingClientContract { get; set; }
         public string ReasonForNotSendingContract { get; set; }
         public string SummaryReasonForNotSendingContract { get; set; }
@@ -78,11 +78,11 @@ namespace SiSystems.SharedModels
             Rates = Enumerable.Empty<ContractCreationDetails_Rate>();
 
             IsSendingConsultantContract = true;
-            ClientContactName = string.Empty;
-            DirectReportName = string.Empty;
-            BillingContactName = string.Empty;
-            InvoiceRecipients = string.Empty;
-            ClientContractContactName = string.Empty;
+            ClientContact = new UserContact();
+            DirectReport = new UserContact();
+            BillingContact = new UserContact();
+            InvoiceRecipients = new List<UserContact>();
+            ClientContractContact = new UserContact();
             IsSendingClientContract = true;
             ReasonForNotSendingContract = string.Empty;
             SummaryReasonForNotSendingContract = string.Empty;

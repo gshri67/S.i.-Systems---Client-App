@@ -150,7 +150,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Client Contact", _contractModel.ClientContactNameOptions, _contractModel.ClientContactNameSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.ClientContactName = newValue; };
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetClientContact(_contractModel.GetClientContactWithName(newValue)); };
 
             return cell;
         }
@@ -160,7 +160,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Direct Report", _contractModel.DirectReportNameOptions, _contractModel.DirectReportNameSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.DirectReportName = newValue; };
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetDirectReport( _contractModel.GetDirectReportWithName(newValue) ); };
 
             return cell;
         }
@@ -170,8 +170,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Billing Contact", _contractModel.BillingContactNameOptions, _contractModel.BillingContactNameSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.BillingContactName
-                = newValue; };
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetBillingContact(_contractModel.GetBillingContactWithName(newValue)); };
 
             return cell;
         }
@@ -180,10 +179,13 @@ namespace AccountExecutiveApp.iOS
         {
             EditableTextFieldCell cell =
                 (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Recipients", _contractModel.InvoiceRecipients);
+
+            _contractModel.SetInvoiceRecipientAtIndex( _contractModel.InvoiceRecipientOptions[0], 0 );
+
+            cell.UpdateCell("Invoice Recipients", _contractModel.InvoiceRecipientNameAtIndex(0));
             cell.OnValueChanged += delegate(string newValue)
             {
-                _contractModel.InvoiceRecipients = newValue;
+                _contractModel.SetInvoiceRecipientAtIndex( _contractModel.GetInvoiceRecipientWithName(newValue), 0 );
             };
 
             return cell;
@@ -196,7 +198,7 @@ namespace AccountExecutiveApp.iOS
 
             cell.OnMidValueChanged += delegate(string newValue)
             {
-                _contractModel.ClientContractContactName = newValue;
+                _contractModel.SetClientContractContact(_contractModel.GetClientContractContactWithName(newValue));
             };
             
             cell.OnRightValueChanged += delegate(string newValue)
