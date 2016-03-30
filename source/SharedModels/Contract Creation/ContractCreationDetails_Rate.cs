@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace SiSystems.SharedModels
 {
-    public class ContractCreationDetails_Rate : IContractCreationDetails_Rate
+    public class ContractCreationDetails_Rate
     {
-        public IEnumerable<string> RateTypes { get; set; }
-        public IEnumerable<string> RateDescriptions { get; set; }
-        public IEnumerable<string> BillRates { get; set; }
-        public IEnumerable<string> PayRates { get; set; }
-        public IEnumerable<string> ProposedRates { get; set; }
-        public IEnumerable<string> GrossMargins { get; set; }
-        public int PrimaryRateIndex { get; set; }
+        public string RateType { get; set; }
+        public string RateDescription { get; set; }
+        public float BillRate { get; set; }
+        public float PayRate { get; set; }
+        public float ProposedRate { get; set; }
+        public float GrossMargin { get; set; }
+        public bool isPrimaryRate { get; set; }
     }
 }

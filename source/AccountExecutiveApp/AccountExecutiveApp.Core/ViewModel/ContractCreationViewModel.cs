@@ -124,57 +124,60 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 
         //Pay Rates
-        public string RateTypeAtIndex(int index){ return Contract.RateTypes.ElementAt(index); }
+        public string RateTypeAtIndex(int index){ return Contract.Rates.ElementAt(index).RateType; }
         public void SetRateTypeAtIndex(string newRateType, int index) 
         { 
-            List<string> list = Contract.RateTypes.ToList();
-            list[index] = newRateType;
-            Contract.RateTypes = list.AsEnumerable();
+            Contract.Rates.ElementAt(index).RateType = newRateType;
         }
 
-        public string RateDescriptionAtIndex(int index) { return Contract.RateDescriptions.ElementAt(index); }
+        public string RateDescriptionAtIndex(int index) { return Contract.Rates.ElementAt(index).RateDescription; }
         public void SetRateDescriptionAtIndex(string newRateDescription, int index)
         {
-            List<string> list = Contract.RateDescriptions.ToList();
-            list[index] = newRateDescription;
-            Contract.RateDescriptions = list.AsEnumerable();
+            Contract.Rates.ElementAt(index).RateDescription = newRateDescription;
         }
 
-        public string BillRateAtIndex(int index) { return Contract.BillRates.ElementAt(index); }
+        public string BillRateAtIndex(int index) { return Contract.Rates.ElementAt(index).BillRate.ToString(); }
         public void SetBillRateAtIndex(string newBillRate, int index)
         {
-            List<string> list = Contract.BillRates.ToList();
-            list[index] = newBillRate;
-            Contract.BillRates = list.AsEnumerable();
+            Contract.Rates.ElementAt(index).BillRate = float.Parse(newBillRate);
         }
 
         public int PrimaryRateIndex {
             get { return Contract.PrimaryRateIndex;  }
         }
-        public bool IsPrimaryRateAtIndex(int index) { return Contract.PrimaryRateIndex == index; }
+        public bool IsPrimaryRateAtIndex(int index) { return Contract.Rates.ElementAt(index).isPrimaryRate; }
         public void SetPrimaryRateForIndex(int index)
         {
             Contract.PrimaryRateIndex = index;
+
+            for (int i = 0; i < NumRates; i ++)
+            {
+                if (i == index)
+                    Contract.Rates.ElementAt(i).isPrimaryRate = true;
+                else
+                    Contract.Rates.ElementAt(i).isPrimaryRate = false;
+            }
         }
 
         public int NumRates = 0;
 
         public void AddRate()
         {
-            List<string> rateTypelist = Contract.RateTypes.ToList();
-            rateTypelist.Add(string.Empty);
-            Contract.RateTypes = rateTypelist.AsEnumerable();
-
-            List<string> rateDesclist = Contract.RateDescriptions.ToList();
-            rateDesclist.Add(string.Empty);
-            Contract.RateDescriptions = rateDesclist.AsEnumerable();
-
-            List<string> billRateList = Contract.BillRates.ToList();
-            billRateList.Add(string.Empty);
-            Contract.BillRates = billRateList.AsEnumerable();
-
             if (Contract.PrimaryRateIndex > NumRates)
                 Contract.PrimaryRateIndex = 0;
+
+
+            ContractCreationDetails_Rate rate = new ContractCreationDetails_Rate();
+            rate.RateType = string.Empty;
+            rate.RateDescription = string.Empty;
+            rate.BillRate = 0;
+
+            if (NumRates == 1)
+                rate.isPrimaryRate = true;
+
+            List<ContractCreationDetails_Rate> rateList = Contract.Rates.ToList();
+            rateList.Add(rate);
+            Contract.Rates = rateList.AsEnumerable();
 
             NumRates ++;
         }
@@ -183,35 +186,22 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             if (index >= 0 && index < NumRates)
             {
-                List<string> rateTypelist = Contract.RateTypes.ToList();
-                rateTypelist.RemoveAt(index);
-                Contract.RateTypes = rateTypelist.AsEnumerable();
+                List<ContractCreationDetails_Rate> rateList = Contract.Rates.ToList();
+                rateList.RemoveAt(index);
 
-                List<string> rateDesclist = Contract.RateDescriptions.ToList();
-                rateDesclist.RemoveAt(index);
-                Contract.RateDescriptions = rateDesclist.AsEnumerable();
+                if (NumRates > 1)
+                    Contract.Rates = rateList.AsEnumerable();
+                else
+                    Contract.Rates = Enumerable.Empty<ContractCreationDetails_Rate>();
 
-                List<string> billRateList = Contract.BillRates.ToList();
-                billRateList.RemoveAt(index);
-                Contract.BillRates = billRateList.AsEnumerable();
-
+                NumRates--;
 
                 if (PrimaryRateIndex == index && NumRates > 0)
                     SetPrimaryRateForIndex(0);
                 else if (PrimaryRateIndex > index && NumRates > 0)
                     SetPrimaryRateForIndex(PrimaryRateIndex - 1);
-
-
-                NumRates--;
             }
         }
-
-        /*
-        public string JobTitle
-        {
-            get { return Contract.JobTitle; }
-            set { Contract.JobTitle = value; }
-        }*/
 
         //Sending
         public bool IsSendingConsultantContract{
