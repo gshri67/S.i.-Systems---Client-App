@@ -32,12 +32,17 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
         public IEnumerable<string> GetInvoiceFormats()
         {
-            return _pickListValuesRepository.GetInvoiceFormats();
+            return _pickListValuesRepository.InvoiceFormatOptions();
         }
 
         public IEnumerable<string> GetInvoiceFrequencies()
         {
-            return _pickListValuesRepository.GetInvoiceFrequencies();
+            return _pickListValuesRepository.InvoiceFrequencyOptions();
+        }
+
+        public IEnumerable<string> GetPossibleContractLimitaionTypes()
+        {
+            return _pickListValuesRepository.ContractLimitationOptions();
         }
 
         public ContractCreationOptions GetContractOptionsForJobAndCandidate(int jobId, int candidateId)
@@ -46,7 +51,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             {
                 Colleagues = GetColleaguesForCurrentUser(),
                 InvoiceFormatOptions = GetInvoiceFormats(),
-                InvoiceFrequencyOptions = GetInvoiceFrequencies()
+                InvoiceFrequencyOptions = GetInvoiceFrequencies(),
+                LimitationOfContractTypeOptions = GetPossibleContractLimitaionTypes()
             };
         }
     }

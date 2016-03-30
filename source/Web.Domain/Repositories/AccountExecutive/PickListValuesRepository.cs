@@ -10,8 +10,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 {
     public interface IPickListValuesRepository
     {
-        IEnumerable<string> GetInvoiceFormats();
-        IEnumerable<string> GetInvoiceFrequencies();
+        IEnumerable<string> InvoiceFormatOptions();
+        IEnumerable<string> InvoiceFrequencyOptions();
+        IEnumerable<string> ContractLimitationOptions();
     }
 
     public class PickListValuesRepository : IPickListValuesRepository
@@ -35,27 +36,37 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
-        public IEnumerable<string> GetInvoiceFormats()
+        public IEnumerable<string> InvoiceFormatOptions()
         {
             return GetPickListDisplayTitlesForType("InvoiceFormat");
         }
 
-        public IEnumerable<string> GetInvoiceFrequencies()
+        public IEnumerable<string> InvoiceFrequencyOptions()
         {
             return GetPickListDisplayTitlesForType("ClientInvoiceFrequency");
+        }
+
+        public IEnumerable<string> ContractLimitationOptions()
+        {
+            return GetPickListDisplayTitlesForType("ContractLimitationType");
         }
     }
 
     public class MockPickListValuesRepository : IPickListValuesRepository
     {
-        public IEnumerable<string> GetInvoiceFormats()
+        public IEnumerable<string> InvoiceFormatOptions()
         {
             return new List<string> {"1 Invoice Per Client", "1 Credit Per Client"};
         }
 
-        public IEnumerable<string> GetInvoiceFrequencies()
+        public IEnumerable<string> InvoiceFrequencyOptions()
         {
             return new List<string> {"Monthly", "Weekly"};
+        }
+
+        public IEnumerable<string> ContractLimitationOptions()
+        {
+            return new List<string> {"Hours", "Amount"};
         }
     }
 }
