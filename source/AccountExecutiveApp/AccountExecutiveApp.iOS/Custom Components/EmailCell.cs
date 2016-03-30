@@ -48,7 +48,6 @@ namespace AccountExecutiveApp.iOS
                 TextAlignment = UITextAlignment.Left,
                 Font = UIFont.FromName("Helvetica", 16f),
                 TextColor = UIColor.Black,
-                Lines = 0,
                 Text = "Subject:"
             };
             AddSubview(SubjectTextLabel);
@@ -73,7 +72,6 @@ namespace AccountExecutiveApp.iOS
                 TextAlignment = UITextAlignment.Left,
                 Font = UIFont.FromName("Helvetica", 16f),
                 TextColor = UIColor.Black,
-                Lines = 0,
                 Text = "Body:"
             };
             AddSubview(BodyTextLabel);
@@ -102,8 +100,9 @@ namespace AccountExecutiveApp.iOS
         private void AddSubjectTextLabelConstraints()
         {
             AddConstraint(NSLayoutConstraint.Create(SubjectTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(SubjectTextLabel, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 40f));
-            AddConstraint(NSLayoutConstraint.Create(SubjectTextLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 30f));
+            AddConstraint(NSLayoutConstraint.Create(SubjectTextLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
+            //AddConstraint(NSLayoutConstraint.Create(SubjectTextLabel, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 30f));
+            AddConstraint(NSLayoutConstraint.Create(SubjectTextLabel, NSLayoutAttribute.Width, NSLayoutRelation.GreaterThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 60f));
         }
 
         private void AddSubjectDetailsTextLabelConstraints()

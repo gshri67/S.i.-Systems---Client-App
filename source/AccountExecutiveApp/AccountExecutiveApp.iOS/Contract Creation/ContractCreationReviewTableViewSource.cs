@@ -566,7 +566,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetEmailCell(UITableView tableView, NSIndexPath indexPath)
         {
             EmailCell cell = (EmailCell)tableView.DequeueReusableCell(EmailCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Agreement Between .. ..", "Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...");
+            cell.UpdateCell("Agreement Between Bob Smith and Cenovus about the immediate sharepoint job opportunity", "Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...");
 
             return cell;
         }
