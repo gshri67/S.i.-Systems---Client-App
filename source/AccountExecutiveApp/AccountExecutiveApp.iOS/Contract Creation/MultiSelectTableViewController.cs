@@ -103,7 +103,20 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        base.ViewWillDisappear(animated);
 
-            OnSelectionChanged(_tableSource.Contacts.Select( (contact, index) => new { contact, index} ).Where( cPair => TableView.IndexPathsForSelectedRows.Select(path => (int)path.Item).Contains(cPair.index) ).Select( cPair => cPair.contact ).ToList() );
+	        List<UserContact> selectedContacts;
+
+            if (TableView.IndexPathsForSelectedRows == null || TableView.IndexPathsForSelectedRows.Length == 0)
+	            selectedContacts = new List<UserContact>();
+	        else
+	            selectedContacts =
+	                _tableSource.Contacts.Select((contact, index) => new {contact, index})
+	                    .Where(
+	                        cPair =>
+	                            TableView.IndexPathsForSelectedRows.Select(path => (int) path.Item).Contains(cPair.index))
+	                    .Select(cPair => cPair.contact)
+	                    .ToList();
+
+            OnSelectionChanged( selectedContacts );
 
 	    }
 	}
