@@ -12,9 +12,12 @@ namespace AccountExecutiveApp.iOS
 {
 	public partial class MultiSelectTableViewController : UITableViewController
 	{
-		private string Subtitle;
 	    private MultiSelectTableViewSource _tableSource;
-		public MultiSelectTableViewController(IntPtr handle)
+
+        public delegate void MultiSelectDelegate(List<UserContact> contacts);
+        public MultiSelectDelegate OnSelectionChanged;
+        
+        public MultiSelectTableViewController(IntPtr handle)
 			: base(handle) { }
 
         public MultiSelectTableViewController()
@@ -41,10 +44,15 @@ namespace AccountExecutiveApp.iOS
 		        TableView.Source = _tableSource;
 		    }
 
+        
+
 		    //TableView.ContentInset = new UIEdgeInsets(-35, 0, -35, 0);
             TableView.ReloadData();
             TableView.SetEditing(true, true);
             TableView.AllowsMultipleSelectionDuringEditing = true;
+            TableView.AllowsSelectionDuringEditing = true;
+
+            UpdateSelectedTableCells();
 		}
 
 		private void UpdateUserInterface()
@@ -59,7 +67,7 @@ namespace AccountExecutiveApp.iOS
 			UpdateUserInterface();
 		}
 
-	    public void SetData( string[] titles )
+	    public void SetData( List<UserContact> contacts, List<UserContact> selected  )
 	    {
 	        if (_tableSource == null)
 	        {
@@ -67,14 +75,36 @@ namespace AccountExecutiveApp.iOS
                 TableView.Source = _tableSource;
 	        }
 
-	        _tableSource.ListTitles = titles;
+	        _tableSource.Contacts = contacts;
+	        _tableSource.Selected = selected;
+
+            UpdateSelectedTableCells();
+
             TableView.ReloadData();
 	       
+	    }
+
+	    private void UpdateSelectedTableCells()
+	    {
+	        if (_tableSource.Selected == null || _tableSource.Selected.Count <= 0)
+	            return;
+           
+
+            TableView.SelectRow( NSIndexPath.FromItemSection(1, 0), true, UITableViewScrollPosition.None );
+            //TableView.ReloadData();
 	    }
 
 	    private void UpdatePageTitle()
 		{
 			Title = "Contracts";
 		}
+
+	    public override void ViewWillDisappear(bool animated)
+	    {
+	        base.ViewWillDisappear(animated);
+
+            OnSelectionChanged(_tableSource.Contacts.Select( (contact, index) => new { contact, index} ).Where( cPair => TableView.IndexPathsForSelectedRows.Select(path => (int)path.Item).Contains(cPair.index) ).Select( cPair => cPair.contact ).ToList() );
+
+	    }
 	}
 }

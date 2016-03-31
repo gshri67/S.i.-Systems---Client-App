@@ -15,7 +15,8 @@ namespace AccountExecutiveApp.iOS
     {
         private readonly MultiSelectTableViewController _parentController;
 
-        public string[] ListTitles = new string[0];
+        public List<UserContact> Contacts = new List<UserContact>();
+        public List<UserContact> Selected = new List<UserContact>();
 
         public MultiSelectTableViewSource(MultiSelectTableViewController parentController)
         {
@@ -26,15 +27,20 @@ namespace AccountExecutiveApp.iOS
         {
             var cell = tableView.DequeueReusableCell("UITableViewCell") as UITableViewCell;
 
-            cell.TextLabel.Text = ListTitles[(int)indexPath.Item];
+            cell.TextLabel.Text = Contacts[(int)indexPath.Item].FullName;
+
+            UserContact curContact = Contacts[(int) indexPath.Item];
+
+            if ( Selected.Any(c => c.Id == curContact.Id))
+                tableView.SelectRow(indexPath, true, UITableViewScrollPosition.None);
 
             return cell;
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            if( ListTitles != null )
-                return ListTitles.Length;
+            if( Contacts != null )
+                return Contacts.Count;
             return 0;
         }
 

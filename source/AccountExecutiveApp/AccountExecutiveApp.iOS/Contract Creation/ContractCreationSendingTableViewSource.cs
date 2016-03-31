@@ -177,16 +177,10 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetInvoiceRecipientsCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditableTextFieldCell cell =
-                (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            var cell =
+                (UITableViewCell)tableView.DequeueReusableCell("UITableViewCell", indexPath);
 
-            _contractModel.SetInvoiceRecipientAtIndex( _contractModel.InvoiceRecipientOptions[0], 0 );
-
-            cell.UpdateCell("Invoice Recipients", _contractModel.InvoiceRecipientNameAtIndex(0));
-            cell.OnValueChanged += delegate(string newValue)
-            {
-                _contractModel.SetInvoiceRecipientAtIndex( _contractModel.GetInvoiceRecipientWithName(newValue), 0 );
-            };
+            cell.TextLabel.Text = "Invoice Recipients";
 
             return cell;
         }
@@ -285,7 +279,12 @@ namespace AccountExecutiveApp.iOS
             if (IsInvoiceRecipientsCell(indexPath))
             {
                 MultiSelectTableViewController vc = new MultiSelectTableViewController();
-                vc.SetData( _contractModel.InvoiceRecipientOptionNames );
+                vc.SetData( _contractModel.InvoiceRecipientOptions.ToList(), _contractModel.Contract.InvoiceRecipients.ToList() );//set list of options, and then currently selected list
+                vc.OnSelectionChanged = delegate(List<UserContact> selected)
+                {
+                    _contractModel.Contract.InvoiceRecipients = selected.AsEnumerable();
+                    tableView.ReloadData();
+                };
                 _parentController.ShowViewController(vc, _parentController);
             }
         }
