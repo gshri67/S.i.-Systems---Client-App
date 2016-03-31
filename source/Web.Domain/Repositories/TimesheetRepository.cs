@@ -853,10 +853,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             {
                 using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
                 {
-                    const string query =
-                        @"UspSetMobileAppTSTemp_TSAPP @TimesheetId";
+                    const string sp =
+                        @"UspSetMobileAppTS_TSAPP";
 
-                    var success = db.Connection.Query<int>(query, new { TimesheetId = timesheetId });
+                    db.Connection.Execute(sp, new { TimesheetId = timesheetId }, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception e)
@@ -872,10 +872,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             {
                 using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
                 {
-                    const string query =
-                        @"UspSetMobileAppTS_TSAPP @TimesheetId";
+                    const string sp =
+                        @"UspSetMobileAppTSTemp_TSAPP";
 
-                    var success = db.Connection.Query<int>(query, new { TimesheetId = timesheetId });
+                    db.Connection.Execute(sp, new { TimeSheetTempID = timesheetId }, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception e)
