@@ -35,17 +35,6 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
     public class TimesheetRepository : ITimesheetRepository
     {
-        private void MarkTimesheetAsMobileByTimesheetId(int timesheetId)
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                        @"UPDATE Timesheet SET IsMobile = 1 WHERE Timesheet.TimeSheetID = @TimesheetId";
-
-                var success = db.Connection.Query<int>(query, new { TimesheetId = timesheetId });
-            }
-        }
-
         public Timesheet GetTimesheetsById(int timesheetId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -353,6 +342,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     verticalId = MatchGuideConstants.VerticalId.IT
                 }).FirstOrDefault();
 
+                TimesheetAnalytics.MarkSavedTimesheetAsMobileByTimesheetId(savedTimesheetTempId);
+
                 return savedTimesheetTempId;
             }
         }
@@ -392,7 +383,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     TSstatus = "Approved"
                 }).FirstOrDefault();
 
-                MarkTimesheetAsMobileByTimesheetId(savedTimesheetTempId);
+                TimesheetAnalytics.MarkTimesheetAsMobileByTimesheetId(savedTimesheetTempId);
 
                 return savedTimesheetTempId;
             }
@@ -436,7 +427,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     aDirectReportid = timesheet.TimesheetApprover.Id
                 }).FirstOrDefault();
 
-                MarkTimesheetAsMobileByTimesheetId(submittedTimesheetId);
+                TimesheetAnalytics.MarkTimesheetAsMobileByTimesheetId(submittedTimesheetId);
 
                 return submittedTimesheetId;
             }
@@ -851,6 +842,47 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         public static string RejectedTimesheetsByAccountExecutiveId
         {
             get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetDetailsByAccountExecutiveBaseQuery, TimesheetStatusRejectedFilter); }
+        }
+    }
+
+    static class TimesheetAnalytics
+    {
+        public static void MarkTimesheetAsMobileByTimesheetId(int timesheetId)
+        {
+            try
+            {
+                using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+                {
+                    const string query =
+                        @"UspSetMobileAppTSTemp_TSAPP @TimesheetId";
+
+                    var success = db.Connection.Query<int>(query, new { TimesheetId = timesheetId });
+                }
+            }
+            catch (Exception e)
+            {
+                //we don't want to fail just because we can't log something, so we'll just ignore the exception.
+                //todo: LogAnalyticsFailure("UspSetMobileAppTSTemp_TSAPP", timesheetId);
+            }
+        }
+
+        public static void MarkSavedTimesheetAsMobileByTimesheetId(int timesheetId)
+        {
+            try
+            {
+                using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+                {
+                    const string query =
+                        @"UspSetMobileAppTS_TSAPP @TimesheetId";
+
+                    var success = db.Connection.Query<int>(query, new { TimesheetId = timesheetId });
+                }
+            }
+            catch (Exception e)
+            {
+                //we don't want to fail just because we can't log something, so we'll just ignore the exception.
+                //todo: LogAnalyticsFailure("UspSetMobileAppTS_TSAPP", timesheetId);
+            }
         }
     }
 }
