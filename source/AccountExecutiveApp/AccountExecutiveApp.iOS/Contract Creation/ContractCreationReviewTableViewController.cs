@@ -91,13 +91,23 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad();
 
-			Title = "Sending Details";
+            AddSubmitNavButton();
+
+			Title = "Review Contract";
 			Subtitle = "Contract Creation";
 			InvokeOnMainThread(CreateCustomTitleBar);
 
 			LoadData();
 
 		}
+
+	    public void AddSubmitNavButton()
+	    {
+            UIBarButtonItem submitButton = new UIBarButtonItem();
+	        submitButton.Title = "Submit";
+            submitButton.Clicked += (sender, e) => { DismissViewController(true, null); };
+            NavigationItem.RightBarButtonItem = submitButton;
+	    }
 
 	    public override void ViewDidAppear(bool animated)
 	    {
