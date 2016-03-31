@@ -117,7 +117,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 	    {
 			base.ViewWillAppear (animated);
 
-            //UpdateUI();
+            UpdateUI();
 	    }
 
 	    private void SetupCalendar()
