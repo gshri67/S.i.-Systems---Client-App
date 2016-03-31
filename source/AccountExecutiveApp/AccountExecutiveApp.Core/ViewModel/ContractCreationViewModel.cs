@@ -507,6 +507,10 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
 
+        public string[] InvoiceRecipientOptionNames {
+            get { return InvoiceRecipientOptions.Select(c => c.FullName).ToArray<string>(); }
+        }
+
         public List<string> ReasonForNotSendingContractOptions { get { return new List<string>(new string[] { "Client has a master agreement(MSA, VMS, etc.)", "Client has provided their own contract", "Other" }); } }
         public int ReasonForNotSendingContractSelectedIndex { get { return IndexSelectionFromOptions(ReasonForNotSendingContractOptions, ReasonForNotSendingContract); } }
 

@@ -279,5 +279,15 @@ namespace AccountExecutiveApp.iOS
         {
             return 1;
         }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (IsInvoiceRecipientsCell(indexPath))
+            {
+                MultiSelectTableViewController vc = new MultiSelectTableViewController();
+                vc.SetData( _contractModel.InvoiceRecipientOptionNames );
+                _parentController.ShowViewController(vc, _parentController);
+            }
+        }
     }
 }

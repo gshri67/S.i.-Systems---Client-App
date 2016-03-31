@@ -51,7 +51,7 @@ namespace AccountExecutiveApp.iOS
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
             _tableSource = new ContractCreationSendingTableViewSource(this, ViewModel);
             TableView.Source = _tableSource;
-            TableView.AllowsSelection = false;
+            //TableView.AllowsSelection = false;
             TableView.SeparatorColor = UIColor.Clear;
 
             ContinueBar continueBar = new ContinueBar();
