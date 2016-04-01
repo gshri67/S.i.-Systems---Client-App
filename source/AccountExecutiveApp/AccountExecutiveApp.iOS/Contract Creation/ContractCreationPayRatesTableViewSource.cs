@@ -35,6 +35,8 @@ namespace AccountExecutiveApp.iOS
                 return GetRateDescriptionCell(tableView, indexPath);
             else if (IsIndexFromCell(indexPath, _billRateCellRow))
                 return GetBillRateCell(tableView, indexPath);
+            else if (IsIndexFromCell(indexPath, _payRateCellRow))
+                return GetPayRateCell(tableView, indexPath);
             else if (IsIndexFromCell(indexPath, _isPrimaryRateCellRow))
                 return GetIsPrimaryRateCell(tableView, indexPath);
 
@@ -44,7 +46,8 @@ namespace AccountExecutiveApp.iOS
         private int _rateTypeCellRow { get { return 0; } }
         private int _rateDescriptionCellRow { get { return _rateTypeCellRow + 1; } }
         private int _billRateCellRow { get { return _rateDescriptionCellRow + 1; } }
-        private int _isPrimaryRateCellRow { get { return _billRateCellRow + 1; } }
+        private int _payRateCellRow { get { return _billRateCellRow + 1; } }
+        private int _isPrimaryRateCellRow { get { return _payRateCellRow + 1; } }
 
         private UITableViewCell GetRateTypeCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -80,6 +83,19 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
+        private UITableViewCell GetPayRateCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableNumberFieldCell cell =
+                (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Pay Rate", _contractModel.PayRateAtIndex((int)indexPath.Section));
+            cell.OnValueChanged += delegate(float newValue)
+            {
+                _contractModel.SetPayRateAtIndex(newValue.ToString(), (int)indexPath.Section);
+            };
+
+            return cell;
+        }
+
         private UITableViewCell GetIsPrimaryRateCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell =
@@ -103,7 +119,7 @@ namespace AccountExecutiveApp.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return 4;
+            return _isPrimaryRateCellRow + 1;
         }
 
         public override nint NumberOfSections(UITableView tableView)

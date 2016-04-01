@@ -143,6 +143,12 @@ namespace AccountExecutiveApp.Core.ViewModel
             Contract.Rates.ElementAt(index).BillRate = float.Parse(newBillRate);
         }
 
+        public string PayRateAtIndex(int index) { return Contract.Rates.ElementAt(index).PayRate.ToString(); }
+        public void SetPayRateAtIndex(string newPayRate, int index)
+        {
+            Contract.Rates.ElementAt(index).PayRate = float.Parse(newPayRate);
+        }
+
         public int PrimaryRateIndex {
             get { return Contract.PrimaryRateIndex;  }
         }

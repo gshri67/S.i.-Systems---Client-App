@@ -121,6 +121,8 @@ namespace AccountExecutiveApp.iOS
                 return GetRateDescriptionCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _localBillRateCellRow))
                 return GetBillRateCell(tableView, indexPath);
+            if (IsIndexFromCell(indexPath, _localPayRateCellRow))
+                return GetPayRateCell(tableView, indexPath);
 
             return GetIsPrimaryRateCell(tableView, indexPath);
         }
@@ -225,7 +227,9 @@ namespace AccountExecutiveApp.iOS
 
         private int _localBillRateCellRow { get { return _localRateDescriptionCellRow + 1; } }
 
-        private int _localIsPrimaryRateCellRow { get { return _localBillRateCellRow + 1; } }
+        private int _localPayRateCellRow { get { return _localBillRateCellRow + 1; } }
+
+        private int _localIsPrimaryRateCellRow { get { return _localPayRateCellRow + 1; } }
 
         private int _numCellsPerRateSection { get { return _localIsPrimaryRateCellRow + 1; } }
 
@@ -506,6 +510,15 @@ namespace AccountExecutiveApp.iOS
             EditableNumberFieldCell cell =
                 (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
             cell.UpdateCell("Bill Rate", _contractModel.BillRateAtIndex(ContractRatesSectionLocalIndex(indexPath)));
+
+            return cell;
+        }
+
+        private UITableViewCell GetPayRateCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableNumberFieldCell cell =
+                (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Pay Rate", _contractModel.PayRateAtIndex(ContractRatesSectionLocalIndex(indexPath)));
 
             return cell;
         }
