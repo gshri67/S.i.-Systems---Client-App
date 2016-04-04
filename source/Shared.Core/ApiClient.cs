@@ -62,7 +62,8 @@ namespace Shared.Core
         private static bool IsDemoUser(string username)
         {
             return username != null 
-                && username.ToLower().Contains(Settings.DemoDomain.ToLower());
+                && (username.ToLower().Contains(Settings.DemoDomain.ToLower())
+                || username.ToLower().Contains(Settings.AlternateDemoDomain.ToLower()));
         }
 
         private Uri BaseAddressForUsername(string username)

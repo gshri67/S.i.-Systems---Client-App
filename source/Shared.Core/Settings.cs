@@ -3,6 +3,7 @@
     public static class Settings
     {
         public const string DemoDomain = "@siAKSdemo.com";
+        public const string AlternateDemoDomain = "@siappdemo.com";
         public const string DemoMatchGuideApiAddress = "https://clientapitest.azurewebsites.net/api/";//todo:change to Demo Api When available.
     #if LOCAL
         public const string MatchGuideApiAddress = "http://clientapi.local:50021/api/";
