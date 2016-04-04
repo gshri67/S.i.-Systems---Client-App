@@ -180,8 +180,7 @@ namespace AccountExecutiveApp.iOS
             var cell =
                 (MultiSelectDescriptionCell)tableView.DequeueReusableCell(MultiSelectDescriptionCell.CellIdentifier, indexPath);
 
-            cell.UpdateCell("Invoice Recipients", "Fred Flinstone \n Jessica Marone \n Brad Wilcox \n Franklin stein");
-            //cell.OnValueChanged += delegate(string newValue) {  };
+            cell.UpdateCell("Invoice Recipients", _contractModel.Contract.InvoiceRecipients.Select(c => c.FullName).ToList() );
 
             return cell;
         }
