@@ -96,6 +96,20 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
+        private UITableViewCell GetGrossMarginCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableNumberFieldCell cell =
+                (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+            /*
+            cell.UpdateCell("GM", _contractModel.GrossMarginAtIndex((int)indexPath.Section));
+            cell.OnValueChanged += delegate(float newValue)
+            {
+                _contractModel.SetGrossMarginAtIndex(newValue.ToString(), (int)indexPath.Section);
+            };
+            */
+            return cell;
+        }
+
         private UITableViewCell GetIsPrimaryRateCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell =
