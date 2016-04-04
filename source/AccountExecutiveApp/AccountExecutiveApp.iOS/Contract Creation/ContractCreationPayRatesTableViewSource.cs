@@ -18,6 +18,7 @@ namespace AccountExecutiveApp.iOS
         private float _specializationCellHeight = -1;
         private int _numRateSections = 0;
         private int deletingSectionIndex = -1;
+        private bool _showHoursPerDay = false;
 
         public ContractCreationPayRatesTableViewSource(ContractCreationPayRatesTableViewController parentController, ContractCreationViewModel model)
         {
@@ -31,6 +32,8 @@ namespace AccountExecutiveApp.iOS
 
             if (IsIndexFromCell(indexPath, _rateTypeCellRow))
                 return GetRateTypeCell(tableView, indexPath);
+            else if ( _showHoursPerDay && IsIndexFromCell(indexPath, _hoursPerDayCellRow))
+                return GetHoursPerDayCell(tableView, indexPath);
             else if (IsIndexFromCell(indexPath, _rateDescriptionCellRow))
                 return GetRateDescriptionCell(tableView, indexPath);
             else if (IsIndexFromCell(indexPath, _billRateCellRow))
@@ -46,7 +49,16 @@ namespace AccountExecutiveApp.iOS
         }
 
         private int _rateTypeCellRow { get { return 0; } }
-        private int _rateDescriptionCellRow { get { return _rateTypeCellRow + 1; } }
+        private int _hoursPerDayCellRow { get { return _rateTypeCellRow + 1; } }
+        private int _rateDescriptionCellRow 
+        {
+            get
+            {
+                if( !_showHoursPerDay )
+                    return _rateTypeCellRow + 1;
+                return _hoursPerDayCellRow + 1;
+            } 
+        }
         private int _billRateCellRow { get { return _rateDescriptionCellRow + 1; } }
         private int _payRateCellRow { get { return _billRateCellRow + 1; } }
         private int _grossMarginCellRow { get { return _payRateCellRow + 1; } }
@@ -58,7 +70,23 @@ namespace AccountExecutiveApp.iOS
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
 
             cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndexAtIndex((int)indexPath.Section));
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateTypeAtIndex(newValue, (int)indexPath.Section); };
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.SetRateTypeAtIndex(newValue, (int)indexPath.Section);
+
+                EvaluateDynamicCells(tableView);
+            };
+
+            return cell;
+        }
+
+        private UITableViewCell GetHoursPerDayCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableNumberFieldCell cell =
+                (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+
+            cell.UpdateCell("Hours", _contractModel.HoursPerDayAtIndex((int)indexPath.Section).ToString());
+            cell.OnValueChanged += delegate(float newValue) { _contractModel.SetHoursPerDayAtIndex((int)newValue, (int)indexPath.Section); };
 
             return cell;
         }
@@ -158,6 +186,13 @@ namespace AccountExecutiveApp.iOS
         {
             _contractModel.AddRate();
 
+            tableView.ReloadData();
+        }
+
+        private void EvaluateDynamicCells(UITableView tableView)
+        {
+            _showHoursPerDay = _contractModel.AreRateTypesPerDay;
+            
             tableView.ReloadData();
         }
 

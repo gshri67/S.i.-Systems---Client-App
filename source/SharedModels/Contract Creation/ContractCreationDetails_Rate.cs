@@ -7,6 +7,7 @@ namespace SiSystems.SharedModels
     public class ContractCreationDetails_Rate
     {
         public string RateType { get; set; }
+        public int HoursPerDay { get; set; }
         public string RateDescription { get; set; }
         public float BillRate { get; set; }
         public float PayRate { get; set; }

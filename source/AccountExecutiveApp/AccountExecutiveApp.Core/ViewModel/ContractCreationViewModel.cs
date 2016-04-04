@@ -130,6 +130,15 @@ namespace AccountExecutiveApp.Core.ViewModel
         { 
             Contract.Rates.ElementAt(index).RateType = newRateType;
         }
+        public bool AreRateTypesPerDay{ get { if( Contract.Rates != null && Contract.Rates.Any() ) return Contract.Rates.ElementAt(0).RateType == "Per day";
+            return false;
+        }}
+
+        public int HoursPerDayAtIndex(int index) { return Contract.Rates.ElementAt(index).HoursPerDay; }
+        public void SetHoursPerDayAtIndex(int newHoursPerDay, int index)
+        {
+            Contract.Rates.ElementAt(index).HoursPerDay = newHoursPerDay;
+        }
 
         public string RateDescriptionAtIndex(int index) { return Contract.Rates.ElementAt(index).RateDescription; }
         public void SetRateDescriptionAtIndex(string newRateDescription, int index)
