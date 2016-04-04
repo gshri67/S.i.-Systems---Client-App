@@ -149,6 +149,13 @@ namespace AccountExecutiveApp.Core.ViewModel
             Contract.Rates.ElementAt(index).PayRate = float.Parse(newPayRate);
         }
 
+        public string GrossMarginAtIndex(int index) { return Contract.Rates.ElementAt(index).GrossMargin.ToString(); }
+        public void SetGrossMarginAtIndex(string newGM, int index)
+        {
+            if( index < Contract.Rates.Count() )
+                Contract.Rates.ElementAt(index).GrossMargin = float.Parse(newGM);
+        }
+
         public int PrimaryRateIndex {
             get { return Contract.PrimaryRateIndex;  }
         }

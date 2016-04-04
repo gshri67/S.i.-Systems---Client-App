@@ -37,6 +37,8 @@ namespace AccountExecutiveApp.iOS
                 return GetBillRateCell(tableView, indexPath);
             else if (IsIndexFromCell(indexPath, _payRateCellRow))
                 return GetPayRateCell(tableView, indexPath);
+            else if (IsIndexFromCell(indexPath, _grossMarginCellRow))
+                return GetGrossMarginCell(tableView, indexPath);
             else if (IsIndexFromCell(indexPath, _isPrimaryRateCellRow))
                 return GetIsPrimaryRateCell(tableView, indexPath);
 
@@ -47,7 +49,8 @@ namespace AccountExecutiveApp.iOS
         private int _rateDescriptionCellRow { get { return _rateTypeCellRow + 1; } }
         private int _billRateCellRow { get { return _rateDescriptionCellRow + 1; } }
         private int _payRateCellRow { get { return _billRateCellRow + 1; } }
-        private int _isPrimaryRateCellRow { get { return _payRateCellRow + 1; } }
+        private int _grossMarginCellRow { get { return _payRateCellRow + 1; } }
+        private int _isPrimaryRateCellRow { get { return _grossMarginCellRow + 1; } }
 
         private UITableViewCell GetRateTypeCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -100,13 +103,13 @@ namespace AccountExecutiveApp.iOS
         {
             EditableNumberFieldCell cell =
                 (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
-            /*
+            
             cell.UpdateCell("GM", _contractModel.GrossMarginAtIndex((int)indexPath.Section));
             cell.OnValueChanged += delegate(float newValue)
             {
                 _contractModel.SetGrossMarginAtIndex(newValue.ToString(), (int)indexPath.Section);
             };
-            */
+            
             return cell;
         }
 
