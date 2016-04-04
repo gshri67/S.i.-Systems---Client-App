@@ -102,8 +102,8 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
             IndicateLoading();
 
-            InitiatePayPeriodLoading();
-            InitiateConsultantDetailsLoading();
+            //InitiatePayPeriodLoading();
+            //InitiateConsultantDetailsLoading();
 	    }
 
 	    private void InitiatePayPeriodLoading()
