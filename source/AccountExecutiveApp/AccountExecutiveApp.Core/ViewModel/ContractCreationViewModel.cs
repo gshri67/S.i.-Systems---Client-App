@@ -127,8 +127,10 @@ namespace AccountExecutiveApp.Core.ViewModel
         //Pay Rates
         public string RateTypeAtIndex(int index){ return Contract.Rates.ElementAt(index).RateType; }
         public void SetRateTypeAtIndex(string newRateType, int index) 
-        { 
-            Contract.Rates.ElementAt(index).RateType = newRateType;
+        {
+            //for now the rate types need to be the same for all rates anyways so just update them to be the same
+            foreach (var rate in Contract.Rates)
+                rate.RateType = newRateType;
         }
         public bool AreRateTypesPerDay{ get { if( Contract.Rates != null && Contract.Rates.Any() ) return Contract.Rates.ElementAt(0).RateType == "Per day";
             return false;
@@ -191,11 +193,16 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 
             ContractCreationDetails_Rate rate = new ContractCreationDetails_Rate();
-            rate.RateType = string.Empty;
+
+            if (NumRates > 0)
+                rate.RateType = RateTypeAtIndex(0);
+            else
+                rate.RateType = string.Empty;
+    
             rate.RateDescription = string.Empty;
             rate.BillRate = 0;
 
-            if (NumRates == 1)
+            if (NumRates == 0)
                 rate.isPrimaryRate = true;
 
             List<ContractCreationDetails_Rate> rateList = Contract.Rates.ToList();
