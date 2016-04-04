@@ -29,17 +29,15 @@ namespace ConsultantApp.iOS.Startup
                 Accessible = SecAccessible.AlwaysThisDeviceOnly
             };
 
-
-            var remCode = SecKeyChain.Remove(existingRecord);
             var addCode = SecKeyChain.Add(newRecord);
-            //if (addCode == SecStatusCode.DuplicateItem)
-            //{
-            //    var remCode = SecKeyChain.Remove(existingRecord);
-            //    if (remCode == SecStatusCode.Success)
-            //    {
-            //        var addCode2 = SecKeyChain.Add(newRecord);
-            //    }
-            //}
+            if (addCode == SecStatusCode.DuplicateItem)
+            {
+                var remCode = SecKeyChain.Remove(existingRecord);
+                if (remCode == SecStatusCode.Success)
+                {
+                    var addCode2 = SecKeyChain.Add(newRecord);
+                }
+            }
 #if TEST
             Console.WriteLine("SaveToken End");
 #endif
@@ -98,16 +96,16 @@ namespace ConsultantApp.iOS.Startup
                 ValueData = NSData.FromString(username),
                 Accessible = SecAccessible.AlwaysThisDeviceOnly
             };
-            var remCode = SecKeyChain.Remove(existingRecord);
+            
             var addCode = SecKeyChain.Add(newRecord);
-            //if (addCode == SecStatusCode.DuplicateItem)
-            //{
-            //    var remCode = SecKeyChain.Remove(existingRecord);
-            //    if (remCode == SecStatusCode.Success)
-            //    {
-            //        var addCode2 = SecKeyChain.Add(newRecord);
-            //    }
-            //}
+            if (addCode == SecStatusCode.DuplicateItem)
+            {
+                var remCode = SecKeyChain.Remove(existingRecord);
+                if (remCode == SecStatusCode.Success)
+                {
+                    var addCode2 = SecKeyChain.Add(newRecord);
+                }
+            }
         }
 
         public string GetUserName()
