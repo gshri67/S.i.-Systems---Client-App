@@ -117,6 +117,8 @@ namespace AccountExecutiveApp.iOS
         {
             if (IsIndexFromCell(indexPath, _localRateTypeCellRow))
                 return GetRateTypeCell(tableView, indexPath);
+            else if ( ShowHoursPerDay && IsIndexFromCell(indexPath, _localHoursPerDayCellRow))
+                return GetHoursPerDayCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _localRateDescriptionCellRow))
                 return GetRateDescriptionCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _localBillRateCellRow))
@@ -223,9 +225,17 @@ namespace AccountExecutiveApp.iOS
 
 //Contract Rates Page Indices
 
+
+        private bool ShowHoursPerDay
+        {
+            get { return _contractModel.AreRateTypesPerDay; }
+        }
+
         private int _localRateTypeCellRow { get { return 0; } }
 
-        private int _localRateDescriptionCellRow { get { return _localRateTypeCellRow + 1; } }
+        private int _localHoursPerDayCellRow { get { return _localRateTypeCellRow + 1; } }
+
+        private int _localRateDescriptionCellRow { get { if (!ShowHoursPerDay) return _localRateTypeCellRow + 1; return _localHoursPerDayCellRow + 1; } }
 
         private int _localBillRateCellRow { get { return _localRateDescriptionCellRow + 1; } }
 
@@ -497,6 +507,16 @@ namespace AccountExecutiveApp.iOS
 
             cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndexAtIndex(ContractRatesSectionLocalIndex(indexPath)));
    
+            return cell;
+        }
+
+        private UITableViewCell GetHoursPerDayCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableNumberFieldCell cell =
+                (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+
+            cell.UpdateCell("Hours", _contractModel.HoursPerDayAtIndex(ContractRatesSectionLocalIndex(indexPath)).ToString());
+
             return cell;
         }
 
