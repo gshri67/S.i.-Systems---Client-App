@@ -9,6 +9,10 @@ namespace ConsultantApp.iOS.Startup
 {
     public class TokenStore : ITokenStore
     {
+        private const string ServiceName = "SiSystemsConsultantApp";
+        private const string TokenLabel = "Certificate";
+        private const string UsernameLabel = "Username";
+
         public OAuthToken SaveToken(OAuthToken token)
         {
 #if TEST
@@ -17,13 +21,13 @@ namespace ConsultantApp.iOS.Startup
             var json = JsonConvert.SerializeObject(token);
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
-                Service = "SiSystemsConsultantApp",
-                Label = "Certificate",
+                Service = ServiceName,
+                Label = TokenLabel,
             };
             var newRecord = new SecRecord(SecKind.GenericPassword)
             {
-                Service = "SiSystemsConsultantApp",
-                Label = "Certificate",
+                Service = ServiceName,
+                Label = TokenLabel,
                 Account = token.Username,
                 ValueData = NSData.FromString(json),
                 Accessible = SecAccessible.AlwaysThisDeviceOnly
@@ -51,8 +55,8 @@ namespace ConsultantApp.iOS.Startup
 #endif
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
-                Label = "Certificate",
-                Service = "SiSystemsConsultantApp"
+                Label = TokenLabel,
+                Service = ServiceName
             };
 
             SecStatusCode resultCode;
@@ -78,8 +82,8 @@ namespace ConsultantApp.iOS.Startup
         {
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
-                Label = "Certificate",
-                Service = "SiSystemsConsultantApp"
+                Label = TokenLabel,
+                Service = ServiceName
             };
 
             SecKeyChain.Remove(existingRecord);
@@ -89,13 +93,13 @@ namespace ConsultantApp.iOS.Startup
         {
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
-                Service = "SiSystemsConsultantApp",
-                Label = "Username",
+                Service = ServiceName,
+                Label = UsernameLabel,
             };
             var newRecord = new SecRecord(SecKind.GenericPassword)
             {
-                Service = "SiSystemsConsultantApp",
-                Label = "Username",
+                Service = ServiceName,
+                Label = UsernameLabel,
                 ValueData = NSData.FromString(username),
                 Accessible = SecAccessible.AlwaysThisDeviceOnly
             };
@@ -115,8 +119,8 @@ namespace ConsultantApp.iOS.Startup
         {
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
-                Label = "Username",
-                Service = "SiSystemsConsultantApp"
+                Label = UsernameLabel,
+                Service = ServiceName
             };
 
             SecStatusCode resultCode;
