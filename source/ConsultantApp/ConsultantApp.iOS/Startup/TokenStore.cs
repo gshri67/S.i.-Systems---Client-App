@@ -60,6 +60,9 @@ namespace ConsultantApp.iOS.Startup
 
             if (resultCode == SecStatusCode.Success)
             {
+#if TEST
+            Console.WriteLine("Successfully retrieved record");
+#endif
                 var json = NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
                 var token = JsonConvert.DeserializeObject<OAuthToken>(json);
                 CurrentUser.Email = token.Username;
