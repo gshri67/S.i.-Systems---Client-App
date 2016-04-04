@@ -47,12 +47,15 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(EditableDoublePickerCell), EditableDoublePickerCell.CellIdentifier);
             TableView.RegisterClassForCellReuse(typeof(EditableFullTextFieldCell), EditableFullTextFieldCell.CellIdentifier);
             TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
-
+            TableView.RegisterClassForCellReuse(typeof(MultiSelectDescriptionCell), MultiSelectDescriptionCell.CellIdentifier);
+            
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
             _tableSource = new ContractCreationSendingTableViewSource(this, ViewModel);
             TableView.Source = _tableSource;
             //TableView.AllowsSelection = false;
             TableView.SeparatorColor = UIColor.Clear;
+            TableView.RowHeight = UITableView.AutomaticDimension;
+            TableView.EstimatedRowHeight = 160.0f;
 
             ContinueBar continueBar = new ContinueBar();
             continueBar.Frame = new CGRect(0, 0, 100, 50);

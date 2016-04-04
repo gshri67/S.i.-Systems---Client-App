@@ -178,9 +178,10 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetInvoiceRecipientsCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell =
-                (UITableViewCell)tableView.DequeueReusableCell("UITableViewCell", indexPath);
+                (MultiSelectDescriptionCell)tableView.DequeueReusableCell(MultiSelectDescriptionCell.CellIdentifier, indexPath);
 
-            cell.TextLabel.Text = "Invoice Recipients";
+            cell.UpdateCell("Invoice Recipients", "Fred Flinstone \n Jessica Marone \n Brad Wilcox \n Franklin stein");
+            //cell.OnValueChanged += delegate(string newValue) {  };
 
             return cell;
         }

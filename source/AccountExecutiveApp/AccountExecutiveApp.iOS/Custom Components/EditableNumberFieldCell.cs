@@ -129,7 +129,7 @@ namespace AccountExecutiveApp.iOS
         private void AddRightDetailTextLabelConstraints()
         {
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.6f, 0f));
-            //AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.LessThanOrEqual, this, NSLayoutAttribute.Right, 0.80f, 0f));
+            //AddConstraint(NSLayoutConstraint.Create(RightDetailTextView, NSLayoutAttribute.Left, NSLayoutRelation.LessThanOrEqual, this, NSLayoutAttribute.Right, 0.80f, 0f));
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
         }
@@ -137,7 +137,7 @@ namespace AccountExecutiveApp.iOS
         {
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 15f));
-            //AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.Left, NSLayoutRelation.LessThanOrEqual, this, NSLayoutAttribute.Right, 0.80f, 0f));
+            //AddConstraint(NSLayoutConstraint.Create(RightDetailTextView, NSLayoutAttribute.Left, NSLayoutRelation.LessThanOrEqual, this, NSLayoutAttribute.Right, 0.80f, 0f));
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
         }
 
