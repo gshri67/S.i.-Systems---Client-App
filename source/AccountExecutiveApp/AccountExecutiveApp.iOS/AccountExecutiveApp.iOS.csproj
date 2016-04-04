@@ -351,6 +351,10 @@
       <DependentUpon>ContractCreationReviewTableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Contract Creation\ContractCreationReviewTableViewSource.cs" />
+    <Compile Include="Custom Components\MultiSelectDescriptionCell.cs" />
+    <Compile Include="Custom Components\MultiSelectDescriptionCell.designer.cs">
+      <DependentUpon>MultiSelectDescriptionCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

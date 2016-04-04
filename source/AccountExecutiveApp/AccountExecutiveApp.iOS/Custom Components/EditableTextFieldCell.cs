@@ -20,7 +20,12 @@ namespace AccountExecutiveApp.iOS
         {
             InitializeCell();
         }
-
+		public EditableTextFieldCell(string cellId)
+			: base(UITableViewCellStyle.Default, cellId)
+		{
+			InitializeCell();
+		}
+			
         private void InitializeCell()
         {
             CreateAndAddLabels();
@@ -82,13 +87,7 @@ namespace AccountExecutiveApp.iOS
         {
             RightDetailTextField.ResignFirstResponder();
         }
-
-        public EditableTextFieldCell(string cellId)
-            : base(UITableViewCellStyle.Default, cellId)
-        {
-            InitializeCell();
-        }
-
+			
         public void SetupConstraints()
         {
             if (shrinkRightDetailText)
