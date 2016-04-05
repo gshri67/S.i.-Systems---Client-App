@@ -9,7 +9,7 @@ namespace ConsultantApp.iOS.Startup
 {
     public class TokenStore : ITokenStore
     {
-        private const string ServiceName = "SiSystemsConsultantApp";
+        private const string ServiceName = "com.sisystems.ConsultantApp";
         private const string TokenLabel = "Certificate";
         private const string UsernameLabel = "Username";
 
