@@ -15,7 +15,8 @@ namespace SiSystems.SharedModels
         public string TimeFactor { get; set; }
         public int DaysCancellation { get; set; }
         public string LimitationExpense { get; set; }
-        public string LimitationOfContract { get; set; }
+        public string LimitationOfContractType { get; set; }
+        public int LimitationOfContractValue { get; set; }
         public string PaymentPlan { get; set; }
         public UserContact AccountExecutive { get; set; }
         public UserContact GMAssigned { get; set; }
@@ -57,7 +58,8 @@ namespace SiSystems.SharedModels
             TimeFactor = string.Empty;
             DaysCancellation = 2;
             LimitationExpense = string.Empty;
-            LimitationOfContract = string.Empty;
+            LimitationOfContractType = string.Empty;
+            LimitationOfContractValue = 0;
             PaymentPlan = string.Empty;
             AccountExecutive = new UserContact();
             GMAssigned = new UserContact();

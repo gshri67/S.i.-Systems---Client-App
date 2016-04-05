@@ -280,11 +280,31 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetLimitationOfContractCell(UITableView tableView, NSIndexPath indexPath)
         {
+            /*
+            EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractTypeOptions,
+                _contractModel.LimitationOfContractTypeSelectedIndex,
+                _contractModel.BooleanOptions, 
+                _contractModel.IsSendingContractToClientContactSelectedIndex);
+
+            cell.OnMidValueChanged += delegate(string newValue)
+            {
+                _contractModel.SetClientContractContact(_contractModel.GetClientContractContactWithName(newValue));
+            };
+
+            cell.OnRightValueChanged += delegate(string newValue)
+            {
+                bool isSending = (newValue == "Yes");
+                _contractModel.IsSendingContractToClientContact = isSending;
+            };
+
+            return cell;*/
+
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractOptions,
-                _contractModel.LimitationOfContractSelectedIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationOfContract = newValue; };
+            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractTypeOptions,
+                _contractModel.LimitationOfContractTypeSelectedIndex);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationOfContractType = newValue; };
 
             return cell;
         }

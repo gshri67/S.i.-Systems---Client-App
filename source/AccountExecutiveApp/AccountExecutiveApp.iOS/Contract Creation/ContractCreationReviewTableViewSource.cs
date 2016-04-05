@@ -418,8 +418,8 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractOptions,
-                _contractModel.LimitationOfContractSelectedIndex);
+            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractTypeOptions,
+                _contractModel.LimitationOfContractTypeSelectedIndex);
     
             return cell;
         }

@@ -78,8 +78,10 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string LimitationExpense {       get { return Contract.LimitationExpense; }
                                                 set { Contract.LimitationExpense = value; }}
-        public string LimitationOfContract {    get { return Contract.LimitationOfContract; } 
-                                                set { Contract.LimitationOfContract = value; } }
+        public string LimitationOfContractType {    get { return Contract.LimitationOfContractType; } 
+                                                set { Contract.LimitationOfContractType = value; } }
+        public int LimitationOfContractValue {    get { return Contract.LimitationOfContractValue; } 
+                                                set { Contract.LimitationOfContractValue = value; } }
 
         public string PaymentPlan {             get { return Contract.PaymentPlan; }
                                                 set { Contract.PaymentPlan = value; }}
@@ -372,8 +374,8 @@ namespace AccountExecutiveApp.Core.ViewModel
         public List<string> LimitationExpenseOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
         public int LimitationExpenseSelectedIndex { get { return IndexSelectionFromOptions(LimitationExpenseOptions, LimitationExpense); } }
 
-        public List<string> LimitationOfContractOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
-        public int LimitationOfContractSelectedIndex { get { return IndexSelectionFromOptions(LimitationOfContractOptions, LimitationOfContract); } }
+        public List<string> LimitationOfContractTypeOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
+        public int LimitationOfContractTypeSelectedIndex { get { return IndexSelectionFromOptions(LimitationOfContractTypeOptions, LimitationOfContractType); } }
 
         public List<string> PaymentPlanOptions { get { return new List<string>(new string[] { "Monthly Standard Last Business Day", "half-time", "part-time" }); } }
         public int PaymentPlanSelectedIndex { get { return IndexSelectionFromOptions(PaymentPlanOptions, PaymentPlan); } }
