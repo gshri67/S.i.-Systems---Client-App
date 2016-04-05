@@ -191,7 +191,6 @@ namespace AccountExecutiveApp.Core.ViewModel
             if (Contract.PrimaryRateIndex > NumRates)
                 Contract.PrimaryRateIndex = 0;
 
-
             ContractCreationDetails_Rate rate = new ContractCreationDetails_Rate();
 
             if (NumRates > 0)

@@ -15,6 +15,12 @@ namespace AccountExecutiveApp.iOS
         public delegate void EditableCellDelegate(float newValue);
         public EditableCellDelegate OnValueChanged;
 
+        private bool _usingDollarSign = false;
+        public bool UsingDollarSign {
+            get { return _usingDollarSign; }
+            set { _usingDollarSign = value; ApplyDollarSignIfApplicable(); }
+        }
+
         public EditableNumberFieldCell(IntPtr handle)
             : base(handle)
         {
@@ -64,14 +70,60 @@ namespace AccountExecutiveApp.iOS
             RightDetailTextField.EditingChanged += delegate
             {
                 float textValue;
+                ApplyDollarSignIfApplicable();
 
-                if (RightDetailTextField.Text != string.Empty)
-                    textValue = float.Parse(RightDetailTextField.Text);
+                if (RightDetailNumberText() != string.Empty)
+                    textValue = float.Parse(RightDetailNumberText());
                 else
                     textValue = 0;
 
                 OnValueChanged( textValue );
             };
+
+            RightDetailTextField.EditingDidBegin += delegate
+            {
+                RightDetailTextField.EditingDidBegin += delegate { this.BeginInvokeOnMainThread(SelectRightDetailTextFieldForEdit); };
+
+                try
+                {
+                    if (int.Parse(RightDetailNumberText()) == 0)
+                        RightDetailTextField.Text = string.Empty;
+                }
+                catch (Exception){}
+            };
+
+            RightDetailTextField.EditingDidEnd += delegate
+            {
+                if ( RightDetailTextField.Text == string.Empty )
+                    RightDetailTextField.Text = "0";
+
+                ApplyDollarSignIfApplicable();
+            };
+
+        }
+        private void SelectRightDetailTextFieldForEdit()
+        {
+            RightDetailTextField.SelectedTextRange = RightDetailTextField.GetTextRange(RightDetailTextField.BeginningOfDocument, RightDetailTextField.EndOfDocument);
+        }
+
+        private string RightDetailNumberText()
+        {
+            int dollarIndex = RightDetailTextField.Text.IndexOf('$');
+
+            if (dollarIndex >= 0)
+                return RightDetailTextField.Text.Remove(dollarIndex, 1);
+            return RightDetailTextField.Text;
+        }
+
+        private void ApplyDollarSignIfApplicable()
+        {
+            int dollarIndex = RightDetailTextField.Text.IndexOf('$');
+
+            if (dollarIndex >= 0)
+                RightDetailTextField.Text = RightDetailTextField.Text.Remove(dollarIndex, 1);
+
+            if (UsingDollarSign)
+                RightDetailTextField.Text = RightDetailTextField.Text.Insert(0, "$");        
         }
 
         public void doneButtonTapped(object sender, EventArgs args)

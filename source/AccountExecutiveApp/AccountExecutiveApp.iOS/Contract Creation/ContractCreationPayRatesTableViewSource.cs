@@ -110,6 +110,7 @@ namespace AccountExecutiveApp.iOS
             {
                 _contractModel.SetBillRateAtIndex(newValue.ToString(), (int) indexPath.Section);
             };
+            cell.UsingDollarSign = true;
 
             return cell;
         }
@@ -123,6 +124,7 @@ namespace AccountExecutiveApp.iOS
             {
                 _contractModel.SetPayRateAtIndex(newValue.ToString(), (int)indexPath.Section);
             };
+            cell.UsingDollarSign = true;
 
             return cell;
         }
