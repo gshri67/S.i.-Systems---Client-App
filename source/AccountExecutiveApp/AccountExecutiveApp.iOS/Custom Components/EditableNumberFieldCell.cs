@@ -14,6 +14,7 @@ namespace AccountExecutiveApp.iOS
 
         public delegate void EditableCellDelegate(float newValue);
         public EditableCellDelegate OnValueChanged;
+        public EditableCellDelegate OnValueFinalized;
 
         private bool _usingDollarSign = false;
         public bool UsingDollarSign {
@@ -98,6 +99,7 @@ namespace AccountExecutiveApp.iOS
                     RightDetailTextField.Text = "0";
 
                 ApplyDollarSignIfApplicable();
+                OnValueFinalized( float.Parse(RightDetailNumberText()) );
             };
 
         }

@@ -152,19 +152,31 @@ namespace AccountExecutiveApp.Core.ViewModel
         public void SetBillRateAtIndex(string newBillRate, int index)
         {
             Contract.Rates.ElementAt(index).BillRate = float.Parse(newBillRate);
+            UpdateGrossMarginAtIndex(index);
         }
 
         public string PayRateAtIndex(int index) { return Contract.Rates.ElementAt(index).PayRate.ToString(); }
         public void SetPayRateAtIndex(string newPayRate, int index)
         {
             Contract.Rates.ElementAt(index).PayRate = float.Parse(newPayRate);
+            UpdateGrossMarginAtIndex(index);
         }
 
-        public string GrossMarginAtIndex(int index) { return Contract.Rates.ElementAt(index).GrossMargin.ToString(); }
+        public string GrossMarginAtIndex(int index) { return Contract.Rates.ElementAt(index).GrossMargin.ToString("0.00"); }
         public void SetGrossMarginAtIndex(string newGM, int index)
         {
             if( index < Contract.Rates.Count() )
                 Contract.Rates.ElementAt(index).GrossMargin = float.Parse(newGM);
+        }
+        private void UpdateGrossMarginAtIndex( int index )
+        {
+            if (index >= Contract.Rates.Count()) return;
+            
+            float billRate = float.Parse(BillRateAtIndex(index));
+            if (billRate == 0) return;
+
+            var GM = float.Parse(PayRateAtIndex(index))/billRate;
+            SetGrossMarginAtIndex(GM.ToString(), index);
         }
 
         public int PrimaryRateIndex {

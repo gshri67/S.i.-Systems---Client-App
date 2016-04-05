@@ -110,6 +110,11 @@ namespace AccountExecutiveApp.iOS
             {
                 _contractModel.SetBillRateAtIndex(newValue.ToString(), (int) indexPath.Section);
             };
+            cell.OnValueFinalized += delegate(float newValue)
+            {
+                //to update the gross margin we reload the table
+                tableView.ReloadData();
+            };
             cell.UsingDollarSign = true;
 
             return cell;
@@ -124,6 +129,12 @@ namespace AccountExecutiveApp.iOS
             {
                 _contractModel.SetPayRateAtIndex(newValue.ToString(), (int)indexPath.Section);
             };
+            cell.OnValueFinalized += delegate(float newValue)
+            {
+                //to update the gross margin we reload the table
+                tableView.ReloadData();
+            };
+
             cell.UsingDollarSign = true;
 
             return cell;
@@ -135,10 +146,7 @@ namespace AccountExecutiveApp.iOS
                 (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
             
             cell.UpdateCell("GM", _contractModel.GrossMarginAtIndex((int)indexPath.Section));
-            cell.OnValueChanged += delegate(float newValue)
-            {
-                _contractModel.SetGrossMarginAtIndex(newValue.ToString(), (int)indexPath.Section);
-            };
+            cell.UserInteractionEnabled = false;
             
             return cell;
         }
