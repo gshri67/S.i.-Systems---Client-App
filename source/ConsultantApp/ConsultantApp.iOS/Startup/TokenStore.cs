@@ -16,6 +16,9 @@ namespace ConsultantApp.iOS.Startup
         private static void CacheJsonToken(string json)
         {
             CurrentUser.TokenCache = json;
+#if TEST
+            Console.WriteLine("Json Cached");
+#endif
         }
 
         private static OAuthToken TokenFromJson(string json)
@@ -30,6 +33,9 @@ namespace ConsultantApp.iOS.Startup
 
         public OAuthToken SaveToken(OAuthToken token)
         {
+#if TEST
+            Console.WriteLine("SaveToken");
+#endif
             var json = JsonConvert.SerializeObject(token);
 
             CacheJsonToken(json);
@@ -57,7 +63,9 @@ namespace ConsultantApp.iOS.Startup
                     var addCode2 = SecKeyChain.Add(newRecord);
                 }
             }
-
+#if TEST
+            Console.WriteLine("Token Saved");
+#endif
             return token;
         }
 
@@ -68,6 +76,9 @@ namespace ConsultantApp.iOS.Startup
 
         private string GetJsonFromSecKeyChain()
         {
+#if TEST
+            Console.WriteLine("Retrieve Token from SecKeyChain");
+#endif
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
                 Label = TokenLabel,
@@ -81,7 +92,9 @@ namespace ConsultantApp.iOS.Startup
                 return null;
 
             var json = NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
-
+#if TEST
+            Console.WriteLine("Token Retrieved");
+#endif
             CacheJsonToken(json);
 
             return json;
@@ -89,12 +102,17 @@ namespace ConsultantApp.iOS.Startup
 
         public OAuthToken GetDeviceToken()
         {
+#if TEST
+            Console.WriteLine("GetDeviceToken");
+#endif
             var json = GetJsonFromCacheOrKeyChain();
 
             var token = TokenFromJson(json);
 
             SetUsernameForCurrentUser(token);
-
+#if TEST
+            Console.WriteLine("GetDeviceToken End");
+#endif
             return token;
         }
 

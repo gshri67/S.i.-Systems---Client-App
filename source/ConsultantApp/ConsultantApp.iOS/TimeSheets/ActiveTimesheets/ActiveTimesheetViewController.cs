@@ -58,6 +58,9 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	        UpdateTableSource();
 
 	        noTimesheetsLabel.Hidden = _activeTimesheetModel.UserHasPayPeriods();
+#if TEST
+            Console.WriteLine("Load Timesheets completed");
+#endif
 	    }
 
 	    private void UpdateTableSource()
@@ -70,6 +73,9 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                 ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
                 ActiveTimesheetsTable.ReloadData();
             });
+#if TEST
+            Console.WriteLine("Table Source Updated");
+#endif
 	    }
 
 		private void CreateCustomTitleBar()
@@ -85,6 +91,9 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 					_subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName;
 					NavigationItem.Title = "";
 				});
+#if TEST
+            Console.WriteLine("Title bar created.");
+#endif
 		}
 
 		public override void ViewDidLoad ()
@@ -109,13 +118,13 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    private void InitiatePayPeriodLoading()
 	    {
             var loadPeriodsTask = _activeTimesheetModel.LoadPayPeriods();
-            loadPeriodsTask.ContinueWith(_ => InvokeOnMainThread(LoadTimesheets));
+            loadPeriodsTask.ContinueWith(_ => LoadTimesheets());
 	    }
 
 	    private void InitiateConsultantDetailsLoading()
 	    {
 	        _currentConsultantDetailsViewModel.LoadConsultantDetails();
-            _currentConsultantDetailsViewModel.LoadingConsultantDetails.ContinueWith(_ => InvokeOnMainThread(CreateCustomTitleBar));
+            _currentConsultantDetailsViewModel.LoadingConsultantDetails.ContinueWith(_ => CreateCustomTitleBar());
 	    }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -140,6 +149,9 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
         private void IndicateLoading()
         {
+#if TEST
+            Console.WriteLine("Indicate loading");
+#endif
             InvokeOnMainThread(delegate
             {
                 if (_overlay != null) return;
@@ -149,14 +161,23 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                 _overlay.UserInteractionEnabled = false;
                 View.Add(_overlay);
             });
+#if TEST
+            Console.WriteLine("Finished Indicate loading");
+#endif
         }
         
         private void RemoveOverlay()
         {
+#if TEST
+            Console.WriteLine("Remove Overlay");
+#endif
             if (_overlay == null) return;
 
             InvokeOnMainThread(_overlay.Hide);
             _overlay = null;
+#if TEST
+            Console.WriteLine("Overlay Removed");
+#endif
         }
         #endregion
     }
