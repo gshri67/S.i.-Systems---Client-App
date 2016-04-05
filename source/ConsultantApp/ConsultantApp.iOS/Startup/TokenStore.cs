@@ -13,12 +13,17 @@ namespace ConsultantApp.iOS.Startup
         private const string TokenLabel = "Certificate";
         private const string UsernameLabel = "Username";
 
+        private static void CacheToken(string json)
+        {
+            CurrentUser.TokenCache = json;
+        }
+
         public OAuthToken SaveToken(OAuthToken token)
         {
-#if TEST
-            Console.WriteLine("SaveToken Start");
-#endif
             var json = JsonConvert.SerializeObject(token);
+
+            CacheToken(json);
+
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
                 Service = ServiceName,
@@ -42,17 +47,27 @@ namespace ConsultantApp.iOS.Startup
                     var addCode2 = SecKeyChain.Add(newRecord);
                 }
             }
-#if TEST
-            Console.WriteLine("SaveToken End");
-#endif
+
             return token;
         }
 
-        public OAuthToken GetDeviceToken()
+        private static OAuthToken TokenFromJson(string json)
         {
-#if TEST
-            Console.WriteLine("GetDeviceToken Start");
-#endif
+            if (string.IsNullOrWhiteSpace(json))
+                return null;
+
+            var token = JsonConvert.DeserializeObject<OAuthToken>(json);
+            
+            return token;
+        }
+
+        private string GetJsonFromCacheOrKeyChain()
+        {
+            return CurrentUser.TokenCache ?? GetJsonFromSecKeyChain();
+        }
+
+        private string GetJsonFromSecKeyChain()
+        {
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
                 Label = TokenLabel,
@@ -62,27 +77,23 @@ namespace ConsultantApp.iOS.Startup
             SecStatusCode resultCode;
             var data = SecKeyChain.QueryAsRecord(existingRecord, out resultCode);
 
-            if (resultCode == SecStatusCode.Success)
-            {
-#if TEST
-            Console.WriteLine("Successfully retrieved record");
-#endif
-                var json = NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
-                var token = JsonConvert.DeserializeObject<OAuthToken>(json);
-                CurrentUser.Email = token.Username;
-#if TEST
-            Console.WriteLine(token.Username);
-            Console.WriteLine(token.AccessToken);
-#endif
-                return token;
-            }
-#if TEST
-            Console.WriteLine("GetDeviceToke End");
-#endif
-            return null;
+            return resultCode == SecStatusCode.Success 
+                ? NSString.FromData(data.ValueData, NSStringEncoding.UTF8) 
+                : null;
         }
 
-        public void DeleteDeviceToken()
+        public OAuthToken GetDeviceToken()
+        {
+            var json = GetJsonFromCacheOrKeyChain();
+
+            var token = TokenFromJson(json);
+
+            CurrentUser.Email = token.Username;
+
+            return token;
+        }
+
+        private void DeleteTokenFromDevice()
         {
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
@@ -91,6 +102,17 @@ namespace ConsultantApp.iOS.Startup
             };
 
             SecKeyChain.Remove(existingRecord);
+        }
+
+        private static void ClearTokenFromCache()
+        {
+            CurrentUser.TokenCache = null;
+        }
+
+        public void DeleteDeviceToken()
+        {
+            ClearTokenFromCache();
+            DeleteTokenFromDevice();
         }
 
         public void SaveUserName(string username)
