@@ -13,16 +13,26 @@ namespace ConsultantApp.iOS.Startup
         private const string TokenLabel = "Certificate";
         private const string UsernameLabel = "Username";
 
-        private static void CacheToken(string json)
+        private static void CacheJsonToken(string json)
         {
             CurrentUser.TokenCache = json;
+        }
+
+        private static OAuthToken TokenFromJson(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+                return null;
+
+            var token = JsonConvert.DeserializeObject<OAuthToken>(json);
+
+            return token;
         }
 
         public OAuthToken SaveToken(OAuthToken token)
         {
             var json = JsonConvert.SerializeObject(token);
 
-            CacheToken(json);
+            CacheJsonToken(json);
 
             var existingRecord = new SecRecord(SecKind.GenericPassword)
             {
@@ -51,16 +61,6 @@ namespace ConsultantApp.iOS.Startup
             return token;
         }
 
-        private static OAuthToken TokenFromJson(string json)
-        {
-            if (string.IsNullOrWhiteSpace(json))
-                return null;
-
-            var token = JsonConvert.DeserializeObject<OAuthToken>(json);
-            
-            return token;
-        }
-
         private string GetJsonFromCacheOrKeyChain()
         {
             return CurrentUser.TokenCache ?? GetJsonFromSecKeyChain();
@@ -77,9 +77,14 @@ namespace ConsultantApp.iOS.Startup
             SecStatusCode resultCode;
             var data = SecKeyChain.QueryAsRecord(existingRecord, out resultCode);
 
-            return resultCode == SecStatusCode.Success 
-                ? NSString.FromData(data.ValueData, NSStringEncoding.UTF8) 
-                : null;
+            if (resultCode != SecStatusCode.Success)
+                return null;
+
+            var json = NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
+
+            CacheJsonToken(json);
+
+            return json;
         }
 
         public OAuthToken GetDeviceToken()
@@ -88,9 +93,15 @@ namespace ConsultantApp.iOS.Startup
 
             var token = TokenFromJson(json);
 
-            CurrentUser.Email = token.Username;
+            SetUsernameForCurrentUser(token);
 
             return token;
+        }
+
+        private static void SetUsernameForCurrentUser(OAuthToken token)
+        {
+            if(token != null)
+                CurrentUser.Email = token.Username;
         }
 
         private void DeleteTokenFromDevice()
