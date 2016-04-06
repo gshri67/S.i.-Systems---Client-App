@@ -189,7 +189,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Auth\CustomClaimTypes.cs" />
     <Compile Include="Caching\ObjectCache.cs" />
-    <Compile Include="Controllers\Api\ContractCreationDetailsController.cs" />
+    <Compile Include="Controllers\Api\ContractCreationController.cs" />
     <Compile Include="Controllers\Api\ContractorRateController.cs" />
     <Compile Include="Controllers\Api\ContractorsController.cs" />
     <Compile Include="Controllers\Api\ConsultantDetailsController.cs" />
