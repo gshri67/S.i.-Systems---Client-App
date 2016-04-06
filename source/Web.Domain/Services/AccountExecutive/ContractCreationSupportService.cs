@@ -45,6 +45,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return _pickListValuesRepository.ContractLimitationOptions();
         }
 
+        private IEnumerable<string> ContractPaymentPlans()
+        {
+            return _pickListValuesRepository.ContractPaymentPlans();
+        }
+
         public ContractCreationOptions GetContractOptionsForMainForm()
         {
             return new ContractCreationOptions
@@ -52,7 +57,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 Colleagues = ColleaguesForCurrentUser(),
                 InvoiceFormatOptions = InvoiceFormats(),
                 InvoiceFrequencyOptions = InvoiceFrequencies(),
-                LimitationOfContractTypeOptions = ContractLimitaionTypes()
+                LimitationOfContractTypeOptions = ContractLimitaionTypes(),
+                PaymentPlan = ContractPaymentPlans()
             };
         }
     }
