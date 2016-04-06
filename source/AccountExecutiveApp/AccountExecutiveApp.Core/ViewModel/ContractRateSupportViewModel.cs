@@ -26,11 +26,10 @@ namespace AccountExecutiveApp.Core.ViewModel
             _api = api;
         }
 
-        public Task GetRateOptions()
         public List<string> RateTypeOptions { get { return new List<string>(new string[] { "Per hour", "Per day" }); } }
         public List<string> RateDescriptionOptions { get { return new List<string>(new string[] { "Regular", "Hourly", "Daily" }); } }
 
-
+        public Task GetRateOptions()
         {
             var task = GetOptions();
             //todo: task.continueWith

@@ -141,7 +141,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell( string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.BooleanOptions, _contractModel.IsSendingConsultantContractSelectedIndex);
+            cell.UpdateCell( string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.IsSendingConsultantContract);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.IsSendingConsultantContract = (newValue == "Yes"); };
 
             return cell;
@@ -151,7 +151,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Client Contact", _contractModel.ClientContactNameOptions, _contractModel.ClientContactNameSelectedIndex);
+            cell.UpdateCell("Client Contact", _supportModel.ClientContactNameOptions, _contractModel.ClientContactName);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.SetClientContact(_contractModel.GetClientContactWithName(newValue)); };
 
             return cell;
@@ -161,7 +161,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Direct Report", _contractModel.DirectReportNameOptions, _contractModel.DirectReportNameSelectedIndex);
+            cell.UpdateCell("Direct Report", _supportModel.DirectReportNameOptions, _contractModel.DirectReportName );
             cell.OnValueChanged += delegate(string newValue) { _contractModel.SetDirectReport( _contractModel.GetDirectReportWithName(newValue) ); };
 
             return cell;
@@ -171,7 +171,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Billing Contact", _contractModel.BillingContactNameOptions, _contractModel.BillingContactNameSelectedIndex);
+            cell.UpdateCell("Billing Contact", _supportModel.BillingContactNameOptions, _contractModel.BillingContactName);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.SetBillingContact(_contractModel.GetBillingContactWithName(newValue)); };
 
             return cell;
@@ -212,7 +212,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Reason:", _contractModel.ReasonForNotSendingContractOptions, _contractModel.ReasonForNotSendingContractSelectedIndex);
+            cell.UpdateCell("Reason:", _supportModel.ReasonForNotSendingContractOptions, _contractModel.ReasonForNotSendingContract);
             cell.OnValueChanged += delegate(string newValue)
             {
                 _contractModel.ReasonForNotSendingContract = newValue;
