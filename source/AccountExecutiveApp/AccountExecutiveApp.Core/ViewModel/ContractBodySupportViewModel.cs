@@ -136,16 +136,16 @@ namespace AccountExecutiveApp.Core.ViewModel
         public List<string> InvoiceFrequencyOptions { get { return new List<string>(new string[] { "Monthly", "Semi Monthly", "Weekly Invoicing" }); } }
         public List<string> InvoiceFormatOptions { get { return new List<string>(new string[] { "1 invoice per contract" }); } }
 
-        public Task GetContractBodyOptions(int jobId, int candidateId)
+        public Task GetContractBodyOptions()
         {
-            var task = GetOptions(jobId, candidateId);
+            var task = GetOptions();
             //todo: task.continueWith
             return task;
         }
 
-        private async Task GetOptions(int jobId, int candidateId)
+        private async Task GetOptions()
         {
-            ContractOptions = await _api.GetContractCreationInitialPageOptions(jobId, candidateId);
+            ContractOptions = await _api.GetDropDownValuesForInitialContractCreationForm();
         }
     }
 }

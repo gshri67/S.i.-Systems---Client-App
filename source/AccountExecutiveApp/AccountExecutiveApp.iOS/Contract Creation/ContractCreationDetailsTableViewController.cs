@@ -35,7 +35,7 @@ namespace AccountExecutiveApp.iOS
 	    public void SetupViewController(Contractor contractor, int jobId)
 	    {
 	        _contractor = contractor;
-            LoadContractOptions(contractor.ContactInformation.Id, jobId);
+            LoadContractOptions();
 	    }
 
 
@@ -139,9 +139,9 @@ namespace AccountExecutiveApp.iOS
 
 	    }
 
-	    private void LoadContractOptions(int contractorId, int jobId)
+	    private void LoadContractOptions()
 	    {
-	        var loadingOptions = _optionsModel.GetContractBodyOptions(contractorId, jobId);
+	        var loadingOptions = _optionsModel.GetContractBodyOptions();
             //todo: update ui
 	        //loadingOptions.ContinueWith();
 	    }

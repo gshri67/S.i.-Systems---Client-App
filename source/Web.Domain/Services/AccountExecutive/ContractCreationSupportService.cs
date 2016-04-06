@@ -23,36 +23,36 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             _pickListValuesRepository = pickListValuesRepository;
         }
 
-        public IEnumerable<InternalEmployee> GetColleaguesForCurrentUser()
+        private IEnumerable<InternalEmployee> ColleaguesForCurrentUser()
         {
             var accountExecutives = _internalEmployeesRepository.GetAccountExecutivesThatShareBranchWithUserId(_session.CurrentUser.Id);
             
             return accountExecutives.OrderBy(employee => employee.FirstName).ThenBy(employee => employee.LastName);
         }
 
-        public IEnumerable<string> GetInvoiceFormats()
+        private IEnumerable<string> InvoiceFormats()
         {
             return _pickListValuesRepository.InvoiceFormatOptions();
         }
 
-        public IEnumerable<string> GetInvoiceFrequencies()
+        private IEnumerable<string> InvoiceFrequencies()
         {
             return _pickListValuesRepository.InvoiceFrequencyOptions();
         }
 
-        public IEnumerable<string> GetPossibleContractLimitaionTypes()
+        private IEnumerable<string> ContractLimitaionTypes()
         {
             return _pickListValuesRepository.ContractLimitationOptions();
         }
 
-        public ContractCreationOptions GetContractOptionsForJobAndCandidate(int jobId, int candidateId)
+        public ContractCreationOptions GetContractOptionsForMainForm()
         {
             return new ContractCreationOptions
             {
-                Colleagues = GetColleaguesForCurrentUser(),
-                InvoiceFormatOptions = GetInvoiceFormats(),
-                InvoiceFrequencyOptions = GetInvoiceFrequencies(),
-                LimitationOfContractTypeOptions = GetPossibleContractLimitaionTypes()
+                Colleagues = ColleaguesForCurrentUser(),
+                InvoiceFormatOptions = InvoiceFormats(),
+                InvoiceFrequencyOptions = InvoiceFrequencies(),
+                LimitationOfContractTypeOptions = ContractLimitaionTypes()
             };
         }
     }

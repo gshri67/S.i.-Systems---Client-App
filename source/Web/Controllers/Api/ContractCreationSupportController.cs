@@ -22,24 +22,10 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             _contractCreationSupportService = contractCreationSupportService;
         }
 
-        [Route("Rates/Job/{jobId}/Candidate/{candidateId}")]
-        public HttpResponseMessage GetContractCreationPayRatePageOptions(int jobId, int candidateId)
+        [Route("MainFormOptions")]
+        public HttpResponseMessage MainFormOptions()
         {
-            var options = new ContractCreationOptions_Rate();// _contractCreationSupportService.GetContractCreationPayRatePageOptions(jobId, candidateId);
-            return Request.CreateResponse(HttpStatusCode.OK, options);
-        }
-
-        [Route("Initial/Job/{jobId}/Candidate/{candidateId}")]
-        public HttpResponseMessage GetContractCreationInitialPageOptions(int jobId, int candidateId)
-        {
-            var options = new ContractCreationOptions();// _contractCreationSupportService.GetContractCreationInitialPageOptions(jobId, candidateId);
-            return Request.CreateResponse(HttpStatusCode.OK, options);
-        }
-
-        [Route("Sending/Job/{jobId}/Candidate/{candidateId}")]
-        public HttpResponseMessage GetContractCreationSendingPageOptions(int jobId, int candidateId)
-        {
-            var options = new ContractCreationOptions_Sending();// _contractCreationSupportService.GetContractCreationSendingPageOptions(jobId, candidateId);
+            var options = _contractCreationSupportService.GetContractOptionsForMainForm();
             return Request.CreateResponse(HttpStatusCode.OK, options);
         }
     }
