@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using SiSystems.SharedModels;
 using System.Net.Http;
+using SiSystems.SharedModels.Contract_Creation;
 
 namespace Shared.Core
 {
@@ -71,5 +72,7 @@ namespace Shared.Core
         Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet);
 
         Task<ContractCreationOptions> GetDropDownValuesForInitialContractCreationForm();
+
+        Task<RateOptions> GetDropDownValuesForContractCreationRatesForm();
     }
 }

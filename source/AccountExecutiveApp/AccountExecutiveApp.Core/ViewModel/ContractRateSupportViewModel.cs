@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.Core;
 using SiSystems.SharedModels;
+using SiSystems.SharedModels.Contract_Creation;
 
 namespace AccountExecutiveApp.Core.ViewModel
 {
@@ -13,11 +14,11 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private readonly IMatchGuideApi _api;
 
-        private ContractCreationOptions _contractOptions;
-        private ContractCreationOptions ContractOptions
+        private RateOptions _rateOptions;
+        private RateOptions Options
         {
-            get { return _contractOptions ?? new ContractCreationOptions(); }
-            set { _contractOptions = value ?? new ContractCreationOptions(); }
+            get { return _rateOptions ?? new RateOptions(); }
+            set { _rateOptions = value ?? new RateOptions(); }
         }
 
         public ContractRateSupportViewModel(IMatchGuideApi api)
@@ -25,16 +26,16 @@ namespace AccountExecutiveApp.Core.ViewModel
             _api = api;
         }
 
-        public Task GetContractBodyOptions(int jobId, int candidateId)
+        public Task GetRateOptions()
         {
-            var task = GetOptions(jobId, candidateId);
+            var task = GetOptions();
             //todo: task.continueWith
             return task;
         }
 
-        private async Task GetOptions(int jobId, int candidateId)
+        private async Task GetOptions()
         {
-            ContractOptions = await _api.GetContractCreationInitialPageOptions(jobId, candidateId);
+            Options = await _api.GetDropDownValuesForContractCreationRatesForm();
         }
     }
 }

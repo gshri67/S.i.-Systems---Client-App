@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Shared.Core.HttpAttributes;
 using Shared.Core.Platform;
 using SiSystems.SharedModels;
+using SiSystems.SharedModels.Contract_Creation;
 using Xamarin;
 
 namespace Shared.Core
@@ -306,6 +307,12 @@ namespace Shared.Core
         public async Task<ContractCreationOptions> GetDropDownValuesForInitialContractCreationForm()
         {
             return await ExecuteWithDefaultClient<ContractCreationOptions>();
+        }
+
+        [HttpGet("ContractCreationSupport/RateFormOptions")]
+        public async Task<RateOptions> GetDropDownValuesForContractCreationRatesForm()
+        {
+            return await ExecuteWithDefaultClient<RateOptions>();
         }
     }
 }

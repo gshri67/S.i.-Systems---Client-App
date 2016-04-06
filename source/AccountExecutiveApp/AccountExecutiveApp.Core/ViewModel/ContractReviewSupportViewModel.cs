@@ -25,16 +25,16 @@ namespace AccountExecutiveApp.Core.ViewModel
             _api = api;
         }
 
-        public Task GetContractBodyOptions(int jobId, int candidateId)
+        public Task GetContractBodyOptions()
         {
-            var task = GetOptions(jobId, candidateId);
+            var task = GetOptions();
             //todo: task.continueWith
             return task;
         }
 
-        private async Task GetOptions(int jobId, int candidateId)
+        private async Task GetOptions()
         {
-            ContractOptions = await _api.GetContractCreationInitialPageOptions(jobId, candidateId);
+            ContractOptions = await _api.GetDropDownValuesForInitialContractCreationForm();
         }
     }
 }
