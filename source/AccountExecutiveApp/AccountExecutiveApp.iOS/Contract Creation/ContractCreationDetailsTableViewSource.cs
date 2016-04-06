@@ -15,13 +15,15 @@ namespace AccountExecutiveApp.iOS
     {
         private readonly ContractCreationDetailsTableViewController _parentController;
         private readonly ContractCreationViewModel _contractModel;
+        private readonly ContractBodySupportViewModel _supportModel;
         private float _specializationCellHeight = -1;
 
         public ContractCreationDetailsTableViewSource(ContractCreationDetailsTableViewController parentController,
-            ContractCreationViewModel model)
+            ContractCreationViewModel model, ContractBodySupportViewModel supportModel )
         {
             _parentController = parentController;
             _contractModel = model;
+            _supportModel = supportModel;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -250,7 +252,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Time Factor", _contractModel.TimeFactorOptions, _contractModel.TimeFactorSelectedIndex);
+            cell.UpdateCell("Time Factor", _supportModel.TimeFactorOptions, _contractModel.Contract.TimeFactor);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.TimeFactor = newValue; };
 
             return cell;
@@ -260,8 +262,8 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Days Cancellation", _contractModel.DaysCancellationOptions,
-                _contractModel.DaysCancellationSelectedIndex);
+            cell.UpdateCell("Days Cancellation", _supportModel.DaysCancellationOptions,
+                _contractModel.DaysCancellation.ToString());
             cell.OnValueChanged += delegate(string newValue) { _contractModel.DaysCancellation = int.Parse(newValue); };
 
             return cell;
@@ -272,7 +274,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Limitation Expense", _contractModel.LimitationExpenseOptions,
-                _contractModel.LimitationExpenseSelectedIndex);
+                _contractModel.LimitationExpense);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationExpense = newValue; };
 
             return cell;
@@ -302,7 +304,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Payment Plan", _contractModel.PaymentPlanOptions, _contractModel.PaymentPlanSelectedIndex);
+            cell.UpdateCell("Payment Plan", _supportModel.PaymentPlanOptions, _contractModel.PaymentPlan);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.PaymentPlan = newValue; };
 
             return cell;
@@ -314,7 +316,7 @@ namespace AccountExecutiveApp.iOS
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             List<UserContact> accountExecutives =
                 new List<UserContact>(new UserContact[] {new UserContact(), new UserContact(), new UserContact()});
-            cell.UpdateCell("Account Executive", _contractModel.AccountExecutiveOptionDescriptions,
+            cell.UpdateCell("Account Executive", _supportModel.AccountExecutiveOptionDescriptions,
                 _contractModel.AccountExecutiveIndex);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.SetAccountExecutiveWithName(newValue); };
 
@@ -325,7 +327,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("GM Assigned", _contractModel.GMAssignedOptionDescriptions, _contractModel.GMAssignedIndex);
+            cell.UpdateCell("GM Assigned", _supportModel.GMAssignedOptionDescriptions, _contractModel.GMAssignedIndex);
             return cell;
         }
 
@@ -333,7 +335,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Comission Assigned", _contractModel.ComissionAssignedOptionDescriptions,
+            cell.UpdateCell("Comission Assigned", _supportModel.ComissionAssignedOptionDescriptions,
                 _contractModel.ComissionAssignedIndex);
             return cell;
         }
@@ -372,7 +374,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetQuickPayCell(UITableView tableView, NSIndexPath indexPath)
         {            
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Quick Pay", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.UsingQuickPay));
+            cell.UpdateCell("Quick Pay", _contractModel.UsingQuickPay);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.UsingQuickPay = (newValue == "Yes"); };
 
             return cell;

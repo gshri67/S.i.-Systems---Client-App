@@ -60,7 +60,7 @@ namespace AccountExecutiveApp.iOS
 			TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-			TableView.Source = new ContractCreationDetailsTableViewSource(this, _viewModel);
+			TableView.Source = new ContractCreationDetailsTableViewSource(this, _viewModel, _optionsModel);
 		    TableView.AllowsSelection = false;
 
 		    TableView.AlwaysBounceVertical = false;

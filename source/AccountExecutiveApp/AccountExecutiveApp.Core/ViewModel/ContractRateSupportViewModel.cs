@@ -9,7 +9,7 @@ using SiSystems.SharedModels;
 
 namespace AccountExecutiveApp.Core.ViewModel
 {
-    public class ContractBodySupportViewModel
+    public class ContractRateSupportViewModel
     {
         private readonly IMatchGuideApi _api;
 
@@ -20,7 +20,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { _contractOptions = value ?? new ContractCreationOptions(); }
         }
 
-        public ContractBodySupportViewModel(IMatchGuideApi api)
+        public ContractRateSupportViewModel(IMatchGuideApi api)
         {
             _api = api;
         }

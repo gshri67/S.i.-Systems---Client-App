@@ -145,15 +145,30 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
         }
 
-        public void UpdateCell(string mainText, List<string> newValues, int newSelectedIndex)
+        public void UpdateCell(string mainText, List<string> newValues, string selectedValue)
+        {
+            selectedIndex = IndexSelectionFromOptions(Values, selectedValue);
+            Update(mainText, newValues, newValues[selectedIndex]);            
+        }
+        public void UpdateCell(string mainText, List<string> newValues, int newSelectedIndex )
+        {
+            selectedIndex = newSelectedIndex;
+            Update(mainText, newValues, newValues[selectedIndex]);
+        }
+        //If just using options {Yes, No}
+        public void UpdateCell(string mainText, bool selectedValue)
+        {
+            selectedIndex = IndexBooleanSelectionFromOptions(Values, selectedValue);
+            Update(mainText, BooleanOptions, BooleanOptions[BooleanOptionIndex(selectedValue)] );
+        }
+        private void Update(string mainText, List<string> newValues, string selectedValue )
         {
             Console.WriteLine("Updating Cell ");
 
             MainTextLabel.Text = mainText;
-            RightDetailTextField.Text = newValues[newSelectedIndex];
-
+            RightDetailTextField.Text = selectedValue;
             Values = newValues;
-            selectedIndex = newSelectedIndex;
+            selectedIndex = IndexSelectionFromOptions(Values, selectedValue);
 
             List<List<string>> items = new List<List<string>>();
             items.Add(Values);
@@ -161,8 +176,38 @@ namespace AccountExecutiveApp.iOS
             if (_picker != null && _pickerModel != null)
             {
                 _pickerModel.items = items;
-                _pickerModel.scrollToItemIndex( _picker, newSelectedIndex, 0);
+                _pickerModel.scrollToItemIndex(_picker, selectedIndex, 0);
             }
+        }
+
+        private int IndexSelectionFromOptions(List<string> options, string value)
+        {
+            if (options != null && options.Contains(value))
+                return options.FindIndex((string option) => { return option == value; });
+
+            return 0;
+        }
+
+        private int IndexBooleanSelectionFromOptions(List<string> options, bool booleanValue)
+        {
+            string value = BooleanOptions[0];
+
+            if (booleanValue == false)
+                value = BooleanOptions[1];
+
+            if (options != null && options.Contains(value))
+                return options.FindIndex((string option) => { return option == value; });
+
+            return 0;
+        }
+
+        public List<string> BooleanOptions { get { return new List<string>(new string[] { "Yes", "No" }); } }
+
+        public int BooleanOptionIndex(bool value)
+        {
+            if (value == true)
+                return 0;
+            return 1;
         }
     }
 }
