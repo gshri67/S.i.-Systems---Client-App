@@ -35,12 +35,22 @@ namespace AccountExecutiveApp.Core.ViewModel
             _api = api;
         }
 
+        //First Page
+        public DateTime StartDate {
+                                                get { return Contract.StartDate; }
+                                                set { Contract.StartDate = value; } }
+        public DateTime EndDate
+        {
+            get { return Contract.EndDate; }
+            set { Contract.EndDate = value; }
+        }
+
         public string FormattedEndDate
         {
             get
             {
                 //if (!_successfullyLoadedContracts)
-                  //  return string.Empty;
+                //  return string.Empty;
 
                 return string.Format("{0}", Contract.EndDate.ToString("MMM dd, yyyy"));
             }
@@ -56,15 +66,6 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
 
-        //First Page
-        public DateTime StartDate {
-                                                get { return Contract.StartDate; }
-                                                set { Contract.StartDate = value; } }
-        public DateTime EndDate
-        {
-            get { return Contract.EndDate; }
-            set { Contract.EndDate = value; }
-        }
 
         public string JobTitle {                get { return Contract.JobTitle; }
                                                 set { Contract.JobTitle = value; }}
