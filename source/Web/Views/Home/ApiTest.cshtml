@@ -92,9 +92,7 @@
             <li role="presentation"><a id="contractorTabButton" href="#contractor" role="tab" data-toggle="tab">Contractor</a></li>
             <li role="presentation"><a id="userContactTabButton" href="#userContact" role="tab" data-toggle="tab">UserContact</a></li>
             <li role="presentation"><a id="aeSearchTabButton" href="#aeSearch" role="tab" data-toggle="tab">Contact Search</a></li>
-            <li role="presentation"><a id="colleaguesTabButton" href="#colleagues" role="tab" data-toggle="tab">Colleagues</a></li>
-            <li role="presentation"><a id="invoiceFormatsTabButton" href="#invoiceFormats" role="tab" data-toggle="tab">Invoice Formats</a></li>
-            <li role="presentation"><a id="invoiceFrequenciesTabButton" href="#invoiceFrequencies" role="tab" data-toggle="tab">Invoice Frequencies</a></li>
+            <li role="presentation"><a id="contractSupportTabButton" href="#contractSupport" role="tab" data-toggle="tab">Contract Creation Support</a></li>
         </ul>
 
         <div class="tab-content">
@@ -280,34 +278,14 @@
                 <div id="aeSearchResults" class="code json well">
                 </div>
             </div>
-            <div id="colleagues" role="details" class="tab-pane">
+            <div id="contractSupport" role="details" class="tab-pane">
                 <div class="input-group">
-                    <input id="colleaguesId" type="text" class="form-control" placeholder="" disabled/>
+                    <input id="contractSupportId" type="text" class="form-control" placeholder="" disabled/>
                     <div class="input-group-btn">
-                        <button id="colleaguesButton" type="button" class="btn btn-primary">Find Colleagues</button>
+                        <button id="contractSupportButton" type="button" class="btn btn-primary">Get Initial Page Options</button>
                     </div>
                 </div>
-                <div id="colleaguesResults" class="code json well">
-                </div>
-            </div>
-            <div id="invoiceFormats" role="details" class="tab-pane">
-                <div class="input-group">
-                    <input id="invoiceFormatsId" type="text" class="form-control" placeholder="" disabled/>
-                    <div class="input-group-btn">
-                        <button id="invoiceFormatsButton" type="button" class="btn btn-primary">Go</button>
-                    </div>
-                </div>
-                <div id="invoiceFormatsResults" class="code json well">
-                </div>
-            </div>
-            <div id="invoiceFrequencies" role="details" class="tab-pane">
-                <div class="input-group">
-                    <input id="invoiceFrequenciesId" type="text" class="form-control" placeholder="" disabled />
-                    <div class="input-group-btn">
-                        <button id="invoiceFrequenciesButton" type="button" class="btn btn-primary">Go</button>
-                    </div>
-                </div>
-                <div id="invoiceFrequenciesResults" class="code json well">
+                <div id="contractSupportResults" class="code json well">
                 </div>
             </div>
         </div>
@@ -744,17 +722,17 @@
 
                     }).fail(function (err) { showError(err, 'aeSearchResults') });
                 },
-                colleagues: function () {
-                    $('#colleaguesResults').html('Sending...');
+                contractSupport: function () {
+                    $('#contractSupportResults').html('Sending...');
                     $.ajax({
                         type: 'GET',
-                        url: '/api/ContractCreationSupport/AccountExecutives',
+                        url: '/api/ContractCreationSupport/MainFormOptions',
                         headers: {
                             Authorization: 'Bearer ' + page.token
                         }
                     })
                     .done(function (data) {
-                        var section = $('#colleaguesResults');
+                        var section = $('#contractSupportResults');
 
                         section.html(formatObject(data));
 
@@ -763,49 +741,7 @@
                         });
 
 
-                    }).fail(function (err) { showError(err, 'colleaguesResults') });
-                },
-                invoiceFormats: function () {
-                    $('#invoiceFormatsResults').html('Sending...');
-                    $.ajax({
-                        type: 'GET',
-                        url: '/api/ContractCreationSupport/InvoiceFormats',
-                        headers: {
-                            Authorization: 'Bearer ' + page.token
-                        }
-                    })
-                    .done(function (data) {
-                        var section = $('#invoiceFormatsResults');
-
-                        section.html(formatObject(data));
-
-                        section.each(function (i, block) {
-                            hljs.highlightBlock(block);
-                        });
-
-
-                    }).fail(function (err) { showError(err, 'invoiceFormatsResults') });
-                },
-                invoiceFrequencies: function () {
-                    $('#invoiceFrequenciesResults').html('Sending...');
-                    $.ajax({
-                        type: 'GET',
-                        url: '/api/ContractCreationSupport/InvoiceFrequencies',
-                        headers: {
-                            Authorization: 'Bearer ' + page.token
-                        }
-                    })
-                    .done(function (data) {
-                        var section = $('#invoiceFrequenciesResults');
-
-                        section.html(formatObject(data));
-
-                        section.each(function (i, block) {
-                            hljs.highlightBlock(block);
-                        });
-
-
-                    }).fail(function (err) { showError(err, 'invoiceFrequenciesResults') });
+                    }).fail(function (err) { showError(err, 'contractSupportResults') });
                 }
             };
 
@@ -830,9 +766,7 @@
             $('#contractorButton').click(page.getContractor);
             $('#userContactButton').click(page.getUserContact);
             $('#aeSearchButton').click(page.aeSearch);
-            $('#colleaguesButton').click(page.colleagues);
-            $('#invoiceFormatsButton').click(page.invoiceFormats);
-            $('#invoiceFrequenciesButton').click(page.invoiceFrequencies);
+            $('#contractSupportButton').click(page.contractSupport);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {

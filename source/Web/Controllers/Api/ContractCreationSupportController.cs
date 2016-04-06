@@ -23,7 +23,7 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
         }
 
         [Route("MainFormOptions")]
-        public HttpResponseMessage MainFormOptions()
+        public HttpResponseMessage GetMainFormOptions()
         {
             var options = _contractCreationSupportService.GetContractOptionsForMainForm();
             return Request.CreateResponse(HttpStatusCode.OK, options);
