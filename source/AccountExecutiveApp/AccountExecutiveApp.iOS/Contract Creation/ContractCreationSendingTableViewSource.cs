@@ -15,6 +15,7 @@ namespace AccountExecutiveApp.iOS
     {
         private readonly ContractCreationSendingTableViewController _parentController;
         private readonly ContractCreationViewModel _contractModel;
+        private readonly ContractSendingSupportViewModel _supportModel;
         private float _specializationCellHeight = -1;
 
         //Table logic
@@ -22,10 +23,11 @@ namespace AccountExecutiveApp.iOS
         private bool _showClientContractOtherReason = false;
 
         public ContractCreationSendingTableViewSource(ContractCreationSendingTableViewController parentController,
-            ContractCreationViewModel model)
+            ContractCreationViewModel model, ContractSendingSupportViewModel supportModel)
         {
             _parentController = parentController;
             _contractModel = model;
+            _supportModel = supportModel;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)

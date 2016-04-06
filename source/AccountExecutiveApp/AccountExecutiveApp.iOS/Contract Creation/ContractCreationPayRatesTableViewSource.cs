@@ -15,15 +15,17 @@ namespace AccountExecutiveApp.iOS
     {
         private readonly ContractCreationPayRatesTableViewController _parentController;
         private readonly ContractCreationViewModel _contractModel;
+        private readonly ContractRateSupportViewModel _supportModel;
         private float _specializationCellHeight = -1;
         private int _numRateSections = 0;
         private int deletingSectionIndex = -1;
         private bool _showHoursPerDay = false;
 
-        public ContractCreationPayRatesTableViewSource(ContractCreationPayRatesTableViewController parentController, ContractCreationViewModel model)
+        public ContractCreationPayRatesTableViewSource(ContractCreationPayRatesTableViewController parentController, ContractCreationViewModel model, ContractRateSupportViewModel supportModel )
         {
             _parentController = parentController;
             _contractModel = model;
+            _supportModel = supportModel;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -69,7 +71,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
 
-            cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndexAtIndex((int)indexPath.Section));
+            cell.UpdateCell("Rate Type", _supportModel.RateTypeOptions, _contractModel.RateTypeSelectedIndexAtIndex((int)indexPath.Section));
             cell.OnValueChanged += delegate(string newValue)
             {
                 _contractModel.SetRateTypeAtIndex(newValue, (int)indexPath.Section);
@@ -95,7 +97,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Rate Description", _contractModel.RateDescriptionOptions, _contractModel.RateDescriptionSelectedIndexAtIndex((int)indexPath.Section));
+            cell.UpdateCell("Rate Description", _supportModel.RateDescriptionOptions, _contractModel.RateDescriptionSelectedIndexAtIndex((int)indexPath.Section));
             cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateDescriptionAtIndex( newValue, (int)indexPath.Section); };
 
             return cell;
@@ -155,7 +157,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Primary Rate", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.IsPrimaryRateAtIndex((int)indexPath.Section)));
+            cell.UpdateCell("Primary Rate", _contractModel.IsPrimaryRateAtIndex((int)indexPath.Section));
             cell.OnValueChanged += delegate(string newValue)
             {
                 if (newValue == "Yes")  _contractModel.SetPrimaryRateForIndex((int)indexPath.Section);

@@ -13,12 +13,14 @@ namespace AccountExecutiveApp.iOS
     {
         public ContractCreationViewModel ViewModel;
         private ContractCreationPayRatesTableViewSource _tableSource;
+        private readonly ContractRateSupportViewModel _supportModel;
         private SubtitleHeaderView _subtitleHeaderView;
         private string Subtitle;
 
         public ContractCreationPayRatesTableViewController(IntPtr handle)
             : base(handle)
         {
+            _supportModel = DependencyResolver.Current.Resolve<ContractRateSupportViewModel>();
             //ViewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
         }
 
@@ -47,7 +49,7 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-            _tableSource = new ContractCreationPayRatesTableViewSource(this, ViewModel);
+            _tableSource = new ContractCreationPayRatesTableViewSource(this, ViewModel, _supportModel);
             TableView.Source = _tableSource;
             TableView.AllowsSelection = false;
             TableView.SeparatorColor = UIColor.Clear;

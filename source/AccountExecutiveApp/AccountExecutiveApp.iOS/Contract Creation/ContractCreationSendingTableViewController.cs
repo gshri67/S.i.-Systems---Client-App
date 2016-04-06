@@ -12,6 +12,7 @@ namespace AccountExecutiveApp.iOS
     public partial class ContractCreationSendingTableViewController : UITableViewController
     {
         public ContractCreationViewModel ViewModel;
+        private ContractSendingSupportViewModel _supportModel;
         private ContractCreationSendingTableViewSource _tableSource;
         private SubtitleHeaderView _subtitleHeaderView;
         private string Subtitle;
@@ -19,6 +20,7 @@ namespace AccountExecutiveApp.iOS
         public ContractCreationSendingTableViewController(IntPtr handle)
             : base(handle)
         {
+            _supportModel = DependencyResolver.Current.Resolve<ContractSendingSupportViewModel>();
             //ViewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
         }
 
@@ -50,7 +52,7 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(MultiSelectDescriptionCell), MultiSelectDescriptionCell.CellIdentifier);
             
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-            _tableSource = new ContractCreationSendingTableViewSource(this, ViewModel);
+            _tableSource = new ContractCreationSendingTableViewSource(this, ViewModel, _supportModel);
             TableView.Source = _tableSource;
             //TableView.AllowsSelection = false;
             TableView.SeparatorColor = UIColor.Clear;
