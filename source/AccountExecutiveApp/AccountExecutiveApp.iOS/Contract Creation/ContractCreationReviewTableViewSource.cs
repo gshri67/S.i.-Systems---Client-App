@@ -387,49 +387,41 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetTimeFactorCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Time Factor", _contractModel.TimeFactorOptions, _contractModel.TimeFactorSelectedIndex);
-           
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Time Factor", _contractModel.TimeFactor);
+            
             return cell;
         }
 
         private UITableViewCell GetDaysCancellationCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Days Cancellation", _contractModel.DaysCancellationOptions,
-                _contractModel.DaysCancellationSelectedIndex);
-        
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Days Cancellation", _contractModel.DaysCancellation.ToString());
+
             return cell;
         }
 
         private UITableViewCell GetLimitationExpenseCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation Expense", _contractModel.LimitationExpenseOptions,
-                _contractModel.LimitationExpenseSelectedIndex);
-      
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Limitation Expense", _contractModel.LimitationExpense);
+
             return cell;
         }
 
         private UITableViewCell GetLimitationOfContractCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractTypeOptions,
-                _contractModel.LimitationOfContractTypeSelectedIndex);
-    
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractType);
+
             return cell;
         }
 
         private UITableViewCell GetPaymentPlanCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Payment Plan", _contractModel.PaymentPlanOptions, _contractModel.PaymentPlanSelectedIndex);
- 
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Payment Plan", _contractModel.PaymentPlan);
+
             return cell;
         }
 
@@ -464,28 +456,24 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetInvoiceFrequencyCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Frequency", _contractModel.InvoiceFrequencyOptions,
-                _contractModel.InvoiceFrequencySelectedIndex);
-          
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Invoice Frequency", _contractModel.InvoiceFrequency);
+
             return cell;
         }
 
         private UITableViewCell GetInvoiceFormatCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Format", _contractModel.InvoiceFormatOptions,
-                _contractModel.InvoiceFormatSelectedIndex);
-    
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Invoice Format", _contractModel.InvoiceFormat);
+
             return cell;
         }
 
         private UITableViewCell GetProjectCodesCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Project/PO codes required", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.UsingProjectCode));
+            cell.UpdateCell("Project/PO codes required", _contractModel.UsingProjectCode);
       
             return cell;
         }
@@ -493,7 +481,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetQuickPayCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Quick Pay", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.UsingQuickPay));
+            cell.UpdateCell("Quick Pay", _contractModel.UsingQuickPay);
         
             return cell;
         }

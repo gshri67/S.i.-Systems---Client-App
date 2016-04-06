@@ -74,8 +74,6 @@ namespace AccountExecutiveApp.Core.ViewModel
                                                 set { Contract.TimeFactor = value; }}
         public int DaysCancellation {           get { return Contract.DaysCancellation; }
                                                 set { Contract.DaysCancellation = value; }}
-        public List<string> DaysCancellationOptions { get { return new List<string>(new string[] { "5", "10", "15" }); } }
-        public int DaysCancellationSelectedIndex { get { return IndexSelectionFromOptions(DaysCancellationOptions, DaysCancellation.ToString()); } }
 
         public string LimitationExpense {       get { return Contract.LimitationExpense; }
                                                 set { Contract.LimitationExpense = value; }}
@@ -368,20 +366,6 @@ namespace AccountExecutiveApp.Core.ViewModel
         }
 
         //First Page
-
-        public List<string> TimeFactorOptions { get { return new List<string>(new string[] { "Full Time", "Half Time", "Part Time" }); } }
-        public int TimeFactorSelectedIndex { get { return IndexSelectionFromOptions(TimeFactorOptions, TimeFactor); } }
-
-        public List<string> LimitationExpenseOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
-        public int LimitationExpenseSelectedIndex { get { return IndexSelectionFromOptions(LimitationExpenseOptions, LimitationExpense); } }
-
-        public List<string> LimitationOfContractTypeOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
-        public int LimitationOfContractTypeSelectedIndex { get { return IndexSelectionFromOptions(LimitationOfContractTypeOptions, LimitationOfContractType); } }
-
-        public List<string> PaymentPlanOptions { get { return new List<string>(new string[] { "Monthly Standard Last Business Day", "half-time", "part-time" }); } }
-        public int PaymentPlanSelectedIndex { get { return IndexSelectionFromOptions(PaymentPlanOptions, PaymentPlan); } }
-
-
         private List<UserContact> AccountExecutiveOptions
         {
             get
@@ -474,11 +458,6 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return ComissionAssignedOptions.Select(c => c.FullName).ToList(); }
         }
 
-        public List<string> InvoiceFrequencyOptions { get { return new List<string>(new string[] { "Monthly", "Semi Monthly", "Weekly Invoicing" }); } }
-        public int InvoiceFrequencySelectedIndex { get { return IndexSelectionFromOptions(InvoiceFrequencyOptions, InvoiceFrequency); } }
-
-        public List<string> InvoiceFormatOptions { get { return new List<string>(new string[] { "1 invoice per contract" }); } }
-        public int InvoiceFormatSelectedIndex { get { return IndexSelectionFromOptions(InvoiceFormatOptions, InvoiceFormat); } }
 
         //Pay Rates
         public List<string> RateTypeOptions { get { return new List<string>(new string[] { "Per hour", "Per day" }); } }

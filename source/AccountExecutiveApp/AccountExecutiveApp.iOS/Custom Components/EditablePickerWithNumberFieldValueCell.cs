@@ -232,7 +232,16 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.Width, NSLayoutRelation.LessThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 80f));
         }
 
+        public void UpdateCell(string mainText, List<string> newMidValues, string midSelectedValue, string rightDetailText)
+        {
+            int newMidSelectedIndex = IndexSelectionFromOptions(newMidValues, midSelectedValue);
+            Update(mainText, newMidValues, newMidSelectedIndex, rightDetailText);
+        }
         public void UpdateCell(string mainText, List<string> newMidValues, int newMidSelectedIndex, string rightDetailText)
+		{
+			Update(mainText, newMidValues, newMidSelectedIndex, rightDetailText);
+		}
+        private void Update(string mainText, List<string> newMidValues, int newMidSelectedIndex, string rightDetailText)
 		{
 			MainTextLabel.Text = mainText;
             MidDetailTextField.Text = newMidValues[newMidSelectedIndex];
@@ -250,5 +259,13 @@ namespace AccountExecutiveApp.iOS
 				_midPickerModel.scrollToItemIndex( _midPicker, newMidSelectedIndex, 0);
 			}
 		}
+
+        private int IndexSelectionFromOptions(List<string> options, string value)
+        {
+            if (options != null && options.Contains(value))
+                return options.FindIndex((string option) => { return option == value; });
+
+            return 0;
+        }
 	}
 }

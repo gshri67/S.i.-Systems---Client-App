@@ -273,7 +273,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation Expense", _contractModel.LimitationExpenseOptions,
+            cell.UpdateCell("Limitation Expense", _supportModel.LimitationExpenseOptions,
                 _contractModel.LimitationExpense);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationExpense = newValue; };
 
@@ -283,8 +283,8 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetLimitationOfContractCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerWithNumberFieldValueCell cell = (EditablePickerWithNumberFieldValueCell)tableView.DequeueReusableCell(EditablePickerWithNumberFieldValueCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractTypeOptions,
-                _contractModel.LimitationOfContractTypeSelectedIndex,
+            cell.UpdateCell("Limitation of Contract", _supportModel.LimitationOfContractTypeOptions,
+                _contractModel.LimitationOfContractType,
                _contractModel.LimitationOfContractValue.ToString());
 
             cell.OnMidValueChanged += delegate(string newValue)
@@ -327,7 +327,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("GM Assigned", _supportModel.GMAssignedOptionDescriptions, _contractModel.GMAssignedIndex);
+            cell.UpdateCell("GM Assigned", _supportModel.GMAssignedOptionDescriptions, _contractModel.GMAssigned.FullName);
             return cell;
         }
 
@@ -336,7 +336,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Comission Assigned", _supportModel.ComissionAssignedOptionDescriptions,
-                _contractModel.ComissionAssignedIndex);
+                _contractModel.ComissionAssigned.FullName);
             return cell;
         }
 
@@ -344,8 +344,8 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Frequency", _contractModel.InvoiceFrequencyOptions,
-                _contractModel.InvoiceFrequencySelectedIndex);
+            cell.UpdateCell("Invoice Frequency", _supportModel.InvoiceFrequencyOptions,
+                _contractModel.InvoiceFrequency);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFrequency = newValue; };
 
             return cell;
@@ -355,8 +355,8 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Format", _contractModel.InvoiceFormatOptions,
-                _contractModel.InvoiceFormatSelectedIndex);
+            cell.UpdateCell("Invoice Format", _supportModel.InvoiceFormatOptions,
+                _contractModel.InvoiceFormat);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFormat = newValue; };
 
             return cell;
@@ -365,7 +365,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetProjectCodesCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Project/PO codes required", _contractModel.BooleanOptions, _contractModel.BooleanOptionIndex(_contractModel.UsingProjectCode));
+            cell.UpdateCell("Project/PO codes required", _contractModel.UsingProjectCode);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.UsingProjectCode = (newValue == "Yes"); };
 
             return cell;
