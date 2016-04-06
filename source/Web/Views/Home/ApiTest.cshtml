@@ -283,6 +283,7 @@
                     <input id="contractSupportId" type="text" class="form-control" placeholder="" disabled/>
                     <div class="input-group-btn">
                         <button id="contractSupportButton" type="button" class="btn btn-primary">Get Initial Page Options</button>
+                        <button id="ratesSupportButton" type="button" class="btn btn-primary">Get Rates Options</button>
                     </div>
                 </div>
                 <div id="contractSupportResults" class="code json well">
@@ -742,6 +743,27 @@
 
 
                     }).fail(function (err) { showError(err, 'contractSupportResults') });
+                },
+                ratesSupport: function () {
+                    $('#contractSupportResults').html('Sending...');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/ContractCreationSupport/RatesFormOptions',
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#contractSupportResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'contractSupportResults') });
                 }
             };
 
@@ -767,6 +789,7 @@
             $('#userContactButton').click(page.getUserContact);
             $('#aeSearchButton').click(page.aeSearch);
             $('#contractSupportButton').click(page.contractSupport);
+            $('#ratesSupportButton').click(page.ratesSupport);
 
             $('#username, #password').on('keydown', function (e) {
                 if (e.keyCode === 13) {

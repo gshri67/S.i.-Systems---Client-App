@@ -28,5 +28,12 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             var options = _contractCreationSupportService.GetContractOptionsForMainForm();
             return Request.CreateResponse(HttpStatusCode.OK, options);
         }
+
+        [Route("RatesFormOptions")]
+        public HttpResponseMessage GetRateOptions()
+        {
+            var options = _contractCreationSupportService.GetContractOptionsForRates();
+            return Request.CreateResponse(HttpStatusCode.OK, options);
+        }
     }
 }

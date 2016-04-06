@@ -15,6 +15,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<string> ContractLimitationOptions();
         IEnumerable<string> ContractPaymentPlans();
         IEnumerable<string> CandidatePaymentPlans();
+        IEnumerable<string> RateTermTypes();
     }
 
     public class PickListValuesRepository : IPickListValuesRepository
@@ -62,6 +63,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             return GetPickListDisplayTitlesForType("CandidatePaymentType");
         }
+
+        public IEnumerable<string> RateTermTypes()
+        {
+            return GetPickListDisplayTitlesForType("RateTermType");
+        }
     }
 
     public class MockPickListValuesRepository : IPickListValuesRepository
@@ -89,6 +95,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public IEnumerable<string> CandidatePaymentPlans()
         {
             return new List<string> {"Incorporated", "Sole-proprietorship", "Term"};
+        }
+
+        public IEnumerable<string> RateTermTypes()
+        {
+            return new List<string> {"Per Day", "Per Hour"};
         }
     }
 }

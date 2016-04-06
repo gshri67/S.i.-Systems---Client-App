@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive;
 using SiSystems.ConsultantApp.Web.Domain.Repositories;
 using SiSystems.SharedModels;
+using SiSystems.SharedModels.Contract_Creation;
 using SiSystems.Web.Domain.Context;
 
 namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
@@ -50,6 +51,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return _pickListValuesRepository.ContractPaymentPlans();
         }
 
+        private IEnumerable<string> RateTermTypes()
+        {
+            return _pickListValuesRepository.RateTermTypes();
+        }
+
         public ContractCreationOptions GetContractOptionsForMainForm()
         {
             return new ContractCreationOptions
@@ -59,6 +65,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 InvoiceFrequencyOptions = InvoiceFrequencies(),
                 LimitationOfContractTypeOptions = ContractLimitaionTypes(),
                 PaymentPlan = ContractPaymentPlans()
+            };
+        }
+
+        public RateOptions GetContractOptionsForRates()
+        {
+            return new RateOptions
+            {
+                RateTypes = RateTermTypes()
             };
         }
     }
