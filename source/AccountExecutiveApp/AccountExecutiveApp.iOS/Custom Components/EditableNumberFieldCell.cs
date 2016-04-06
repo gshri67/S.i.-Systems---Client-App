@@ -83,7 +83,7 @@ namespace AccountExecutiveApp.iOS
 
             RightDetailTextField.EditingDidBegin += delegate
             {
-                RightDetailTextField.EditingDidBegin += delegate { this.BeginInvokeOnMainThread(SelectRightDetailTextFieldForEdit); };
+                this.BeginInvokeOnMainThread(SelectRightDetailTextFieldForEdit);
 
                 try
                 {

@@ -190,6 +190,10 @@
     <Compile Include="Custom Components\EditableDatePickerCell.designer.cs">
       <DependentUpon>EditableDatePickerCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Custom Components\EditablePickerWithNumberFieldValueCell.cs" />
+    <Compile Include="Custom Components\EditablePickerWithNumberFieldValueCell.designer.cs">
+      <DependentUpon>EditablePickerWithNumberFieldValueCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Custom Components\EditableNumberFieldCell.cs" />
     <Compile Include="Custom Components\EditableNumberFieldCell.designer.cs">
       <DependentUpon>EditableNumberFieldCell.cs</DependentUpon>
