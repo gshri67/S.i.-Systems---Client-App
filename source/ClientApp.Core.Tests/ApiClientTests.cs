@@ -30,8 +30,8 @@ namespace ClientApp.Core.Tests
         [Api(BaseUrl)]
         class MockApi : ApiClient
         {
-            public MockApi(ITokenStore tokenStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory)
-                : base(tokenStore, activityManager, errorSource, handlerFactory)
+            public MockApi(ITokenStore tokenStore, IDefaultStore defaultStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory)
+				: base(tokenStore, defaultStore, activityManager, errorSource, handlerFactory)
             {
             }
 
