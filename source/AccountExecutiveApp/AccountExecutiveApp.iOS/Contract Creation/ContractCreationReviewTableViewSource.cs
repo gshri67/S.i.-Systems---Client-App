@@ -485,11 +485,9 @@ namespace AccountExecutiveApp.iOS
 //Get Cells for Contract Rates
         private UITableViewCell GetRateTypeCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Rate Type", _contractModel.RateTypeAtIndex(ContractRatesSectionLocalIndex(indexPath)));
 
-            cell.UpdateCell("Rate Type", _contractModel.RateTypeOptions, _contractModel.RateTypeSelectedIndexAtIndex(ContractRatesSectionLocalIndex(indexPath)));
-   
             return cell;
         }
 
@@ -505,10 +503,9 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetRateDescriptionCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Rate Description", _contractModel.RateDescriptionOptions, _contractModel.RateDescriptionSelectedIndexAtIndex(ContractRatesSectionLocalIndex(indexPath)));
-   
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Rate Description", _contractModel.RateDescriptionAtIndex(ContractRatesSectionLocalIndex(indexPath)));
+
             return cell;
         }
 

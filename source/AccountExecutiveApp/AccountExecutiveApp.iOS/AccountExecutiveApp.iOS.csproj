@@ -152,15 +152,10 @@
     <Compile Include="Contract Creation\ContinueBar.cs" />
     <Compile Include="Contract Creation\ContractCreationDetailsHeaderView.cs" />
     <Compile Include="Contract Creation\ContractCreationPayRatesTableViewSource.cs" />
-    <Compile Include="Contract Creation\ContractCreationRateCell.cs" />
-    <Compile Include="Contract Creation\ContractCreationRateCell.designer.cs">
-      <DependentUpon>ContractCreationRateCell.cs</DependentUpon>
-    </Compile>
     <Compile Include="Contract Creation\ContractCreationPayRatesTableViewController.cs" />
     <Compile Include="Contract Creation\ContractCreationPayRatesTableViewController.designer.cs">
       <DependentUpon>ContractCreationPayRatesTableViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Contract Creation\ContractCreationRateCellTableViewSource.cs" />
     <Compile Include="Contract Creation\ContractCreationSendingTableViewController.cs" />
     <Compile Include="Contract Creation\ContractCreationSendingTableViewController.designer.cs">
       <DependentUpon>ContractCreationSendingTableViewController.cs</DependentUpon>

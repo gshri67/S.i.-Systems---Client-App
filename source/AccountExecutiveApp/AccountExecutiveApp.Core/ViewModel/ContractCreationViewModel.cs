@@ -325,14 +325,6 @@ namespace AccountExecutiveApp.Core.ViewModel
             return 1;
         }
 
-        //Pay Rates
-        public List<string> RateTypeOptions { get { return new List<string>(new string[] { "Per hour", "Per day" }); } }
-        public int RateTypeSelectedIndexAtIndex(int index) { return IndexSelectionFromOptions(RateTypeOptions, RateTypeAtIndex(index)); }
-
-        public List<string> RateDescriptionOptions { get { return new List<string>(new string[] { "Regular", "Hourly", "Daily" }); } }
-
-        public int RateDescriptionSelectedIndexAtIndex(int index) { return IndexSelectionFromOptions(RateDescriptionOptions, RateDescriptionAtIndex(index)); }
-
         //Sending
         public int IsSendingConsultantContractSelectedIndex { get { return IndexBooleanSelectionFromOptions(BooleanOptions, IsSendingConsultantContract); } }
 

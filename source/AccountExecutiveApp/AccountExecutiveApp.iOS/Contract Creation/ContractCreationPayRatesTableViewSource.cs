@@ -71,7 +71,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
 
-            cell.UpdateCell("Rate Type", _supportModel.RateTypeOptions, _contractModel.RateTypeSelectedIndexAtIndex((int)indexPath.Section));
+            cell.UpdateCell("Rate Type", _supportModel.RateTypeOptions, _contractModel.RateTypeAtIndex((int)indexPath.Section));
             cell.OnValueChanged += delegate(string newValue)
             {
                 _contractModel.SetRateTypeAtIndex(newValue, (int)indexPath.Section);
@@ -97,7 +97,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Rate Description", _supportModel.RateDescriptionOptions, _contractModel.RateDescriptionSelectedIndexAtIndex((int)indexPath.Section));
+            cell.UpdateCell("Rate Description", _supportModel.RateDescriptionOptions, _contractModel.RateDescriptionAtIndex((int)indexPath.Section));
             cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateDescriptionAtIndex( newValue, (int)indexPath.Section); };
 
             return cell;
