@@ -191,7 +191,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
 
-            cell.UpdateCell(string.Format("Send e-contract to"), _contractModel.ClientContractContactNameOptions, _contractModel.ClientContractContactName, _contractModel.IsSendingContractToClientContact);
+            cell.UpdateCell(string.Format("Send e-contract to"), _supportModel.ClientContractContactNameOptions, _contractModel.ClientContractContactName, _contractModel.IsSendingContractToClientContact);
 
             cell.OnMidValueChanged += delegate(string newValue)
             {
@@ -282,7 +282,7 @@ namespace AccountExecutiveApp.iOS
             if (IsInvoiceRecipientsCell(indexPath))
             {
                 MultiSelectTableViewController vc = new MultiSelectTableViewController();
-                vc.SetData( _contractModel.InvoiceRecipientOptions.ToList(), _contractModel.Contract.InvoiceRecipients.ToList() );//set list of options, and then currently selected list
+                vc.SetData( _supportModel.InvoiceRecipientOptions.ToList(), _contractModel.Contract.InvoiceRecipients.ToList() );//set list of options, and then currently selected list
                 vc.OnSelectionChanged = delegate(List<UserContact> selected)
                 {
                     _contractModel.Contract.InvoiceRecipients = selected.AsEnumerable();

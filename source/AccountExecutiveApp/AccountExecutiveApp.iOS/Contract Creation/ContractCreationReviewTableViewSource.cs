@@ -586,7 +586,7 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell(string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.BooleanOptions, _contractModel.IsSendingConsultantContractSelectedIndex);
+            cell.UpdateCell(string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.IsSendingConsultantContract);
 
             return cell;
         }
@@ -601,18 +601,16 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetClientContractCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell(string.Format("Send e-contract to"), _contractModel.ClientContractContactNameOptions, _contractModel.ClientContractContactNameSelectedIndex, _contractModel.BooleanOptions, _contractModel.IsSendingContractToClientContactSelectedIndex);
-
+            var cell = (EditableDoubleTextFieldCell)tableView.DequeueReusableCell(EditableDoubleTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell(string.Format("Send client e-contract to:"), _contractModel.ClientContractContactName, _contractModel.IsSendingContractToClientContact);
 
             return cell;
         }
 
         private UITableViewCell GetReasonCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Reason:", _contractModel.ReasonForNotSendingContractOptions, _contractModel.ReasonForNotSendingContractSelectedIndex);
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Reason:", _contractModel.ReasonForNotSendingContract);
 
             return cell;
         }

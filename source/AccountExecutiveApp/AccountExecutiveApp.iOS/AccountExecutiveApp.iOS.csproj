@@ -185,6 +185,10 @@
     <Compile Include="Custom Components\EditableDatePickerCell.designer.cs">
       <DependentUpon>EditableDatePickerCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Custom Components\EditableDoubleTextFieldCell.cs" />
+    <Compile Include="Custom Components\EditableDoubleTextFieldCell.designer.cs">
+      <DependentUpon>EditableDoubleTextFieldCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Custom Components\EditablePickerWithNumberFieldValueCell.cs" />
     <Compile Include="Custom Components\EditablePickerWithNumberFieldValueCell.designer.cs">
       <DependentUpon>EditablePickerWithNumberFieldValueCell.cs</DependentUpon>
