@@ -20,8 +20,8 @@ namespace Shared.Core
 
         private readonly IActivityManager _activityManager;
 
-        private readonly ITokenStore _tokenStore;
 		protected readonly IDefaultStore _defaultStore;
+        protected readonly ITokenStore _tokenStore;
 
         private readonly IErrorSource _errorSource;
 
@@ -96,7 +96,7 @@ namespace Shared.Core
                 var token = this._tokenStore.GetDeviceToken();
                 if (token != null)
                 {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                     httpClient.BaseAddress = BaseAddressForUsername(_defaultStore.Username);
                 }
 
@@ -170,8 +170,8 @@ namespace Shared.Core
                 var token = this._tokenStore.GetDeviceToken();
                 if (token != null)
                 {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
-                    httpClient.BaseAddress = BaseAddressForUsername(token.Username);
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+					httpClient.BaseAddress = BaseAddressForUsername(_defaultStore.Username);
                 }
 
                 var request = BuildRequest(caller, data);

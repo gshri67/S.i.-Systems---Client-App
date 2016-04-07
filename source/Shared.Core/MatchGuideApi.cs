@@ -16,12 +16,9 @@ namespace Shared.Core
     [Api(Settings.MatchGuideApiAddress)]
     public class MatchGuideApi : ApiClient, IMatchGuideApi
     {
-        private readonly ITokenStore _tokenStore;
-
 		public MatchGuideApi(ITokenStore tokenStore, IDefaultStore defaultStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory) 
 			: base(tokenStore, defaultStore, activityManager, errorSource, handlerFactory)
         {
-            this._tokenStore = tokenStore;
         }
 
         [HttpPost("login")]
@@ -45,7 +42,7 @@ namespace Shared.Core
                 if (response.IsSuccessStatusCode)
                 {
                     var token = JsonConvert.DeserializeObject<OAuthToken>(json);
-                    _tokenStore.SaveToken(token);
+					_tokenStore.SaveToken(username, token.AccessToken);
 
 //                    Insights.Identify(token.Username, new Dictionary<string, string>
 //                    {
