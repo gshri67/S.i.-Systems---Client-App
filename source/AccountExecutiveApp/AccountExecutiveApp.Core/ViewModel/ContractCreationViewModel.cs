@@ -258,10 +258,6 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             Contract.ClientContact = contact;
         }
-        public UserContact GetClientContactWithName(string name)
-        {
-            return ClientContactOptions.FirstOrDefault(c => c.FullName == name);
-        }
 
         public string DirectReportName
         {
@@ -469,19 +465,6 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         //Sending
         public int IsSendingConsultantContractSelectedIndex { get { return IndexBooleanSelectionFromOptions(BooleanOptions, IsSendingConsultantContract); } }
-
-        public List<UserContact> ClientContactOptions
-        {
-            get
-            {
-                UserContact contact1 = new UserContact{ FirstName = "Candice", LastName = "Consulty"};
-                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu" };
-                return new List<UserContact>(new UserContact[] { contact1, contact2 });
-            }
-        }
-        public List<string> ClientContactNameOptions { get { return ClientContactOptions.Select(c => c.FullName).ToList(); } }
-
-        public int ClientContactNameSelectedIndex { get { return IndexSelectionFromOptions(ClientContactNameOptions, ClientContactName); } }
 
         public List<UserContact> DirectReportOptions
         {

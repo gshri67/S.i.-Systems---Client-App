@@ -210,7 +210,17 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.Width, NSLayoutRelation.GreaterThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 40f));
         }
 
-        public void UpdateCell(string mainText, List<string> newMidValues, int newMidSelectedIndex, List<string> newRightValues, int newRightSelectedIndex)
+        public void UpdateCell(string mainText, List<string> newMidValues, string newMidSelectedValue,
+            bool newRightSelectedValue)
+        {
+            UpdateCell(mainText, newMidValues, IndexSelectionFromOptions(newMidValues, newMidSelectedValue), BooleanOptions, IndexBooleanSelectionFromOptions(BooleanOptions, newRightSelectedValue));
+        }
+	    public void UpdateCell(string mainText, List<string> newMidValues,string newMidSelectedValue,
+	        List<string> newRightValues, string newRightSelectedValue)
+	    {
+            UpdateCell( mainText, newMidValues, IndexSelectionFromOptions(newMidValues, newMidSelectedValue), newRightValues, IndexSelectionFromOptions(newRightValues, newRightSelectedValue) );
+	    }
+	    public void UpdateCell(string mainText, List<string> newMidValues, int newMidSelectedIndex, List<string> newRightValues, int newRightSelectedIndex)
 		{
 			MainTextLabel.Text = mainText;
 			RightDetailTextField.Text = newRightValues[newRightSelectedIndex];
@@ -242,5 +252,34 @@ namespace AccountExecutiveApp.iOS
                 _rightPickerModel.scrollToItemIndex(_rightPicker, newRightSelectedIndex, 0);
             }
 		}
+
+        private int IndexSelectionFromOptions(List<string> options, string value)
+        {
+            if (options != null && options.Contains(value))
+                return options.FindIndex((string option) => { return option == value; });
+
+            return 0;
+        }
+        private int IndexBooleanSelectionFromOptions(List<string> options, bool booleanValue)
+        {
+            string value = BooleanOptions[0];
+
+            if (booleanValue == false)
+                value = BooleanOptions[1];
+
+            if (options != null && options.Contains(value))
+                return options.FindIndex((string option) => { return option == value; });
+
+            return 0;
+        }
+
+        public List<string> BooleanOptions { get { return new List<string>(new string[] { "Yes", "No" }); } }
+
+        public int BooleanOptionIndex(bool value)
+        {
+            if (value == true)
+                return 0;
+            return 1;
+        }
 	}
 }

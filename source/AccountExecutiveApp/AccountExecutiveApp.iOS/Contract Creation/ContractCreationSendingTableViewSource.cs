@@ -152,7 +152,7 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Client Contact", _supportModel.ClientContactNameOptions, _contractModel.ClientContactName);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetClientContact(_contractModel.GetClientContactWithName(newValue)); };
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetClientContact(_supportModel.GetClientContactWithName(newValue)); };
 
             return cell;
         }
@@ -190,7 +190,8 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetClientContractCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell(string.Format("Send e-contract to"), _contractModel.ClientContractContactNameOptions, _contractModel.ClientContractContactNameSelectedIndex, _contractModel.BooleanOptions, _contractModel.IsSendingContractToClientContactSelectedIndex);
+
+            cell.UpdateCell(string.Format("Send e-contract to"), _contractModel.ClientContractContactNameOptions, _contractModel.ClientContractContactName, _contractModel.IsSendingContractToClientContact);
 
             cell.OnMidValueChanged += delegate(string newValue)
             {

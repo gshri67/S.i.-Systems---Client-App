@@ -557,10 +557,9 @@ namespace AccountExecutiveApp.iOS
 //Get Sending Page cells
         private UITableViewCell GetClientContactCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Client Contact", _contractModel.ClientContactNameOptions, _contractModel.ClientContactNameSelectedIndex);
-     
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Client Contact", _contractModel.ClientContactName);
+
             return cell;
         }
 

@@ -38,6 +38,11 @@ namespace AccountExecutiveApp.Core.ViewModel
         }
         public List<string> ClientContactNameOptions { get { return ClientContactOptions.Select(c => c.FullName).ToList(); } }
 
+        public UserContact GetClientContactWithName(string name)
+        {
+            return ClientContactOptions.FirstOrDefault(c => c.FullName == name);
+        }
+
        // public int ClientContactNameSelectedIndex { get { return IndexSelectionFromOptions(ClientContactNameOptions, ClientContactName); } }
 
         public List<UserContact> DirectReportOptions
