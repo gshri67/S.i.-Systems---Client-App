@@ -21,18 +21,19 @@ namespace Shared.Core
         private readonly IActivityManager _activityManager;
 
         private readonly ITokenStore _tokenStore;
+		protected readonly IDefaultStore _defaultStore;
 
         private readonly IErrorSource _errorSource;
 
         public readonly Uri BaseAddress;
         public readonly Uri DemoBaseAddress;
-        public string Username;
 
         public TimeSpan Timeout = TimeSpan.FromSeconds(100);
 
-        public ApiClient(ITokenStore tokenStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory)
+        public ApiClient(ITokenStore tokenStore, IDefaultStore defaultStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory)
         {
             this._tokenStore = tokenStore;
+			this._defaultStore = defaultStore;
             this._handler = handlerFactory.Get();
             this._activityManager = activityManager;
             this._errorSource = errorSource;
@@ -88,7 +89,7 @@ namespace Shared.Core
 
                 var httpClient = new HttpClient(this._handler)
                 {
-                    BaseAddress = BaseAddressForUsername(this.Username),
+					BaseAddress = BaseAddressForUsername(_defaultStore.Username),
                     Timeout = this.Timeout
                 };
 
@@ -96,7 +97,7 @@ namespace Shared.Core
                 if (token != null)
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
-                    httpClient.BaseAddress = BaseAddressForUsername(token.Username);
+                    httpClient.BaseAddress = BaseAddressForUsername(_defaultStore.Username);
                 }
 
                 var request = BuildRequest(caller, data);
@@ -162,7 +163,7 @@ namespace Shared.Core
 
                 var httpClient = new HttpClient(this._handler)
                 {
-                    BaseAddress = BaseAddressForUsername(this.Username),
+					BaseAddress = BaseAddressForUsername(_defaultStore.Username),
                     Timeout = this.Timeout
                 };
 
