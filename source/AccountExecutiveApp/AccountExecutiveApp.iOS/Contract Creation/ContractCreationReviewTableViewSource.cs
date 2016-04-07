@@ -427,30 +427,25 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetAccountExecutiveCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            List<UserContact> accountExecutives =
-                new List<UserContact>(new UserContact[] { new UserContact(), new UserContact(), new UserContact() });
-            cell.UpdateCell("Account Executive", _contractModel.AccountExecutiveOptionDescriptions,
-                _contractModel.AccountExecutiveIndex);
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Account Executive", _contractModel.AccountExecutive.FullName);
 
             return cell;
         }
 
         private UITableViewCell GetGMAssignedCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("GM Assigned", _contractModel.GMAssignedOptionDescriptions, _contractModel.GMAssignedIndex);
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("GM Assigned", _contractModel.GMAssigned.FullName);
+
             return cell;
         }
 
         private UITableViewCell GetCommisionAssignedCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Comission Assigned", _contractModel.ComissionAssignedOptionDescriptions,
-                _contractModel.ComissionAssignedIndex);
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Comission Assigned", _contractModel.ComissionAssigned.FullName);
+
             return cell;
         }
 
@@ -565,19 +560,16 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetDirectReportCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Direct Report", _contractModel.DirectReportNameOptions, _contractModel.DirectReportNameSelectedIndex);
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Direct Report", _contractModel.DirectReportName);
 
             return cell;
         }
 
         private UITableViewCell GetBillingContactCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Billing Contact", _contractModel.BillingContactNameOptions, _contractModel.BillingContactNameSelectedIndex);
-
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Billing Contact", _contractModel.BillingContactName);
 
             return cell;
         }

@@ -71,6 +71,11 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return AccountExecutiveOptions.Select(c => c.FullName).ToList(); }
         }
 
+        public UserContact GetAccountExecutiveWithName(string name)
+        {
+            return AccountExecutiveOptions.FirstOrDefault(c => c.FullName == name);
+        }
+
         private List<UserContact> GMAssignedOptions
         {
             get
@@ -102,6 +107,11 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return GMAssignedOptions.Select(c => c.FullName).ToList(); }
         }
 
+        public UserContact GetGMAssignedWithName(string name)
+        {
+            return GMAssignedOptions.FirstOrDefault(c => c.FullName == name);
+        }
+
         private List<UserContact> ComissionAssignedOptions
         {
             get
@@ -131,6 +141,11 @@ namespace AccountExecutiveApp.Core.ViewModel
         public List<string> ComissionAssignedOptionDescriptions
         {
             get { return ComissionAssignedOptions.Select(c => c.FullName).ToList(); }
+        }
+
+        public UserContact GetComissionAssignedWithName(string name)
+        {
+            return ComissionAssignedOptions.FirstOrDefault(c => c.FullName == name);
         }
 
         public List<string> InvoiceFrequencyOptions { get { return new List<string>(new string[] { "Monthly", "Semi Monthly", "Weekly Invoicing" }); } }

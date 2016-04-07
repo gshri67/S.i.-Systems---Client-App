@@ -43,8 +43,6 @@ namespace AccountExecutiveApp.Core.ViewModel
             return ClientContactOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-       // public int ClientContactNameSelectedIndex { get { return IndexSelectionFromOptions(ClientContactNameOptions, ClientContactName); } }
-
         public List<UserContact> DirectReportOptions
         {
             get
@@ -55,7 +53,11 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
         public List<string> DirectReportNameOptions { get { return DirectReportOptions.Select(c => c.FullName).ToList(); } }
-        //public int DirectReportNameSelectedIndex { get { return IndexSelectionFromOptions(DirectReportNameOptions, DirectReportName); } }
+
+        public UserContact GetDirectReportWithName(string name)
+        {
+            return DirectReportOptions.FirstOrDefault(c => c.FullName == name);
+        }
 
         public List<UserContact> BillingContactOptions
         {
@@ -67,7 +69,11 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
         public List<string> BillingContactNameOptions { get { return BillingContactOptions.Select(c => c.FullName).ToList(); } }
-        //public int BillingContactNameSelectedIndex { get { return IndexSelectionFromOptions(BillingContactNameOptions, BillingContactName); } }
+
+        public UserContact GetBillingContactWithName(string name)
+        {
+            return BillingContactOptions.FirstOrDefault(c => c.FullName == name);
+        }
 
         public List<UserContact> ClientContractContactOptions
         {
@@ -79,7 +85,11 @@ namespace AccountExecutiveApp.Core.ViewModel
             }
         }
         public List<string> ClientContractContactNameOptions { get { return ClientContractContactOptions.Select(c => c.FullName).ToList(); } }
-        //public int ClientContractContactNameSelectedIndex { get { return IndexSelectionFromOptions(ClientContractContactNameOptions, ClientContractContactName); } }
+
+        public UserContact GetClientContractContactWithName(string name)
+        {
+            return ClientContractContactOptions.FirstOrDefault(c => c.FullName == name);
+        }
 
         public List<UserContact> InvoiceRecipientOptions
         {
@@ -94,6 +104,10 @@ namespace AccountExecutiveApp.Core.ViewModel
         public string[] InvoiceRecipientOptionNames
         {
             get { return InvoiceRecipientOptions.Select(c => c.FullName).ToArray<string>(); }
+        }
+        public UserContact GetInvoiceRecipientWithName(string name)
+        {
+            return InvoiceRecipientOptions.FirstOrDefault(c => c.FullName == name);
         }
 
         public List<string> ReasonForNotSendingContractOptions { get { return new List<string>(new string[] { "Client has a master agreement(MSA, VMS, etc.)", "Client has provided their own contract", "Other" }); } }

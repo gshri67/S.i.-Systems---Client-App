@@ -289,7 +289,7 @@ namespace AccountExecutiveApp.iOS
 
             cell.OnMidValueChanged += delegate(string newValue)
             {
-                _contractModel.SetClientContractContact(_contractModel.GetClientContractContactWithName(newValue));
+                _contractModel.LimitationOfContractType = newValue;
             };
 
             cell.OnRightValueChanged += delegate(float newValue)
@@ -317,8 +317,11 @@ namespace AccountExecutiveApp.iOS
             List<UserContact> accountExecutives =
                 new List<UserContact>(new UserContact[] {new UserContact(), new UserContact(), new UserContact()});
             cell.UpdateCell("Account Executive", _supportModel.AccountExecutiveOptionDescriptions,
-                _contractModel.AccountExecutiveIndex);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetAccountExecutiveWithName(newValue); };
+                _contractModel.AccountExecutive.FullName);
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.AccountExecutive = _supportModel.GetAccountExecutiveWithName(newValue);
+            };
 
             return cell;
         }
