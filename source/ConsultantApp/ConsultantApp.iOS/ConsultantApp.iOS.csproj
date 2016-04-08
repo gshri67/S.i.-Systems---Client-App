@@ -73,7 +73,7 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;PROD</DefineConstants>
     <BuildIpa>True</BuildIpa>
-    <IpaIncludeArtwork>True</IpaIncludeArtwork>
+    <IpaIncludeArtwork>False</IpaIncludeArtwork>
     <CodesignProvision>
     </CodesignProvision>
     <CodesignExtraArgs>
@@ -122,6 +122,15 @@
     <CodesignExtraArgs>
     </CodesignExtraArgs>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AppStore|iPhone'">
+    <BuildIpa>True</BuildIpa>
+    <IpaIncludeArtwork>False</IpaIncludeArtwork>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignProvision />
+    <CodesignEntitlements />
+    <CodesignResourceRules />
+    <CodesignExtraArgs />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ActivityManager.cs" />
