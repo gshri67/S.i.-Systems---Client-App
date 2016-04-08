@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
 using Foundation;
@@ -15,6 +16,7 @@ namespace AccountExecutiveApp.iOS
 		private ContractCreationReviewTableViewSource _tableSource;
 		private SubtitleHeaderView _subtitleHeaderView;
 		private string Subtitle;
+        private LoadingOverlay _overlay;
 
 		public ContractCreationReviewTableViewController(IntPtr handle)
 			: base(handle)
@@ -48,6 +50,7 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(EditableDoubleTextFieldCell), EditableDoubleTextFieldCell.CellIdentifier);
 			TableView.RegisterClassForCellReuse(typeof(EditableFullTextFieldCell), EditableFullTextFieldCell.CellIdentifier);
             TableView.RegisterClassForCellReuse(typeof(EmailCell), EmailCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof(MultiSelectDescriptionCell), MultiSelectDescriptionCell.CellIdentifier);
 			TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 			
 			TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
@@ -61,11 +64,15 @@ namespace AccountExecutiveApp.iOS
 
 			ContinueBar continueBar = new ContinueBar();
 			continueBar.Frame = new CGRect(0, 0, 100, 50);
+            continueBar.NextTextButton.SetTitle( "Submit", UIControlState.Normal );
 			continueBar.NextButton.TouchUpInside += delegate
 			{
-				//var vc = (ContractCreationPayRatesTableViewController)Storyboard.InstantiateViewController("ContractCreationPayRatesTableViewController");
-				//ShowViewController(vc, this);
+				OnSubmitButtonTapped();
 			};
+            continueBar.NextTextButton.TouchUpInside += delegate
+            {
+                OnSubmitButtonTapped();
+            };
 
 			TableView.TableFooterView = continueBar;
             TableView.ReloadData();
@@ -92,7 +99,7 @@ namespace AccountExecutiveApp.iOS
 		{
 			base.ViewDidLoad();
 
-            AddSubmitNavButton();
+            //AddSubmitNavButton();
 
 			Title = "Review Contract";
 			Subtitle = "Contract Creation";
@@ -106,8 +113,37 @@ namespace AccountExecutiveApp.iOS
 	    {
             UIBarButtonItem submitButton = new UIBarButtonItem();
 	        submitButton.Title = "Submit";
-            submitButton.Clicked += (sender, e) => { DismissViewController(true, null); };
+            submitButton.Clicked += (sender, e) => { OnSubmitButtonTapped(); };
             NavigationItem.RightBarButtonItem = submitButton;
+	    }
+
+	    private void OnSubmitButtonTapped()
+	    {
+            var finishAlertController = UIAlertController.Create("Contract Creation", "Are you sure you want to create this contract?", UIAlertControllerStyle.Alert);
+
+            //Add Actions
+            finishAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, alert => 
+	        {
+                StartContractSubmission();
+	        }
+	        ));
+            finishAlertController.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, alert => Console.WriteLine("Cancel was clicked")));
+
+            //Present Alert
+            PresentViewController(finishAlertController, true, null);
+	    }
+
+	    private void StartContractSubmission()
+	    {
+            IndicateLoading();
+
+	        var task = ViewModel.SubmitContract();
+	        task.ContinueWith(_ => InvokeOnMainThread(EndContractSubmission), TaskContinuationOptions.OnlyOnRanToCompletion);  
+	    }
+	    private void EndContractSubmission()
+	    {
+            RemoveOverlay();
+            DismissViewController(true, null);
 	    }
 
 	    public override void ViewDidAppear(bool animated)
@@ -130,6 +166,30 @@ namespace AccountExecutiveApp.iOS
 					NavigationItem.Title = "";
 				});
 		}
+
+
+        #region Overlay
+
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+                var frame = new CGRect(TableView.Frame.X, TableView.Frame.Y, TableView.Frame.Width, TableView.Frame.Height);
+                _overlay = new LoadingOverlay(frame, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }
 

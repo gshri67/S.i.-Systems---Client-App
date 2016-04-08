@@ -573,10 +573,9 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetInvoiceRecipientsCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditableTextFieldCell cell =
-                (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Invoice Recipients", _contractModel.InvoiceRecipientNameAtIndex(0));
+            var cell = (MultiSelectDescriptionCell)tableView.DequeueReusableCell(MultiSelectDescriptionCell.CellIdentifier, indexPath);
 
+            cell.UpdateCell("Invoice Recipients", _contractModel.Contract.InvoiceRecipients.Select(c => c.FullName).ToList());
 
             return cell;
         }

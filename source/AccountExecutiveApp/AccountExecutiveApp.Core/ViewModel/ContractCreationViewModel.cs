@@ -407,5 +407,10 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             //ContractCreationDetails_Rate rateDetails = await _api.GetContractCreationPayRatePageDetails(JobId, CandidateId);
         }
+
+        public async Task SubmitContract()
+        {
+
+        }
     }
 }
