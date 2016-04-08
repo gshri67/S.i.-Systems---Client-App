@@ -35,11 +35,11 @@ namespace AccountExecutiveApp.Core.ViewModel
         }
 
 
-        public List<string> TimeFactorOptions { get { return new List<string>(new string[] { "Full Time", "Half Time", "Part Time" }); } }
-        public List<string> LimitationExpenseOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
-        public List<string> LimitationOfContractTypeOptions { get { return new List<string>(new string[] { "Regular", "half-time", "part-time" }); } }
-        public List<string> PaymentPlanOptions { get { return new List<string>(new string[] { "Monthly Standard Last Business Day", "half-time", "part-time" }); } }
-        public List<string> DaysCancellationOptions { get { return new List<string>(new string[] { "5", "10", "15" }); } }
+        public List<string> TimeFactorOptions { get { return ContractOptions.TimeFactorOptions.ToList(); } }
+        public List<string> LimitationExpenseOptions { get { return ContractOptions.LimitationExpenseOptions.ToList(); } }
+        public List<string> LimitationOfContractTypeOptions { get { return ContractOptions.LimitationOfContractTypeOptions.ToList(); } }
+        public List<string> PaymentPlanOptions { get { return ContractOptions.PaymentPlanOptions.ToList(); } }
+        public List<string> DaysCancellationOptions { get { return ContractOptions.DaysCancellationOptions.ToList(); } }
 
         private List<UserContact> AccountExecutiveOptions
         {

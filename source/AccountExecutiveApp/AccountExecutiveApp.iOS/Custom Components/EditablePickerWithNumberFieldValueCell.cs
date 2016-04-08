@@ -244,7 +244,12 @@ namespace AccountExecutiveApp.iOS
         private void Update(string mainText, List<string> newMidValues, int newMidSelectedIndex, string rightDetailText)
 		{
 			MainTextLabel.Text = mainText;
-            MidDetailTextField.Text = newMidValues[newMidSelectedIndex];
+
+            if (newMidValues != null && newMidValues.Count > 0)
+                MidDetailTextField.Text = newMidValues[newMidSelectedIndex];
+            else
+                MidDetailTextField.Text = string.Empty;
+
             RightDetailTextField.Text = rightDetailText;
 
 			MidValues = newMidValues;

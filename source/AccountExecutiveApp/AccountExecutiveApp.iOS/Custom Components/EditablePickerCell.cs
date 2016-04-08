@@ -147,13 +147,23 @@ namespace AccountExecutiveApp.iOS
 
         public void UpdateCell(string mainText, List<string> newValues, string selectedValue)
         {
-            selectedIndex = IndexSelectionFromOptions(Values, selectedValue);
-            Update(mainText, newValues, newValues[selectedIndex]);            
+            if (newValues == null || newValues.Count == 0)
+                Update(mainText, newValues, string.Empty);
+            else
+            {
+                selectedIndex = IndexSelectionFromOptions(Values, selectedValue);
+                Update(mainText, newValues, newValues[selectedIndex]);
+            }
         }
         public void UpdateCell(string mainText, List<string> newValues, int newSelectedIndex )
         {
-            selectedIndex = newSelectedIndex;
-            Update(mainText, newValues, newValues[selectedIndex]);
+            if (newValues == null || newValues.Count == 0)
+                Update(mainText, newValues, string.Empty);
+            else
+            {
+                selectedIndex = newSelectedIndex;
+                Update(mainText, newValues, newValues[selectedIndex]);
+            }
         }
         //If just using options {Yes, No}
         public void UpdateCell(string mainText, bool selectedValue)

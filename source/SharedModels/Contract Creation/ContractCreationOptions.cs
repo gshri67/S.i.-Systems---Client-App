@@ -1,30 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SiSystems.SharedModels
 {
-    public class ContractCreationOptions : IContractCreationOptions_Sending
+    public class ContractCreationOptions
     {
         //Details
         public IEnumerable<string> TimeFactorOptions { get; set; }
-        public IEnumerable<int> DaysCancellationOptions { get; set; }
+        public IEnumerable<string> DaysCancellationOptions { get; set; }
         public IEnumerable<string> LimitationExpenseOptions { get; set; }
         public IEnumerable<string> LimitationOfContractTypeOptions { get; set; }
-        public IEnumerable<string> PaymentPlan { get; set; }
+        public IEnumerable<string> PaymentPlanOptions { get; set; }
         public IEnumerable<InternalEmployee> Colleagues { get; set; }
         public IEnumerable<string> InvoiceFrequencyOptions { get; set; }
         public IEnumerable<string> InvoiceFormatOptions { get; set; }
 
+        public IEnumerable<UserContact> AccountExecutiveOptions { get; set; }
+        public IEnumerable<UserContact> GMAssignedOptions { get; set; }
+        public IEnumerable<UserContact> ComissionAssignedOptions { get; set; }
+
         //Sending
-        public List<string> ClientContactNameOptions { get; set; }
-        public List<string> DirectReportNameOptions { get; set; }
-        public List<string> BillingContactNameOptions { get; set; }
-        public List<string> ClientContractContactNameOptions { get; set; }
-        public List<string> ReasonForNotSendingContractOptions { get; set; }
+        public IEnumerable<string> ClientContactNameOptions { get; set; }
+        public IEnumerable<string> DirectReportNameOptions { get; set; }
+        public IEnumerable<string> BillingContactNameOptions { get; set; }
+        public IEnumerable<string> ClientContractContactNameOptions { get; set; }
+        public IEnumerable<string> ReasonForNotSendingContractOptions { get; set; }
 
         public ContractCreationOptions()
         {
+            TimeFactorOptions = Enumerable.Empty<string>();
+            DaysCancellationOptions = Enumerable.Empty<string>();
+            LimitationExpenseOptions = Enumerable.Empty<string>();
+            LimitationOfContractTypeOptions = Enumerable.Empty<string>();
+            PaymentPlanOptions = Enumerable.Empty<string>();
+            Colleagues = Enumerable.Empty<InternalEmployee>();
+            InvoiceFrequencyOptions = Enumerable.Empty<string>();
+            InvoiceFormatOptions = Enumerable.Empty<string>();
+            AccountExecutiveOptions = Enumerable.Empty<UserContact>();
+            GMAssignedOptions = Enumerable.Empty<UserContact>();
+            ComissionAssignedOptions = Enumerable.Empty<UserContact>();
 
+            ClientContactNameOptions = Enumerable.Empty<string>();
+            DirectReportNameOptions = Enumerable.Empty<string>();
+            BillingContactNameOptions = Enumerable.Empty<string>();
+            ClientContractContactNameOptions = Enumerable.Empty<string>();
+            ReasonForNotSendingContractOptions = Enumerable.Empty<string>();
         }
     }
 }
