@@ -2,13 +2,9 @@
 {
     public interface ITokenStore
     {
-        OAuthToken SaveToken(OAuthToken token);
+        bool SaveToken(string username, string token);
 
-        OAuthToken GetDeviceToken();
-
-        void SaveUserName(string username);
-
-        string GetUserName();
+        string GetDeviceToken();
 
         void DeleteDeviceToken();
     }

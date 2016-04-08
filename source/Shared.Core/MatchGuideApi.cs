@@ -16,12 +16,9 @@ namespace Shared.Core
     [Api(Settings.MatchGuideApiAddress)]
     public class MatchGuideApi : ApiClient, IMatchGuideApi
     {
-        private readonly ITokenStore _tokenStore;
-
-        public MatchGuideApi(ITokenStore tokenStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory) 
-            : base(tokenStore, activityManager, errorSource, handlerFactory)
+		public MatchGuideApi(ITokenStore tokenStore, IDefaultStore defaultStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory) 
+			: base(tokenStore, defaultStore, activityManager, errorSource, handlerFactory)
         {
-            this._tokenStore = tokenStore;
         }
 
         [HttpPost("login")]
@@ -29,7 +26,7 @@ namespace Shared.Core
         {
             try
             {
-                this.Username = username;
+                _defaultStore.Username = username;
 
                 var response = await ExecuteWithDefaultClient(new FormUrlEncodedContent(new Dictionary<string, string> {
                         { "username", WebUtility.HtmlEncode (username) },
@@ -45,15 +42,14 @@ namespace Shared.Core
                 if (response.IsSuccessStatusCode)
                 {
                     var token = JsonConvert.DeserializeObject<OAuthToken>(json);
-                    _tokenStore.SaveToken(token);
-                    _tokenStore.SaveUserName(token.Username);
+					_tokenStore.SaveToken(username, token.AccessToken);
 
-                    Insights.Identify(token.Username, new Dictionary<string, string>
-                    {
-                        { "Token Expires At", token.ExpiresAt },
-                        { "Token Expires In", token.ExpiresIn.ToString() },
-                        { "Token Issued At", token.IssuedAt }
-                    });
+//                    Insights.Identify(token.Username, new Dictionary<string, string>
+//                    {
+//                        { "Token Expires At", token.ExpiresAt },
+//                        { "Token Expires In", token.ExpiresIn.ToString() },
+//                        { "Token Issued At", token.IssuedAt }
+//                    });
 
                     validationResult.IsValid = true;
                 }

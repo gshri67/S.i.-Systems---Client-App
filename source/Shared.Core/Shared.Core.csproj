@@ -83,6 +83,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="TrackId.cs" />
     <Compile Include="ValidationResult.cs" />
+    <Compile Include="Platform\IDefaultStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Net.Http">

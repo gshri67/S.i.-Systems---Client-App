@@ -13,7 +13,7 @@ namespace ClientApp.iOS
     public partial class LoginViewController : UIViewController
     {
         private readonly LoginViewModel _loginModel;
-        private readonly ITokenStore _tokenStore;
+		private readonly IDefaultStore _defaultStore;
         private CGRect _defaultFrame;
         static bool UserInterfaceIdiomIsPhone
         {
@@ -68,7 +68,7 @@ namespace ClientApp.iOS
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, ShowKeyboard);
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, HideKeyboard);
 
-            var previousUsername = _tokenStore.GetUserName();
+			var previousUsername = _defaultStore.Username;
             username.Text = previousUsername;
         }
 

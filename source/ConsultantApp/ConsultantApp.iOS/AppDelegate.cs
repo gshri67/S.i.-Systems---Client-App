@@ -64,12 +64,12 @@ namespace ConsultantApp.iOS
 #if TEST
                     Console.WriteLine("App Delegate Token Exists, Launch Storyboard");
 #endif
-                    Insights.Identify(token.Username, new Dictionary<string, string>
-                    {
-                        {"Token Expires At", token.ExpiresAt},
-                        {"Token Expires In", token.ExpiresIn.ToString()},
-                        {"Token Issued At", token.IssuedAt}
-                    });
+//                    Insights.Identify(token.Username, new Dictionary<string, string>
+//                    {
+//                        {"Token Expires At", token.ExpiresAt},
+//                        {"Token Expires In", token.ExpiresIn.ToString()},
+//                        {"Token Issued At", token.IssuedAt}
+//                    });
 
                     this.Window.RootViewController =
                         UIStoryboard.FromName("MainStoryboard", NSBundle.MainBundle).InstantiateInitialViewController();

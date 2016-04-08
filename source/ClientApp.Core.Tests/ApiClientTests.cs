@@ -18,6 +18,7 @@ namespace ClientApp.Core.Tests
         const string LoginUrl = "login";
 
         private Mock<ITokenStore> _mockTokenSource;
+		private Mock<IDefaultStore> _mockDefaultSource;
         private Mock<IActivityManager> _mockActivityManager;
         private Mock<IHttpMessageHandlerFactory> _mockHttpHandlerHelper;
         private Mock<IErrorSource> _mockErrorSource;
@@ -30,8 +31,8 @@ namespace ClientApp.Core.Tests
         [Api(BaseUrl)]
         class MockApi : ApiClient
         {
-            public MockApi(ITokenStore tokenStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory)
-                : base(tokenStore, activityManager, errorSource, handlerFactory)
+            public MockApi(ITokenStore tokenStore, IDefaultStore defaultStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory)
+				: base(tokenStore, defaultStore, activityManager, errorSource, handlerFactory)
             {
             }
 
@@ -99,6 +100,7 @@ namespace ClientApp.Core.Tests
         public void SetUp()
         {
             _mockTokenSource = new Mock<ITokenStore>();
+			_mockDefaultSource = new Mock<IDefaultStore>();
             _mockActivityManager = new Mock<IActivityManager>();
             _mockHttpHandlerHelper = new Mock<IHttpMessageHandlerFactory>();
             _mockErrorSource = new Mock<IErrorSource>();
@@ -108,14 +110,14 @@ namespace ClientApp.Core.Tests
         [Test]
         public void ApiClient_ShouldGetBaseAddressFromType()
         {
-            var _sut = new MockApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             Assert.AreEqual(BaseUrl, _sut.BaseAddress.AbsoluteUri);
         }
 
         [Test]
         public async void Authorize_ShouldStartAndStopActivity_WhenFailure()
         {
-            var _sut = new MockApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.FailedLogin();
 
             _mockActivityManager.Verify(service => service.StartActivity(), Times.Once);
@@ -127,7 +129,7 @@ namespace ClientApp.Core.Tests
         {
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
-            var _sut = new MockApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = await _sut.GetMyTestType();
 
             _mockActivityManager.Verify(service => service.StartActivity(), Times.Once);
@@ -139,7 +141,7 @@ namespace ClientApp.Core.Tests
         {
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
-            var _sut = new MockApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.PostMyTestType(new MyTestType());
 
             _mockActivityManager.Verify(service => service.StartActivity(), Times.Once);
@@ -151,7 +153,7 @@ namespace ClientApp.Core.Tests
         {
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
-            var _sut = new MockApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.PostMyTestTypeWithStringData("my_data");
         }
 
@@ -160,7 +162,7 @@ namespace ClientApp.Core.Tests
         {
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
-            var _sut = new MockApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.PostMyTestType(new MyTestType { Description = "My Description" });
         }
 
@@ -169,7 +171,7 @@ namespace ClientApp.Core.Tests
         {
             _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
-            var _sut = new MockApi(_mockTokenSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             _sut.Timeout = TimeSpan.FromMilliseconds(1);
             var result = await _sut.TaskCancel();
 
