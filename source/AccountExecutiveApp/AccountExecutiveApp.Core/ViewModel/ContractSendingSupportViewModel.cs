@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.Core;
 using SiSystems.SharedModels;
+using SiSystems.SharedModels.Contract_Creation;
 
 namespace AccountExecutiveApp.Core.ViewModel
 {
@@ -13,11 +14,11 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private readonly IMatchGuideApi _api;
 
-        private ContractCreationOptions _contractOptions;
-        private ContractCreationOptions ContractOptions
+        private SendingOptions _options;
+        private SendingOptions Options
         {
-            get { return _contractOptions ?? new ContractCreationOptions(); }
-            set { _contractOptions = value ?? new ContractCreationOptions(); }
+            get { return _options ?? new SendingOptions(); }
+            set { _options = value ?? new SendingOptions(); }
         }
 
         public ContractSendingSupportViewModel(IMatchGuideApi api)
@@ -121,7 +122,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task GetOptions()
         {
-            ContractOptions = await _api.GetDropDownValuesForInitialContractCreationForm();
+            //Options = await _api.GetDropDownValuesForSendingContractCreationForm();
         }
     }
 }

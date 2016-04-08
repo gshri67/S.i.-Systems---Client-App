@@ -44,6 +44,7 @@
     <Compile Include="Contract Creation\ContractCreationDetails_Rate.cs" />
     <Compile Include="Contract Creation\ContractCreationDetails_Sending.cs" />
     <Compile Include="Contract Creation\ContractCreationOptions.cs" />
+    <Compile Include="Contract Creation\SendingOptions.cs" />
     <Compile Include="Contract Creation\RateOptions.cs" />
     <Compile Include="Contract Creation\ContractCreationOptions_Sending.cs" />
     <Compile Include="Contract Creation\IContractCreationDetails_Sending.cs" />

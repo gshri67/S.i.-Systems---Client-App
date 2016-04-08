@@ -20,6 +20,10 @@ namespace SiSystems.SharedModels
         public IEnumerable<UserContact> GMAssignedOptions { get; set; }
         public IEnumerable<UserContact> ComissionAssignedOptions { get; set; }
 
+        //Rates
+        public IEnumerable<string> RateTypeOptions { get; set; }
+        public IEnumerable<string> RateDescriptionOptions { get; set; }
+
         //Sending
         public IEnumerable<string> ClientContactNameOptions { get; set; }
         public IEnumerable<string> DirectReportNameOptions { get; set; }
@@ -40,6 +44,9 @@ namespace SiSystems.SharedModels
             AccountExecutiveOptions = Enumerable.Empty<UserContact>();
             GMAssignedOptions = Enumerable.Empty<UserContact>();
             ComissionAssignedOptions = Enumerable.Empty<UserContact>();
+
+            RateTypeOptions = Enumerable.Empty<string>();
+            RateDescriptionOptions = Enumerable.Empty<string>();
 
             ClientContactNameOptions = Enumerable.Empty<string>();
             DirectReportNameOptions = Enumerable.Empty<string>();
