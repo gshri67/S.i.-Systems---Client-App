@@ -84,13 +84,19 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string PaymentPlan {             get { return Contract.PaymentPlan; }
                                                 set { Contract.PaymentPlan = value; }}
-        public UserContact AccountExecutive {   get { return Contract.AccountExecutive; }
+        public InternalEmployee AccountExecutive
+        {
+            get { return Contract.AccountExecutive; }
                                                 set { Contract.AccountExecutive = value; }}
 
-        public UserContact GMAssigned {         get { return Contract.GMAssigned; } 
+        public InternalEmployee GMAssigned
+        {
+            get { return Contract.GMAssigned; } 
                                                 set { Contract.GMAssigned = value; } }
 
-        public UserContact ComissionAssigned {  get { return Contract.ComissionAssigned; } 
+        public InternalEmployee ComissionAssigned
+        {
+            get { return Contract.ComissionAssigned; } 
                                                 set { Contract.ComissionAssigned = value; } }
 
         public string InvoiceFrequency {        get { return Contract.InvoiceFrequency; } 

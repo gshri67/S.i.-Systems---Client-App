@@ -18,9 +18,9 @@ namespace SiSystems.SharedModels
         public string LimitationOfContractType { get; set; }
         public int LimitationOfContractValue { get; set; }
         public string PaymentPlan { get; set; }
-        public UserContact AccountExecutive { get; set; }
-        public UserContact GMAssigned { get; set; }
-        public UserContact ComissionAssigned { get; set; }
+        public InternalEmployee AccountExecutive { get; set; }
+        public InternalEmployee GMAssigned { get; set; }
+        public InternalEmployee ComissionAssigned { get; set; }
         public string InvoiceFrequency { get; set; }
         public string InvoiceFormat { get; set; }
         public Boolean UsingProjectCode { get; set; }
@@ -61,9 +61,9 @@ namespace SiSystems.SharedModels
             LimitationOfContractType = string.Empty;
             LimitationOfContractValue = 0;
             PaymentPlan = string.Empty;
-            AccountExecutive = new UserContact();
-            GMAssigned = new UserContact();
-            ComissionAssigned = new UserContact();
+            AccountExecutive = new InternalEmployee();
+            GMAssigned = new InternalEmployee();
+            ComissionAssigned = new InternalEmployee();
             InvoiceFrequency = string.Empty;
             InvoiceFormat = string.Empty;
             UsingProjectCode = false;

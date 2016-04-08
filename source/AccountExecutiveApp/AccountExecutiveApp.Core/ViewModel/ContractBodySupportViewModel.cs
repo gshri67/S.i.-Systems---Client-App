@@ -41,65 +41,46 @@ namespace AccountExecutiveApp.Core.ViewModel
         public List<string> PaymentPlanOptions { get { return ContractOptions.PaymentPlanOptions.ToList(); } }
         public List<string> DaysCancellationOptions { get { return ContractOptions.DaysCancellationOptions.ToList(); } }
 
-        private List<UserContact> AccountExecutiveOptions
+        private List<InternalEmployee> AccountExecutiveOptions
         {
+            get { return ContractOptions.Colleagues.ToList(); }
+            /*
             get
             {
-                return new List<UserContact>(new UserContact[] { new UserContact
+                return new List<InternalEmployee>(new InternalEmployee[] { new InternalEmployee
             {
                 Id = 1,
                 FirstName = "Robert",
                 LastName = "Paulson"
             },
-            new UserContact
+            new InternalEmployee
             {
                 Id = 2,
                 FirstName = "Bob",
                 LastName = "Smith"
             },
-            new UserContact
+            new InternalEmployee
             {
                 Id = 3,
                 FirstName = "Fred",
                 LastName = "Flintstone"
             }
         });
-            }
+            }*/
         }
         public List<string> AccountExecutiveOptionDescriptions
         {
             get { return AccountExecutiveOptions.Select(c => c.FullName).ToList(); }
         }
 
-        public UserContact GetAccountExecutiveWithName(string name)
+        public InternalEmployee GetAccountExecutiveWithName(string name)
         {
             return AccountExecutiveOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-        private List<UserContact> GMAssignedOptions
+        private List<InternalEmployee> GMAssignedOptions
         {
-            get
-            {
-                return new List<UserContact>(new UserContact[] { new UserContact
-            {
-                Id = 1,
-                FirstName = "Robert",
-                LastName = "Paulson"
-            },
-            new UserContact
-            {
-                Id = 2,
-                FirstName = "Bob",
-                LastName = "Smith"
-            },
-            new UserContact
-            {
-                Id = 3,
-                FirstName = "Fred",
-                LastName = "Flintstone"
-            }
-        });
-            }
+            get { return ContractOptions.Colleagues.ToList(); }
         }
 
         public List<string> GMAssignedOptionDescriptions
@@ -107,35 +88,14 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return GMAssignedOptions.Select(c => c.FullName).ToList(); }
         }
 
-        public UserContact GetGMAssignedWithName(string name)
+        public InternalEmployee GetGMAssignedWithName(string name)
         {
             return GMAssignedOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-        private List<UserContact> ComissionAssignedOptions
+        private List<InternalEmployee> ComissionAssignedOptions
         {
-            get
-            {
-                return new List<UserContact>(new UserContact[] { new UserContact
-            {
-                Id = 1,
-                FirstName = "Robert",
-                LastName = "Paulson"
-            },
-            new UserContact
-            {
-                Id = 2,
-                FirstName = "Bob",
-                LastName = "Smith"
-            },
-            new UserContact
-            {
-                Id = 3,
-                FirstName = "Fred",
-                LastName = "Flintstone"
-            }
-        });
-            }
+            get { return ContractOptions.Colleagues.ToList(); }
         }
 
         public List<string> ComissionAssignedOptionDescriptions
@@ -143,7 +103,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return ComissionAssignedOptions.Select(c => c.FullName).ToList(); }
         }
 
-        public UserContact GetComissionAssignedWithName(string name)
+        public InternalEmployee GetComissionAssignedWithName(string name)
         {
             return ComissionAssignedOptions.FirstOrDefault(c => c.FullName == name);
         }

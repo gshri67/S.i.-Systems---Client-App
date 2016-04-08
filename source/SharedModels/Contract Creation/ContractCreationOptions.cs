@@ -16,10 +16,6 @@ namespace SiSystems.SharedModels
         public IEnumerable<string> InvoiceFrequencyOptions { get; set; }
         public IEnumerable<string> InvoiceFormatOptions { get; set; }
 
-        public IEnumerable<UserContact> AccountExecutiveOptions { get; set; }
-        public IEnumerable<UserContact> GMAssignedOptions { get; set; }
-        public IEnumerable<UserContact> ComissionAssignedOptions { get; set; }
-
         //Rates
         public IEnumerable<string> RateTypeOptions { get; set; }
         public IEnumerable<string> RateDescriptionOptions { get; set; }
@@ -41,9 +37,6 @@ namespace SiSystems.SharedModels
             Colleagues = Enumerable.Empty<InternalEmployee>();
             InvoiceFrequencyOptions = Enumerable.Empty<string>();
             InvoiceFormatOptions = Enumerable.Empty<string>();
-            AccountExecutiveOptions = Enumerable.Empty<UserContact>();
-            GMAssignedOptions = Enumerable.Empty<UserContact>();
-            ComissionAssignedOptions = Enumerable.Empty<UserContact>();
 
             RateTypeOptions = Enumerable.Empty<string>();
             RateDescriptionOptions = Enumerable.Empty<string>();
