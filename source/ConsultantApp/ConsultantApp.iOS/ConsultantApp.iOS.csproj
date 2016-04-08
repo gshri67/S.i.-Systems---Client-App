@@ -25,17 +25,11 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>i386</MtouchArch>
-    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>True</MtouchDebug>
     <MtouchSdkVersion>8.4</MtouchSdkVersion>
-    <MtouchProfiling>False</MtouchProfiling>
-    <MtouchFastDev>False</MtouchFastDev>
-    <MtouchUseLlvm>False</MtouchUseLlvm>
-    <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
-    <MtouchUseRefCounting>False</MtouchUseRefCounting>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -74,9 +68,6 @@
     <OutputPath>bin\iPhone\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignEntitlements>
-    </CodesignEntitlements>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
@@ -94,23 +85,18 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <MtouchSdkVersion>8.4</MtouchSdkVersion>
-    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>True</MtouchDebug>
-    <MtouchProfiling>False</MtouchProfiling>
-    <MtouchFastDev>False</MtouchFastDev>
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchUseLlvm>True</MtouchUseLlvm>
-    <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
     <MtouchUseRefCounting>True</MtouchUseRefCounting>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <CodesignProvision />
-    <CodesignEntitlements>
-    </CodesignEntitlements>
-    <CodesignResourceRules />
-    <CodesignExtraArgs />
+    <CodesignProvision>
+    </CodesignProvision>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Dev|iPhone'">
     <OutputPath>bin\iPhone\Dev\</OutputPath>
@@ -130,16 +116,12 @@
     <Optimize>true</Optimize>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <BuildIpa>True</BuildIpa>
-    <IpaIncludeArtwork>False</IpaIncludeArtwork>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignProvision>
     </CodesignProvision>
-    <CodesignEntitlements>
-    </CodesignEntitlements>
     <CodesignExtraArgs>
     </CodesignExtraArgs>
     <WarningLevel>4</WarningLevel>
-    <CodesignResourceRules />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ActivityManager.cs" />
