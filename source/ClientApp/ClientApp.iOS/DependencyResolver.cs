@@ -29,6 +29,7 @@ namespace ClientApp.iOS
             container.RegisterType<IErrorSource, ErrorSource>(new ContainerControlledLifetimeManager());
             container.RegisterType<IMatchGuideApi, MatchGuideApi>();
             container.RegisterType<ITokenStore, TokenStore>();
+            container.RegisterType<IDefaultStore, DefaultStore>();
             container.RegisterType<IActivityManager, ActivityManager>(new ContainerControlledLifetimeManager());
 
             // instantiate the error reporter so that it registers itself with the error source

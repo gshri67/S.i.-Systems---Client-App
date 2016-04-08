@@ -2,7 +2,7 @@
 using Foundation;
 using Shared.Core.Platform;
 
-namespace ConsultantApp.iOS
+namespace AccountExecutiveApp.iOS
 {
 	public class DefaultStore: IDefaultStore
 	{

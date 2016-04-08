@@ -127,7 +127,7 @@ namespace ClientApp.Core.Tests
         [Test]
         public async void Get_ShouldStartAndStopActivity_WhenSuccess()
         {
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
+            //_mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
 			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = await _sut.GetMyTestType();
@@ -139,7 +139,7 @@ namespace ClientApp.Core.Tests
         [Test]
         public async void Post_ShouldStartAndStopActivity_WhenSuccess()
         {
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
+            //_mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
 			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.PostMyTestType(new MyTestType());
@@ -151,7 +151,7 @@ namespace ClientApp.Core.Tests
         [Test]
         public async void Post_ShouldSendData_String()
         {
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
+            //_mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
 			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.PostMyTestTypeWithStringData("my_data");
@@ -160,7 +160,7 @@ namespace ClientApp.Core.Tests
         [Test]
         public async void Post_ShouldSerializeToJson_Obect()
         {
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
+            //_mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
 			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.PostMyTestType(new MyTestType { Description = "My Description" });
@@ -169,7 +169,7 @@ namespace ClientApp.Core.Tests
         [Test, Ignore("The timeout is unreliable")]
         public async void Execute_ShouldBroadcastTimeoutError_OnTaskCancelled()
         {
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
+            //_mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken { Username = "email@example.com" });
 
 			var _sut = new MockApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             _sut.Timeout = TimeSpan.FromMilliseconds(1);

@@ -75,29 +75,29 @@ namespace ClientApp.Core.Tests
             Assert.AreEqual(Settings.MatchGuideApiAddress, _sut.BaseAddress.AbsoluteUri);
         }
 
-//        [Test]
-//        public async void Login_ShouldGetAtAValidValidationResultFromLoginEndpoint()
-//        {
-//            const string username = "email@example.com";
-//            const string password = "password";
-//
-//            var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
-//            _mockTokenSource.Setup(service => service.SaveUserName(username));
-//            _mockTokenSource.Setup(service => service.SaveToken(It.Is<OAuthToken>(token => token.Username == username)));
-//
-//			var _sut = new MatchGuideApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
-//            var result = await _sut.Login(username, password);
-//
-//            Assert.IsInstanceOf<ValidationResult>(result);
-//            Assert.IsTrue(result.IsValid);
-//            _mockTokenSource.VerifyAll();
-//        }
+        //[Test]
+        //public async void Login_ShouldGetAtAValidValidationResultFromLoginEndpoint()
+        //{
+        //    const string username = "email@example.com";
+        //    const string password = "password";
+
+        //    var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
+        //    _mockDefaultSource.SetupGet(store => store.Username).Returns(username);
+        //    _mockTokenSource.Setup(service => service.SaveToken(username,It.Is<OAuthToken>(token => token.Username == username).AccessToken));
+
+        //    var _sut = new MatchGuideApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
+        //    var result = await _sut.Login(username, password);
+
+        //    Assert.IsInstanceOf<ValidationResult>(result);
+        //    Assert.IsTrue(result.IsValid);
+        //    _mockTokenSource.VerifyAll();
+        //}
 
         [Test]
         public async void Logout_ShouldDeleteToken()
         {
             var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
+            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken().AccessToken);
 
 			var _sut = new MatchGuideApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             await _sut.Logout();
@@ -110,7 +110,7 @@ namespace ClientApp.Core.Tests
         {
             var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
 
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
+            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken().AccessToken);
 
 			var _sut = new MatchGuideApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = _sut.GetConsultant(1).Result;
@@ -124,7 +124,7 @@ namespace ClientApp.Core.Tests
         {
             var mockHttpHandler = new Mock<FakeHttpHandler>() { CallBase = true };
 
-            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken());
+            _mockTokenSource.Setup(service => service.GetDeviceToken()).Returns(new OAuthToken().AccessToken);
 
 			var _sut = new MatchGuideApi(_mockTokenSource.Object, _mockDefaultSource.Object, _mockActivityManager.Object, _mockErrorSource.Object, _mockHttpHandlerHelper.Object);
             var result = _sut.GetAlumniConsultantGroups(string.Empty).Result;

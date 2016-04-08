@@ -24,7 +24,7 @@ namespace ClientApp.iOS
             : base(handle)
         {
             _loginModel = DependencyResolver.Current.Resolve<LoginViewModel>();
-            _tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
+            _defaultStore = DependencyResolver.Current.Resolve<IDefaultStore>();
         }
 
         public override void DidReceiveMemoryWarning()

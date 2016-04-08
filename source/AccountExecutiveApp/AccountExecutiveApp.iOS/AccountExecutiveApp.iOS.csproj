@@ -181,6 +181,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Search\SectionSearchResultsTableViewSource.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Startup\DefaultStore.cs" />
     <Compile Include="Startup\LoginViewController.cs" />
     <Compile Include="Startup\LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>

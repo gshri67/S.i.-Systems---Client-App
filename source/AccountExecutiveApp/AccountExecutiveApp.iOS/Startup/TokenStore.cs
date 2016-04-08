@@ -8,110 +8,49 @@ namespace AccountExecutiveApp.iOS.Startup
 {
     public class TokenStore : ITokenStore
     {
-        public OAuthToken SaveToken(OAuthToken token)
+        private const string ServiceName = "SiSystemsAccountExecutiveApp";
+        private const string TokenLabel = "Certificate";
+
+        private SecRecord query = new SecRecord(SecKind.GenericPassword) { Label = TokenLabel };
+
+        public bool SaveToken(string username, string token)
         {
-            var json = JsonConvert.SerializeObject(token);
-            var existingRecord = new SecRecord(SecKind.GenericPassword)
-            {
-                Service = "SiSystemsAccountExecutiveApp",
-                Label = "Certificate",
-            };
             var newRecord = new SecRecord(SecKind.GenericPassword)
             {
-                Service = "SiSystemsAccountExecutiveApp",
-                Label = "Certificate",
-                Account = token.Username,
-                ValueData = NSData.FromString(json),
-                Accessible = SecAccessible.AlwaysThisDeviceOnly
+                Service = ServiceName,
+                Label = TokenLabel,
+                Account = username,
+                ValueData = NSData.FromString(token),
+                Accessible = SecAccessible.WhenUnlocked
             };
 
-            var addCode = SecKeyChain.Add(newRecord);
-            if (addCode == SecStatusCode.DuplicateItem)
+            //Check to see if there is an item already
+            //If there is, we'll update; otherwise we'll add
+            if (GetDeviceToken() != null)
             {
-                var remCode = SecKeyChain.Remove(existingRecord);
-                if (remCode == SecStatusCode.Success)
-                {
-                    var addCode2 = SecKeyChain.Add(newRecord);
-                }
+                return SecKeyChain.Update(query, newRecord) == SecStatusCode.Success;
             }
-
-            return token;
+            else
+            {
+                return SecKeyChain.Add(newRecord) == SecStatusCode.Success;
+            }
         }
 
-        public OAuthToken GetDeviceToken()
+        public string GetDeviceToken()
         {
-            var existingRecord = new SecRecord(SecKind.GenericPassword)
-            {
-                Label = "Certificate",
-                Service = "SiSystemsAccountExecutiveApp"
-            };
-
             SecStatusCode resultCode;
-            var data = SecKeyChain.QueryAsRecord(existingRecord, out resultCode);
+            var data = SecKeyChain.QueryAsRecord(query, out resultCode);
 
-            if (resultCode == SecStatusCode.Success)
-            {
-                var json = NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
-                var token = JsonConvert.DeserializeObject<OAuthToken>(json);
-                CurrentUser.Email = token.Username;
-                return token;
-            }
-            return null;
+            if (resultCode != SecStatusCode.Success)
+                return null;
+
+            return NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
         }
 
         public void DeleteDeviceToken()
         {
-            var existingRecord = new SecRecord(SecKind.GenericPassword)
-            {
-                Label = "Certificate",
-                Service = "SiSystemsAccountExecutiveApp"
-            };
-
-            SecKeyChain.Remove(existingRecord);
+            SecKeyChain.Remove(query);
         }
 
-        public void SaveUserName(string username)
-        {
-            var existingRecord = new SecRecord(SecKind.GenericPassword)
-            {
-                Service = "SiSystemsAccountExecutiveApp",
-                Label = "Username",
-            };
-            var newRecord = new SecRecord(SecKind.GenericPassword)
-            {
-                Service = "SiSystemsAccountExecutiveApp",
-                Label = "Username",
-                ValueData = NSData.FromString(username),
-                Accessible = SecAccessible.AlwaysThisDeviceOnly
-            };
-
-            var addCode = SecKeyChain.Add(newRecord);
-            if (addCode == SecStatusCode.DuplicateItem)
-            {
-                var remCode = SecKeyChain.Remove(existingRecord);
-                if (remCode == SecStatusCode.Success)
-                {
-                    var addCode2 = SecKeyChain.Add(newRecord);
-                }
-            }
-        }
-
-        public string GetUserName()
-        {
-            var existingRecord = new SecRecord(SecKind.GenericPassword)
-            {
-                Label = "Username",
-                Service = "SiSystemsAccountExecutiveApp"
-            };
-
-            SecStatusCode resultCode;
-            var data = SecKeyChain.QueryAsRecord(existingRecord, out resultCode);
-
-            if (resultCode == SecStatusCode.Success)
-            {
-               return NSString.FromData(data.ValueData, NSStringEncoding.UTF8);
-            }
-            return null;
-        }
     }
 }

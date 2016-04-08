@@ -26,7 +26,7 @@ namespace AccountExecutiveApp.iOS
 			HidesBottomBarWhenPushed = true;
 
             _loginModel = DependencyResolver.Current.Resolve<LoginViewModel>();
-			_defaultStore = DependencyResolver.Current.Resolve<ITokenStore>();
+			_defaultStore = DependencyResolver.Current.Resolve<IDefaultStore>();
         }
 
 		public override void ViewWillLayoutSubviews ()

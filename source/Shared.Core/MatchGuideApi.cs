@@ -43,13 +43,16 @@ namespace Shared.Core
                 {
                     var token = JsonConvert.DeserializeObject<OAuthToken>(json);
 					_tokenStore.SaveToken(username, token.AccessToken);
+                    _defaultStore.TokenExpiresAt = token.ExpiresAt;
+                    _defaultStore.TokenExpiresIn = token.ExpiresIn;
+                    _defaultStore.TokenIssuedAt = token.IssuedAt;
 
-//                    Insights.Identify(token.Username, new Dictionary<string, string>
-//                    {
-//                        { "Token Expires At", token.ExpiresAt },
-//                        { "Token Expires In", token.ExpiresIn.ToString() },
-//                        { "Token Issued At", token.IssuedAt }
-//                    });
+                    Insights.Identify(token.Username, new Dictionary<string, string>
+                    {
+                        { "Token Expires At", token.ExpiresAt },
+                        { "Token Expires In", token.ExpiresIn.ToString() },
+                        { "Token Issued At", token.IssuedAt }
+                    });
 
                     validationResult.IsValid = true;
                 }
