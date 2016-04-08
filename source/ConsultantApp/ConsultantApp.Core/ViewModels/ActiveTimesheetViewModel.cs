@@ -33,9 +33,6 @@ namespace ConsultantApp.Core.ViewModels
 
         private async Task GetPayPeriods()
         {
-#if TEST
-            Console.WriteLine("GetPayPeriods");
-#endif
             PayPeriods = await _api.GetPayPeriodSummaries();
         }
         

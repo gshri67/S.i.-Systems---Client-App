@@ -50,39 +50,24 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    public void LoadTimesheets()
         {
-#if TEST
-            Console.WriteLine("LoadTimesheets");
-#endif
             RemoveOverlay();
             
 	        UpdateTableSource();
 
 	        noTimesheetsLabel.Hidden = _activeTimesheetModel.UserHasPayPeriods();
-#if TEST
-            Console.WriteLine("Load Timesheets completed");
-#endif
 	    }
 
 	    private void UpdateTableSource()
         {
-#if TEST
-            Console.WriteLine("UpdateTableSource");
-#endif
             InvokeOnMainThread(delegate
             {
                 ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
                 ActiveTimesheetsTable.ReloadData();
             });
-#if TEST
-            Console.WriteLine("Table Source Updated");
-#endif
 	    }
 
 		private void CreateCustomTitleBar()
         {
-#if TEST
-            Console.WriteLine("CreateTitleBar");
-#endif
             InvokeOnMainThread(() =>
 				{
 					_subtitleHeaderView = new SubtitleHeaderView();
@@ -91,9 +76,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 					_subtitleHeaderView.SubtitleText = CurrentConsultantDetails.CorporationName;
 					NavigationItem.Title = "";
 				});
-#if TEST
-            Console.WriteLine("Title bar created.");
-#endif
 		}
 
 		public override void ViewDidLoad ()
@@ -149,9 +131,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
         private void IndicateLoading()
         {
-#if TEST
-            Console.WriteLine("Indicate loading");
-#endif
             InvokeOnMainThread(delegate
             {
                 if (_overlay != null) return;
@@ -161,23 +140,14 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                 _overlay.UserInteractionEnabled = false;
                 View.Add(_overlay);
             });
-#if TEST
-            Console.WriteLine("Finished Indicate loading");
-#endif
         }
         
         private void RemoveOverlay()
         {
-#if TEST
-            Console.WriteLine("Remove Overlay");
-#endif
             if (_overlay == null) return;
 
             InvokeOnMainThread(_overlay.Hide);
             _overlay = null;
-#if TEST
-            Console.WriteLine("Overlay Removed");
-#endif
         }
         #endregion
     }
