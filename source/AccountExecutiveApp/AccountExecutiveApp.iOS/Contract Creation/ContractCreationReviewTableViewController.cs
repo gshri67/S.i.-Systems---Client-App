@@ -112,7 +112,7 @@ namespace AccountExecutiveApp.iOS
 	    public void AddSubmitNavButton()
 	    {
             UIBarButtonItem submitButton = new UIBarButtonItem();
-	        submitButton.Title = "Submit";
+	        submitButton.Title = "Finish";
             submitButton.Clicked += (sender, e) => { OnSubmitButtonTapped(); };
             NavigationItem.RightBarButtonItem = submitButton;
 	    }

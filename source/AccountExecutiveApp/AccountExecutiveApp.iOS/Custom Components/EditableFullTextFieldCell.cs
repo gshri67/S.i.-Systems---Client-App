@@ -90,7 +90,8 @@ namespace AccountExecutiveApp.iOS
 
 	        TextView.Ended += delegate
 	        {
-	            OnValueFinalized(TextView.Text);
+                if( OnValueFinalized != null )
+    	            OnValueFinalized(TextView.Text);
 	        };
 	    }
 

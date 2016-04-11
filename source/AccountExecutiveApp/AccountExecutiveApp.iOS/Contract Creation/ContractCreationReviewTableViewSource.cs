@@ -86,11 +86,11 @@ namespace AccountExecutiveApp.iOS
         {
             if (IsIndexFromCell(indexPath, _isSendingConsultantContractCellRow))
                 return GetIsSendingConsultantContractCell(tableView, indexPath);
-            if (IsIndexFromCell(indexPath, _emailCellRow))
+            if ( _showEmailCell && IsIndexFromCell(indexPath, _emailCellRow))
                 return GetEmailCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _clientContractCellRow))
                 return GetClientContractCell(tableView, indexPath);
-            if (IsIndexFromCell(indexPath, _reasonCellRow))
+            if ( _showClientContractCellReason && IsIndexFromCell(indexPath, _reasonCellRow))
                 return GetReasonCell(tableView, indexPath);
             
             return GetOtherReasonCell(tableView, indexPath);
