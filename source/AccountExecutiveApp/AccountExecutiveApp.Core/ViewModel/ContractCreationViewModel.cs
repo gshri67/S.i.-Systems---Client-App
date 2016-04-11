@@ -320,6 +320,12 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { Contract.SummaryReasonForNotSendingContract = value; }
         }
 
+        public string SummaryReasonForNotSendingConsultantContract
+        {
+            get { return Contract.SummaryReasonForNotSendingConsultantContract; }
+            set { Contract.SummaryReasonForNotSendingConsultantContract = value; }
+        }
+        
         #region SupportData
 
         public List<string> BooleanOptions { get { return new List<string>(new string[] { "Yes", "No" }); } }

@@ -21,6 +21,7 @@ namespace AccountExecutiveApp.iOS
         //Table logic
         private bool _showClientContractCellReason = false;
         private bool _showClientContractOtherReason = false;
+        private bool _showNotSendingConsultantContractReason = false;
 
         public ContractCreationSendingTableViewSource(ContractCreationSendingTableViewController parentController,
             ContractCreationViewModel model, ContractSendingSupportViewModel supportModel)
@@ -36,6 +37,8 @@ namespace AccountExecutiveApp.iOS
 
             if (IsSendingConsultantContractCell(indexPath))
                 return GetIsSendingConsultantContractCell(tableView, indexPath);
+            if ( _showNotSendingConsultantContractReason && IsNotSendingConsultantContractReasonCell(indexPath))
+                return GetNotSendingConsultantContractReasonCell(tableView, indexPath);
             else if (IsClientContactCell(indexPath))
                 return GetClientContactCell(tableView, indexPath);
             else if (IsDirectReportCell(indexPath))
@@ -57,19 +60,9 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
-        private int _isSendingConsultantContractCellRow
-        {
-            get { return 0; }
-        }
-
-        private bool IsSendingConsultantContractCell(NSIndexPath indexPath)
-        {
-            return (int) indexPath.Item == _isSendingConsultantContractCellRow;
-        }
-
         private int _clientContactCellRow
         {
-            get { return _isSendingConsultantContractCellRow + 1; }
+            get { return 0; }
         }
 
         private bool IsClientContactCell(NSIndexPath indexPath)
@@ -107,9 +100,35 @@ namespace AccountExecutiveApp.iOS
             return (int)indexPath.Item == _invoiceRecipientsCellRow;
         }
 
-        private int _clientContractCellRow
+        private int _isSendingConsultantContractCellRow
         {
             get { return _invoiceRecipientsCellRow + 1; }
+        }
+
+        private bool IsSendingConsultantContractCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _isSendingConsultantContractCellRow;
+        }
+
+        private int _isNotSendingConsultantContractReasonCellRow
+        {
+            get { return _isSendingConsultantContractCellRow + 1; }
+        }
+
+        private bool IsNotSendingConsultantContractReasonCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _isNotSendingConsultantContractReasonCellRow;
+        }
+
+        private int _clientContractCellRow
+        {
+            get
+            {
+                if (!_showNotSendingConsultantContractReason)
+                    return _isSendingConsultantContractCellRow + 1;
+                else
+                    return _isNotSendingConsultantContractReasonCellRow + 1;
+            }
         }
 
         private bool IsClientContractCell(NSIndexPath indexPath)
@@ -142,7 +161,11 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell( string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.IsSendingConsultantContract);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.IsSendingConsultantContract = (newValue == "Yes"); };
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.IsSendingConsultantContract = (newValue == "Yes");
+                EvaluateDynamicCells(tableView);
+            };
 
             return cell;
         }
@@ -187,11 +210,23 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
+        private UITableViewCell GetNotSendingConsultantContractReasonCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell(_contractModel.SummaryReasonForNotSendingContract);
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.SummaryReasonForNotSendingConsultantContract = newValue;
+            };
+
+            return cell;
+        }
+
         private UITableViewCell GetClientContractCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
 
-            cell.UpdateCell(string.Format("Send e-contract to"), _supportModel.ClientContractContactNameOptions, _contractModel.ClientContractContactName, _contractModel.IsSendingContractToClientContact);
+            cell.UpdateCell(string.Format("Send Client e-contract to"), _supportModel.ClientContractContactNameOptions, _contractModel.ClientContractContactName, _contractModel.IsSendingContractToClientContact);
 
             cell.OnMidValueChanged += delegate(string newValue)
             {
@@ -238,14 +273,14 @@ namespace AccountExecutiveApp.iOS
 
         private void EvaluateDynamicCells(UITableView tableView)
         {
-            bool isSending = _contractModel.IsSendingContractToClientContact;
+            bool isSendingClientContract = _contractModel.IsSendingContractToClientContact;
 
-            _showClientContractCellReason = !isSending;
+            _showClientContractCellReason = !isSendingClientContract;
 
-            if (isSending == true)
+            if (isSendingClientContract == true)
                 _showClientContractOtherReason = false;
 
-            if (isSending == false)
+            if (isSendingClientContract == false)
             {
                 if (_contractModel.ReasonForNotSendingContract == "Other")
                     _showClientContractOtherReason = true;
@@ -256,12 +291,24 @@ namespace AccountExecutiveApp.iOS
             if (!_showClientContractOtherReason)
                 _contractModel.SummaryReasonForNotSendingContract = string.Empty;//reset summary reason if there is no reason anymore
 
+            bool isSendingConsultantContract = _contractModel.IsSendingConsultantContract;
+            _showNotSendingConsultantContractReason = !isSendingConsultantContract;
+
             tableView.ReloadData();
         }
 
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
+            int extraDynamicCells = 0;
+
+            if (_showClientContractCellReason == true && _showClientContractOtherReason == false )
+                extraDynamicCells ++;
+            else if (_showClientContractCellReason == true && _showClientContractOtherReason == true )
+                extraDynamicCells += 2;
+
+            return _clientContractCellRow + 1 + extraDynamicCells;
+            /*
             if ( _showClientContractCellReason == false )
                 return _clientContractCellRow + 1;
             else if( _showClientContractOtherReason == false )
@@ -269,7 +316,7 @@ namespace AccountExecutiveApp.iOS
             else if ( _showClientContractOtherReason == true )
                 return _clientContractCellRow + 3;
 
-            return 0;
+            return 0;*/
         }
 
         public override nint NumberOfSections(UITableView tableView)

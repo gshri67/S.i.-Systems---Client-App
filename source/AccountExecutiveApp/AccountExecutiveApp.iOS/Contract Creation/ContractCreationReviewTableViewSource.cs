@@ -601,7 +601,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetClientContractCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = (EditableDoubleTextFieldCell)tableView.DequeueReusableCell(EditableDoubleTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell(string.Format("Send client e-contract to:"), _contractModel.ClientContractContactName, _contractModel.IsSendingContractToClientContact);
+            cell.UpdateCell(string.Format("Send Client e-contract to:"), _contractModel.ClientContractContactName, _contractModel.IsSendingContractToClientContact);
 
             return cell;
         }

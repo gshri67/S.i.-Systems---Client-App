@@ -47,7 +47,8 @@ namespace SiSystems.SharedModels
         public bool IsSendingClientContract { get; set; }
         public string ReasonForNotSendingContract { get; set; }
         public string SummaryReasonForNotSendingContract { get; set; }
-
+        public string SummaryReasonForNotSendingConsultantContract { get; set; }
+        
         public ContractCreationDetails()
         {
             ConsultantName = string.Empty;
@@ -80,6 +81,7 @@ namespace SiSystems.SharedModels
             Rates = Enumerable.Empty<ContractCreationDetails_Rate>();
 
             IsSendingConsultantContract = true;
+            SummaryReasonForNotSendingConsultantContract = string.Empty;
             ClientContact = new UserContact();
             DirectReport = new UserContact();
             BillingContact = new UserContact();
