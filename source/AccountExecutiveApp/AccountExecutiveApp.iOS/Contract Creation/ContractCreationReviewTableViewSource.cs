@@ -617,7 +617,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetOtherReasonCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell(_contractModel.SummaryReasonForNotSendingContract);
+            cell.UpdateCell("Reason:", _contractModel.SummaryReasonForNotSendingContract);
 
             return cell;
         }

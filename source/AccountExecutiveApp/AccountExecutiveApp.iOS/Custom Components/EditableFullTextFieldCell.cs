@@ -32,13 +32,28 @@ namespace AccountExecutiveApp.iOS
 
 			SetupConstraints();
 
-		    BackgroundColor = UIColor.FromWhiteAlpha(0.98f, 1.0f);
+		   // BackgroundColor = UIColor.FromWhiteAlpha(0.98f, 1.0f);
 		}
 
 		private void CreateAndAddLabels()
 		{
+            CreateAndAddDescriptionLabel();
 			CreateAndAddTextView();
 		}
+
+
+        private void CreateAndAddDescriptionLabel()
+        {
+            DescriptionLabel = new UILabel
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                TextAlignment = UITextAlignment.Left,
+                Font = UIFont.FromName("Helvetica", 16f),
+                TextColor = UIColor.Black,
+                Text = "Description:"
+            };
+            AddSubview(DescriptionLabel);
+        }
 
 	    private void CreateAndAddTextView()
 	    {
@@ -53,9 +68,7 @@ namespace AccountExecutiveApp.iOS
 
             TextView.TextContainerInset = UIEdgeInsets.Zero;
             TextView.TextContainer.LineFragmentPadding = 0;
-
-
-	        TextView.Text = string.Empty;
+            TextView.Text = "Text Text \n Text";
 
 	        AddSubview(TextView);
 
@@ -82,20 +95,31 @@ namespace AccountExecutiveApp.iOS
 
 		public void SetupConstraints()
 		{
+            AddSubjectTextLabelConstraints();
 			AddTextLabelConstraints();
+
+            AddConstraint(NSLayoutConstraint.Create(this, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, TextView, NSLayoutAttribute.Bottom, 1.0f, 0f));
 		}
 
+        private void AddSubjectTextLabelConstraints()
+        {
+            AddConstraint(NSLayoutConstraint.Create(DescriptionLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(DescriptionLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(DescriptionLabel, NSLayoutAttribute.Width, NSLayoutRelation.GreaterThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 40f));
+            AddConstraint(NSLayoutConstraint.Create(DescriptionLabel, NSLayoutAttribute.Width, NSLayoutRelation.LessThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 70f));
+        }
 
 		private void AddTextLabelConstraints()
 		{
-			AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.1f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Left, NSLayoutRelation.Equal, DescriptionLabel, NSLayoutAttribute.Right, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, DescriptionLabel, NSLayoutAttribute.Top, 1.0f, 0f));
 			AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.9f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Bottom, NSLayoutRelation.GreaterThanOrEqual, DescriptionLabel, NSLayoutAttribute.Bottom, 1.0f, 0f));
 		}
 
-		public void UpdateCell(string textfieldText)
+		public void UpdateCell(string description, string textfieldText)
 		{
+		    DescriptionLabel.Text = description;
 			TextView.Text = textfieldText;
 		}
 	}

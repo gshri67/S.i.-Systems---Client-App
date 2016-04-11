@@ -225,7 +225,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetNotSendingConsultantContractNotificationCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("An Email will still be sent out to notify the Consultant, however an e-contract will not be sent.");
+            cell.UpdateCell(string.Empty, "An Email will still be sent out to notify the Consultant, however an e-contract will not be sent.");
             cell.UserInteractionEnabled = false;
 
             return cell;
@@ -234,7 +234,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetNotSendingConsultantContractReasonCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell(_contractModel.SummaryReasonForNotSendingContract);
+            cell.UpdateCell("Reason:", _contractModel.SummaryReasonForNotSendingContract);
             cell.OnValueChanged += delegate(string newValue)
             {
                 _contractModel.SummaryReasonForNotSendingConsultantContract = newValue;
@@ -283,7 +283,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetOtherReasonCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell(_contractModel.SummaryReasonForNotSendingContract);
+            cell.UpdateCell("Reason:", _contractModel.SummaryReasonForNotSendingContract);
             cell.OnValueChanged += delegate(string newValue)
             {
                 _contractModel.SummaryReasonForNotSendingContract = newValue;
