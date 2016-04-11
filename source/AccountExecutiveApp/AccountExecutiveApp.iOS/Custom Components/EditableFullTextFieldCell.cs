@@ -8,7 +8,8 @@ namespace AccountExecutiveApp.iOS
 	partial class EditableFullTextFieldCell : UITableViewCell
 	{
 		public const string CellIdentifier = "EditableFullTextFieldCell";
-		public UITextField TextField;
+	    public UILabel DescriptionLabel;
+		public UITextView TextView;
 		
 		public delegate void EditableCellDelegate(string newValue);
 		public EditableCellDelegate OnValueChanged;
@@ -36,23 +37,27 @@ namespace AccountExecutiveApp.iOS
 
 		private void CreateAndAddLabels()
 		{
-			CreateAndAddTextField();
+			CreateAndAddTextView();
 		}
 
-	    private void CreateAndAddTextField()
+	    private void CreateAndAddTextView()
 	    {
-	        TextField = new UITextField
+	        TextView = new UITextView()
 	        {
 	            TranslatesAutoresizingMaskIntoConstraints = false,
 	            TextAlignment = UITextAlignment.Left,
 	            Font = UIFont.FromName("Helvetica", 14f),
 	            TextColor = StyleGuideConstants.MediumGrayUiColor,
-                Placeholder = "Reason..."
+                ScrollEnabled = false
 	        };
 
-	        TextField.Text = string.Empty;
+            TextView.TextContainerInset = UIEdgeInsets.Zero;
+            TextView.TextContainer.LineFragmentPadding = 0;
 
-	        AddSubview(TextField);
+
+	        TextView.Text = string.Empty;
+
+	        AddSubview(TextView);
 
 	        var toolbar = new UIToolbar(new CoreGraphics.CGRect(0.0f, 0.0f, Frame.Size.Width, 44.0f));
 
@@ -62,17 +67,17 @@ namespace AccountExecutiveApp.iOS
 	            new UIBarButtonItem(UIBarButtonSystemItem.Done, doneButtonTapped)
 	        };
 
-	        TextField.InputAccessoryView = toolbar;
+	        TextView.InputAccessoryView = toolbar;
 
-	        TextField.EditingChanged += delegate
+	        TextView.Changed += delegate
 	        {
-	            OnValueChanged(TextField.Text);
+	            OnValueChanged(TextView.Text);
 	        };
 	    }
 
 	    public void doneButtonTapped(object sender, EventArgs args)
 		{
-			TextField.ResignFirstResponder();
+			TextView.ResignFirstResponder();
 		}
 
 		public void SetupConstraints()
@@ -83,15 +88,15 @@ namespace AccountExecutiveApp.iOS
 
 		private void AddTextLabelConstraints()
 		{
-			AddConstraint(NSLayoutConstraint.Create(TextField, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.1f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(TextField, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
-			AddConstraint(NSLayoutConstraint.Create(TextField, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.9f, 0f));
-            AddConstraint(NSLayoutConstraint.Create(TextField, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.1f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0f));
+			AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.9f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(TextView, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this, NSLayoutAttribute.Height, 1.0f, 0f));
 		}
 
 		public void UpdateCell(string textfieldText)
 		{
-			TextField.Text = textfieldText;
+			TextView.Text = textfieldText;
 		}
 	}
 }

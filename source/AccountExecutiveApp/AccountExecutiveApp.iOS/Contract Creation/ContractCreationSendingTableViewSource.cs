@@ -37,8 +37,10 @@ namespace AccountExecutiveApp.iOS
 
             if (IsSendingConsultantContractCell(indexPath))
                 return GetIsSendingConsultantContractCell(tableView, indexPath);
-            if ( _showNotSendingConsultantContractReason && IsNotSendingConsultantContractReasonCell(indexPath))
+            else if ( _showNotSendingConsultantContractReason && IsNotSendingConsultantContractReasonCell(indexPath))
                 return GetNotSendingConsultantContractReasonCell(tableView, indexPath);
+            else if (_showNotSendingConsultantContractReason && IsNotSendingConsultantContractNotificationCell(indexPath))
+                return GetNotSendingConsultantContractNotificationCell(tableView, indexPath);
             else if (IsClientContactCell(indexPath))
                 return GetClientContactCell(tableView, indexPath);
             else if (IsDirectReportCell(indexPath))
@@ -110,9 +112,19 @@ namespace AccountExecutiveApp.iOS
             return (int)indexPath.Item == _isSendingConsultantContractCellRow;
         }
 
-        private int _isNotSendingConsultantContractReasonCellRow
+        private int _isNotSendingConsultantContractNotificationCellRow
         {
             get { return _isSendingConsultantContractCellRow + 1; }
+        }
+
+        private bool IsNotSendingConsultantContractNotificationCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _isNotSendingConsultantContractNotificationCellRow;
+        }
+
+        private int _isNotSendingConsultantContractReasonCellRow
+        {
+            get { return _isNotSendingConsultantContractNotificationCellRow + 1; }
         }
 
         private bool IsNotSendingConsultantContractReasonCell(NSIndexPath indexPath)
@@ -206,6 +218,15 @@ namespace AccountExecutiveApp.iOS
                 (MultiSelectDescriptionCell)tableView.DequeueReusableCell(MultiSelectDescriptionCell.CellIdentifier, indexPath);
 
             cell.UpdateCell("Invoice Recipients", _contractModel.Contract.InvoiceRecipients.Select(c => c.FullName).ToList() );
+
+            return cell;
+        }
+
+        private UITableViewCell GetNotSendingConsultantContractNotificationCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("An Email will still be sent out to notify the Consultant, however an e-contract will not be sent.");
+            cell.UserInteractionEnabled = false;
 
             return cell;
         }
