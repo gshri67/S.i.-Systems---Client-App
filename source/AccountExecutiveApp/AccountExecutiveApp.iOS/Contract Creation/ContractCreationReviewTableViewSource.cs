@@ -86,6 +86,10 @@ namespace AccountExecutiveApp.iOS
         {
             if (IsIndexFromCell(indexPath, _isSendingConsultantContractCellRow))
                 return GetIsSendingConsultantContractCell(tableView, indexPath);
+            if (_showNotSendingConsultantContractReason && IsIndexFromCell(indexPath, _isNotSendingConsultantContractNotificationCellRow))
+                return GetNotSendingConsultantContractNotificationCell(tableView, indexPath);
+            if (_showNotSendingConsultantContractReason && IsIndexFromCell(indexPath, _isNotSendingConsultantContractReasonCellRow))
+                return GetNotSendingConsultantContractReasonCell(tableView, indexPath);
             if ( _showEmailCell && IsIndexFromCell(indexPath, _emailCellRow))
                 return GetEmailCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _clientContractCellRow))
@@ -310,11 +314,38 @@ namespace AccountExecutiveApp.iOS
                 return false;
             }
         }
-
+        private bool _showNotSendingConsultantContractReason
+        {
+            get
+            {
+                return !_contractModel.IsSendingConsultantContract;
+            }
+        }
 
         private int _isSendingConsultantContractCellRow
         {
             get { return 0; }
+        }
+
+
+        private int _isNotSendingConsultantContractNotificationCellRow
+        {
+            get { return _isSendingConsultantContractCellRow + 1; }
+        }
+
+        private bool IsNotSendingConsultantContractNotificationCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _isNotSendingConsultantContractNotificationCellRow;
+        }
+
+        private int _isNotSendingConsultantContractReasonCellRow
+        {
+            get { return _isNotSendingConsultantContractNotificationCellRow + 1; }
+        }
+
+        private bool IsNotSendingConsultantContractReasonCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _isNotSendingConsultantContractReasonCellRow;
         }
 
         private int _emailCellRow
@@ -329,7 +360,7 @@ namespace AccountExecutiveApp.iOS
                 if (_showEmailCell)
                     return _emailCellRow + 1;
                 else
-                    return _emailCellRow;
+                    return _isNotSendingConsultantContractReasonCellRow+1;
             }
         }
 
@@ -586,6 +617,22 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell(string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.IsSendingConsultantContract);
+
+            return cell;
+        }
+
+        private UITableViewCell GetNotSendingConsultantContractNotificationCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell(string.Empty, "An Email will still be sent out to notify the Consultant, however an e-contract will not be sent.");
+
+            return cell;
+        }
+
+        private UITableViewCell GetNotSendingConsultantContractReasonCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Reason:", _contractModel.SummaryReasonForNotSendingConsultantContract);
 
             return cell;
         }
