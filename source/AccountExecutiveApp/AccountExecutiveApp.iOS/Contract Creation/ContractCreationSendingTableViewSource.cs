@@ -234,11 +234,16 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetNotSendingConsultantContractReasonCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Reason:", _contractModel.SummaryReasonForNotSendingContract);
+            cell.UpdateCell("Reason:", _contractModel.SummaryReasonForNotSendingConsultantContract);
             cell.OnValueChanged += delegate(string newValue)
             {
                 _contractModel.SummaryReasonForNotSendingConsultantContract = newValue;
             };
+            cell.OnValueFinalized += delegate(string newValue)
+            {
+                tableView.ReloadData();
+            };
+
 
             return cell;
         }

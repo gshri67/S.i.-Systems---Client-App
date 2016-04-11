@@ -13,6 +13,7 @@ namespace AccountExecutiveApp.iOS
 		
 		public delegate void EditableCellDelegate(string newValue);
 		public EditableCellDelegate OnValueChanged;
+        public EditableCellDelegate OnValueFinalized;
 
 		public EditableFullTextFieldCell(IntPtr handle)
 			: base(handle)
@@ -85,6 +86,11 @@ namespace AccountExecutiveApp.iOS
 	        TextView.Changed += delegate
 	        {
 	            OnValueChanged(TextView.Text);
+	        };
+
+	        TextView.Ended += delegate
+	        {
+	            OnValueFinalized(TextView.Text);
 	        };
 	    }
 
