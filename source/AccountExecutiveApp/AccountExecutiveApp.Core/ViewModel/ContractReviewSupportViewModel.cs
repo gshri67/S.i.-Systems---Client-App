@@ -13,11 +13,11 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private readonly IMatchGuideApi _api;
 
-        private ContractCreationOptions _contractOptions;
-        private ContractCreationOptions ContractOptions
+        private ContractCreationDetails_Review _contractDetails;
+        private ContractCreationDetails_Review ContractDetails
         {
-            get { return _contractOptions ?? new ContractCreationOptions(); }
-            set { _contractOptions = value ?? new ContractCreationOptions(); }
+            get { return _contractDetails ?? new ContractCreationDetails_Review(); }
+            set { _contractDetails = value ?? new ContractCreationDetails_Review(); }
         }
 
         public ContractReviewSupportViewModel(IMatchGuideApi api)
@@ -25,16 +25,45 @@ namespace AccountExecutiveApp.Core.ViewModel
             _api = api;
         }
 
-        public Task GetContractBodyOptions()
+        public bool WebTimesheetAccess 
         {
-            var task = GetOptions();
+            get { return _contractDetails.WebTimeSheetAccess; }
+        }
+        public bool WebTimesheetProjectAccess
+        {
+            get { return _contractDetails.WebTimeSheetProjectAccess; }
+        }
+        public string TimesheetType
+        {
+            get { return _contractDetails.TimesheetType ?? string.Empty; }
+        }
+        public string Vertical
+        {
+            get { return _contractDetails.Vertical ?? string.Empty; }
+        }
+        public string InvoiceFormat
+        {
+            get { return _contractDetails.InvoiceFormat ?? string.Empty; }
+        }
+        public IEnumerable<string> InvoiceInformation
+        {
+            get { return _contractDetails.InvoiceInformation ?? Enumerable.Empty<string>(); }
+        }
+        public IEnumerable<string> AssociatedProjectsAndPOs
+        {
+            get { return _contractDetails.AssociatedProjectAndPOs ?? Enumerable.Empty<string>(); }
+        }
+
+        public Task GetContractReviewDetails()
+        {
+            var task = GetDetails();
             //todo: task.continueWith
             return task;
         }
 
-        private async Task GetOptions()
+        private async Task GetDetails()
         {
-            ContractOptions = await _api.GetDropDownValuesForInitialContractCreationForm();
+           // ContractOptions = await _api.GetDropDownValuesForInitialContractCreationForm();
         }
     }
 }

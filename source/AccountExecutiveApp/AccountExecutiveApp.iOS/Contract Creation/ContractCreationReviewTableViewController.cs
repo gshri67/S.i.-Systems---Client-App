@@ -64,7 +64,7 @@ namespace AccountExecutiveApp.iOS
 
 			ContinueBar continueBar = new ContinueBar();
 			continueBar.Frame = new CGRect(0, 0, 100, 50);
-            continueBar.NextTextButton.SetTitle( "Submit", UIControlState.Normal );
+            continueBar.NextTextButton.SetTitle( "Finish", UIControlState.Normal );
 			continueBar.NextButton.TouchUpInside += delegate
 			{
 				OnSubmitButtonTapped();
