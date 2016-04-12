@@ -218,7 +218,7 @@ namespace AccountExecutiveApp.iOS
                 (MultiSelectDescriptionCell)tableView.DequeueReusableCell(MultiSelectDescriptionCell.CellIdentifier, indexPath);
 
             cell.UpdateCell("Invoice Recipients", _contractModel.Contract.InvoiceRecipients.Select(c => c.FullName).ToList() );
-
+            cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
             return cell;
         }
 

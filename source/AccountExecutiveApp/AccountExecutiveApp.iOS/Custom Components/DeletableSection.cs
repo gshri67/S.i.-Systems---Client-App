@@ -47,10 +47,7 @@ namespace AccountExecutiveApp.iOS
             BackgroundColor = UIColor.GroupTableViewBackgroundColor;
             //BackgroundColor = UIColor.FromRGB(166/255.0f, 177/255.0f, 186/255.0f);
 
-            AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, Self, NSLayoutAttribute.Right, 1.0f, 0));
-            //AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Top, NSLayoutRelation.Equal, Self, NSLayoutAttribute.Bottom, 0.1f, 0));
-            //AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, Self, NSLayoutAttribute.Bottom, 0.9f, 0));
-            //AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, DeleteButton, NSLayoutAttribute.Height, 1.0f, 0));
+            AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Right, NSLayoutRelation.Equal, Self, NSLayoutAttribute.Right, 0.95f, 0));
             AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal, this, NSLayoutAttribute.CenterY, 1.0f, 0));
             AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Width, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 25));
             AddConstraint(NSLayoutConstraint.Create(DeleteButton, NSLayoutAttribute.Height, NSLayoutRelation.Equal, null, NSLayoutAttribute.NoAttribute, 1.0f, 25));
