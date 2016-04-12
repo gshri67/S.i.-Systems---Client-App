@@ -387,7 +387,7 @@ namespace AccountExecutiveApp.iOS
         {
             ContractCreationDetailsHeaderView createContractHeader =
                 new ContractCreationDetailsHeaderView(
-                    "Please use the Matchguide System if you want to use Third Party Billing to create a contract");
+                    "Please use Matchguide if you want to use Third Party Billing to create a contract");
 
             tableView.TableHeaderView = createContractHeader;
             return createContractHeader;
