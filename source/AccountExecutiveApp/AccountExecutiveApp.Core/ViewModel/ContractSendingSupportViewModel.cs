@@ -32,8 +32,8 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty" };
-                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu" };
+                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty", Id = 1};
+                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu", Id = 2 };
                 return new List<UserContact>(new UserContact[] { contact1, contact2 });
             }
         }
@@ -48,8 +48,8 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty" };
-                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu" };
+                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty", Id = 1 };
+                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu", Id = 2 };
                 return new List<UserContact>(new UserContact[] { contact1, contact2 });
             }
         }
@@ -64,8 +64,8 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty" };
-                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu" };
+                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty", Id = 1 };
+                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu", Id = 2 };
                 return new List<UserContact>(new UserContact[] { contact1, contact2 });
             }
         }
@@ -80,8 +80,8 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty" };
-                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu" };
+                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty", Id = 1 };
+                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu", Id = 2 };
                 return new List<UserContact>(new UserContact[] { contact1, contact2 });
             }
         }

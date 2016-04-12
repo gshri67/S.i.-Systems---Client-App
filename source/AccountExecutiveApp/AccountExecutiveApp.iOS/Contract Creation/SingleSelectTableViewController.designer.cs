@@ -7,8 +7,8 @@ using Foundation;
 
 namespace AccountExecutiveApp.iOS.Contract_Creation
 {
-    [Register("SingleSelectTableViewController")]
-    partial class SingleSelectTableViewController
+    [Register("MultiSelectTableViewController")]
+    partial class MultiSelectTableViewController
     {
         void ReleaseDesignerOutlets()
         {

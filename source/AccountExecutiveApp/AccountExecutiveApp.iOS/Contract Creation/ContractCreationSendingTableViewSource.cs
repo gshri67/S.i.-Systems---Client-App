@@ -363,6 +363,17 @@ namespace AccountExecutiveApp.iOS
                 };
                 _parentController.ShowViewController(vc, _parentController);
             }
+            if (IsClientContactCell(indexPath))
+            {
+                SingleSelectTableViewController vc = new SingleSelectTableViewController();
+                vc.SetData(_supportModel.ClientContactOptions.ToList(), _contractModel.Contract.ClientContact);//set list of options, and then currently selected list
+                vc.OnSelectionChanged = delegate(UserContact selected)
+                {
+                    _contractModel.Contract.ClientContact = selected;
+                    tableView.ReloadData();
+                };
+                _parentController.ShowViewController(vc, _parentController);
+            }
         }
     }
 }
