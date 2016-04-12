@@ -15,12 +15,14 @@ namespace AccountExecutiveApp.iOS
     {
         private readonly ContractCreationReviewTableViewController _parentController;
         private readonly ContractCreationViewModel _contractModel;
+        private readonly ContractReviewSupportViewModel _reviewSupport;
 
         public ContractCreationReviewTableViewSource(ContractCreationReviewTableViewController parentController,
-            ContractCreationViewModel model)
+            ContractCreationViewModel model, ContractReviewSupportViewModel supportModel )
         {
             _parentController = parentController;
             _contractModel = model;
+            _reviewSupport = supportModel;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -71,15 +73,24 @@ namespace AccountExecutiveApp.iOS
                 return GetGMAssignedCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _comissionAssignedCellRow))
                 return GetCommisionAssignedCell(tableView, indexPath);
+            if (IsIndexFromCell(indexPath, _verticalCellRow))
+                return GetVerticalCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _invoiceFrequencyCellRow)) 
                 return GetInvoiceFrequencyCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _invoiceFormatCellRow))
                 return GetInvoiceFormatCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _projectCodeCellRow))
                 return GetProjectCodesCell(tableView, indexPath);
-            
-            return GetQuickPayCell(tableView, indexPath);
+            if (IsIndexFromCell(indexPath, _quickPayCellRow))
+                return GetQuickPayCell(tableView, indexPath);
+            if (IsIndexFromCell(indexPath, _timesheetTypeCellRow))
+                return GetTimesheetTypeCell(tableView, indexPath);
+            if (IsIndexFromCell(indexPath, _timesheetAccessCellRow))
+                return GetTimesheetAccessCell(tableView, indexPath);
+            if (IsIndexFromCell(indexPath, _timesheetProjectAccessCellRow))
+                return GetTimesheetProjectAccessCell(tableView, indexPath);
 
+            return new UITableViewCell();
         }
 
         private UITableViewCell ContractEmailCell(UITableView tableView, NSIndexPath indexPath)
@@ -201,9 +212,14 @@ namespace AccountExecutiveApp.iOS
             get { return _GMAssignedCellRow + 1; }
         }
 
-        private int _invoiceFrequencyCellRow
+        private int _verticalCellRow
         {
             get { return _comissionAssignedCellRow + 1; }
+        }
+
+        private int _invoiceFrequencyCellRow
+        {
+            get { return _verticalCellRow + 1; }
         }
 
         private int _invoiceFormatCellRow
@@ -221,10 +237,24 @@ namespace AccountExecutiveApp.iOS
             get { return _projectCodeCellRow + 1; }
         }
 
+        private int _timesheetTypeCellRow
+        {
+            get { return _quickPayCellRow + 1; }
+        }
+
+        private int _timesheetAccessCellRow
+        {
+            get { return _timesheetTypeCellRow + 1; }
+        }
+        
+        private int _timesheetProjectAccessCellRow
+        {
+            get { return _timesheetAccessCellRow + 1; }
+        }
 
         private int _numInitialPageCells
         {
-            get { return _quickPayCellRow + 1; }
+            get { return _timesheetProjectAccessCellRow + 1; }
         }
 
 //Contract Rates Page Indices
@@ -480,6 +510,14 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
+        private UITableViewCell GetVerticalCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Vertical", _reviewSupport.Vertical );
+
+            return cell;
+        }
+
         private UITableViewCell GetInvoiceFrequencyCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
@@ -509,6 +547,31 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Quick Pay", _contractModel.UsingQuickPay);
         
+            return cell;
+        }
+
+
+        private UITableViewCell GetTimesheetTypeCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Timesheet Type:", _reviewSupport.TimesheetType);
+
+            return cell;
+        }
+
+        private UITableViewCell GetTimesheetAccessCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Web TimeSheet Access:", _reviewSupport.FormattedWebTimesheetAccess());
+
+            return cell;
+        }
+
+        private UITableViewCell GetTimesheetProjectAccessCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Web TimeSheet Project Access:", _reviewSupport.FormattedWebTimesheetProjectAccess());
+
             return cell;
         }
 

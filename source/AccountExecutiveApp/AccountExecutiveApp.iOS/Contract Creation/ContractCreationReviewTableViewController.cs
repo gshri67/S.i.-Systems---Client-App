@@ -17,11 +17,12 @@ namespace AccountExecutiveApp.iOS
 		private SubtitleHeaderView _subtitleHeaderView;
 		private string Subtitle;
         private LoadingOverlay _overlay;
+        private readonly ContractReviewSupportViewModel _reviewSupport;
 
 		public ContractCreationReviewTableViewController(IntPtr handle)
 			: base(handle)
 		{
-			//ViewModel = DependencyResolver.Current.Resolve<ContractCreationViewModel>();
+            _reviewSupport = DependencyResolver.Current.Resolve<ContractReviewSupportViewModel>();
 		}
 
 		public override void DidReceiveMemoryWarning()
@@ -54,7 +55,7 @@ namespace AccountExecutiveApp.iOS
 			TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 			
 			TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
-			_tableSource = new ContractCreationReviewTableViewSource(this, ViewModel);
+			_tableSource = new ContractCreationReviewTableViewSource(this, ViewModel, _reviewSupport);
 			TableView.Source = _tableSource;
 			TableView.AllowsSelection = false;
 			TableView.SeparatorColor = UIColor.Clear;

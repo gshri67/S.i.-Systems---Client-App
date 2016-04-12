@@ -25,33 +25,51 @@ namespace AccountExecutiveApp.Core.ViewModel
             _api = api;
         }
 
+        public List<string> BooleanOptions { get { return new List<string>(new string[] { "Yes", "No" }); } }
+
+        public int BooleanOptionIndex(bool value)
+        {
+            if (value == true)
+                return 0;
+            return 1;
+        }
+
         public bool WebTimesheetAccess 
         {
-            get { return _contractDetails.WebTimeSheetAccess; }
+            get { return ContractDetails.WebTimeSheetAccess; }
         }
         public bool WebTimesheetProjectAccess
         {
-            get { return _contractDetails.WebTimeSheetProjectAccess; }
+            get { return ContractDetails.WebTimeSheetProjectAccess; }
         }
         public string TimesheetType
         {
-            get { return _contractDetails.TimesheetType ?? string.Empty; }
+            get { return ContractDetails.TimesheetType ?? string.Empty; }
         }
         public string Vertical
         {
-            get { return _contractDetails.Vertical ?? string.Empty; }
+            get { return ContractDetails.Vertical ?? string.Empty; }
         }
         public string InvoiceFormat
         {
-            get { return _contractDetails.InvoiceFormat ?? string.Empty; }
+            get { return ContractDetails.InvoiceFormat ?? string.Empty; }
         }
         public IEnumerable<string> InvoiceInformation
         {
-            get { return _contractDetails.InvoiceInformation ?? Enumerable.Empty<string>(); }
+            get { return ContractDetails.InvoiceInformation ?? Enumerable.Empty<string>(); }
         }
         public IEnumerable<string> AssociatedProjectsAndPOs
         {
-            get { return _contractDetails.AssociatedProjectAndPOs ?? Enumerable.Empty<string>(); }
+            get { return ContractDetails.AssociatedProjectAndPOs ?? Enumerable.Empty<string>(); }
+        }
+
+        public string FormattedWebTimesheetAccess()
+        {
+            return BooleanOptions[ BooleanOptionIndex(WebTimesheetAccess) ];
+        }
+        public string FormattedWebTimesheetProjectAccess()
+        {
+            return BooleanOptions[BooleanOptionIndex(WebTimesheetProjectAccess)];
         }
 
         public Task GetContractReviewDetails()
