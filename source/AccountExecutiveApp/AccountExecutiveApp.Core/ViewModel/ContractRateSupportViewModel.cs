@@ -26,11 +26,11 @@ namespace AccountExecutiveApp.Core.ViewModel
             _api = api;
         }
 
-        //public List<string> RateTypeOptions { get { return new List<string>(new string[] { "Per hour", "Per day" }); } }
-        //public List<string> RateDescriptionOptions { get { return new List<string>(new string[] { "Regular", "Hourly", "Daily" }); } }
+        public List<string> RateTypeOptions { get { return new List<string>(new string[] { "Per hour", "Per day" }); } }
+        public List<string> RateDescriptionOptions { get { return new List<string>(new string[] { "Regular", "Hourly", "Daily" }); } }
 
-        public List<string> RateTypeOptions { get { return Options.RateTypeOptions.ToList(); } }
-        public List<string> RateDescriptionOptions { get { return Options.RateDescriptionOptions.ToList(); } }
+        //public List<string> RateTypeOptions { get { return Options.RateTypeOptions.ToList(); } }
+        //public List<string> RateDescriptionOptions { get { return Options.RateDescriptionOptions.ToList(); } }
 
 
         public Task GetRateOptions()

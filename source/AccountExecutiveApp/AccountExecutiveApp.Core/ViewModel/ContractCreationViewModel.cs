@@ -159,9 +159,11 @@ namespace AccountExecutiveApp.Core.ViewModel
             if (index >= Contract.Rates.Count()) return;
             
             float billRate = float.Parse(BillRateAtIndex(index));
+            float payRate = float.Parse(PayRateAtIndex(index));
+
             if (billRate == 0) return;
 
-            var GM = float.Parse(PayRateAtIndex(index))/billRate;
+            var GM = billRate - payRate;
             SetGrossMarginAtIndex(GM.ToString(), index);
         }
 

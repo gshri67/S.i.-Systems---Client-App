@@ -19,7 +19,7 @@ namespace AccountExecutiveApp.iOS
         private float _specializationCellHeight = -1;
         private int _numRateSections = 0;
         private int deletingSectionIndex = -1;
-        private bool _showHoursPerDay = false;
+        private bool ShowHoursPerDay { get{ return _contractModel.AreRateTypesPerDay; } }
 
         public ContractCreationPayRatesTableViewSource(ContractCreationPayRatesTableViewController parentController, ContractCreationViewModel model, ContractRateSupportViewModel supportModel )
         {
@@ -34,7 +34,7 @@ namespace AccountExecutiveApp.iOS
 
             if (IsIndexFromCell(indexPath, _rateTypeCellRow))
                 return GetRateTypeCell(tableView, indexPath);
-            else if ( _showHoursPerDay && IsIndexFromCell(indexPath, _hoursPerDayCellRow))
+            else if ( ShowHoursPerDay && IsIndexFromCell(indexPath, _hoursPerDayCellRow))
                 return GetHoursPerDayCell(tableView, indexPath);
             else if (IsIndexFromCell(indexPath, _rateDescriptionCellRow))
                 return GetRateDescriptionCell(tableView, indexPath);
@@ -56,7 +56,7 @@ namespace AccountExecutiveApp.iOS
         {
             get
             {
-                if( !_showHoursPerDay )
+                if( !ShowHoursPerDay )
                     return _rateTypeCellRow + 1;
                 return _hoursPerDayCellRow + 1;
             } 
@@ -89,6 +89,7 @@ namespace AccountExecutiveApp.iOS
 
             cell.UpdateCell("Hours", _contractModel.HoursPerDayAtIndex((int)indexPath.Section).ToString());
             cell.OnValueChanged += delegate(float newValue) { _contractModel.SetHoursPerDayAtIndex((int)newValue, (int)indexPath.Section); };
+            cell.UsingDollarSign = false;
 
             return cell;
         }
@@ -149,7 +150,8 @@ namespace AccountExecutiveApp.iOS
             
             cell.UpdateCell("GM", _contractModel.GrossMarginAtIndex((int)indexPath.Section));
             cell.UserInteractionEnabled = false;
-            
+            cell.UsingDollarSign = true;
+
             return cell;
         }
 
@@ -203,8 +205,6 @@ namespace AccountExecutiveApp.iOS
 
         private void EvaluateDynamicCells(UITableView tableView)
         {
-            _showHoursPerDay = _contractModel.AreRateTypesPerDay;
-            
             tableView.ReloadData();
         }
 
