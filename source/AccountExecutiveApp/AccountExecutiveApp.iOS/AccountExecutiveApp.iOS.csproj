@@ -161,7 +161,7 @@
       <DependentUpon>ContractCreationSendingTableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Contract Creation\ContractCreationSendingTableViewSource.cs" />
-    <Compile Include="Contract Creation\MultiSelectTableViewSource - Copy.cs" />
+    <Compile Include="Contract Creation\MultiSelectTableViewSource.cs" />
     <Compile Include="Contract Creation\SingleSelectTableViewController.cs" />
     <Compile Include="Contract Creation\SingleSelectTableViewController.designer.cs">
       <DependentUpon>SingleSelectTableViewController.cs</DependentUpon>

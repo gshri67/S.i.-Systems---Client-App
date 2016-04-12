@@ -366,10 +366,32 @@ namespace AccountExecutiveApp.iOS
             if (IsClientContactCell(indexPath))
             {
                 SingleSelectTableViewController vc = new SingleSelectTableViewController();
-                vc.SetData(_supportModel.ClientContactOptions.ToList(), _contractModel.Contract.ClientContact);//set list of options, and then currently selected list
+                vc.SetData(_supportModel.ClientContactOptions.ToList(), _contractModel.Contract.ClientContact);
                 vc.OnSelectionChanged = delegate(UserContact selected)
                 {
                     _contractModel.Contract.ClientContact = selected;
+                    tableView.ReloadData();
+                };
+                _parentController.ShowViewController(vc, _parentController);
+            }
+            if (IsDirectReportCell(indexPath))
+            {
+                SingleSelectTableViewController vc = new SingleSelectTableViewController();
+                vc.SetData(_supportModel.DirectReportOptions.ToList(), _contractModel.Contract.DirectReport);
+                vc.OnSelectionChanged = delegate(UserContact selected)
+                {
+                    _contractModel.Contract.DirectReport = selected;
+                    tableView.ReloadData();
+                };
+                _parentController.ShowViewController(vc, _parentController);
+            }
+            if (IsBillingContactCell(indexPath))
+            {
+                SingleSelectTableViewController vc = new SingleSelectTableViewController();
+                vc.SetData(_supportModel.BillingContactOptions.ToList(), _contractModel.Contract.BillingContact);
+                vc.OnSelectionChanged = delegate(UserContact selected)
+                {
+                    _contractModel.Contract.BillingContact = selected;
                     tableView.ReloadData();
                 };
                 _parentController.ShowViewController(vc, _parentController);
