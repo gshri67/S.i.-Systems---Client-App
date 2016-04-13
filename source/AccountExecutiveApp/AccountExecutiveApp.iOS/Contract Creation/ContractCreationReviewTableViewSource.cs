@@ -37,9 +37,7 @@ namespace AccountExecutiveApp.iOS
                 cell = ContactsCell(tableView, indexPath);
             else if (indexPath.Section < _contractModel.NumRates + 3)//Recipients
                 cell = InvoiceRecipientsCell(tableView, indexPath);
-            else if (indexPath.Section < _contractModel.NumRates + 4)//Associated POs
-                cell = null;
-            else if (indexPath.Section < _contractModel.NumRates + 5) //Email
+            else if (indexPath.Section < _contractModel.NumRates + 4) //Email
                 cell = ContractEmailCell(tableView, indexPath);
             else
                 cell = new UITableViewCell();
@@ -120,7 +118,7 @@ namespace AccountExecutiveApp.iOS
             if (IsIndexFromCell(indexPath, _billingContactCellRow))
                 return GetBillingContactCell(tableView, indexPath);
 
-            return GetInvoiceRecipientsCell(tableView, indexPath);
+            return new UITableViewCell();
         }
 
         private UITableViewCell InvoiceRecipientsCell(UITableView tableView, NSIndexPath indexPath)
@@ -298,23 +296,32 @@ namespace AccountExecutiveApp.iOS
             get { return _directReportCellRow + 1; }
         }
 
-        private int _invoiceRecipientsCellRow
-        {
-            get { return _billingContactCellRow + 1; }
-        }
-
         private int _numSendingPageCells {
             get
             {
      
-                return _invoiceRecipientsCellRow + 1;
+                return _billingContactCellRow + 1;
 
                 return 0;
             } 
         }
 
-//Email Section Indices
 
+//Invoice Recipients Indices
+
+        private int _invoiceRecipientsCellRow{ get { return 0; }}
+
+        private int _numContactCells
+        {
+            get
+            {
+                return _invoiceRecipientsCellRow + 1;
+
+                return 0;
+            }
+        }
+
+//Email Section Indices
 
         private bool _showEmailCell
         {
@@ -749,10 +756,8 @@ namespace AccountExecutiveApp.iOS
             if ((int)section < _contractModel.NumRates + 2) //Contacts
                 return _numSendingPageCells;
             if ((int)section < _contractModel.NumRates + 3)//Recipients
-                return 0;
-            if ((int)section < _contractModel.NumRates + 4)//Associated POs
-                return 0;
-            if ((int)section < _contractModel.NumRates + 5)//Email
+                return _numContactCells;
+            if ((int)section < _contractModel.NumRates + 4)//Email
                 return _numEmailPageCells;
 
             return 0;
@@ -760,7 +765,7 @@ namespace AccountExecutiveApp.iOS
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return 5 + _contractModel.NumRates;
+            return 4 + _contractModel.NumRates;
         }
 
         public override string TitleForHeader(UITableView tableView, nint section)
@@ -774,8 +779,6 @@ namespace AccountExecutiveApp.iOS
             if ((int)section == _contractModel.NumRates + 2)
                 return "Invoice Recipients";
             if ((int)section == _contractModel.NumRates + 3)
-                return "Associated Project and POs to New Contract";
-            if ((int)section == _contractModel.NumRates + 4)
                 return "Email";
 
             return string.Empty;
