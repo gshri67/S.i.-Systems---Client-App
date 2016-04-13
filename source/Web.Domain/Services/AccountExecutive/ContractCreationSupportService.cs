@@ -64,7 +64,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 InvoiceFormatOptions = InvoiceFormats(),
                 InvoiceFrequencyOptions = InvoiceFrequencies(),
                 LimitationOfContractTypeOptions = ContractLimitaionTypes(),
-                PaymentPlan = ContractPaymentPlans()
+                PaymentPlanOptions = ContractPaymentPlans()
             };
         }
 
