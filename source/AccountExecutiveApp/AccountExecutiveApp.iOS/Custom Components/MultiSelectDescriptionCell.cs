@@ -128,7 +128,7 @@ namespace AccountExecutiveApp.iOS
                     RightDetailTextView.Text += "\n" + entry;
             }
             else
-                RightDetailTextView.Text = string.Empty;
+                RightDetailTextView.Text = "None";
         }
 	}
 }
