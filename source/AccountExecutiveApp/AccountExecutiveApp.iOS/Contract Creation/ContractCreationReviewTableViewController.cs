@@ -123,12 +123,12 @@ namespace AccountExecutiveApp.iOS
             var finishAlertController = UIAlertController.Create("Contract Creation", "Are you sure you want to create this contract?", UIAlertControllerStyle.Alert);
 
             //Add Actions
-            finishAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, alert => 
+            finishAlertController.AddAction(UIAlertAction.Create("Yes", UIAlertActionStyle.Default, alert => 
 	        {
                 StartContractSubmission();
 	        }
 	        ));
-            finishAlertController.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, alert => Console.WriteLine("Cancel was clicked")));
+            finishAlertController.AddAction(UIAlertAction.Create("No", UIAlertActionStyle.Cancel, alert => Console.WriteLine("No was clicked")));
 
             //Present Alert
             PresentViewController(finishAlertController, true, null);

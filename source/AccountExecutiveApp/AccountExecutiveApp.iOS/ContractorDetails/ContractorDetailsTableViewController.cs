@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
 using AccountExecutiveApp.iOS.Jobs.JobDetails.ContractorJobStatusList;
+using CoreFoundation;
 using CoreGraphics;
 using Microsoft.Practices.Unity;
 using SiSystems.SharedModels;
@@ -101,7 +102,25 @@ namespace AccountExecutiveApp.iOS
             };
         }
 
-		private void UpdatePageTitle()
+	    public override void ViewWillAppear(bool animated)
+	    {
+            if (_jobDescriptionWasSet && _viewModel.ContractIdFromJobIdAndContractorId(JobId, _id) > 0 )//contractor is no longer shortlisted, but is in fact placed
+	        {
+                InvokeOnMainThread(() =>
+                {
+                    NavigationController.PopViewController(false);//we don't want to see this job details page again
+
+                    int contractId = 1;
+
+                    var vc = (ContractDetailsViewController) Storyboard.InstantiateViewController("ContractDetailsViewController");
+                    vc.LoadContract(contractId);
+                    ShowViewController( vc, this );
+                });
+              
+	        }
+	    }
+
+	    private void UpdatePageTitle()
 		{
 		    Title = _viewModel.PageTitle;
 		}

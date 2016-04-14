@@ -314,5 +314,10 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<RateOptions>();
         }
+
+        public async Task<int> GetContractIdFromJobIdAndContractorId(int jobId, int contractorId)
+        {
+            return await ExecuteWithDefaultClient<int>();
+        }
     }
 }

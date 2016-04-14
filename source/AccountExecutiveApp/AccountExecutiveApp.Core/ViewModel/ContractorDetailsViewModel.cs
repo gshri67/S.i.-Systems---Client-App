@@ -42,5 +42,14 @@ namespace AccountExecutiveApp.Core.ViewModel
             Contractor = await _api.GetContractorById(Id);
         }
 
+        public int ContractIdFromJobIdAndContractorId(int jobId, int contractorId)
+        {
+            return 0;
+            //return GetContractIdFromJobIdAndContractorId(jobId, contractorId).Result;
+        }
+        public async Task<int> GetContractIdFromJobIdAndContractorId(int jobId, int contractorId)
+        {
+            return await _api.GetContractIdFromJobIdAndContractorId(jobId, contractorId);
+        }
     }
 }
