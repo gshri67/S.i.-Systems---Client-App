@@ -68,7 +68,6 @@
     <Compile Include="Contract.cs" />
     <Compile Include="ContractProposal.cs" />
     <Compile Include="Job.cs" />
-    <Compile Include="PayRate.cs" />
     <Compile Include="Eula.cs" />
     <Compile Include="FloThruAgreement.cs" />
     <Compile Include="LoginModel.cs" />
@@ -81,8 +80,6 @@
     <Compile Include="TimeEntry.cs" />
     <Compile Include="Timesheet.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="Client.cs" />
-    <Compile Include="ProjectCode.cs" />
     <Compile Include="Remittance.cs" />
     <Compile Include="AccountExecutive.cs" />
     <Compile Include="DashboardSummary.cs" />
