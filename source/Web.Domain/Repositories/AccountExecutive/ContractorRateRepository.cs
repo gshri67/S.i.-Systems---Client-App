@@ -10,11 +10,10 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 {
     public interface IContractorRateRepository
     {
-        //ContractorRateSummary GetContractorRateSummaryByContractId(int contractId);
         IEnumerable<ContractorRateSummary> GetProposedContractorRateSummaryByJobId(int id);
         IEnumerable<ContractorRateSummary> GetShortlistedContractorRateSummaryByJobId(int id);
         IEnumerable<ContractorRateSummary> GetCalloutContractorRateSummaryByJobId(int id);
-        ContractorRateSummary GetRateSummaryByJobIdAndContractorId(int jobId, int contractorId);
+        ContractorRateSummary GetProposedRateSummaryByJobIdAndContractorId(int jobId, int contractorId);
     }
 
     public class ContractorRateRepository : IContractorRateRepository
@@ -98,7 +97,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
-        public ContractorRateSummary GetRateSummaryByJobIdAndContractorId(int jobId, int contractorId)
+        public ContractorRateSummary GetProposedRateSummaryByJobIdAndContractorId(int jobId, int contractorId)
         {
             const string contractorsQuery =
                @"SELECT CandidateUserID AS ContractorId, 
@@ -135,7 +134,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             return Enumerable.Empty<ContractorRateSummary>();
         }
 
-        public ContractorRateSummary GetRateSummaryByJobIdAndContractorId(int jobId, int contractorId)
+        public ContractorRateSummary GetProposedRateSummaryByJobIdAndContractorId(int jobId, int contractorId)
         {
             return new ContractorRateSummary();
         }

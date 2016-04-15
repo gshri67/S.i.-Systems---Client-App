@@ -41,7 +41,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
         public ContractorRateSummary GetRateSummaryByJobIdAndContractorId(int jobId, int contractorId)
         {
-            return _repo.GetRateSummaryByJobIdAndContractorId(jobId, contractorId);
+            return _repo.GetProposedRateSummaryByJobIdAndContractorId(jobId, contractorId);
         }
     }
 }

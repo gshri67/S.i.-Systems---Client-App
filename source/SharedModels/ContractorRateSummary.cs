@@ -17,6 +17,11 @@ namespace SiSystems.SharedModels
         public float Markup { get; set; }
         public float Margin { get; set; }
 
+        public string Description { get; set; }
+        public string RateType { get; set; }
+        public float HoursPerDay { get; set; }
+        public bool IsPrimaryRate { get; set; }
+
         public DateTime Date { get; set; } 
 
         public ContractorRateSummary()

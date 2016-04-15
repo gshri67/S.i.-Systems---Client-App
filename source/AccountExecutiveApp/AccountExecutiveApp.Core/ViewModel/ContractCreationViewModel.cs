@@ -122,16 +122,16 @@ namespace AccountExecutiveApp.Core.ViewModel
             return false;
         }}
 
-        public int HoursPerDayAtIndex(int index) { return Contract.Rates.ElementAt(index).HoursPerDay; }
+        public float HoursPerDayAtIndex(int index) { return Contract.Rates.ElementAt(index).HoursPerDay; }
         public void SetHoursPerDayAtIndex(int newHoursPerDay, int index)
         {
             Contract.Rates.ElementAt(index).HoursPerDay = newHoursPerDay;
         }
 
-        public string RateDescriptionAtIndex(int index) { return Contract.Rates.ElementAt(index).RateDescription; }
+        public string RateDescriptionAtIndex(int index) { return Contract.Rates.ElementAt(index).Description; }
         public void SetRateDescriptionAtIndex(string newRateDescription, int index)
         {
-            Contract.Rates.ElementAt(index).RateDescription = newRateDescription;
+            Contract.Rates.ElementAt(index).Description = newRateDescription;
         }
 
         public string BillRateAtIndex(int index) { return Contract.Rates.ElementAt(index).BillRate.ToString(); }
@@ -170,7 +170,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         public int PrimaryRateIndex {
             get { return Contract.PrimaryRateIndex;  }
         }
-        public bool IsPrimaryRateAtIndex(int index) { return Contract.Rates.ElementAt(index).isPrimaryRate; }
+        public bool IsPrimaryRateAtIndex(int index) { return Contract.Rates.ElementAt(index).IsPrimaryRate; }
         public void SetPrimaryRateForIndex(int index)
         {
             Contract.PrimaryRateIndex = index;
@@ -178,9 +178,9 @@ namespace AccountExecutiveApp.Core.ViewModel
             for (int i = 0; i < NumRates; i ++)
             {
                 if (i == index)
-                    Contract.Rates.ElementAt(i).isPrimaryRate = true;
+                    Contract.Rates.ElementAt(i).IsPrimaryRate = true;
                 else
-                    Contract.Rates.ElementAt(i).isPrimaryRate = false;
+                    Contract.Rates.ElementAt(i).IsPrimaryRate = false;
             }
         }
 
@@ -191,20 +191,20 @@ namespace AccountExecutiveApp.Core.ViewModel
             if (Contract.PrimaryRateIndex > NumRates)
                 Contract.PrimaryRateIndex = 0;
 
-            ContractCreationDetails_Rate rate = new ContractCreationDetails_Rate();
+            var rate = new ContractorRateSummary();
 
             if (NumRates > 0)
                 rate.RateType = RateTypeAtIndex(0);
             else
                 rate.RateType = string.Empty;
     
-            rate.RateDescription = string.Empty;
+            rate.Description = string.Empty;
             rate.BillRate = 0;
 
             if (NumRates == 0)
-                rate.isPrimaryRate = true;
+                rate.IsPrimaryRate = true;
 
-            List<ContractCreationDetails_Rate> rateList = Contract.Rates.ToList();
+            var rateList = Contract.Rates.ToList();
             rateList.Add(rate);
             Contract.Rates = rateList.AsEnumerable();
 
@@ -215,13 +215,13 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             if (index >= 0 && index < NumRates)
             {
-                List<ContractCreationDetails_Rate> rateList = Contract.Rates.ToList();
+                var rateList = Contract.Rates.ToList();
                 rateList.RemoveAt(index);
 
                 if (NumRates > 1)
                     Contract.Rates = rateList.AsEnumerable();
                 else
-                    Contract.Rates = Enumerable.Empty<ContractCreationDetails_Rate>();
+                    Contract.Rates = Enumerable.Empty<ContractorRateSummary>();
 
                 NumRates--;
 

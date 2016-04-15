@@ -35,7 +35,7 @@ namespace SiSystems.SharedModels
         public IEnumerable<string> GrossMargins { get; set; }
         public int PrimaryRateIndex { get; set; }
 
-        public IEnumerable<ContractCreationDetails_Rate> Rates { get; set; }
+        public IEnumerable<ContractorRateSummary> Rates { get; set; }
 
         //Sending Info
         public bool IsSendingConsultantContract { get; set; }
@@ -78,7 +78,7 @@ namespace SiSystems.SharedModels
             GrossMargins = Enumerable.Empty<string>();
             PrimaryRateIndex = 0;
 
-            Rates = Enumerable.Empty<ContractCreationDetails_Rate>();
+            Rates = Enumerable.Empty<ContractorRateSummary>();
 
             IsSendingConsultantContract = true;
             SummaryReasonForNotSendingConsultantContract = string.Empty;
