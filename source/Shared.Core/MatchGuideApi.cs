@@ -319,5 +319,10 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<int>();
         }
+
+        public async Task RequestTimesheetApproval()
+        {
+          
+        }
     }
 }

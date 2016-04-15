@@ -206,6 +206,10 @@
     <Compile Include="Custom Components\EditablePickerCell.designer.cs">
       <DependentUpon>EditablePickerCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Custom Components\ButtonCell.cs" />
+    <Compile Include="Custom Components\ButtonCell.designer.cs">
+      <DependentUpon>ButtonCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Custom Components\EditableTextFieldCell.cs" />
     <Compile Include="Custom Components\EditableTextFieldCell.designer.cs">
       <DependentUpon>EditableTextFieldCell.cs</DependentUpon>

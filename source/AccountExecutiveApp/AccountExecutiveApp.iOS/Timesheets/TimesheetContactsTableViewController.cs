@@ -31,7 +31,7 @@ namespace AccountExecutiveApp.iOS
 			if (TableView == null) return;
 
 			RegisterCellsForReuse();
-			TableView.Source = new TimesheetContactsTableViewSource(this, _viewModel.Contact );
+			TableView.Source = new TimesheetContactsTableViewSource(this, _viewModel.Contact, _viewModel.Status );
 			TableView.ReloadData();
 			TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 		}
@@ -39,9 +39,10 @@ namespace AccountExecutiveApp.iOS
 		private void RegisterCellsForReuse()
 		{
 			if (TableView == null) return;
-		
+
 			TableView.RegisterClassForCellReuse(typeof(SubtitleWithRightDetailCell), "SubtitleWithRightDetailCell");
             TableView.RegisterClassForCellReuse(typeof(ContractorContactInfoCell), ContractorContactInfoCell.CellIdentifier);
+            TableView.RegisterClassForCellReuse(typeof(ButtonCell), ButtonCell.CellIdentifier);
 		}
 
 		public override void ViewDidLoad ()
@@ -98,8 +99,41 @@ namespace AccountExecutiveApp.iOS
             });
         }
 
+	    public void RequestTimesheetApproval()
+	    {
+	        StartRequestTimesheetApprovalConfirmation();
+	    }
 
-        #region Overlay
+        private void StartRequestTimesheetApprovalConfirmation()
+        {
+            var requestAlertController = UIAlertController.Create("Re-Request Approval", "Are you sure you want to request approval again for this timesheet? An email will be sent to the Direct Report.", UIAlertControllerStyle.Alert);
+
+            //Add Actions
+            requestAlertController.AddAction(UIAlertAction.Create("Yes", UIAlertActionStyle.Default, alert =>
+            {
+                StartRequestingTimesheetApproval();
+            }
+            ));
+            requestAlertController.AddAction(UIAlertAction.Create("No", UIAlertActionStyle.Cancel, alert => Console.WriteLine("No was clicked")));
+
+            //Present Alert
+            PresentViewController(requestAlertController, true, null);
+        }
+
+        private void StartRequestingTimesheetApproval()
+        {
+            IndicateLoading();
+
+            var task = _viewModel.RequestTimesheetApproval();
+            task.ContinueWith(_ => InvokeOnMainThread(EndTimesheetApprovalRequest), TaskContinuationOptions.OnlyOnRanToCompletion);
+        }
+        private void EndTimesheetApprovalRequest()
+        {
+            RemoveOverlay();
+            DismissViewController(true, null);
+        }
+
+	    #region Overlay
 
         private void IndicateLoading()
         {

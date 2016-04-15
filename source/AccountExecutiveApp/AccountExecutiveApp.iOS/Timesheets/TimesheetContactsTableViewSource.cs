@@ -16,12 +16,14 @@ namespace AccountExecutiveApp.iOS
         private readonly TimesheetContactsTableViewController _parentController;
 		private readonly TimesheetContactsTableViewModel _parentModel;
 		private TimesheetContactsTableViewModel _tableModel;
+	    private MatchGuideConstants.TimesheetStatus _status;
 
 		public TimesheetContactsTableViewSource
-		(TimesheetContactsTableViewController parentController, TimesheetContact contact)
+		(TimesheetContactsTableViewController parentController, TimesheetContact contact, MatchGuideConstants.TimesheetStatus status)
 		{
 			_parentController = parentController;
 			_tableModel = new TimesheetContactsTableViewModel(contact);
+		    _status = status;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -32,6 +34,9 @@ namespace AccountExecutiveApp.iOS
 				return GetCallOrTextContactCell(tableView, indexPath);
 			else if (IsEmailCell(indexPath))
 				return GetEmailContactCell(tableView, indexPath);
+            else if (IsRequestButtonCell(indexPath))
+                return GetRequestButtonCell(tableView, indexPath);
+
 
 			return null;
 		}
@@ -60,6 +65,20 @@ namespace AccountExecutiveApp.iOS
                 vc.SetContactId(_tableModel.DirectReportId, UserContactType.DirectReport);
                 _parentController.ShowViewController(vc, _parentController);
             }
+	    }
+
+	    private UITableViewCell GetRequestButtonCell(UITableView tableView, NSIndexPath indexPath)
+	    {
+	        var cell = tableView.DequeueReusableCell(ButtonCell.CellIdentifier) as ButtonCell;
+           
+            cell.UpdateCell("Re-Request Approval");
+
+	        cell.OnButtonTapped = delegate
+	        {
+	            _parentController.RequestTimesheetApproval();
+	        };
+
+	        return cell;
 	    }
 
 	    private UITableViewCell GetDetailsCell(UITableView tableView, NSIndexPath indexPath)
@@ -136,8 +155,23 @@ namespace AccountExecutiveApp.iOS
 		private int _firstContractorPhoneNumberCellIndex { get { return _contractorDetailsIndex+1; } }
 		private int _numberOfContractorPhoneNumberCells { get { return _tableModel.NumberOfContractorPhoneNumbers(); } }
 
-        private int _firstDirectReportPhoneNumberCellIndex { get { return _directReportDetailsIndex + 1; } }
+        private int _requestButtonCellIndex { get { return _directReportDetailsIndex + 1; } }
+
+        private int _firstDirectReportPhoneNumberCellIndex { 
+            get
+            {
+                if (_status == MatchGuideConstants.TimesheetStatus.Submitted) return _requestButtonCellIndex + 1;
+                else return _directReportDetailsIndex + 1;
+            } 
+        }
 		private int _numberOfDirectReportPhoneNumberCells { get { return _tableModel.NumberOfDirectReportPhoneNumbers(); } }
+
+        private bool IsRequestButtonCell(NSIndexPath indexPath)
+        {
+            if ((int)indexPath.Item == _requestButtonCellIndex )
+                return true;
+            return false;
+        }
 
 		private bool IsCallOrTextCell(NSIndexPath indexPath)
 		{
@@ -190,7 +224,15 @@ namespace AccountExecutiveApp.iOS
 		}
 
 		private int _numContractorCells { get { return _numberOfContractorPhoneNumberCells + _numberOfContractorEmailCells + 1; } }
-		private int _numDirectReportCells { get { return _numberOfDirectReportPhoneNumberCells + _numberOfDirectReportEmailCells + 1; } }
+		private int _numDirectReportCells { 
+            get
+		    {
+                if( _status == MatchGuideConstants.TimesheetStatus.Submitted )
+    		        return _numberOfDirectReportPhoneNumberCells + _numberOfDirectReportEmailCells + 2;
+                else
+                    return _numberOfDirectReportPhoneNumberCells + _numberOfDirectReportEmailCells + 1;
+		    }
+        }
 
 		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{

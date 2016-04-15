@@ -14,6 +14,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 		private TimesheetContact _contact;
 		private int Id;
+	    public MatchGuideConstants.TimesheetStatus Status;
 
 		public TimesheetContact Contact
 		{
@@ -29,6 +30,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 		public Task LoadTimesheetContactWithIdAndStatus( int newId, MatchGuideConstants.TimesheetStatus status )
 		{
 		    Id = newId;
+		    Status = status;
 
 		    Task task;
 			
@@ -62,5 +64,10 @@ namespace AccountExecutiveApp.Core.ViewModel
        
 	    public string PageTitle { get{ return string.Format("{0} Timesheet", _contact.Status.ToString() ); } }
         public string PageSubtitle { get { return string.Format("{0}, {1}", CompanyName, FormattedPeriod); } }
+
+	    public async Task RequestTimesheetApproval()
+	    {
+	        //return _api.RequestTimesheetApproval();
+	    }
 	}
 }
