@@ -90,6 +90,9 @@ namespace AccountExecutiveApp.iOS
 			
         public void SetupConstraints()
         {
+            MainTextLabel.AdjustsFontSizeToFitWidth = true;
+            MainTextLabel.MinimumFontSize = 10;
+
             if (shrinkRightDetailText)
             {
                 RightDetailTextField.AdjustsFontSizeToFitWidth = true;

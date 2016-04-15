@@ -101,6 +101,7 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Left, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.05f, 0f));
             AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1f, 0f));
             AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Right, NSLayoutRelation.LessThanOrEqual, this, NSLayoutAttribute.Right, 0.7f, 0f));
+            //AddConstraint(NSLayoutConstraint.Create(MainTextLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.GreaterThanOrEqual, RightDetailTextView, NSLayoutAttribute.Bottom, 1.0f, 0f));
 		}
 
 		private void AddRightDetailTextLabelConstraints()
@@ -108,6 +109,7 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextView, NSLayoutAttribute.Right, NSLayoutRelation.Equal, this, NSLayoutAttribute.Right, 0.90f, 0f));
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextView, NSLayoutAttribute.Left, NSLayoutRelation.Equal, MainTextLabel, NSLayoutAttribute.Right, 1.0f, 15f));
             AddConstraint(NSLayoutConstraint.Create(RightDetailTextView, NSLayoutAttribute.Top, NSLayoutRelation.Equal, this, NSLayoutAttribute.Top, 1.0f, 0f));
+            AddConstraint(NSLayoutConstraint.Create(RightDetailTextView, NSLayoutAttribute.Height, NSLayoutRelation.GreaterThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 44f));
 		}
 
 		public void UpdateCell(string mainText, string rightDetailText)
