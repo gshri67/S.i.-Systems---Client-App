@@ -15,18 +15,18 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
     public class ContractCreationController: ApiController
     {
         
-        private readonly ContractCreationSupportService _contractCreationSupportService;
+        private readonly ContractCreationService _service;
         
-        public ContractCreationController(ContractCreationSupportService contractCreationSupportService)
+        public ContractCreationController(ContractCreationService service)
         {
-            _contractCreationSupportService = contractCreationSupportService;
+            _service = service;
         }
 
-
-        public HttpResponseMessage GetInitialContract(int jobId, int contractorId)
+        [Route("job/{jobId}/candidate/{candidateId}")]
+        public HttpResponseMessage GetInitialContract(int jobId, int candidateId)
         {
-            var options = _contractCreationSupportService.GetContractOptionsForMainForm();
-            return Request.CreateResponse(HttpStatusCode.OK, options);
+            var contract = _service;
+            return Request.CreateResponse(HttpStatusCode.OK, contract);
         }
     }
 }
