@@ -31,7 +31,7 @@ namespace AccountExecutiveApp.iOS
 
             NextButton = new UIButton(new CGRect(0, 0, 50, 50));
             NextButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
-            NextButton.SetBackgroundImage(new UIImage("ios7-arrow-forward.png"), UIControlState.Normal);
+            NextButton.SetBackgroundImage(new UIImage("arrow-black-60.png"), UIControlState.Normal);
             NextButton.TranslatesAutoresizingMaskIntoConstraints = false;
 
             NextTextButton = new UIButton();

@@ -446,6 +446,8 @@
     <BundleResource Include="Resources\worn_dots.png" />
     <BundleResource Include="Resources\subtle_dots.png" />
     <BundleResource Include="Resources\close-circled.png" />
+    <BundleResource Include="Resources\arrow-black-60.png" />
+    <BundleResource Include="Resources\close-black-60.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">

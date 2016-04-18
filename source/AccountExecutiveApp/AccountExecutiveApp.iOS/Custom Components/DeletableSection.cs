@@ -32,7 +32,7 @@ namespace AccountExecutiveApp.iOS
             DeleteButton = new UIButton(new CGRect(0, 0, 25, 25));
             DeleteButton.SetTitleColor(UIColor.Blue, UIControlState.Normal);
             //DeleteButton.SetTitle( "Delete", UIControlState.Normal );
-            DeleteButton.SetBackgroundImage(new UIImage("close-circled.png"), UIControlState.Normal);
+            DeleteButton.SetBackgroundImage(new UIImage("close-black-60.png"), UIControlState.Normal);
             DeleteButton.TranslatesAutoresizingMaskIntoConstraints = false;
 
             SectionLabel = new UILabel();
