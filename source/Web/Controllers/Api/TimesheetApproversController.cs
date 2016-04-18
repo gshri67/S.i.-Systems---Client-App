@@ -23,11 +23,11 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, approvers);
         }
 
-        [Route("Request/{id}")]
+        [Route("Request/{timesheetId, approverId}")]
         [HttpPost]
-        public HttpResponseMessage RequestApprovalFromApproverWithId(int id)
+        public HttpResponseMessage RequestApprovalFromApproverWithId(int timesheetId, int approverId)
         {
-            var status = _service.RequestApprovalFromApproverWithId(id);
+            var status = _service.RequestApprovalFromApproverWithId(timesheetId, approverId );
             return Request.CreateResponse(HttpStatusCode.OK, status);
         }
     }

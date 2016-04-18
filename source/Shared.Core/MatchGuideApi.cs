@@ -320,10 +320,10 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<int>();
         }
 
-        [HttpGet("TimesheetApprovers/Request/{id}")]
-        public async Task<int> RequestApprovalFromApproverWithId( int id )
+        [HttpGet("TimesheetApprovers/Request/{timesheetId, approverId}")]
+        public async Task<int> RequestApprovalFromApproverWithId( int timesheetId, int approverId )
         {
-            return await ExecuteWithDefaultClient<int>( new {id} );
+            return await ExecuteWithDefaultClient<int>( new {timesheetId, approverId} );
         }
     }
 }

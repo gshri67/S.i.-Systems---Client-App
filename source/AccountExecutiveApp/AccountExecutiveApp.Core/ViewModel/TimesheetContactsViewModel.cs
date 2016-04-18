@@ -13,7 +13,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 		private readonly IMatchGuideApi _api;
 
 		private TimesheetContact _contact;
-		private int Id;
+		private int TimesheetId;
 	    public MatchGuideConstants.TimesheetStatus Status;
 
 		public TimesheetContact Contact
@@ -27,17 +27,18 @@ namespace AccountExecutiveApp.Core.ViewModel
 			_api = api;
 		}
 
-		public Task LoadTimesheetContactWithIdAndStatus( int newId, MatchGuideConstants.TimesheetStatus status )
+		public Task LoadTimesheetContactWithIdAndStatus( int id, MatchGuideConstants.TimesheetStatus status )
 		{
-		    Id = newId;
+		    TimesheetId = id;
+
 		    Status = status;
 
 		    Task task;
 			
             if( status != MatchGuideConstants.TimesheetStatus.Open )
-                task = GetTimesheetContactById( Id );
+                task = GetTimesheetContactById( TimesheetId );
             else
-                task = GetOpenTimesheetContactByAgreementId(Id);
+                task = GetOpenTimesheetContactByAgreementId(TimesheetId);
 
 			return task;
 		}
@@ -67,7 +68,8 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 	    public async Task RequestTimesheetApproval()
 	    {
-	        await _api.RequestApprovalFromApproverWithId(Id);
+            if( Status == MatchGuideConstants.TimesheetStatus.Submitted )
+    	        await _api.RequestApprovalFromApproverWithId( TimesheetId, Contact.DirectReport.Id);
 	    }
 	}
 }

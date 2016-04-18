@@ -16,7 +16,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<DirectReport> GetTimesheetApproversByCompanyId(int id);
         DirectReport GetTimesheetApproverByAgreementId(int contractId);
         DirectReport GetTimesheetApproverByOpenTimesheetId(int timesheetId);
-        int RequestApprovalFromApproverWithId(int id);
+        int RequestApprovalFromApproverWithId(int timesheetId, int approverId, string action, int currentUserId);
     }
 
     public class DirectReportRepository : IDirectReportRepository
@@ -107,33 +107,28 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public int RequestApprovalFromApproverWithId(int id)
-        {
-            /*
+        public int RequestApprovalFromApproverWithId(int timesheetId, int approverId, string action, int currentUserId)
+        {   
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
                     @"DECLARE @RC int
-                        EXECUTE @RC = [dbo].[sp_Timesheet_ManageDirectReports_update] 
-                           @agreementid
-                          ,@olddirectreportuserid
-                          ,@newdirectreportuserid
-                          ,@updateuserid
-                          ,@inactive";
+                        EXECUTE @RC = [dbo].[UspTimesheetResendApproval] 
+                           @TimeSheetId
+                          ,@DirectReportId
+                          ,@Action
+                          ,@CreatedBy";
 
-                var submittedTimesheetId = db.Connection.Query<int>(query, new
+                var returnValue = db.Connection.Query<int>(query, new
                 {
-                    @agreementid = timesheet.AgreementId,
-                    @olddirectreportuserid = previousDirectReportId,
-                    @newdirectreportuserid = timesheet.TimesheetApprover.Id,
-                    @updateuserid = currentUserId,
-                    @inactive = (bool?)null //this value is unused by the stored procedure
+                    TimeSheetId = timesheetId,
+                    DirectReportId = approverId,
+                    Action = action,
+                    CreatedBy = currentUserId
                 }).FirstOrDefault();
 
-                return submittedTimesheetId;
-            }*/
-
-            return 0;
+                return returnValue;
+            }
         }
 
         public int UpdateDirectReport(Timesheet timesheet, int previousDirectReportId, int currentUserId)

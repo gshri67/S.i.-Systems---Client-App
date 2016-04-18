@@ -3728,6 +3728,49 @@ END
 GO
 
 
+/****** Object:  StoredProcedure [dbo].[UspTimesheetResendApproval]    Script Date: 4/18/2016 12:16:37 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------
+Name:			[UspTimesheetResendApproval]
+Description:	What the stored procedure will do?
+Purpose:		IN what context this stored procedure will be used?
+-----------------------------------------------------------------------------------------------------------------------------------------
+Version		Date		Author			BugID	Notes
+-----------------------------------------------------------------------------------------------------------------------------------------
+1.0			2015.06.19  DHK				MG-10636 		Resend Timesheet Approval Function
+-----------------------------------------------------------------------------------------------------------------------------------------*/
+CREATE PROC [dbo].[UspTimesheetResendApproval]
+( 
+	@TimeSheetId INT,
+	@DirectReportId INT,
+	@Action VARCHAR(50),
+	@CreatedBy INT
+)
+
+AS 	
+	BEGIN   
+	SET NOCOUNT ON 
+	
+	--Update TimeSheet
+	UPDATE TimeSheet SET DirectReportUserId = @DirectReportId,isSubmittedEmailSent = 0  WHERE TimeSheetID = @TimeSheetId 
+
+	--Insert to New activity table
+	INSERT INTO TimeSheetActivity (TimeSheetID,[Action],CreatedBy,DirectReportID) 
+	VALUES (@TimeSheetId,@Action,@CreatedBy,@DirectReportId)
+	
+	END
+
+GO
+
+
+
+
 
 
 
