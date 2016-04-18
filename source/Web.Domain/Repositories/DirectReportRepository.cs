@@ -16,6 +16,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<DirectReport> GetTimesheetApproversByCompanyId(int id);
         DirectReport GetTimesheetApproverByAgreementId(int contractId);
         DirectReport GetTimesheetApproverByOpenTimesheetId(int timesheetId);
+        int RequestApprovalFromApproverWithId(int id);
     }
 
     public class DirectReportRepository : IDirectReportRepository
@@ -104,6 +105,35 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
                 return directReport;
             }
+        }
+
+        public int RequestApprovalFromApproverWithId(int id)
+        {
+            /*
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[sp_Timesheet_ManageDirectReports_update] 
+                           @agreementid
+                          ,@olddirectreportuserid
+                          ,@newdirectreportuserid
+                          ,@updateuserid
+                          ,@inactive";
+
+                var submittedTimesheetId = db.Connection.Query<int>(query, new
+                {
+                    @agreementid = timesheet.AgreementId,
+                    @olddirectreportuserid = previousDirectReportId,
+                    @newdirectreportuserid = timesheet.TimesheetApprover.Id,
+                    @updateuserid = currentUserId,
+                    @inactive = (bool?)null //this value is unused by the stored procedure
+                }).FirstOrDefault();
+
+                return submittedTimesheetId;
+            }*/
+
+            return 0;
         }
 
         public int UpdateDirectReport(Timesheet timesheet, int previousDirectReportId, int currentUserId)

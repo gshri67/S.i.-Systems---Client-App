@@ -22,5 +22,13 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
             var approvers = _service.GetTimesheetApproversByAgreementId(id);
             return Request.CreateResponse(HttpStatusCode.OK, approvers);
         }
+
+        [Route("Request/{id}")]
+        [HttpPost]
+        public HttpResponseMessage RequestApprovalFromApproverWithId(int id)
+        {
+            var status = _service.RequestApprovalFromApproverWithId(id);
+            return Request.CreateResponse(HttpStatusCode.OK, status);
+        }
     }
 }

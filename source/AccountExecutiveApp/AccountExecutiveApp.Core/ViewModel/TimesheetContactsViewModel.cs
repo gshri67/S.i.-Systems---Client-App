@@ -67,7 +67,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
 	    public async Task RequestTimesheetApproval()
 	    {
-	        //return _api.RequestTimesheetApproval();
+	        await _api.RequestApprovalFromApproverWithId(Id);
 	    }
 	}
 }

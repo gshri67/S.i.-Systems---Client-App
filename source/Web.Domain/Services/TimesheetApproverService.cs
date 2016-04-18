@@ -34,5 +34,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
             return timesheetApprovers.GroupBy(report => report.Id).Select(group=>group.FirstOrDefault());
         }
+
+        public int RequestApprovalFromApproverWithId(int id)
+        {
+            return _timeSheetApproverRepository.RequestApprovalFromApproverWithId(id);
+        }
     }
 }
