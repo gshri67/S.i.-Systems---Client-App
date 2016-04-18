@@ -27,7 +27,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string contractSummaryQuery = @"SELECT Agreement.AgreementID AS AgreementId,
+                const string contractSummaryQuery = @"SELECT Agreement.AgreementID AS ContractId,
 	                                                            Candidate.FirstName + ' '+ Candidate.LastName AS ContractorName,
 	                                                            Company.CompanyName AS ClientName,
 	                                                            Details.JobTitle AS Title,
@@ -106,7 +106,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"SELECT Agreement.AgreementID AS AgreementId,
+                    @"SELECT Agreement.AgreementID AS ContractId,
 	                    Candidate.FirstName + ' '+ Candidate.LastName AS ContractorName,
 	                    Company.CompanyName AS ClientName,
 	                    Details.JobTitle AS Title,
@@ -136,7 +136,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"SELECT Agreement.AgreementID AS AgreementId,
+                    @"SELECT Agreement.AgreementID AS ContractId,
 	                    Candidate.FirstName + ' '+ Candidate.LastName AS ContractorName,
 	                    Company.CompanyName AS ClientName,
 	                    Details.JobTitle AS Title,
