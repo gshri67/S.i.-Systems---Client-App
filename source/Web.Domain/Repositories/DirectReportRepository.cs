@@ -109,23 +109,21 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
 
         public int RequestApprovalFromApproverWithId(int timesheetId, int approverId, int currentUserId)
         {
-            const string action = "Resend";
-
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =
                     @"DECLARE @RC int
+                      
                         EXECUTE @RC = [dbo].[UspTimesheetResendApproval] 
                            @TimeSheetId
                           ,@DirectReportId
-                          ,@Action
+                          ,Resend
                           ,@CreatedBy";
 
                 var returnValue = db.Connection.Query<int>(query, new
                 {
                     TimeSheetId = timesheetId,
                     DirectReportId = approverId,
-                    Action = action,
                     CreatedBy = currentUserId
                 }).FirstOrDefault();
 
