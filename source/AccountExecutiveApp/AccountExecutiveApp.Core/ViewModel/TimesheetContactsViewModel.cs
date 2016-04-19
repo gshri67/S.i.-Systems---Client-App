@@ -69,7 +69,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 	    public async Task RequestTimesheetApproval()
 	    {
             if( Status == MatchGuideConstants.TimesheetStatus.Submitted )
-    	        await _api.RequestApprovalFromApproverWithId( TimesheetId, Contact.DirectReport.Id);
+    	        await _api.RequestApprovalFromApproverWithId( TimesheetId);
 	    }
 	}
 }

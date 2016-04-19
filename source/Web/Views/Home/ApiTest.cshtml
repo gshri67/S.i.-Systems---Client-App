@@ -93,6 +93,7 @@
             <li role="presentation"><a id="userContactTabButton" href="#userContact" role="tab" data-toggle="tab">UserContact</a></li>
             <li role="presentation"><a id="aeSearchTabButton" href="#aeSearch" role="tab" data-toggle="tab">Contact Search</a></li>
             <li role="presentation"><a id="contractSupportTabButton" href="#contractSupport" role="tab" data-toggle="tab">Contract Creation Support</a></li>
+            <li role="presentation"><a id="timesheetApproversTabButton" href="#timesheetApprovers" role="tab" data-toggle="tab">Timesheet Approvers</a></li>
         </ul>
 
         <div class="tab-content">
@@ -287,6 +288,17 @@
                     </div>
                 </div>
                 <div id="contractSupportResults" class="code json well">
+                </div>
+            </div>
+            <div id="timesheetApprovers" role="details" class="tab-pane">
+                <div class="input-group">
+                    <input id="timesheetApproversId" type="text" class="form-control" placeholder="" disabled />
+                    <div class="input-group-btn">
+                        <button id="timesheetApproversButton" type="button" class="btn btn-primary">Get Initial Page Options</button>
+                        <button id="ratesSupportButton" type="button" class="btn btn-primary">Get Rates Options</button>
+                    </div>
+                </div>
+                <div id="timesheetApproversResults" class="code json well">
                 </div>
             </div>
         </div>
@@ -744,6 +756,28 @@
 
                     }).fail(function (err) { showError(err, 'contractSupportResults') });
                 },
+                resendTimesheetApproverRequest: function () {
+                    $('#timesheetResults').html('Sending...');
+                    var id = $('#timesheetId').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/TimesheetApprovers/Request/' + id,
+                        headers: {
+                            Authorization: 'Bearer ' + page.token
+                        }
+                    })
+                    .done(function (data) {
+                        var section = $('#timesheetResults');
+
+                        section.html(formatObject(data));
+
+                        section.each(function (i, block) {
+                            hljs.highlightBlock(block);
+                        });
+
+
+                    }).fail(function (err) { showError(err, 'timesheetResults') });
+                },
                 ratesSupport: function () {
                     $('#contractSupportResults').html('Sending...');
                     $.ajax({
@@ -789,6 +823,7 @@
             $('#userContactButton').click(page.getUserContact);
             $('#aeSearchButton').click(page.aeSearch);
             $('#contractSupportButton').click(page.contractSupport);
+            $('#timesheetApproversButton').click(page.timesheetApprovers);
             $('#ratesSupportButton').click(page.ratesSupport);
 
             $('#username, #password').on('keydown', function (e) {
