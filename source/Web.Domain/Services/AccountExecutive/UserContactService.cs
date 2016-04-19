@@ -43,6 +43,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
             IEnumerable<UserContact> contacts;
 
+            query = ScrubQuery(query);
+
             if (IsUsingWildCard(query))
             {
                 string[] wildCardQueries = query.Split('%');
@@ -66,6 +68,21 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             if (query.Count(ch => ch == '%') == 2)
                 return true;
             return false;
+        }
+
+        //Special keywords or sequences that could break the full-text query
+        private static readonly string[] Replacements = new[]
+        {
+            "~", "!", "&", "|", "*", "[", "]", "(", ")", "/", "\\", "\"", ",", ";"
+        };
+
+        private static string ScrubQuery(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return string.Empty;
+
+            //apply any replacements
+            return Replacements.Aggregate(query, (current, sequence) => current.Replace(sequence, string.Empty));
         }
 
         private void PopulateLinkedInUrl(UserContact contact)
