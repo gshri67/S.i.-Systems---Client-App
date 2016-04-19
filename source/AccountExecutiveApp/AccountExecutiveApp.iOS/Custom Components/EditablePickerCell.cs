@@ -156,7 +156,7 @@ namespace AccountExecutiveApp.iOS
                 Update(mainText, newValues, string.Empty);
             else
             {
-                selectedIndex = IndexSelectionFromOptions(Values, selectedValue);
+                selectedIndex = IndexSelectionFromOptions(newValues, selectedValue);
                 Update(mainText, newValues, newValues[selectedIndex]);
             }
         }
