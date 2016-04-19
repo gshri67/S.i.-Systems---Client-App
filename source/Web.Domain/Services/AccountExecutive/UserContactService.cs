@@ -41,9 +41,31 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             if (string.IsNullOrWhiteSpace(query))
                 return Enumerable.Empty<UserContact>();
 
-            var contacts = _repo.FindUsers(query);
+            IEnumerable<UserContact> contacts;
+
+            if (IsUsingWildCard(query))
+            {
+                string[] wildCardQueries = query.Split('%');
+
+                if (query.Length >= 2)
+                {
+                    contacts = _repo.FindUsersWithWildCardSearch(wildCardQueries[0], wildCardQueries[1]);
+                    return contacts;
+                }
+            }
+
+            query = query.Trim('%');
+
+            contacts = _repo.FindUsers(query);
 
             return contacts; 
+        }
+
+        private bool IsUsingWildCard(string query)
+        {
+            if (query.Count(ch => ch == '%') == 2)
+                return true;
+            return false;
         }
 
         private void PopulateLinkedInUrl(UserContact contact)

@@ -20,6 +20,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<UserContact> GetClientContacts();
         IEnumerable<UserContact> FindUsers(string query);
         UserContact GetCandidateUserContactByAgreementId(int id);
+        IEnumerable<UserContact> FindUsersWithWildCardSearch(string firstNameMatch, string lastNameMatch);
     }
 
     public class UserContactRepository : IUserContactRepository
@@ -274,6 +275,38 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
+
+        public IEnumerable<UserContact> FindUsersWithWildCardSearch(string FirstNameMatch, string LastNameMatch)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string contactsQuery =
+                    @"SELECT TOP 500 Users.UserID AS Id, Users.FirstName, Users.LastName , NULL as ClientName
+                    FROM Users 
+                    JOIN PickList ON PickList.PickListID = Users.UserType
+                    WHERE ((PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Candidate'))
+                    AND (FirstName LIKE  '%'+@FirstNameMatch+'%')
+                    AND (LastName LIKE  '%'+@LastNameMatch+'%')
+                    UNION
+                    SELECT TOP 500 Users.UserID AS Id, Users.FirstName, Users.LastName, Company.CompanyName AS ClientName
+                    FROM Users
+                    JOIN Company ON Company.CompanyID = Users.CompanyID
+                    JOIN PickList ON PickList.PickListID = Users.UserType
+                    WHERE Company.Inactive = 0
+                    AND (PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Client Contact')
+                    AND (FirstName LIKE  '%'+@FirstNameMatch+'%')
+                    AND (LastName LIKE  '%'+@LastNameMatch+'%')";
+
+                var contacts = db.Connection.Query<UserContact>(contactsQuery, param: new
+                {
+                    FirstNameMatch = FirstNameMatch,
+                    LastNameMatch = LastNameMatch                
+                });
+
+                return contacts;
+            }
+        }
+
         public UserContact GetCandidateUserContactByAgreementId(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -491,6 +524,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
         public UserContact GetCandidateUserContactByAgreementId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<UserContact> FindUsersWithWildCardSearch(string firstNameMatch, string lastNameMatch)
         {
             throw new NotImplementedException();
         }
