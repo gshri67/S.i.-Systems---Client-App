@@ -20,10 +20,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             _session = session;
         }
 
-        private IEnumerable<ContractorRateSummary> ProposedContractorRatesForJobAndCandidate(int jobId, int candidateId)
+        private IEnumerable<Rate> ProposedContractorRatesForJobAndCandidate(int jobId, int candidateId)
         {
             return
-                new List<ContractorRateSummary>
+                new List<Rate>
                 {
                     _rateRepo.GetProposedRateSummaryByJobIdAndContractorId(jobId, candidateId)
                 }.AsEnumerable();

@@ -15,8 +15,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<int> GetProposedContractorsByJobId(int id);
         IEnumerable<int> GetCalloutContractorsByJobId(int id);
         int GetContractorIdByContractId(int contractId);
-        //ContractorRateSummary GetContractorRateSummaryByContractId(int contractId);
-        //ContractorRateSummary GetContractorRateSummaryByJobId(int contractId);
+        //Rate GetContractorRateSummaryByContractId(int contractId);
+        //Rate GetContractorRateSummaryByJobId(int contractId);
         IEnumerable<Contractor> GetContractors();
     }
     

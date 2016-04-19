@@ -20,7 +20,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
         public object GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status)
         {
-            var rateSummaries = Enumerable.Empty<ContractorRateSummary>();
+            var rateSummaries = Enumerable.Empty<Rate>();
 
             if (status == JobStatus.Shortlisted)
                 rateSummaries = _repo.GetShortlistedContractorRateSummaryByJobId(id);
@@ -39,7 +39,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return rateSummaries;
         }
 
-        public ContractorRateSummary GetRateSummaryByJobIdAndContractorId(int jobId, int contractorId)
+        public Rate GetRateSummaryByJobIdAndContractorId(int jobId, int contractorId)
         {
             return _repo.GetProposedRateSummaryByJobIdAndContractorId(jobId, contractorId);
         }

@@ -2,7 +2,7 @@
 
 namespace SiSystems.SharedModels
 {
-    public class ContractorRateSummary
+    public class Rate
     {
         public int RateId { get; set; }
         public int ContractorId { get; set; }
@@ -24,7 +24,7 @@ namespace SiSystems.SharedModels
 
         public DateTime Date { get; set; } 
 
-        public ContractorRateSummary()
+        public Rate()
         {
             FirstName = string.Empty;
             LastName = string.Empty;

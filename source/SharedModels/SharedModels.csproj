@@ -49,7 +49,7 @@
     <Compile Include="Contract Creation\ContractCreationOptions_Sending.cs" />
     <Compile Include="Contract Creation\IContractCreationDetails_Sending.cs" />
     <Compile Include="Contract Creation\IContractCreationOptions_Sending.cs" />
-    <Compile Include="ContractorRateSummary.cs" />
+    <Compile Include="Rate.cs" />
     <Compile Include="IdDescription.cs" />
     <Compile Include="JobSummary.cs" />
     <Compile Include="ProjectCodeRateDetails.cs" />

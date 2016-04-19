@@ -250,9 +250,9 @@ namespace Shared.Core
         }
 
         [HttpGet("ContractorRate/Job/{id}/Status/{status}")]
-        public async Task<IEnumerable<ContractorRateSummary>> GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status )
+        public async Task<IEnumerable<Rate>> GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status )
         {
-            return await ExecuteWithDefaultClient<IEnumerable<ContractorRateSummary>>(new { id, status });
+            return await ExecuteWithDefaultClient<IEnumerable<Rate>>(new { id, status });
         }
 
         [HttpGet("Timesheets/Reporting/Summary")]

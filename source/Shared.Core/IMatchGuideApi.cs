@@ -60,7 +60,7 @@ namespace Shared.Core
         Task<Contractor> GetContractorById(int id);
         Task<UserContact> GetUserContactById(int id);
 
-        Task<IEnumerable<ContractorRateSummary>> GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status);
+        Task<IEnumerable<Rate>> GetContractorRateSummaryWithJobIdAndStatus(int id, JobStatus status);
         Task<TimesheetSummarySet> GetTimesheetSummary();
         Task<IEnumerable<TimesheetDetails>> GetTimesheetDetails(MatchGuideConstants.TimesheetStatus timesheetStatus);
         Task<TimesheetContact> GetTimesheetContactById(int id);

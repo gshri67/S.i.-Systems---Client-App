@@ -191,7 +191,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             if (Contract.PrimaryRateIndex > NumRates)
                 Contract.PrimaryRateIndex = 0;
 
-            var rate = new ContractorRateSummary();
+            var rate = new Rate();
 
             if (NumRates > 0)
                 rate.RateType = RateTypeAtIndex(0);
@@ -221,7 +221,7 @@ namespace AccountExecutiveApp.Core.ViewModel
                 if (NumRates > 1)
                     Contract.Rates = rateList.AsEnumerable();
                 else
-                    Contract.Rates = Enumerable.Empty<ContractorRateSummary>();
+                    Contract.Rates = Enumerable.Empty<Rate>();
 
                 NumRates--;
 

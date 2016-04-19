@@ -12,7 +12,7 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private readonly IMatchGuideApi _api;
 		public JobStatus Status;
-        private IEnumerable<ContractorRateSummary> _rateSummaries;
+        private IEnumerable<Rate> _rateSummaries;
 
         public string ClientName { get; set; }
         public string _jobTitle;
@@ -24,10 +24,10 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public int JobId { get; set; }
 
-        private IEnumerable<ContractorRateSummary> RateSummaries
+        private IEnumerable<Rate> RateSummaries
         {
-            get { return _rateSummaries ?? Enumerable.Empty<ContractorRateSummary>(); }
-            set { _rateSummaries = value ?? Enumerable.Empty<ContractorRateSummary>(); }
+            get { return _rateSummaries ?? Enumerable.Empty<Rate>(); }
+            set { _rateSummaries = value ?? Enumerable.Empty<Rate>(); }
         }
 
         public ContractorJobStatusListViewModel(IMatchGuideApi api)
