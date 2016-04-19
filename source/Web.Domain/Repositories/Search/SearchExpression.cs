@@ -39,7 +39,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.Search
         //Special keywords or sequences that could break the full-text query
         private static readonly string[] Replacements = new []
         {
-            "~", "!", "&", "|", "*", "[", "]", "(", ")", "/", "\\", "\"", ",", "%"
+            "~", "!", "&", "|", "*", "[", "]", "(", ")", "/", "\\", "\"", ","
         };
 
         private static string ScrubQuery(string query)
