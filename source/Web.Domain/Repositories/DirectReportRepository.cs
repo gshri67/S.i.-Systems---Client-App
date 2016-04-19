@@ -16,7 +16,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         IEnumerable<DirectReport> GetTimesheetApproversByCompanyId(int id);
         DirectReport GetTimesheetApproverByAgreementId(int contractId);
         DirectReport GetTimesheetApproverByOpenTimesheetId(int timesheetId);
-        int RequestApprovalFromApproverWithId(int timesheetId, int approverId, string action, int currentUserId);
+        int RequestApprovalFromApproverWithId(int timesheetId, int approverId, int currentUserId);
     }
 
     public class DirectReportRepository : IDirectReportRepository
@@ -107,8 +107,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
             }
         }
 
-        public int RequestApprovalFromApproverWithId(int timesheetId, int approverId, string action, int currentUserId)
-        {   
+        public int RequestApprovalFromApproverWithId(int timesheetId, int approverId, int currentUserId)
+        {
+            const string action = "Resend";
+
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query =

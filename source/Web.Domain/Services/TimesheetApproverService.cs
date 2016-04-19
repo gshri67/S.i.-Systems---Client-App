@@ -37,10 +37,9 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         public int RequestApprovalFromApproverWithId(int timesheetId )
         {
-            string action = "Resend";
             int currentUserId = _sessionContext.CurrentUser.Id;
             int approverId = _timeSheetApproverRepository.GetTimesheetApproverByTimesheetId(timesheetId).Id;
-            return _timeSheetApproverRepository.RequestApprovalFromApproverWithId(timesheetId, approverId, action, currentUserId);
+            return _timeSheetApproverRepository.RequestApprovalFromApproverWithId(timesheetId, approverId, currentUserId);
         }
     }
 }
