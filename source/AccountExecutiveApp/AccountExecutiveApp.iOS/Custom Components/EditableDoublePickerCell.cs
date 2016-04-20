@@ -103,7 +103,7 @@ namespace AccountExecutiveApp.iOS
                 TextColor = StyleGuideConstants.MediumGrayUiColor,
                 Placeholder = "Contact Name"
             };
-
+            
             MidDetailTextField.Text = string.Empty;
 
             _midPicker = new UIPickerView();
@@ -149,13 +149,16 @@ namespace AccountExecutiveApp.iOS
 				TextAlignment = UITextAlignment.Left,
 				Font = UIFont.FromName("Helvetica", 16f),
 				TextColor = UIColor.Black,
-				Lines = 0
+				Lines = 1
 			};
 			AddSubview(MainTextLabel);
 		}
 
 		public void SetupConstraints()
 		{
+            MainTextLabel.AdjustsFontSizeToFitWidth = true;
+            MainTextLabel.MinimumFontSize = 10;
+
 			if (shrinkRightDetailText)
 			{
 				RightDetailTextField.AdjustsFontSizeToFitWidth = true;
@@ -163,7 +166,6 @@ namespace AccountExecutiveApp.iOS
 
                 MidDetailTextField.AdjustsFontSizeToFitWidth = true;
                 MidDetailTextField.MinimumFontSize = 10;
-
 
 				AddMainTextLabelConstraintsWithShrunkRightDetail();
                 AddMidDetailTextLabelConstraints();
@@ -210,6 +212,28 @@ namespace AccountExecutiveApp.iOS
             AddConstraint(NSLayoutConstraint.Create(MidDetailTextField, NSLayoutAttribute.Width, NSLayoutRelation.GreaterThanOrEqual, null, NSLayoutAttribute.NoAttribute, 1.0f, 40f));
         }
 
+	    public void EnableMiddleValue( bool enabled )
+	    {
+	        if (!enabled)
+	        {
+	            MidDetailTextField.UserInteractionEnabled = false;
+	            MidDetailTextField.TextColor = MainTextLabel.TextColor;
+	        }
+            else
+            {
+                MidDetailTextField.UserInteractionEnabled = true;
+                MidDetailTextField.TextColor = RightDetailTextField.TextColor;
+            }
+	    }
+
+        public void UpdateCell(string mainText, string newMidSelectedValue, bool newRightSelectedValue)
+        {
+            UpdateCell(mainText, new List<string>(){ newMidSelectedValue }, 0, BooleanOptions, IndexBooleanSelectionFromOptions(BooleanOptions, newRightSelectedValue));
+        }
+	    public void UpdateCell(string mainText, string newMidSelectedValue, List<string> newRightValues, string newRightSelectedValue)
+        {
+            UpdateCell(mainText, new List<string>() { newMidSelectedValue }, 0, newRightValues, IndexSelectionFromOptions(newRightValues, newRightSelectedValue));
+        }
         public void UpdateCell(string mainText, List<string> newMidValues, string newMidSelectedValue,
             bool newRightSelectedValue)
         {
@@ -224,23 +248,26 @@ namespace AccountExecutiveApp.iOS
 		{
 			MainTextLabel.Text = mainText;
 			RightDetailTextField.Text = newRightValues[newRightSelectedIndex];
-            MidDetailTextField.Text = newMidValues[newMidSelectedIndex];
 
-			MidValues = newMidValues;
-			midSelectedIndex = newMidSelectedIndex;
+	        if (newMidSelectedIndex >= 0 && newMidValues != null && newMidSelectedIndex < newMidValues.Count)
+	        {
+	            MidDetailTextField.Text = newMidValues[newMidSelectedIndex];
 
-			List<List<string>> midItems = new List<List<string>>();
-			midItems.Add(MidValues);
+	            MidValues = newMidValues;
+	            midSelectedIndex = newMidSelectedIndex;
 
-			if (_midPicker != null && _midPickerModel != null)
-			{
-				_midPickerModel.items = midItems;
-				_midPickerModel.scrollToItemIndex( _midPicker, newMidSelectedIndex, 0);
-			}
+	            List<List<string>> midItems = new List<List<string>>();
+	            midItems.Add(MidValues);
+
+	            if (_midPicker != null && _midPickerModel != null)
+	            {
+	                _midPickerModel.items = midItems;
+	                _midPickerModel.scrollToItemIndex(_midPicker, newMidSelectedIndex, 0);
+	            }
+	        }
 
 
-
-            RightValues = newRightValues;
+	        RightValues = newRightValues;
 			rightSelectedIndex = newRightSelectedIndex;
 
 			List<List<string>> rightItems = new List<List<string>>();

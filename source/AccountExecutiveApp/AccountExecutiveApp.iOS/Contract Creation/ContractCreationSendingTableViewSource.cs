@@ -168,20 +168,6 @@ namespace AccountExecutiveApp.iOS
             return (int)indexPath.Item == _otherReasonCellRow;
         }
 
-        private UITableViewCell GetIsSendingConsultantContractCell(UITableView tableView, NSIndexPath indexPath)
-        {
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell( string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.IsSendingConsultantContract);
-            cell.OnValueChanged += delegate(string newValue)
-            {
-                _contractModel.IsSendingConsultantContract = (newValue == "Yes");
-                EvaluateDynamicCells(tableView);
-            };
-
-            return cell;
-        }
-
         private UITableViewCell GetClientContactCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell =
@@ -219,6 +205,36 @@ namespace AccountExecutiveApp.iOS
 
             cell.UpdateCell("Invoice Recipients", _contractModel.Contract.InvoiceRecipients.Select(c => c.FullName).ToList() );
             cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            return cell;
+        }
+
+        private UITableViewCell GetIsSendingConsultantContractCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            /*
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.UpdateCell(string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.IsSendingConsultantContract);
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.IsSendingConsultantContract = (newValue == "Yes");
+                EvaluateDynamicCells(tableView);
+            };
+
+            return cell;*/
+
+            EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
+
+            cell.UpdateCell( "Send consultant e-contract to", _contractModel.ConsultantName, _contractModel.IsSendingConsultantContract);
+            cell.EnableMiddleValue(false);
+
+            cell.OnRightValueChanged += delegate(string newValue)
+            {
+                bool isSending = (newValue == "Yes");
+                _contractModel.IsSendingContractToClientContact = isSending;
+
+                EvaluateDynamicCells(tableView);
+            };
+
             return cell;
         }
 
@@ -361,6 +377,7 @@ namespace AccountExecutiveApp.iOS
                     _contractModel.Contract.InvoiceRecipients = selected.AsEnumerable();
                     tableView.ReloadData();
                 };
+                vc.Title = "Invoice Recipients";
                 _parentController.ShowViewController(vc, _parentController);
             }
             if (IsClientContactCell(indexPath))
