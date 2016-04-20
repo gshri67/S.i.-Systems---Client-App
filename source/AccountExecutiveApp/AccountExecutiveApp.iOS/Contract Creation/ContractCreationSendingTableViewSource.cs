@@ -173,7 +173,9 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Client Contact", _supportModel.ClientContactNameOptions, _contractModel.ClientContactName);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetClientContact(_supportModel.GetClientContactWithName(newValue)); };
+            //cell.OnValueChanged += delegate(string newValue) { _contractModel.SetClientContact(_supportModel.GetClientContactWithName(newValue)); };
+            cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            cell.EnableInputFields(false);
 
             return cell;
         }
@@ -183,7 +185,9 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Direct Report", _supportModel.DirectReportNameOptions, _contractModel.DirectReportName );
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetDirectReport( _supportModel.GetDirectReportWithName(newValue) ); };
+            //cell.OnValueChanged += delegate(string newValue) { _contractModel.SetDirectReport( _supportModel.GetDirectReportWithName(newValue) ); };
+            cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            cell.EnableInputFields(false);
 
             return cell;
         }
@@ -193,7 +197,9 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Billing Contact", _supportModel.BillingContactNameOptions, _contractModel.BillingContactName);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetBillingContact(_supportModel.GetBillingContactWithName(newValue)); };
+            //cell.OnValueChanged += delegate(string newValue) { _contractModel.SetBillingContact(_supportModel.GetBillingContactWithName(newValue)); };
+            cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            cell.EnableInputFields(false);
 
             return cell;
         }
@@ -210,18 +216,6 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetIsSendingConsultantContractCell(UITableView tableView, NSIndexPath indexPath)
         {
-            /*
-            EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell(string.Format("Send consultant e-contract to {0}:", _contractModel.ConsultantName), _contractModel.IsSendingConsultantContract);
-            cell.OnValueChanged += delegate(string newValue)
-            {
-                _contractModel.IsSendingConsultantContract = (newValue == "Yes");
-                EvaluateDynamicCells(tableView);
-            };
-
-            return cell;*/
-
             EditableDoublePickerCell cell = (EditableDoublePickerCell)tableView.DequeueReusableCell(EditableDoublePickerCell.CellIdentifier, indexPath);
 
             cell.UpdateCell( "Send consultant e-contract to", _contractModel.ConsultantName, _contractModel.IsSendingConsultantContract);
@@ -229,9 +223,7 @@ namespace AccountExecutiveApp.iOS
 
             cell.OnRightValueChanged += delegate(string newValue)
             {
-                bool isSending = (newValue == "Yes");
-                _contractModel.IsSendingContractToClientContact = isSending;
-
+                _contractModel.IsSendingConsultantContract = (newValue == "Yes");
                 EvaluateDynamicCells(tableView);
             };
 
@@ -250,7 +242,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetNotSendingConsultantContractReasonCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Reason:", _contractModel.SummaryReasonForNotSendingConsultantContract);
+            cell.UpdateCell("Explain:", _contractModel.SummaryReasonForNotSendingConsultantContract);
             cell.OnValueChanged += delegate(string newValue)
             {
                 _contractModel.SummaryReasonForNotSendingConsultantContract = newValue;
@@ -304,7 +296,7 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetOtherReasonCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableFullTextFieldCell cell = (EditableFullTextFieldCell)tableView.DequeueReusableCell(EditableFullTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Reason:", _contractModel.SummaryReasonForNotSendingContract);
+            cell.UpdateCell("Explain:", _contractModel.SummaryReasonForNotSendingContract);
             cell.OnValueChanged += delegate(string newValue)
             {
                 _contractModel.SummaryReasonForNotSendingContract = newValue;

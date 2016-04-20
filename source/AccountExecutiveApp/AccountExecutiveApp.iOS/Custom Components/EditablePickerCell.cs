@@ -150,6 +150,11 @@ namespace AccountExecutiveApp.iOS
 
         }
 
+        public void EnableInputFields( bool enabled )
+        {
+            RightDetailTextField.UserInteractionEnabled = enabled;
+        }
+
         public void UpdateCell(string mainText, List<string> newValues, string selectedValue)
         {
             if (newValues == null || newValues.Count == 0)
