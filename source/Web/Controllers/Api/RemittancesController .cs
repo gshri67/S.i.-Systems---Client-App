@@ -34,7 +34,6 @@ namespace SiSystems.ConsultantApp.Web.Controllers.Api
         [Route("pdf/remittanceVar")]
         public async Task<HttpResponseMessage> Post(Remittance rm)
         {
-            //var result = await _myAccountService.RequestERemittancePDF("191844", "330567", "pam", "2015-11-20", "sipar");
             var result = await _myAccountService.RequestERemittancePDF(rm);
 
             return result;
