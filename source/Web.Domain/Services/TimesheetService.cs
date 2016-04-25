@@ -200,6 +200,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
                 contact.DirectReport = new UserContact();
             contact.DirectReport = _userContactRepository.GetDirectReportByAgreementId(id);
 
+            if (contact.ClientContact == null)
+                contact.ClientContact = new UserContact();
+            contact.ClientContact = _userContactRepository.GetClientContactByAgreementId(id);
+
             return contact;
         }
 
@@ -215,6 +219,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             if (contact.DirectReport == null)
                 contact.DirectReport = new UserContact();
             contact.DirectReport = _userContactRepository.GetUserContactById(contact.DirectReport.Id);
+
+            if (contact.ClientContact == null)
+                contact.ClientContact = new UserContact();
+            contact.ClientContact = _userContactRepository.GetClientContactByAgreementId(contact.ClientContact.Id);
 
             return contact;
         }

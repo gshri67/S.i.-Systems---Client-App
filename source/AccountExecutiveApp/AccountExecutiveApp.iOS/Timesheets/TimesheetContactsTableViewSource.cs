@@ -43,7 +43,7 @@ namespace AccountExecutiveApp.iOS
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-		    return _numContractorCells + _numDirectReportCells;// + _numClientContactCells;
+		    return _numContractorCells + _numDirectReportCells + _numClientContactCells;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
