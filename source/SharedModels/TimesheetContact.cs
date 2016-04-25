@@ -13,12 +13,13 @@ namespace SiSystems.SharedModels
 	    public MatchGuideConstants.TimesheetStatus Status { get; set; }
         public UserContact Contractor { get; set; }
         public UserContact DirectReport { get; set; }
-
+        public UserContact ClientContact { get; set; }
 
 	    public TimesheetContact ()
 		{
             Contractor = new UserContact();
             DirectReport = new UserContact();
+            ClientContact = new UserContact();
             CompanyName = string.Empty;
             StartDate = new DateTime();
             EndDate = new DateTime();

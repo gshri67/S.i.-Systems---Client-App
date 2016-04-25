@@ -43,7 +43,7 @@ namespace AccountExecutiveApp.iOS
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return _numContractorCells + _numDirectReportCells;
+		    return _numContractorCells + _numDirectReportCells;// + _numClientContactCells;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -63,6 +63,12 @@ namespace AccountExecutiveApp.iOS
             {
                 var vc = (ClientContactDetailsViewController)_parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
                 vc.SetContactId(_tableModel.DirectReportId, UserContactType.DirectReport);
+                _parentController.ShowViewController(vc, _parentController);
+            }
+            else if (IsDetailsCell(indexPath) && IsClientContactSubCell(indexPath))
+            {
+                var vc = (ClientContactDetailsViewController)_parentController.Storyboard.InstantiateViewController("ClientContactDetailsViewController");
+                vc.SetContactId(_tableModel.ClientContactId, UserContactType.ClientContact);
                 _parentController.ShowViewController(vc, _parentController);
             }
 	    }
@@ -94,11 +100,18 @@ namespace AccountExecutiveApp.iOS
                     subtitleText: "Contractor",
                     rightDetailText: "" 
                 );
-            else
+            else if (IsDirectReportSubCell(indexPath))
                 cell.UpdateCell
                 (
                     mainText: _tableModel.DirectReportFullName,
                     subtitleText: "Direct Report",
+                    rightDetailText: ""
+                );
+            else if (IsClientContactSubCell(indexPath))
+                cell.UpdateCell
+                (
+                    mainText: _tableModel.ClientContactFullName,
+                    subtitleText: "Client Contact",
                     rightDetailText: ""
                 );
 
@@ -118,12 +131,16 @@ namespace AccountExecutiveApp.iOS
 				(
 					_tableModel.ContractorEmailAddressByRowNumber((int)indexPath.Item - _firstContractorEmailCellIndex), null
 				);
-			else
+            else if (IsDirectReportSubCell(indexPath))
 				cell.UpdateCell
 				(
                     _tableModel.DirectReportEmailAddressByRowNumber((int)indexPath.Item - _firstDirectReportEmailCellIndex), null
 				);
-			
+            else if (IsClientContactSubCell(indexPath))
+                cell.UpdateCell
+                (
+                    _tableModel.ClientContactEmailAddressByRowNumber((int)indexPath.Item - _firstClientContactEmailCellIndex), null
+                );
 			return cell;
 		}
 
@@ -140,11 +157,16 @@ namespace AccountExecutiveApp.iOS
 				(
                     null, _tableModel.ContractorPhoneNumberByRowNumber((int)indexPath.Item - _firstContractorPhoneNumberCellIndex)
 				);
-			else
+            else if (IsDirectReportSubCell(indexPath))
 				cell.UpdateCell
 				(
                     null, _tableModel.DirectReportPhoneNumberByRowNumber((int)indexPath.Item - _firstDirectReportPhoneNumberCellIndex)
 				);
+            else if (IsClientContactSubCell(indexPath))
+                cell.UpdateCell
+                (
+                    null, _tableModel.ClientContactPhoneNumberByRowNumber((int)indexPath.Item - _firstClientContactPhoneNumberCellIndex)
+                );
 
 			return cell;
 		}
@@ -157,6 +179,13 @@ namespace AccountExecutiveApp.iOS
 
         private int _requestButtonCellIndex { get { return _directReportDetailsIndex + 1; } }
 
+        private bool IsRequestButtonCell(NSIndexPath indexPath)
+        {
+            if ((int)indexPath.Item == _requestButtonCellIndex)
+                return true;
+            return false;
+        }
+
         private int _firstDirectReportPhoneNumberCellIndex { 
             get
             {
@@ -166,17 +195,17 @@ namespace AccountExecutiveApp.iOS
         }
 		private int _numberOfDirectReportPhoneNumberCells { get { return _tableModel.NumberOfDirectReportPhoneNumbers(); } }
 
-        private bool IsRequestButtonCell(NSIndexPath indexPath)
-        {
-            if ((int)indexPath.Item == _requestButtonCellIndex )
-                return true;
-            return false;
-        }
+
+        private int _firstClientContactPhoneNumberCellIndex{ get { return _clientContactDetailsIndex + 1; } }
+        private int _numberOfClientContactPhoneNumberCells { get { return _tableModel.NumberOfClientContactPhoneNumbers(); } }
+
+
 
 		private bool IsCallOrTextCell(NSIndexPath indexPath)
 		{
-			if ((int)indexPath.Item >= _firstContractorPhoneNumberCellIndex && (int)indexPath.Item < _firstContractorPhoneNumberCellIndex + _numberOfContractorPhoneNumberCells || 
-				(int)indexPath.Item >= _firstDirectReportPhoneNumberCellIndex && (int)indexPath.Item < _firstDirectReportPhoneNumberCellIndex + _numberOfDirectReportPhoneNumberCells )
+			if ((int)indexPath.Item >= _firstContractorPhoneNumberCellIndex && (int)indexPath.Item < _firstContractorPhoneNumberCellIndex + _numberOfContractorPhoneNumberCells ||
+                (int)indexPath.Item >= _firstDirectReportPhoneNumberCellIndex && (int)indexPath.Item < _firstDirectReportPhoneNumberCellIndex + _numberOfDirectReportPhoneNumberCells ||
+                (int)indexPath.Item >= _firstClientContactPhoneNumberCellIndex && (int)indexPath.Item < _firstClientContactPhoneNumberCellIndex + _numberOfClientContactPhoneNumberCells)
 				    return true;
 
 			return false;
@@ -191,7 +220,14 @@ namespace AccountExecutiveApp.iOS
 
         private bool IsDirectReportSubCell(NSIndexPath indexPath)
         {
-            if ((int)indexPath.Item >= _directReportDetailsIndex )
+            if ((int)indexPath.Item >= _directReportDetailsIndex && !IsClientContactSubCell(indexPath) )
+                return true;
+
+            return false;
+        }
+        private bool IsClientContactSubCell(NSIndexPath indexPath)
+        {
+            if ((int)indexPath.Item >= _clientContactDetailsIndex)
                 return true;
 
             return false;
@@ -199,7 +235,7 @@ namespace AccountExecutiveApp.iOS
 
         private bool IsDetailsCell(NSIndexPath indexPath)
         {
-            if ((int)indexPath.Item == _directReportDetailsIndex || (int)indexPath.Item == _contractorDetailsIndex )
+            if ((int)indexPath.Item == _directReportDetailsIndex || (int)indexPath.Item == _clientContactDetailsIndex || (int)indexPath.Item == _contractorDetailsIndex)
                 return true;
 
             return false;
@@ -211,14 +247,19 @@ namespace AccountExecutiveApp.iOS
         private int _firstDirectReportEmailCellIndex { get { return _firstDirectReportPhoneNumberCellIndex + _numberOfDirectReportPhoneNumberCells; } }
 		private int _numberOfDirectReportEmailCells { get { return _tableModel.NumberOfDirectReportEmails(); } }
 
+        private int _firstClientContactEmailCellIndex { get { return _firstClientContactPhoneNumberCellIndex + _numberOfClientContactPhoneNumberCells; } }
+        private int _numberOfClientContactEmailCells { get { return _tableModel.NumberOfClientContactEmails(); } }
+
 		private int _directReportDetailsIndex { get{ return _numContractorCells; } }
+        private int _clientContactDetailsIndex { get { return _numContractorCells + _numDirectReportCells; } }
 		private int _contractorDetailsIndex { get{ return 0; } }
 
 
 		private bool IsEmailCell(NSIndexPath indexPath)
 		{
-			if ((int)indexPath.Item >= _firstContractorEmailCellIndex && (int)indexPath.Item < _firstContractorEmailCellIndex + _numberOfContractorEmailCells || 
-				(int)indexPath.Item >= _firstDirectReportEmailCellIndex && (int)indexPath.Item < _firstDirectReportEmailCellIndex + _numberOfDirectReportEmailCells)
+			if ((int)indexPath.Item >= _firstContractorEmailCellIndex && (int)indexPath.Item < _firstContractorEmailCellIndex + _numberOfContractorEmailCells ||
+                (int)indexPath.Item >= _firstDirectReportEmailCellIndex && (int)indexPath.Item < _firstDirectReportEmailCellIndex + _numberOfDirectReportEmailCells ||
+                (int)indexPath.Item >= _firstClientContactEmailCellIndex && (int)indexPath.Item < _firstClientContactEmailCellIndex + _numberOfClientContactEmailCells)
 				return true;
 			return false;
 		}
@@ -233,6 +274,7 @@ namespace AccountExecutiveApp.iOS
                     return _numberOfDirectReportPhoneNumberCells + _numberOfDirectReportEmailCells + 1;
 		    }
         }
+        private int _numClientContactCells { get { return _numberOfClientContactPhoneNumberCells + _numberOfClientContactEmailCells + 1; } }
 
 		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{

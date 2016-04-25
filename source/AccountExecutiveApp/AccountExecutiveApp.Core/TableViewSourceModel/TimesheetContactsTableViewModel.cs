@@ -16,8 +16,11 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
 	    public string ContractorFullName{ get { return _contact.Contractor.FullName; } }
         public string DirectReportFullName { get { return _contact.DirectReport.FullName; } }
+        public string ClientContactFullName { get { return _contact.ClientContact.FullName; } }
+
 	    public int ContractorId { get { return _contact.Contractor.Id; } }
         public int DirectReportId { get { return _contact.DirectReport.Id; } }
+        public int ClientContactId { get { return _contact.ClientContact.Id; } }
 
 	    public TimesheetContactsTableViewModel(TimesheetContact contact )
 		{
@@ -36,6 +39,10 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 		{
 			return  _contact.DirectReport.PhoneNumbers.Count (); 
 		}
+        public int NumberOfClientContactPhoneNumbers()
+        {
+            return _contact.ClientContact.PhoneNumbers.Count();
+        }
 
 		public int NumberOfContractorEmails()
 		{
@@ -45,6 +52,10 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 		{
 			return  _contact.DirectReport.EmailAddresses.Count();
 		}
+        public int NumberOfClientContactEmails()
+        {
+            return _contact.ClientContact.EmailAddresses.Count();
+        }
 
 		public EmailAddress ContractorEmailAddressByRowNumber(int row)
 		{
@@ -58,6 +69,12 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 				return _contact.DirectReport.EmailAddresses.ElementAt(row);
 			return new EmailAddress();
 		}
+        public EmailAddress ClientContactEmailAddressByRowNumber(int row)
+        {
+            if (_contact.ClientContact.EmailAddresses.Count() > row)
+                return _contact.ClientContact.EmailAddresses.ElementAt(row);
+            return new EmailAddress();
+        }
 
 		public PhoneNumber ContractorPhoneNumberByRowNumber(int row)
 		{
@@ -71,5 +88,11 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 				return _contact.DirectReport.PhoneNumbers.ElementAt(row);
 			return new PhoneNumber();
 		}
+        public PhoneNumber ClientContactPhoneNumberByRowNumber(int row)
+        {
+            if (_contact.ClientContact.PhoneNumbers.Count() > row)
+                return _contact.ClientContact.PhoneNumbers.ElementAt(row);
+            return new PhoneNumber();
+        }
 	}
 }
