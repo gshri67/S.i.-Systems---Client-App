@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
 using Foundation;
@@ -104,13 +105,14 @@ namespace AccountExecutiveApp.iOS
                 PaymentPlan = "Part Time",
                 DaysCancellation = 10,
             };
-            UpdateUserInterface();
+            //UpdateUserInterface();
         }
 
 
         private void UpdateUserInterface()
         {
             InvokeOnMainThread(InstantiateTableViewSource);
+
             //InvokeOnMainThread(UpdatePageTitle);
             //InvokeOnMainThread(RemoveOverlay);
             //InvokeOnMainThread(StopRefreshing);
@@ -143,7 +145,7 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        var loadingOptions = _optionsModel.GetContractBodyOptions();
             //todo: update ui
-	        //loadingOptions.ContinueWith();
+	        loadingOptions.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 	    }
 
 	    private void CreateCustomTitleBar()

@@ -10,10 +10,13 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 {
     public interface IPickListValuesRepository
     {
+        IEnumerable<string> TimeFactorOptions();
+        IEnumerable<string> DaysCancellationOptions();
+        IEnumerable<string> LimitationExpenseOptions();
+        IEnumerable<string> LimitationOfContractTypeOptions();
+        IEnumerable<string> ContractPaymentPlans();
         IEnumerable<string> InvoiceFormatOptions();
         IEnumerable<string> InvoiceFrequencyOptions();
-        IEnumerable<string> ContractLimitationOptions();
-        IEnumerable<string> ContractPaymentPlans();
         IEnumerable<string> CandidatePaymentPlans();
         IEnumerable<string> RateTermTypes();
     }
@@ -39,6 +42,26 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
+        public IEnumerable<string> DaysCancellationOptions()
+        {
+            return GetPickListDisplayTitlesForType("ContractDaysCancellation");
+        }
+
+        public IEnumerable<string> LimitationExpenseOptions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> LimitationOfContractTypeOptions()
+        {
+            return GetPickListDisplayTitlesForType("ContractLimitationType");
+        }
+
+        public IEnumerable<string> TimeFactorOptions()
+        {
+            return GetPickListDisplayTitlesForType("TimeFactor");
+        }
+
         public IEnumerable<string> InvoiceFormatOptions()
         {
             return GetPickListDisplayTitlesForType("InvoiceFormat");
@@ -47,11 +70,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public IEnumerable<string> InvoiceFrequencyOptions()
         {
             return GetPickListDisplayTitlesForType("ClientInvoiceFrequency");
-        }
-
-        public IEnumerable<string> ContractLimitationOptions()
-        {
-            return GetPickListDisplayTitlesForType("ContractLimitationType");
         }
 
         public IEnumerable<string> ContractPaymentPlans()
@@ -72,6 +90,31 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
     public class MockPickListValuesRepository : IPickListValuesRepository
     {
+        public IEnumerable<string> DaysCancellationOptions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> LimitationExpenseOptions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> LimitationOfContractTypeOptions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> PaymentPlanOptions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> TimeFactorOptions()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<string> InvoiceFormatOptions()
         {
             return new List<string> {"1 Invoice Per Client", "1 Credit Per Client"};

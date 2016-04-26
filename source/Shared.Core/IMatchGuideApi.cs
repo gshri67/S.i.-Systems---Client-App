@@ -77,6 +77,7 @@ namespace Shared.Core
         Task<ContractCreationOptions> GetDropDownValuesForInitialContractCreationForm();
 
         Task<RateOptions> GetDropDownValuesForContractCreationRatesForm();
+        Task<ContractCreationDetails> GetInitialContract(int jobId, int candidateId);
         Task<int> GetContractIdFromJobIdAndContractorId(int jobId, int contractorId);
         Task<int> RequestApprovalFromApproverWithId(int timesheetId);
     }

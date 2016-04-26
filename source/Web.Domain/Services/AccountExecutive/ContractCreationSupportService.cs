@@ -24,6 +24,26 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             _pickListValuesRepository = pickListValuesRepository;
         }
 
+        private IEnumerable<string> TimeFactors()
+        {
+            return _pickListValuesRepository.TimeFactorOptions();
+        }
+
+        private IEnumerable<string> DaysCancellation()
+        {
+            return _pickListValuesRepository.DaysCancellationOptions();
+        }
+
+        private IEnumerable<string> LimitationExpenses()
+        {
+            return _pickListValuesRepository.LimitationExpenseOptions();
+        }
+
+        private IEnumerable<string> LimitationOfContractTypes()
+        {
+            return _pickListValuesRepository.LimitationOfContractTypeOptions();
+        }
+
         private IEnumerable<InternalEmployee> ColleaguesForCurrentUser()
         {
             var accountExecutives = _internalEmployeesRepository.GetAccountExecutivesThatShareBranchWithUserId(_session.CurrentUser.Id);
@@ -41,11 +61,6 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return _pickListValuesRepository.InvoiceFrequencyOptions();
         }
 
-        private IEnumerable<string> ContractLimitaionTypes()
-        {
-            return _pickListValuesRepository.ContractLimitationOptions();
-        }
-
         private IEnumerable<string> ContractPaymentPlans()
         {
             return _pickListValuesRepository.ContractPaymentPlans();
@@ -60,10 +75,13 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
         {
             return new ContractCreationOptions
             {
+                TimeFactorOptions = TimeFactors(),
+                DaysCancellationOptions = DaysCancellation(),
+                //LimitationExpenseOptions = LimitationExpenses(),
+                LimitationOfContractTypeOptions = LimitationOfContractTypes(),
                 Colleagues = ColleaguesForCurrentUser(),
                 InvoiceFormatOptions = InvoiceFormats(),
                 InvoiceFrequencyOptions = InvoiceFrequencies(),
-                LimitationOfContractTypeOptions = ContractLimitaionTypes(),
                 PaymentPlanOptions = ContractPaymentPlans()
             };
         }

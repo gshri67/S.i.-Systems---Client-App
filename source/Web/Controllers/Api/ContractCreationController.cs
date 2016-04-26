@@ -25,7 +25,7 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
         [Route("job/{jobId}/candidate/{candidateId}")]
         public HttpResponseMessage GetInitialContract(int jobId, int candidateId)
         {
-            var contract = _service;
+            var contract = _service.GetContractDetailsByJobIdAndCandidateId(jobId, candidateId);
             return Request.CreateResponse(HttpStatusCode.OK, contract);
         }
     }

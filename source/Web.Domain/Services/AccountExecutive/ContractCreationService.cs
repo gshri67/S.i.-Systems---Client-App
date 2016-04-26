@@ -12,11 +12,13 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
     public class ContractCreationService
     {
         private readonly IContractorRateRepository _rateRepo;
+        private readonly IJobsRepository _jobsRepo;
         private readonly ISessionContext _session;
 
-        public ContractCreationService(IContractorRateRepository rateRepo, ISessionContext session)
+        public ContractCreationService(IContractorRateRepository rateRepo, IJobsRepository jobsRepo, ISessionContext session)
         {
             _rateRepo = rateRepo;
+            _jobsRepo = jobsRepo;
             _session = session;
         }
 
@@ -31,8 +33,27 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
         public ContractCreationDetails GetContractDetailsByJobIdAndCandidateId(int jobId, int candidateId)
         {
+            Job job = _jobsRepo.GetJobWithJobId(jobId);
+            
             return new ContractCreationDetails
             {
+                JobTitle = job.Title,
+                StartDate = job.IssueDate,
+                EndDate = new DateTime(),
+                //TimeFactor =
+                DaysCancellation = 10,
+                //LimitationExpense = 
+                //LimitationOfContractType = 
+                //LimitationOfContractValue = 
+                //PaymentPlan = 
+                //AccountExecutive =
+                //GMAssigned = 
+                //ComissionAssigned = 
+                //InvoiceFrequency = 
+                //InvoiceFormat = 
+                //UsingProjectCode = 
+                UsingQuickPay = false,
+
                 Rates = ProposedContractorRatesForJobAndCandidate(jobId, candidateId)
             };
         }

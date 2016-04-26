@@ -327,10 +327,11 @@ namespace Shared.Core
         }
 
         [HttpGet("ContractCreation/job/{jobId}/candidate/{candidateId}")]
-        public async Task<RateOptions> GetContract(int jobId, int candidateId)
+        public async Task<ContractCreationDetails> GetInitialContract(int jobId, int candidateId)
         {
-            return await ExecuteWithDefaultClient<RateOptions>(new {jobId, candidateId});
+            return await ExecuteWithDefaultClient<ContractCreationDetails>(new {jobId, candidateId});
         }
+
         public async Task<int> GetContractIdFromJobIdAndContractorId(int jobId, int contractorId)
         {
             return await ExecuteWithDefaultClient<int>();
