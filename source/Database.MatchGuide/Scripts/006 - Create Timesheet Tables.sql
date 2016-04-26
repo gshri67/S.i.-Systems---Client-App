@@ -188,6 +188,20 @@ CREATE TABLE [dbo].[TimeSheetAdminDetail](
 
 GO
 
+CREATE TABLE [dbo].[MobileAppTimeSheet](
+	[MobileAppTimeSheetID] [int] IDENTITY(1,1) NOT NULL,
+	[TimeSheetID] [int] NULL,
+	[CreatedDate] [datetime] NULL DEFAULT (getdate())
+) ON [PRIMARY]
+
+GO
+
+CREATE TABLE [dbo].[MobileAppTimeSheetTemp](
+	[MobileAppTimeSheetTempID] [int] IDENTITY(1,1) NOT NULL,
+	[TimeSheetTempID] [int] NULL,
+	[CreatedDate] [datetime] NULL DEFAULT (getdate())
+) ON [PRIMARY]
+
 
 /*
 	************************************************************ TimeSheet Constraints ******************************************************
@@ -366,6 +380,29 @@ ALTER TABLE [dbo].[TimeSheetAdminDetail]  WITH NOCHECK ADD  CONSTRAINT [chkverti
 GO
 
 ALTER TABLE [dbo].[TimeSheetAdminDetail] CHECK CONSTRAINT [chkverticalid_TimeSheetAdminDetail]
+GO
+
+
+/*
+	************************************************************ MobileAppTimesheet (Analytics Table) ******************************************************
+*/
+
+ALTER TABLE [dbo].[MobileAppTimeSheet]  WITH CHECK ADD  CONSTRAINT [FK_TimeSheet_MobileApp] FOREIGN KEY([TimeSheetID])
+REFERENCES [dbo].[TimeSheet] ([TimeSheetID])
+GO
+
+ALTER TABLE [dbo].[MobileAppTimeSheet] CHECK CONSTRAINT [FK_TimeSheet_MobileApp]
+GO
+
+/*
+	************************************************************ MobileAppTimesheetTemp (Analytics Table) ******************************************************
+*/
+
+ALTER TABLE [dbo].[MobileAppTimeSheetTemp]  WITH CHECK ADD  CONSTRAINT [FK_TimeSheet_MobileAppTemp] FOREIGN KEY([TimeSheetTempID])
+REFERENCES [dbo].[TimeSheetTemp] ([TimeSheetTempID])
+GO
+
+ALTER TABLE [dbo].[MobileAppTimeSheetTemp] CHECK CONSTRAINT [FK_TimeSheet_MobileAppTemp]
 GO
 
 

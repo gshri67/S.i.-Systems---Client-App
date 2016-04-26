@@ -1,4 +1,4 @@
-﻿S.i. Systems - Client App
+S.i. Systems - Client App
 ==========================
 
 Setting up your environment:
@@ -13,8 +13,10 @@ Requirements:
 ###Xamarin Business Account
 Ensure that you have a Business level license. This level is required for using Xamarin with Visual Studio. Also ensure that the account you have is licensed for the correct platform.
 
-###Additional Note: 
-When developing on Windows using Xamarin, you will need access to a OS X machine with Xamarin installed to act as your build machine. While you can develop in Visual Studio on Windows, you cannot build the iOS project(s) without OS X and Xcode.
+###Additional Notes: 
+1. When developing on Windows using Xamarin, you will need access to a OS X machine with Xamarin installed to act as your build machine. While you can develop in Visual Studio on Windows, you cannot build the iOS project(s) without OS X and Xcode.
+2. When cloning the solution, ensure to specify a location without spaces or special characters. 
+      (an example of this would be 'Unknown MSBuild failure. Please try building the project again.')
 
 ##Set up Development Database
 On your Windows machine, run the PowerShell script at "developmentScripts/refresh_Dev_Environment.ps1". If all goes well, this will create a DEV database named SiSystemsClientApp in your local SQL Server instance.

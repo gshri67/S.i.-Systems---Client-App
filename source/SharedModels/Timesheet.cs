@@ -77,6 +77,7 @@ namespace SiSystems.SharedModels
         public int ContractId { get; set; }
         public DateTime AgreementStartDate { get; set; }
         public DateTime AgreementEndDate { get; set; }
+        public float TotalHours { get; set; }
 
         public MatchGuideConstants.TimesheetStatus Status { get; set; }
 		public DateTime StartDate { get; set; }
@@ -98,6 +99,8 @@ namespace SiSystems.SharedModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+
+        public bool IsFrequentlyUsed { get; set; }
     }
 
     public class PayPeriod

@@ -14,7 +14,12 @@ namespace ConsultantApp.Core.ViewModels
 	{
         private readonly IMatchGuideApi _api;
 
-	    public Timesheet Timesheet { get; private set; }
+	    private Timesheet _timesheet;
+	    public Timesheet Timesheet 
+        {
+	        get { return _timesheet ?? new Timesheet(); }
+	        private set { _timesheet = value; }
+	    }
 
 	    private IEnumerable<DirectReport> _approvers;
 	    private TimesheetSupport _timesheetSupport;
@@ -31,8 +36,6 @@ namespace ConsultantApp.Core.ViewModels
 
         private const string DateLabelFormat = "MMMMM yyyy";
 	    private const float Tolerance = (float) 0.00001;
-
-	    public Task LoadingTimesheet;
 
 	    public Task SubmittingTimesheet;
 	    public Task WithdrawingTimesheet;
@@ -87,10 +90,12 @@ namespace ConsultantApp.Core.ViewModels
             Timesheet = await _api.WithdrawTimesheet(Timesheet.Id, CancelReason );
 	    }
 
-	    public void SetTimesheet(Timesheet timesheet)
+	    public Task SetTimesheet(Timesheet timesheet)
 	    {
-            LoadingTimesheet = LoadTimesheet(timesheet);
-            // LoadingTimesheet.ContinueWith() //whatever work needs to be done in this class when we finish loading the timesheet
+            Timesheet = timesheet;
+            var task = GetTimeEntries(timesheet);
+            return task;
+            // task.ContinueWith() //whatever work needs to be done in this class when we finish loading the timesheet
 	    }
 
 	    public Task GetTimesheetApprovers()
@@ -104,13 +109,9 @@ namespace ConsultantApp.Core.ViewModels
             _approvers = await _api.GetTimesheetApproversByAgreementId(Timesheet.AgreementId);
         }
 
-
-	    private Task LoadTimesheet(Timesheet timesheet)
+	    private async Task GetTimeEntries(Timesheet timesheet)
 	    {
-	        return Task.Run(() =>
-	        {
-                Timesheet = timesheet;
-	        });
+            Timesheet = await _api.PopulateTimeEntries(timesheet);
 	    }
 
         public Task LoadTimesheetSupport()
@@ -217,44 +218,22 @@ namespace ConsultantApp.Core.ViewModels
                 : "Are you sure you want to submit this timesheet?";
 	    }
 
-	    public void SetTimesheetApprover(DirectReport selectedApprover)
-	    {
-            Timesheet.TimesheetApprover = selectedApprover;
-            ActiveTimesheetViewModel.IncrementApproverCount(selectedApprover);
-	    }
-
         public void SetTimesheetApproverByEmail(string selectedApproverEmail)
         {
             var selectedApprover = _approvers.FirstOrDefault(a => a.Email == selectedApproverEmail);
-
-            SetTimesheetApprover(selectedApprover);
+            Timesheet.TimesheetApprover = selectedApprover;
         }
-
-	    public IEnumerable<DirectReport> MostFrequentlyUsedApprovers()
-	    {
-            var mostFrequentEmails = ActiveTimesheetViewModel.MostFrequentTimesheetApprovers();
-
-            return _approvers.Where(approver => mostFrequentEmails.Contains(approver.Email));
-	    }
-
-	    private int CountOfFrequentlyUsedapprovers;
 
 	    public List<string> ApproverEmailsSortedByFrequency()
 	    {
-            var mostFrequentlyUsed = MostFrequentlyUsedApprovers();
-	        CountOfFrequentlyUsedapprovers = mostFrequentlyUsed.Count();
-            var frequentlyUsed = mostFrequentlyUsed as IList<DirectReport> ?? mostFrequentlyUsed.ToList();
-            var partialApprovers = _approvers.Except(frequentlyUsed).ToList();
+	        _approvers = _approvers.OrderBy(report => report.IsFrequentlyUsed).ThenBy(report => report.Email);
 
-            partialApprovers = partialApprovers.OrderBy(pa => pa.Email).ToList();
-
-            _approvers = frequentlyUsed.Concat(partialApprovers).ToList();
 	        return _approvers.Select(a => a.Email).ToList();
 	    }
 
 	    public int NumberOfFrequentlyUsedApprovers()
 	    {
-            return CountOfFrequentlyUsedapprovers;
+            return _approvers.Count(report => report.IsFrequentlyUsed);
 	    }
 
 	    public string GetAlertText()

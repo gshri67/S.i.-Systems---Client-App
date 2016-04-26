@@ -26,5 +26,7 @@ namespace Shared.Core
         public static MatchGuideConstants.FloThruMspPayment FloThruMspPayment { get; set; }
         public static MatchGuideConstants.FloThruFeeType FloThruFeeType { get; set;}
         public static MatchGuideConstants.ClientInvoiceFrequency ClientInvoiceFrequency { get; set; }
+
+        public static string TokenCache { get; set; }
     }
 }

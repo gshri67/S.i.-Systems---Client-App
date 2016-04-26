@@ -12,7 +12,7 @@ namespace ConsultantApp.iOS
     public partial class LoginViewController : UIViewController
     {
         private readonly LoginViewModel _loginModel;
-        private readonly ITokenStore _tokenStore;
+        private readonly IDefaultStore _defaultStore;
         private CGRect _defaultFrame;
         static bool UserInterfaceIdiomIsPhone
         {
@@ -25,7 +25,7 @@ namespace ConsultantApp.iOS
 			HidesBottomBarWhenPushed = true;
 
             _loginModel = DependencyResolver.Current.Resolve<LoginViewModel>();
-            _tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
+			_defaultStore = DependencyResolver.Current.Resolve<IDefaultStore>();
         }
 
 		public override void ViewWillLayoutSubviews ()
@@ -75,7 +75,7 @@ namespace ConsultantApp.iOS
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, ShowKeyboard);
             NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, HideKeyboard);
 
-            var previousUsername = _tokenStore.GetUserName();
+			var previousUsername = _defaultStore.Username;
             username.Text = previousUsername;
         }
 

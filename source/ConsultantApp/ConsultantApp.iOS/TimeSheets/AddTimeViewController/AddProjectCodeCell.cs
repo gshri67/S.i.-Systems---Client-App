@@ -94,12 +94,6 @@ namespace ConsultantApp.iOS
 			AddSubview (_deleteButton);
 		}
 
-        //public void SetTimeEntry( TimeEntry entry )
-        //{
-        //    TimeEntry = entry;
-        //    UpdateUI ();
-        //}
-
         public void SetData(TimeEntry entry, IEnumerable<ProjectCodeRateDetails> codeRates)
 		{
 			TimeEntry = entry;
@@ -123,9 +117,9 @@ namespace ConsultantApp.iOS
 			if ( _picker == null || _pickerModel == null || TimeEntry == null || _projectCodes == null || _payRates == null)
 				
 				return;
-			
 
-			var frequentlyUsedAndAvailable = MostFrequentlyUsedOfAvailableCodeRates();
+
+		    var frequentlyUsedAndAvailable = new List<string>();
 
             var infrequentlyUsed = _projectCodes.Except(frequentlyUsedAndAvailable).ToList();
 			infrequentlyUsed.Sort();
@@ -156,11 +150,6 @@ namespace ConsultantApp.iOS
 				loadSelectedPickerItem ( null, payRateStringList, 1 );
 			
 		}
-
-	    private List<string> MostFrequentlyUsedOfAvailableCodeRates()
-	    {
-	        return ActiveTimesheetViewModel.MostFrequentProjectCodes().Where(s => _projectCodes.Contains(s)).ToList();
-	    }
 
 	    //find the index of the input item in the item list (if it exists). Then scroll to that item
 		private void loadSelectedPickerItem( string item, List<string> itemList, int component )
@@ -213,8 +202,6 @@ namespace ConsultantApp.iOS
 		        return;
 
 			SetTimeEntryPayRateToSelectedRate();
-
-		    ActiveTimesheetViewModel.IncrementProjectCodeCount(TimeEntry.CodeRate.PONumber);
 			
 			OnSave(TimeEntry);
 		}

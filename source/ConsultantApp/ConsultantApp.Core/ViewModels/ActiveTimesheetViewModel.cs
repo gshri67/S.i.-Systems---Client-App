@@ -10,8 +10,6 @@ namespace ConsultantApp.Core.ViewModels
 	public class ActiveTimesheetViewModel
 	{
         private readonly IMatchGuideApi _api;
-		private static Dictionary<string, int> _projectCodeDict;
-        private static Dictionary<string, int> _approverDict;
 
 	    private IEnumerable<PayPeriod> _payPeriods;
         public IEnumerable<PayPeriod> PayPeriods
@@ -20,110 +18,27 @@ namespace ConsultantApp.Core.ViewModels
             private set { _payPeriods = value ?? Enumerable.Empty<PayPeriod>(); }
 	    }
 
-	    //public Task LoadingPayPeriods;
-	    
-	    private const int MaxPeriodHistory = 6;
-        private const int MaxFrequentlyUsed = 5;
-
         public ActiveTimesheetViewModel(IMatchGuideApi matchGuideApi)
 	    {
 	        _api = matchGuideApi;
             
             PayPeriods = Enumerable.Empty<PayPeriod>();
-
-            if(_projectCodeDict == null)
-                _projectCodeDict = new Dictionary<string, int>();
-            
-            if (_approverDict == null)
-                _approverDict = new Dictionary<string, int>();
         }
 
 	    public Task LoadPayPeriods()
 	    {
             var loadingPayPeriods = GetPayPeriods();
-            loadingPayPeriods.ContinueWith(_ => BuildDictionaries());
 	        return loadingPayPeriods;
 	    }
 
         private async Task GetPayPeriods()
         {
-#if TEST
-            Console.WriteLine("GetPayPeriods");
-#endif
-            PayPeriods = await _api.GetPayPeriods();
+            PayPeriods = await _api.GetPayPeriodSummaries();
         }
         
         public bool UserHasPayPeriods()
         {
             return PayPeriods != null && PayPeriods.Any();
-        }
-
-        public static IEnumerable<string> MostFrequentProjectCodes()
-        {
-            return MostFrequentEntries(_projectCodeDict, MaxFrequentlyUsed);
-        }
-
-        public static IEnumerable<string> MostFrequentTimesheetApprovers()
-        {
-            return MostFrequentEntries(_approverDict, MaxFrequentlyUsed);
-        }
-
-        public static void IncrementProjectCodeCount(string projectCode)
-        {
-            AddOrIncrementKeyToDictionary(_projectCodeDict, projectCode);
-        }
-
-        public static void IncrementApproverCount(DirectReport directReport)
-        {
-            if (directReport == null) return;
-
-            AddOrIncrementKeyToDictionary(_approverDict, directReport.Email);
-        }
-
-	    private void BuildDictionaries()
-        {
-#if TEST
-            Console.WriteLine("Building Dictionaries");
-#endif
-            if (PayPeriods == null) return;
-
-            var relevantPayPeriods = RelevantPayPeriods();
-
-	        foreach (var timesheet in relevantPayPeriods.SelectMany(period => period.Timesheets))
-	        {
-	            IncrementProjectCodeDictionary(timesheet);
-	            IncrementApproverCount(timesheet.TimesheetApprover);
-	        }
-	    }
-
-	    private IEnumerable<PayPeriod> RelevantPayPeriods()
-	    {
-            return PayPeriods.OrderBy(period => period.EndDate).Take(MaxPeriodHistory);
-	    }
-
-	    private static void IncrementProjectCodeDictionary(Timesheet timesheet)
-	    {
-	        foreach (var entry in timesheet.TimeEntries)
-	        {
-                IncrementProjectCodeCount(entry.CodeRate.PONumber);
-	        }
-	    }
-
-		private static IEnumerable<string> MostFrequentEntries( Dictionary<string, int> dict, int number)
-	    {
-	        var sortedList = from entry in dict orderby entry.Value descending select entry.Key;
-
-            return sortedList.Take(number);
-	    }
-
-        private static void AddOrIncrementKeyToDictionary(IDictionary<string, int> dictionary, string key)
-        {
-            if (key == null) return;
-
-            if (dictionary.ContainsKey(key))
-                dictionary[key]++;
-            else
-                dictionary.Add(key, 1);
         }
 	}
 }

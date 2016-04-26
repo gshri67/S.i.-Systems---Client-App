@@ -227,9 +227,10 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
             return contact;
         }
 
-        public void GetPayRatesAndProjectCodesFromTimesheet( Timesheet timesheet )
+        public Timesheet PopulateTimesheetEntries(Timesheet timesheet)
         {
-
+            timesheet.TimeEntries = _timeEntryRepository.GetTimeEntriesForTimesheet(timesheet).ToList();
+            return timesheet;
         }
     }
 }

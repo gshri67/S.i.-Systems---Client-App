@@ -50,9 +50,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    public void LoadTimesheets()
         {
-#if TEST
-            Console.WriteLine("LoadTimesheets");
-#endif
             RemoveOverlay();
             
 	        UpdateTableSource();
@@ -62,9 +59,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    private void UpdateTableSource()
         {
-#if TEST
-            Console.WriteLine("UpdateTableSource");
-#endif
             InvokeOnMainThread(delegate
             {
                 ActiveTimesheetsTable.Source = new ActiveTimesheetTableViewSource(this, _activeTimesheetModel.PayPeriods);
@@ -74,9 +68,6 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		private void CreateCustomTitleBar()
         {
-#if TEST
-            Console.WriteLine("CreateTitleBar");
-#endif
             InvokeOnMainThread(() =>
 				{
 					_subtitleHeaderView = new SubtitleHeaderView();
@@ -109,13 +100,13 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 	    private void InitiatePayPeriodLoading()
 	    {
             var loadPeriodsTask = _activeTimesheetModel.LoadPayPeriods();
-            loadPeriodsTask.ContinueWith(_ => InvokeOnMainThread(LoadTimesheets));
+            loadPeriodsTask.ContinueWith(_ => LoadTimesheets());
 	    }
 
 	    private void InitiateConsultantDetailsLoading()
 	    {
 	        _currentConsultantDetailsViewModel.LoadConsultantDetails();
-            _currentConsultantDetailsViewModel.LoadingConsultantDetails.ContinueWith(_ => InvokeOnMainThread(CreateCustomTitleBar));
+            _currentConsultantDetailsViewModel.LoadingConsultantDetails.ContinueWith(_ => CreateCustomTitleBar());
 	    }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)

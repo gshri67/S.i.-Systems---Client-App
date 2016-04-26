@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using SiSystems.ClientApp.Web.Domain.Repositories;
 using SiSystems.ConsultantApp.Web.Domain.Repositories;
@@ -22,17 +23,42 @@ namespace SiSystems.ConsultantApp.Web.Domain.Services
 
         public IEnumerable<DirectReport> GetTimesheetApproversByAgreementId( int agreementId )
         {
-            var companyId = _companyRepository.GetCompanyIdByAgreementId(agreementId);
-            var allAssociatedCompanyIds = this._companyRepository.GetAllAssociatedCompanyIds(companyId);
+            var timesheetApprovers = GetPossibleDirectReportForAgreementId(agreementId);
 
+            timesheetApprovers = RemoveDuplicateUsers(timesheetApprovers);
+
+            SetFrequentlyUsed(agreementId, timesheetApprovers);
+
+            return timesheetApprovers.OrderBy(report => report.IsFrequentlyUsed).ThenBy(report => report.Email);
+        }
+
+        private IEnumerable<DirectReport> GetPossibleDirectReportForAgreementId(int agreementId)
+        {
             var timesheetApprovers = new List<DirectReport>();
-            
+            var companyId = _companyRepository.GetCompanyIdByAgreementId(agreementId);
+            var allAssociatedCompanyIds = _companyRepository.GetAllAssociatedCompanyIds(companyId);
+
             foreach (var id in allAssociatedCompanyIds)
             {
                 timesheetApprovers.AddRange(_timeSheetApproverRepository.GetTimesheetApproversByCompanyId(id));
             }
+            return timesheetApprovers;
+        }
 
-            return timesheetApprovers.GroupBy(report => report.Id).Select(group=>group.FirstOrDefault());
+        private static IEnumerable<DirectReport> RemoveDuplicateUsers(IEnumerable<DirectReport> timesheetApprovers)
+        {
+            timesheetApprovers =
+                timesheetApprovers.GroupBy(report => report.Id).Select(group => @group.FirstOrDefault()).ToList();
+            return timesheetApprovers;
+        }
+
+        private void SetFrequentlyUsed(int agreementId, IEnumerable<DirectReport> timesheetApprovers)
+        {
+            var frequentApproverIds = _timeSheetApproverRepository.FrequentyDirectReportIdsByAgreementId(agreementId).ToList();
+            foreach (var approver in timesheetApprovers)
+            {
+                approver.IsFrequentlyUsed = frequentApproverIds.Contains(approver.Id);
+            }
         }
 
         public int RequestApprovalFromApproverWithId(int timesheetId )

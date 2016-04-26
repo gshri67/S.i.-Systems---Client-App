@@ -3727,6 +3727,42 @@ END
 
 GO
 
+/****** Timesheet Analytics Sp: UspSetMobileAppTSTemp_TSAPP ******/
+CREATE proc [dbo].[UspSetMobileAppTSTemp_TSAPP]                
+(                                                                            
+	@TimeSheetTempID INT
+)                                                                                                           
+                                                                                                            
+AS     
+
+BEGIN
+                                            
+	SET NOCOUNT ON        
+	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED	
+	
+	INSERT INTO MobileAppTimeSheetTemp(TimeSheetTempID)
+	VALUES (@TimeSheetTempID)
+END
+GO
+/****** Timesheet Analytics Sp: UspSetMobileAppTSTemp_TSAPP ******/
+
+CREATE proc [dbo].[UspSetMobileAppTS_TSAPP]                
+(                                                                            
+	@TimesheetId INT
+)                                                                                                           
+                                                                                                            
+AS     
+
+BEGIN
+                                            
+	SET NOCOUNT ON        
+	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED	
+	
+	INSERT INTO MobileAppTimeSheet(TimeSheetID)
+	VALUES (@timesheetid)
+	
+END
+GO
 
 /****** Object:  StoredProcedure [dbo].[UspTimesheetResendApproval]    Script Date: 4/18/2016 12:16:37 PM ******/
 SET ANSI_NULLS ON
@@ -3767,9 +3803,6 @@ AS
 	END
 
 GO
-
-
-
 
 
 

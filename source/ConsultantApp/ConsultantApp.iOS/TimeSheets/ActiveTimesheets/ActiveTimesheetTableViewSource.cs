@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Foundation;
 using SiSystems.SharedModels;
@@ -23,7 +24,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		public override nint NumberOfSections(UITableView tableView)
 		{
-			if (_payPeriods != null && _payPeriods.Count() > 0 )
+			if (_payPeriods != null && _payPeriods.Any() )
 				return _payPeriods.Count;
 			else
 				return 0;
@@ -31,7 +32,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		public override string TitleForHeader(UITableView tableView, nint section)
 		{
-			if (_payPeriods == null || _payPeriods.Count() == 0 )
+			if (_payPeriods == null || !_payPeriods.Any() )
 				return "";
 
 		    return _payPeriods[(int)section] != null
@@ -41,7 +42,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 	    public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			if (_payPeriods == null || _payPeriods.Count () == 0)
+			if (_payPeriods == null || !_payPeriods.Any())
 				return 0;
 			
             return _payPeriods.ElementAt((int)section) != null
@@ -69,14 +70,10 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
                        new ActiveTimesheetCell(CellIdentifier);
 		    var timesheet = _payPeriods.ElementAt(indexPath.Section).Timesheets.ElementAt(indexPath.Row);
 
-		    var timesheetApproverLabelText = timesheet.TimesheetApprover == null 
-                ? string.Empty 
-                : timesheet.TimesheetApprover.Email;
-
 		    cell.UpdateCell(
 		        company: timesheet.ClientName,
-                subtitleText: string.Format("Contract: {0}", timesheet.ContractId.ToString()) ?? string.Empty,
-		        hours: timesheet.TimeEntries.Sum(t => t.Hours).ToString(),
+                subtitleText: string.Format("Contract: {0}", timesheet.ContractId),
+		        hours: timesheet.TotalHours.ToString(CultureInfo.InvariantCulture),
 		        status: StatusTextToDisplay(timesheet.Status)
 		        );
 
@@ -104,7 +101,7 @@ namespace ConsultantApp.iOS.TimeSheets.ActiveTimesheets
 
 		public override nfloat GetHeightForHeader (UITableView tableView, nint section)
 		{
-			if (_payPeriods == null || _payPeriods.Count () == 0)
+			if (_payPeriods == null || !_payPeriods.Any())
 				return 0;
 	
 			return 32;

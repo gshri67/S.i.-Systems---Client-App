@@ -37,9 +37,10 @@ namespace ConsultantApp.iOS.TimeEntryViewController
         
         public void LoadTimesheet(Timesheet timesheet)
         {
-            _timesheetModel.SetTimesheet(timesheet);
-            _timesheetModel.LoadingTimesheet.ContinueWith(_ => InvokeOnMainThread(UpdateUI));
-           
+            IndicateLoading();
+            var loadingTimesheet = _timesheetModel.SetTimesheet(timesheet);
+            loadingTimesheet.ContinueWith(_ => InvokeOnMainThread(UpdateUI));
+            loadingTimesheet.ContinueWith(_ => InvokeOnMainThread(RemoveOverlay));
         }
 
 	    private void SetLabelText(UILabel label, string text)
@@ -82,8 +83,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 		    if (approverNameTextField != null)
 		        approverNameTextField.Text = _timesheetModel.TimesheetApproverEmail();
 
-		    if( calendarContainerView != null )
-		        SetupCalendar ();
+		    SetupCalendar();
 
 		    if (submitButton != null)
             {
@@ -122,42 +122,33 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
 	    private void SetupCalendar()
 	    {
-			if (_calendar != null) 
-			{
-				DateTime selectedDate = _calendar.SelectedDate;
-				_calendar = new FMCalendar (_calendar.Bounds, new CGRect (), _timesheetModel.StartDate(), _timesheetModel.EndDate(), _timesheetModel.TimeSheetEntries());
-				_calendar.SelectedDate = selectedDate;
-			}
-			else
-                _calendar = new FMCalendar(calendarContainerView.Bounds, new CGRect(), _timesheetModel.StartDate(), _timesheetModel.EndDate(), _timesheetModel.TimeSheetEntries());
-			
-			_calendar.SundayFirst = true;
-            calendarContainerView.AddSubview(_calendar);
+	        if (calendarContainerView == null)
+	            return;
 
-            _calendar.DateSelected = delegate(DateTime date)
-            {
-                _timesheetModel.SelectedDate = date;
-                var addTimeViewController = (AddTimeViewController)Storyboard.InstantiateViewController("AddTimeViewController");
-                addTimeViewController.SetViewModel(_timesheetModel);
+	        _calendar = new FMCalendar(calendarContainerView.Bounds, new CGRect(), _timesheetModel.StartDate(), _timesheetModel.EndDate(), _timesheetModel.TimeSheetEntries())
+	        {
+	            SundayFirst = true,
+	            DateSelected = delegate(DateTime date)
+	            {
+	                _timesheetModel.SelectedDate = date;
+	                var addTimeViewController =
+	                    (AddTimeViewController) Storyboard.InstantiateViewController("AddTimeViewController");
+	                addTimeViewController.SetViewModel(_timesheetModel);
 
+	                NavigationController.PushViewController(addTimeViewController, true);
+	            }
+	        };
 
-                //var addTimeDelegate = new AddTimeDelegate
-                //{
-                //    setTimesheet = delegate(Timesheet timesheet) { _timesheetModel.SetTimesheet(timesheet); }
-                //};
-                //addTimeViewController.TimeDelegate = addTimeDelegate;
+	        calendarContainerView.AddSubview(_calendar);
+            
+            //todo: remove as unused code?
+            //calendarLeftButton.SetTitle("", UIControlState.Normal);
+            //calendarLeftButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
+            //calendarLeftButton.SetImage(new UIImage("leftArrow.png"), UIControlState.Normal);
 
-                NavigationController.PushViewController(addTimeViewController, true);
-            };
-
-            calendarLeftButton.SetTitle("", UIControlState.Normal);
-            calendarLeftButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
-            calendarLeftButton.SetImage(new UIImage("leftArrow.png"), UIControlState.Normal);
-
-
-            calendarRightButton.SetTitle("", UIControlState.Normal);
-            calendarRightButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
-            calendarRightButton.SetImage(new UIImage("rightArrow.png"), UIControlState.Normal);
+            //calendarRightButton.SetTitle("", UIControlState.Normal);
+            //calendarRightButton.SetTitleColor(UIColor.Black, UIControlState.Normal);
+            //calendarRightButton.SetImage(new UIImage("rightArrow.png"), UIControlState.Normal);
 	    }
 
         private void LoadTimesheetApprovers()
@@ -225,7 +216,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
 
             submitButton.TouchUpInside += OpenActionSheet;
 
-			UpdateUI();
+			//UpdateUI();
 
 			CreateCustomTitleBar();
 		}
@@ -270,7 +261,7 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             sheet.AddButton("Cancel");
             sheet.ShowFromTabBar(NavigationController.TabBarController.TabBar);
            
-            UpdateUI();
+            //UpdateUI();
 	    }
 
 	    private void OpenActionSheet(object sender, EventArgs e)
@@ -501,5 +492,26 @@ namespace ConsultantApp.iOS.TimeEntryViewController
             _approverPicker.ReloadAllComponents();
 		}
 
+        #region Overlay
+        private LoadingOverlay _overlay;
+        private void IndicateLoading()
+        {
+            InvokeOnMainThread(delegate
+            {
+                if (_overlay != null) return;
+
+                _overlay = new LoadingOverlay(View.Bounds, null);
+                View.Add(_overlay);
+            });
+        }
+
+        private void RemoveOverlay()
+        {
+            if (_overlay == null) return;
+
+            InvokeOnMainThread(_overlay.Hide);
+            _overlay = null;
+        }
+        #endregion
 	}
 }

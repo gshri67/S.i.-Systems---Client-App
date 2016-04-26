@@ -491,11 +491,9 @@
                 },
                 getPayPeriods: function () {
                     $('#payPeriodsResults').html('Sending...');
-                    var date = $('#payPeriodsId').val();
-
                     $.ajax({
                         type: 'GET',
-                        url: '/api/PayPeriods/',
+                        url: '/api/PayPeriods/Summaries',
                         headers: {
                             Authorization: 'Bearer ' + page.token
                         }

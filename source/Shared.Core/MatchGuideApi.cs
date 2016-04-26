@@ -17,12 +17,9 @@ namespace Shared.Core
     [Api(Settings.MatchGuideApiAddress)]
     public class MatchGuideApi : ApiClient, IMatchGuideApi
     {
-        private readonly ITokenStore _tokenStore;
-
-        public MatchGuideApi(ITokenStore tokenStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory) 
-            : base(tokenStore, activityManager, errorSource, handlerFactory)
+		public MatchGuideApi(ITokenStore tokenStore, IDefaultStore defaultStore, IActivityManager activityManager, IErrorSource errorSource, IHttpMessageHandlerFactory handlerFactory) 
+			: base(tokenStore, defaultStore, activityManager, errorSource, handlerFactory)
         {
-            this._tokenStore = tokenStore;
         }
 
         [HttpPost("login")]
@@ -30,7 +27,7 @@ namespace Shared.Core
         {
             try
             {
-                this.Username = username;
+                _defaultStore.Username = username;
 
                 var response = await ExecuteWithDefaultClient(new FormUrlEncodedContent(new Dictionary<string, string> {
                         { "username", WebUtility.HtmlEncode (username) },
@@ -46,8 +43,10 @@ namespace Shared.Core
                 if (response.IsSuccessStatusCode)
                 {
                     var token = JsonConvert.DeserializeObject<OAuthToken>(json);
-                    _tokenStore.SaveToken(token);
-                    _tokenStore.SaveUserName(token.Username);
+					_tokenStore.SaveToken(username, token.AccessToken);
+                    _defaultStore.TokenExpiresAt = token.ExpiresAt;
+                    _defaultStore.TokenExpiresIn = token.ExpiresIn;
+                    _defaultStore.TokenIssuedAt = token.IssuedAt;
 
                     Insights.Identify(token.Username, new Dictionary<string, string>
                     {
@@ -143,6 +142,12 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<PayPeriod[]>();
         }
         
+        [HttpGet("PayPeriods/Summaries")]
+        public async Task<IEnumerable<PayPeriod>> GetPayPeriodSummaries()
+        {
+            return await ExecuteWithDefaultClient<PayPeriod[]>();
+        }
+        
         [HttpGet("Remittances")]
 		public async Task<IEnumerable<Remittance>> GetRemittances()
 		{
@@ -177,7 +182,13 @@ namespace Shared.Core
             }
         }
 
-        [HttpPost("Timesheets")]
+        [HttpPost("Timesheets/Details")]
+        public async Task<Timesheet> PopulateTimeEntries(Timesheet timesheet)
+        {
+            return await ExecuteWithDefaultClient<Timesheet>(timesheet);
+        }
+
+        [HttpPost("Timesheets/Save")]
         public async Task<Timesheet> SaveTimesheet(Timesheet timesheet)
         {
             return await ExecuteWithDefaultClient<Timesheet>(timesheet);

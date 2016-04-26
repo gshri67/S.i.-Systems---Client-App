@@ -91,6 +91,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     ContractId = ts.contractid,
                     AgreementStartDate = AgreementStartDateByAgreementId(ts.agreementid),
                     AgreementEndDate = AgreementEndDateByAgreementId(ts.agreementid),
+                    TotalHours = ts.TSSaveHours,
                     StartDate = ts.tsStartDate,
                     EndDate = ts.tsEndDate,
                     AvailableTimePeriodId = GetTimePeriodId(ts.tsStartDate, ts.tsEndDate),
@@ -192,6 +193,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                         ContractId = ts.ContractID,
                         AgreementStartDate = agreementStartDate, 
                         AgreementEndDate = agreementEndDate, 
+                        TotalHours = ts.tsHours,
                         Status = (MatchGuideConstants.TimesheetStatus) ts.timesheetStatus, 
                         ClientName = ts.CompanyName, 
                         StartDate = startDate, 
@@ -340,6 +342,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     verticalId = MatchGuideConstants.VerticalId.IT
                 }).FirstOrDefault();
 
+                TimesheetAnalytics.MarkSavedTimesheetAsMobileByTimesheetId(savedTimesheetTempId);
+
                 return savedTimesheetTempId;
             }
         }
@@ -378,6 +382,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     aTimesheetType = "ETimesheet",
                     TSstatus = "Approved"
                 }).FirstOrDefault();
+
+                TimesheetAnalytics.MarkTimesheetAsMobileByTimesheetId(savedTimesheetTempId);
 
                 return savedTimesheetTempId;
             }
@@ -420,6 +426,8 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     isSubmittedEmailSent = true, 
                     aDirectReportid = timesheet.TimesheetApprover.Id
                 }).FirstOrDefault();
+
+                TimesheetAnalytics.MarkTimesheetAsMobileByTimesheetId(submittedTimesheetId);
 
                 return submittedTimesheetId;
             }
@@ -834,6 +842,47 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
         public static string RejectedTimesheetsByAccountExecutiveId
         {
             get { return string.Format("{1}{0}{2}", Environment.NewLine, TimesheetDetailsByAccountExecutiveBaseQuery, TimesheetStatusRejectedFilter); }
+        }
+    }
+
+    static class TimesheetAnalytics
+    {
+        public static void MarkTimesheetAsMobileByTimesheetId(int timesheetId)
+        {
+            try
+            {
+                using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+                {
+                    const string sp =
+                        @"UspSetMobileAppTS_TSAPP";
+
+                    db.Connection.Execute(sp, new { TimesheetId = timesheetId }, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception e)
+            {
+                //we don't want to fail just because we can't log something, so we'll just ignore the exception.
+                //todo: LogAnalyticsFailure("UspSetMobileAppTSTemp_TSAPP", timesheetId);
+            }
+        }
+
+        public static void MarkSavedTimesheetAsMobileByTimesheetId(int timesheetId)
+        {
+            try
+            {
+                using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+                {
+                    const string sp =
+                        @"UspSetMobileAppTSTemp_TSAPP";
+
+                    db.Connection.Execute(sp, new { TimeSheetTempID = timesheetId }, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception e)
+            {
+                //we don't want to fail just because we can't log something, so we'll just ignore the exception.
+                //todo: LogAnalyticsFailure("UspSetMobileAppTS_TSAPP", timesheetId);
+            }
         }
     }
 }

@@ -32,6 +32,8 @@ namespace Shared.Core
         
         Task<IEnumerable<PayPeriod>> GetPayPeriods();
         
+        Task<IEnumerable<PayPeriod>> GetPayPeriodSummaries();
+        
 		Task<IEnumerable<Remittance>> GetRemittances();
 
         Task<IEnumerable<DirectReport>> GetTimesheetApproversByAgreementId( int clientId );
@@ -71,6 +73,7 @@ namespace Shared.Core
 
         Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet);
 
+        Task<Timesheet> PopulateTimeEntries(Timesheet timesheet);
         Task<ContractCreationOptions> GetDropDownValuesForInitialContractCreationForm();
 
         Task<RateOptions> GetDropDownValuesForContractCreationRatesForm();

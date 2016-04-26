@@ -39,7 +39,8 @@ namespace ClientApp.iOS
                 SetNavbarStyle();
 
                 var tokenStore = DependencyResolver.Current.Resolve<ITokenStore>();
-                var token = tokenStore.GetDeviceToken();
+                var defaultStore = DependencyResolver.Current.Resolve<IDefaultStore>();
+
                 if (tokenStore.GetDeviceToken() == null)
                 {
                     // User is not logged in - display the login view
@@ -53,11 +54,11 @@ namespace ClientApp.iOS
                 }
                 else
                 {
-                    Insights.Identify(token.Username, new Dictionary<string, string>
+                    Insights.Identify(defaultStore.Username, new Dictionary<string, string>
                     {
-                        {"Token Expires At", token.ExpiresAt},
-                        {"Token Expires In", token.ExpiresIn.ToString()},
-                        {"Token Issued At", token.IssuedAt}
+                        {"Token Expires At", defaultStore.TokenExpiresAt},
+                        {"Token Expires In", defaultStore.TokenExpiresIn.ToString()},
+                        {"Token Issued At", defaultStore.TokenIssuedAt}
                     });
 
                     this.Window.RootViewController =
