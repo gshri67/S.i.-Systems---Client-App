@@ -14,11 +14,11 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private readonly IMatchGuideApi _api;
 
-        private SendingOptions _options;
-        private SendingOptions Options
+        private ContractCreationOptions_Sending _options;
+        private ContractCreationOptions_Sending Options
         {
-            get { return _options ?? new SendingOptions(); }
-            set { _options = value ?? new SendingOptions(); }
+            get { return _options ?? new ContractCreationOptions_Sending(); }
+            set { _options = value ?? new ContractCreationOptions_Sending(); }
         }
 
         public ContractSendingSupportViewModel(IMatchGuideApi api)
@@ -28,77 +28,79 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         //public int IsSendingConsultantContractSelectedIndex { get { return IndexBooleanSelectionFromOptions(BooleanOptions, IsSendingConsultantContract); } }
 
-        public List<UserContact> ClientContactOptions
+        public List<InternalEmployee> ClientContactOptions
         {
             get
             {
-                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty", Id = 1};
-                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu", Id = 2 };
-                return new List<UserContact>(new UserContact[] { contact1, contact2 });
+                //InternalEmployee contact1 = new InternalEmployee { FirstName = "Candice", LastName = "Consulty", Id = 1};
+                //InternalEmployee contact2 = new InternalEmployee { FirstName = "Jessica", LastName = "Wu", Id = 2 };
+                //return new List<InternalEmployee>(new InternalEmployee[] { contact1, contact2 });
+
+                return _options.ClientContactOptions;
             }
         }
         public List<string> ClientContactNameOptions { get { return ClientContactOptions.Select(c => c.FullName).ToList(); } }
 
-        public UserContact GetClientContactWithName(string name)
+        public InternalEmployee GetClientContactWithName(string name)
         {
             return ClientContactOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-        public List<UserContact> DirectReportOptions
+        public List<InternalEmployee> DirectReportOptions
         {
             get
             {
-                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty", Id = 1 };
-                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu", Id = 2 };
-                return new List<UserContact>(new UserContact[] { contact1, contact2 });
+                InternalEmployee contact1 = new InternalEmployee { FirstName = "Candice", LastName = "Consulty", Id = 1 };
+                InternalEmployee contact2 = new InternalEmployee { FirstName = "Jessica", LastName = "Wu", Id = 2 };
+                return new List<InternalEmployee>(new InternalEmployee[] { contact1, contact2 });
             }
         }
         public List<string> DirectReportNameOptions { get { return DirectReportOptions.Select(c => c.FullName).ToList(); } }
 
-        public UserContact GetDirectReportWithName(string name)
+        public InternalEmployee GetDirectReportWithName(string name)
         {
             return DirectReportOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-        public List<UserContact> BillingContactOptions
+        public List<InternalEmployee> BillingContactOptions
         {
             get
             {
-                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty", Id = 1 };
-                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu", Id = 2 };
-                return new List<UserContact>(new UserContact[] { contact1, contact2 });
+                InternalEmployee contact1 = new InternalEmployee { FirstName = "Candice", LastName = "Consulty", Id = 1 };
+                InternalEmployee contact2 = new InternalEmployee { FirstName = "Jessica", LastName = "Wu", Id = 2 };
+                return new List<InternalEmployee>(new InternalEmployee[] { contact1, contact2 });
             }
         }
         public List<string> BillingContactNameOptions { get { return BillingContactOptions.Select(c => c.FullName).ToList(); } }
 
-        public UserContact GetBillingContactWithName(string name)
+        public InternalEmployee GetBillingContactWithName(string name)
         {
             return BillingContactOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-        public List<UserContact> ClientContractContactOptions
+        public List<InternalEmployee> ClientContractContactOptions
         {
             get
             {
-                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty", Id = 1 };
-                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu", Id = 2 };
-                return new List<UserContact>(new UserContact[] { contact1, contact2 });
+                InternalEmployee contact1 = new InternalEmployee { FirstName = "Candice", LastName = "Consulty", Id = 1 };
+                InternalEmployee contact2 = new InternalEmployee { FirstName = "Jessica", LastName = "Wu", Id = 2 };
+                return new List<InternalEmployee>(new InternalEmployee[] { contact1, contact2 });
             }
         }
         public List<string> ClientContractContactNameOptions { get { return ClientContractContactOptions.Select(c => c.FullName).ToList(); } }
 
-        public UserContact GetClientContractContactWithName(string name)
+        public InternalEmployee GetClientContractContactWithName(string name)
         {
             return ClientContractContactOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-        public List<UserContact> InvoiceRecipientOptions
+        public List<InternalEmployee> InvoiceRecipientOptions
         {
             get
             {
-                UserContact contact1 = new UserContact { FirstName = "Candice", LastName = "Consulty", Id = 1 };
-                UserContact contact2 = new UserContact { FirstName = "Jessica", LastName = "Wu", Id = 2 };
-                return new List<UserContact>(new UserContact[] { contact1, contact2 });
+                InternalEmployee contact1 = new InternalEmployee { FirstName = "Candice", LastName = "Consulty", Id = 1 };
+                InternalEmployee contact2 = new InternalEmployee { FirstName = "Jessica", LastName = "Wu", Id = 2 };
+                return new List<InternalEmployee>(new InternalEmployee[] { contact1, contact2 });
             }
         }
 
@@ -106,7 +108,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get { return InvoiceRecipientOptions.Select(c => c.FullName).ToArray<string>(); }
         }
-        public UserContact GetInvoiceRecipientWithName(string name)
+        public InternalEmployee GetInvoiceRecipientWithName(string name)
         {
             return InvoiceRecipientOptions.FirstOrDefault(c => c.FullName == name);
         }
@@ -115,14 +117,14 @@ namespace AccountExecutiveApp.Core.ViewModel
  
         public Task GetContractBodyOptions(int jobId, int candidateId)
         {
-            var task = GetOptions();
+            var task = GetOptions( jobId );
             //todo: task.continueWith
             return task;
         }
 
-        private async Task GetOptions()
+        private async Task GetOptions( int jobId )
         {
-            //Options = await _api.GetDropDownValuesForSendingContractCreationForm();
+            Options = await _api.GetDropDownValuesForContractCreationSendingForm(jobId);
         }
     }
 }

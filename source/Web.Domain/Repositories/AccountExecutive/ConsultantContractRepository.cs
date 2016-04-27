@@ -19,6 +19,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id);
         ConsultantContract GetContractDetailsById(int id);
         IEnumerable<ConsultantContract> GetContractsByContractorId(int id);
+        int SubmitContract();
     }
 
     public class ConsultantContractRepository : IConsultantContractRepository
@@ -159,6 +160,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 return contracts;
             }
+        }
+
+        public int SubmitContract()
+        {
+            return 0;
+            //USPSetCreateNewFSContractInsert
         }
     }
 
@@ -394,6 +401,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public IEnumerable<ConsultantContract> GetContractsByContractorId(int id)
         {
             return new List<ConsultantContract> {ActiveMarketerAtNexenContract};
+        }
+
+        public int SubmitContract()
+        {
+            throw new NotImplementedException();
         }
 
         private static readonly Contractor StandardMarketer = new Contractor

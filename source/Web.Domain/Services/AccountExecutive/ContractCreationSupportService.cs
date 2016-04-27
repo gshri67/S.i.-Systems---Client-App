@@ -14,13 +14,15 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
     public class ContractCreationSupportService
     {
         private readonly IInternalEmployeesRepository _internalEmployeesRepository;
+        private readonly IJobsRepository _jobsRepository;
         private readonly IPickListValuesRepository _pickListValuesRepository;
         private readonly ISessionContext _session;
 
-        public ContractCreationSupportService(ISessionContext session, IInternalEmployeesRepository repo, IPickListValuesRepository pickListValuesRepository)
+        public ContractCreationSupportService(ISessionContext session, IInternalEmployeesRepository repo, IPickListValuesRepository pickListValuesRepository, IJobsRepository jobsRepository)
         {
             _session = session;
             _internalEmployeesRepository = repo;
+            _jobsRepository = jobsRepository;
             _pickListValuesRepository = pickListValuesRepository;
         }
 
@@ -71,8 +73,16 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return _pickListValuesRepository.RateTermTypes();
         }
 
-        public ContractCreationOptions GetContractOptionsForMainForm()
+        private IEnumerable<InternalEmployee> ClientContacts( int companyId )
         {
+            return _internalEmployeesRepository.GetClientContactsWithCompanyId(companyId);
+        }
+
+
+        public ContractCreationOptions GetContractOptionsForMainForm( int jobId )
+        {
+            int companyId = _jobsRepository.GetCompanyIdWithJobId(jobId);
+
             return new ContractCreationOptions
             {
                 TimeFactorOptions = TimeFactors(),
@@ -82,7 +92,19 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 Colleagues = ColleaguesForCurrentUser(),
                 InvoiceFormatOptions = InvoiceFormats(),
                 InvoiceFrequencyOptions = InvoiceFrequencies(),
-                PaymentPlanOptions = ContractPaymentPlans()
+                PaymentPlanOptions = ContractPaymentPlans(),
+                
+            };
+        }
+
+
+        public ContractCreationOptions_Sending GetContractOptionsForSendingForm(int jobId)
+        {
+            int companyId = _jobsRepository.GetCompanyIdWithJobId(jobId);
+
+            return new ContractCreationOptions_Sending
+            {
+                ClientContactOptions = ClientContacts(companyId).ToList(),
             };
         }
 

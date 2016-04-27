@@ -314,16 +314,22 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<TimesheetSupport>(timesheet);
         }
 
-        [HttpGet("ContractCreationSupport/MainFormOptions")]
-        public async Task<ContractCreationOptions> GetDropDownValuesForInitialContractCreationForm()
+        [HttpGet("ContractCreationSupport/MainFormOptions/{jobId}")]
+        public async Task<ContractCreationOptions> GetDropDownValuesForInitialContractCreationForm( int jobId )
         {
-            return await ExecuteWithDefaultClient<ContractCreationOptions>();
+            return await ExecuteWithDefaultClient<ContractCreationOptions>(new { jobId });
         }
 
         [HttpGet("ContractCreationSupport/RateFormOptions")]
         public async Task<RateOptions> GetDropDownValuesForContractCreationRatesForm()
         {
             return await ExecuteWithDefaultClient<RateOptions>();
+        }
+
+        [HttpGet("ContractCreationSupport/SendingFormOptions/{jobId}")]
+        public async Task<ContractCreationOptions_Sending> GetDropDownValuesForContractCreationSendingForm(int jobId)
+        {
+            return await ExecuteWithDefaultClient<ContractCreationOptions_Sending>(new { jobId });
         }
 
         [HttpGet("ContractCreation/job/{jobId}/candidate/{candidateId}")]

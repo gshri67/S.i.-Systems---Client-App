@@ -14,6 +14,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<Job> GetJobsByClientIdAndAccountExecutiveId(int id, int aeId);
         Job GetJobWithJobId(int id);
         IEnumerable<JobSummary> GetJobSummariesByAccountExecutiveId(int id);
+        int GetCompanyIdWithJobId(int id);
     }
 
     public class JobsRepository : IJobsRepository {
@@ -113,6 +114,23 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 job.NumCallouts = db.Connection.Query<int>(AccountExecutiveJobsQueries.NumberOfCandidatesWithCalloutsForJob, new { Id = job.Id }).FirstOrDefault();
 
                 return job;
+            }
+        }
+
+        public int GetCompanyIdWithJobId(int id)
+        {
+            const string companyByJobIdQuery =
+                @"SELECT Agreement.CompanyID AS companyId
+                FROM Agreement
+                JOIN Agreement_OpportunityDetail AS Detail ON Agreement.AgreementID = Detail.AgreementID
+                JOIN PickList ON PickList.PickListID = Agreement.StatusType
+                JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                WHERE Agreement.AgreementID = @Id";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var companyId = db.Connection.Query<int>(companyByJobIdQuery, new { Id = id }).FirstOrDefault();
+                return companyId;
             }
         }
 
@@ -372,6 +390,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 CenovusSummary,
                 NexenSummary
             };
+        }
+
+        public int GetCompanyIdWithJobId(int id)
+        {
+            return 1;
         }
 
         private JobSummary CenovusSummary = new JobSummary

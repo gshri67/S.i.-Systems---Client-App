@@ -237,20 +237,33 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return Contract.IsSendingConsultantContract; }
             set { Contract.IsSendingConsultantContract = value; } }
 
+        public int ClientContactId {
+            get { return Contract.ClientContact.Id; }
+        }
+        public int BillingContactId
+        {
+            get { return Contract.BillingContact.Id; }
+        }
+        public int DirectReportId
+        {
+            get { return Contract.DirectReport.Id; }
+        }
+
         public string ClientContactName
         {
             get { return Contract.ClientContact.FullName; }
         }
-        public void SetClientContact(UserContact contact)
+        public void SetClientContact(InternalEmployee contact)
         {
             Contract.ClientContact = contact;
         }
+
 
         public string DirectReportName
         {
             get { return Contract.DirectReport.FullName; }
         }
-        public void SetDirectReport(UserContact contact)
+        public void SetDirectReport(InternalEmployee contact)
         {
             Contract.DirectReport = contact;
         }
@@ -259,7 +272,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get { return Contract.BillingContact.FullName; }
         }
-        public void SetBillingContact(UserContact contact)
+        public void SetBillingContact(InternalEmployee contact)
         {
             Contract.BillingContact = contact;
         }
@@ -268,6 +281,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             return Contract.InvoiceRecipients.ElementAt(index).FullName;
         }
+        /*
         public string InvoiceRecipientCompanyAtIndex(int index)
         {
             return Contract.InvoiceRecipients.ElementAt(index).ClientName;
@@ -277,13 +291,13 @@ namespace AccountExecutiveApp.Core.ViewModel
             if (Contract.InvoiceRecipients.ElementAt(index).EmailAddresses != null && Contract.InvoiceRecipients.ElementAt(index).EmailAddresses.Count() > 0 )
                 return Contract.InvoiceRecipients.ElementAt(index).EmailAddresses.ElementAt(0).Email;
             return string.Empty;
-        }
-        public void SetInvoiceRecipientAtIndex(UserContact contact, int index)
+        }*/
+        public void SetInvoiceRecipientAtIndex(InternalEmployee contact, int index)
         {
             if (Contract.InvoiceRecipients == null)
-                Contract.InvoiceRecipients = new List<UserContact>();
+                Contract.InvoiceRecipients = new List<InternalEmployee>();
 
-            List < UserContact > recipientList = Contract.InvoiceRecipients.ToList();
+            List < InternalEmployee > recipientList = Contract.InvoiceRecipients.ToList();
 
             //add if doesnt exist
             if (index > Contract.InvoiceRecipients.Count()-1)
@@ -299,7 +313,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get { return Contract.ClientContractContact.FullName; }
         }
-        public void SetClientContractContact(UserContact contact)
+        public void SetClientContractContact(InternalEmployee contact)
         {
             Contract.ClientContractContact = contact;
         }

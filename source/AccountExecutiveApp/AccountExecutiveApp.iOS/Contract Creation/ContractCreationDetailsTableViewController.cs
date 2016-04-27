@@ -15,6 +15,7 @@ namespace AccountExecutiveApp.iOS
 	    private readonly ContractCreationViewModel _viewModel;
 	    private readonly ContractBodySupportViewModel _optionsModel;
 	    private Contractor _contractor;
+	    private int _jobId;
         private SubtitleHeaderView _subtitleHeaderView;
         private string Subtitle;
 
@@ -36,6 +37,7 @@ namespace AccountExecutiveApp.iOS
 	    public void SetupViewController(Contractor contractor, int jobId)
 	    {
 	        _contractor = contractor;
+	        _jobId = jobId;
             LoadContractOptions();
 	    }
 
@@ -143,7 +145,7 @@ namespace AccountExecutiveApp.iOS
 
 	    private void LoadContractOptions()
 	    {
-	        var loadingOptions = _optionsModel.GetContractBodyOptions();
+	        var loadingOptions = _optionsModel.GetContractBodyOptions(_jobId);
             //todo: update ui
 	        loadingOptions.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
 	    }

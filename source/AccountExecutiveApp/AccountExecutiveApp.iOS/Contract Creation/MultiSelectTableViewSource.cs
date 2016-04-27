@@ -15,8 +15,8 @@ namespace AccountExecutiveApp.iOS
     {
         private readonly MultiSelectTableViewController _parentController;
 
-        public List<UserContact> Contacts = new List<UserContact>();
-        public List<UserContact> Selected = new List<UserContact>();
+        public List<InternalEmployee> Contacts = new List<InternalEmployee>();
+        public List<InternalEmployee> Selected = new List<InternalEmployee>();
 
         public MultiSelectTableViewSource(MultiSelectTableViewController parentController)
         {
@@ -29,7 +29,7 @@ namespace AccountExecutiveApp.iOS
 
             cell.TextLabel.Text = Contacts[(int)indexPath.Item].FullName;
 
-            UserContact curContact = Contacts[(int) indexPath.Item];
+            InternalEmployee curContact = Contacts[(int) indexPath.Item];
 
             if ( Selected.Any(c => c.Id == curContact.Id))
                 tableView.SelectRow(indexPath, true, UITableViewScrollPosition.None);

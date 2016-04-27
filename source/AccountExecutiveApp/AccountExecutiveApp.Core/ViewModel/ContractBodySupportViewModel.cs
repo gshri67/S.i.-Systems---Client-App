@@ -12,7 +12,7 @@ namespace AccountExecutiveApp.Core.ViewModel
     public class ContractBodySupportViewModel
     {
         private readonly IMatchGuideApi _api;
-
+  
         private ContractCreationOptions _contractOptions;
         private ContractCreationOptions ContractOptions
         {
@@ -29,7 +29,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             return 1;
         }
 
-        public ContractBodySupportViewModel(IMatchGuideApi api)
+        public ContractBodySupportViewModel(IMatchGuideApi api )
         {
             _api = api;
         }
@@ -40,6 +40,9 @@ namespace AccountExecutiveApp.Core.ViewModel
         public List<string> LimitationOfContractTypeOptions { get { return ContractOptions.LimitationOfContractTypeOptions.ToList(); } }
         public List<string> PaymentPlanOptions { get { return ContractOptions.PaymentPlanOptions.ToList(); } }
         public List<string> DaysCancellationOptions { get { return ContractOptions.DaysCancellationOptions.ToList(); } }
+
+        public List<string> InvoiceFrequencyOptions { get { return ContractOptions.InvoiceFrequencyOptions.ToList(); } }
+        public List<string> InvoiceFormatOptions { get { return ContractOptions.InvoiceFormatOptions.ToList(); } }
 
         private List<InternalEmployee> AccountExecutiveOptions
         {
@@ -108,19 +111,17 @@ namespace AccountExecutiveApp.Core.ViewModel
             return ComissionAssignedOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-        public List<string> InvoiceFrequencyOptions { get { return new List<string>(new string[] { "Monthly", "Semi Monthly", "Weekly Invoicing" }); } }
-        public List<string> InvoiceFormatOptions { get { return new List<string>(new string[] { "1 invoice per contract" }); } }
 
-        public Task GetContractBodyOptions()
+        public Task GetContractBodyOptions( int jobId )
         {
-            var task = GetOptions();
+            var task = GetOptions( jobId );
             //todo: task.continueWith
             return task;
         }
 
-        private async Task GetOptions()
+        private async Task GetOptions( int jobId )
         {
-            ContractOptions = await _api.GetDropDownValuesForInitialContractCreationForm();
+            ContractOptions = await _api.GetDropDownValuesForInitialContractCreationForm( jobId );
         }
     }
 }

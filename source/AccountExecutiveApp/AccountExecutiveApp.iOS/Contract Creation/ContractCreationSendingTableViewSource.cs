@@ -364,7 +364,7 @@ namespace AccountExecutiveApp.iOS
             {
                 MultiSelectTableViewController vc = new MultiSelectTableViewController();
                 vc.SetData( _supportModel.InvoiceRecipientOptions.ToList(), _contractModel.Contract.InvoiceRecipients.ToList() );//set list of options, and then currently selected list
-                vc.OnSelectionChanged = delegate(List<UserContact> selected)
+                vc.OnSelectionChanged = delegate(List<InternalEmployee> selected)
                 {
                     _contractModel.Contract.InvoiceRecipients = selected.AsEnumerable();
                     tableView.ReloadData();
@@ -375,10 +375,10 @@ namespace AccountExecutiveApp.iOS
             if (IsClientContactCell(indexPath))
             {
                 SingleSelectTableViewController vc = new SingleSelectTableViewController();
-                vc.SetData(_supportModel.ClientContactOptions.ToList(), _contractModel.Contract.ClientContact);
-                vc.OnSelectionChanged = delegate(UserContact selected)
+                vc.SetData(_supportModel.ClientContactOptions.ToList(), _contractModel.ClientContactId);
+                vc.OnSelectionChanged = delegate(InternalEmployee selected)
                 {
-                    _contractModel.Contract.ClientContact = selected;
+                    _contractModel.SetClientContact(selected);
                     tableView.ReloadData();
                 };
                 _parentController.ShowViewController(vc, _parentController);
@@ -386,10 +386,10 @@ namespace AccountExecutiveApp.iOS
             if (IsDirectReportCell(indexPath))
             {
                 SingleSelectTableViewController vc = new SingleSelectTableViewController();
-                vc.SetData(_supportModel.DirectReportOptions.ToList(), _contractModel.Contract.DirectReport);
-                vc.OnSelectionChanged = delegate(UserContact selected)
+                vc.SetData(_supportModel.DirectReportOptions.ToList(), _contractModel.DirectReportId);
+                vc.OnSelectionChanged = delegate(InternalEmployee selected)
                 {
-                    _contractModel.Contract.DirectReport = selected;
+                    _contractModel.SetDirectReport(selected); 
                     tableView.ReloadData();
                 };
                 _parentController.ShowViewController(vc, _parentController);
@@ -397,10 +397,10 @@ namespace AccountExecutiveApp.iOS
             if (IsBillingContactCell(indexPath))
             {
                 SingleSelectTableViewController vc = new SingleSelectTableViewController();
-                vc.SetData(_supportModel.BillingContactOptions.ToList(), _contractModel.Contract.BillingContact);
-                vc.OnSelectionChanged = delegate(UserContact selected)
+                vc.SetData(_supportModel.BillingContactOptions.ToList(), _contractModel.BillingContactId);
+                vc.OnSelectionChanged = delegate(InternalEmployee selected)
                 {
-                    _contractModel.Contract.BillingContact = selected;
+                    _contractModel.SetBillingContact(selected);
                     tableView.ReloadData();
                 };
                 _parentController.ShowViewController(vc, _parentController);

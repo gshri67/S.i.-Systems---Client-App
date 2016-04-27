@@ -14,7 +14,7 @@ namespace AccountExecutiveApp.iOS
 	{
 	    private SingleSelectTableViewSource _tableSource;
 
-        public delegate void SingleSelectDelegate(UserContact contacts);
+        public delegate void SingleSelectDelegate(InternalEmployee contact);
         public SingleSelectDelegate OnSelectionChanged;
         
         public SingleSelectTableViewController(IntPtr handle)
@@ -56,13 +56,15 @@ namespace AccountExecutiveApp.iOS
 			UpdateUserInterface();
 		}
 
-	    public void SetData( List<UserContact> contacts, UserContact selected  )
+	    public void SetData( List<InternalEmployee> contacts, int selectedId  )
 	    {
 	        if (_tableSource == null)
 	        {
 	            _tableSource = new SingleSelectTableViewSource(this);
                 TableView.Source = _tableSource;
 	        }
+
+	        InternalEmployee selected = contacts.FirstOrDefault(c => c.Id == selectedId);
 
 	        _tableSource.Contacts = contacts;
 	        _tableSource.Selected = selected;

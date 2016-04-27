@@ -39,11 +39,11 @@ namespace SiSystems.SharedModels
 
         //Sending Info
         public bool IsSendingConsultantContract { get; set; }
-        public UserContact ClientContact { get; set; }
-        public UserContact DirectReport { get; set; }
-        public UserContact BillingContact { get; set; }
-        public IEnumerable<UserContact> InvoiceRecipients { get; set; }
-        public UserContact ClientContractContact { get; set; }
+        public InternalEmployee ClientContact { get; set; }
+        public InternalEmployee DirectReport { get; set; }
+        public InternalEmployee BillingContact { get; set; }
+        public IEnumerable<InternalEmployee> InvoiceRecipients { get; set; }
+        public InternalEmployee ClientContractContact { get; set; }
         public bool IsSendingClientContract { get; set; }
         public string ReasonForNotSendingContract { get; set; }
         public string SummaryReasonForNotSendingContract { get; set; }
@@ -82,11 +82,11 @@ namespace SiSystems.SharedModels
 
             IsSendingConsultantContract = true;
             SummaryReasonForNotSendingConsultantContract = string.Empty;
-            ClientContact = new UserContact();
-            DirectReport = new UserContact();
-            BillingContact = new UserContact();
-            InvoiceRecipients = new List<UserContact>();
-            ClientContractContact = new UserContact();
+            ClientContact = new InternalEmployee();
+            DirectReport = new InternalEmployee();
+            BillingContact = new InternalEmployee();
+            InvoiceRecipients = new List<InternalEmployee>();
+            ClientContractContact = new InternalEmployee();
             IsSendingClientContract = true;
             ReasonForNotSendingContract = string.Empty;
             SummaryReasonForNotSendingContract = string.Empty;

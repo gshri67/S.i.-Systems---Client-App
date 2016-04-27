@@ -15,8 +15,8 @@ namespace AccountExecutiveApp.iOS
     {
         private readonly SingleSelectTableViewController _parentController;
 
-        public List<UserContact> Contacts = new List<UserContact>();
-        public UserContact Selected = new UserContact();
+        public List<InternalEmployee> Contacts = new List<InternalEmployee>();
+        public InternalEmployee Selected = new InternalEmployee();
 
         public SingleSelectTableViewSource(SingleSelectTableViewController parentController)
         {
@@ -29,7 +29,7 @@ namespace AccountExecutiveApp.iOS
 
             cell.TextLabel.Text = Contacts[(int)indexPath.Item].FullName;
 
-            UserContact curContact = Contacts[(int) indexPath.Item];
+            InternalEmployee curContact = Contacts[(int) indexPath.Item];
 
             if ( Selected != null && Selected.Id == curContact.Id )
                 tableView.SelectRow(indexPath, true, UITableViewScrollPosition.None);

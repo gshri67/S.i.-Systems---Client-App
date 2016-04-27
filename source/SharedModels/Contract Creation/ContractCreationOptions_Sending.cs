@@ -4,10 +4,16 @@ namespace SiSystems.SharedModels
 {
     public class ContractCreationOptions_Sending : IContractCreationOptions_Sending
     {
+        public List<InternalEmployee> ClientContactOptions { get; set; }
         public List<string> ClientContactNameOptions { get; set; }
         public List<string> DirectReportNameOptions { get; set; }
         public List<string> BillingContactNameOptions { get; set; }
         public List<string> ClientContractContactNameOptions { get; set; }
         public List<string> ReasonForNotSendingContractOptions { get; set; }
+
+        public ContractCreationOptions_Sending()
+        {
+            ClientContactOptions = new List<InternalEmployee>();
+        }
     }
 }

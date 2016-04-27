@@ -74,9 +74,11 @@ namespace Shared.Core
         Task<TimesheetSupport> GetTimesheetSupportForTimesheet(Timesheet timesheet);
 
         Task<Timesheet> PopulateTimeEntries(Timesheet timesheet);
-        Task<ContractCreationOptions> GetDropDownValuesForInitialContractCreationForm();
-
+        
+        Task<ContractCreationOptions> GetDropDownValuesForInitialContractCreationForm(int jobId);
+        Task<ContractCreationOptions_Sending> GetDropDownValuesForContractCreationSendingForm(int jobId);
         Task<RateOptions> GetDropDownValuesForContractCreationRatesForm();
+        
         Task<ContractCreationDetails> GetInitialContract(int jobId, int candidateId);
         Task<int> GetContractIdFromJobIdAndContractorId(int jobId, int contractorId);
         Task<int> RequestApprovalFromApproverWithId(int timesheetId);

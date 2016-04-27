@@ -14,7 +14,7 @@ namespace AccountExecutiveApp.iOS
 	{
 	    private MultiSelectTableViewSource _tableSource;
 
-        public delegate void MultiSelectDelegate(List<UserContact> contacts);
+        public delegate void MultiSelectDelegate(List<InternalEmployee> contacts);
         public MultiSelectDelegate OnSelectionChanged;
         
         public MultiSelectTableViewController(IntPtr handle)
@@ -67,7 +67,7 @@ namespace AccountExecutiveApp.iOS
 			UpdateUserInterface();
 		}
 
-	    public void SetData( List<UserContact> contacts, List<UserContact> selected  )
+	    public void SetData( List<InternalEmployee> contacts, List<InternalEmployee> selected  )
 	    {
 	        if (_tableSource == null)
 	        {
@@ -103,10 +103,10 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        base.ViewWillDisappear(animated);
 
-	        List<UserContact> selectedContacts;
+	        List<InternalEmployee> selectedContacts;
 
             if (TableView.IndexPathsForSelectedRows == null || TableView.IndexPathsForSelectedRows.Length == 0)
-	            selectedContacts = new List<UserContact>();
+	            selectedContacts = new List<InternalEmployee>();
 	        else
 	            selectedContacts =
 	                _tableSource.Contacts.Select((contact, index) => new {contact, index})

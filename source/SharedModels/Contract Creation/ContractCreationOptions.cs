@@ -21,6 +21,7 @@ namespace SiSystems.SharedModels
         public IEnumerable<string> RateDescriptionOptions { get; set; }
 
         //Sending
+        public IEnumerable<InternalEmployee> ClientContactOptions { get; set; }
         public IEnumerable<string> ClientContactNameOptions { get; set; }
         public IEnumerable<string> DirectReportNameOptions { get; set; }
         public IEnumerable<string> BillingContactNameOptions { get; set; }
