@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
 using Foundation;
@@ -77,7 +78,7 @@ namespace AccountExecutiveApp.iOS
             TableView.TableFooterView = continueBar;
         }
 
-        public async void LoadData()
+        public void LoadData()
         {
             //var task = ViewModel.LoadContractCreationPayRatePage(0);
             //task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
@@ -89,7 +90,9 @@ namespace AccountExecutiveApp.iOS
                 PaymentPlan = "Part Time",
                 DaysCancellation = 10
             };*/
-            UpdateUserInterface();
+
+            var loadingOptions = _supportModel.GetContractSupportOptions(ViewModel.JobId, ViewModel.CandidateId);
+            loadingOptions.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
 
@@ -110,7 +113,6 @@ namespace AccountExecutiveApp.iOS
             InvokeOnMainThread(CreateCustomTitleBar);
 
             LoadData();
-
         }
 
         private void CreateCustomTitleBar()

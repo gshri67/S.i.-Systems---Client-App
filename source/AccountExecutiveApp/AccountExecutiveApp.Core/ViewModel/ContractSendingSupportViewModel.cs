@@ -115,7 +115,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         
         public List<string> ReasonForNotSendingContractOptions { get { return new List<string>(new string[] { "Client has a master agreement(MSA, VMS, etc.)", "Client has provided their own contract", "Other" }); } }
  
-        public Task GetContractBodyOptions(int jobId, int candidateId)
+        public Task GetContractSupportOptions(int jobId, int candidateId)
         {
             var task = GetOptions( jobId );
             //todo: task.continueWith

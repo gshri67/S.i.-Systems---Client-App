@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SiSystems.SharedModels
 {
@@ -14,6 +15,11 @@ namespace SiSystems.SharedModels
         public ContractCreationOptions_Sending()
         {
             ClientContactOptions = new List<InternalEmployee>();
+            ClientContactNameOptions = new List<string>();
+            DirectReportNameOptions = new List<string>();
+            BillingContactNameOptions = new List<string>();
+            ClientContractContactNameOptions = new List<string>();
+            ReasonForNotSendingContractOptions = new List<string>();
         }
     }
 }
