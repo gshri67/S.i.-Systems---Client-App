@@ -37,16 +37,16 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
             DateTime startDate;
 
-            if (job.IssueDate.CompareTo(DateTime.Now) < 0)
+            if (job.StartDate.CompareTo(DateTime.Now) < 0)
                 startDate = DateTime.Now;
             else
-                startDate = job.IssueDate;
+                startDate = job.StartDate;
 
             return new ContractCreationDetails
             {
                 JobTitle = job.Title,
                 StartDate = startDate,
-                EndDate = DateTime.Now,
+                EndDate = job.EndDate,
                 //TimeFactor =
                 DaysCancellation = 10,
                 //LimitationExpense = 

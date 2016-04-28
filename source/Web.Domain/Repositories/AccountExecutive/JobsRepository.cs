@@ -93,7 +93,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public Job GetJobWithJobId(int id)
         {
             const string jobByAgreementIdQuery =
-                @"SELECT Agreement.AgreementID AS Id, Company.CompanyName AS ClientName, Detail.JobTitle AS Title, Agreement.CreateDate AS IssueDate
+                @"SELECT Agreement.AgreementID AS Id, Company.CompanyName AS ClientName, Detail.JobTitle AS Title, Agreement.CreateDate AS IssueDate, Agreement.StartDate AS StartDate, Agreement.EndDate AS EndDate
                 FROM Agreement
                 JOIN Agreement_OpportunityDetail AS Detail ON Agreement.AgreementID = Detail.AgreementID
                 JOIN PickList ON PickList.PickListID = Agreement.StatusType

@@ -16,6 +16,10 @@ namespace SiSystems.SharedModels
         public bool HasCallout { get { return NumCallouts > 0; } }
         public DateTime IssueDate { get; set; }
 
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
+
         public JobStatus Status
         {
             get

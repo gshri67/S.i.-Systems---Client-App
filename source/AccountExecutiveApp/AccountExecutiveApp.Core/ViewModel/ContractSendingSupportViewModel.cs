@@ -94,7 +94,7 @@ namespace AccountExecutiveApp.Core.ViewModel
                 //InternalEmployee contact2 = new InternalEmployee { FirstName = "Jessica", LastName = "Wu", Id = 2 };
                 //return new List<InternalEmployee>(new InternalEmployee[] { contact1, contact2 });
 
-                return _options.InvoiceRecipientOptions;
+                return _options.BillingContactOptions;
             }
         }
 
