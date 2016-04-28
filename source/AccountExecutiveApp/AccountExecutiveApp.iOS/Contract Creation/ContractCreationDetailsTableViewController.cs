@@ -38,6 +38,9 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        _contractor = contractor;
 	        _jobId = jobId;
+	        _viewModel.JobId = _jobId;
+	        _viewModel.CandidateId = contractor.ContactInformation.Id;
+
             LoadContractOptions();
 	    }
 
