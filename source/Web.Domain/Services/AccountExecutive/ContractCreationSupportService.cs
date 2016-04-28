@@ -73,11 +73,18 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return _pickListValuesRepository.RateTermTypes();
         }
 
-        private IEnumerable<InternalEmployee> ClientContacts( int companyId )
+        private IEnumerable<InternalEmployee> ClientContacts(int companyId)
         {
             return _internalEmployeesRepository.GetClientContactsWithCompanyId(companyId);
         }
-
+        private IEnumerable<InternalEmployee> BillingContacts(int companyId)
+        {
+            return _internalEmployeesRepository.GetBillingContactsWithCompanyId(companyId);
+        }
+        private IEnumerable<InternalEmployee> DirectReports(int companyId)
+        {
+            return _internalEmployeesRepository.GetDirectReportsWithCompanyId(companyId);
+        }
 
         public ContractCreationOptions GetContractOptionsForMainForm( int jobId )
         {
@@ -105,6 +112,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return new ContractCreationOptions_Sending
             {
                 ClientContactOptions = ClientContacts(companyId).ToList(),
+                DirectReportOptions = DirectReports(companyId).ToList(),
+                BillingContactOptions = BillingContacts(companyId).ToList(),
             };
         }
 

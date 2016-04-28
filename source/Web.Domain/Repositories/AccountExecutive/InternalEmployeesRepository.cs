@@ -16,7 +16,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public interface IInternalEmployeesRepository
     {
         IEnumerable<InternalEmployee> GetAccountExecutivesThatShareBranchWithUserId(int id);
-        IEnumerable<InternalEmployee> GetClientContactsWithCompanyId(int companyId);
+        IEnumerable<InternalEmployee> GetClientContactsWithCompanyId(int companyId); 
+        IEnumerable<InternalEmployee> GetBillingContactsWithCompanyId(int companyId); 
+        IEnumerable<InternalEmployee> GetDirectReportsWithCompanyId(int companyId);
     }
 
     public class InternalEmployeesRepository : IInternalEmployeesRepository
@@ -102,6 +104,130 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 return result;
             }
         }
+
+        public IEnumerable<InternalEmployee> GetBillingContactsWithCompanyId(int companyId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string contractsQuery =
+                    @"
+                    select
+                    users.userid as Id,
+                    users.firstname as FirstName,
+                    users.lastname as LastName
+
+                    from users 
+                    inner join 
+                    company on 
+                    company.companyid = users.companyid
+                    left join 
+                    user_email on 
+                    user_email.userid = users.userid
+                    left join 
+                    picklist on 
+                    picklist.picklistid = users.ClientPortalTypeID
+
+                    where
+                    company.companyid in
+                    (
+                        select
+                    companyid
+                    from[udf_Getalldivisionsforcompany](@companyid)
+                    )
+                    and
+                    users.usertype =
+                        (
+                            select
+                    picklist.picklistid
+                        from 
+                    picklist
+                        where 
+                    picklist.picktypeid =
+                        (
+                            select
+                    picktypeid
+                        from 
+                    picktype
+                    where type = 'UserRoles'
+                    )
+                    and
+                    picklist.inactive = 0
+                    and title = 'Billing Contact'
+                    )
+                    and
+                    users.inactive = 0
+
+                    order by 
+                    users.firstname,
+                    users.lastname";
+
+                var result = db.Connection.Query<InternalEmployee>(contractsQuery, param: new { companyId = companyId });
+
+                return result;
+            }
+        }
+
+        public IEnumerable<InternalEmployee> GetDirectReportsWithCompanyId(int companyId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string contractsQuery =
+                    @"
+                    select
+                    users.userid as Id,
+                    users.firstname as FirstName,
+                    users.lastname as LastName
+
+                    from users 
+                    inner join 
+                    company on 
+                    company.companyid = users.companyid
+                    left join 
+                    user_email on 
+                    user_email.userid = users.userid
+                    left join 
+                    picklist on 
+                    picklist.picklistid = users.ClientPortalTypeID
+
+                    where
+                    company.companyid in
+                    (
+                        select
+                    companyid
+                    from[udf_Getalldivisionsforcompany](@companyid)
+                    )
+                    and
+                    users.usertype =
+                        (
+                            select
+                    picklist.picklistid
+                        from 
+                    picklist
+                        where 
+                    picklist.picktypeid =
+                        (
+                            select
+                    picktypeid
+                        from 
+                    picktype
+                    where type = 'UserRoles'
+                    )
+                    and
+                    picklist.inactive = 0
+                    and title = 'Direct Report'
+                    )
+                    and
+                    users.inactive = 0
+
+                    order by 
+                    users.firstname,
+                    users.lastname";
+
+                var result = db.Connection.Query<InternalEmployee>(contractsQuery, param: new { companyId = companyId });
+
+                return result;
+            }
+        }
     }
 
     
@@ -136,6 +262,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
         public IEnumerable<InternalEmployee> GetClientContactsWithCompanyId(int companyId)
+        {
+            throw new NotImplementedException();
+        }
+        public IEnumerable<InternalEmployee> GetBillingContactsWithCompanyId(int companyId)
+        {
+            throw new NotImplementedException();
+        }
+        public IEnumerable<InternalEmployee> GetDirectReportsWithCompanyId(int companyId)
         {
             throw new NotImplementedException();
         }

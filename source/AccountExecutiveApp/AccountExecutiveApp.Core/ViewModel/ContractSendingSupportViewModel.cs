@@ -46,9 +46,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                InternalEmployee contact1 = new InternalEmployee { FirstName = "Candice", LastName = "Consulty", Id = 1 };
-                InternalEmployee contact2 = new InternalEmployee { FirstName = "Jessica", LastName = "Wu", Id = 2 };
-                return new List<InternalEmployee>(new InternalEmployee[] { contact1, contact2 });
+                return _options.DirectReportOptions;
             }
         }
         public List<string> DirectReportNameOptions { get { return DirectReportOptions.Select(c => c.FullName).ToList(); } }
@@ -62,9 +60,7 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get
             {
-                InternalEmployee contact1 = new InternalEmployee { FirstName = "Candice", LastName = "Consulty", Id = 1 };
-                InternalEmployee contact2 = new InternalEmployee { FirstName = "Jessica", LastName = "Wu", Id = 2 };
-                return new List<InternalEmployee>(new InternalEmployee[] { contact1, contact2 });
+                return _options.BillingContactOptions;
             }
         }
         public List<string> BillingContactNameOptions { get { return BillingContactOptions.Select(c => c.FullName).ToList(); } }
