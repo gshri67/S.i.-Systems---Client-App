@@ -37,7 +37,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
             DateTime startDate;
 
-            if (job.IssueDate.CompareTo(DateTime.Now) > 0)
+            if (job.IssueDate.CompareTo(DateTime.Now) < 0)
                 startDate = DateTime.Now;
             else
                 startDate = job.IssueDate;
