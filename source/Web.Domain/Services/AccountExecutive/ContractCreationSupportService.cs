@@ -85,6 +85,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
         {
             return _internalEmployeesRepository.GetDirectReportsWithCompanyId(companyId);
         }
+        private IEnumerable<InternalEmployee> InvoiceRecipients(int agreementId)
+        {
+            return _internalEmployeesRepository.GetInvoiceRecipientsWithAgreementId(agreementId);
+        }
 
         public ContractCreationOptions GetContractOptionsForMainForm( int jobId )
         {
@@ -114,6 +118,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 ClientContactOptions = ClientContacts(companyId).ToList(),
                 DirectReportOptions = DirectReports(companyId).ToList(),
                 BillingContactOptions = BillingContacts(companyId).ToList(),
+                InvoiceRecipientOptions = InvoiceRecipients(jobId).ToList()
             };
         }
 

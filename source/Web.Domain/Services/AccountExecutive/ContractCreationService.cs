@@ -34,12 +34,19 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
         public ContractCreationDetails GetContractDetailsByJobIdAndCandidateId(int jobId, int candidateId)
         {
             Job job = _jobsRepo.GetJobWithJobId(jobId);
-            
+
+            DateTime startDate;
+
+            if (job.IssueDate.CompareTo(DateTime.Now) > 0)
+                startDate = DateTime.Now;
+            else
+                startDate = job.IssueDate;
+
             return new ContractCreationDetails
             {
                 JobTitle = job.Title,
-                StartDate = job.IssueDate,
-                EndDate = new DateTime(),
+                StartDate = startDate,
+                EndDate = DateTime.Now,
                 //TimeFactor =
                 DaysCancellation = 10,
                 //LimitationExpense = 

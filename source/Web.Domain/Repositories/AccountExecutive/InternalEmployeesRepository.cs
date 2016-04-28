@@ -19,6 +19,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<InternalEmployee> GetClientContactsWithCompanyId(int companyId); 
         IEnumerable<InternalEmployee> GetBillingContactsWithCompanyId(int companyId); 
         IEnumerable<InternalEmployee> GetDirectReportsWithCompanyId(int companyId);
+        IEnumerable<InternalEmployee> GetInvoiceRecipientsWithAgreementId(int agreementId);
     }
 
     public class InternalEmployeesRepository : IInternalEmployeesRepository
@@ -228,6 +229,23 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 return result;
             }
         }
+
+        public IEnumerable<InternalEmployee> GetInvoiceRecipientsWithAgreementId(int agreementId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string contractsQuery =
+                    @"
+                        select InvoiceRecipientID,ClientContactID	
+                        from agreement_invoicerecipients
+                        where Agreement_InvoiceRecipients.AgreementID = @agrId
+                        AND Agreement_InvoiceRecipients.IsActive = 1";
+
+                var result = db.Connection.Query<InternalEmployee>(contractsQuery, param: new { agrId = agreementId });
+
+                return result;
+            }
+        }
     }
 
     
@@ -270,6 +288,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             throw new NotImplementedException();
         }
         public IEnumerable<InternalEmployee> GetDirectReportsWithCompanyId(int companyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<InternalEmployee> GetInvoiceRecipientsWithAgreementId(int agreementId)
         {
             throw new NotImplementedException();
         }

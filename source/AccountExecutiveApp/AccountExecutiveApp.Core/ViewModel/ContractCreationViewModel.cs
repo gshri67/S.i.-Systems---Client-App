@@ -380,15 +380,15 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public Task LoadContractCreationInitialPageData()
         {
-            var firstTask = GetContractCreationInitialPageOptions();
-            var secondTask = GetContractCreationInitialPageDetails();
 
-            return secondTask;
+            var task = GetContractCreationInitialPageDetails( JobId, CandidateId);
+
+            return task;
         }
 
         public Task LoadContractCreationPayRatePageData()
         {
-            var firstTask = GetContractCreationPayRatePageOptions();
+
             var secondTask = GetContractCreationPayRatePageDetails();
 
             return secondTask;
@@ -396,35 +396,26 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public Task LoadContractCreationSendingPageData()
         {
-            var firstTask = GetContractCreationSendingPageOptions();
+
             var secondTask = GetContractCreationSendingPageDetails();
 
             return secondTask;
         }
 
 
-        private async Task GetContractCreationInitialPageOptions()
+
+        private async Task GetContractCreationInitialPageDetails( int jobId, int candidateId )
         {
-            //ContractCreationOptions initialOptions = await _api.GetContractCreationInitialPageOptions(JobId, CandidateId);
-        }
-        private async Task GetContractCreationInitialPageDetails()
-        {
-            //ContractCreationDetails initialDetails = await _api.GetContractCreationInitialPageDetails(JobId, CandidateId);
+            _contract = await _api.GetInitialContract(jobId, candidateId);
         }
 
-        private async Task GetContractCreationSendingPageOptions()
-        {
-            //ContractCreationOptions_Sending sendingOptions = await _api.GetContractCreationSendingPageOptions(JobId, CandidateId);
-        }
+
         private async Task GetContractCreationSendingPageDetails()
         {
             //ContractCreationDetails_Sending sendingDetails = await _api.GetContractCreationSendingPageDetails(JobId, CandidateId);
         }
 
-        private async Task GetContractCreationPayRatePageOptions()
-        {
-            //ContractCreationOptions_Rate rateOptions = await _api.GetContractCreationPayRatePageOptions(JobId, CandidateId);
-        }
+
         private async Task GetContractCreationPayRatePageDetails()
         {
             //ContractCreationDetails_Rate rateDetails = await _api.GetContractCreationPayRatePageDetails(JobId, CandidateId);

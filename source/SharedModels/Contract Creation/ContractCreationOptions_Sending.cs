@@ -8,6 +8,7 @@ namespace SiSystems.SharedModels
         public List<InternalEmployee> ClientContactOptions { get; set; }
         public List<InternalEmployee> DirectReportOptions { get; set; }
         public List<InternalEmployee> BillingContactOptions { get; set; }
+        public List<InternalEmployee> InvoiceRecipientOptions { get; set; }
 
         public List<string> ClientContactNameOptions { get; set; }
         public List<string> DirectReportNameOptions { get; set; }
@@ -18,6 +19,10 @@ namespace SiSystems.SharedModels
         public ContractCreationOptions_Sending()
         {
             ClientContactOptions = new List<InternalEmployee>();
+            DirectReportOptions = new List<InternalEmployee>();
+            BillingContactOptions = new List<InternalEmployee>();
+            InvoiceRecipientOptions = new List<InternalEmployee>();
+
             ClientContactNameOptions = new List<string>();
             DirectReportNameOptions = new List<string>();
             BillingContactNameOptions = new List<string>();

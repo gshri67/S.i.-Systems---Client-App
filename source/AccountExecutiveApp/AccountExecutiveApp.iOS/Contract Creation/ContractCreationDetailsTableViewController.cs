@@ -18,6 +18,8 @@ namespace AccountExecutiveApp.iOS
 	    private int _jobId;
         private SubtitleHeaderView _subtitleHeaderView;
         private string Subtitle;
+	    private bool _hasLoadedContractDetails = false;
+        private bool _hasLoadedContractOptions = false;
 
 	    public ContractCreationDetailsTableViewController(IntPtr handle)
 	        : base(handle)
@@ -42,6 +44,7 @@ namespace AccountExecutiveApp.iOS
 	        _viewModel.CandidateId = contractor.ContactInformation.Id;
 
             LoadContractOptions();
+            LoadContractCreationDetails();
 	    }
 
 
@@ -101,8 +104,9 @@ namespace AccountExecutiveApp.iOS
 
         public async void LoadContractCreationDetails()
         {
-            //var task = _viewModel.LoadContractCreationDetails(_id);
-            //task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
+            var task = _viewModel.LoadContractCreationInitialPageData();
+            task.ContinueWith(_ => InvokeOnMainThread(UpdateInterfaceAfterLoadingContractDetailsIfNeeded), TaskContinuationOptions.OnlyOnRanToCompletion);
+            /*
             _viewModel.Contract = new ContractCreationDetails
             {
                 JobTitle = "Developer",
@@ -110,11 +114,20 @@ namespace AccountExecutiveApp.iOS
                 PaymentPlan = "Part Time",
                 DaysCancellation = 10,
             };
+             * */
             //UpdateUserInterface();
         }
 
+	    public void UpdateInterfaceAfterLoadingContractDetailsIfNeeded()
+	    {
+	        _hasLoadedContractDetails = true;
 
-        private void UpdateUserInterface()
+            if( _hasLoadedContractDetails && _hasLoadedContractOptions )
+                UpdateUserInterface();
+	    }
+
+
+	    private void UpdateUserInterface()
         {
             InvokeOnMainThread(InstantiateTableViewSource);
 
@@ -131,7 +144,6 @@ namespace AccountExecutiveApp.iOS
 	        Subtitle = "Contract Creation";
             InvokeOnMainThread(CreateCustomTitleBar);
 
-            LoadContractCreationDetails();
 	        // Perform any additional setup after loading the view, typically from a nib.
 
 
@@ -150,8 +162,16 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        var loadingOptions = _optionsModel.GetContractBodyOptions(_jobId);
             //todo: update ui
-	        loadingOptions.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
+            loadingOptions.ContinueWith(_ => InvokeOnMainThread(UpdateInterfaceAfterLoadingContractOptionsIfNeeded), TaskContinuationOptions.OnlyOnRanToCompletion);
 	    }
+
+        public void UpdateInterfaceAfterLoadingContractOptionsIfNeeded()
+        {
+            _hasLoadedContractOptions = true;
+
+            if (_hasLoadedContractDetails && _hasLoadedContractOptions)
+                UpdateUserInterface();
+        }
 
 	    private void CreateCustomTitleBar()
         {
