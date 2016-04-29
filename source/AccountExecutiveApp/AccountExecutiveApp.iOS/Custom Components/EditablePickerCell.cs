@@ -205,6 +205,9 @@ namespace AccountExecutiveApp.iOS
             if (options != null && options.Contains(value))
                 return options.FindIndex((string option) => { return option == value; });
 
+            if (options != null && options.Count > 0)
+                SelectionNotFoundInOptions( options[0] );
+
             return 0;
         }
 
@@ -218,7 +221,16 @@ namespace AccountExecutiveApp.iOS
             if (options != null && options.Contains(value))
                 return options.FindIndex((string option) => { return option == value; });
 
+            if( options != null && options.Count > 0 )
+                SelectionNotFoundInOptions( options[0] );
+
             return 0;
+        }
+
+        private void SelectionNotFoundInOptions( string defaultValue )
+        {
+            if( OnValueChanged != null )
+                OnValueChanged(defaultValue);
         }
 
         public List<string> BooleanOptions { get { return new List<string>(new string[] { "Yes", "No" }); } }

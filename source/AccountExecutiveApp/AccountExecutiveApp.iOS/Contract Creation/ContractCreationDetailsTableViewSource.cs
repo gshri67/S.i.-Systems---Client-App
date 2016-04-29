@@ -252,8 +252,8 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Time Factor", _supportModel.TimeFactorOptions, _contractModel.Contract.TimeFactor);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.TimeFactor = newValue; };
+            cell.UpdateCell("Time Factor", _supportModel.TimeFactorOptions, _contractModel.Contract.TimeFactor);
 
             return cell;
         }
@@ -273,9 +273,9 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationExpense = newValue; };
             cell.UpdateCell("Limitation Expense", _supportModel.LimitationExpenseOptions,
                 _contractModel.LimitationExpense);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationExpense = newValue; };
 
             return cell;
         }
@@ -304,8 +304,9 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Payment Plan", _supportModel.PaymentPlanOptions, _contractModel.PaymentPlan);
+
             cell.OnValueChanged += delegate(string newValue) { _contractModel.PaymentPlan = newValue; };
+            cell.UpdateCell("Payment Plan", _supportModel.PaymentPlanOptions, _contractModel.PaymentPlan);
 
             return cell;
         }
@@ -314,14 +315,12 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            List<UserContact> accountExecutives =
-                new List<UserContact>(new UserContact[] {new UserContact(), new UserContact(), new UserContact()});
-            cell.UpdateCell("Account Executive", _supportModel.AccountExecutiveOptionDescriptions,
-                _contractModel.AccountExecutive.FullName);
             cell.OnValueChanged += delegate(string newValue)
             {
                 _contractModel.AccountExecutive = _supportModel.GetAccountExecutiveWithName(newValue);
             };
+            cell.UpdateCell("Account Executive", _supportModel.AccountExecutiveOptionDescriptions,
+                _contractModel.AccountExecutive.FullName);
 
             return cell;
         }
@@ -330,6 +329,10 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.GMAssigned = _supportModel.GetGMAssignedWithName(newValue);
+            };
             cell.UpdateCell("GM Assigned", _supportModel.GMAssignedOptionDescriptions, _contractModel.GMAssigned.FullName);
             return cell;
         }
@@ -338,6 +341,10 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.ComissionAssigned = _supportModel.GetComissionAssignedWithName(newValue);
+            };
             cell.UpdateCell("Comission Assigned", _supportModel.ComissionAssignedOptionDescriptions,
                 _contractModel.ComissionAssigned.FullName);
             return cell;
@@ -347,9 +354,9 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFrequency = newValue; };
             cell.UpdateCell("Invoice Frequency", _supportModel.InvoiceFrequencyOptions,
                 _contractModel.InvoiceFrequency);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFrequency = newValue; };
 
             return cell;
         }
@@ -358,9 +365,10 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFormat = newValue; };
             cell.UpdateCell("Invoice Format", _supportModel.InvoiceFormatOptions,
                 _contractModel.InvoiceFormat);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.InvoiceFormat = newValue; };
+            
 
             return cell;
         }
@@ -368,8 +376,8 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetProjectCodesCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Project/PO codes required", _contractModel.UsingProjectCode);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.UsingProjectCode = (newValue == "Yes"); };
+            cell.UpdateCell("Project/PO codes required", _contractModel.UsingProjectCode);
 
             return cell;
         }
@@ -377,9 +385,9 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetQuickPayCell(UITableView tableView, NSIndexPath indexPath)
         {            
             EditablePickerCell cell = (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Quick Pay", _contractModel.UsingQuickPay);
             cell.OnValueChanged += delegate(string newValue) { _contractModel.UsingQuickPay = (newValue == "Yes"); };
-
+            cell.UpdateCell("Quick Pay", _contractModel.UsingQuickPay);
+            
             return cell;
         }
 

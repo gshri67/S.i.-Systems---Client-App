@@ -172,8 +172,8 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetClientContact(_supportModel.GetClientContactWithName(newValue)); };
             cell.UpdateCell("Client Contact", _supportModel.ClientContactNameOptions, _contractModel.ClientContactName);
-            //cell.OnValueChanged += delegate(string newValue) { _contractModel.SetClientContact(_supportModel.GetClientContactWithName(newValue)); };
             cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
             cell.EnableInputFields(false);
 
@@ -184,8 +184,8 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetDirectReport(_supportModel.GetDirectReportWithName(newValue)); };
             cell.UpdateCell("Direct Report", _supportModel.DirectReportNameOptions, _contractModel.DirectReportName );
-            //cell.OnValueChanged += delegate(string newValue) { _contractModel.SetDirectReport( _supportModel.GetDirectReportWithName(newValue) ); };
             cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
             cell.EnableInputFields(false);
 
@@ -196,8 +196,8 @@ namespace AccountExecutiveApp.iOS
         {
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetBillingContact(_supportModel.GetBillingContactWithName(newValue)); };
             cell.UpdateCell("Billing Contact", _supportModel.BillingContactNameOptions, _contractModel.BillingContactName);
-            //cell.OnValueChanged += delegate(string newValue) { _contractModel.SetBillingContact(_supportModel.GetBillingContactWithName(newValue)); };
             cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
             cell.EnableInputFields(false);
 

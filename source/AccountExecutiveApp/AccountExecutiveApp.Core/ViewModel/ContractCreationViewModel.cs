@@ -148,7 +148,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             UpdateGrossMarginAtIndex(index);
         }
 
-        public string GrossMarginAtIndex(int index) { return Contract.Rates.ElementAt(index).GrossMargin.ToString("0.00"); }
+        public string GrossMarginAtIndex(int index) {  UpdateGrossMarginAtIndex(index); return Contract.Rates.ElementAt(index).GrossMargin.ToString("0.00"); }
         public void SetGrossMarginAtIndex(string newGM, int index)
         {
             if( index < Contract.Rates.Count() )
@@ -258,6 +258,8 @@ namespace AccountExecutiveApp.Core.ViewModel
         public void SetClientContact(InternalEmployee contact)
         {
             Contract.ClientContact = contact;
+
+            Contract.ClientContractContact = contact;
         }
 
 

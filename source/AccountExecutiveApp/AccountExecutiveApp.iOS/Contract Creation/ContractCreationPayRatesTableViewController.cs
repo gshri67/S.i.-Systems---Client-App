@@ -73,7 +73,8 @@ namespace AccountExecutiveApp.iOS
             TableView.TableFooterView = continueBar;
 
             //Add one pay rate section to begin with
-            _tableSource.AddRatesSection(TableView);
+            if( ViewModel.NumRates == 0 )
+                _tableSource.AddRatesSection(TableView);
         }
 
         public async void LoadData()

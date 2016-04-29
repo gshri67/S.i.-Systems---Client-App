@@ -72,12 +72,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public List<InternalEmployee> ClientContractContactOptions
         {
-            get
-            {
-                InternalEmployee contact1 = new InternalEmployee { FirstName = "Candice", LastName = "Consulty", Id = 1 };
-                InternalEmployee contact2 = new InternalEmployee { FirstName = "Jessica", LastName = "Wu", Id = 2 };
-                return new List<InternalEmployee>(new InternalEmployee[] { contact1, contact2 });
-            }
+            get { return ClientContactOptions; }
         }
         public List<string> ClientContractContactNameOptions { get { return ClientContractContactOptions.Select(c => c.FullName).ToList(); } }
 
