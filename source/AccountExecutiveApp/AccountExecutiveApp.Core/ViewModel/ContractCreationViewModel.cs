@@ -208,6 +208,8 @@ namespace AccountExecutiveApp.Core.ViewModel
             rateList.Add(rate);
             Contract.Rates = rateList.AsEnumerable();
 
+
+
             NumRates ++;
         }
 
@@ -418,7 +420,8 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task GetContractCreationPayRatePageDetails()
         {
-            //ContractCreationDetails_Rate rateDetails = await _api.GetContractCreationPayRatePageDetails(JobId, CandidateId);
+            // _contract = await _api.GetContractRatesPageDetails( JobId, CandidateId);
+            
         }
 
         public async Task SubmitContract()

@@ -100,7 +100,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     users.firstname,
                     users.lastname";
 
-                var result = db.Connection.Query<InternalEmployee>(contractsQuery, param: new { companyId = companyId });
+                var result = db.Connection.Query<InternalEmployee>(contractsQuery, param: new { companyid = companyId });
 
                 return result;
             }
@@ -111,58 +111,48 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractsQuery =
-                    @"
-                    select
-                    users.userid as Id,
-                    users.firstname as FirstName,
-                    users.lastname as LastName
+                    @"select  distinct
+                                       users.userid as Id,
+                                       users.firstname as FirstName,
+                                       users.lastname as LastName,
+                                       users.firstname + ' ' + users.lastname as contactfullname,
 
-                    from users 
-                    inner join 
-                    company on 
-                    company.companyid = users.companyid
-                    left join 
-                    user_email on 
-                    user_email.userid = users.userid
-                    left join 
-                    picklist on 
-                    picklist.picklistid = users.ClientPortalTypeID
+                       from    users
+                                       left join company on (company.companyid = users.companyid and company.Inactive = 0)
+                                       left join user_email on user_email.userid = users.userid
+                                       inner join (   select user_address.userid,
+                                                                                     count(address.addressid) as addcnt
+                                                                     from
+                                                                     user_address 
+                                                                     inner join address on (user_address.addressid = address.addressid and address.inactive = 0)
+                                                                     inner join picklist on (address.addresstype = picklist.picklistid and picklist.inactive = 0)
+                                                                     where picklist.title= 'Billing Address' and user_address.inactive = 0
+                                                                     group by user_address.userid ) as Billingaddcount
+                                       on (Billingaddcount.userid=users.userid and addcnt = 1)
+                       where   
+                               
+                                              users.companyid in ( select companyid from dbo.[UDF_GetAllDivisionsForCompany](@companyid)) 
+                                      
+                                       and users.usertype =
+                                              ( 
+                                              select picklist.picklistid
+                                              from    picklist
+                                              where   picklist.picktypeid =
+                                                      (
+                                                      select  picktypeid
+                                                      from    picktype
+                                                      where   type = 'UserRoles'
+                                                      )
+                                              and     picklist.inactive = 0
+                                              and     title = 'Client Contact'
+                                              )
+                                       and     users.inactive = 0
 
-                    where
-                    company.companyid in
-                    (
-                        select
-                    companyid
-                    from[udf_Getalldivisionsforcompany](@companyid)
-                    )
-                    and
-                    users.usertype =
-                        (
-                            select
-                    picklist.picklistid
-                        from 
-                    picklist
-                        where 
-                    picklist.picktypeid =
-                        (
-                            select
-                    picktypeid
-                        from 
-                    picktype
-                    where type = 'UserRoles'
-                    )
-                    and
-                    picklist.inactive = 0
-                    and title = 'Billing Contact'
-                    )
-                    and
-                    users.inactive = 0
+                order by
+                        users.firstname,
+                       users.lastname";
 
-                    order by 
-                    users.firstname,
-                    users.lastname";
-
-                var result = db.Connection.Query<InternalEmployee>(contractsQuery, param: new { companyId = companyId });
+                var result = db.Connection.Query<InternalEmployee>(contractsQuery, param: new { companyid = companyId });
 
                 return result;
             }
@@ -174,57 +164,53 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             {
                 const string contractsQuery =
                     @"
-                    select
-                    users.userid as Id,
-                    users.firstname as FirstName,
-                    users.lastname as LastName
+                    SELECT 
+                           RESULTRECORDSET_DR.contactuserid as Id,
+                           RESULTRECORDSET_DR.firstname as FirstName,
+                           RESULTRECORDSET_DR.lastname as LastName
+                    FROM    
+                           (select 
+                                           distinct
+                                           users.userid as contactuserid,
+                                           users.firstname,
+                                           users.lastname,
+                                           users.firstname + ' ' + users.lastname as contactfullname,
+                                           (case 
+                                                  when user_email.primaryemail is null
+                                                  then '-'
+                                                  else user_email.primaryemail
+                                           end)
+                                           primaryemail,
+                                           company.companyname
+                           from    users
+                                           inner join company on company.companyid = users.companyid
+                                           left join user_email on users.userid = user_email.userid
+                           where   
+                               
+                                                  users.companyid in ( select companyid from dbo.[UDF_GetAllDivisionsForCompany](@companyid)) 
+                               
+                               
+                                           and users.usertype =
+                                                  ( 
+                                                  select picklist.picklistid
+                                                  from    picklist
+                                                  where   picklist.picktypeid =
+                                                          (
+                                                          select picktypeid
+                                                          from    picktype
+                                                          where   type = 'UserRoles'
+                                                          )
+                                                  and     picklist.inactive = 0
+                                                  and     title = 'Client Contact'
+                                                  )
+                                           and     users.inactive = 0
+                               
+                                           ) AS RESULTRECORDSET_DR
+                     order by 
+                                   RESULTRECORDSET_DR.firstname,
+                                   RESULTRECORDSET_DR.LastName";
 
-                    from users 
-                    inner join 
-                    company on 
-                    company.companyid = users.companyid
-                    left join 
-                    user_email on 
-                    user_email.userid = users.userid
-                    left join 
-                    picklist on 
-                    picklist.picklistid = users.ClientPortalTypeID
-
-                    where
-                    company.companyid in
-                    (
-                        select
-                    companyid
-                    from[udf_Getalldivisionsforcompany](@companyid)
-                    )
-                    and
-                    users.usertype =
-                        (
-                            select
-                    picklist.picklistid
-                        from 
-                    picklist
-                        where 
-                    picklist.picktypeid =
-                        (
-                            select
-                    picktypeid
-                        from 
-                    picktype
-                    where type = 'UserRoles'
-                    )
-                    and
-                    picklist.inactive = 0
-                    and title = 'Direct Report'
-                    )
-                    and
-                    users.inactive = 0
-
-                    order by 
-                    users.firstname,
-                    users.lastname";
-
-                var result = db.Connection.Query<InternalEmployee>(contractsQuery, param: new { companyId = companyId });
+                var result = db.Connection.Query<InternalEmployee>(contractsQuery, param: new { companyid = companyId });
 
                 return result;
             }

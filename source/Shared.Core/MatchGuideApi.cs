@@ -338,6 +338,12 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<ContractCreationDetails>(new {jobId, candidateId});
         }
 
+        [HttpGet("ContractCreation/Rates/job/{jobId}/candidate/{candidateId}")]
+        public async Task<Rate> GetContractRatesPageDetails(int jobId, int candidateId)
+        {
+            return await ExecuteWithDefaultClient<Rate>(new { jobId, candidateId });
+        }
+
         public async Task<int> GetContractIdFromJobIdAndContractorId(int jobId, int contractorId)
         {
             return await ExecuteWithDefaultClient<int>();
