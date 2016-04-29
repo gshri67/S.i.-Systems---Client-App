@@ -115,7 +115,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                                        users.userid as Id,
                                        users.firstname as FirstName,
                                        users.lastname as LastName,
-                                       users.firstname + ' ' + users.lastname as contactfullname,
+                                       users.firstname + ' ' + users.lastname as contactfullname
 
                        from    users
                                        left join company on (company.companyid = users.companyid and company.Inactive = 0)
