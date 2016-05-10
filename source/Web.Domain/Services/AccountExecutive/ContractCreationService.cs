@@ -83,7 +83,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             };
         }
 
-        private int SubmitContract(int jobId, int candidateId, ContractCreationDetails contractDetails )
+        public int SubmitContract(int jobId, int candidateId, ContractCreationDetails contractDetails )
         {
             Job job = _jobsRepo.GetJobWithJobId(jobId);
             Timesheet timesheet = new Timesheet();
