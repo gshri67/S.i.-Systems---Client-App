@@ -28,5 +28,22 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             var contract = _service.GetContractDetailsByJobIdAndCandidateId(jobId, candidateId);
             return Request.CreateResponse(HttpStatusCode.OK, contract);
         }
+
+        [Route("Review/job/{jobId}/candidate/{candidateId}")]
+        public HttpResponseMessage GetDetailsForReviewContractCreationForm(int jobId, int candidateId)
+        {
+            var contract = _service.GetDetailsForReviewContractCreationForm(jobId, candidateId);
+            return Request.CreateResponse(HttpStatusCode.OK, contract);
+        }
+
+
+        [Route("Submit/job/{jobId}/candidate/{candidateId}/contractDetails/{contractCreationDetails}")]
+        public HttpResponseMessage SubmitContract(int jobId, int candidateId, ContractCreationDetails contractCreationDetails )
+        {
+            var result = _service.SubmitContract(jobId, candidateId, contractCreationDetails);
+            return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+
     }
 }

@@ -83,5 +83,6 @@ namespace Shared.Core
         Task<Rate> GetContractRatesPageDetails(int jobId, int candidateId);
         Task<int> GetContractIdFromJobIdAndContractorId(int jobId, int contractorId);
         Task<int> RequestApprovalFromApproverWithId(int timesheetId);
+        Task<ContractCreationDetails_Review> GetDetailsForReviewContractCreationForm(int jobId, int candidateId );
     }
 }

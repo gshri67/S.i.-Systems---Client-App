@@ -354,5 +354,11 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<int>( new {timesheetId} );
         }
+
+        [HttpGet("ContractCreation/Review/job/{jobId}/candidate/{candidateId}")]
+        public async Task<ContractCreationDetails_Review> GetDetailsForReviewContractCreationForm(int jobId, int candidateId )
+        {
+            return await ExecuteWithDefaultClient<ContractCreationDetails_Review>(new { jobId, candidateId });
+        }
     }
 }

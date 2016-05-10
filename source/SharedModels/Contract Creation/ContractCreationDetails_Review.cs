@@ -13,7 +13,6 @@ namespace SiSystems.SharedModels
         public string Vertical { get; set; }
 
         //Invoice Information
-        public string InvoiceFormat { get; set; }
         public IEnumerable<string> InvoiceInformation { get; set; }
 
         //Associated Project and POs to New Contract
@@ -26,8 +25,6 @@ namespace SiSystems.SharedModels
             WebTimeSheetProjectAccess = true;
             TimesheetType = "S.i. E-Timesheets";
             Vertical = "IT";
-
-            InvoiceFormat = "1 Invoice per Contract (Job)";
         }
     }
 }

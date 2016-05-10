@@ -50,10 +50,11 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get { return ContractDetails.Vertical ?? string.Empty; }
         }
+        /*
         public string InvoiceFormat
         {
             get { return ContractDetails.InvoiceFormat ?? string.Empty; }
-        }
+        }*/
         public IEnumerable<string> InvoiceInformation
         {
             get { return ContractDetails.InvoiceInformation ?? Enumerable.Empty<string>(); }
@@ -72,16 +73,16 @@ namespace AccountExecutiveApp.Core.ViewModel
             return BooleanOptions[BooleanOptionIndex(WebTimesheetProjectAccess)];
         }
 
-        public Task GetContractReviewDetails()
+        public Task GetContractReviewDetails( int jobId, int candidateId )
         {
-            var task = GetDetails();
+            var task = GetDetails( jobId, candidateId );
             //todo: task.continueWith
             return task;
         }
 
-        private async Task GetDetails()
+        private async Task GetDetails( int jobId, int candidateId )
         {
-           // ContractOptions = await _api.GetDropDownValuesForInitialContractCreationForm();
+            ContractDetails = await _api.GetDetailsForReviewContractCreationForm( jobId, candidateId );
         }
     }
 }

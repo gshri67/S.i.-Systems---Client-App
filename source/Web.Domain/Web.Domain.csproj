@@ -68,6 +68,7 @@
     <Compile Include="Repositories\TimeEntryRepository.cs" />
     <Compile Include="Repositories\RemittanceRepository.cs" />
     <Compile Include="Repositories\TimesheetRepository.cs" />
+    <Compile Include="Repositories\AnalyticsRepository.cs" />
     <Compile Include="Services\AccountExecutive\ContractCreationService.cs" />
     <Compile Include="Services\AccountExecutive\ContractorRateService.cs" />
     <Compile Include="Services\AccountExecutive\ContractorsService.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Repositories\Search\SearchExpression.cs" />
     <Compile Include="Repositories\TreeTraverser.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Services\AnalyticsService.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

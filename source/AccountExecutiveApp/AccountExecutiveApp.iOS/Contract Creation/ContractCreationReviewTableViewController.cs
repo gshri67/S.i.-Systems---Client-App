@@ -79,13 +79,11 @@ namespace AccountExecutiveApp.iOS
             TableView.ReloadData();
 		}
 
-		public async void LoadData()
+		public void LoadData()
 		{
-			//var task = ViewModel.LoadContractCreationPayRatePage(0);
-			//task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);
-	
-			UpdateUserInterface();
-		}
+			var task = _reviewSupport.GetContractReviewDetails( ViewModel.JobId, ViewModel.CandidateId);
+			task.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface), TaskContinuationOptions.OnlyOnRanToCompletion);	
+        }
 
 
 		private void UpdateUserInterface()

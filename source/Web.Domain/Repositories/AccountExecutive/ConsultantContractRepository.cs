@@ -19,7 +19,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id);
         ConsultantContract GetContractDetailsById(int id);
         IEnumerable<ConsultantContract> GetContractsByContractorId(int id);
-        int SubmitContract();
+        int SubmitContract(Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId, string candidateEmail, int internalUserId);
     }
 
     public class ConsultantContractRepository : IConsultantContractRepository
@@ -162,10 +162,165 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
-        public int SubmitContract()
+        public int SubmitContract( Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId, string candidateEmail, int internalUserId )
         {
-            return 0;
-            //USPSetCreateNewFSContractInsert
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[USPSetCreateNewFSContractInsert] 
+                           @opportunityid
+                          ,@internaluserid
+                          ,@startdate
+                          ,@enddate
+                          ,@accountexec
+                          ,@revenueaccountexec
+                          ,@Commissionaccountexec
+                          ,@contactuserid
+                          ,@candidateuserid
+                          ,@candidateemail
+                          ,@timefactortype
+                          ,@paymentplantype
+                          ,@cancellation
+                          ,@jobtitle
+                          ,@activetimesheet
+                          ,@activeproject
+                          ,@expenditure
+                          ,@expenseexpenditure
+                          ,@contractcandidatename
+                          ,@contractclientcontactname
+                          ,@TimeSheetType
+                          ,@IsThirdPartyBilling
+                          ,@IsThridPartyPay
+                          ,@ThirdPartyBillingCompany
+                          ,@ThirdPartyPayCandidate
+                          ,@InvoiceFrequency
+                          ,@CandidatePaymentType
+                          ,@VerticalID
+                          ,@Limitationofcontracttype
+                          ,@InvoiceFormatId
+                          ,@HasProjectPO
+                          ,@Quickpay
+                          ,@SAID";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    opportunityid = job.Id,
+                    internaluserid = internalUserId,
+                    startdate = contract.StartDate,
+                    enddate = contract.EndDate,
+                    accountexec = contract.AccountExecutive.Id,
+                    revenueaccountexec = contract.BillingContact.Id,
+                    Commissionaccountexec = contract.ComissionAssigned.Id,
+                    contactuserid = job.ClientContact.Id,
+                    candidateuserid = candidateUserId,
+                    candidateemail = candidateEmail,
+                    timefactortype = contract.TimeFactor,
+                    paymentplantype = contract.PaymentPlan,
+                    cancellation = contract.DaysCancellation,
+                    jobtitle = job.Title,
+                    activetimesheet = timesheet.Id,
+                    activeproject = 1,
+                    expenditure = contract.LimitationExpense,
+                    expenseexpenditure = contract.LimitationExpense,
+                    contractcandidatename = job.ClientName,
+                    contractclientcontactname = job.ClientContact.ClientName,
+                    TimeSheetType = MatchGuideConstants.TimesheetType.ETimesheet,
+                    IsThirdPartyBilling = false,
+                    IsThridPartyPay = false,
+                    ThirdPartyBillingCompany = 0,
+                    ThirdPartyPayCandidate = 0,
+                    InvoiceFrequency = contract.InvoiceFrequency,
+                    CandidatePaymentType = 714,
+                    VerticalID = MatchGuideConstants.VerticalId.IT,
+                    Limitationofcontracttype = contract.LimitationOfContractType,
+                    //InvoiceFormatId = ,//generally == 9
+                    HasProjectPO = false,
+                    Quickpay = contract.UsingQuickPay,
+                    //SAID = //is this the association id?
+                }).FirstOrDefault();
+
+                return result;
+            }
+        }
+
+        public int SubmitAdminContactDetailsForJob( int agreementId, int internalUserId, int directReportId, int billingContactId )
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[sp_CON_Contract_AdminContact_Insert] 
+                           @agreementid
+                          ,@internaluserid
+                          ,@directreport
+                          ,@billingcontact
+                          ,@VerticalID";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    agreementid = agreementId,
+                    internaluserid = internalUserId,
+                    directreport = directReportId,
+                    billingContact = billingContactId,
+                    VerticalID = MatchGuideConstants.VerticalId.IT
+
+                }).FirstOrDefault();
+
+                return result;
+            }
+        }
+
+   
+        public int SubmitRateTermDetailsForJob(int internalUserId, int agreementId, Rate rate, DateTime startDate, DateTime endDate )
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[sp_CON_Contract_RateTerm_Insert] 
+                       @internaluserid
+                      ,@ratetermtype
+                      ,@nbrhours
+                      ,@description
+                      ,@billrate
+                      ,@payrate
+                      ,@startdate
+                      ,@enddate
+                      ,@agreementid
+                      ,@header
+                      ,@comments
+                      ,@activityTypename
+                      ,@IsPrimary
+                      ,@PAMRateID
+                      ,@InActive
+                      ,@AdminFee
+                      ,@VerticalID";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    internaluserid = internalUserId,
+                    ratetermtype = rate.RateType,
+                    nbrhours = rate.HoursPerDay,
+                    description = rate.Description,
+                    billrate = rate.BillRate,
+                    payrate = rate.PayRate,
+                    startdate = startDate,
+                    enddate = endDate,
+                    agreementid = agreementId,
+                    //header = ,
+                    //comments = ,
+                    //activityTypename = ,
+                    IsPrimary = rate.IsPrimaryRate,
+                    //PAMRateID = ,
+                    InActive = false,
+                    //AdminFee = ,
+                    VerticalID = MatchGuideConstants.VerticalId.IT
+
+                }).FirstOrDefault();
+
+                return result;
+            }
         }
     }
 
@@ -403,7 +558,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             return new List<ConsultantContract> {ActiveMarketerAtNexenContract};
         }
 
-        public int SubmitContract()
+        public int SubmitContract(Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId, string candidateEmail, int internalUserId)
         {
             throw new NotImplementedException();
         }
