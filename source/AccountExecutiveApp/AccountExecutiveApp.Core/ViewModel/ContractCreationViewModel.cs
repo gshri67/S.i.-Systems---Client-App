@@ -426,9 +426,28 @@ namespace AccountExecutiveApp.Core.ViewModel
             
         }
 
-        public async Task SubmitContract()
+        public Task SubmitContract()
         {
+            var task = SubmitContractInAPI();
 
+            return task;
+        }
+
+        private async Task SubmitContractInAPI( )
+        {
+            await _api.SubmitContract(JobId, CandidateId, Contract);
+        }
+
+        public Task TrackContractCreatedWithinApp()
+        {
+            var task = TrackContractCreatedWithinAppInAPI();
+
+            return task;
+        }
+
+        private async Task TrackContractCreatedWithinAppInAPI()
+        {
+            await _api.TrackContractCreatedWithinApp(JobId);
         }
     }
 }

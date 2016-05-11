@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using AccountExecutiveApp.Core.ViewModel;
 using AccountExecutiveApp.iOS.Startup;
 using CoreGraphics;
@@ -160,8 +161,8 @@ namespace AccountExecutiveApp.iOS
 
 			if (loginTask.IsValid)
 			{
-				CurrentUser.Email = _loginModel.UserName;
-				RunMainStoryboard();
+                var task = _loginModel.TrackLoggingInWithinApp(true);
+                task.ContinueWith(_ => InvokeOnMainThread(OnSuccessfulLogin), TaskContinuationOptions.OnlyOnRanToCompletion);
 			}
 			else
 			{
@@ -169,6 +170,11 @@ namespace AccountExecutiveApp.iOS
 			};
 		}
 
+        private void OnSuccessfulLogin()
+        {
+            CurrentUser.Email = _loginModel.UserName;
+            RunMainStoryboard();
+        }
 
         private static void RunMainStoryboard()
         {

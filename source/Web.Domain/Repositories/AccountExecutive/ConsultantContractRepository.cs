@@ -272,7 +272,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
    
-        public int SubmitRateTermDetailsForJob(int internalUserId, int agreementId, Rate rate, DateTime startDate, DateTime endDate )
+        public int SubmitRateTermDetailsForJob(User user, int agreementId, Rate rate, DateTime startDate, DateTime endDate )
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -299,7 +299,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 var result = db.Connection.Query<int>(query, new
                 {
-                    internaluserid = internalUserId,
+                    internaluserid = user.Id,
                     ratetermtype = rate.RateType,
                     nbrhours = rate.HoursPerDay,
                     description = rate.Description,
@@ -308,9 +308,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     startdate = startDate,
                     enddate = endDate,
                     agreementid = agreementId,
-                    //header = ,
-                    //comments = ,
-                    //activityTypename = ,
+                    header = string.Format( "Contract Created by {0}", user.FullName),
+                    comments = string.Format("Rate Term for Contract ID"),
+                    activityTypename = "ContractRateTerm",
                     IsPrimary = rate.IsPrimaryRate,
                     //PAMRateID = ,
                     InActive = false,

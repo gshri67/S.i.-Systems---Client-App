@@ -136,9 +136,18 @@ namespace AccountExecutiveApp.iOS
 	    {
             IndicateLoading();
 
-	        var task = ViewModel.SubmitContract();
-	        task.ContinueWith(_ => InvokeOnMainThread(EndContractSubmission), TaskContinuationOptions.OnlyOnRanToCompletion);  
+	        //var task = ViewModel.SubmitContract();
+	        //task.ContinueWith(_ => InvokeOnMainThread(ContractSuccessfullyCreated), TaskContinuationOptions.OnlyOnRanToCompletion);  
+
+            ContractSuccessfullyCreated();
 	    }
+
+	    private void ContractSuccessfullyCreated()
+	    {
+            var task = ViewModel.TrackContractCreatedWithinApp();
+	        task.ContinueWith(_ => InvokeOnMainThread(EndContractSubmission), TaskContinuationOptions.OnlyOnRanToCompletion);
+	    }
+
 	    private void EndContractSubmission()
 	    {
             RemoveOverlay();

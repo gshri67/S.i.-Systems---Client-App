@@ -88,12 +88,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             Job job = _jobsRepo.GetJobWithJobId(jobId);
             Timesheet timesheet = new Timesheet();
             string email = string.Empty;
-
+            
             UserContact candidateInfo = _usersRepo.GetUserContactById(candidateId);
             if (candidateInfo.EmailAddresses != null && candidateInfo.EmailAddresses.Any())
                 email = candidateInfo.EmailAddresses.ElementAt(0).Email;
 
             int internalUserId = _session.CurrentUser.Id;
+
+            
 
             return _contractRepo.SubmitContract(job, contractDetails, timesheet, candidateId, email, internalUserId );
         }

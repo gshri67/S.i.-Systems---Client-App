@@ -34,5 +34,24 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 return result;
             }
         }
+
+        public int TrackContractCreatedWithinApp(int agreementId )
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[USPSetContractIsCreatedInApp_IMSi]                            
+                        @AggrementID";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    AgreementID = agreementId
+
+                }).FirstOrDefault();
+
+                return result;
+            }
+        }
     }
 }

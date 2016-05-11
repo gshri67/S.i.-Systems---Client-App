@@ -84,5 +84,10 @@ namespace Shared.Core
         Task<int> GetContractIdFromJobIdAndContractorId(int jobId, int contractorId);
         Task<int> RequestApprovalFromApproverWithId(int timesheetId);
         Task<ContractCreationDetails_Review> GetDetailsForReviewContractCreationForm(int jobId, int candidateId );
+
+        Task<int> SubmitContract(int jobId, int candidateId, ContractCreationDetails contractDetails);
+
+        Task<int> TrackUserLogin(bool loginSuccessful);
+        Task<int> TrackContractCreatedWithinApp(int agreementId);        
     }
 }

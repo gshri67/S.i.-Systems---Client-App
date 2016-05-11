@@ -360,5 +360,23 @@ namespace Shared.Core
         {
             return await ExecuteWithDefaultClient<ContractCreationDetails_Review>(new { jobId, candidateId });
         }
+
+        [HttpGet("ContractCreation/Submit/job/{jobId}/candidate/{candidateId}/details/{contractDetails}")]
+        public async Task<int> SubmitContract(int jobId, int candidateId, ContractCreationDetails contractDetails)
+        {
+            return await ExecuteWithDefaultClient<int>(new { jobId, candidateId, contractDetails });
+        }
+
+        [HttpGet("Analytics/TrackUserLogin/{loginSuccessful}")]
+        public async Task<int> TrackUserLogin(bool loginSuccessful)
+        {
+            return await ExecuteWithDefaultClient<int>(new { loginSuccessful });
+        }
+
+        [HttpGet("Analytics/TrackContractCreated/{agreementId}")]
+        public async Task<int> TrackContractCreatedWithinApp(int agreementId)
+        {
+            return await ExecuteWithDefaultClient<int>(new { agreementId });
+        }
     }
 }
