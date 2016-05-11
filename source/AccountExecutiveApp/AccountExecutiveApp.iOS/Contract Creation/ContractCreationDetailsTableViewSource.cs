@@ -271,11 +271,11 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetLimitationExpenseCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditablePickerCell cell =
-                (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.LimitationExpense = newValue; };
-            cell.UpdateCell("Limitation Expense", _supportModel.LimitationExpenseOptions,
-                _contractModel.LimitationExpense);
+            EditableNumberFieldCell cell = (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+            cell.UsingDollarSign = true;
+            cell.OnValueChanged += delegate(float newValue) { };
+            cell.OnValueFinalized += delegate(float newValue) { _contractModel.LimitationExpense = newValue.ToString(); };
+            cell.UpdateCell("Limitation Expense", _contractModel.LimitationExpense);
 
             return cell;
         }

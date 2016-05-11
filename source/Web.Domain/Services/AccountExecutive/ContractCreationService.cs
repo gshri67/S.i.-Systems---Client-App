@@ -93,11 +93,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             if (candidateInfo.EmailAddresses != null && candidateInfo.EmailAddresses.Any())
                 email = candidateInfo.EmailAddresses.ElementAt(0).Email;
 
-            int internalUserId = _session.CurrentUser.Id;
+            int internalUserId = _session.CurrentUser.Id;   
 
-            
+            _contractRepo.SubmitContract(job, contractDetails, timesheet, candidateId, email, internalUserId );
 
-            return _contractRepo.SubmitContract(job, contractDetails, timesheet, candidateId, email, internalUserId );
+            foreach (Rate rate in contractDetails.Rates)
+                _contractRepo.SubmitRateTermDetailsForJob(_session.CurrentUser, jobId, rate, job.StartDate, job.EndDate);
+
+            return 1;
         }
     }
 }

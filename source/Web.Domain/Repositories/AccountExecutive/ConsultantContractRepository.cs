@@ -20,6 +20,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         ConsultantContract GetContractDetailsById(int id);
         IEnumerable<ConsultantContract> GetContractsByContractorId(int id);
         int SubmitContract(Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId, string candidateEmail, int internalUserId);
+        int SubmitRateTermDetailsForJob(User user, int agreementId, Rate rate, DateTime startDate, DateTime endDate);
     }
 
     public class ConsultantContractRepository : IConsultantContractRepository
@@ -312,9 +313,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     comments = string.Format("Rate Term for Contract ID"),
                     activityTypename = "ContractRateTerm",
                     IsPrimary = rate.IsPrimaryRate,
-                    //PAMRateID = ,
+                    PAMRateID = 0,
                     InActive = false,
-                    //AdminFee = ,
+                    AdminFee = 0,
                     VerticalID = MatchGuideConstants.VerticalId.IT
 
                 }).FirstOrDefault();
@@ -559,6 +560,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
         public int SubmitContract(Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId, string candidateEmail, int internalUserId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int SubmitRateTermDetailsForJob(User user, int agreementId, Rate rate, DateTime startDate, DateTime endDate)
         {
             throw new NotImplementedException();
         }
