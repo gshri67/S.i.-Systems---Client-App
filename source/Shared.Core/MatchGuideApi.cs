@@ -326,6 +326,18 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<RateOptions>();
         }
 
+        [HttpGet("ContractCreationSupport/EmailSubject/{jobId}")]
+        public async Task<string> GetEmailSubjectForContractReviewForm(int jobId)
+        {
+            return await ExecuteWithDefaultClient<string>(new { jobId });
+        }
+
+        [HttpGet("ContractCreationSupport/EmailSubject/{jobId}/{candidateId}")]
+        public async Task<string> GetEmailBodyForContractReviewForm(int jobId, int candidateId)
+        {
+            return await ExecuteWithDefaultClient<string>(new { jobId, candidateId });
+        }
+
         [HttpGet("ContractCreationSupport/SendingFormOptions/{jobId}")]
         public async Task<ContractCreationOptions_Sending> GetDropDownValuesForContractCreationSendingForm(int jobId)
         {

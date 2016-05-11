@@ -42,5 +42,19 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             var options = _contractCreationSupportService.GetContractOptionsForRates();
             return Request.CreateResponse(HttpStatusCode.OK, options);
         }
+
+        [Route("EmailSubject/{jobId}")]
+        public HttpResponseMessage GetEmailSubject( int jobId )
+        {
+            var subject = _contractCreationSupportService.GetEmailSubject( jobId );
+            return Request.CreateResponse(HttpStatusCode.OK, subject);
+        }
+
+        [Route("EmailBody/{jobId}/{candidateId}")]
+        public HttpResponseMessage GetEmailBody(int jobId, int candidateId )
+        {
+            var body = _contractCreationSupportService.GetEmailBody(jobId, candidateId);
+            return Request.CreateResponse(HttpStatusCode.OK, body);
+        }
     }
 }

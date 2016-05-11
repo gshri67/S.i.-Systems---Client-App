@@ -20,6 +20,9 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { _contractDetails = value ?? new ContractCreationDetails_Review(); }
         }
 
+        public string EmailBody;
+        public string EmailSubject;
+
         public ContractReviewSupportViewModel(IMatchGuideApi api)
         {
             _api = api;
@@ -75,6 +78,8 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public Task GetContractReviewDetails( int jobId, int candidateId )
         {
+            GetEmailSubject(jobId);
+            GetEmailBody(jobId, candidateId);
             var task = GetDetails( jobId, candidateId );
             //todo: task.continueWith
             return task;
@@ -84,5 +89,14 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             ContractDetails = await _api.GetDetailsForReviewContractCreationForm( jobId, candidateId );
         }
+        private async Task GetEmailSubject(int jobId)
+        {
+            EmailSubject = await _api.GetEmailSubjectForContractReviewForm(jobId);
+        }
+        private async Task GetEmailBody(int jobId, int candidateId)
+        {
+            EmailBody = await _api.GetEmailBodyForContractReviewForm(jobId, candidateId);
+        }
+
     }
 }

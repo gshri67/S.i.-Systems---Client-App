@@ -710,7 +710,12 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetEmailCell(UITableView tableView, NSIndexPath indexPath)
         {
             EmailCell cell = (EmailCell)tableView.DequeueReusableCell(EmailCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Agreement Between Bob Smith and Cenovus about the immediate sharepoint job opportunity", "Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...Dear Jean-Claude, You are invited by S.i. Systems...");
+
+            string emailSubject = _reviewSupport.EmailSubject, emailBody = _reviewSupport.EmailBody;
+            if (emailSubject == null) emailSubject = string.Empty;
+            if (emailBody == null) emailBody = string.Empty;
+
+            cell.UpdateCell( emailSubject, emailBody );
 
             return cell;
         }

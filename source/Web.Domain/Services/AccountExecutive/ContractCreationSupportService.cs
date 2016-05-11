@@ -16,14 +16,16 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
         private readonly IInternalEmployeesRepository _internalEmployeesRepository;
         private readonly IJobsRepository _jobsRepository;
         private readonly IPickListValuesRepository _pickListValuesRepository;
+        private readonly IUserContactRepository _usersRepo;
         private readonly ISessionContext _session;
 
-        public ContractCreationSupportService(ISessionContext session, IInternalEmployeesRepository repo, IPickListValuesRepository pickListValuesRepository, IJobsRepository jobsRepository)
+        public ContractCreationSupportService(ISessionContext session, IInternalEmployeesRepository repo, IPickListValuesRepository pickListValuesRepository, IJobsRepository jobsRepository, IUserContactRepository usersRepo)
         {
             _session = session;
             _internalEmployeesRepository = repo;
             _jobsRepository = jobsRepository;
             _pickListValuesRepository = pickListValuesRepository;
+            _usersRepo = usersRepo;
         }
 
         private IEnumerable<string> TimeFactors()
@@ -128,6 +130,21 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             {
                 RateTypes = RateTermTypes()
             };
+        }
+
+        public string GetEmailSubject( int jobId )
+        {
+            Job job = _jobsRepository.GetJobWithJobId(jobId);
+            return string.Format("Agreement between S.i. Systems Partnership and {0} (Contract {1})", job.ClientName, jobId);
+        }
+
+        public string GetEmailBody( int jobId, int candidateId )
+        {
+            Job job = _jobsRepository.GetJobWithJobId(jobId);
+            UserContact candidate = _usersRepo.GetUserContactById(candidateId);
+
+            return string.Format("Dear  {0},\n\nYou are invited by S.i. Systems Partnership (\"SI\") to log on to its secure web portal as the representative and agent of {1} (the \"Consultant\"). Once you have logged into the web portal, you will be asked to review, and if the terms are acceptable, accept the form of agreement between SI and the Consultant, pursuant to which, the Consultant will provide services to SI’s client {3}.\n\nClick one of the below links to log into your account and accept the agreement.\n\nClick here for mobile site.\n\nClick here for desktop site.\n\nPlease note that you can only access and view the form of agreement using the above links. Once you have accepted the agreement on behalf of the Consultant, you will receive a confirmation via email at this email address that the agreement has been entered into and a PDF copy of the agreement’s terms and conditions will be stored in your web portal.\n\nPlease contact me if you have any questions about the terms and conditions of the form of the agreement.\n\nRegards,\n\n", candidate.FullName, job.ClientName, "As per declaration of partnership" );
+
         }
     }
 }
