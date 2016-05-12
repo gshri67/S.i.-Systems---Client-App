@@ -332,7 +332,7 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<string>(new { jobId });
         }
 
-        [HttpGet("ContractCreationSupport/EmailSubject/{jobId}/{candidateId}")]
+        [HttpGet("ContractCreationSupport/EmailBody/{jobId}/{candidateId}")]
         public async Task<string> GetEmailBodyForContractReviewForm(int jobId, int candidateId)
         {
             return await ExecuteWithDefaultClient<string>(new { jobId, candidateId });

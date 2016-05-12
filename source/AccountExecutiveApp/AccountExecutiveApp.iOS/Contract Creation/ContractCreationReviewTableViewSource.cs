@@ -479,8 +479,8 @@ namespace AccountExecutiveApp.iOS
 
         private UITableViewCell GetLimitationOfContractCell(UITableView tableView, NSIndexPath indexPath)
         {
-            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractType);
+            EditableDoubleTextFieldCell cell = (EditableDoubleTextFieldCell)tableView.DequeueReusableCell(EditableDoubleTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Limitation of Contract", _contractModel.LimitationOfContractType, _contractModel.LimitationOfContractValue.ToString());
 
             return cell;
         }
