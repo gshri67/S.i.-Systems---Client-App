@@ -72,7 +72,7 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string TimeFactor {              get { return Contract.TimeFactor; }
                                                 set { Contract.TimeFactor = value; }}
-        public int DaysCancellation {           get { return Contract.DaysCancellation; }
+        public string DaysCancellation {           get { return Contract.DaysCancellation; }
                                                 set { Contract.DaysCancellation = value; }}
 
         public string LimitationExpense {       get { return Contract.LimitationExpense; }

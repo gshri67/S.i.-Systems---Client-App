@@ -13,7 +13,7 @@ namespace SiSystems.SharedModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string TimeFactor { get; set; }
-        public int DaysCancellation { get; set; }
+        public string DaysCancellation { get; set; }
         public string LimitationExpense { get; set; }
         public string LimitationOfContractType { get; set; }
         public int LimitationOfContractValue { get; set; }
@@ -57,7 +57,7 @@ namespace SiSystems.SharedModels
             StartDate = DateTime.Now;
             EndDate = DateTime.Now;
             TimeFactor = string.Empty;
-            DaysCancellation = 2;
+            DaysCancellation = "Two";
             LimitationExpense = string.Empty;
             LimitationOfContractType = string.Empty;
             LimitationOfContractValue = 0;

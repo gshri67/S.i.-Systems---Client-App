@@ -263,8 +263,11 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell) tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
             cell.UpdateCell("Days Cancellation", _supportModel.DaysCancellationOptions,
-                _contractModel.DaysCancellation.ToString());
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.DaysCancellation = int.Parse(newValue); };
+                _contractModel.DaysCancellation);
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.DaysCancellation = newValue;
+            };
 
             return cell;
         }
