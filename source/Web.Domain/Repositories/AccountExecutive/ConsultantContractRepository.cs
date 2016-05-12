@@ -65,11 +65,32 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
+        public int GetNumberOfActiveFloThruContracts(DateTime startDate )
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[sp_Dashboard_PortFolio_ActiveFlothruContracts] 
+                        @aContractStartMonth,
+                        @aContractStartYear";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    aContractStartMonth = startDate.Month,
+                    aContractStartYear = startDate.Year
+
+                }).FirstOrDefault();
+
+                return result;
+            }
+        }
+
         public ContractSummarySet GetFloThruSummaryByAccountExecutiveId(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var numActive = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberActiveFloThruContractsQuery, new { Id = id }).FirstOrDefault();
+                var numActive = GetNumberOfActiveFloThruContracts( new DateTime(2000, 1, 1) );//db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberActiveFloThruContractsQuery, new { Id = id }).FirstOrDefault();
 
                 var numEnding = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberEndingFloThruContractsQuery, new { Id = id }).FirstOrDefault();
 
