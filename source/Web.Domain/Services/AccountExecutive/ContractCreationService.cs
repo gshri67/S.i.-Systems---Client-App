@@ -55,7 +55,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 StartDate = startDate,
                 EndDate = job.EndDate,
                 //TimeFactor =
-                DaysCancellation = 10,
+                DaysCancellation = "Two",
                 //LimitationExpense = 
                 //LimitationOfContractType = 
                 //LimitationOfContractValue = 
