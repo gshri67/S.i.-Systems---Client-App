@@ -12,6 +12,7 @@ namespace SiSystems.SharedModels
         public IEnumerable<string> LimitationExpenseOptions { get; set; }
         public IEnumerable<string> LimitationOfContractTypeOptions { get; set; }
         public IEnumerable<string> PaymentPlanOptions { get; set; }
+        public IEnumerable<string> BranchOptions { get; set; }
         public IEnumerable<InternalEmployee> Colleagues { get; set; }
         public IEnumerable<string> InvoiceFrequencyOptions { get; set; }
         public IEnumerable<string> InvoiceFormatOptions { get; set; }
@@ -27,7 +28,7 @@ namespace SiSystems.SharedModels
         public IEnumerable<string> BillingContactNameOptions { get; set; }
         public IEnumerable<string> ClientContractContactNameOptions { get; set; }
         public IEnumerable<string> ReasonForNotSendingContractOptions { get; set; }
-
+        
         public ContractCreationOptions()
         {
             TimeFactorOptions = Enumerable.Empty<string>();
@@ -35,6 +36,7 @@ namespace SiSystems.SharedModels
             LimitationExpenseOptions = Enumerable.Empty<string>();
             LimitationOfContractTypeOptions = Enumerable.Empty<string>();
             PaymentPlanOptions = Enumerable.Empty<string>();
+            BranchOptions = Enumerable.Empty<string>();
             Colleagues = Enumerable.Empty<InternalEmployee>();
             InvoiceFrequencyOptions = Enumerable.Empty<string>();
             InvoiceFormatOptions = Enumerable.Empty<string>();

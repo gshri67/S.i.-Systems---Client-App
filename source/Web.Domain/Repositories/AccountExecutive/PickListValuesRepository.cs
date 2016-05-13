@@ -19,6 +19,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<string> InvoiceFrequencyOptions();
         IEnumerable<string> CandidatePaymentPlans();
         IEnumerable<string> RateTermTypes();
+
+        IEnumerable<string> BranchTypeOptions();
     }
 
     public class PickListValuesRepository : IPickListValuesRepository
@@ -86,6 +88,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             return GetPickListDisplayTitlesForType("RateTermType");
         }
+
+        public IEnumerable<string> BranchTypeOptions()
+        {
+            return GetPickListDisplayTitlesForType("Primary Office");
+        }
     }
 
     public class MockPickListValuesRepository : IPickListValuesRepository
@@ -143,6 +150,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         public IEnumerable<string> RateTermTypes()
         {
             return new List<string> {"Per Day", "Per Hour"};
+        }
+
+        public IEnumerable<string> BranchTypeOptions()
+        {
+            throw new NotImplementedException();
         }
     }
 }

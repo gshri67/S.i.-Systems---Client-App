@@ -147,9 +147,19 @@ namespace AccountExecutiveApp.iOS
             return (int) indexPath.Item == _paymentPlanCellRow;
         }
 
-        private int _accountExecutiveCellRow
+        private int _branchCellRow
         {
             get { return _paymentPlanCellRow + 1; }
+        }
+
+        private bool IsBranchCell(NSIndexPath indexPath)
+        {
+            return (int)indexPath.Item == _branchCellRow;
+        }
+
+        private int _accountExecutiveCellRow
+        {
+            get { return _branchCellRow + 1; }
         }
 
         private bool IsAccountExecutiveCell(NSIndexPath indexPath)
@@ -310,6 +320,17 @@ namespace AccountExecutiveApp.iOS
 
             cell.OnValueChanged += delegate(string newValue) { _contractModel.PaymentPlan = newValue; };
             cell.UpdateCell("Payment Plan", _supportModel.PaymentPlanOptions, _contractModel.PaymentPlan);
+
+            return cell;
+        }
+
+        private UITableViewCell GetBranchCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditablePickerCell cell =
+                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+
+            cell.OnValueChanged += delegate(string newValue) { _contractModel.Branch = newValue; };
+            cell.UpdateCell("Branch", _supportModel.BranchOptions, _contractModel.Branch);
 
             return cell;
         }

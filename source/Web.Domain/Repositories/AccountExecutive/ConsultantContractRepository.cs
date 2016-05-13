@@ -86,6 +86,27 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 return result;
             }
         }
+        /*
+        public int GetNumberOfEndingFloThruContracts(DateTime startDate)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"DECLARE @RC int
+                        EXECUTE @RC = [dbo].[sp_Dashboard_PortFolio_ActiveFlothruContracts] 
+                        @aContractStartMonth,
+                        @aContractStartYear";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    aContractStartMonth = startDate.Month,
+                    aContractStartYear = startDate.Year
+
+                }).FirstOrDefault();
+
+                return result;
+            }
+        }
         public int GetNumberOfActiveFullySourcedContracts(DateTime startDate)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -105,8 +126,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 return result;
             }
-        }
-        /*
+        }*/
+        
         public int GetNumberOfActiveFloThruContracts(int userId )
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -139,13 +160,113 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 return result;
             }
-        }*/
+        }
+
+        public int GetNumberOfEndingFloThruContracts(int userId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT Count(*)
+                        FROM Agreement
+                        JOIN PickList ON  Agreement.StatusType = PickList.PickListID
+                        JOIN Users ON Agreement.AccountExecID = Users.UserID
+                        JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
+                        WHERE Agreement.AccountExecID = @UserId
+                        AND Agreement.AgreementType IN (
+                        SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
+                        )
+                        AND Users.verticalid = 4
+                        AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
+ 
+                        AND Agreement.AgreementSubType IN (
+                        SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
+                        )
+                        AND PickList.Title = 'Active'
+                        AND DATEDIFF(day, GetDate(), Agreement.EndDate) <= 30
+                        ";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    UserId = userId
+
+                }).FirstOrDefault();
+
+                return result;
+            }
+        }
+        public int GetNumberOfActiveFullySourcedContracts(int userId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT Count(*)
+                        FROM Agreement
+                        JOIN PickList ON  Agreement.StatusType = PickList.PickListID
+                        JOIN Users ON Agreement.AccountExecID = Users.UserID
+                        JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
+                        WHERE Agreement.AccountExecID = @UserId
+                        AND Agreement.AgreementType IN (
+                        SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
+                        )
+                        AND Users.verticalid = 4
+                        AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
+ 
+                        AND Agreement.AgreementSubType IN (
+                        SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+                        )
+                        AND PickList.Title = 'Active'
+                        AND DATEDIFF(day, GetDate(), Agreement.EndDate) > 30
+                        ";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    UserId = userId
+
+                }).FirstOrDefault();
+
+                return result;
+            }
+        }
+        public int GetNumberOfEndingFullySourcedContracts(int userId)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"SELECT Count(*)
+                        FROM Agreement
+                        JOIN PickList ON  Agreement.StatusType = PickList.PickListID
+                        JOIN Users ON Agreement.AccountExecID = Users.UserID
+                        JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
+                        WHERE Agreement.AccountExecID = @UserId
+                        AND Agreement.AgreementType IN (
+                        SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
+                        )
+                        AND Users.verticalid = 4
+                        AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
+ 
+                        AND Agreement.AgreementSubType IN (
+                        SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+                        )
+                        AND PickList.Title = 'Active'
+                        AND DATEDIFF(day, GetDate(), Agreement.EndDate) <= 30
+                        ";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    UserId = userId
+
+                }).FirstOrDefault();
+
+                return result;
+            }
+        }
 
         public ContractSummarySet GetFloThruSummaryByAccountExecutiveId(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var numActive = GetNumberOfActiveFloThruContracts(new DateTime(2015, 1, 1));//GetNumberOfActiveFloThruContracts( id );//db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberActiveFloThruContractsQuery, new { Id = id }).FirstOrDefault();
+                var numActive = GetNumberOfActiveFloThruContracts(id);//GetNumberOfActiveFloThruContracts(new DateTime(2015, 1, 1));//db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberActiveFloThruContractsQuery, new { Id = id }).FirstOrDefault();
 
                 var numEnding = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberEndingFloThruContractsQuery, new { Id = id }).FirstOrDefault();
 
@@ -164,7 +285,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var numActive = GetNumberOfActiveFullySourcedContracts(new DateTime(2015, 1, 1));//db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberActiveFullySourcedContractsQuery, new { Id = id }).FirstOrDefault();
+                var numActive = GetNumberOfActiveFullySourcedContracts(id);//GetNumberOfActiveFullySourcedContracts(new DateTime(2015, 1, 1));//db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberActiveFullySourcedContractsQuery, new { Id = id }).FirstOrDefault();
 
                 var numEnding = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberEndingFullySourcedContractsQuery, new { Id = id }).FirstOrDefault();
 

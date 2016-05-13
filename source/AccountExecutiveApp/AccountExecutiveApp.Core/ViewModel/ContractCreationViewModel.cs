@@ -84,9 +84,13 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         public string PaymentPlan {             get { return Contract.PaymentPlan; }
                                                 set { Contract.PaymentPlan = value; }}
-        public InternalEmployee AccountExecutive
-        {
-            get { return Contract.AccountExecutive; }
+
+        public string Branch {
+            get { return Contract.Branch;  } 
+            set { Contract.Branch = value; }
+        }
+        public InternalEmployee AccountExecutive{
+                                                get { return Contract.AccountExecutive; }
                                                 set { Contract.AccountExecutive = value; }}
 
         public InternalEmployee GMAssigned

@@ -48,7 +48,8 @@ namespace SiSystems.SharedModels
         public string ReasonForNotSendingContract { get; set; }
         public string SummaryReasonForNotSendingContract { get; set; }
         public string SummaryReasonForNotSendingConsultantContract { get; set; }
-        
+        public string Branch { get; set; }
+
         public ContractCreationDetails()
         {
             ConsultantName = string.Empty;
@@ -62,6 +63,7 @@ namespace SiSystems.SharedModels
             LimitationOfContractType = string.Empty;
             LimitationOfContractValue = 0;
             PaymentPlan = string.Empty;
+            Branch = string.Empty;
             AccountExecutive = new InternalEmployee();
             GMAssigned = new InternalEmployee();
             ComissionAssigned = new InternalEmployee();

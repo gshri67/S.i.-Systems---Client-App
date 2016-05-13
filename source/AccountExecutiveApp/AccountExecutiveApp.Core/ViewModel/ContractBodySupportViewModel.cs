@@ -106,6 +106,10 @@ namespace AccountExecutiveApp.Core.ViewModel
             get { return ComissionAssignedOptions.Select(c => c.FullName).ToList(); }
         }
 
+        public List<string> BranchOptions {
+            get { return ContractOptions.BranchOptions.ToList(); }
+        }
+
         public InternalEmployee GetComissionAssignedWithName(string name)
         {
             return ComissionAssignedOptions.FirstOrDefault(c => c.FullName == name);

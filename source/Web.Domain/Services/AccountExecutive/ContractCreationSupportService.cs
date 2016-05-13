@@ -48,6 +48,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return _pickListValuesRepository.LimitationOfContractTypeOptions();
         }
 
+        private IEnumerable<string> Branches()
+        {
+            return _pickListValuesRepository.BranchTypeOptions();
+        }
+
         private IEnumerable<InternalEmployee> ColleaguesForCurrentUser()
         {
             var accountExecutives = _internalEmployeesRepository.GetAccountExecutivesThatShareBranchWithUserId(_session.CurrentUser.Id);
@@ -106,6 +111,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 InvoiceFormatOptions = InvoiceFormats(),
                 InvoiceFrequencyOptions = InvoiceFrequencies(),
                 PaymentPlanOptions = ContractPaymentPlans(),
+                BranchOptions = Branches()
                 
             };
         }
