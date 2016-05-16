@@ -46,6 +46,8 @@ namespace AccountExecutiveApp.iOS
                 return GetLimitationOfContractCell(tableView, indexPath);
             else if (IsPaymentPlanCell(indexPath))
                 return GetPaymentPlanCell(tableView, indexPath);
+            else if (IsBranchCell(indexPath))
+                return GetBranchCell(tableView, indexPath);
             else if (IsAccountExecutiveCell(indexPath))
                 return GetAccountExecutiveCell(tableView, indexPath);
             else if (IsGMAssignedCell(indexPath))

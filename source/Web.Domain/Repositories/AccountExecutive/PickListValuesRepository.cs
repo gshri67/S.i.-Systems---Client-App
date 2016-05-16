@@ -91,7 +91,23 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         public IEnumerable<string> BranchTypeOptions()
         {
-            return GetPickListDisplayTitlesForType("Primary Office");
+           const string query =
+                @"  SELECT 
+                        User_Office.userofficeid as offid,
+                        User_Office.Title as offname
+                    FROM   
+                        User_Office 
+                        left join picklist on User_Office.officetype = picklist.picklistid
+                    WHERE  
+                        picklist.title in ('Primary Office')";
+
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var values = db.Connection.Query<string>(query, new {});
+
+                return values;
+            }  
         }
     }
 
