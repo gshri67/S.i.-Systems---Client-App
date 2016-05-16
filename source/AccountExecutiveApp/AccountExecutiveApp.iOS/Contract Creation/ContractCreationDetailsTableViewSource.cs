@@ -331,7 +331,13 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
                 (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
 
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.Branch = newValue; };
+            cell.OnValueChanged += delegate(string newValue)
+            {
+                _contractModel.Branch = newValue;
+
+                _supportModel.UpdateColleaguesWithBranch( int.Parse(newValue));
+                tableView.ReloadData();
+            };
             cell.UpdateCell("Branch", _supportModel.BranchOptions, _contractModel.Branch);
 
             return cell;

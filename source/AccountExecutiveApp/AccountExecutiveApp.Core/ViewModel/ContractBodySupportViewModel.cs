@@ -127,5 +127,17 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             ContractOptions = await _api.GetDropDownValuesForInitialContractCreationForm( jobId );
         }
+
+        public Task UpdateColleaguesWithBranch( int branch )
+        {
+            var task = GetColleaguesWithBranchFromAPI( branch );
+            //todo: task.continueWith
+            return task;
+        }
+
+        private async Task GetColleaguesWithBranchFromAPI( int branch )
+        {
+            ContractOptions.Colleagues = await _api.GetDropDownValuesForColleaguesWithBranch( branch );
+        }
     }
 }

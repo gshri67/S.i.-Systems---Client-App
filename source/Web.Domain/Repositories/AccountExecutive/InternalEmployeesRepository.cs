@@ -16,10 +16,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public interface IInternalEmployeesRepository
     {
         IEnumerable<InternalEmployee> GetAccountExecutivesThatShareBranchWithUserId(int id);
+        IEnumerable<InternalEmployee> GetAccountExecutivesWithBranch(int branch);
         IEnumerable<InternalEmployee> GetClientContactsWithCompanyId(int companyId); 
         IEnumerable<InternalEmployee> GetBillingContactsWithCompanyId(int companyId); 
         IEnumerable<InternalEmployee> GetDirectReportsWithCompanyId(int companyId);
         IEnumerable<InternalEmployee> GetInvoiceRecipientsWithAgreementId(int agreementId);
+
     }
 
     public class InternalEmployeesRepository : IInternalEmployeesRepository
@@ -43,6 +45,45 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
+        public IEnumerable<InternalEmployee> GetAccountExecutivesWithBranch(int branch)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string contractSummaryQuery =
+                    @"select UserId as Id, FirstName, LastName, Title 
+                    from   users inner join user_rolematrix on user_rolematrix.userid = users.userid
+                    left join user_office on user_office.userofficeid = users.userofficeid
+                    left join verticaldetails on verticaldetails.verticalid=user_office.verticalid
+                    inner join user_role on user_role.UserRoleID =user_rolematrix.UserRoleID
+                    inner join (
+                                  select 
+                                  max(user_role.rank) as rank,
+                                  users.userid
+                                  from          
+                                  user_role
+                                  inner join user_rolematrix u on u.userroleid = user_role.userroleid
+                                  inner join users on users.userid = u.userid
+                                  and user_role.inactive = 0
+                                  and    users.inactive = 0
+                                  and user_role.title in ('AccountExecutive','ManagingDirector')
+                                  group by users.userid
+                                  )as user_roleText 
+                    on user_roleText.rank =user_role.rank 
+                    and user_roleText.userid = users.userid
+                    where  user_rolematrix.userroleid in
+                                  (
+                                         select userroleid 
+                                               from   user_role
+                                               where  title = 'AccountExecutive' or title = 'ManagingDirector'
+                                               and    inactive = 0
+                                  )
+                    and    users.userofficeid IN (@Branch)";
+
+                var employees = db.Connection.Query<InternalEmployee>(contractSummaryQuery, new { Branch = branch });
+
+                return employees;
+            }
+        }
 
         public IEnumerable<InternalEmployee> GetClientContactsWithCompanyId(int companyId)
         {
@@ -263,6 +304,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     Title = "(MD)"
                 }
             };
+        }
+
+        public IEnumerable<InternalEmployee> GetAccountExecutivesWithBranch(int branch)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<InternalEmployee> GetClientContactsWithCompanyId(int companyId)

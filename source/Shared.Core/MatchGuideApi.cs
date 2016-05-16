@@ -320,6 +320,12 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<ContractCreationOptions>(new { jobId });
         }
 
+        [HttpGet("ContractCreationSupport/MainFormOptions/ColleaguesWithBranch/{branch}")]
+        public async Task<IEnumerable<InternalEmployee>> GetDropDownValuesForColleaguesWithBranch(int branch)
+        {
+            return await ExecuteWithDefaultClient<IEnumerable<InternalEmployee>>(new { branch });
+        }
+
         [HttpGet("ContractCreationSupport/RateFormOptions")]
         public async Task<RateOptions> GetDropDownValuesForContractCreationRatesForm()
         {

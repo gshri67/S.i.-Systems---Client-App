@@ -28,6 +28,12 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             var options = _contractCreationSupportService.GetContractOptionsForMainForm( jobId );
             return Request.CreateResponse(HttpStatusCode.OK, options);
         }
+        [Route("MainFormOptions/ColleaguesWithBranch/{branch}")]
+        public HttpResponseMessage GetColleaguesWithBranch(int branch)
+        {
+            var options = _contractCreationSupportService.GetColleaguesWithBranch(branch);
+            return Request.CreateResponse(HttpStatusCode.OK, options);
+        }          
 
         [Route("SendingFormOptions/{jobId}")]
         public HttpResponseMessage GetSendingFormOptions(int jobId)

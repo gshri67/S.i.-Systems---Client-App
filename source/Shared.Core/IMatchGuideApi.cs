@@ -76,6 +76,7 @@ namespace Shared.Core
         Task<Timesheet> PopulateTimeEntries(Timesheet timesheet);
         
         Task<ContractCreationOptions> GetDropDownValuesForInitialContractCreationForm(int jobId);
+        Task<IEnumerable<InternalEmployee>> GetDropDownValuesForColleaguesWithBranch(int branch);
         Task<ContractCreationOptions_Sending> GetDropDownValuesForContractCreationSendingForm(int jobId);
         Task<RateOptions> GetDropDownValuesForContractCreationRatesForm();
         Task<string> GetEmailSubjectForContractReviewForm( int jobId );

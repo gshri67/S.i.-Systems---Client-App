@@ -60,6 +60,13 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             return accountExecutives.OrderBy(employee => employee.FirstName).ThenBy(employee => employee.LastName);
         }
 
+        private IEnumerable<InternalEmployee> ColleaguesForBranch(int branch)
+        {
+            var accountExecutives = _internalEmployeesRepository.GetAccountExecutivesWithBranch(branch);
+
+            return accountExecutives.OrderBy(employee => employee.FirstName).ThenBy(employee => employee.LastName);
+        }
+
         private IEnumerable<string> InvoiceFormats()
         {
             return _pickListValuesRepository.InvoiceFormatOptions();
@@ -116,6 +123,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             };
         }
 
+        public IEnumerable<InternalEmployee> GetColleaguesWithBranch(int branch)
+        {
+            return ColleaguesForBranch(branch);
+        }
 
         public ContractCreationOptions_Sending GetContractOptionsForSendingForm(int jobId)
         {
