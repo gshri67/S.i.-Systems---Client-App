@@ -137,7 +137,10 @@ namespace AccountExecutiveApp.Core.ViewModel
 
         private async Task GetColleaguesWithBranchFromAPI( int branch )
         {
-            ContractOptions.Colleagues = await _api.GetDropDownValuesForColleaguesWithBranch( branch );
+            var list = await _api.GetDropDownValuesForColleaguesWithBranch( branch );
+            
+            if (list != null && list.Count() > 0)
+                ContractOptions.Colleagues = list;
         }
     }
 }

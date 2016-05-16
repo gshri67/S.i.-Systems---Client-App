@@ -63,8 +63,11 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
         private IEnumerable<InternalEmployee> ColleaguesForBranch(int branch)
         {
             var accountExecutives = _internalEmployeesRepository.GetAccountExecutivesWithBranch(branch);
+            
+            if( accountExecutives != null )
+                accountExecutives = accountExecutives.OrderBy(employee => employee.FirstName).ThenBy(employee => employee.LastName);
 
-            return accountExecutives.OrderBy(employee => employee.FirstName).ThenBy(employee => employee.LastName);
+            return accountExecutives;
         }
 
         private IEnumerable<string> InvoiceFormats()
