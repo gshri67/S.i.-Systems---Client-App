@@ -50,7 +50,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractSummaryQuery =
-                    @"users.UserId as Id, users.FirstName, users.LastName, users.Title 
+                    @"select users.UserId as Id, users.FirstName, users.LastName, users.Title 
                     from   users inner join user_rolematrix on user_rolematrix.userid = users.userid
                     left join user_office on user_office.userofficeid = users.userofficeid
                     left join verticaldetails on verticaldetails.verticalid=user_office.verticalid
