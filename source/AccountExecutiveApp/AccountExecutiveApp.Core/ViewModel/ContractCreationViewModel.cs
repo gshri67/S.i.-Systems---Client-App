@@ -90,17 +90,17 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { Contract.Branch = value; }
         }
         public InternalEmployee AccountExecutive{
-                                                get { return Contract.AccountExecutive; }
+                                                get { return Contract.AccountExecutive ?? new InternalEmployee(); }
                                                 set { Contract.AccountExecutive = value; }}
 
         public InternalEmployee GMAssigned
         {
-            get { return Contract.GMAssigned; } 
+            get { return Contract.GMAssigned ?? new InternalEmployee(); } 
                                                 set { Contract.GMAssigned = value; } }
 
         public InternalEmployee ComissionAssigned
         {
-            get { return Contract.ComissionAssigned; } 
+            get { return Contract.ComissionAssigned ?? new InternalEmployee(); } 
                                                 set { Contract.ComissionAssigned = value; } }
 
         public string InvoiceFrequency {        get { return Contract.InvoiceFrequency; } 
