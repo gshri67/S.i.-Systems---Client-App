@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AccountExecutiveApp.Core.TableViewSourceModel;
 using AccountExecutiveApp.Core.ViewModel;
 using CoreGraphics;
@@ -335,8 +336,8 @@ namespace AccountExecutiveApp.iOS
             {
                 _contractModel.Branch = newValue;
 
-                _supportModel.UpdateColleaguesWithBranch( int.Parse(newValue));
-                tableView.ReloadData();
+                Task task = _supportModel.UpdateColleaguesWithBranch( int.Parse(newValue));
+                task.ContinueWith(_ => InvokeOnMainThread(tableView.ReloadData), TaskContinuationOptions.OnlyOnRanToCompletion);
             };
             cell.UpdateCell("Branch", _supportModel.BranchOptions, _contractModel.Branch);
 
@@ -421,6 +422,43 @@ namespace AccountExecutiveApp.iOS
             cell.UpdateCell("Quick Pay", _contractModel.UsingQuickPay);
             
             return cell;
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (IsAccountExecutiveCell(indexPath))
+            {
+                SingleSelectTableViewController vc = new SingleSelectTableViewController();
+                vc.SetData(_supportModel.AccountExecutiveOptions.ToList(), _contractModel.AccountExecutive.Id);
+                vc.OnSelectionChanged = delegate(InternalEmployee selected)
+                {
+                    _contractModel.AccountExecutive = _supportModel.GetAccountExecutiveWithName(selected.FullName);
+                    tableView.ReloadData();
+                };
+                _parentController.ShowViewController(vc, _parentController);
+            }
+            else if (IsComissionAssignedCell(indexPath))
+            {
+                SingleSelectTableViewController vc = new SingleSelectTableViewController();
+                vc.SetData(_supportModel.ComissionAssignedOptions.ToList(), _contractModel.ComissionAssigned.Id);
+                vc.OnSelectionChanged = delegate(InternalEmployee selected)
+                {
+                    _contractModel.ComissionAssigned = _supportModel.GetComissionAssignedWithName(selected.FullName);
+                    tableView.ReloadData();
+                };
+                _parentController.ShowViewController(vc, _parentController);
+            }
+            else if (IsGMAssignedCell(indexPath))
+            {
+                SingleSelectTableViewController vc = new SingleSelectTableViewController();
+                vc.SetData(_supportModel.GMAssignedOptions.ToList(), _contractModel.GMAssigned.Id);
+                vc.OnSelectionChanged = delegate(InternalEmployee selected)
+                {
+                    _contractModel.GMAssigned = _supportModel.GetGMAssignedWithName(selected.FullName);
+                    tableView.ReloadData();
+                };
+                _parentController.ShowViewController(vc, _parentController);
+            }
         }
 
         public override UIView GetViewForHeader(UITableView tableView, nint section)

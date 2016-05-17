@@ -44,32 +44,9 @@ namespace AccountExecutiveApp.Core.ViewModel
         public List<string> InvoiceFrequencyOptions { get { return ContractOptions.InvoiceFrequencyOptions.ToList(); } }
         public List<string> InvoiceFormatOptions { get { return ContractOptions.InvoiceFormatOptions.ToList(); } }
 
-        private List<InternalEmployee> AccountExecutiveOptions
+        public List<InternalEmployee> AccountExecutiveOptions
         {
             get { return ContractOptions.Colleagues.ToList(); }
-            /*
-            get
-            {
-                return new List<InternalEmployee>(new InternalEmployee[] { new InternalEmployee
-            {
-                Id = 1,
-                FirstName = "Robert",
-                LastName = "Paulson"
-            },
-            new InternalEmployee
-            {
-                Id = 2,
-                FirstName = "Bob",
-                LastName = "Smith"
-            },
-            new InternalEmployee
-            {
-                Id = 3,
-                FirstName = "Fred",
-                LastName = "Flintstone"
-            }
-        });
-            }*/
         }
         public List<string> AccountExecutiveOptionDescriptions
         {
@@ -81,7 +58,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             return AccountExecutiveOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-        private List<InternalEmployee> GMAssignedOptions
+        public List<InternalEmployee> GMAssignedOptions
         {
             get { return ContractOptions.Colleagues.ToList(); }
         }
@@ -96,7 +73,7 @@ namespace AccountExecutiveApp.Core.ViewModel
             return GMAssignedOptions.FirstOrDefault(c => c.FullName == name);
         }
 
-        private List<InternalEmployee> ComissionAssignedOptions
+        public List<InternalEmployee> ComissionAssignedOptions
         {
             get { return ContractOptions.Colleagues.ToList(); }
         }

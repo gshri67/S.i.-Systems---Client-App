@@ -70,7 +70,7 @@ namespace AccountExecutiveApp.iOS
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 			TableView.Source = new ContractCreationDetailsTableViewSource(this, _viewModel, _optionsModel);
-		    TableView.AllowsSelection = false;
+		    //TableView.AllowsSelection = false;
 
 		    TableView.AlwaysBounceVertical = false;
 		    TableView.Bounces = false;
