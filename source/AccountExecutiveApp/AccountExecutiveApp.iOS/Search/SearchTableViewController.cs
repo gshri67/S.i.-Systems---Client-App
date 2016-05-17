@@ -54,6 +54,17 @@ namespace AccountExecutiveApp.iOS
 		    };
 
             TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
+
+            UILabel noResultsOverlay = new UILabel()
+            {
+                Text = "There are no results",
+                Lines = 0,
+                BackgroundColor = UIColor.Clear,
+                TextAlignment = UITextAlignment.Center,
+                Frame = TableView.Bounds
+            };
+            View.AddSubview(noResultsOverlay);
+            View.BringSubviewToFront(TableView);
 		}
 
 	    public override void TouchesBegan(NSSet touches, UIEvent evt)
@@ -121,6 +132,9 @@ namespace AccountExecutiveApp.iOS
 	    public void OnFilteredSearchResultsReturned()
 	    {
             _tableSource.ReloadWithFilteredContacts( _viewModel.FilteredClientContacts, _viewModel.FilteredContractors );
+
+	        TableView.Hidden = _viewModel.FilteredClientContacts.Count() + _viewModel.FilteredContractors.Count() == 0;
+
             TableView.ReloadData();
 	    }
 
