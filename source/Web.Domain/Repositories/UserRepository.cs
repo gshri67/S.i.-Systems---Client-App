@@ -36,7 +36,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 return user;
             }
         }
-
+        
         public User FindByName(string username)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -49,6 +49,19 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
                 return user;
             }
         }
+        
+        public User FindByPrimaryEmail(string username)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query = "Select User_Login.UserId, users.[FirstName] FirstName, users.[LastName] LastName, users.[UserType], users.[ClientPortalTypeID] ClientPortalType, users.ClientPortalFTAlumniTypeID FloThruAlumniAccess, User_Login.[Login], User_Login.[Password] PasswordHash, C.[CompanyID] CompanyId, C.[CompanyName], C.[MaxVisibleRatePerHour] as ClientsMaxVisibleRate, C.[IsHavingFTAlumni] IsCompanyParticipating From     user_email INNER JOIN users ON users.userid = user_email.userid INNER JOIN [User_Login] ON [User_Login].userid = users.userid LEFT JOIN [Company] as C on users.CompanyID = C.CompanyID Where user_email.[PrimaryEmail] = @Username and User_Login.ForceUpdate = 0 and users.usertype in (select picklistid from dbo.udf_getpicklistids('userroles',' Candidate,New Candidate ',-1))";
+
+                var user = db.Connection.Query<User>(query, new {Username = username}).FirstOrDefault();
+                SetAccessLevel(user);
+                return user;
+            }
+        }
+
 
         #region Workaround
 

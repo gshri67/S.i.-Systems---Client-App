@@ -21,5 +21,10 @@ namespace SiSystems.ClientApp.Web.Domain.Services
         {
             return _repository.FindByName(username);
         }
+
+        public User FindByPrimaryEmail(string username)
+        {
+            return _repository.FindByPrimaryEmail(username);
+        }
     }
 }
