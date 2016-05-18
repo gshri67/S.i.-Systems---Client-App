@@ -39,18 +39,25 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         
         public User FindByName(string username)
         {
-            /*
+            User foundUser = FindByPrimaryEmail(username);
+
+            if (foundUser == null)
+                foundUser = FindByUserName(username);
+
+            return foundUser;
+        }
+
+        private User FindByUserName(string username)
+        {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string query = UserQueryBase
                                     + " AND UL.Login = @Username";
 
-                var user = db.Connection.Query<User>(query, new {Username = username}).FirstOrDefault();
+                var user = db.Connection.Query<User>(query, new { Username = username }).FirstOrDefault();
                 SetAccessLevel(user);
                 return user;
-            }*/
-
-            return FindByPrimaryEmail(username);
+            }
         }
         
         public User FindByPrimaryEmail(string username)
