@@ -65,6 +65,8 @@ namespace AccountExecutiveApp.iOS
                 return GetLimitationOfContractCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _paymentPlanCellRow))
                 return GetPaymentPlanCell(tableView, indexPath);
+            if (IsIndexFromCell(indexPath, _branchCellRow))
+                return GetBranchCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _accountExecutiveCellRow))
                 return GetAccountExecutiveCell(tableView, indexPath);
             if (IsIndexFromCell(indexPath, _GMAssignedCellRow))
@@ -193,10 +195,14 @@ namespace AccountExecutiveApp.iOS
             get { return _limitationOfContractCellRow + 1; }
         }
 
+        private int _branchCellRow
+        {
+            get { return _paymentPlanCellRow + 1; }
+        }
 
         private int _accountExecutiveCellRow
         {
-            get { return _paymentPlanCellRow + 1; }
+            get { return _branchCellRow + 1; }
         }
 
 
@@ -489,6 +495,15 @@ namespace AccountExecutiveApp.iOS
         {
             EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
             cell.UpdateCell("Payment Plan", _contractModel.PaymentPlan);
+
+            return cell;
+        }
+
+
+        private UITableViewCell GetBranchCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            EditableTextFieldCell cell = (EditableTextFieldCell)tableView.DequeueReusableCell(EditableTextFieldCell.CellIdentifier, indexPath);
+            cell.UpdateCell("Branch", _contractModel.Branch);
 
             return cell;
         }
