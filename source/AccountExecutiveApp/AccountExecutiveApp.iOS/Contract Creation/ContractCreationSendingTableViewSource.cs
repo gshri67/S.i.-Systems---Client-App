@@ -251,7 +251,7 @@ namespace AccountExecutiveApp.iOS
             {
                 tableView.ReloadData();
             };
-
+            cell.UserInteractionEnabled = true;
 
             return cell;
         }
@@ -301,6 +301,7 @@ namespace AccountExecutiveApp.iOS
             {
                 _contractModel.SummaryReasonForNotSendingContract = newValue;
             };
+            cell.UserInteractionEnabled = true;
 
             return cell;
         }
