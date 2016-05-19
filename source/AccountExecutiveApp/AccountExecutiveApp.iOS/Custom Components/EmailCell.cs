@@ -1,7 +1,9 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using UIKit;
+using MonoTouch;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -11,7 +13,7 @@ namespace AccountExecutiveApp.iOS
         public UILabel SubjectTextLabel;
         public UILabel BodyTextLabel;
         public UILabel SubjectDetailsTextLabel;
-        public UILabel BodyDetailsTextLabel;
+        public UITextView BodyDetailsTextLabel;
 
         public EmailCell(IntPtr handle)
             : base(handle)
@@ -78,14 +80,29 @@ namespace AccountExecutiveApp.iOS
         }
         private void CreateAndAddBodyDetailsTextLabel()
         {
-            BodyDetailsTextLabel = new UILabel
+            BodyDetailsTextLabel = new UITextView()
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 TextAlignment = UITextAlignment.Left,
                 Font = UIFont.FromName("Helvetica", 16f),
                 TextColor = UIColor.Black,
-                Lines = 0
+                ScrollEnabled = false,
+                Selectable = true,
+                Editable = false,
+                UserInteractionEnabled = true
             };
+
+            BodyDetailsTextLabel.DataDetectorTypes = UIDataDetectorType.Link;
+            /*
+            BodyDetailsTextLabel.ShouldInteractWithUrl =
+                delegate(UITextView textView, NSUrl url, NSRange range)
+                {
+                    Console.WriteLine("Tapped URL!");
+
+                    return false;
+                };
+            */
+
             AddSubview(BodyDetailsTextLabel);
         }
 
@@ -134,7 +151,38 @@ namespace AccountExecutiveApp.iOS
         public void UpdateCell(string subjectDetailsText, string bodyDetailsText)
         {
             SubjectDetailsTextLabel.Text = subjectDetailsText;
-            BodyDetailsTextLabel.Text = bodyDetailsText;
+            //BodyDetailsTextLabel.Text = bodyDetailsText;
+
+            NSMutableAttributedString attributedDetails = new NSMutableAttributedString(bodyDetailsText);
+
+            string textForUrl = "Click here";
+            List<int> indicies = AllIndexesOf(bodyDetailsText, textForUrl);
+
+            List<string> urlList = new List<string>(){"http://www.google.com", "http://www.google.com"};
+
+            for(int i = 0; i < indicies.Count; i ++ )
+            {
+                int startIndex = indicies[i];
+                NSUrl url = NSUrl.FromString(urlList[i]);
+
+                attributedDetails.AddAttribute(UIStringAttributeKey.Link, url, new NSRange(startIndex, textForUrl.Length));    
+            }
+
+            BodyDetailsTextLabel.AttributedText = attributedDetails;
+        }
+
+        public static List<int> AllIndexesOf(string str, string value)
+        {
+            if (String.IsNullOrEmpty(value))
+                throw new ArgumentException("the string to find may not be empty", "value");
+            List<int> indexes = new List<int>();
+            for (int index = 0; ; index += value.Length)
+            {
+                index = str.IndexOf(value, index);
+                if (index == -1)
+                    return indexes;
+                indexes.Add(index);
+            }
         }
     }
 }

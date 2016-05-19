@@ -42,7 +42,8 @@ namespace AccountExecutiveApp.iOS
             else
                 cell = new UITableViewCell();
 
-            cell.UserInteractionEnabled = false;
+            if (indexPath.Section != _contractModel.NumRates + 3) //Email
+                cell.UserInteractionEnabled = false;
 
             return cell;
         }
