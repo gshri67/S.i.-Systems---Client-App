@@ -69,16 +69,20 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetRateTypeCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+            //    (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+                       new EditablePickerCell(EditablePickerCell.CellIdentifier);
 
-            cell.OnValueChanged += delegate(string newValue)
+            if (cell != null)
             {
-                _contractModel.SetRateTypeAtIndex(newValue, (int)indexPath.Section);
+                cell.OnValueChanged += delegate(string newValue)
+                {
+                    _contractModel.SetRateTypeAtIndex(newValue, (int) indexPath.Section);
 
-                EvaluateDynamicCells(tableView);
-            };
-            cell.UpdateCell("Rate Type", _supportModel.RateTypeOptions, _contractModel.RateTypeAtIndex((int)indexPath.Section));
-
+                    EvaluateDynamicCells(tableView);
+                };
+                cell.UpdateCell("Rate Type", _supportModel.RateTypeOptions,
+                    _contractModel.RateTypeAtIndex((int) indexPath.Section));
+            }
             return cell;
         }
 
@@ -111,9 +115,19 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetRateDescriptionCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.OnValueChanged += delegate(string newValue) { _contractModel.SetRateDescriptionAtIndex(newValue, (int)indexPath.Section); };
-            cell.UpdateCell("Rate Description", _supportModel.RateDescriptionOptions, _contractModel.RateDescriptionAtIndex((int)indexPath.Section));
+            //    (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+                                   new EditablePickerCell(EditablePickerCell.CellIdentifier);
+
+            if (cell != null)
+            {
+                cell.OnValueChanged +=
+                    delegate(string newValue)
+                    {
+                        _contractModel.SetRateDescriptionAtIndex(newValue, (int) indexPath.Section);
+                    };
+                cell.UpdateCell("Rate Description", _supportModel.RateDescriptionOptions,
+                    _contractModel.RateDescriptionAtIndex((int) indexPath.Section));
+            }
             return cell;
         }
 
@@ -185,14 +199,18 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetIsPrimaryRateCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditablePickerCell cell =
-                (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Primary Rate", _contractModel.IsPrimaryRateAtIndex((int)indexPath.Section));
-            cell.OnValueChanged += delegate(string newValue)
-            {
-                if (newValue == "Yes")  _contractModel.SetPrimaryRateForIndex((int)indexPath.Section);
-                tableView.ReloadData();
-            };
+           //     (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
+                                  new EditablePickerCell(EditablePickerCell.CellIdentifier);
 
+            if (cell != null)
+            {
+                cell.UpdateCell("Primary Rate", _contractModel.IsPrimaryRateAtIndex((int) indexPath.Section));
+                cell.OnValueChanged += delegate(string newValue)
+                {
+                    if (newValue == "Yes") _contractModel.SetPrimaryRateForIndex((int) indexPath.Section);
+                    tableView.ReloadData();
+                };
+            }
             return cell;
         }
 
