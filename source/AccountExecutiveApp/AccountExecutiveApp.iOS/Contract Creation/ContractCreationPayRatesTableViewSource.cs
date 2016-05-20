@@ -85,11 +85,25 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetHoursPerDayCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableNumberFieldCell cell =
-                (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+                //(EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+                new EditableNumberFieldCell(EditableNumberFieldCell.CellIdentifier);
 
-            cell.UpdateCell("Hours", _contractModel.HoursPerDayAtIndex((int)indexPath.Section).ToString());
-            cell.OnValueChanged += delegate(float newValue) { _contractModel.SetHoursPerDayAtIndex((int)newValue, (int)indexPath.Section); };
-            cell.UsingDollarSign = false;
+            if (cell != null)
+            {
+                cell.UpdateCell("Hours", _contractModel.HoursPerDayAtIndex((int) indexPath.Section).ToString());
+                cell.OnValueChanged +=
+                    delegate(float newValue)
+                    {
+                        
+                    };
+                cell.OnValueFinalized +=
+                    delegate(float newValue)
+                    {
+                        _contractModel.SetHoursPerDayAtIndex((int)newValue, (int)indexPath.Section);
+                    };
+                cell.UsingDollarSign = false;
+                cell.UserInteractionEnabled = true;
+            }
 
             return cell;
         }
@@ -106,38 +120,49 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetBillRateCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableNumberFieldCell cell =
-                (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Bill Rate", _contractModel.BillRateAtIndex((int)indexPath.Section));
-            cell.OnValueChanged += delegate(float newValue)
-            {
-                _contractModel.SetBillRateAtIndex(newValue.ToString(), (int) indexPath.Section);
-            };
-            cell.OnValueFinalized += delegate(float newValue)
-            {
-                //to update the gross margin we reload the table
-                tableView.ReloadData();
-            };
-            cell.UsingDollarSign = true;
+             //   (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+                new EditableNumberFieldCell(EditableNumberFieldCell.CellIdentifier);
 
+            if (cell != null)
+            {
+                cell.UpdateCell("Bill Rate", _contractModel.BillRateAtIndex((int) indexPath.Section));
+                cell.OnValueChanged += delegate(float newValue)
+                {
+                    _contractModel.SetBillRateAtIndex(newValue.ToString(), (int) indexPath.Section);
+                };
+                cell.OnValueFinalized += delegate(float newValue)
+                {
+                    //to update the gross margin we reload the table
+                    tableView.ReloadData();
+                };
+                cell.UsingDollarSign = true;
+                cell.UserInteractionEnabled = true;
+            }
             return cell;
         }
 
         private UITableViewCell GetPayRateCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableNumberFieldCell cell =
-                (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
-            cell.UpdateCell("Pay Rate", _contractModel.PayRateAtIndex((int)indexPath.Section));
-            cell.OnValueChanged += delegate(float newValue)
-            {
-                _contractModel.SetPayRateAtIndex(newValue.ToString(), (int)indexPath.Section);
-            };
-            cell.OnValueFinalized += delegate(float newValue)
-            {
-                //to update the gross margin we reload the table
-                tableView.ReloadData();
-            };
+                //(EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+                new EditableNumberFieldCell(EditableNumberFieldCell.CellIdentifier);
 
-            cell.UsingDollarSign = true;
+            if (cell != null)
+            {
+                cell.UpdateCell("Pay Rate", _contractModel.PayRateAtIndex((int) indexPath.Section));
+                cell.OnValueChanged += delegate(float newValue)
+                {
+                    _contractModel.SetPayRateAtIndex(newValue.ToString(), (int) indexPath.Section);
+                };
+                cell.OnValueFinalized += delegate(float newValue)
+                {
+                    //to update the gross margin we reload the table
+                    tableView.ReloadData();
+                };
+
+                cell.UsingDollarSign = true;
+                cell.UserInteractionEnabled = true;
+            }
 
             return cell;
         }
@@ -145,12 +170,15 @@ namespace AccountExecutiveApp.iOS
         private UITableViewCell GetGrossMarginCell(UITableView tableView, NSIndexPath indexPath)
         {
             EditableNumberFieldCell cell =
-                (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
-            
-            cell.UpdateCell("GM", _contractModel.GrossMarginAtIndex((int)indexPath.Section));
-            cell.UserInteractionEnabled = false;
-            cell.UsingDollarSign = true;
+               // (EditableNumberFieldCell)tableView.DequeueReusableCell(EditableNumberFieldCell.CellIdentifier, indexPath);
+                           new EditableNumberFieldCell(EditableNumberFieldCell.CellIdentifier);
 
+            if (cell != null)
+            {
+                cell.UpdateCell("GM", _contractModel.GrossMarginAtIndex((int) indexPath.Section));
+                cell.UserInteractionEnabled = false;
+                cell.UsingDollarSign = true;
+            }
             return cell;
         }
 

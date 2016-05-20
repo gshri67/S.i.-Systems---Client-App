@@ -205,16 +205,15 @@ namespace AccountExecutiveApp.Core.ViewModel
             rate.Description = string.Empty;
             rate.BillRate = 0;
 
-            if (NumRates == 0)
-                rate.IsPrimaryRate = true;
-
             var rateList = Contract.Rates.ToList();
             rateList.Add(rate);
             Contract.Rates = rateList.AsEnumerable();
 
-
-
             NumRates ++;
+
+
+            if (NumRates == 1)
+                SetPrimaryRateForIndex(0);
         }
 
         public void DeleteRate( int index )
