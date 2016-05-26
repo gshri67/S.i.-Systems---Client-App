@@ -19,8 +19,13 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id);
         ConsultantContract GetContractDetailsById(int id);
         IEnumerable<ConsultantContract> GetContractsByContractorId(int id);
-        int SubmitContract(Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId, string candidateEmail, int internalUserId);
-        int SubmitRateTermDetailsForJob(User user, int agreementId, Rate rate, DateTime startDate, DateTime endDate);
+
+        int SubmitContract(Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId,
+            string candidateEmail, int internalUserId, int timeFactorId, int paymentPlanId, int invoiceFormatId,
+            int invoiceFrequencyId, int candidatePaymentId, int SAID);
+
+        int SubmitRateTermDetailsForJob(User user, int rateTypeId, int agreementId, Rate rate, DateTime startDate,
+            DateTime endDate, string PAMRateId);
     }
 
     public class ConsultantContractRepository : IConsultantContractRepository
@@ -360,7 +365,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
-        public int SubmitContract( Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId, string candidateEmail, int internalUserId )
+        public int SubmitContract( Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId, string candidateEmail, int internalUserId, int timeFactorId, int paymentPlanId, int invoiceFormatId, int invoiceFrequencyId, int candidatePaymentId, int SAID )
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -413,29 +418,34 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     contactuserid = job.ClientContact.Id,
                     candidateuserid = candidateUserId,
                     candidateemail = candidateEmail,
-                    timefactortype = contract.TimeFactor,
-                    paymentplantype = contract.PaymentPlan,
+                    timefactortype = timeFactorId,
+                    paymentplantype = paymentPlanId,
                     cancellation = contract.DaysCancellation,
                     jobtitle = job.Title,
                     activetimesheet = timesheet.Id,
                     activeproject = 1,
+                    /*
+                     @activetimesheet – A bit value for Timesheet Access field
+@activeproject – A bit value for Timesheet Project Access field
+
+                     */
                     expenditure = contract.LimitationExpense,
-                    expenseexpenditure = contract.LimitationExpense,
+                    expenseexpenditure = contract.LimitationOfContractValue,
                     contractcandidatename = job.ClientName,
                     contractclientcontactname = job.ClientContact.ClientName,
                     TimeSheetType = MatchGuideConstants.TimesheetType.ETimesheet,
-                    IsThirdPartyBilling = false,
-                    IsThridPartyPay = false,
+                    IsThirdPartyBilling = 0,
+                    IsThridPartyPay = 0,
                     ThirdPartyBillingCompany = 0,
                     ThirdPartyPayCandidate = 0,
                     InvoiceFrequency = contract.InvoiceFrequency,
                     CandidatePaymentType = 714,
                     VerticalID = MatchGuideConstants.VerticalId.IT,
                     Limitationofcontracttype = contract.LimitationOfContractType,
-                    //InvoiceFormatId = ,//generally == 9
+                    InvoiceFormatId = invoiceFormatId,
                     HasProjectPO = false,
                     Quickpay = contract.UsingQuickPay,
-                    //SAID = //is this the association id?
+                    SAID = SAID
                 }).FirstOrDefault();
 
                 return result;
@@ -470,7 +480,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
    
-        public int SubmitRateTermDetailsForJob(User user, int agreementId, Rate rate, DateTime startDate, DateTime endDate )
+        public int SubmitRateTermDetailsForJob(User user, int rateTypeId, int agreementId, Rate rate, DateTime startDate, DateTime endDate, string PAMRateId )
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -498,7 +508,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 var result = db.Connection.Query<int>(query, new
                 {
                     internaluserid = user.Id,
-                    ratetermtype = rate.RateType,
+                    ratetermtype = rateTypeId,
                     nbrhours = rate.HoursPerDay,
                     description = rate.Description,
                     billrate = rate.BillRate,
@@ -510,17 +520,22 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     comments = string.Format("Rate Term for Contract ID"),
                     activityTypename = "ContractRateTerm",
                     IsPrimary = rate.IsPrimaryRate,
-                    PAMRateID = 0,
-                    InActive = false,
-                    AdminFee = 0,
+                    PAMRateID = PAMRateId,
+                    InActive = 0,
+                    AdminFee = 0,//<NetPay> for sole-prop and term candidates otherwise NULL
                     VerticalID = MatchGuideConstants.VerticalId.IT
-
+                    //@TotalMarginContract - NULL ??? what is this field. It does not seem to be in our stored procedure
                 }).FirstOrDefault();
 
                 return result;
             }
         }
     }
+    /*
+     @comments – ‘Rate Term for Contract ID - <AgreementSubID> <br> Bill Rate: <$BillRate> <br> Gross Pay: <$Payrate> <br> Net Pay: <$NetPay>  <br> Gross Margin: <GmRate>’ for sole-prop and term candidates.
+‘Rate Term for Contract ID - <AgreementSubID> <br> Bill Rate: <$BillRate> <br> Pay rate: <$Payrate> <br> Gross Margin: <GmRate>’ for other candidates.
+
+     */
 
     internal static class AccountExecutiveContractsQueries
     {
@@ -756,12 +771,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             return new List<ConsultantContract> {ActiveMarketerAtNexenContract};
         }
 
-        public int SubmitContract(Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId, string candidateEmail, int internalUserId)
+        public int SubmitContract(Job job, ContractCreationDetails contract, Timesheet timesheet, int candidateUserId,
+            string candidateEmail, int internalUserId, int timeFactorId, int paymentPlanId, int invoiceFormatId,
+            int invoiceFrequencyId, int candidatePaymentId, int SAID)
         {
             throw new NotImplementedException();
         }
 
-        public int SubmitRateTermDetailsForJob(User user, int agreementId, Rate rate, DateTime startDate, DateTime endDate)
+        public int SubmitRateTermDetailsForJob(User user, int rateTypeId, int agreementId, Rate rate, DateTime startDate, DateTime endDate, string PAMRateId)
         {
             throw new NotImplementedException();
         }

@@ -136,10 +136,10 @@ namespace AccountExecutiveApp.iOS
 	    {
             IndicateLoading();
 
-	        //var task = ViewModel.SubmitContract();
-	        //task.ContinueWith(_ => InvokeOnMainThread(ContractSuccessfullyCreated), TaskContinuationOptions.OnlyOnRanToCompletion);  
+	        var task = ViewModel.SubmitContract();
+	        task.ContinueWith(_ => InvokeOnMainThread(ContractSuccessfullyCreated), TaskContinuationOptions.OnlyOnRanToCompletion);  
 
-            ContractSuccessfullyCreated();
+            //ContractSuccessfullyCreated();
 	    }
 
 	    private void ContractSuccessfullyCreated()

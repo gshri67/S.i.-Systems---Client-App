@@ -17,15 +17,17 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
         private readonly IConsultantContractRepository _contractRepo;
         private readonly IUserContactRepository _usersRepo;
         private readonly ITimesheetRepository _timesheetRepo;
+        private readonly IPickListValuesRepository _pickListRepo;
         private readonly ISessionContext _session;
 
-        public ContractCreationService(IContractorRateRepository rateRepo, IJobsRepository jobsRepo, IConsultantContractRepository contractRepo, IUserContactRepository usersRepo, ITimesheetRepository timesheetRepo, ISessionContext session)
+        public ContractCreationService(IContractorRateRepository rateRepo, IJobsRepository jobsRepo, IConsultantContractRepository contractRepo, IUserContactRepository usersRepo, ITimesheetRepository timesheetRepo, IPickListValuesRepository pickListRepo, ISessionContext session)
         {
             _rateRepo = rateRepo;
             _jobsRepo = jobsRepo;
             _contractRepo = contractRepo;
             _usersRepo = usersRepo;
             _timesheetRepo = timesheetRepo;
+            _pickListRepo = pickListRepo;
             _session = session;
         }
 
@@ -93,12 +95,56 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             if (candidateInfo.EmailAddresses != null && candidateInfo.EmailAddresses.Any())
                 email = candidateInfo.EmailAddresses.ElementAt(0).Email;
 
-            int internalUserId = _session.CurrentUser.Id;   
+            int internalUserId = _session.CurrentUser.Id;
 
-            _contractRepo.SubmitContract(job, contractDetails, timesheet, candidateId, email, internalUserId );
+            string candidatePaymentType = string.Empty;
+            int candidatePaymentId = _pickListRepo.GetPickListIdForTitle(candidatePaymentType);
+            int SAID = 0;
+            string PamRateId = "";
+
+            _contractRepo.SubmitContract(job, contractDetails, timesheet, candidateId, email, internalUserId, _pickListRepo.GetPickListIdForTitle(contractDetails.TimeFactor), _pickListRepo.GetPickListIdForTitle(contractDetails.PaymentPlan), _pickListRepo.GetPickListIdForTitle(contractDetails.InvoiceFormat), _pickListRepo.GetPickListIdForTitle(contractDetails.InvoiceFrequency), candidatePaymentId, SAID );
 
             foreach (Rate rate in contractDetails.Rates)
-                _contractRepo.SubmitRateTermDetailsForJob(_session.CurrentUser, jobId, rate, job.StartDate, job.EndDate);
+            {
+                if (candidatePaymentType == "Sole-proprietorship")
+                {
+                                    /*
+                 IF Candidate Payment type = 'Sole-proprietorship'
+	IF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Hour’
+		@PAMRateID = ‘SOLHRS’	
+	ELSEIF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Day’
+		@PAMRateID = ‘SPDAY’
+ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Hour’
+	@PAMRateID = ‘FSSPHR’
+ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Day’
+		@PAMRateID = ‘FSSPDY’
+	ELSE
+		@PAMRateID = ‘REG’*/
+                }
+                else if (candidatePaymentType == "term")
+                {
+                    /*
+ELSEIF Candidate Payment type = 'term'
+IF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Hour’
+@PAMRateID = ‘FTHR’	
+ELSEIF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Day’
+@PAMRateID = ‘FTDY’
+ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Hour’
+@PAMRateID = ‘CTHR’
+ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Day’
+@PAMRateID = ‘CTDY’
+ELSE
+@PAMRateID = ‘REG’
+ELSE
+@PAMRateID = ‘REG’
+
+*/
+                }
+                else
+                    PamRateId = "REG";
+ 
+                _contractRepo.SubmitRateTermDetailsForJob(_session.CurrentUser, _pickListRepo.GetPickListIdForTitle(rate.RateType), jobId, rate, job.StartDate, job.EndDate, PamRateId);
+            }
 
             return 1;
         }

@@ -21,6 +21,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         IEnumerable<string> RateTermTypes();
 
         IEnumerable<string> BranchTypeOptions();
+        int GetPickListIdForTitle(string title);
     }
 
     public class PickListValuesRepository : IPickListValuesRepository
@@ -41,6 +42,19 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 var values = db.Connection.Query<string>(pickListDisplayTitleForTypeQuery, new { Type = type });
 
                 return values;
+            }
+        }
+
+        public int GetPickListIdForTitle(string title)
+        {
+            const string pickListDisplayTitleForTypeQuery =
+                @"select PickList.PickListID from PickList where PickList.Title = @title";
+
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                var values = db.Connection.Query<int>(pickListDisplayTitleForTypeQuery, new { title = title });
+
+                return values.FirstOrDefault();
             }
         }
 
@@ -169,6 +183,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
         public IEnumerable<string> BranchTypeOptions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetPickListIdForTitle(string title)
         {
             throw new NotImplementedException();
         }
