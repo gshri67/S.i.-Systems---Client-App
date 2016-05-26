@@ -36,7 +36,7 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, contract);
         }
 
-        [Route("Submit/job/{jobId}/candidate/{candidateId}/contractDetails/{contractDetails}")]
+        [Route("Submit")]
         [HttpPost]
         public HttpResponseMessage SubmitContract(int jobId, int candidateId, ContractCreationDetails contractDetails )
         {

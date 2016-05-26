@@ -379,7 +379,8 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<ContractCreationDetails_Review>(new { jobId, candidateId });
         }
 
-        [HttpPost("ContractCreation/Submit/job/{jobId}/candidate/{candidateId}/contractDetails/{contractDetails}")]
+        //[HttpPost("ContractCreation/Submit/job/{jobId}/candidate/{candidateId}/contractDetails/{contractDetails}")]
+        [HttpPost("ContractCreation/Submit")]
         public async Task<int> SubmitContract(int jobId, int candidateId, ContractCreationDetails contractDetails)
         {
             return await ExecuteWithDefaultClient<int>(new { jobId, candidateId, contractDetails });
