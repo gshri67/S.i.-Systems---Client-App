@@ -96,14 +96,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 email = candidateInfo.EmailAddresses.ElementAt(0).Email;
 
             int internalUserId = _session.CurrentUser.Id;
-            /*
+            
             string candidatePaymentType = string.Empty;
             int candidatePaymentId = _pickListRepo.GetPickListIdForTitle(candidatePaymentType);
             int SAID = 0;
             string PamRateId = "";
 
             _contractRepo.SubmitContract(job, contractDetails, timesheet, candidateId, email, internalUserId, _pickListRepo.GetPickListIdForTitle(contractDetails.TimeFactor), _pickListRepo.GetPickListIdForTitle(contractDetails.PaymentPlan), _pickListRepo.GetPickListIdForTitle(contractDetails.InvoiceFormat), _pickListRepo.GetPickListIdForTitle(contractDetails.InvoiceFrequency), candidatePaymentId, SAID );
-
+            /*
             foreach (Rate rate in contractDetails.Rates)
             {
                 if (candidatePaymentType == "Sole-proprietorship")
