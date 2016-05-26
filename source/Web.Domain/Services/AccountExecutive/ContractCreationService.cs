@@ -96,7 +96,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 email = candidateInfo.EmailAddresses.ElementAt(0).Email;
 
             int internalUserId = _session.CurrentUser.Id;
-
+            /*
             string candidatePaymentType = string.Empty;
             int candidatePaymentId = _pickListRepo.GetPickListIdForTitle(candidatePaymentType);
             int SAID = 0;
@@ -119,7 +119,7 @@ ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Hour’
 ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Day’
 		@PAMRateID = ‘FSSPDY’
 	ELSE
-		@PAMRateID = ‘REG’*/
+		@PAMRateID = ‘REG’*//*
                 }
                 else if (candidatePaymentType == "term")
                 {
@@ -138,7 +138,7 @@ ELSE
 ELSE
 @PAMRateID = ‘REG’
 
-*/
+*//*
                 }
                 else
                     PamRateId = "REG";
@@ -148,7 +148,7 @@ ELSE
 
             _contractRepo.SubmitAdminContactDetailsForJob(jobId, internalUserId, contractDetails.DirectReport.Id,
                 contractDetails.BillingContact.Id);
-
+            */
             return 1;
         }
     }
