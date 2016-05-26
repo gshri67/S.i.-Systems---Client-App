@@ -62,13 +62,26 @@ namespace AccountExecutiveApp.iOS
 
             //SearchManager.CreateNavBarLeftButton(this);
 
-            if( !_contractsWereSet )
-                LoadContracts();
-
+            //if( !_contractsWereSet )
+            //    LoadContracts();
+            /*
+		    RefreshControl.ValueChanged += delegate
+		    {
+		        LoadContracts();
+		    };
+            */
             CreateCustomTitleBar();
 
 			UpdateUI ();
 		}
+
+	    public override void ViewWillAppear(bool animated)
+	    {
+	        base.ViewWillAppear(animated);
+
+            //if (!_contractsWereSet)
+                LoadContracts();
+	    }
 
 	    private void UpdatePageTitle()
 	    {
@@ -135,13 +148,13 @@ namespace AccountExecutiveApp.iOS
 
         public async void LoadContracts()
         {
-            if (_contracts != null) return;
+            //if (_contracts != null) return;
 
             var contracts = await _contractsViewModel.getContracts();
 
             IndicateLoading();
 
-			if (!_contractsWereSet) 
+			//if (!_contractsWereSet) 
 			{
 				_contracts = contracts.Where (c => c.StatusType == StatusType && c.AgreementSubType == TypeOfContract).ToList ();
 

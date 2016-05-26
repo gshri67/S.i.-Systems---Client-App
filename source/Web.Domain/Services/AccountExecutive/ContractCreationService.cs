@@ -146,6 +146,9 @@ ELSE
                 _contractRepo.SubmitRateTermDetailsForJob(_session.CurrentUser, _pickListRepo.GetPickListIdForTitle(rate.RateType), jobId, rate, job.StartDate, job.EndDate, PamRateId);
             }
 
+            _contractRepo.SubmitAdminContactDetailsForJob(jobId, internalUserId, contractDetails.DirectReport.Id,
+                contractDetails.BillingContact.Id);
+
             return 1;
         }
     }

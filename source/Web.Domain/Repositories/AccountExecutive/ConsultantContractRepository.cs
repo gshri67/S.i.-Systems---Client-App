@@ -26,6 +26,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
         int SubmitRateTermDetailsForJob(User user, int rateTypeId, int agreementId, Rate rate, DateTime startDate,
             DateTime endDate, string PAMRateId);
+
+        int SubmitAdminContactDetailsForJob(int agreementId, int internalUserId, int directReportId,
+            int billingContactId);
     }
 
     public class ConsultantContractRepository : IConsultantContractRepository
@@ -422,7 +425,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     paymentplantype = paymentPlanId,
                     cancellation = contract.DaysCancellation,
                     jobtitle = job.Title,
-                    activetimesheet = timesheet.Id,
+                    activetimesheet = 1,
                     activeproject = 1,
                     /*
                      @activetimesheet – A bit value for Timesheet Access field
@@ -779,6 +782,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
 
         public int SubmitRateTermDetailsForJob(User user, int rateTypeId, int agreementId, Rate rate, DateTime startDate, DateTime endDate, string PAMRateId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int SubmitAdminContactDetailsForJob(int agreementId, int internalUserId, int directReportId, int billingContactId)
         {
             throw new NotImplementedException();
         }

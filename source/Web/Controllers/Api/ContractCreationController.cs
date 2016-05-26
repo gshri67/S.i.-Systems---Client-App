@@ -36,11 +36,11 @@ namespace SiSystems.AccountExecutiveApp.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, contract);
         }
 
-
-        [Route("Submit/job/{jobId}/candidate/{candidateId}/contractDetails/{contractCreationDetails}")]
-        public HttpResponseMessage SubmitContract(int jobId, int candidateId, ContractCreationDetails contractCreationDetails )
+        [Route("Submit/job/{jobId}/candidate/{candidateId}/contractDetails/{contractDetails}")]
+        [HttpPost]
+        public HttpResponseMessage SubmitContract(int jobId, int candidateId, ContractCreationDetails contractDetails )
         {
-            var result = _service.SubmitContract(jobId, candidateId, contractCreationDetails);
+            var result = _service.SubmitContract(jobId, candidateId, contractDetails);
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
