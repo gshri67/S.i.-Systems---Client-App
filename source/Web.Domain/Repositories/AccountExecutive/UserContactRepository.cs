@@ -260,6 +260,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     JOIN PickList ON PickList.PickListID = Users.UserType
                     WHERE ((PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Candidate'))
                     AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')
+                    ORDER BY Difference(FirstName + ' ' + LastName, @Query) DESC
                     UNION
                     SELECT TOP 500 Users.UserID AS Id, Users.FirstName, Users.LastName, Company.CompanyName AS ClientName
                     FROM Users
@@ -267,7 +268,8 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     JOIN PickList ON PickList.PickListID = Users.UserType
                     WHERE Company.Inactive = 0
                     AND (PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Client Contact')
-                    AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')";
+                    AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')
+                    ORDER BY Difference(FirstName + ' ' + LastName, @Query) DESC";
 
                 var contacts = db.Connection.Query<UserContact>(contactsQuery, param: new { Query = query });
                 

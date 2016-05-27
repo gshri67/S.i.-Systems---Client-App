@@ -44,7 +44,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             IEnumerable<UserContact> contacts;
 
             query = ScrubQuery(query);
-            /*
+            
             if (IsUsingWildCard(query))
             {
                 string[] wildCardQueries = query.Split('%');
@@ -55,7 +55,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                     return contacts;
                 }
             }
-            */
+            
             query = query.Replace("%", string.Empty);
 
             contacts = _repo.FindUsers(query);
@@ -65,7 +65,8 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
         private bool IsUsingWildCard(string query)
         {
-            if (query.Count(ch => ch == '%') == 2)
+            //if (query.Count(ch => ch == '%') == 2)
+            if (query.Split('%').Length == 3)
                 return true;
             return false;
         }
