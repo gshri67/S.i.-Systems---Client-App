@@ -49,14 +49,14 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             {
                 string[] wildCardQueries = query.Split('%');
 
-                if (query.Length >= 2)
+                if (wildCardQueries.Length >= 2)
                 {
                     contacts = _repo.FindUsersWithWildCardSearch(wildCardQueries[0], wildCardQueries[1]);
                     return contacts;
                 }
             }
 
-            query = query.Trim('%');
+            query = query.Replace("%", string.Empty);
 
             contacts = _repo.FindUsers(query);
 
