@@ -44,7 +44,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             IEnumerable<UserContact> contacts;
 
             query = ScrubQuery(query);
-
+            /*
             if (IsUsingWildCard(query))
             {
                 string[] wildCardQueries = query.Split('%');
@@ -55,7 +55,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                     return contacts;
                 }
             }
-
+            */
             query = query.Replace("%", string.Empty);
 
             contacts = _repo.FindUsers(query);
