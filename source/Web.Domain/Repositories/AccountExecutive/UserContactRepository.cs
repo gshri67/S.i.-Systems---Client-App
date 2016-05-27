@@ -255,21 +255,26 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contactsQuery =
-                    @"SELECT TOP 500 Users.UserID AS Id, Users.FirstName, Users.LastName , NULL as ClientName
-                    FROM Users 
-                    JOIN PickList ON PickList.PickListID = Users.UserType
-                    WHERE ((PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Candidate'))
-                    AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')
-                    ORDER BY Difference(FirstName + ' ' + LastName, @Query) DESC
-                    UNION
-                    SELECT TOP 500 Users.UserID AS Id, Users.FirstName, Users.LastName, Company.CompanyName AS ClientName
-                    FROM Users
-                    JOIN Company ON Company.CompanyID = Users.CompanyID
-                    JOIN PickList ON PickList.PickListID = Users.UserType
-                    WHERE Company.Inactive = 0
-                    AND (PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Client Contact')
-                    AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')
-                    ORDER BY Difference(FirstName + ' ' + LastName, @Query) DESC";
+                    @"SELECT TOP 500 Id, FirstName, LastName, ClientName
+                        FROM
+                        (
+                            SELECT TOP 500 Users.UserID AS Id, Users.FirstName, Users.LastName , NULL as ClientName
+                            FROM Users 
+                            JOIN PickList ON PickList.PickListID = Users.UserType
+                            WHERE ((PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Candidate'))
+                            AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')
+		
+                            UNION
+                            SELECT TOP 500 Users.UserID AS Id, Users.FirstName, Users.LastName, Company.CompanyName AS ClientName
+                            FROM Users
+                            JOIN Company ON Company.CompanyID = Users.CompanyID
+                            JOIN PickList ON PickList.PickListID = Users.UserType
+                            WHERE Company.Inactive = 0 
+                            AND (PickList.PickTypeID IN (SELECT PickTypeID FROM PickType WHERE Type = 'UserRoles') AND PickList.Title='Client Contact')
+                            AND (FirstName + ' ' + LastName LIKE  '%'+@Query+'%')
+                     
+					     ) contacts
+					     ORDER BY Difference(FirstName + ' ' + LastName, @Query) DESC";
 
                 var contacts = db.Connection.Query<UserContact>(contactsQuery, param: new { Query = query });
                 
