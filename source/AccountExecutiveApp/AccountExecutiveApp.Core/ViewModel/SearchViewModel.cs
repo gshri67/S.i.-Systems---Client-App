@@ -28,8 +28,6 @@ namespace AccountExecutiveApp.Core.ViewModel
             set { _clientContacts = value ?? Enumerable.Empty<UserContact>(); }
         }
 
-
-
         private IEnumerable<UserContact> _filteredContractors;
 
         public IEnumerable<UserContact> FilteredContractors
@@ -72,20 +70,24 @@ namespace AccountExecutiveApp.Core.ViewModel
             return task;
         }
 
-        /*
-         var contacts = await _api.GetClientContacts();
-            Contractors = contacts.Where(contact => string.IsNullOrEmpty(contact.ClientName));
-            ClientContacts = contacts.Where(contact => !string.IsNullOrEmpty(contact.ClientName));
-
-         */
-
         private async Task GetSearchDataWithFilter( string filter )
         {
-            //FilteredContractors = await _api.GetContractorsWithFilter( filter );
             IEnumerable<UserContact> FilteredContacts = await _api.GetClientContactsWithFilter( filter );
 
-            FilteredClientContacts = FilteredContacts.Where(contact => !string.IsNullOrEmpty(contact.ClientName)).OrderBy(contact => contact.FullName);
-            FilteredContractors = FilteredContacts.Where(contact => string.IsNullOrEmpty(contact.ClientName)).OrderBy(contact => contact.FullName);
+            if (FilteredContacts == null || FilteredContacts.Count() == 0)
+            {
+                FilteredClientContacts = Enumerable.Empty<UserContact>();
+                FilteredContractors = Enumerable.Empty<UserContact>();
+            }
+            else
+            {
+                FilteredClientContacts =
+                    FilteredContacts.Where(contact => !string.IsNullOrEmpty(contact.ClientName))
+                        .OrderBy(contact => contact.FullName);
+                FilteredContractors =
+                    FilteredContacts.Where(contact => string.IsNullOrEmpty(contact.ClientName))
+                        .OrderBy(contact => contact.FullName);
+            }
         }
     }
 }
