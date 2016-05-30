@@ -52,7 +52,7 @@ CREATE TABLE [dbo].[User_Login](
 	--[UpdateDateTime] [smalldatetime] NULL,
 	--[Password_Expiry] [smalldatetime] NULL,
 	--[Old_Password] [nvarchar](50) NULL,
-	--[ForceUpdate] [bit] NULL CONSTRAINT [DF_User_Login_ForceUpdate]  DEFAULT ((0)),
+	[ForceUpdate] [bit] NULL -- CONSTRAINT [DF_User_Login_ForceUpdate]  DEFAULT ((0)),
 	--[ActiveDirectoryLogin] [varchar](100) NULL,
 	--[verticalid] [int] NULL,
 	CONSTRAINT [PK_UserLogin] PRIMARY KEY CLUSTERED 

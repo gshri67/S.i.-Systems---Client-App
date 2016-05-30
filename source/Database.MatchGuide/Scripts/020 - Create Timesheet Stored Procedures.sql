@@ -3807,3 +3807,80 @@ GO
 
 
 
+
+
+--User LoginLog for analytics
+
+/****** Object:  Table [dbo].[User_LoginLog]    Script Date: 5/30/2016 1:28:01 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[User_LoginLog](
+	[LogId] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [int] NOT NULL,
+	[LoginTime] [smalldatetime] NOT NULL,
+	[Success] [bit] NOT NULL,
+	[ISAPPLOGIN] [bit] NULL DEFAULT ((0)),
+ CONSTRAINT [PK_User_LoginLog] PRIMARY KEY CLUSTERED 
+(
+	[LogId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[User_LoginLog]  WITH CHECK ADD  CONSTRAINT [FK_UserLoginLog_UserDetails] FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+
+ALTER TABLE [dbo].[User_LoginLog] CHECK CONSTRAINT [FK_UserLoginLog_UserDetails]
+GO
+
+
+
+
+
+
+--Login Analytics
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USPSetUserLoginLog]') AND TYPE in (N'P', N'PC'))
+BEGIN
+	DROP PROCEDURE [dbo].[USPSetUserLoginLog]
+	PRINT 'Dropped Procedure:USPSetUserLoginLog'
+END
+GO
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------  
+Name:   [USPSetUserLoginLog]  
+Description: Log users login history
+Purpose:  
+-----------------------------------------------------------------------------------------------------------------------------------------  
+Version		Date		Author    BugID				Notes  
+-----------------------------------------------------------------------------------------------------------------------------------------  
+1.0 	09-MAy-2016		Kavitha.S MG-13586        DEV facto-Mobile app for contract creation
+
+USPSetUserLoginLog 'test.it','maran.v@sisystems.com','Internal User',1
+-----------------------------------------------------------------------------------------------------------------------------------------*/  
+
+Create Procedure DBO.USPSetUserLoginLog
+
+@Login VARCHAR(100), 
+@Success BIT,
+@IsAppLogin BIT
+AS
+	BEGIN
+	
+		INSERT INTO User_LoginLog(USERID,LOGINTIME,SUCCESS,ISAPPLOGIN)
+		SELECT 		user_login.UserId, getdate(), @Success, @IsAppLogin
+		FROM 		user_login 
+		WHERE user_login.[Login] = 	@Login	
+
+	END
+GO
+
+PRINT 'Created Procedure: USPSetUserLoginLog'
+GO

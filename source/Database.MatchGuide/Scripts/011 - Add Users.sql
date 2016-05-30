@@ -17,12 +17,12 @@ SET IDENTITY_INSERT [dbo].[Users] OFF;
 
 INSERT INTO [dbo].[User_Login]
 (
-	[UserID], [Login], [Password]
+	[UserID], [Login], [Password], [ForceUpdate]
 )
 VALUES
-(1, 'bob.smith@email.com', '5F4DCC3B5AA765D61D8327DEB882CF99'),
-(2, 'tom.smith@email.com', '5F4DCC3B5AA765D61D8327DEB882CF99'),
-(3, 'sally.smitherson@email.com', '5F4DCC3B5AA765D61D8327DEB882CF99');
+(1, 'bob.smith@email.com', '5F4DCC3B5AA765D61D8327DEB882CF99', 0),
+(2, 'tom.smith@email.com', '5F4DCC3B5AA765D61D8327DEB882CF99', 0),
+(3, 'sally.smitherson@email.com', '5F4DCC3B5AA765D61D8327DEB882CF99', 0);
 
 
 INSERT INTO [dbo].[User_Email]
