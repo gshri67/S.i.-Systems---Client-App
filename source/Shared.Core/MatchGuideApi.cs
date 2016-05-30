@@ -305,6 +305,8 @@ namespace Shared.Core
         [HttpGet("UserContact/Filter/{filter}")]
         public async Task<IEnumerable<UserContact>> GetClientContactsWithFilter( string filter )
         {
+            filter = filter.Replace('%', ';');
+
             return await ExecuteWithDefaultClient<IEnumerable<UserContact>>( new {filter} );
         }
 

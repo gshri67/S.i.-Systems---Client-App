@@ -47,7 +47,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             
             if (IsUsingWildCard(query))
             {
-                string[] wildCardQueries = query.Split('%');
+                string[] wildCardQueries = query.Split(';');
 
                 if (wildCardQueries.Length >= 2)
                 {
@@ -56,7 +56,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
                 }
             }
             
-            query = query.Replace("%", string.Empty);
+            query = query.Replace(";", string.Empty);
 
             contacts = _repo.FindUsers(query);
 
@@ -66,7 +66,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
         private bool IsUsingWildCard(string query)
         {
             //if (query.Count(ch => ch == '%') == 2)
-            if (query.Split('%').Length == 3)
+            if (query.Split(';').Length == 3)
                 return true;
             return false;
         }
@@ -74,7 +74,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
         //Special keywords or sequences that could break the full-text query
         private static readonly string[] Replacements = new[]
         {
-            "~", "!", "&", "|", "*", "[", "]", "(", ")", "/", "\\", "\"", ",", ";"
+            "~", "!", "&", "|", "*", "[", "]", "(", ")", "/", "\\", "\"", ","
         };
 
         private static string ScrubQuery(string query)
