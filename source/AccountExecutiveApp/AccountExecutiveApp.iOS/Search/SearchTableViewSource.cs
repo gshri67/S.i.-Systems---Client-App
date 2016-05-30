@@ -47,7 +47,7 @@ namespace AccountExecutiveApp.iOS
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (RightDetailCell) tableView.DequeueReusableCell(RightDetailCell.CellIdentifier, indexPath);
+            var cell = new RightDetailCell(RightDetailCell.CellIdentifier);
 
             string mainText = string.Empty, rightDetailText = string.Empty;
 
