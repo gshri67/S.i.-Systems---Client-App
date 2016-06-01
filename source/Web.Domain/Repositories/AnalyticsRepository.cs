@@ -7,12 +7,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
     public interface IAnalyticsRepository
     {
-        int TrackUserLogin( int userId, bool loginSuccessful );
+        int TrackUserLogin( string userLogin, bool loginSuccessful );
     }
 
     public class AnalyticsRepository : IAnalyticsRepository
     {
-        public int TrackUserLogin( int userId, bool loginSuccessful )
+        public int TrackUserLogin( string userLogin, bool loginSuccessful )
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -25,7 +25,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 
                 var result = db.Connection.Query<int>(query, new
                 {
-                    Login = userId,
+                    Login = userLogin,
                     Success = loginSuccessful,
                     IsAppLogin = true
 
