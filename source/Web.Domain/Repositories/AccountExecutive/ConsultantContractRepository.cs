@@ -72,69 +72,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 return contracts;
             }
         }
-
-        
-        public int GetNumberOfActiveFloThruContracts(DateTime startDate )
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                    @"DECLARE @RC int
-                        EXECUTE @RC = [dbo].[sp_Dashboard_PortFolio_ActiveFlothruContracts] 
-                        @aContractStartMonth,
-                        @aContractStartYear";
-
-                var result = db.Connection.Query<int>(query, new
-                {
-                    aContractStartMonth = startDate.Month,
-                    aContractStartYear = startDate.Year
-
-                }).FirstOrDefault();
-
-                return result;
-            }
-        }
-        /*
-        public int GetNumberOfEndingFloThruContracts(DateTime startDate)
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                    @"DECLARE @RC int
-                        EXECUTE @RC = [dbo].[sp_Dashboard_PortFolio_ActiveFlothruContracts] 
-                        @aContractStartMonth,
-                        @aContractStartYear";
-
-                var result = db.Connection.Query<int>(query, new
-                {
-                    aContractStartMonth = startDate.Month,
-                    aContractStartYear = startDate.Year
-
-                }).FirstOrDefault();
-
-                return result;
-            }
-        }
-        public int GetNumberOfActiveFullySourcedContracts(DateTime startDate)
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                    @"DECLARE @RC int
-                        EXECUTE @RC = [dbo].[sp_Dashboard_PortFolio_ActiveContracts] 
-                        @aContractStartMonth,
-                        @aContractStartYear";
-
-                var result = db.Connection.Query<int>(query, new
-                {
-                    aContractStartMonth = startDate.Month,
-                    aContractStartYear = startDate.Year
-
-                }).FirstOrDefault();
-
-                return result;
-            }
-        }*/
         
         public int GetNumberOfActiveFloThruContracts(int userId )
         {
