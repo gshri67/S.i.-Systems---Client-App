@@ -107,40 +107,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
 
-        public int GetNumberOfEndingFloThruContracts(int userId)
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                    @"SELECT Count(*)
-                        FROM Agreement
-                        JOIN PickList ON  Agreement.StatusType = PickList.PickListID
-                        JOIN Users ON Agreement.AccountExecID = Users.UserID
-                        JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
-                        WHERE Agreement.AccountExecID = @UserId
-                        AND Agreement.AgreementType IN (
-                        SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
-                        )
-                        AND Users.verticalid = 4
-                        AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
- 
-                        AND Agreement.AgreementSubType IN (
-                        SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
-                        )
-                        AND PickList.Title = 'Active'
-                        AND DATEDIFF(day, GetDate(), Agreement.EndDate) <= 30
-                        ";
-
-                var result = db.Connection.Query<int>(query, new
-                {
-                    UserId = userId
-
-                }).FirstOrDefault();
-
-                return result;
-            }
-        }
-
         public int GetNumberOfActiveFullySourcedContracts(int userId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -163,39 +129,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                         )
                         AND PickList.Title = 'Active'
                         AND DATEDIFF(day, GetDate(), Agreement.EndDate) > 30
-                        ";
-
-                var result = db.Connection.Query<int>(query, new
-                {
-                    UserId = userId
-
-                }).FirstOrDefault();
-
-                return result;
-            }
-        }
-        public int GetNumberOfEndingFullySourcedContracts(int userId)
-        {
-            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
-            {
-                const string query =
-                    @"SELECT Count(*)
-                        FROM Agreement
-                        JOIN PickList ON  Agreement.StatusType = PickList.PickListID
-                        JOIN Users ON Agreement.AccountExecID = Users.UserID
-                        JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
-                        WHERE Agreement.AccountExecID = @UserId
-                        AND Agreement.AgreementType IN (
-                        SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
-                        )
-                        AND Users.verticalid = 4
-                        AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
- 
-                        AND Agreement.AgreementSubType IN (
-                        SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-                        )
-                        AND PickList.Title = 'Active'
-                        AND DATEDIFF(day, GetDate(), Agreement.EndDate) <= 30
                         ";
 
                 var result = db.Connection.Query<int>(query, new
