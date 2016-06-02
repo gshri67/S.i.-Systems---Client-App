@@ -203,6 +203,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 return result;
             }
         }
+
         public int GetNumberOfActiveFullySourcedContracts(int userId)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
@@ -597,11 +598,23 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             get
             {
-                return string.Format("{1} {0} {2} {0} {3}",
-                    Environment.NewLine,
-                    NumberOfContractsForAccountExecutiveQuery, 
-                    FullySourcedFilter,
-                    EndingContractsFilter);
+                return @"select 
+	                        count(distinct agreement.agreementid) as NumberOfFullySourcedContracts
+                         from	agreement 
+	                        inner join users on users.userid=agreement.accountexecid
+                            left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
+	                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+		                        and Agreement_ContractRateDetail.primaryrateterm=1  
+		                        and Agreement_ContractrateDetail.inactive = 0 
+		                        and agreement.enddate is not null
+                        where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
+		                        and users.UserID = @Id
+		                        and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
+			                        between GETDATE() and DATEADD(DAY, 30, GETDATE())
+		                        and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
+		                        AND Agreement.AgreementSubType IN (
+	                                SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+                                )";
             }
         }
 
@@ -633,11 +646,23 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             get
             {
-                return string.Format("{1} {0} {2} {0} {3}",
-                    Environment.NewLine,
-                    NumberOfContractsForAccountExecutiveQuery, 
-                    FloThruFilter,
-                    EndingContractsFilter);
+                return @"select 
+	                    count(distinct agreement.agreementid) as NumberOfFullySourcedContracts
+                     from	agreement 
+	                    inner join users on users.userid=agreement.accountexecid
+                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
+	                    inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+		                    and Agreement_ContractRateDetail.primaryrateterm=1  
+		                    and Agreement_ContractrateDetail.inactive = 0 
+		                    and agreement.enddate is not null
+                    where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
+		                    and users.UserID = @Id
+		                    and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
+			                    between GETDATE() and DATEADD(DAY, 30, GETDATE())
+		                    and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
+		                    AND Agreement.AgreementSubType IN (
+	                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
+                            )";
             }
         }
     }
