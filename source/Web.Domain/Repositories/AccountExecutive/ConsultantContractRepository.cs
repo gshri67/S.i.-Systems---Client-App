@@ -584,7 +584,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             get
             {
                 return @"select 
-	                    count(distinct agreement.agreementid) as NumberOfFullySourcedContracts
+	                    count(distinct agreement.agreementid) as NumberOfFloThruContracts
                      from	agreement 
 	                    inner join users on users.userid=agreement.accountexecid
                         left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
