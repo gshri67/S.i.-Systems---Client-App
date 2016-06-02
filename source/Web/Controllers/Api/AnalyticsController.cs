@@ -26,6 +26,7 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
         }
 
         [Route("OpenedApp")]
+        [HttpPost]
         public HttpResponseMessage OpenedApp()
         {
             var result = _service.ApplicationOpened();

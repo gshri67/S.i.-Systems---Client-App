@@ -388,7 +388,7 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<int>(new { jobId, candidateId, contractDetails });
         }
 
-        [HttpGet("Analytics/OpenedApp/")]
+        [HttpPost("Analytics/OpenedApp")]
         public async Task<int> LogAppOpened()
         {
             return await ExecuteWithDefaultClient<int>();
