@@ -51,7 +51,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
                 if (wildCardQueries.Length >= 2)
                 {
-                    contacts = _repo.FindUsersWithWildCardSearch(wildCardQueries[0], wildCardQueries[1]);
+                    contacts = _repo.FindUsersWithWildCardSearch(wildCardQueries[0].Replace(' ', ''), wildCardQueries[1].Replace(' ', ''));
                     return contacts;
                 }
             }
