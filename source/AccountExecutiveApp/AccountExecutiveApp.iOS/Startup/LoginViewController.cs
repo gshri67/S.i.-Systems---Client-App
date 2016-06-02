@@ -161,8 +161,7 @@ namespace AccountExecutiveApp.iOS
 
 			if (loginTask.IsValid)
 			{
-                var task = _loginModel.TrackLoggingInWithinApp(true);
-                task.ContinueWith(_ => InvokeOnMainThread(OnSuccessfulLogin), TaskContinuationOptions.OnlyOnRanToCompletion);
+                InvokeOnMainThread(OnSuccessfulLogin);
 			}
 			else
 			{

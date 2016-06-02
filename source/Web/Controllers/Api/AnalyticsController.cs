@@ -25,10 +25,10 @@ namespace SiSystems.ClientApp.Web.Controllers.Api
             _service = service;
         }
 
-        [Route("TrackUserLogin/{loginSuccessful}")]
-        public HttpResponseMessage TrackUserLogin(bool loginSuccessful)
+        [Route("OpenedApp")]
+        public HttpResponseMessage OpenedApp()
         {
-            var result = _service.TrackUserLogin( loginSuccessful);
+            var result = _service.ApplicationOpened();
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 

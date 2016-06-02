@@ -16,10 +16,9 @@ namespace SiSystems.ClientApp.Web.Domain.Services
             _context = context;
         }
 
-        public int TrackUserLogin( bool loginSuccessful)
+        public int ApplicationOpened()
         {
-            string userLogin = _context.CurrentUser.Login;
-            return _repository.TrackUserLogin( userLogin, loginSuccessful);
+            return _repository.TrackUserLoginSuccess(_context.CurrentUser.Login);
         }
 
         public int TrackContractCreatedWithinApp(int agreementId)

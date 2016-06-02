@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using Dapper;
 using System.Threading.Tasks;
 using SiSystems.SharedModels;
@@ -7,12 +8,12 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 {
     public interface IAnalyticsRepository
     {
-        int TrackUserLogin( string userLogin, bool loginSuccessful );
+        int TrackUserLoginSuccess(string userLogin);
     }
 
     public class AnalyticsRepository : IAnalyticsRepository
     {
-        public int TrackUserLogin( string userLogin, bool loginSuccessful )
+        private int LogUserLogin(string login, bool success)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -25,14 +26,19 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
 
                 var result = db.Connection.Query<int>(query, new
                 {
-                    Login = userLogin,
-                    Success = loginSuccessful,
+                    Login = login,
+                    Success = success,
                     IsAppLogin = true
 
                 }).FirstOrDefault();
 
                 return result;
             }
+        }
+
+        public int TrackUserLoginSuccess( string userLogin)
+        {
+            return LogUserLogin(userLogin, success: true);
         }
 
         public int TrackContractCreatedWithinApp(int agreementId )

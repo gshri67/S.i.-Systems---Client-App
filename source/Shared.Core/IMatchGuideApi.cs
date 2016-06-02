@@ -90,7 +90,8 @@ namespace Shared.Core
 
         Task<int> SubmitContract(int jobId, int candidateId, ContractCreationDetails contractDetails);
 
-        Task<int> TrackUserLogin(bool loginSuccessful);
+        Task<int> LogAppOpened();
+
         Task<int> TrackContractCreatedWithinApp(int agreementId);        
     }
 }

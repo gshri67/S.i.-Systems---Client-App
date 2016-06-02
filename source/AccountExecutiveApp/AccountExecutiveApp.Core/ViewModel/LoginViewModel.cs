@@ -52,17 +52,5 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             return await _api.GetMostRecentEula();
         }
-
-        public Task TrackLoggingInWithinApp( bool successfulLogin )
-        {
-            var task = TrackLoggingInWithinAppInAPI( successfulLogin );
-
-            return task;
-        }
-
-        private async Task TrackLoggingInWithinAppInAPI( bool successfulLogin )
-        {
-            await _api.TrackUserLogin(successfulLogin);
-        }
     }
 }

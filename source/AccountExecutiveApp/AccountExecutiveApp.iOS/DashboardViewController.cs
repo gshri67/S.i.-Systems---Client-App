@@ -52,6 +52,8 @@ namespace AccountExecutiveApp.iOS
 
 			IndicateLoading();
 
+		    LogAppOpened();
+
 			LogoutManager.CreateNavBarLeftButton(this);
             SearchManager.CreateNavBarRightButton(this);
 
@@ -69,6 +71,11 @@ namespace AccountExecutiveApp.iOS
 			AddImageToLabel( new UIImage ("minus-round-centred.png"), FS_MinusLabel);
 			AddImageToLabel( new UIImage ("minus-round-centred.png"), FT_minusLabel);
 		}
+
+	    private void LogAppOpened()
+	    {
+	        _dashboardViewmodel.LogApplicationOpened();
+	    }
 
 		public override void ViewWillAppear (bool animated)
 		{

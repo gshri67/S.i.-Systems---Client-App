@@ -388,10 +388,10 @@ namespace Shared.Core
             return await ExecuteWithDefaultClient<int>(new { jobId, candidateId, contractDetails });
         }
 
-        [HttpGet("Analytics/TrackUserLogin/{loginSuccessful}")]
-        public async Task<int> TrackUserLogin(bool loginSuccessful)
+        [HttpGet("Analytics/OpenedApp/")]
+        public async Task<int> LogAppOpened()
         {
-            return await ExecuteWithDefaultClient<int>(new { loginSuccessful });
+            return await ExecuteWithDefaultClient<int>();
         }
 
         [HttpGet("Analytics/TrackContractCreated/{agreementId}")]

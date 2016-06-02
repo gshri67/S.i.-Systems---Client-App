@@ -142,6 +142,11 @@ namespace AccountExecutiveApp.Core.ViewModel
         {
             get { return MaxOfValueOrZeroToString(Timesheets.NumSubmitted); }
         }
+
+	    public async void LogApplicationOpened()
+	    {
+	        _api.LogAppOpened();
+	    }
 	}
 }
 
