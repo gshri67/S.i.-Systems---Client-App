@@ -117,7 +117,8 @@ namespace AccountExecutiveApp.iOS
             EditablePickerCell cell =
             //    (EditablePickerCell)tableView.DequeueReusableCell(EditablePickerCell.CellIdentifier, indexPath);
                                    new EditablePickerCell(EditablePickerCell.CellIdentifier);
-
+                                    //new EditableTextFieldCell(EditableTextFieldCell.CellIdentifier);
+            
             if (cell != null)
             {
                 cell.OnValueChanged +=

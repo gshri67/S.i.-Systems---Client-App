@@ -22,6 +22,7 @@ namespace AccountExecutiveApp.iOS
         private string _jobDescription;
 	    private bool _jobDescriptionWasSet = false;
 	    public int JobId = -1;
+	    private readonly bool _canCreateContract = false;
 
         private LoadingOverlay _overlay;
 
@@ -33,7 +34,8 @@ namespace AccountExecutiveApp.iOS
 	    public void SetupWithContractorAndJobInformation( int Id, string jobDescription, int jobId )
 	    {
 	        _jobDescription = jobDescription;
-	        _jobDescriptionWasSet = true;
+            _jobDescriptionWasSet = true;
+            
             setContractorId(Id);
 	        JobId = jobId;
 	    }
@@ -56,7 +58,7 @@ namespace AccountExecutiveApp.iOS
             TableView.RegisterClassForCellReuse(typeof(LinkedInSearchCell), LinkedInSearchCell.CellIdentifier);
             TableView.RegisterClassForCellReuse(typeof(UITableViewCell), "UITableViewCell");
 
-            if( _jobDescriptionWasSet )
+            if( _jobDescriptionWasSet && _canCreateContract )
                 TableView.Source = new ContractorDetailsTableViewSource(this, _viewModel.Contractor, _jobDescription);
             else
                 TableView.Source = new ContractorDetailsTableViewSource(this, _viewModel.Contractor);
@@ -104,7 +106,7 @@ namespace AccountExecutiveApp.iOS
 
 	    public override void ViewWillAppear(bool animated)
 	    {
-            if (_jobDescriptionWasSet && _viewModel.ContractIdFromJobIdAndContractorId(JobId, _id) > 0 )//contractor is no longer shortlisted, but is in fact placed
+            if (_jobDescriptionWasSet && _canCreateContract && _viewModel.ContractIdFromJobIdAndContractorId(JobId, _id) > 0 )//contractor is no longer shortlisted, but is in fact placed
 	        {
                 InvokeOnMainThread(() =>
                 {

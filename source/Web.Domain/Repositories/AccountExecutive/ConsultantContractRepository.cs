@@ -446,7 +446,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     VerticalID = MatchGuideConstants.VerticalId.IT,
                     Limitationofcontracttype = contract.LimitationOfContractType,
                     InvoiceFormatId = invoiceFormatId,
-                    HasProjectPO = false,
+                    HasProjectPO = contract.UsingProjectCode,
                     Quickpay = contract.UsingQuickPay,
                     SAID = SAID
                 }).FirstOrDefault();
@@ -501,7 +501,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                       ,@agreementid
                       ,@header
                       ,@comments
-                      ,@activityTypename
+                      ,'ContractRateTerm'
                       ,@IsPrimary
                       ,@PAMRateID
                       ,@InActive
@@ -512,7 +512,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 {
                     internaluserid = user.Id,
                     ratetermtype = rateTypeId,
-                    nbrhours = rate.HoursPerDay,
+                    nbrhours = rate.HoursPerDay,//todo: implement conditional logic around 7.5 hrs default or null -> need more information
                     description = rate.Description,
                     billrate = rate.BillRate,
                     payrate = rate.PayRate,
@@ -520,8 +520,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                     enddate = endDate,
                     agreementid = agreementId,
                     header = string.Format( "Contract Created by {0}", user.FullName),
-                    comments = string.Format("Rate Term for Contract ID"),
-                    activityTypename = "ContractRateTerm",
+                    comments = string.Format("Rate Term for Contract ID"),//todo: add action Contract ID in correct position in string
                     IsPrimary = rate.IsPrimaryRate,
                     PAMRateID = PAMRateId,
                     InActive = 0,

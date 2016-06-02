@@ -423,7 +423,7 @@ namespace SiSystems.ConsultantApp.Web.Domain.Repositories
                     verticalId = MatchGuideConstants.VerticalId.IT,
                     aTimesheetType = "ETimesheet",
                     aSubmittedBy = userId,
-                    isSubmittedEmailSent = true, 
+                    isSubmittedEmailSent = false, 
                     aDirectReportid = timesheet.TimesheetApprover.Id
                 }).FirstOrDefault();
 

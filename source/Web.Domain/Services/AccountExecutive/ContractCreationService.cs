@@ -103,42 +103,42 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
             string PamRateId = "";
 
             _contractRepo.SubmitContract(job, contractDetails, timesheet, candidateId, email, internalUserId, _pickListRepo.GetPickListIdForTitle(contractDetails.TimeFactor), _pickListRepo.GetPickListIdForTitle(contractDetails.PaymentPlan), _pickListRepo.GetPickListIdForTitle(contractDetails.InvoiceFormat), _pickListRepo.GetPickListIdForTitle(contractDetails.InvoiceFrequency), candidatePaymentId, SAID );
-            /*
+            
             foreach (Rate rate in contractDetails.Rates)
             {
                 if (candidatePaymentType == "Sole-proprietorship")
                 {
                                     /*
-                 IF Candidate Payment type = 'Sole-proprietorship'
-	IF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Hour’
-		@PAMRateID = ‘SOLHRS’	
-	ELSEIF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Day’
-		@PAMRateID = ‘SPDAY’
-ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Hour’
-	@PAMRateID = ‘FSSPHR’
-ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Day’
-		@PAMRateID = ‘FSSPDY’
-	ELSE
-		@PAMRateID = ‘REG’*//*
-                }
-                else if (candidatePaymentType == "term")
-                {
-                    /*
-ELSEIF Candidate Payment type = 'term'
-IF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Hour’
-@PAMRateID = ‘FTHR’	
-ELSEIF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Day’
-@PAMRateID = ‘FTDY’
-ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Hour’
-@PAMRateID = ‘CTHR’
-ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Day’
-@PAMRateID = ‘CTDY’
-ELSE
-@PAMRateID = ‘REG’
-ELSE
-@PAMRateID = ‘REG’
+                                                 IF Candidate Payment type = 'Sole-proprietorship'
+	                                IF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Hour’
+		                                @PAMRateID = ‘SOLHRS’	
+	                                ELSEIF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Day’
+		                                @PAMRateID = ‘SPDAY’
+                                ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Hour’
+	                                @PAMRateID = ‘FSSPHR’
+                                ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Day’
+		                                @PAMRateID = ‘FSSPDY’
+	                                ELSE
+		                                @PAMRateID = ‘REG’*//*
+                                                }
+                                                else if (candidatePaymentType == "term")
+                                                {
+                                                    /*
+                                ELSEIF Candidate Payment type = 'term'
+                                IF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Hour’
+                                @PAMRateID = ‘FTHR’	
+                                ELSEIF Contract Type = ‘Flo Thru’ AND Rate Type = ‘Per Day’
+                                @PAMRateID = ‘FTDY’
+                                ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Hour’
+                                @PAMRateID = ‘CTHR’
+                                ELSEIF Contract Type = ‘Full Margin’ AND Rate Type = ‘Per Day’
+                                @PAMRateID = ‘CTDY’
+                                ELSE
+                                @PAMRateID = ‘REG’
+                                ELSE
+                                @PAMRateID = ‘REG’
 
-*//*
+                                */
                 }
                 else
                     PamRateId = "REG";
@@ -148,7 +148,6 @@ ELSE
 
             _contractRepo.SubmitAdminContactDetailsForJob(jobId, internalUserId, contractDetails.DirectReport.Id,
                 contractDetails.BillingContact.Id);
-            */
             return 1;
         }
     }
