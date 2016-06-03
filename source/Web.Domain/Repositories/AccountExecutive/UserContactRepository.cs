@@ -132,17 +132,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 	                + ISNULL(Addr.Address4, '') AS Address
                 FROM Users 
                 LEFT JOIN Company ON Users.CompanyID = Company.CompanyID
-                LEFT JOIN (
-	                SELECT *
-	                FROM User_Address
-	                WHERE User_Address.MainAddress = 1 
+                LEFT JOIN User_Address ON Users.UserID = User_Address.UserID 
+	                AND User_Address.MainAddress = 1 
 	                AND User_Address.Inactive = 0
-                ) AddressMatrix ON Users.UserID = AddressMatrix.AddressID
-                LEFT JOIN (
-	                SELECT *
-	                FROM Address	
-	                WHERE Address.Inactive = 0
-                ) Addr ON AddressMatrix.AddressID = Addr.AddressID
+                LEFT JOIN Address Addr ON User_Address.AddressID = Addr.AddressID 
+	                AND Addr.Inactive = 0
                 WHERE Users.UserID = @Id";
 
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
