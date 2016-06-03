@@ -142,7 +142,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 			                                                    SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
 		                                                    )
 		                                                    AND Users.verticalid = 4
-		                                                    AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
 		                                                    AND Agreement.AgreementSubType IN (
 	                                                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
                                                             )
@@ -161,7 +160,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 			                                                    SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
 		                                                    )
 		                                                    AND Users.verticalid = 4
-		                                                    AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
 		                                                    AND Agreement.AgreementSubType IN (
 	                                                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
                                                             )
@@ -196,9 +194,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                         AND Agreement.AgreementType IN (
                         SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
                         )
-                        AND Users.verticalid = 4
-                        AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
- 
+                        AND Users.verticalid = 4 
                         AND Agreement.AgreementSubType IN (
                         SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
                         )
@@ -231,7 +227,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                         SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
                         )
                         AND Users.verticalid = 4
-                        AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
  
                         AND Agreement.AgreementSubType IN (
                         SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
