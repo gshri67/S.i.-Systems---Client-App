@@ -38,128 +38,142 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractSummaryQuery = @"declare @ctdate datetime
-                                                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
+                                                    select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
 
-                                                        Select * 
-                                                        from
-	                                                        (select distinct agreement.agreementid
-	                                                        from agreement 
-	                                                        inner join users on users.userid=agreement.accountexecid
-	                                                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-	                                                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-		                                                        and Agreement_ContractRateDetail.primaryrateterm=1  
-		                                                        and Agreement_ContractrateDetail.inactive = 0 
-		                                                        and agreement.enddate is not null
-	                                                        where isnull(agreement_contractdetail.SucceedingContractID,0)=0
-		                                                        and users.UserID = @Id
-		                                                        and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
-			                                                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-			                                                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-		                                                        and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-		                                                        AND Agreement.AgreementSubType IN (
-			                                                        SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-		                                                        )
-	                                                        ) as FullySourcedEnding
-	                                                        UNION
-	                                                        (
-		                                                        select distinct agreement.agreementid
-		                                                        from agreement 
-			                                                        inner join users on users.userid=agreement.accountexecid
-			                                                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-			                                                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-				                                                        and Agreement_ContractRateDetail.primaryrateterm=1  	
-				                                                        and Agreement_ContractrateDetail.inactive = 0 
-				                                                        and agreement.enddate is not null
-		                                                        where 
-			                                                        isnull(agreement_contractdetail.preceedingcontractid,0)=0
-			                                                        AND agreement.AccountExecID = @Id
-			                                                        and convert(datetime,convert(varchar(10),agreement.StartDate,101)) 
-				                                                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-				                                                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-			                                                        and agreementtype    in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-			                                                        and agreement.agreementsubtype not  in  (select picklistid from dbo.udf_getpicklistids( 'contracttype', 'permanent',-1))
-			                                                        AND Agreement.AgreementSubType IN (
-				                                                        SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-			                                                        )
-	                                                        )
-	                                                        UNION
-	                                                        (
-		                                                        select distinct agreement.agreementid
-			                                                        from	agreement 
-			                                                        inner join users on users.userid=agreement.accountexecid
-			                                                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-			                                                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-				                                                        and Agreement_ContractRateDetail.primaryrateterm=1  
-				                                                        and Agreement_ContractrateDetail.inactive = 0 
-				                                                        and agreement.enddate is not null
-		                                                        where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
-				                                                        and users.UserID = @Id
-				                                                        and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
-					                                                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-					                                                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-				                                                        and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-				                                                        AND Agreement.AgreementSubType IN (
-					                                                        SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-				                                                        )
-	                                                        )
-	                                                        UNION
-	                                                        (
-		                                                        select distinct agreement.agreementid
-			                                                        from	agreement 
-			                                                        inner join users on users.userid=agreement.accountexecid
-			                                                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-			                                                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-				                                                        and Agreement_ContractRateDetail.primaryrateterm=1  
-				                                                        and Agreement_ContractrateDetail.inactive = 0 
-				                                                        and agreement.enddate is not null
-		                                                        where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
-				                                                        and users.UserID = @Id
-				                                                        and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
-					                                                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-					                                                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-				                                                        and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-			                                                        AND Agreement.AgreementSubType IN (
-				                                                        SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
-			                                                        )
-	                                                        )
-	                                                        UNION
-	                                                        (
-		                                                        SELECT DISTINCT Agreement.AgreementID
-		                                                        FROM Agreement
-		                                                        JOIN PickList ON  Agreement.StatusType = PickList.PickListID
-		                                                        JOIN Users ON Agreement.AccountExecID = Users.UserID
-		                                                        JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
-		                                                        WHERE Agreement.AccountExecID = @Id
-		                                                        AND Agreement.AgreementType IN (
-			                                                        SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
-		                                                        )
-		                                                        AND Users.verticalid = 4
-		                                                        AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
-		                                                        AND Agreement.AgreementSubType IN (
-	                                                                SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-                                                                )
-		                                                        AND PickList.Title = 'Active'
-                                                                AND DATEDIFF(day, GetDate(), Agreement.EndDate) > 30
-	                                                        )
-	                                                        UNION
-	                                                        (
-		                                                        SELECT DISTINCT Agreement.AgreementID
-		                                                        FROM Agreement
-		                                                        JOIN PickList ON  Agreement.StatusType = PickList.PickListID
-		                                                        JOIN Users ON Agreement.AccountExecID = Users.UserID
-		                                                        JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
-		                                                        WHERE Agreement.AccountExecID = @Id
-		                                                        AND Agreement.AgreementType IN (
-			                                                        SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
-		                                                        )
-		                                                        AND Users.verticalid = 4
-		                                                        AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
-		                                                        AND Agreement.AgreementSubType IN (
-	                                                                SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
-                                                                )
-		                                                        AND PickList.Title = 'Active'
-                                                                AND DATEDIFF(day, GetDate(), Agreement.EndDate) > 30
-	                                                        )";
+                                                    SELECT Agreement.AgreementID AS ContractId,
+	                                                    Candidate.FirstName + ' '+ Candidate.LastName AS ContractorName,
+	                                                    Company.CompanyName AS ClientName,
+	                                                    Details.JobTitle AS Title,
+	                                                    Agreement.StartDate,
+	                                                    Agreement.EndDate,
+	                                                    CASE WHEN ISNUMERIC(Agreement.AgreementSubType) = 1 THEN CAST(Agreement.AgreementSubType AS INT) ELSE 0 END AS AgreementSubType
+                                                    FROM 
+                                                    (Select * 
+                                                    from
+	                                                    (select distinct agreement.agreementid
+	                                                    from agreement 
+	                                                    inner join users on users.userid=agreement.accountexecid
+	                                                    left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
+	                                                    inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+		                                                    and Agreement_ContractRateDetail.primaryrateterm=1  
+		                                                    and Agreement_ContractrateDetail.inactive = 0 
+		                                                    and agreement.enddate is not null
+	                                                    where isnull(agreement_contractdetail.SucceedingContractID,0)=0
+		                                                    and users.UserID = @Id
+		                                                    and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
+			                                                    between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
+			                                                    and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
+		                                                    and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
+		                                                    AND Agreement.AgreementSubType IN (
+			                                                    SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+		                                                    )
+	                                                    ) as FullySourcedEnding
+	                                                    UNION
+	                                                    (
+		                                                    select distinct agreement.agreementid
+		                                                    from agreement 
+			                                                    inner join users on users.userid=agreement.accountexecid
+			                                                    left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
+			                                                    inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+				                                                    and Agreement_ContractRateDetail.primaryrateterm=1  	
+				                                                    and Agreement_ContractrateDetail.inactive = 0 
+				                                                    and agreement.enddate is not null
+		                                                    where 
+			                                                    isnull(agreement_contractdetail.preceedingcontractid,0)=0
+			                                                    AND agreement.AccountExecID = @Id
+			                                                    and convert(datetime,convert(varchar(10),agreement.StartDate,101)) 
+				                                                    between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
+				                                                    and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
+			                                                    and agreementtype    in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
+			                                                    and agreement.agreementsubtype not  in  (select picklistid from dbo.udf_getpicklistids( 'contracttype', 'permanent',-1))
+			                                                    AND Agreement.AgreementSubType IN (
+				                                                    SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+			                                                    )
+	                                                    )
+	                                                    UNION
+	                                                    (
+		                                                    select distinct agreement.agreementid
+			                                                    from	agreement 
+			                                                    inner join users on users.userid=agreement.accountexecid
+			                                                    left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
+			                                                    inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+				                                                    and Agreement_ContractRateDetail.primaryrateterm=1  
+				                                                    and Agreement_ContractrateDetail.inactive = 0 
+				                                                    and agreement.enddate is not null
+		                                                    where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
+				                                                    and users.UserID = @Id
+				                                                    and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
+					                                                    between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
+					                                                    and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
+				                                                    and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
+				                                                    AND Agreement.AgreementSubType IN (
+					                                                    SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+				                                                    )
+	                                                    )
+	                                                    UNION
+	                                                    (
+		                                                    select distinct agreement.agreementid
+			                                                    from	agreement 
+			                                                    inner join users on users.userid=agreement.accountexecid
+			                                                    left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
+			                                                    inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+				                                                    and Agreement_ContractRateDetail.primaryrateterm=1  
+				                                                    and Agreement_ContractrateDetail.inactive = 0 
+				                                                    and agreement.enddate is not null
+		                                                    where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
+				                                                    and users.UserID = @Id
+				                                                    and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
+					                                                    between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
+					                                                    and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
+				                                                    and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
+			                                                    AND Agreement.AgreementSubType IN (
+				                                                    SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
+			                                                    )
+	                                                    )
+	                                                    UNION
+	                                                    (
+		                                                    SELECT DISTINCT Agreement.AgreementID
+		                                                    FROM Agreement
+		                                                    JOIN PickList ON  Agreement.StatusType = PickList.PickListID
+		                                                    JOIN Users ON Agreement.AccountExecID = Users.UserID
+		                                                    JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
+		                                                    WHERE Agreement.AccountExecID = @Id
+		                                                    AND Agreement.AgreementType IN (
+			                                                    SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
+		                                                    )
+		                                                    AND Users.verticalid = 4
+		                                                    AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
+		                                                    AND Agreement.AgreementSubType IN (
+	                                                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+                                                            )
+		                                                    AND PickList.Title = 'Active'
+                                                            AND DATEDIFF(day, GetDate(), Agreement.EndDate) > 30
+	                                                    )
+	                                                    UNION
+	                                                    (
+		                                                    SELECT DISTINCT Agreement.AgreementID
+		                                                    FROM Agreement
+		                                                    JOIN PickList ON  Agreement.StatusType = PickList.PickListID
+		                                                    JOIN Users ON Agreement.AccountExecID = Users.UserID
+		                                                    JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
+		                                                    WHERE Agreement.AccountExecID = @Id
+		                                                    AND Agreement.AgreementType IN (
+			                                                    SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
+		                                                    )
+		                                                    AND Users.verticalid = 4
+		                                                    AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals
+		                                                    AND Agreement.AgreementSubType IN (
+	                                                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
+                                                            )
+		                                                    AND PickList.Title = 'Active'
+                                                            AND DATEDIFF(day, GetDate(), Agreement.EndDate) > 30
+	                                                    )) AS AllContracts
+                                                    LEFT JOIN Agreement ON Agreement.AgreementID = AllContracts.AgreementID	
+                                                    JOIN PickList ON  Agreement.StatusType = PickList.PickListID
+                                                    JOIN Users AE ON Agreement.AccountExecID = AE.UserID
+                                                    JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
+                                                    JOIN Users Candidate ON Agreement.CandidateID = Candidate.UserID
+                                                    JOIN Company ON Agreement.CompanyID = Company.CompanyID";
 
 
                 var contracts = db.Connection.Query<ConsultantContractSummary>(contractSummaryQuery, new { Id = id });
