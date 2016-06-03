@@ -521,46 +521,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
     internal static class AccountExecutiveContractsQueries
     {
-        private const string NumberOfContractsForAccountExecutiveQuery = @"SELECT Count(*)
-                                                FROM Agreement
-                                                JOIN PickList ON  Agreement.StatusType = PickList.PickListID
-                                                JOIN Users ON Agreement.AccountExecID = Users.UserID
-                                                JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
-                                                WHERE Agreement.AccountExecID = @Id
-                                                AND Agreement.AgreementType IN (
-	                                                SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
-                                                )
-                                                AND Users.verticalid = 4
-                                                AND ISNULL(Details.PreceedingContractID, 0) = 0 --Omit Renewals";
-
-        private const string FullySourcedFilter = @"AND Agreement.AgreementSubType IN (
-	                                                SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-                                                )";
-        private const string FloThruFilter = @"AND Agreement.AgreementSubType IN (
-	                                                SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
-                                                )";
-
-        private const string ActiveContractsFilter = @"AND PickList.Title = 'Active'
-            AND DATEDIFF(day, GetDate(), Agreement.EndDate) > 30";
-
-        private const string EndingContractsFilter =
-            @" AND DATEDIFF(day, GetDate(), Agreement.EndDate) BETWEEN 0 AND 30 -- Ending Contracts";
-
-        private const string StartingContractsFilter =
-            @" AND DATEDIFF(day, GetDate(), Agreement.StartDate) BETWEEN 0 AND 30 -- Starting Contracts";
-
-        public static string NumberActiveFullySourcedContractsQuery
-        {
-            get
-            {
-                return string.Format("{1} {0} {2} {0} {3}", 
-                    Environment.NewLine,
-                    NumberOfContractsForAccountExecutiveQuery, 
-                    FullySourcedFilter,
-                    ActiveContractsFilter);
-            }
-        }
-
         public static string NumberStartingFullySourcedContractsQuery
         {
             get
@@ -615,18 +575,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 		                        AND Agreement.AgreementSubType IN (
 	                                SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
                                 )";
-            }
-        }
-
-        public static string NumberActiveFloThruContractsQuery
-        {
-            get
-            {
-                return string.Format("{1} {0} {2} {0} {3}",
-                    Environment.NewLine,
-                    NumberOfContractsForAccountExecutiveQuery, 
-                    FloThruFilter,
-                    ActiveContractsFilter);
             }
         }
 
