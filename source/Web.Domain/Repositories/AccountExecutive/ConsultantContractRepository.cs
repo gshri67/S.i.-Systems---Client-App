@@ -456,7 +456,10 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             get
             {
-                return @"select count(distinct agreement.agreementid) 
+                return @"declare @ctdate datetime
+                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
+
+                        select count(distinct agreement.agreementid) 
                         from agreement 
 	                        inner join users on users.userid=agreement.accountexecid
 	                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
@@ -467,9 +470,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                         where 
 	                        isnull(agreement_contractdetail.preceedingcontractid,0)=0
 	                        AND agreement.AccountExecID = @Id
-	                        and agreement.startdate
-		                        between  GETDATE()
-		                        and DATEADD(DAY, 30, GETDATE())
+	                        and convert(datetime,convert(varchar(10),agreement.StartDate,101)) 
+		                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
+		                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
 	                        and agreementtype    in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
 	                        and agreement.agreementsubtype not  in  (select picklistid from dbo.udf_getpicklistids( 'contracttype', 'permanent',-1))
                             AND Agreement.AgreementSubType IN (
@@ -518,7 +521,10 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             get
             {
-                return @"select count(distinct agreement.agreementid) 
+                return @"declare @ctdate datetime
+                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
+
+                        select count(distinct agreement.agreementid) 
                         from agreement 
 	                        inner join users on users.userid=agreement.accountexecid
 	                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
@@ -529,9 +535,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                         where 
 	                        isnull(agreement_contractdetail.preceedingcontractid,0)=0
 	                        AND agreement.AccountExecID = @Id
-	                        and agreement.startdate
-		                        between  GETDATE()
-		                        and DATEADD(DAY, 30, GETDATE())
+	                        and convert(datetime,convert(varchar(10),agreement.StartDate,101)) 
+		                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
+		                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
 	                        and agreementtype    in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
 	                        and agreement.agreementsubtype not  in  (select picklistid from dbo.udf_getpicklistids( 'contracttype', 'permanent',-1))
                             AND Agreement.AgreementSubType IN (
