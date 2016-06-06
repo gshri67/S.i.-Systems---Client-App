@@ -38,7 +38,9 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
                 const string contractSummaryQuery = @"declare @ctdate datetime
-                                                    select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
+		                                            declare @ctdate datetime = convert(datetime,convert(varchar(10),getdate(),101)) --Today in correct format
+                                                    declare @date1 datetime = (select date1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'NTTM')) --The first of this month
+                                                    declare @date2 datetime = (select date2 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'NTTM')) --Today
 
                                                     SELECT Agreement.AgreementID AS ContractId,
 	                                                    Candidate.FirstName + ' '+ Candidate.LastName AS ContractorName,
@@ -132,39 +134,35 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 	                                                    )
 	                                                    UNION
 	                                                    (
-		                                                    SELECT DISTINCT Agreement.AgreementID
-		                                                    FROM Agreement
-		                                                    JOIN PickList ON  Agreement.StatusType = PickList.PickListID
-		                                                    JOIN Users ON Agreement.AccountExecID = Users.UserID
-		                                                    JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
-		                                                    WHERE Agreement.AccountExecID = @Id
-		                                                    AND Agreement.AgreementType IN (
-			                                                    SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
-		                                                    )
-		                                                    AND Users.verticalid = 4
-		                                                    AND Agreement.AgreementSubType IN (
-	                                                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+                                                            SELECT DISTINCT Agreement.AgreementID
+                                                                FROM agreement 
+	                                                            inner join users on users.userid=agreement.AccountExecID
+	                                                            inner join user_office on user_office.UserOfficeID=users.userofficeid
+	                                                            inner join location on location.locationid = user_office.locationid
+	                                                            inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+		                                                                and Agreement_ContractRateDetail.primaryrateterm=1  
+		                                                                and Agreement_ContractrateDetail.inactive = 0 
+	                                                            left join activitytransaction on agreement.agreementid=activitytransaction.agreementid
+		                                                            and activitytransaction.ActivityTypeID in 
+		                                                            (
+			                                                            select ActivityTypeID 
+			                                                            from  activitytype where ActivityTypeName='ContractCancel'
+		                                                            )
+                                                            where 
+                                                            agreement.AccountExecID = @Id
+                                                            and (
+	                                                            agreement.StatusType in (select picklistid from dbo.udf_getpicklistids('ContractStatusType','Active,cancelled',-1))
+	                                                            and convert(datetime,convert(varchar(10),agreement.enddate,101)) >= @date1 
+	                                                            and convert(datetime,convert(varchar(10),agreement.startdate,101)) <= @date2
+	                                                            and convert(datetime,convert(varchar(10),agreement.enddate,101)) >= @date2
                                                             )
-		                                                    AND PickList.Title = 'Active'
-                                                            AND DATEDIFF(day, GetDate(), Agreement.EndDate) > 30
-	                                                    )
-	                                                    UNION
-	                                                    (
-		                                                    SELECT DISTINCT Agreement.AgreementID
-		                                                    FROM Agreement
-		                                                    JOIN PickList ON  Agreement.StatusType = PickList.PickListID
-		                                                    JOIN Users ON Agreement.AccountExecID = Users.UserID
-		                                                    JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
-		                                                    WHERE Agreement.AccountExecID = @Id
-		                                                    AND Agreement.AgreementType IN (
-			                                                    SELECT PickListId FROM udf_GetPickListIds('agreementtype', 'contract', 4)
-		                                                    )
-		                                                    AND Users.verticalid = 4
-		                                                    AND Agreement.AgreementSubType IN (
-	                                                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
+                                                            and AgreementType    in (select picklistid from dbo.udf_GetPickListIds( 'AgreementType', 'Contract',-1))
+                                                            and 
+                                                            (
+	                                                            AgreementSubType in (select picklistid from dbo.udf_GetPickListIds('ContractType','Flo Thru',-1))
+	                                                            or
+	                                                            AgreementSubType in (SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4))
                                                             )
-		                                                    AND PickList.Title = 'Active'
-                                                            AND DATEDIFF(day, GetDate(), Agreement.EndDate) > 30
 	                                                    )) AS AllContracts
                                                     LEFT JOIN Agreement ON Agreement.AgreementID = AllContracts.AgreementID	
                                                     JOIN PickList ON  Agreement.StatusType = PickList.PickListID
