@@ -37,8 +37,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string contractSummaryQuery = @"declare @ctdate datetime
-		                                            declare @ctdate datetime = convert(datetime,convert(varchar(10),getdate(),101)) --Today in correct format
+                const string contractSummaryQuery = @"declare @ctdate datetime = convert(datetime,convert(varchar(10),getdate(),101)) --Today in correct format
                                                     declare @date1 datetime = (select date1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'NTTM')) --The first of this month
                                                     declare @date2 datetime = (select date2 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'NTTM')) --Today
 
