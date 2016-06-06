@@ -37,43 +37,39 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
         [Test]
         public void GetDashboardSummary_CallsFlowThruSummary_PopulatesFlowThruValue()
         {
-            var contractSummaryToReturn = new ContractSummarySet
-            {
-                Current = 55,
-                Starting = 17,
-                Ending = 12
-            };
-            _contractsRepoMock.Setup(repository => repository.GetFloThruSummaryByAccountExecutiveId(It.IsAny<int>()))
-                .Returns(contractSummaryToReturn);
+            _contractsRepoMock.Setup(repo => repo.ActiveFloThruContractsForAccountExecutive(It.IsAny<int>()))
+                .Returns(new List<int>{1,2,3,4,5});
+            _contractsRepoMock.Setup(repo => repo.StartingFloThruContractsForAccountExecutive(It.IsAny<int>()))
+                .Returns(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            _contractsRepoMock.Setup(repo => repo.EndingFloThruContractsForAccountExecutive(It.IsAny<int>()))
+                .Returns(new List<int> { 1, 2 });
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object,_timesheetsRepoMock.Object ,_sessionMock.Object);
 
             var summary = service.GetDashboardSummary();
 
-            Assert.AreEqual(contractSummaryToReturn.Current, summary.FlowThruContracts.Current);
-            Assert.AreEqual(contractSummaryToReturn.Starting, summary.FlowThruContracts.Starting);
-            Assert.AreEqual(contractSummaryToReturn.Ending, summary.FlowThruContracts.Ending);
+            Assert.AreEqual(5, summary.FlowThruContracts.Current);
+            Assert.AreEqual(9, summary.FlowThruContracts.Starting);
+            Assert.AreEqual(2, summary.FlowThruContracts.Ending);
         }
 
         [Test]
         public void GetDashboardSummary_CallsFullySourcedSummary_PopulatesFullySourcedValue()
         {
-            var contractSummaryToReturn = new ContractSummarySet
-            {
-                Current = 30,
-                Starting = 15,
-                Ending = 10
-            };
-            _contractsRepoMock.Setup(repository => repository.GetFullySourcedSummaryByAccountExecutiveId(It.IsAny<int>()))
-                .Returns(contractSummaryToReturn);
+            _contractsRepoMock.Setup(repo => repo.ActiveFullySourcedContractsForAccountExecutive(It.IsAny<int>()))
+                .Returns(new List<int> { 1, 2, 3, 4, 5 });
+            _contractsRepoMock.Setup(repo => repo.StartingFullySourcedContractsForAccountExecutive(It.IsAny<int>()))
+                .Returns(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            _contractsRepoMock.Setup(repo => repo.EndingFullySourcedContractsForAccountExecutive(It.IsAny<int>()))
+                .Returns(new List<int> { 1, 2 });
 
             var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _timesheetsRepoMock.Object, _sessionMock.Object);
 
             var summary = service.GetDashboardSummary();
 
-            Assert.AreEqual(contractSummaryToReturn.Current, summary.FullySourcedContracts.Current);
-            Assert.AreEqual(contractSummaryToReturn.Starting, summary.FullySourcedContracts.Starting);
-            Assert.AreEqual(contractSummaryToReturn.Ending, summary.FullySourcedContracts.Ending);
+            Assert.AreEqual(5, summary.FullySourcedContracts.Current);
+            Assert.AreEqual(9, summary.FullySourcedContracts.Starting);
+            Assert.AreEqual(2, summary.FullySourcedContracts.Ending);
         }
 
         [Test]
@@ -94,30 +90,6 @@ namespace SiSystems.ClientApp.Web.Domain.Tests.AccountExecutiveApp
             Assert.AreEqual(jobsToReturn.All, summary.Jobs.All);
             Assert.AreEqual(jobsToReturn.Proposed, summary.Jobs.Proposed);
             Assert.AreEqual(jobsToReturn.Callouts, summary.Jobs.Callouts);
-        }
-
-        [Test]
-        public void GetDashboardSummary_CallsGetFlowThruSummary()
-        {
-            _contractsRepoMock.Setup(repository => repository.GetFloThruSummaryByAccountExecutiveId(It.IsAny<int>()));
-
-            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _timesheetsRepoMock.Object, _sessionMock.Object);
-
-            var summary = service.GetDashboardSummary();
-
-            _contractsRepoMock.VerifyAll();
-        }
-
-        [Test]
-        public void GetDashboardSummary_CallsGetFullySourcedSummary()
-        {
-            _contractsRepoMock.Setup(repository => repository.GetFullySourcedSummaryByAccountExecutiveId(It.IsAny<int>()));
-
-            var service = new DashboardService(_jobsRepoMock.Object, _contractsRepoMock.Object, _timesheetsRepoMock.Object, _sessionMock.Object);
-
-            var summary = service.GetDashboardSummary();
-
-            _contractsRepoMock.VerifyAll();
         }
 
         [Test]
