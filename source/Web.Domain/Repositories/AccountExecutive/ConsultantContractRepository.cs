@@ -249,7 +249,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var numActive = GetNumberOfActiveFloThruContracts(id);//GetNumberOfActiveFloThruContracts(new DateTime(2015, 1, 1));//db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberActiveFloThruContractsQuery, new { Id = id }).FirstOrDefault();
+                var numActive = GetNumberOfActiveFloThruContracts(id);
 
                 var numEnding = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberEndingFloThruContractsQuery, new { Id = id }).FirstOrDefault();
 
@@ -268,11 +268,11 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var numActive = GetNumberOfActiveFullySourcedContracts(id);//GetNumberOfActiveFullySourcedContracts(new DateTime(2015, 1, 1));//db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberActiveFullySourcedContractsQuery, new { Id = id }).FirstOrDefault();
+                var numActive = GetNumberOfActiveFullySourcedContracts(id);
 
                 var numEnding = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberEndingFullySourcedContractsQuery, new { Id = id }).FirstOrDefault();
 
-                var numStarting = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberStartingFloThruContractsQuery, new { Id = id }).FirstOrDefault();
+                var numStarting = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberStartingFullySourcedContractsQuery, new { Id = id }).FirstOrDefault();
                 
                 return new ContractSummarySet
                 {
@@ -508,11 +508,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
             }
         }
     }
-    /*
-     @comments – ‘Rate Term for Contract ID - <AgreementSubID> <br> Bill Rate: <$BillRate> <br> Gross Pay: <$Payrate> <br> Net Pay: <$NetPay>  <br> Gross Margin: <GmRate>’ for sole-prop and term candidates.
-‘Rate Term for Contract ID - <AgreementSubID> <br> Bill Rate: <$BillRate> <br> Pay rate: <$Payrate> <br> Gross Margin: <GmRate>’ for other candidates.
-
-     */
 
     internal static class AccountExecutiveContractsQueries
     {
