@@ -27,11 +27,22 @@ namespace SiSystems.ClientApp.Web.Domain.Services.AccountExecutive
 
         public DashboardSummary GetDashboardSummary()
         {
+            var id = _session.CurrentUser.Id;
             var dashboardInfo = new DashboardSummary
             {
 				UserName = _session.CurrentUser.FullName,
-                FlowThruContracts = _contractsRepository.GetFloThruSummaryByAccountExecutiveId(_session.CurrentUser.Id),
-                FullySourcedContracts = _contractsRepository.GetFullySourcedSummaryByAccountExecutiveId(_session.CurrentUser.Id),
+                FlowThruContracts = new ContractSummarySet
+                    {
+                        Current = _contractsRepository.ActiveFloThruContractsForAccountExecutive(id).Count(),
+                        Starting = _contractsRepository.StartingFloThruContractsForAccountExecutive(id).Count(),
+                        Ending = _contractsRepository.EndingFloThruContractsForAccountExecutive(id).Count()
+                    },
+                FullySourcedContracts = new ContractSummarySet
+                    {
+                        Current = _contractsRepository.ActiveFullySourcedContractsForAccountExecutive(id).Count(),
+                        Starting = _contractsRepository.StartingFullySourcedContractsForAccountExecutive(id).Count(),
+                        Ending = _contractsRepository.EndingFullySourcedContractsForAccountExecutive(id).Count()
+                    },
                 Jobs = _jobsRepository.GetSummaryCountsByAccountExecutiveId(_session.CurrentUser.Id),
                 Timesheets = _timesheetsRepository.GetTimesheetSummaryByAccountExecutiveId(_session.CurrentUser.Id)
             };

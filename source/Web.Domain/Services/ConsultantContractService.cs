@@ -47,14 +47,7 @@ namespace SiSystems.ClientApp.Web.Domain.Services
 
         public IEnumerable<ConsultantContractSummary> GetContractSummariesForAccountExecutive() 
         {
-            var contracts = _consultantContractRepository.GetContractSummaryByAccountExecutiveId(_session.CurrentUser.Id);
-
-            foreach (var contract in contracts)
-            {
-                contract.StatusType = ContractStatusTypeForStartDateAndEndDate(contract.StartDate, contract.EndDate);
-            }
-
-            return contracts;
+            return _consultantContractRepository.GetContractSummaryByAccountExecutiveId(_session.CurrentUser.Id);
         }
 
         private Contractor GetContractorByContractId(int id)

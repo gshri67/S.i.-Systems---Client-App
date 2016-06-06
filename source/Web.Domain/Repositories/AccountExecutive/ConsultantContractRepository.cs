@@ -15,8 +15,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
     public interface IConsultantContractRepository
     {
         IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id);
-        ContractSummarySet GetFloThruSummaryByAccountExecutiveId(int id);
-        ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id);
+        IEnumerable<int> ActiveFloThruContractsForAccountExecutive(int id);
+        IEnumerable<int> StartingFloThruContractsForAccountExecutive(int id);
+        IEnumerable<int> EndingFloThruContractsForAccountExecutive(int id);
+        IEnumerable<int> ActiveFullySourcedContractsForAccountExecutive(int id);
+        IEnumerable<int> StartingFullySourcedContractsForAccountExecutive(int id);
+        IEnumerable<int> EndingFullySourcedContractsForAccountExecutive(int id);
+            
+        
         ConsultantContract GetContractDetailsById(int id);
         IEnumerable<ConsultantContract> GetContractsByContractorId(int id);
 
@@ -33,151 +39,52 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
     public class ConsultantContractRepository : IConsultantContractRepository
     {
-        public IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id)
+
+        private IEnumerable<ConsultantContractSummary> ContractSummariesFromAgreementIds(IEnumerable<int> agreementIds)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string contractSummaryQuery = @"declare @ctdate datetime = convert(datetime,convert(varchar(10),getdate(),101)) --Today in correct format
-                                                    declare @date1 datetime = (select date1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'NTTM')) --The first of this month
-                                                    declare @date2 datetime = (select date2 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'NTTM')) --Today
+                const string contractSummaryQuery = @"SELECT Agreement.AgreementID AS ContractId,
+	                        Candidate.FirstName + ' '+ Candidate.LastName AS ContractorName,
+	                        Company.CompanyName AS ClientName,
+	                        Details.JobTitle AS Title,
+	                        Agreement.StartDate,
+	                        Agreement.EndDate,
+	                        CASE WHEN ISNUMERIC(Agreement.AgreementSubType) = 1 THEN CAST(Agreement.AgreementSubType AS INT) ELSE 0 END AS AgreementSubType
+                        FROM Agreement 
+                        JOIN PickList ON  Agreement.StatusType = PickList.PickListID
+                        JOIN Users AE ON Agreement.AccountExecID = AE.UserID
+                        JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
+                        JOIN Users Candidate ON Agreement.CandidateID = Candidate.UserID
+                        JOIN Company ON Agreement.CompanyID = Company.CompanyID
+                        WHERE Agreement.AgreementId IN @AgreementIds";
 
-                                                    SELECT Agreement.AgreementID AS ContractId,
-	                                                    Candidate.FirstName + ' '+ Candidate.LastName AS ContractorName,
-	                                                    Company.CompanyName AS ClientName,
-	                                                    Details.JobTitle AS Title,
-	                                                    Agreement.StartDate,
-	                                                    Agreement.EndDate,
-	                                                    CASE WHEN ISNUMERIC(Agreement.AgreementSubType) = 1 THEN CAST(Agreement.AgreementSubType AS INT) ELSE 0 END AS AgreementSubType
-                                                    FROM 
-                                                    (Select * 
-                                                    from
-	                                                    (select distinct agreement.agreementid
-	                                                    from agreement 
-	                                                    inner join users on users.userid=agreement.accountexecid
-	                                                    left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-	                                                    inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-		                                                    and Agreement_ContractRateDetail.primaryrateterm=1  
-		                                                    and Agreement_ContractrateDetail.inactive = 0 
-		                                                    and agreement.enddate is not null
-	                                                    where isnull(agreement_contractdetail.SucceedingContractID,0)=0
-		                                                    and users.UserID = @Id
-		                                                    and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
-			                                                    between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-			                                                    and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-		                                                    and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-		                                                    AND Agreement.AgreementSubType IN (
-			                                                    SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-		                                                    )
-	                                                    ) as FullySourcedEnding
-	                                                    UNION
-	                                                    (
-		                                                    select distinct agreement.agreementid
-		                                                    from agreement 
-			                                                    inner join users on users.userid=agreement.accountexecid
-			                                                    left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-			                                                    inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-				                                                    and Agreement_ContractRateDetail.primaryrateterm=1  	
-				                                                    and Agreement_ContractrateDetail.inactive = 0 
-				                                                    and agreement.enddate is not null
-		                                                    where 
-			                                                    isnull(agreement_contractdetail.preceedingcontractid,0)=0
-			                                                    AND agreement.AccountExecID = @Id
-			                                                    and convert(datetime,convert(varchar(10),agreement.StartDate,101)) 
-				                                                    between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-				                                                    and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-			                                                    and agreementtype    in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-			                                                    and agreement.agreementsubtype not  in  (select picklistid from dbo.udf_getpicklistids( 'contracttype', 'permanent',-1))
-			                                                    AND Agreement.AgreementSubType IN (
-				                                                    SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-			                                                    )
-	                                                    )
-	                                                    UNION
-	                                                    (
-		                                                    select distinct agreement.agreementid
-			                                                    from	agreement 
-			                                                    inner join users on users.userid=agreement.accountexecid
-			                                                    left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-			                                                    inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-				                                                    and Agreement_ContractRateDetail.primaryrateterm=1  
-				                                                    and Agreement_ContractrateDetail.inactive = 0 
-				                                                    and agreement.enddate is not null
-		                                                    where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
-				                                                    and users.UserID = @Id
-				                                                    and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
-					                                                    between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-					                                                    and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-				                                                    and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-				                                                    AND Agreement.AgreementSubType IN (
-					                                                    SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-				                                                    )
-	                                                    )
-	                                                    UNION
-	                                                    (
-		                                                    select distinct agreement.agreementid
-			                                                    from	agreement 
-			                                                    inner join users on users.userid=agreement.accountexecid
-			                                                    left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-			                                                    inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-				                                                    and Agreement_ContractRateDetail.primaryrateterm=1  
-				                                                    and Agreement_ContractrateDetail.inactive = 0 
-				                                                    and agreement.enddate is not null
-		                                                    where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
-				                                                    and users.UserID = @Id
-				                                                    and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
-					                                                    between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-					                                                    and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-				                                                    and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-			                                                    AND Agreement.AgreementSubType IN (
-				                                                    SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
-			                                                    )
-	                                                    )
-	                                                    UNION
-	                                                    (
-                                                            SELECT DISTINCT Agreement.AgreementID
-                                                                FROM agreement 
-	                                                            inner join users on users.userid=agreement.AccountExecID
-	                                                            inner join user_office on user_office.UserOfficeID=users.userofficeid
-	                                                            inner join location on location.locationid = user_office.locationid
-	                                                            inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-		                                                                and Agreement_ContractRateDetail.primaryrateterm=1  
-		                                                                and Agreement_ContractrateDetail.inactive = 0 
-	                                                            left join activitytransaction on agreement.agreementid=activitytransaction.agreementid
-		                                                            and activitytransaction.ActivityTypeID in 
-		                                                            (
-			                                                            select ActivityTypeID 
-			                                                            from  activitytype where ActivityTypeName='ContractCancel'
-		                                                            )
-                                                            where 
-                                                            agreement.AccountExecID = @Id
-                                                            and (
-	                                                            agreement.StatusType in (select picklistid from dbo.udf_getpicklistids('ContractStatusType','Active,cancelled',-1))
-	                                                            and convert(datetime,convert(varchar(10),agreement.enddate,101)) >= @date1 
-	                                                            and convert(datetime,convert(varchar(10),agreement.startdate,101)) <= @date2
-	                                                            and convert(datetime,convert(varchar(10),agreement.enddate,101)) >= @date2
-                                                            )
-                                                            and AgreementType    in (select picklistid from dbo.udf_GetPickListIds( 'AgreementType', 'Contract',-1))
-                                                            and 
-                                                            (
-	                                                            AgreementSubType in (select picklistid from dbo.udf_GetPickListIds('ContractType','Flo Thru',-1))
-	                                                            or
-	                                                            AgreementSubType in (SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4))
-                                                            )
-	                                                    )) AS AllContracts
-                                                    LEFT JOIN Agreement ON Agreement.AgreementID = AllContracts.AgreementID	
-                                                    JOIN PickList ON  Agreement.StatusType = PickList.PickListID
-                                                    JOIN Users AE ON Agreement.AccountExecID = AE.UserID
-                                                    JOIN Agreement_ContractDetail Details ON Agreement.AgreementID = Details.AgreementID
-                                                    JOIN Users Candidate ON Agreement.CandidateID = Candidate.UserID
-                                                    JOIN Company ON Agreement.CompanyID = Company.CompanyID";
-
-
-                var contracts = db.Connection.Query<ConsultantContractSummary>(contractSummaryQuery, new { Id = id });
+                var contracts = db.Connection.Query<ConsultantContractSummary>(contractSummaryQuery, new { AgreementIds = agreementIds.ToArray() });
 
                 return contracts;
             }
         }
-        
-        public int GetNumberOfActiveFloThruContracts(int userId )
+
+        public IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id)
+        {
+            var activeFloThru = ContractSummariesFromAgreementIds(ActiveFloThruContractsForAccountExecutive(id)).Select(x => { x.StatusType = ContractStatusType.Active; return x; });
+            var activeFullySourced = ContractSummariesFromAgreementIds(ActiveFullySourcedContractsForAccountExecutive(id)).Select(x => { x.StatusType = ContractStatusType.Active; return x; });
+
+            var startingFloThru = ContractSummariesFromAgreementIds(StartingFloThruContractsForAccountExecutive(id)).Select(x => { x.StatusType = ContractStatusType.Starting; return x; });
+            var startingFullySourced = ContractSummariesFromAgreementIds(StartingFullySourcedContractsForAccountExecutive(id)).Select(x => { x.StatusType = ContractStatusType.Starting; return x; });
+
+            var endingFloThru = ContractSummariesFromAgreementIds(EndingFloThruContractsForAccountExecutive(id)).Select(x => { x.StatusType = ContractStatusType.Ending; return x; });
+            var endingFullySourced = ContractSummariesFromAgreementIds(EndingFullySourcedContractsForAccountExecutive(id)).Select(x => { x.StatusType = ContractStatusType.Ending; return x; });
+
+            return activeFloThru
+                .Concat(activeFullySourced)
+                .Concat(startingFloThru)
+                .Concat(startingFullySourced)
+                .Concat(endingFloThru)
+                .Concat(endingFullySourced);
+        }
+
+        public IEnumerable<int> ActiveFloThruContractsForAccountExecutive(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -186,7 +93,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                         declare @date1 datetime = (select date1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'NTTM')) --The first of this month
                         declare @date2 datetime = (select date2 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'NTTM')) --Today
 
-                        SELECT COUNT(Distinct(Agreement.AgreementID))
+                        SELECT Distinct(Agreement.AgreementID)
                          FROM agreement 
 	                        inner join users on users.userid=agreement.AccountExecID
 	                        inner join user_office on user_office.UserOfficeID=users.userofficeid
@@ -201,7 +108,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 			                        from  activitytype where ActivityTypeName='ContractCancel'
 		                        )
                         where 
-                        agreement.AccountExecID = @UserId
+                        agreement.AccountExecID = @Id
                         and (
 	                        agreement.StatusType in (select picklistid from dbo.udf_getpicklistids('ContractStatusType','Active,cancelled',-1))
 	                        and convert(datetime,convert(varchar(10),agreement.enddate,101)) >= @date1 
@@ -217,15 +124,14 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 var result = db.Connection.Query<int>(query, new
                 {
-                    UserId = userId
-
-                }).FirstOrDefault();
+                    Id = id
+                });
 
                 return result;
             }
         }
 
-        public int GetNumberOfActiveFullySourcedContracts(int userId)
+        public IEnumerable<int> ActiveFullySourcedContractsForAccountExecutive(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
@@ -234,7 +140,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                         declare @date1 datetime = (select date1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'NTTM')) --The first of this month
                         declare @date2 datetime = (select date2 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'NTTM')) --Today
 
-                        SELECT COUNT(Distinct(Agreement.AgreementID))
+                        SELECT Distinct(Agreement.AgreementID)
                          FROM agreement 
 	                        inner join users on users.userid=agreement.AccountExecID
 	                        inner join user_office on user_office.UserOfficeID=users.userofficeid
@@ -249,7 +155,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 			                        from  activitytype where ActivityTypeName='ContractCancel'
 		                        )
                         where 
-                        agreement.AccountExecID = @UserId
+                        agreement.AccountExecID = @Id
                         and (
 	                        agreement.StatusType in (select picklistid from dbo.udf_getpicklistids('ContractStatusType','Active,cancelled',-1))
 	                        and convert(datetime,convert(varchar(10),agreement.enddate,101)) >= @date1 
@@ -265,49 +171,156 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
 
                 var result = db.Connection.Query<int>(query, new
                 {
-                    UserId = userId
-
-                }).FirstOrDefault();
+                    Id = id
+                });
 
                 return result;
             }
         }
 
-        public ContractSummarySet GetFloThruSummaryByAccountExecutiveId(int id)
+        public IEnumerable<int> EndingFloThruContractsForAccountExecutive(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var numActive = GetNumberOfActiveFloThruContracts(id);
+                const string query =
+                    @"declare @ctdate datetime
+                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
 
-                var numEnding = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberEndingFloThruContractsQuery, new { Id = id }).FirstOrDefault();
+                        select 
+	                        distinct agreement.agreementid
+                            from	agreement 
+	                        inner join users on users.userid=agreement.accountexecid
+                            left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
+	                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+		                        and Agreement_ContractRateDetail.primaryrateterm=1  
+		                        and Agreement_ContractrateDetail.inactive = 0 
+		                        and agreement.enddate is not null
+                        where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
+		                        and users.UserID = @Id
+		                        and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
+			                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
+			                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
+		                        and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
+		                    AND Agreement.AgreementSubType IN (
+	                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
+                            )";
 
-                var numStarting = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberStartingFloThruContractsQuery, new { Id = id }).FirstOrDefault();
-
-                return new ContractSummarySet
+                var result = db.Connection.Query<int>(query, new
                 {
-                    Current = numActive,
-                    Starting = numStarting,
-                    Ending = numEnding
-                };
+                    Id = id
+                });
+
+                return result;
             }
         }
 
-        public ContractSummarySet GetFullySourcedSummaryByAccountExecutiveId(int id)
+        public IEnumerable<int> StartingFloThruContractsForAccountExecutive(int id)
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                var numActive = GetNumberOfActiveFullySourcedContracts(id);
+                const string query =
+                    @"declare @ctdate datetime
+                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
 
-                var numEnding = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberEndingFullySourcedContractsQuery, new { Id = id }).FirstOrDefault();
+                        select distinct agreement.agreementid
+                        from agreement 
+	                        inner join users on users.userid=agreement.accountexecid
+	                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
+	                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+		                        and Agreement_ContractRateDetail.primaryrateterm=1  	
+		                        and Agreement_ContractrateDetail.inactive = 0 
+		                        and agreement.enddate is not null
+                        where 
+	                        isnull(agreement_contractdetail.preceedingcontractid,0)=0
+	                        AND agreement.AccountExecID = @Id
+	                        and convert(datetime,convert(varchar(10),agreement.StartDate,101)) 
+		                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
+		                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
+	                        and agreementtype    in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
+	                        and agreement.agreementsubtype not  in  (select picklistid from dbo.udf_getpicklistids( 'contracttype', 'permanent',-1))
+                            AND Agreement.AgreementSubType IN (
+	                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
+                            )";
 
-                var numStarting = db.Connection.Query<int>(AccountExecutiveContractsQueries.NumberStartingFullySourcedContractsQuery, new { Id = id }).FirstOrDefault();
-                
-                return new ContractSummarySet
+                var result = db.Connection.Query<int>(query, new
                 {
-                    Current = numActive,
-                    Starting = numStarting,
-                    Ending =  numEnding
-                };
+                    Id = id
+                });
+
+                return result;
+            }
+        }
+
+        public IEnumerable<int> StartingFullySourcedContractsForAccountExecutive(int id)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"declare @ctdate datetime
+                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
+
+                        select distinct agreement.agreementid 
+                        from agreement 
+	                        inner join users on users.userid=agreement.accountexecid
+	                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
+	                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+		                        and Agreement_ContractRateDetail.primaryrateterm=1  	
+		                        and Agreement_ContractrateDetail.inactive = 0 
+		                        and agreement.enddate is not null
+                        where 
+	                        isnull(agreement_contractdetail.preceedingcontractid,0)=0
+	                        AND agreement.AccountExecID = @Id
+	                        and convert(datetime,convert(varchar(10),agreement.StartDate,101)) 
+		                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
+		                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
+	                        and agreementtype    in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
+	                        and agreement.agreementsubtype not  in  (select picklistid from dbo.udf_getpicklistids( 'contracttype', 'permanent',-1))
+                            AND Agreement.AgreementSubType IN (
+	                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+                            )";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    Id = id
+                });
+
+                return result;
+            }
+        }
+
+        public IEnumerable<int> EndingFullySourcedContractsForAccountExecutive(int id)
+        {
+            using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
+            {
+                const string query =
+                    @"declare @ctdate datetime
+                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
+
+                        select 
+	                        count(distinct agreement.agreementid) as NumberOfFullySourcedContracts
+                            from	agreement 
+	                        inner join users on users.userid=agreement.accountexecid
+                            left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
+	                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
+		                        and Agreement_ContractRateDetail.primaryrateterm=1  
+		                        and Agreement_ContractrateDetail.inactive = 0 
+		                        and agreement.enddate is not null
+                        where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
+		                        and users.UserID = @Id
+		                        and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
+			                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
+			                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
+		                        and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
+		                        AND Agreement.AgreementSubType IN (
+	                                SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
+                                )";
+
+                var result = db.Connection.Query<int>(query, new
+                {
+                    Id = id
+                });
+
+                return result;
             }
         }
 
@@ -537,123 +550,6 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
         }
     }
 
-    internal static class AccountExecutiveContractsQueries
-    {
-        public static string NumberStartingFullySourcedContractsQuery
-        {
-            get
-            {
-                return @"declare @ctdate datetime
-                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
-
-                        select count(distinct agreement.agreementid) 
-                        from agreement 
-	                        inner join users on users.userid=agreement.accountexecid
-	                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-	                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-		                        and Agreement_ContractRateDetail.primaryrateterm=1  	
-		                        and Agreement_ContractrateDetail.inactive = 0 
-		                        and agreement.enddate is not null
-                        where 
-	                        isnull(agreement_contractdetail.preceedingcontractid,0)=0
-	                        AND agreement.AccountExecID = @Id
-	                        and convert(datetime,convert(varchar(10),agreement.StartDate,101)) 
-		                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-		                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-	                        and agreementtype    in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-	                        and agreement.agreementsubtype not  in  (select picklistid from dbo.udf_getpicklistids( 'contracttype', 'permanent',-1))
-                            AND Agreement.AgreementSubType IN (
-	                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-                            )";
-            }
-        }
-
-        public static string NumberEndingFullySourcedContractsQuery
-        {
-            get
-            {
-                return @"declare @ctdate datetime
-                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
-
-                        select 
-	                        count(distinct agreement.agreementid) as NumberOfFullySourcedContracts
-                            from	agreement 
-	                        inner join users on users.userid=agreement.accountexecid
-                            left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-	                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-		                        and Agreement_ContractRateDetail.primaryrateterm=1  
-		                        and Agreement_ContractrateDetail.inactive = 0 
-		                        and agreement.enddate is not null
-                        where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
-		                        and users.UserID = @Id
-		                        and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
-			                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-			                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-		                        and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-		                        AND Agreement.AgreementSubType IN (
-	                                SELECT PickListId FROM udf_GetPickListIds('contracttype', 'consultant,contract to hire', 4)
-                                )";
-            }
-        }
-
-        public static string NumberStartingFloThruContractsQuery
-        {
-            get
-            {
-                return @"declare @ctdate datetime
-                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
-
-                        select count(distinct agreement.agreementid) 
-                        from agreement 
-	                        inner join users on users.userid=agreement.accountexecid
-	                        left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-	                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-		                        and Agreement_ContractRateDetail.primaryrateterm=1  	
-		                        and Agreement_ContractrateDetail.inactive = 0 
-		                        and agreement.enddate is not null
-                        where 
-	                        isnull(agreement_contractdetail.preceedingcontractid,0)=0
-	                        AND agreement.AccountExecID = @Id
-	                        and convert(datetime,convert(varchar(10),agreement.StartDate,101)) 
-		                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-		                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-	                        and agreementtype    in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-	                        and agreement.agreementsubtype not  in  (select picklistid from dbo.udf_getpicklistids( 'contracttype', 'permanent',-1))
-                            AND Agreement.AgreementSubType IN (
-	                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
-                            )";
-            }
-        }
-
-        public static string NumberEndingFloThruContractsQuery
-        {
-            get
-            {
-                return @"declare @ctdate datetime
-                        select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
-
-                        select 
-	                        count(distinct agreement.agreementid) as NumberOfFloThruContracts
-                            from	agreement 
-	                        inner join users on users.userid=agreement.accountexecid
-                            left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
-	                        inner join Agreement_ContractRateDetail on Agreement_ContractRateDetail.agreementid=agreement.agreementid
-		                        and Agreement_ContractRateDetail.primaryrateterm=1  
-		                        and Agreement_ContractrateDetail.inactive = 0 
-		                        and agreement.enddate is not null
-                        where  isnull(agreement_contractdetail.SucceedingContractID,0)=0
-		                        and users.UserID = @Id
-		                        and convert(datetime,convert(varchar(10),agreement.enddate,101)) 
-			                        between (select date1+1 from dbo.getttmdates_tvl(DATEPART(m, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,1,'cmgpf'))
-			                        and (select date2 from dbo.getttmdates_tvl(DATEPART(M, GETDATE()), DATEPART(YY, GETDATE()),@ctdate,2,'cmgpf'))
-		                        and agreementtype in (select picklistid from dbo.udf_getpicklistids( 'agreementtype', 'contract',-1))
-		                    AND Agreement.AgreementSubType IN (
-	                            SELECT PickListId FROM udf_GetPickListIds('contracttype', 'Flo Thru', 4)
-                            )";
-            }
-        }
-    }
-
     public class MockedConsultantContractRepository : IConsultantContractRepository
     {
         public IEnumerable<ConsultantContractSummary> GetContractSummaryByAccountExecutiveId(int id)
@@ -665,6 +561,36 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                 BarneyAtNexenActiveFloThruContract, BarneyAtNexenStartingFloThruContract, BarneyAtNexenStartingFullySourcedContract,
                 BamBamAtCenovusActiveFloThruContract, BamBamAtCenovusActiveFullySourcedContract
             }.AsEnumerable();
+        }
+
+        public IEnumerable<int> ActiveFloThruContractsForAccountExecutive(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<int> StartingFloThruContractsForAccountExecutive(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<int> EndingFloThruContractsForAccountExecutive(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<int> ActiveFullySourcedContractsForAccountExecutive(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<int> StartingFullySourcedContractsForAccountExecutive(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<int> EndingFullySourcedContractsForAccountExecutive(int id)
+        {
+            throw new NotImplementedException();
         }
 
         private ConsultantContractSummary FredAtNexenActiveFloThruContract = new ConsultantContractSummary
