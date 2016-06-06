@@ -297,7 +297,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories.AccountExecutive
                         select @ctdate=convert(datetime,convert(varchar(10),getdate(),101))      
 
                         select 
-	                        count(distinct agreement.agreementid) as NumberOfFullySourcedContracts
+	                        distinct agreement.agreementid
                             from	agreement 
 	                        inner join users on users.userid=agreement.accountexecid
                             left join agreement_contractdetail on agreement.agreementid=agreement_contractdetail.agreementid
