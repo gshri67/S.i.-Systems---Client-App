@@ -114,10 +114,7 @@ namespace AccountExecutiveApp.iOS
             ContractsListViewController vc = (ContractsListViewController)_parentController.Storyboard.InstantiateViewController ("ContractsListViewController");
 
 	        var contractsByStatus = _contractsTableModel.ContractsWithTypeIndexAndStatusIndex((int) indexPath.Section, (int) indexPath.Item);
-
-            vc.SetContracts( contractsByStatus );
-            vc.Title = string.Format("{0} Contracts", contractsByStatus[0].StatusType.ToString());
-            vc.Subtitle = string.Format("{0} Contracts", contractsByStatus[0].AgreementSubType.ToString());
+            vc.InitiateViewController(contractsByStatus[0].StatusType, contractsByStatus[0].AgreementSubType, contractsByStatus);
      
             _parentController.ShowViewController ( vc, _parentController );
 		}

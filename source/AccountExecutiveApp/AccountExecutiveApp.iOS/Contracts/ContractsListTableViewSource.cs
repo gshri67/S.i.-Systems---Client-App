@@ -19,8 +19,6 @@ namespace AccountExecutiveApp.iOS
 			_parentController = parentVC;
 
             //Assuming there is always a contract
-            MatchGuideConstants.AgreementSubTypes typeOfContract = contracts.ElementAt(0).AgreementSubType;
-            ContractStatusType contractStatus = contracts.ElementAt(0).StatusType;
             _contractsTableModel = new ContractListTableViewModel( contracts );
 		}
 

@@ -101,8 +101,7 @@ namespace AccountExecutiveApp.iOS
 				if( int.Parse(_dashboardViewmodel.EndingFullySourcedContracts) > 0 )
 				{
 					var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
-	                contractListVC.StatusType = ContractStatusType.Ending;
-	                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.Consultant;
+                    contractListVC.InitiateViewController(ContractStatusType.Ending, MatchGuideConstants.AgreementSubTypes.Consultant);
 					ShowViewController( contractListVC, this );
 				}
 			};
@@ -111,8 +110,7 @@ namespace AccountExecutiveApp.iOS
 				if( int.Parse(_dashboardViewmodel.StartingFullySourcedContracts) > 0 )
 				{
 					var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
-	                contractListVC.StatusType = ContractStatusType.Starting;
-	                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.Consultant;
+                    contractListVC.InitiateViewController(ContractStatusType.Starting, MatchGuideConstants.AgreementSubTypes.Consultant);
 	                ShowViewController(contractListVC, this);
 				}
 			};
@@ -120,9 +118,8 @@ namespace AccountExecutiveApp.iOS
 			{
 				if( int.Parse(_dashboardViewmodel.CurrentFullySourcedContracts) > 0 )
 				{
-					var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
-	                contractListVC.StatusType = ContractStatusType.Active;
-	                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.Consultant;
+                    var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
+				    contractListVC.InitiateViewController(ContractStatusType.Active, MatchGuideConstants.AgreementSubTypes.Consultant);
 					ShowViewController( contractListVC, this );
 				}
 			};
@@ -131,8 +128,7 @@ namespace AccountExecutiveApp.iOS
 				if( int.Parse(_dashboardViewmodel.EndingFloThruContracts) > 0 )
 				{
 					var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
-	                contractListVC.StatusType = ContractStatusType.Ending;
-	                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.FloThru;
+                    contractListVC.InitiateViewController(ContractStatusType.Ending, MatchGuideConstants.AgreementSubTypes.FloThru);
 					ShowViewController( contractListVC, this );
 				}
 			};
@@ -141,8 +137,7 @@ namespace AccountExecutiveApp.iOS
 				if( int.Parse(_dashboardViewmodel.StartingFloThruContracts) > 0 )
 				{
 					var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
-	                contractListVC.StatusType = ContractStatusType.Starting;
-	                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.FloThru;
+                    contractListVC.InitiateViewController(ContractStatusType.Starting, MatchGuideConstants.AgreementSubTypes.FloThru);
 					ShowViewController( contractListVC, this );
 				}
 			};
@@ -151,8 +146,7 @@ namespace AccountExecutiveApp.iOS
 				if( int.Parse(_dashboardViewmodel.CurrentFloThruContracts) > 0 )
 				{
 					var contractListVC = (ContractsListViewController)Storyboard.InstantiateViewController("ContractsListViewController");
-	                contractListVC.StatusType = ContractStatusType.Active;
-	                contractListVC.TypeOfContract = MatchGuideConstants.AgreementSubTypes.FloThru;
+                    contractListVC.InitiateViewController(ContractStatusType.Active, MatchGuideConstants.AgreementSubTypes.FloThru);
 					ShowViewController( contractListVC, this );
 				}
 			};

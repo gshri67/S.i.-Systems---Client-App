@@ -14,17 +14,19 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
         private MatchGuideConstants.AgreementSubTypes _typeOfContract;
         private ContractStatusType _contractStatus;
 
-        public ContractListTableViewModel( IEnumerable<ConsultantContractSummary> contracts )
+        public ContractListTableViewModel(IEnumerable<ConsultantContractSummary> contracts)
         {
-            if( contracts != null )
-                _contracts = contracts.ToList();
-            else
-                _contracts = new List<ConsultantContractSummary>();
+            _contracts = contracts == null
+                ? new List<ConsultantContractSummary>()
+                : contracts.ToList();
 
-            _typeOfContract = _contracts[0].AgreementSubType;
-            _contractStatus = _contracts[0].StatusType;
+            if (_contracts.Any())
+            {
+                _typeOfContract = _contracts.FirstOrDefault().AgreementSubType;
+                _contractStatus = _contracts.FirstOrDefault().StatusType;
+            }
 
-            List<ConsultantContractSummary> sortedContracts = SortContracts(_contracts);
+            _contracts = SortContracts(_contracts);
         }
 
         public ConsultantContractSummary ContractAtIndex(int index)

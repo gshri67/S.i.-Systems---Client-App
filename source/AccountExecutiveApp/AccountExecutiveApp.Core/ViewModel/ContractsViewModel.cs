@@ -20,20 +20,24 @@ namespace AccountExecutiveApp.Core.ViewModel
             this._api = api;
         }
 
-        public Task LoadContracts()
+        public Task LoadContracts(IEnumerable<ConsultantContractSummary> contracts = null)
         {
-            var task = GetContracts();
+            var task = contracts == null 
+                ? GetContracts() 
+                : SetContracts(contracts);
+
+            //var task = GetContracts();
             //todo: task.ContinueWith if necessary
             
             return task;
         }
 
-        public async Task GetContracts()
+        private async Task GetContracts()
         {
             _contracts = await this._api.GetContracts();
         }
 
-        public void SetContracts(IEnumerable<ConsultantContractSummary> contracts)
+        public async Task SetContracts(IEnumerable<ConsultantContractSummary> contracts)
         {
             _contracts = contracts;
         }
