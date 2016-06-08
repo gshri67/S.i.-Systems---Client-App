@@ -14,7 +14,10 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
         public ContractStatusListTableViewModel( IEnumerable<ConsultantContractSummary> contracts )
         {
-            PopulateContractsDictionaryByTypeAndStatus(contracts);
+            if(contracts.Any())
+                PopulateContractsDictionaryByTypeAndStatus(contracts);
+            else
+                _contractsDictionaryByTypeAndStatus = new Dictionary<MatchGuideConstants.AgreementSubTypes, Dictionary<ContractStatusType, List<ConsultantContractSummary>>>();
         }
 
         public List<ConsultantContractSummary> ContractsWithTypeAndStatus(MatchGuideConstants.AgreementSubTypes type, ContractStatusType status)
@@ -86,7 +89,18 @@ namespace AccountExecutiveApp.Core.TableViewSourceModel
 
         public MatchGuideConstants.AgreementSubTypes ContractTypeAtIndex(int section)
         {
-            return _contractsDictionaryByTypeAndStatus.Keys.ElementAt(section);
+            return _contractsDictionaryByTypeAndStatus.Keys.ElementAtOrDefault(section);
+        }
+
+        public string HeaderForSection(int section)
+        {
+            if( _contractsDictionaryByTypeAndStatus.Keys.Count == 0 ||
+                section > _contractsDictionaryByTypeAndStatus.Keys.Count)
+            {
+                return string.Empty;
+            }
+
+            return ContractTypeAtIndex(section).ToString();
         }
     }
 }

@@ -5,6 +5,7 @@ using SiSystems.SharedModels;
 using System.Collections.Generic;
 using System.Linq;
 using AccountExecutiveApp.Core.TableViewSourceModel;
+using CoreGraphics;
 
 namespace AccountExecutiveApp.iOS
 {
@@ -29,10 +30,27 @@ namespace AccountExecutiveApp.iOS
 
 		public override string TitleForHeader (UITableView tableView, nint section)
 		{
-		    return _contractsTableModel.ContractTypeAtIndex((int)section).ToString();
+		    return _contractsTableModel.HeaderForSection((int)section);
 		}
 
-		public override nint RowsInSection(UITableView tableview, nint section)
+        public override UIView GetViewForFooter(UITableView tableView, nint section)
+        {
+            if (_contractsTableModel.HasContracts())
+                return null;
+
+            var label = new UILabel
+            {
+                Text = "You have no contracts available at this time.",
+                TextAlignment = UITextAlignment.Center,
+                Font = UIFont.SystemFontOfSize(14),
+                Lines = 0,
+                LineBreakMode = UILineBreakMode.WordWrap
+            };
+            tableView.Add(label);
+            return label;
+        }
+
+	    public override nint RowsInSection(UITableView tableview, nint section)
 		{
             if (_contractsTableModel.HasContracts() )
                 return _contractsTableModel.NumberOfStatusesWithContractsOfTypeIndex( (int)section );
@@ -97,7 +115,7 @@ namespace AccountExecutiveApp.iOS
 
 	        var contractsByStatus = _contractsTableModel.ContractsWithTypeIndexAndStatusIndex((int) indexPath.Section, (int) indexPath.Item);
 
-            vc.setContracts( contractsByStatus );
+            vc.SetContracts( contractsByStatus );
             vc.Title = string.Format("{0} Contracts", contractsByStatus[0].StatusType.ToString());
             vc.Subtitle = string.Format("{0} Contracts", contractsByStatus[0].AgreementSubType.ToString());
      

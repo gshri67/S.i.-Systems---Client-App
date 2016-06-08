@@ -17,7 +17,7 @@ namespace AccountExecutiveApp.iOS
 	partial class ContractsListViewController : Si_TableViewController
 	{
         private ContractsListTableViewSource _listTableViewSource;
-		public IEnumerable<ConsultantContractSummary> _contracts;
+		//public IEnumerable<ConsultantContractSummary> _contracts;
 		public string Subtitle;
 	    private NSAttributedString _attributedTitle;
 	    private SubtitleHeaderView _subtitleHeaderView;
@@ -36,7 +36,7 @@ namespace AccountExecutiveApp.iOS
 
 		private void SetupTableViewSource()
 		{
-			if (TableView == null || _contracts == null )
+			if (TableView == null)
 				return;
 
 			RegisterCellsForReuse();
@@ -47,9 +47,7 @@ namespace AccountExecutiveApp.iOS
 
 		private void InstantiateTableViewSource()
 		{
-			_listTableViewSource = new ContractsListTableViewSource ( this, _contracts );
-
-			//_addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
+			_listTableViewSource = new ContractsListTableViewSource ( this, _contractsViewModel.Contracts );
 		}
 
 		public override void ViewDidLoad ()
@@ -60,16 +58,6 @@ namespace AccountExecutiveApp.iOS
 
 		    UpdatePageTitle();
 
-            //SearchManager.CreateNavBarLeftButton(this);
-
-            //if( !_contractsWereSet )
-            //    LoadContracts();
-            /*
-		    RefreshControl.ValueChanged += delegate
-		    {
-		        LoadContracts();
-		    };
-            */
             CreateCustomTitleBar();
 
 			UpdateUI ();
@@ -79,34 +67,23 @@ namespace AccountExecutiveApp.iOS
 	    {
 	        base.ViewWillAppear(animated);
 
-            //if (!_contractsWereSet)
-                LoadContracts();
+            //LoadContracts();
 	    }
 
 	    private void UpdatePageTitle()
 	    {
-	        ContractStatusType status;
-            MatchGuideConstants.AgreementSubTypes contractType;
-
-	        if (_contracts != null && _contracts.Any())
+	        switch (StatusType)
 	        {
-	            status = _contracts.ElementAt(0).StatusType;
-	            contractType = _contracts.ElementAt(0).AgreementSubType;
+	            case ContractStatusType.Starting:
+	                _attributedTitle = GetAttributedStringWithImage(new UIImage("plus-round-centred.png"), 15);
+	                break;
+	            case ContractStatusType.Ending:
+	                _attributedTitle = GetAttributedStringWithImage(new UIImage("minus-round-centred.png"), 15);
+	                break;
+	            default:
+	                Title = string.Format("{0} Contracts", StatusType.ToString());
+	                break;
 	        }
-	        else
-	        {
-	            status = StatusType;
-	            contractType = TypeOfContract;
-	        }
-
-	        Title = "";
-
-            if( status == ContractStatusType.Starting )
-                _attributedTitle = GetAttributedStringWithImage(new UIImage("plus-round-centred.png"), 15);
-            else if( status == ContractStatusType.Ending )
-                _attributedTitle = GetAttributedStringWithImage(new UIImage("minus-round-centred.png"), 15);
-            else
-                Title = string.Format("{0} Contracts", status.ToString());
 
 	        if (_attributedTitle != null)
 	        {
@@ -121,7 +98,7 @@ namespace AccountExecutiveApp.iOS
 	            _attributedTitle = newAttrTitle;
 	        }
 
-	        Subtitle = string.Format("{0}", contractType.ToString());
+	        Subtitle = string.Format("{0}", TypeOfContract.ToString());
 	    }
 			
 		private static NSAttributedString GetAttributedStringWithImage( UIImage image, float size )
@@ -133,11 +110,10 @@ namespace AccountExecutiveApp.iOS
 		    return attrStringWithImage;
 		}
 
-	    public void setContracts( IEnumerable<ConsultantContractSummary> contracts )
-		{
-		    _contractsWereSet = true; 
-			_contracts = contracts;
-		}
+	    public void SetContracts( IEnumerable<ConsultantContractSummary> contracts )
+	    {
+	        _contractsViewModel.SetContracts(contracts);
+	    }
 
 		public override void ViewDidAppear (bool animated)
 		{
@@ -146,24 +122,24 @@ namespace AccountExecutiveApp.iOS
 			//TableView.ReloadData ();
 		}
 
-        public async void LoadContracts()
-        {
-            //if (_contracts != null) return;
+        //public async void LoadContracts()
+        //{
+        //    //if (_contracts != null) return;
 
-            var contracts = await _contractsViewModel.getContracts();
+        //    var contracts = await _contractsViewModel.GetContracts();
 
-            IndicateLoading();
+        //    IndicateLoading();
 
-			//if (!_contractsWereSet) 
-			{
-				_contracts = contracts.Where (c => c.StatusType == StatusType && c.AgreementSubType == TypeOfContract).ToList ();
+        //    //if (!_contractsWereSet) 
+        //    {
+        //        _contracts = contracts.Where (c => c.StatusType == StatusType && c.AgreementSubType == TypeOfContract).ToList ();
 
-				if (_contracts.Count() <= 0)
-					_contracts = null;
-			}
+        //        if (_contracts.Count() <= 0)
+        //            _contracts = null;
+        //    }
 
-            UpdateUI();
-        }
+        //    UpdateUI();
+        //}
 
 		private void RegisterCellsForReuse()
 		{
@@ -178,7 +154,7 @@ namespace AccountExecutiveApp.iOS
 		{
             RemoveOverlay();
 
-			if (_contracts != null && TableView != null)
+			if (TableView != null)
 			{
 				SetupTableViewSource ();
 				TableView.ReloadData ();

@@ -12,14 +12,30 @@ namespace AccountExecutiveApp.Core.ViewModel
     {
         private readonly IMatchGuideApi _api;
 
+        private IEnumerable<ConsultantContractSummary> _contracts;
+        public IEnumerable<ConsultantContractSummary> Contracts { get { return _contracts ?? Enumerable.Empty<ConsultantContractSummary>(); } }
+
         public ContractsViewModel(IMatchGuideApi api)
         {
             this._api = api;
         }
 
-        public async Task<IEnumerable<ConsultantContractSummary>> getContracts()
+        public Task LoadContracts()
         {
-            return await this._api.GetContracts();
+            var task = GetContracts();
+            //todo: task.ContinueWith if necessary
+            
+            return task;
+        }
+
+        public async Task GetContracts()
+        {
+            _contracts = await this._api.GetContracts();
+        }
+
+        public void SetContracts(IEnumerable<ConsultantContractSummary> contracts)
+        {
+            _contracts = contracts;
         }
     }
 }

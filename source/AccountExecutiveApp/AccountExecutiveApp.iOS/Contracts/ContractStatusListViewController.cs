@@ -14,8 +14,8 @@ namespace AccountExecutiveApp.iOS
 	partial class ContractStatusListViewController : UITableViewController
 	{
 		private ContractStatusListTableViewSource _clientListTableViewSource;
-        private ContractsViewModel _contractsViewModel;
-        private IEnumerable<ConsultantContractSummary> _contracts;
+        private readonly ContractsViewModel _contractsViewModel;
+        
 	    private LoadingOverlay _overlay;
 
 		public ContractStatusListViewController (IntPtr handle) : base (handle)
@@ -25,20 +25,17 @@ namespace AccountExecutiveApp.iOS
 
 		private void SetupTableViewSource()
 		{
-			if (TableView == null || _contracts == null)
+			if (TableView == null)
 				return;
 
 			RegisterCellsForReuse();
 			InstantiateTableViewSource();
-			//TableView.ContentInset = new UIEdgeInsets (-35, 0, -35, 0);
 			TableView.Source = _clientListTableViewSource;
 		}
 
 		private void InstantiateTableViewSource()
 		{
-            _clientListTableViewSource = new ContractStatusListTableViewSource(this, _contracts);
-
-			//_addTimeTableViewSource.OnDataChanged += AddTimeTableDataChanged;
+            _clientListTableViewSource = new ContractStatusListTableViewSource(this, _contractsViewModel.Contracts);
 		}
 
 		public override void ViewDidLoad ()
@@ -79,13 +76,10 @@ namespace AccountExecutiveApp.iOS
 			TableView.RegisterClassForCellReuse(typeof (UITableViewCell), "cell");
 		}
 
-        public void UpdateUI()
+        public void UpdateUserInterface()
         {
-			if ( _contracts != null)
-            { 
-				SetupTableViewSource ();
-				TableView.ReloadData ();
-			}
+			SetupTableViewSource ();
+			TableView.ReloadData ();
 
             RemoveOverlay();
 
@@ -93,14 +87,14 @@ namespace AccountExecutiveApp.iOS
                 RefreshControl.EndRefreshing();
         }
 
-        public async void LoadContracts()
+        public void LoadContracts()
         {
             if (RefreshControl == null || !RefreshControl.Refreshing)
                IndicateLoading();
 
-            _contracts = await _contractsViewModel.getContracts();
+            var loading = _contractsViewModel.LoadContracts();
 
-            UpdateUI();
+            loading.ContinueWith(_ => InvokeOnMainThread(UpdateUserInterface));
         }
 
 
