@@ -47,6 +47,23 @@ namespace AccountExecutiveApp.iOS
             return cell;
         }
 
+        public override UIView GetViewForFooter(UITableView tableView, nint section)
+        {
+            if (_listViewModel.JobSummaries.Any())
+                return null;
+
+            var label = new UILabel
+            {
+                Text = "You have no jobs available at this time.",
+                TextAlignment = UITextAlignment.Center,
+                Font = UIFont.SystemFontOfSize(14),
+                Lines = 0,
+                LineBreakMode = UILineBreakMode.WordWrap
+            };
+            tableView.Add(label);
+            return label;
+        }
+
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             var viewController = (JobsListViewController)_parentController.Storyboard.InstantiateViewController("JobsListViewController");
