@@ -7,7 +7,7 @@ using SiSystems.ConsultantApp.Web.Filters;
 
 namespace SiSystems.ConsultantApp.Web.Controllers.Api
 {
-    [ConsultantAccessAuthorizationAttribute]
+    //[ConsultantAccessAuthorizationAttribute]
     [RoutePrefix("api/PayPeriods")]
     public class PayPeriodsController: ApiController
     {
