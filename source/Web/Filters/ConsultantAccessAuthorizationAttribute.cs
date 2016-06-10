@@ -27,10 +27,8 @@ namespace SiSystems.ConsultantApp.Web.Filters
             {
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Forbidden, new { error = "invalid_access", error_description = "User not found." });
             }
-            var baseAuthorized = base.IsAuthorized(actionContext);
-            if(!baseAuthorized)
-                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized, new { error = "invalid_access", error_description = "Something in the context says no." });
-            return baseAuthorized;
+
+            return base.IsAuthorized(actionContext);
         }
 
         private string GetUserName(HttpRequestContext context)
