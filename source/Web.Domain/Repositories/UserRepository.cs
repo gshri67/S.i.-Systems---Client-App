@@ -64,7 +64,7 @@ namespace SiSystems.ClientApp.Web.Domain.Repositories
         {
             using (var db = new DatabaseContext(DatabaseSelect.MatchGuide))
             {
-                const string query = @"SELECT User_Login.UserId, 
+                const string query = @"SELECT User_Login.UserId Id, 
                                         users.[FirstName] FirstName, 
                                         users.[LastName] LastName, 
                                         users.[UserType], 
