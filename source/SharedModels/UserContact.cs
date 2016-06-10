@@ -59,12 +59,12 @@ namespace SiSystems.SharedModels
 
         public string FormattedNumber
         {
-            get { return string.Format("({0}){1}-{2}", AreaCode, Prefix, LineNumber); }
+            get { return string.Format("({0}){1}-{2}", AreaCode.ToString("D3"), Prefix.ToString("D3"), LineNumber.ToString("D4")); }
         }
 
         public string UnFormattedNumber
         {
-            get { return string.Format("{0}{1}{2}", AreaCode, Prefix, LineNumber); }
+            get { return string.Format("{0}{1}{2}", AreaCode.ToString("D3"), Prefix.ToString("D3"), LineNumber.ToString("D4")); }
         }
     }
 }
